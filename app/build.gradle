@@ -17,7 +17,7 @@ android {
             release {
                 keyAlias 'key0'
                 keyPassword 'goodluck'
-                storeFile file('CPE_LinkApp.jks')
+                storeFile file('keystore/CPE_LinkApp.jks')
                 storePassword 'goodluck'
             }
         }

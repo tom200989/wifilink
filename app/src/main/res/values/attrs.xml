@@ -6,5 +6,8 @@
         <attr name="alphaFactor" format="float" />
         <attr name="hover" format="boolean" />
     </declare-styleable>
-
+    <declare-styleable name="ScaleText">
+        <attr name="topColor" format="color" />
+        <attr name="bottomColor" format="color" />
+    </declare-styleable>
 </resources>
