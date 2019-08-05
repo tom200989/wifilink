@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="settings_data_plan_billing_day">
+        <item>@string/day_1</item>
+        <item>@string/day_2</item>
+        <item>@string/day_3</item>
+        <item>@string/day_4</item>
+        <item>@string/day_5</item>
+        <item>@string/day_6</item>
+        <item>@string/day_7</item>
+        <item>@string/day_8</item>
+        <item>@string/day_9</item>
+        <item>@string/day_10</item>
+        <item>@string/day_11</item>
+        <item>@string/day_12</item>
+        <item>@string/day_13</item>
+        <item>@string/day_14</item>
+        <item>@string/day_15</item>
+        <item>@string/day_16</item>
+        <item>@string/day_17</item>
+        <item>@string/day_18</item>
+        <item>@string/day_19</item>
+        <item>@string/day_20</item>
+        <item>@string/day_21</item>
+        <item>@string/day_22</item>
+        <item>@string/day_23</item>
+        <item>@string/day_24</item>
+        <item>@string/day_25</item>
+        <item>@string/day_26</item>
+        <item>@string/day_27</item>
+        <item>@string/day_28</item>
+    </string-array>
+</resources>

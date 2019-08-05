@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.zhy.android.percent.support.PercentRelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.zhy.android.percent.support.PercentRelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <!-- 灰色背景 -->
+        <ImageView
+            android:id="@+id/iv_dialogok_widget_bg"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:alpha="0.7"
+            android:background="@color/gray" />
+
+        <!-- 白色底框 -->
+        <com.zhy.android.percent.support.PercentRelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:background="@drawable/bg_pop_conner"
+            app:layout_widthPercent="80%w">
+
+            <!-- 标题 -->
+            <TextView
+                android:gravity="center"
+                android:id="@+id/tv_dialogok_widget_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:text="Title"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                app:layout_marginLeftPercent="5%w"
+                app:layout_marginRightPercent="5%w"
+                app:layout_marginTopPercent="3%h"
+                app:layout_textSizePercent="3%h" />
+
+            <!-- 描述 -->
+            <TextView
+                android:id="@+id/tv_dialogok_widget_des"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tv_dialogok_widget_title"
+                android:layout_centerHorizontal="true"
+                android:text="decription"
+                android:gravity="center"
+                android:textColor="@color/black_text"
+                app:layout_marginLeftPercent="5%w"
+                app:layout_marginRightPercent="5%w"
+                app:layout_marginTopPercent="3%h"
+                app:layout_textSizePercent="2.5%h" />
+
+            <!-- 按钮 -->
+            <com.zhy.android.percent.support.PercentLinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tv_dialogok_widget_des"
+                android:orientation="horizontal"
+                app:layout_heightPercent="9%h"
+                app:layout_marginTopPercent="3%h">
+
+                <!-- cancel -->
+                <TextView
+                    android:id="@+id/tv_dialogok_widget_cancel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="@string/cancel"
+                    android:textColor="@color/gray"
+                    app:layout_textSizePercent="30%h" />
+
+                <!-- ok -->
+                <TextView
+                    android:id="@+id/tv_dialogok_widget_ok"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="@string/ok"
+                    android:textColor="@color/blue_btn"
+                    app:layout_textSizePercent="30%h" />
+
+            </com.zhy.android.percent.support.PercentLinearLayout>
+
+            <!-- 分割线 -->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_below="@id/tv_dialogok_widget_des"
+                android:alpha="0.5"
+                android:background="@color/gray"
+                app:layout_marginLeftPercent="5%w"
+                app:layout_marginRightPercent="5%w"
+                app:layout_marginTopPercent="3%h" />
+
+        </com.zhy.android.percent.support.PercentRelativeLayout>
+
+    </com.zhy.android.percent.support.PercentRelativeLayout>
+
+</com.zhy.android.percent.support.PercentRelativeLayout>

@@ -1,0 +1,109 @@
+apply plugin: 'com.android.application'
+apply plugin: 'com.fernandocejas.frodo'
+
+android {
+    // 基本配置
+    defaultConfig {
+
+        applicationId "com.alcatel.wifilink"
+        minSdkVersion 19
+        compileSdkVersion 28
+        targetSdkVersion 28
+        versionName '1.0.0'
+        versionCode 100
+        multiDexEnabled true
+
+        signingConfigs {
+            release {
+                keyAlias 'key0'
+                keyPassword 'goodluck'
+                storeFile file('CPE_LinkApp.jks')
+                storePassword 'goodluck'
+            }
+        }
+    }
+
+    // 打包构建
+    buildTypes {
+        release {
+            minifyEnabled false
+            zipAlignEnabled false
+            shrinkResources false
+            signingConfig signingConfigs.release
+        }
+
+        debug {
+            minifyEnabled false
+            zipAlignEnabled false
+            shrinkResources false
+            signingConfig signingConfigs.release
+        }
+    }
+
+    // lamda
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    // 加大android studio内存开销
+    dexOptions {
+        javaMaxHeapSize "6144m"
+        preDexLibraries = false
+        jumboMode = true
+    }
+}
+
+repositories {
+    flatDir {
+        dirs 'libs'
+    }
+}
+
+// 依赖应用
+dependencies {
+    api 'com.android.support:multidex:1.0.1'
+    api 'com.squareup.retrofit2:retrofit:2.4.0'
+    api 'com.squareup.okhttp3:okhttp:3.10.0'
+    api 'com.squareup.okhttp3:logging-interceptor:3.6.0'
+    api 'com.squareup.retrofit2:converter-scalars:2.2.0'
+    api 'com.squareup.retrofit2:converter-gson:2.4.0'
+    api 'com.squareup.retrofit2:adapter-rxjava:2.2.0'
+    api 'io.reactivex:rxandroid:1.2.0'
+    api 'com.jakewharton:butterknife:8.6.0'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.6.0'
+
+    // 新的框架会精简的部分
+    api 'pub.devrel:easypermissions:0.4.3'
+
+    // 还可以优化的部分
+    api 'com.zhy:percent-support-extends:1.1.1'
+
+    // rootMAhiber -- 基础包
+    api 'com.android.support:support-v4:28.0.0'
+    api 'com.android.support:appcompat-v7:28.0.0'
+    api 'com.android.support:recyclerview-v7:28.0.0'
+    api 'com.android.support:design:28.0.0'
+
+    // rootMAhiber -- 数据总线
+    api 'org.greenrobot:eventbus:3.1.1'
+    // rootMAhiber -- json解析包
+    api 'com.alibaba:fastjson:1.2.58'
+    // rootMAhiber -- TCL-token加密包
+    api(name: 'ma_tcl_token', ext: 'aar')
+    // rootMAhiber -- 其他加密包
+    api(name: 'ma_encrypt', ext: 'aar')
+    // rootMAhiber -- 圆形进度条
+    api(name: 'ma_circlebar', ext: 'aar')
+    // rootMAhiber -- 波浪控件
+    api(name: 'de_wave2', ext: 'aar')
+    // rootMAhiber -- 图片选择器
+    api(name: 'ma_seleter', ext: 'aar')
+    api 'com.squareup.picasso:picasso:2.5.2'
+    // rootMAhiber -- 数字进度条
+    api(name: 'ma_numberbar', ext: 'aar')
+    // rootMAhiber -- freesharing
+    api(name: 'ma_freesharing', ext: 'aar')
+    // rootMAhiber -- 网络请求xutils(feedback用到)
+    api(name: 'ma_xutils', ext: 'aar')
+}

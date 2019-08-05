@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.zhy.android.percent.support.PercentRelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <com.zhy.android.percent.support.PercentRelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        app:layout_heightPercent="12%sh">
+
+        <!-- logo -->
+        <ImageView
+            android:id="@+id/iv_pre_devices_item_logo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="@dimen/dimen_15dip"
+            android:src="@drawable/item_pre_phone"
+            app:layout_heightPercent="35%h"
+            app:layout_widthPercent="35%h" />
+
+        <!-- devices info -->
+        <com.zhy.android.percent.support.PercentLinearLayout
+            android:id="@+id/rl_pre_devices_item_info"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginStart="@dimen/dimen_15dip"
+            android:layout_toEndOf="@id/iv_pre_devices_item_logo"
+            android:gravity="center_vertical"
+            android:orientation="vertical"
+            app:layout_widthPercent="57%w">
+
+            <TextView
+                android:id="@+id/tv_pre_devices_item_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Unknown"
+                android:textColor="@color/black"
+                app:layout_textSizePercent="20%h" />
+
+            <TextView
+                android:id="@+id/tv_pre_devices_item_ip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="IP: 0.0.0.0"
+                android:textColor="@color/gray"
+                app:layout_textSizePercent="18%h" />
+
+            <TextView
+                android:id="@+id/tv_pre_devices_item_macAddress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/mac_address"
+                android:textColor="@color/gray"
+                app:layout_textSizePercent="18%h" />
+
+        </com.zhy.android.percent.support.PercentLinearLayout>
+
+        <!-- host -->
+        <TextView
+            android:id="@+id/tv_pre_devices_item_host"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginEnd="@dimen/dimen_10dip"
+            android:layout_toEndOf="@id/rl_pre_devices_item_info"
+            android:gravity="center_vertical|end"
+            android:text="@string/host"
+            android:textColor="@color/mg_blue"
+            app:layout_textSizePercent="22%h" />
+
+    </com.zhy.android.percent.support.PercentRelativeLayout>
+
+</com.zhy.android.percent.support.PercentRelativeLayout>

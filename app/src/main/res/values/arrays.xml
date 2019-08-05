@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="wlan_settings_security">
+        <item>@string/disabled</item>
+        <item>WEP</item>
+        <item>WPA</item>
+        <item>WPA2</item>
+        <item>WPA/WPA2</item>
+    </string-array>
+
+    <string-array name="wlan_settings_80211_2g">
+        <item>@string/setting_network_mode_auto</item>
+        <item>802.11b</item>
+        <item>802.11b/g</item>
+        <item>802.11b/g/n</item>
+    </string-array>
+
+    <string-array name="wlan_settings_80211_5g">
+        <item>@string/setting_network_mode_auto</item>
+        <item>802.11a</item>
+        <item>802.11a/n</item>
+        <item>802.11a/c</item>
+    </string-array>
+
+    <string-array name="wlan_settings_channel">
+        <item>@string/setting_network_mode_auto</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
+        <item>11</item>
+        <item>12</item>
+        <item>13</item>
+    </string-array>
+
+    <string-array name="wlan_settings_wpa_type">
+        <item>TKIP</item>
+        <item>AES</item>
+        <item>@string/setting_network_mode_auto</item>
+    </string-array>
+
+    <string-array name="wlan_settings_wep_type">
+        <item>Open</item>
+        <item>Share</item>
+    </string-array>
+
+    <string-array name="wlan_settings_bandwidth_2g">
+        <item>@string/setting_network_mode_auto</item>
+        <item>20MHz</item>
+        <item>40MHz</item>
+    </string-array>
+    
+    <string-array name="wlan_settings_bandwidth_5g">
+        <item>@string/setting_network_mode_auto</item>
+        <item>20MHz</item>
+        <item>40MHz</item>
+        <item>80MHz</item>
+    </string-array>
+    
+    <string-array name="wlan_settings_country">
+        <item>UNITED KINGDOM</item>
+        <item>ITALY</item>
+        <item>FRANCE</item>
+        <item>PORTUGAL</item>
+        <item>ESPAÑA</item>
+        <item>UNITED STATES</item>
+        <item>HONG KONG</item>
+        <item>CHINA</item>
+        <item>MEXICO</item>
+    </string-array>
+
+    <string-array name="settings_connection_mode">
+        <item>@string/setting_network_mode_auto</item>
+        <item>@string/maunal</item>
+    </string-array>
+
+    <string-array name="settings_network_mode">
+        <item>@string/setting_network_mode_auto</item>
+        <item>4G</item>
+        <item>3G</item>
+        <item>2G</item>
+    </string-array>
+
+    <string-array name="Channel5g_one">
+        <item>36</item>
+        <item>40</item>
+        <item>44</item>
+        <item>48</item>
+        <item>149</item>
+        <item>153</item>
+        <item>157</item>
+        <item>161</item>
+        <item>165</item>
+    </string-array>
+
+    <string-array name="Channel5g_two">
+        <item>36</item>
+        <item>40</item>
+        <item>44</item>
+        <item>48</item>
+        <item>149</item>
+        <item>153</item>
+        <item>157</item>
+        <item>161</item>
+    </string-array>
+
+    <string-array name="Channel5g_three">
+        <item>149</item>
+        <item>153</item>
+        <item>157</item>
+        <item>161</item>
+        <item>165</item>
+    </string-array>
+
+    <string-array name="Channel5g_four">
+        <item>149</item>
+        <item>153</item>
+        <item>157</item>
+        <item>161</item>
+    </string-array>
+
+    <string-array name="Channel5g_five">
+        <item>36</item>
+        <item>40</item>
+        <item>44</item>
+        <item>48</item>
+    </string-array>
+
+    <string-array name="settings_data_plan_billing_day">
+        <item>@string/day_1</item>
+        <item>@string/day_2</item>
+        <item>@string/day_3</item>
+        <item>@string/day_4</item>
+        <item>@string/day_5</item>
+        <item>@string/day_6</item>
+        <item>@string/day_7</item>
+        <item>@string/day_8</item>
+        <item>@string/day_9</item>
+        <item>@string/day_10</item>
+        <item>@string/day_11</item>
+        <item>@string/day_12</item>
+        <item>@string/day_13</item>
+        <item>@string/day_14</item>
+        <item>@string/day_15</item>
+        <item>@string/day_16</item>
+        <item>@string/day_17</item>
+        <item>@string/day_18</item>
+        <item>@string/day_19</item>
+        <item>@string/day_20</item>
+        <item>@string/day_21</item>
+        <item>@string/day_22</item>
+        <item>@string/day_23</item>
+        <item>@string/day_24</item>
+        <item>@string/day_25</item>
+        <item>@string/day_26</item>
+        <item>@string/day_27</item>
+        <item>@string/day_28</item>
+    </string-array>
+
+    <string-array name="settings_data_plan_usage_alert">
+        <item>@string/ergo_20181010_not_reminded</item>
+        <item>90%</item>
+        <item>80%</item>
+        <item>70%</item>
+        <item>60%</item>
+        <item>@string/cancel</item>
+    </string-array>
+
+    <string-array name="feedbacktype">
+        <item>@string/wifi_connection</item>
+        <item>@string/main_sms</item>
+        <item>@string/signal_for_feedback</item>
+        <item>@string/battery_life</item>
+        <item>@string/usage_setting_mobile_data</item>
+        <item>@string/setting_network</item>
+        <item>@string/others</item>
+    </string-array>
+</resources>

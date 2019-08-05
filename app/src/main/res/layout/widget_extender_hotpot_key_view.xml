@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.zhy.android.percent.support.PercentRelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.zhy.android.percent.support.PercentRelativeLayout
+        android:id="@+id/rl_widget_hotpot_key_all"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/iv_widget_hotpot_key_background"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:alpha="0.7"
+            android:background="@color/gray" />
+
+        <com.zhy.android.percent.support.PercentRelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:background="@drawable/bg_pop_conner"
+            app:layout_heightPercent="30%h"
+            app:layout_widthPercent="80%w">
+
+            <!-- SSID -->
+            <TextView
+                android:id="@+id/tv_widget_hotpot_key_ssid"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dimen_15dip"
+                android:text="@string/unknown"
+                android:textColor="@color/black"
+                app:layout_marginTopPercent="10%h"
+                app:layout_textSizePercent="10%h" />
+
+            <!-- password -->
+            <EditText
+                android:maxLength="64"
+                android:textColor="@color/mg_blue"
+                android:id="@+id/et_widget_hotpot_key_password"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tv_widget_hotpot_key_ssid"
+                android:layout_marginEnd="@dimen/dimen_10dip"
+                android:layout_marginStart="@dimen/dimen_10dip"
+                android:background="@color/white"
+                android:hint="@string/password"
+                android:inputType="textPassword"
+                android:paddingEnd="@dimen/dimen_5dip"
+                android:paddingStart="@dimen/dimen_5dip"
+                android:text="00000919"
+                app:layout_heightPercent="25%h"
+                app:layout_marginTopPercent="12%h"
+                app:layout_textSizePercent="9%h"
+                app:layout_widthPercent="80%w" />
+
+            <!-- show or hide eyes -->
+            <ImageView
+                android:id="@+id/iv_widget_hotpot_key_showOrhide"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tv_widget_hotpot_key_ssid"
+                android:layout_marginEnd="@dimen/dimen_10dip"
+                android:layout_toEndOf="@id/et_widget_hotpot_key_password"
+                android:src="@drawable/password_hide"
+                app:layout_heightPercent="25%h"
+                app:layout_marginTopPercent="12%h"
+                app:layout_widthPercent="10%w" />
+
+            <!-- underline -->
+            <View
+                android:id="@+id/v_widget_hotpot_key_edittext"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dimen_1dip"
+                android:layout_below="@id/et_widget_hotpot_key_password"
+                android:layout_marginEnd="@dimen/dimen_10dip"
+                android:layout_marginStart="@dimen/dimen_10dip"
+                android:background="@color/mg_blue" />
+
+            <com.zhy.android.percent.support.PercentLinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@id/v_widget_hotpot_key_edittext"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <!-- cancel -->
+                <TextView
+                    android:id="@+id/tv_widget_hotpot_key_cancel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="@string/cancel"
+                    android:textColor="@color/gray"
+                    app:layout_textSizePercent="25%h"
+                    app:layout_widthPercent="50%w" />
+
+                <!-- ok -->
+                <TextView
+                    android:id="@+id/tv_widget_hotpot_key_ok"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="@string/ok"
+                    android:textColor="@color/mg_blue"
+                    app:layout_textSizePercent="25%h"
+                    app:layout_widthPercent="50%w" />
+
+            </com.zhy.android.percent.support.PercentLinearLayout>
+
+        </com.zhy.android.percent.support.PercentRelativeLayout>
+
+    </com.zhy.android.percent.support.PercentRelativeLayout>
+
+</com.zhy.android.percent.support.PercentRelativeLayout>

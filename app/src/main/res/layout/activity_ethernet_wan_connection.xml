@@ -1,0 +1,587 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.zhy.android.percent.support.PercentRelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/color_bg_normal">
+
+    <Button
+        android:id="@+id/btn_connect"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="@dimen/dimen_30dip"
+        android:layout_marginEnd="@dimen/dimen_30dip"
+        android:layout_marginBottom="@dimen/dimen_10dip"
+        android:height="@dimen/dimen_24dip"
+        android:background="@drawable/selector_conner_btn_blue"
+        android:text="@string/apply"
+        android:textColor="@color/white"
+        android:textSize="13sp" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/btn_connect"
+        android:layout_marginBottom="@dimen/dimen_10dip">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/enable_auto_disconnected_title"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:gravity="center_vertical"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:paddingBottom="5dp"
+                android:text="@string/select_your_internet_connection_type"
+                android:textColor="@color/black" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:layout_below="@+id/enable_auto_disconnected_title"
+                android:background="@color/custom_spinner_divider_line" />
+
+            <RelativeLayout
+                android:id="@+id/ethernet_wan_connection_pppoe"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_below="@+id/enable_auto_disconnected_title"
+                android:layout_alignParentStart="true"
+                android:background="#ffffff">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/dimen_20dip"
+                        android:text="@string/pppoe"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/dimen_textsize_16sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/dimen_20dip"
+                        android:text="@string/need_account_and_password_given_by_network_operator"
+                        android:textColor="@color/deep_grey_text"
+                        android:textSize="@dimen/dimen_textsize_12sp"
+                        android:visibility="gone" />
+
+                </LinearLayout>
+
+                <ImageView
+                    android:id="@+id/pppoe_selected_img"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="@dimen/dimen_20dip"
+                    android:background="@drawable/btn_radio_on_disable"
+                    android:scaleType="center"
+                    android:visibility="gone" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:layout_alignParentBottom="true"
+                    android:background="@color/custom_spinner_divider_line" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/ethernet_wan_connection_dhcp"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_below="@+id/ethernet_wan_connection_pppoe"
+                android:background="#ffffff">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/dimen_20dip"
+                        android:text="@string/dhcp"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/dimen_textsize_16sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/dimen_20dip"
+                        android:text="@string/no_need_to_set_internet_parameters"
+                        android:textColor="@color/deep_grey_text"
+                        android:textSize="@dimen/dimen_textsize_12sp"
+                        android:visibility="gone" />
+
+                </LinearLayout>
+
+                <ImageView
+                    android:id="@+id/dhcp_selected_img"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="@dimen/dimen_20dip"
+                    android:background="@drawable/btn_radio_on_disable"
+                    android:scaleType="center"
+                    android:visibility="gone" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:layout_alignParentBottom="true"
+                    android:background="@color/custom_spinner_divider_line" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/ethernet_wan_connection_static_ip"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_below="@+id/ethernet_wan_connection_dhcp"
+                android:background="#ffffff">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/dimen_20dip"
+                        android:text="@string/static_ip"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/dimen_textsize_16sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/dimen_20dip"
+                        android:text="@string/need_ip_address_and_related_info_given_by_network_operator"
+                        android:textColor="@color/deep_grey_text"
+                        android:textSize="@dimen/dimen_textsize_12sp"
+                        android:visibility="gone" />
+
+                </LinearLayout>
+
+                <ImageView
+                    android:id="@+id/static_ip_selected_img"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="@dimen/dimen_20dip"
+                    android:background="@drawable/btn_radio_on_disable"
+                    android:scaleType="center"
+                    android:visibility="gone" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:layout_alignParentBottom="true"
+                    android:background="@color/custom_spinner_divider_line" />
+            </RelativeLayout>
+
+            <LinearLayout
+                android:id="@+id/linearlayout_pppoe"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/ethernet_wan_connection_static_ip"
+                android:layout_marginTop="@dimen/dimen_5dip"
+                android:background="#ffffff"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginStart="@dimen/dimen_20dip"
+                        android:gravity="center"
+                        android:text="@string/account"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/dimen_textsize_16sp" />
+
+                    <EditText
+                        android:id="@+id/pppoe_account"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginStart="@dimen/dimen_12dip"
+                        android:background="@null"
+                        android:hint="@string/account"
+                        android:textColor="@color/grey_text"
+                        android:textSize="@dimen/dimen_textsize_14sp" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:layout_marginStart="@dimen/dimen_20dip"
+                    android:layout_marginLeft="@dimen/dimen_20dip"
+                    android:layout_marginEnd="@dimen/dimen_20dip"
+                    android:layout_marginRight="@dimen/dimen_20dip"
+                    android:background="@color/custom_spinner_divider_line" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginStart="@dimen/dimen_20dip"
+                        android:gravity="center"
+                        android:text="@string/password"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/dimen_textsize_16sp" />
+
+                    <EditText
+                        android:id="@+id/pppoe_password"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginStart="@dimen/dimen_12dip"
+                        android:background="@null"
+                        android:hint="@string/password"
+                        android:textColor="@color/grey_text"
+                        android:textSize="@dimen/dimen_textsize_14sp" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:layout_marginStart="@dimen/dimen_20dip"
+                    android:layout_marginLeft="@dimen/dimen_20dip"
+                    android:layout_marginEnd="@dimen/dimen_20dip"
+                    android:layout_marginRight="@dimen/dimen_20dip"
+                    android:background="@color/custom_spinner_divider_line" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:minHeight="48dp">
+
+                    <LinearLayout
+                        android:layout_width="230dp"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="@dimen/dimen_20dip"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/netmode_mtu"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/dimen_textsize_16sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/do_not_change_default_if_not_necessary"
+                            android:textColor="@color/deep_grey_text"
+                            android:textSize="@dimen/dimen_textsize_12sp" />
+                    </LinearLayout>
+
+                    <!-- MTU -->
+                    <EditText
+                        android:id="@+id/pppoe_mtu"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="20dp"
+                        android:background="@null"
+                        android:inputType="number"
+                        android:maxLength="4"
+                        android:text="1492"
+                        android:textColor="@color/deep_grey_text"
+                        android:textSize="@dimen/dimen_textsize_14sp" />
+                </RelativeLayout>
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/textview_dhcp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/ethernet_wan_connection_static_ip"
+                android:layout_marginTop="@dimen/dimen_5dip"
+                android:background="#ffffff"
+                android:padding="@dimen/dimen_20dip"
+                android:text="@string/do_not_change_default_if_not_necessary"
+                android:textColor="@color/deep_grey_text"
+                android:textSize="@dimen/dimen_textsize_14sp"
+                android:visibility="gone" />
+
+            <LinearLayout
+                android:id="@+id/linearlayout_static_ip"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/ethernet_wan_connection_static_ip"
+                android:layout_marginTop="@dimen/dimen_5dip"
+                android:background="#ffffff"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginStart="@dimen/dimen_20dip"
+                        android:gravity="center"
+                        android:text="@string/ip_address"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/dimen_textsize_16sp" />
+
+                    <EditText
+                        android:id="@+id/static_ip_address"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginStart="@dimen/dimen_12dip"
+                        android:background="@null"
+                        android:digits="1234567890."
+                        android:hint="@string/ip_address"
+                        android:inputType="number"
+                        android:textColor="@color/grey_text"
+                        android:textSize="@dimen/dimen_textsize_14sp" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:layout_marginStart="@dimen/dimen_20dip"
+                    android:layout_marginLeft="@dimen/dimen_20dip"
+                    android:layout_marginEnd="@dimen/dimen_20dip"
+                    android:layout_marginRight="@dimen/dimen_20dip"
+                    android:background="@color/custom_spinner_divider_line" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginStart="@dimen/dimen_20dip"
+                        android:gravity="center"
+                        android:text="@string/subnet_mask"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/dimen_textsize_16sp" />
+
+                    <EditText
+                        android:id="@+id/static_ip_subnet_mask"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginStart="@dimen/dimen_12dip"
+                        android:background="@null"
+                        android:digits="1234567890."
+                        android:hint="@string/subnet_mask"
+                        android:inputType="number"
+                        android:textColor="@color/grey_text"
+                        android:textSize="@dimen/dimen_textsize_14sp" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:layout_marginStart="@dimen/dimen_20dip"
+                    android:layout_marginLeft="@dimen/dimen_20dip"
+                    android:layout_marginEnd="@dimen/dimen_20dip"
+                    android:layout_marginRight="@dimen/dimen_20dip"
+                    android:background="@color/custom_spinner_divider_line" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginStart="@dimen/dimen_20dip"
+                        android:gravity="center"
+                        android:text="@string/default_gateway"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/dimen_textsize_16sp" />
+
+                    <EditText
+                        android:id="@+id/static_ip_default_gateway"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginStart="@dimen/dimen_12dip"
+                        android:background="@null"
+                        android:digits="1234567890."
+                        android:hint="@string/default_gateway"
+                        android:inputType="number"
+                        android:textColor="@color/grey_text"
+                        android:textSize="@dimen/dimen_textsize_14sp" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:layout_marginStart="@dimen/dimen_20dip"
+                    android:layout_marginLeft="@dimen/dimen_20dip"
+                    android:layout_marginEnd="@dimen/dimen_20dip"
+                    android:layout_marginRight="@dimen/dimen_20dip"
+                    android:background="@color/custom_spinner_divider_line" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginStart="@dimen/dimen_20dip"
+                        android:gravity="center"
+                        android:text="@string/preferred_dns"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/dimen_textsize_16sp" />
+
+                    <EditText
+                        android:id="@+id/static_ip_preferred_dns"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginStart="@dimen/dimen_12dip"
+                        android:background="@null"
+                        android:digits="1234567890."
+                        android:hint="@string/preferred_dns"
+                        android:inputType="number"
+                        android:textColor="@color/grey_text"
+                        android:textSize="@dimen/dimen_textsize_14sp" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:layout_marginStart="@dimen/dimen_20dip"
+                    android:layout_marginLeft="@dimen/dimen_20dip"
+                    android:layout_marginEnd="@dimen/dimen_20dip"
+                    android:layout_marginRight="@dimen/dimen_20dip"
+                    android:background="@color/custom_spinner_divider_line" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginStart="@dimen/dimen_20dip"
+                        android:gravity="center"
+                        android:text="@string/secondary_dns"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/dimen_textsize_16sp" />
+
+                    <EditText
+                        android:id="@+id/static_ip_secondary_dns"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginStart="@dimen/dimen_12dip"
+                        android:background="@null"
+                        android:digits="1234567890."
+                        android:hint="@string/secondary_dns"
+                        android:inputType="number"
+                        android:textColor="@color/grey_text"
+                        android:textSize="@dimen/dimen_textsize_14sp" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:layout_marginStart="@dimen/dimen_20dip"
+                    android:layout_marginLeft="@dimen/dimen_20dip"
+                    android:layout_marginEnd="@dimen/dimen_20dip"
+                    android:layout_marginRight="@dimen/dimen_20dip"
+                    android:background="@color/custom_spinner_divider_line" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="48dp"
+                    android:gravity="center_vertical">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/dimen_20dip"
+                            android:text="@string/netmode_mtu"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/dimen_textsize_16sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/dimen_20dip"
+                            android:text="@string/do_not_change_default_if_not_necessary"
+                            android:textColor="@color/deep_grey_text"
+                            android:textSize="@dimen/dimen_textsize_12sp" />
+                    </LinearLayout>
+
+                    <!-- MTU -->
+                    <EditText
+                        android:id="@+id/static_ip_mtu"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/dimen_20dip"
+                        android:background="@null"
+                        android:inputType="number"
+                        android:maxLength="4"
+                        android:textColor="@color/deep_grey_text"
+                        android:textSize="@dimen/dimen_textsize_14sp" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </RelativeLayout>
+    </ScrollView>
+
+</com.zhy.android.percent.support.PercentRelativeLayout>

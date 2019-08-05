@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.zhy.android.percent.support.PercentRelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <com.zhy.android.percent.support.PercentRelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_heightPercent="8%sh">
+
+        <!-- 分割线 -->
+        <View
+            android:id="@+id/v_main_mw70_split"
+            android:layout_width="@dimen/dimen_1dip"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true"
+            android:layout_marginEnd="@dimen/dimen_20dip"
+            android:layout_marginStart="@dimen/dimen_20dip"
+            android:background="@color/white"
+            app:layout_marginBottomPercent="30%h"
+            app:layout_marginTopPercent="30%h" />
+
+        <!-- 电池百分比 -->
+        <TextView
+            android:id="@+id/tv_main_mw70_battery_percent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toStartOf="@id/v_main_mw70_split"
+            android:text="0%"
+            android:textColor="@color/white"
+            app:layout_textSizePercent="40%h" />
+
+        <!-- 电池进度条 -->
+        <ProgressBar
+            android:id="@+id/pg_main_mw70_battery"
+            style="@style/Base.Widget.AppCompat.ProgressBar.Horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="@dimen/dimen_10dip"
+            android:layout_toStartOf="@id/tv_main_mw70_battery_percent"
+            android:max="100"
+            android:progress="0"
+            app:layout_heightPercent="40%h"
+            app:layout_widthPercent="68.48%h" />
+
+        <!-- 信号强度 -->
+        <ImageView
+            android:id="@+id/iv_main_mw70_signal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toEndOf="@id/v_main_mw70_split"
+            android:src="@drawable/mw_signal_0"
+            app:layout_heightPercent="50%h"
+            app:layout_widthPercent="55%h" />
+
+        <!-- 网络类型 -->
+        <TextView
+            android:id="@+id/tv_main_mw70_network"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_marginStart="@dimen/dimen_10dip"
+            android:layout_toEndOf="@id/iv_main_mw70_signal"
+            android:text="@string/home_no_service"
+            android:textColor="@color/white"
+            app:layout_textSizePercent="40%h"
+            app:layout_widthPercent="30%w" />
+
+        <!-- WIFI EXTENDER 强度图标 -->
+        <ImageView
+            android:id="@+id/iv_main_mw70_extender_wifi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toEndOf="@id/v_main_mw70_split"
+            android:src="@drawable/main_wifi_ex_signal0"
+            android:visibility="gone"
+            app:layout_heightPercent="50%h"
+            app:layout_widthPercent="50%h" />
+
+        <!-- WIFI EXTENDER wifi名称 -->
+        <TextView
+            android:id="@+id/tv_main_mw70_extender_phoneName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_marginStart="@dimen/dimen_10dip"
+            android:layout_toEndOf="@id/iv_main_mw70_extender_wifi"
+            android:singleLine="true"
+            android:text="@string/unknown"
+            android:textColor="@color/white"
+            android:visibility="gone"
+            app:layout_textSizePercent="40%h"
+            app:layout_widthPercent="30%w" />
+
+    </com.zhy.android.percent.support.PercentRelativeLayout>
+
+</com.zhy.android.percent.support.PercentRelativeLayout>

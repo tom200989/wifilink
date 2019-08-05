@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.alcatel.wifilink.root.ue.activity.InternetStatusActivity">
+
+    <!-- IP_ADDRESS -->
+    <RelativeLayout
+        android:id="@+id/rl_internet_IPAddress"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_60dip">
+
+        <TextView
+            android:id="@+id/tv_internet_title_IPAddress"
+            style="@style/internet_tv_title"
+            android:layout_marginLeft="@dimen/dimen_15dip"
+            android:layout_marginStart="@dimen/dimen_15dip"
+            android:text="@string/ip_address" />
+
+        <TextView
+            android:id="@+id/tv_internet_content_IPAddress"
+            style="@style/internet_tv_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:text="0.0.0.0" />
+
+        <View
+            style="@style/internet_split" />
+
+    </RelativeLayout>
+
+    <!-- Subnet mask  -->
+    <RelativeLayout
+        android:id="@+id/rl_internet_subnet"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_60dip"
+        android:layout_below="@id/rl_internet_IPAddress">
+
+        <TextView
+            android:id="@+id/tv_internet_title_SubnetMask"
+            style="@style/internet_tv_title"
+            android:layout_marginLeft="@dimen/dimen_15dip"
+            android:layout_marginStart="@dimen/dimen_15dip"
+            android:text="@string/subnet_mask" />
+
+        <TextView
+            android:id="@+id/tv_internet_content_subnetmask"
+            style="@style/internet_tv_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:text="0.0.0.0" />
+
+        <View
+            style="@style/internet_split" />
+
+    </RelativeLayout>
+
+    <!-- Default gateway  -->
+    <RelativeLayout
+        android:id="@+id/rl_internet_gateway"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_60dip"
+        android:layout_below="@id/rl_internet_subnet">
+
+        <TextView
+            android:id="@+id/tv_internet_title_gateway"
+            style="@style/internet_tv_title"
+            android:layout_marginLeft="@dimen/dimen_15dip"
+            android:layout_marginStart="@dimen/dimen_15dip"
+            android:text="@string/default_gateway" />
+
+        <TextView
+            android:id="@+id/tv_internet_content_gateway"
+            style="@style/internet_tv_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:text="0.0.0.0" />
+
+        <View
+            style="@style/internet_split" />
+
+    </RelativeLayout>
+
+    <!-- Preferred DNS  -->
+    <RelativeLayout
+        android:id="@+id/rl_internet_dns"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_60dip"
+        android:layout_below="@id/rl_internet_gateway">
+
+        <TextView
+            android:id="@+id/tv_internet_title_dns"
+            style="@style/internet_tv_title"
+            android:layout_marginLeft="@dimen/dimen_15dip"
+            android:layout_marginStart="@dimen/dimen_15dip"
+            android:text="@string/preferred_dns" />
+
+        <TextView
+            android:id="@+id/tv_internet_content_dns"
+            style="@style/internet_tv_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:text="0.0.0.0" />
+
+        <View
+            style="@style/internet_split" />
+
+    </RelativeLayout>
+
+    <!-- Secondary DNS  -->
+    <RelativeLayout
+        android:id="@+id/rl_internet_secondDns"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_60dip"
+        android:layout_below="@id/rl_internet_dns">
+
+        <TextView
+            android:id="@+id/tv_internet_title_secondDns"
+            style="@style/internet_tv_title"
+            android:layout_alignTop="@+id/tv_internet_content_secondDns"
+            android:layout_marginLeft="@dimen/dimen_15dip"
+            android:layout_marginStart="@dimen/dimen_15dip"
+            android:text="@string/secondary_dns" />
+
+        <TextView
+            android:id="@+id/tv_internet_content_secondDns"
+            style="@style/internet_tv_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:text="0.0.0.0" />
+
+        <View
+            style="@style/internet_split" />
+
+    </RelativeLayout>
+
+    <!-- Renew -->
+    <Button
+        android:id="@+id/rv_internet_renew"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_50dip"
+        android:layout_below="@id/rl_internet_secondDns"
+        android:layout_margin="@dimen/dimen_20dip"
+        android:background="@drawable/btn_click_selector"
+        android:gravity="center"
+        android:textAllCaps="false"
+        android:text="@string/dhcp_renew"
+        android:textColor="@color/white"
+        android:textSize="@dimen/dimen_18dip"/>
+
+    <TextView
+        android:id="@+id/tv_internet_ethernetWanConnect"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/rv_internet_renew"
+        android:layout_centerHorizontal="true"
+        android:text="@string/ethernet_wan_connection"
+        android:textSize="@dimen/dimen_16dip" />
+
+</RelativeLayout>

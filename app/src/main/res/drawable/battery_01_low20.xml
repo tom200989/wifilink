@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- 底版 -->
+    <item
+        android:id="@android:id/background"
+        android:drawable="@drawable/battery_01_background_low20">
+    </item>
+
+    <!-- 二次图层(必须设置) -->
+    <item
+        android:id="@android:id/secondaryProgress">
+        <clip
+            android:clipOrientation="horizontal"
+            android:drawable="@drawable/battery_01_top_low20"
+            android:gravity="start|center_vertical">
+        </clip>
+    </item>
+
+    <!-- 一次图层(必须设置) -->
+    <item
+        android:id="@android:id/progress">
+        <clip
+            android:clipOrientation="horizontal"
+            android:drawable="@drawable/battery_01_top_low20"
+            android:gravity="start|center_vertical">
+        </clip>
+    </item>
+</layer-list>

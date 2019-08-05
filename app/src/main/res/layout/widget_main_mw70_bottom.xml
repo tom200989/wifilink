@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.zhy.android.percent.support.PercentRelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.zhy.android.percent.support.PercentLinearLayout
+        android:id="@+id/rl_main_mw70_all"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@color/white"
+        android:gravity="center"
+        android:orientation="vertical"
+        app:layout_heightPercent="38%h">
+
+        <!-- part 1 -->
+        <com.zhy.android.percent.support.PercentRelativeLayout
+            android:id="@+id/rl_main_mw70_connected"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:background="@drawable/bg_main_mw70_freesharing"
+            app:layout_heightPercent="30%h"
+            app:layout_widthPercent="85%w">
+
+            <ImageView
+                android:id="@+id/iv_main_mw70_connected_logo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:src="@drawable/device_more"
+                app:layout_heightPercent="50%h"
+                app:layout_widthPercent="20%w" />
+
+            <TextView
+                android:id="@+id/tv_main_mw70_connected_deviceNum"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="@dimen/dimen_10dip"
+                android:layout_toEndOf="@id/iv_main_mw70_connected_logo"
+                android:text="0"
+                android:textColor="@color/blue_btn"
+                app:layout_textSizePercent="25%h" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="@dimen/dimen_10dip"
+                android:layout_toEndOf="@id/tv_main_mw70_connected_deviceNum"
+                android:text="@string/access_lable"
+                android:textColor="@color/text_color"
+                app:layout_textSizePercent="25%h"
+                app:layout_widthPercent="50%w" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="@dimen/dimen_10dip"
+                android:src="@drawable/right_arrow_small"
+                app:layout_heightPercent="25%h" />
+
+        </com.zhy.android.percent.support.PercentRelativeLayout>
+
+        <!-- part 2 -->
+        <com.zhy.android.percent.support.PercentRelativeLayout
+            android:id="@+id/rl_main_mw70_freesharing"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:background="@drawable/bg_main_mw70_connected"
+            android:orientation="horizontal"
+            app:layout_heightPercent="30%h"
+            app:layout_marginTopPercent="10%h"
+            app:layout_widthPercent="85%w">
+
+            <ImageView
+                android:id="@+id/iv_main_mw70_freesharing_logo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:src="@drawable/freesharing_logo"
+                app:layout_heightPercent="50%h"
+                app:layout_widthPercent="20%w" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="@dimen/dimen_10dip"
+                android:layout_toEndOf="@id/iv_main_mw70_freesharing_logo"
+                android:text="@string/free_sharing_up"
+                android:textColor="@color/text_color"
+                app:layout_textSizePercent="25%h" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="@dimen/dimen_10dip"
+                android:src="@drawable/right_arrow_small"
+                app:layout_heightPercent="25%h" />
+
+        </com.zhy.android.percent.support.PercentRelativeLayout>
+
+    </com.zhy.android.percent.support.PercentLinearLayout>
+
+</com.zhy.android.percent.support.PercentRelativeLayout>
