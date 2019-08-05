@@ -3,10 +3,10 @@ package com.alcatel.wifilink.root.helper;
 import android.content.Context;
 
 import com.alcatel.wifilink.R;
-import com.alcatel.wifilink.root.bean.UsageSettings;
 import com.alcatel.wifilink.network.RX;
 import com.alcatel.wifilink.network.ResponseBody;
 import com.alcatel.wifilink.network.ResponseObject;
+import com.alcatel.wifilink.root.bean.UsageSettings;
 import com.alcatel.wifilink.root.utils.CA;
 import com.alcatel.wifilink.root.utils.ToastUtil_m;
 

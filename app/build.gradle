@@ -106,4 +106,6 @@ dependencies {
     api(name: 'ma_freesharing', ext: 'aar')
     // rootMAhiber -- 网络请求xutils(feedback用到)
     api(name: 'ma_xutils', ext: 'aar')
+    // rootMAhiber -- wifilink网络helper
+    api(name: 'ma_xsmart', ext: 'aar')
 }
