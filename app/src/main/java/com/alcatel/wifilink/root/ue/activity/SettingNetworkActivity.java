@@ -47,6 +47,8 @@ import com.alcatel.wifilink.root.utils.OtherUtils;
 import com.alcatel.wifilink.root.utils.SP;
 import com.alcatel.wifilink.root.utils.ToastUtil_m;
 import com.alcatel.wifilink.root.utils.WifiUtils;
+import com.p_xhelper_smart.p_xhelper_smart.bean.GetProfileListBean;
+import com.p_xhelper_smart.p_xhelper_smart.helper.GetProfileListHelper;
 
 import java.util.List;
 
@@ -415,21 +417,14 @@ public class SettingNetworkActivity extends BaseActivityWithBack implements OnCl
     }
 
     private void getProfileList() {
-
-        RX.getInstant().getProfileList(new ResponseObject<ProfileList>() {
-            @Override
-            protected void onSuccess(ProfileList result) {
-                List<ProfileList.ProfileListBean> list = result.getProfileList();
-                if (list != null & list.size() > 0) {
-                    ProfileList.ProfileListBean profile = list.get(0);
-                    mTvProfile.setText(profile.getProfileName());
-                }
-            }
-
-            @Override
-            protected void onFailure() {
+        GetProfileListHelper xGetProfileListHelper = new GetProfileListHelper();
+        xGetProfileListHelper.setOnGetProfileListListener(bean -> {
+            List<GetProfileListBean.ProfileBean> list = bean.getProfileList();
+            if (list != null & list.size() > 0) {
+                mTvProfile.setText(list.get(0).getProfileName());
             }
         });
+        xGetProfileListHelper.getProfileList();
     }
 
     private void changePinState(String pinCode, int enable) {

@@ -21,6 +21,8 @@ import com.alcatel.wifilink.root.ue.activity.ActivityDeviceManager;
 import com.alcatel.wifilink.root.adapter.ConnectAdapter;
 import com.alcatel.wifilink.root.helper.ModelHelper;
 import com.alcatel.wifilink.root.helper.TimerHelper;
+import com.p_xhelper_smart.p_xhelper_smart.bean.GetBlockDeviceListBean;
+import com.p_xhelper_smart.p_xhelper_smart.helper.GetBlockDeviceListHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -106,15 +108,12 @@ public class DeviceConnectFragment extends Fragment {
 
     /* **** updateBlockCount **** */
     private void updateBlockCount() {
-        RX.getInstant().getBlockDeviceList(new ResponseObject<BlockList>() {
-            @Override
-            protected void onSuccess(BlockList result) {
-                int blockSize = result.getBlockList().size();
-                activity.runOnUiThread(() -> {
-                    activity.mblock.setText(activity.blockPre + blockSize + activity.blockFix);
-                });
-            }
+        GetBlockDeviceListHelper xGetBlockDeviceListHelper = new GetBlockDeviceListHelper();
+        xGetBlockDeviceListHelper.setonGetBlockDeviceListSuccessListener(getBlockDeviceListBean -> {
+            int blockSize = getBlockDeviceListBean.getBlockList().size();
+            activity.mblock.setText(activity.blockPre + blockSize + activity.blockFix);
         });
+        xGetBlockDeviceListHelper.getBlockDeviceList();
     }
 
 

@@ -14,12 +14,11 @@ import android.view.ViewGroup;
 import com.alcatel.wifilink.R;
 import com.alcatel.wifilink.root.bean.BlockModel;
 import com.alcatel.wifilink.root.bean.BlockList;
-import com.alcatel.wifilink.network.RX;
-import com.alcatel.wifilink.network.ResponseObject;
 import com.alcatel.wifilink.root.ue.activity.ActivityDeviceManager;
 import com.alcatel.wifilink.root.adapter.BlockAdapter;
-import com.alcatel.wifilink.root.helper.ModelHelper;
 import com.alcatel.wifilink.root.helper.TimerHelper;
+import com.p_xhelper_smart.p_xhelper_smart.bean.GetBlockDeviceListBean;
+import com.p_xhelper_smart.p_xhelper_smart.helper.GetBlockDeviceListHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -84,15 +83,25 @@ public class DeviceBlockFragment extends Fragment {
 
     /* **** updateBlockDeviceUI **** */
     private void updateBlockDeviceUI() {
-        RX.getInstant().getBlockDeviceList(new ResponseObject<BlockList>() {
-            @Override
-            protected void onSuccess(BlockList result) {
-                blockModelList = ModelHelper.getBlockModel(result);
-                if (blockModelList.size() > 0) {
-                    blockAdapter.notifys(blockModelList);
+        GetBlockDeviceListHelper xGetBlockDeviceListHelper = new GetBlockDeviceListHelper();
+        xGetBlockDeviceListHelper.setonGetBlockDeviceListSuccessListener(getBlockDeviceListBean -> {
+            List<BlockModel> tempBlockModelList = new ArrayList<>();
+            List<GetBlockDeviceListBean.BlockDeviceBean> blockDeviceBeans = getBlockDeviceListBean.getBlockList();
+            if(blockDeviceBeans != null && blockDeviceBeans.size() > 0){
+                for(GetBlockDeviceListBean.BlockDeviceBean blockDeviceBean : blockDeviceBeans){
+                    BlockList.BlockDevice blockDevice = new BlockList.BlockDevice();
+                    blockDevice.setId(blockDeviceBean.getId());
+                    blockDevice.setDeviceName(blockDeviceBean.getDeviceName());
+                    blockDevice.setMacAddress(blockDeviceBean.getMacAddress());
+                    tempBlockModelList.add(new BlockModel(blockDevice,false));
                 }
             }
+            blockModelList = tempBlockModelList;
+            if (blockModelList.size() > 0) {
+                blockAdapter.notifys(blockModelList);
+            }
         });
+        xGetBlockDeviceListHelper.getBlockDeviceList();
     }
 
     @Override

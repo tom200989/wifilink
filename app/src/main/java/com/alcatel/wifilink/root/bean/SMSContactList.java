@@ -36,7 +36,7 @@ public class SMSContactList {
         this.SMSContactList = SMSContactList;
     }
 
-    public class SMSContact {
+    public static class SMSContact {
 
         public long ContactId;
         public List<String> PhoneNumber;

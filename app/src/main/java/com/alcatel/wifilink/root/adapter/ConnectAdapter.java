@@ -23,6 +23,9 @@ import com.alcatel.wifilink.root.ue.activity.ActivityDeviceManager;
 import com.alcatel.wifilink.root.ue.frag.DeviceConnectFragment;
 import com.alcatel.wifilink.root.helper.MacHelper;
 import com.alcatel.wifilink.root.utils.ToastUtil_m;
+import com.p_xhelper_smart.p_xhelper_smart.bean.SetDeviceNameParam;
+import com.p_xhelper_smart.p_xhelper_smart.helper.SetConnectedDeviceBlockHelper;
+import com.p_xhelper_smart.p_xhelper_smart.helper.SetDeviceNameHelper;
 
 import java.util.List;
 
@@ -169,6 +172,9 @@ public class ConnectAdapter extends RecyclerView.Adapter<ConnectHolder> {
 
     /* setDeviceName */
     private void setDeviceName(String strDeviceName, String strMac, int nDeviceType) {
+        SetDeviceNameHelper xSetDeviceNameHelper = new SetDeviceNameHelper();
+        // TODO: 2019/8/6 haide 还没做完
+        //xSetDeviceNameHelper.setDeviceName(new SetDeviceNameParam());
         RX.getInstant().setDeviceName(strDeviceName, strMac, nDeviceType, new ResponseObject() {
             @Override
             protected void onSuccess(Object result) {
@@ -179,27 +185,19 @@ public class ConnectAdapter extends RecyclerView.Adapter<ConnectHolder> {
 
     /* setConnectedDeviceBlock */
     private void setConnectedDeviceBlock(String strDeviceName, String strMac, int position) {
-        RX.getInstant().setConnectedDeviceBlock(strDeviceName, strMac, new ResponseObject() {
-            @Override
-            protected void onSuccess(Object result) {
-                int oldSize = connectModelList.size();
-                // remove item
-                connectModelList.remove(position);
-                // refresh the blocked count in action bar
-                activity.mblock.setText(activity.blockPre + (oldSize - connectModelList.size()) + activity.blockFix);
-                // notify change
-                notifys(connectModelList);
-            }
-
-            @Override
-            protected void onResultError(ResponseBody.Error error) {
-                ToastUtil_m.show(activity, activity.getString(R.string.Set_connected_device_black_failed));
-            }
-
-            @Override
-            protected void onFailure() {
-
-            }
+        SetConnectedDeviceBlockHelper xSetConnectedDeviceBlockHelper = new SetConnectedDeviceBlockHelper();
+        xSetConnectedDeviceBlockHelper.setOnSetConnectDeviceBlockFailListener(() -> {
+            int oldSize = connectModelList.size();
+            // remove item
+            connectModelList.remove(position);
+            // refresh the blocked count in action bar
+            activity.mblock.setText(activity.blockPre + (oldSize - connectModelList.size()) + activity.blockFix);
+            // notify change
+            notifys(connectModelList);
         });
+        xSetConnectedDeviceBlockHelper.setOnSetConnectDeviceBlockFailListener(() -> {
+            ToastUtil_m.show(activity, activity.getString(R.string.Set_connected_device_black_failed));
+        });
+        xSetConnectedDeviceBlockHelper.setConnectedDeviceBlock(strDeviceName, strMac);
     }
 }

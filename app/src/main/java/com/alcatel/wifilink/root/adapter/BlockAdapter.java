@@ -12,6 +12,7 @@ import com.alcatel.wifilink.network.RX;
 import com.alcatel.wifilink.network.ResponseObject;
 import com.alcatel.wifilink.root.ue.activity.ActivityDeviceManager;
 import com.alcatel.wifilink.root.helper.FragmentDeviceEnum;
+import com.p_xhelper_smart.p_xhelper_smart.helper.SetDeviceUnblockHelper;
 
 import java.util.List;
 
@@ -60,16 +61,15 @@ public class BlockAdapter extends RecyclerView.Adapter<BlockHolder> {
 
     /* setDeviceUnlock */
     private void setDeviceUnlock(String strDeviceName, String strMac, int position) {
-        RX.getInstant().setDeviceUnblock(strDeviceName, strMac, new ResponseObject() {
-            @Override
-            protected void onSuccess(Object result) {
-                blockModelList.remove(position);
-                if (blockModelList.size() <= 0) {// if block name is empty then go to connect ui
-                    activity.toFragment(FragmentDeviceEnum.CONNECT);
-                }
-                // refresh ui
-                notifys(blockModelList);
+        SetDeviceUnblockHelper xSetDeviceUnblockHelper = new SetDeviceUnblockHelper();
+        xSetDeviceUnblockHelper.setOnSetDeviceUnBlockSuccessListener(() -> {
+            blockModelList.remove(position);
+            if (blockModelList.size() <= 0) {// if block name is empty then go to connect ui
+                activity.toFragment(FragmentDeviceEnum.CONNECT);
             }
+            // refresh ui
+            notifys(blockModelList);
         });
+        xSetDeviceUnblockHelper.setDeviceUnblock(strDeviceName, strMac);
     }
 }

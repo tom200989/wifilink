@@ -4,6 +4,11 @@ import com.alcatel.wifilink.root.bean.ProfileList;
 import com.alcatel.wifilink.network.RX;
 import com.alcatel.wifilink.network.ResponseBody;
 import com.alcatel.wifilink.network.ResponseObject;
+import com.p_xhelper_smart.p_xhelper_smart.bean.GetProfileListBean;
+import com.p_xhelper_smart.p_xhelper_smart.helper.GetProfileListHelper;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /*
  * Created by qianli.ma on 2018/10/16 0016.
@@ -11,22 +16,34 @@ import com.alcatel.wifilink.network.ResponseObject;
 public class ProfileHelper {
     
     public void get() {
-        RX.getInstant().getProfileList(new ResponseObject<ProfileList>() {
-            @Override
-            protected void onSuccess(ProfileList result) {
-                getProfileSuccessNext(result);
+        GetProfileListHelper xGetProfileListHelper = new GetProfileListHelper();
+        xGetProfileListHelper.setOnGetProfileListListener(bean -> {
+            ProfileList result = new ProfileList();
+            result.setData_len(bean.getData_len());
+            List<ProfileList.ProfileListBean> tempProfileList = new ArrayList<>();
+            List<GetProfileListBean.ProfileBean> profileList =bean.getProfileList();
+            for(GetProfileListBean.ProfileBean profileBean : profileList){
+                ProfileList.ProfileListBean profileListBean = new ProfileList.ProfileListBean();
+                profileListBean.setAPN(profileBean.getAPN());
+                profileListBean.setAuthType(profileBean.getAuthType());
+                profileListBean.setDailNumber(profileBean.getDailNumber());
+                profileListBean.setDefault(profileBean.getDefault());
+                profileListBean.setIPAdrress(profileBean.getIPAdrress());
+                profileListBean.setIsPredefine(profileBean.getIsPredefine());
+                profileListBean.setPassword(profileBean.getPassword());
+                profileListBean.setPdpType(profileBean.getPdpType());
+                profileListBean.setProfileID(profileBean.getProfileID());
+                profileListBean.setProfileName(profileBean.getProfileName());
+                profileListBean.setUserName(profileBean.getUserName());
             }
-
-            @Override
-            protected void onResultError(ResponseBody.Error error) {
-                resultErrorNext(error);
-            }
-
-            @Override
-            protected void onFailure() {
-                failedNext();
-            }
+            result.setProfileList(tempProfileList);
+            getProfileSuccessNext(result);
         });
+        xGetProfileListHelper.setOnGetPrifileListFailListener(() -> {
+            failedNext();
+            resultErrorNext(null);
+        });
+        xGetProfileListHelper.getProfileList();
     }
 
     private OnFailedListener onFailedListener;

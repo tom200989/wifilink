@@ -31,6 +31,7 @@ import com.alcatel.wifilink.root.utils.Logs;
 import com.alcatel.wifilink.root.utils.OtherUtils;
 import com.alcatel.wifilink.root.utils.ToastUtil_m;
 import com.alcatel.wifilink.root.utils.fraghandler.FragmentBackHandler;
+import com.p_xhelper_smart.p_xhelper_smart.helper.SetUsageRecordClearHelper;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -332,25 +333,16 @@ public class UsageRxFragment extends Fragment implements FragmentBackHandler {
     private void resetRecord() {
         pgd = OtherUtils.showProgressPop(getActivity());
         String currentTime = UsageHelper.getCurrentTime();
-        RX.getInstant().setUsageRecordClear(currentTime, new ResponseObject() {
-            @Override
-            protected void onSuccess(Object result) {
-                OtherUtils.hideProgressPop(pgd);
-                toast(resetSuccess);
-            }
-
-            @Override
-            protected void onResultError(ResponseBody.Error error) {
-                OtherUtils.hideProgressPop(pgd);
-                toast(resetFailed);
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                OtherUtils.hideProgressPop(pgd);
-                toast(resetFailed);
-            }
+        SetUsageRecordClearHelper xSetUsageRecordClearHelper = new SetUsageRecordClearHelper();
+        xSetUsageRecordClearHelper.setOnSetUsageRecordClearSuccessListener(() -> {
+            OtherUtils.hideProgressPop(pgd);
+            toast(resetSuccess);
         });
+        xSetUsageRecordClearHelper.setOnSetUsageRecordClearFailListener(() -> {
+            OtherUtils.hideProgressPop(pgd);
+            toast(resetFailed);
+        });
+        xSetUsageRecordClearHelper.setUsageRecordClear(currentTime);
     }
 
     public void toast(int resId) {

@@ -18,6 +18,8 @@ import com.alcatel.wifilink.root.helper.TimerHelper;
 import com.alcatel.wifilink.root.utils.ActionbarSetting;
 import com.alcatel.wifilink.root.utils.CA;
 import com.alcatel.wifilink.root.utils.DataUtils;
+import com.alcatel.wifilink.root.utils.OtherUtils;
+import com.p_xhelper_smart.p_xhelper_smart.helper.SetUsageRecordClearHelper;
 
 import static com.alcatel.wifilink.R.id.tv_network_settings;
 
@@ -129,12 +131,9 @@ public class UsageActivity extends BaseActivityWithBack implements View.OnClickL
         dialog.setTitle(R.string.reset_monthly_data_usage_statistics);
         dialog.setNegativeButton(R.string.cancel, (dialog1, which) -> dialog1.dismiss());
         dialog.setPositiveButton(R.string.reset, (dialog1, which) -> {
-            RX.getInstant().setUsageRecordClear(DataUtils.getCurrent(), new ResponseObject() {
-                @Override
-                protected void onSuccess(Object result) {
-                    updateUI();
-                }
-            });
+            SetUsageRecordClearHelper xSetUsageRecordClearHelper = new SetUsageRecordClearHelper();
+            xSetUsageRecordClearHelper.setOnSetUsageRecordClearSuccessListener(this::updateUI);
+            xSetUsageRecordClearHelper.setUsageRecordClear(DataUtils.getCurrent());
         });
         dialog.show();
     }

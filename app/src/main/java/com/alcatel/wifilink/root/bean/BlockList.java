@@ -20,7 +20,7 @@ public class BlockList {
         BlockList = blockList;
     }
 
-    public class BlockDevice {
+    public static class BlockDevice {
         public int id;
         public String DeviceName;
         public String MacAddress;

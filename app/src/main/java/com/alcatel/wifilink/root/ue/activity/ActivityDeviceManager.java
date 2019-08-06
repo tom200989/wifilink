@@ -13,10 +13,16 @@ import com.alcatel.wifilink.R;
 import com.alcatel.wifilink.root.bean.BlockList;
 import com.alcatel.wifilink.network.RX;
 import com.alcatel.wifilink.network.ResponseObject;
+import com.alcatel.wifilink.root.bean.BlockModel;
 import com.alcatel.wifilink.root.helper.FraDeviceHelper;
 import com.alcatel.wifilink.root.helper.FragmentDeviceEnum;
 import com.alcatel.wifilink.root.utils.ActionbarSetting;
 import com.alcatel.wifilink.root.utils.OtherUtils;
+import com.p_xhelper_smart.p_xhelper_smart.bean.GetBlockDeviceListBean;
+import com.p_xhelper_smart.p_xhelper_smart.helper.GetBlockDeviceListHelper;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -62,16 +68,12 @@ public class ActivityDeviceManager extends BaseActivityWithBack implements OnCli
 
     /* **** getblockCount **** */
     private void getblockCount() {
-        RX.getInstant().getBlockDeviceList(new ResponseObject<BlockList>() {
-            @Override
-            protected void onSuccess(BlockList result) {
-                blockSize = result.getBlockList().size();
-                runOnUiThread(() -> {
-                    mblock.setText(String.valueOf(blockPre + blockSize + blockFix));
-                });
-
-            }
+        GetBlockDeviceListHelper xGetBlockDeviceListHelper = new GetBlockDeviceListHelper();
+        xGetBlockDeviceListHelper.setonGetBlockDeviceListSuccessListener(getBlockDeviceListBean -> {
+            blockSize = getBlockDeviceListBean.getBlockList().size();
+            mblock.setText(String.valueOf(blockPre + blockSize + blockFix));
         });
+        xGetBlockDeviceListHelper.getBlockDeviceList();
     }
 
     /* **** initActionbar **** */
@@ -122,14 +124,13 @@ public class ActivityDeviceManager extends BaseActivityWithBack implements OnCli
     }
 
     private void checkBlockList() {
-        RX.getInstant().getBlockDeviceList(new ResponseObject<BlockList>() {
-            @Override
-            protected void onSuccess(BlockList result) {
-                if (result.getBlockList().size() > 0) {
-                    toFragment(FragmentDeviceEnum.BLOCK);
-                }
+        GetBlockDeviceListHelper xGetBlockDeviceListHelper = new GetBlockDeviceListHelper();
+        xGetBlockDeviceListHelper.setonGetBlockDeviceListSuccessListener(getBlockDeviceListBean -> {
+            if (getBlockDeviceListBean.getBlockList().size() > 0) {
+                toFragment(FragmentDeviceEnum.BLOCK);
             }
         });
+        xGetBlockDeviceListHelper.getBlockDeviceList();
     }
 
     // helper --> to which fragment

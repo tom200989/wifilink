@@ -30,7 +30,9 @@ import com.alcatel.wifilink.root.helper.SmsDeleteSessionHelper;
 import com.alcatel.wifilink.root.utils.OtherUtils;
 import com.alcatel.wifilink.root.utils.ScreenSize;
 import com.alcatel.wifilink.root.utils.ToastUtil_m;
-import com.alcatel.wifilink.root.utils.fraghandler.FragmentBackHandler;;
+import com.alcatel.wifilink.root.utils.fraghandler.FragmentBackHandler;
+import com.p_xhelper_smart.p_xhelper_smart.bean.GetSMSContactListBean;
+import com.p_xhelper_smart.p_xhelper_smart.helper.GetSMSContactListHelper;;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -229,26 +231,38 @@ public class SmsFragments extends Fragment implements FragmentBackHandler {
      */
     private void getSmsContactList() {
         // get sms list
-        RX.getInstant().getSMSContactList(0, new ResponseObject<SMSContactList>() {
-            @Override
-            protected void onSuccess(SMSContactList result) {
-                smsContactList = result;
-                otherSmsContactSelfList = OtherUtils.getSMSSelfList(smsContactList);
-                smsRcvAdapter.notifys(otherSmsContactSelfList);
-                //SmsCountHelper.setSmsCount(getActivity(), HomeActivity.mTvHomeMessageCount);
-                noSms.setVisibility(smsContactList.getSMSContactList().size() > 0 ? View.GONE : View.VISIBLE);
+        GetSMSContactListHelper xGetSMSContactListHelper = new GetSMSContactListHelper();
+        xGetSMSContactListHelper.setOnGetSmsContactListSuccessListener(bean -> {
+            SMSContactList tempSmsContactList = new SMSContactList();
+            tempSmsContactList.setPage(bean.getPage());
+            tempSmsContactList.setTotalPageCount(bean.getTotalPageCount());
+
+            List<SMSContactList.SMSContact> tempSmsContact = new ArrayList<>();
+
+            List<GetSMSContactListBean.SMSContacBean> smsContacBeans = bean.getSMSContactList();
+            if(smsContacBeans != null && smsContacBeans.size() >0 ){
+                for(GetSMSContactListBean.SMSContacBean smsContacBean : smsContacBeans){
+                    SMSContactList.SMSContact smsContact = new SMSContactList.SMSContact();
+                    smsContact.setContactId(smsContacBean.getContactId());
+                    smsContact.setPhoneNumber(smsContacBean.getPhoneNumber());
+                    smsContact.setReportStatus(smsContacBean.getReportStatus());
+                    smsContact.setSMSContent(smsContacBean.getSMSContent());
+                    smsContact.setSMSId(smsContacBean.getSMSId());
+                    smsContact.setSMSTime(smsContacBean.getSMSTime());
+                    smsContact.setSMSType(smsContacBean.getSMSType());
+                    smsContact.setTSMSCount(smsContacBean.getTSMSCount());
+                    smsContact.setUnreadCount(smsContacBean.getUnreadCount());
+                    tempSmsContact.add(smsContact);
+                }
             }
-
-            @Override
-            public void onError(Throwable e) {
-
-            }
-
-            @Override
-            protected void onResultError(ResponseBody.Error error) {
-
-            }
+            tempSmsContactList.setSMSContactList(tempSmsContact);
+            smsContactList = tempSmsContactList;
+            otherSmsContactSelfList = OtherUtils.getSMSSelfList(smsContactList);
+            smsRcvAdapter.notifys(otherSmsContactSelfList);
+            //SmsCountHelper.setSmsCount(getActivity(), HomeActivity.mTvHomeMessageCount);
+            noSms.setVisibility(smsContactList.getSMSContactList().size() > 0 ? View.GONE : View.VISIBLE);
         });
+        xGetSMSContactListHelper.getSMSContactList(0);
     }
 
     /**
