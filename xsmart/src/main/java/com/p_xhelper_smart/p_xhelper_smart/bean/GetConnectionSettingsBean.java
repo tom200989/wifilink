@@ -1,11 +1,13 @@
 package com.p_xhelper_smart.p_xhelper_smart.bean;
 
+import com.p_xhelper_smart.p_xhelper_smart.utils.DeepCloneBean;
+
 import java.io.Serializable;
 
 /*
  * Created by qianli.ma on 2019/7/30 0030.
  */
-public class GetConnectionSettingsBean implements Serializable {
+public class GetConnectionSettingsBean extends DeepCloneBean implements Serializable {
 
     /**
      * ConnectMode : 1
@@ -16,10 +18,10 @@ public class GetConnectionSettingsBean implements Serializable {
 
     public static int CONS_MANUAL_CONNECT = 0;
     public static int CONS_AUTO_CONNECT = 1;
-    
+
     public static int CONS_WHEN_ROAMING_CAN_NOT_CONNECT = 0;
     public static int CONS_WHEN_ROAMING_CAN_CONNECT = 1;
-    
+
     public static int CONS_IPV4 = 0;
     public static int CONS_PPP = 1;
     public static int CONS_IPV6 = 2;

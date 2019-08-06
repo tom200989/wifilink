@@ -29,7 +29,6 @@ import com.alcatel.wifilink.root.bean.UsageSetting;
 import com.alcatel.wifilink.root.helper.BoardSimHelper;
 import com.alcatel.wifilink.root.helper.BoardWanHelper;
 import com.alcatel.wifilink.root.helper.ConnectSettingHelper;
-import com.alcatel.wifilink.root.helper.ConnectStatusHelper;
 import com.alcatel.wifilink.root.helper.Cons;
 import com.alcatel.wifilink.root.helper.Extender_GetWIFIExtenderSettingsHelper;
 import com.alcatel.wifilink.root.helper.NetworkInfoHelper;
@@ -53,6 +52,7 @@ import com.alcatel.wifilink.root.widget.MainMW70BatteryView;
 import com.alcatel.wifilink.root.widget.MainMW70BottomView;
 import com.de.wave.core.WaveView;
 import com.p_freesharing.p_freesharing.ui.SharingFileActivity;
+import com.p_xhelper_smart.p_xhelper_smart.helper.GetConnectionStateHelper;
 import com.zhy.android.percent.support.PercentRelativeLayout;
 
 import org.greenrobot.eventbus.EventBus;
@@ -175,7 +175,7 @@ public class mainRxFragment extends Fragment implements FragmentBackHandler {
     private BoardSimHelper simHelper_simConnect;
     private BoardSimHelper simHelper_simLocked;
     private NetworkInfoHelper networkHelper;
-    private ConnectStatusHelper connStatuHelper;
+    private GetConnectionStateHelper xGetConnectionStateHelper;
     private SystemInfoHelper systemInfoHelper;
     private Extender_GetWIFIExtenderSettingsHelper extenderHelper;
     private SystemStatuHelper systemStatuHelper;
@@ -236,7 +236,7 @@ public class mainRxFragment extends Fragment implements FragmentBackHandler {
         simHelper_simNotConnect = new BoardSimHelper(getActivity());
         simHelper_simConnect = new BoardSimHelper(getActivity());
         simHelper_simLocked = new BoardSimHelper(getActivity());
-        connStatuHelper = new ConnectStatusHelper();
+        xGetConnectionStateHelper = new GetConnectionStateHelper();
         systemInfoHelper = new SystemInfoHelper();
         extenderHelper = new Extender_GetWIFIExtenderSettingsHelper();
 
@@ -286,12 +286,12 @@ public class mainRxFragment extends Fragment implements FragmentBackHandler {
         simHelper.setOnRollRequestOnResultError(error -> simNotReady());
 
         // 定时获取连接状态
-        connStatuHelper.setOnConnected(result -> buttonUi(SIM_CONNECT_MODE));
-        connStatuHelper.setOnConnecting(result -> buttonUi(SIM_DISCONNECT_MODE));
-        connStatuHelper.setOnDisConnected(result -> buttonUi(SIM_DISCONNECT_MODE));
-        connStatuHelper.setOnDisConnecting(result -> buttonUi(SIM_DISCONNECT_MODE));
-        connStatuHelper.setOnResultError(error -> buttonUi(SIM_DISCONNECT_MODE));
-        connStatuHelper.setOnError(error -> buttonUi(SIM_DISCONNECT_MODE));
+        xGetConnectionStateHelper.setOnGetConnectionStateFailedListener(() -> buttonUi(SIM_DISCONNECT_MODE));
+        xGetConnectionStateHelper.setOnDisConnectingListener(() -> buttonUi(SIM_DISCONNECT_MODE));
+        xGetConnectionStateHelper.setOnDisconnectedListener(() -> buttonUi(SIM_DISCONNECT_MODE));
+        xGetConnectionStateHelper.setOnConnectingListener(() -> buttonUi(SIM_DISCONNECT_MODE));
+        xGetConnectionStateHelper.setOnConnectedListener(() -> buttonUi(SIM_CONNECT_MODE));
+        xGetConnectionStateHelper.getConnectionState();
     }
 
     /**
@@ -602,7 +602,7 @@ public class mainRxFragment extends Fragment implements FragmentBackHandler {
     private void simReady() {
         // 0.隐藏等待
         OtherUtils.hideProgressPop(pgdWait);
-        connStatuHelper.getStatus();
+        xGetConnectionStateHelper.getConnectionState();
         // 1.获取注册状态
         getNetworkRegister();
         // 2.获取设备状态

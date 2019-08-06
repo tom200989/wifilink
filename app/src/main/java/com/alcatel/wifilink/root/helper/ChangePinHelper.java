@@ -4,12 +4,11 @@ import android.app.Activity;
 import android.text.TextUtils;
 
 import com.alcatel.wifilink.R;
-import com.alcatel.wifilink.network.RX;
-import com.alcatel.wifilink.network.ResponseBody;
-import com.alcatel.wifilink.network.ResponseObject;
-import com.alcatel.wifilink.root.bean.SimStatus;
 import com.alcatel.wifilink.root.utils.CA;
 import com.alcatel.wifilink.root.utils.ToastUtil_m;
+import com.p_xhelper_smart.p_xhelper_smart.helper.ChangePinCodeHelper;
+import com.p_xhelper_smart.p_xhelper_smart.helper.GetSimStatusHelper;
+import com.p_xhelper_smart.p_xhelper_smart.helper.UnlockPinHelper;
 
 /**
  * Created by qianli.ma on 2017/12/12 0012.
@@ -67,77 +66,45 @@ public class ChangePinHelper {
         }
 
         // 提交
-        RX.getInstant().unlockPin(currentCode, new ResponseObject() {
-            @Override
-            protected void onSuccess(Object result) {
-                RX.getInstant().changePinCode(refreshCode, currentCode, new ResponseObject() {
-                    @Override
-                    protected void onSuccess(Object result) {
-                        toast(R.string.success);
-                        changePinSuccessNext(result);
-                    }
-
-                    @Override
-                    protected void onResultError(ResponseBody.Error error) {
-                        toast(R.string.sim_unlocked_failed);
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        toast(R.string.sim_unlocked_failed);
-                    }
-                });
-            }
-
-            @Override
-            protected void onResultError(ResponseBody.Error error) {
-                getPinRemaingTime(error);
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                toast(R.string.fail);
-            }
+        UnlockPinHelper xUnlockPinHelper = new UnlockPinHelper();
+        xUnlockPinHelper.setOnUnlockPinFailedListener(() -> {
+            ChangePinCodeHelper xChangePinCodeHelper = new ChangePinCodeHelper();
+            xChangePinCodeHelper.setOnChangePinCodeSuccessListener(() -> {
+                toast(R.string.success);
+                changePinSuccessNext(null);
+            });
+            xChangePinCodeHelper.setOnChangePinCodeFailedListener(() -> toast(R.string.sim_unlocked_failed));
+            xChangePinCodeHelper.changePinCode(refreshCode, currentCode);
         });
+        xUnlockPinHelper.setOnUnlockPinFailedListener(() -> toast(R.string.fail));
+        xUnlockPinHelper.setOnUnlockPinRemainTimeFailedListener(() -> {
+            toast(R.string.pin_error_waring_title);
+            getPinRemaingTime();
+        });
+        xUnlockPinHelper.unlockPin(currentCode);
     }
 
     /**
      * 获取剩余次数
      */
-    private void getPinRemaingTime(ResponseBody.Error error) {
-        // 提示
-        if (error.getCode().equalsIgnoreCase("020201")) {
-            toast(R.string.pin_error_waring_title);
-        } else {
-            toast(R.string.setting_failed);
-        }
+    private void getPinRemaingTime() {
         // 获取剩余次数
-        RX.getInstant().getSimStatus(new ResponseObject<SimStatus>() {
-            @Override
-            protected void onSuccess(SimStatus result) {
-                if (result.getSIMState() == Cons.PIN_REQUIRED) {
-                    int pinRemainingTimes = result.getPinRemainingTimes();
-                    if (pinRemainingTimes >= 1) {
-                        String tip = pinRemainingTimes + " " + activity.getString(R.string.sim_unlocked_attempts);
-                        toast(tip);
-                    } else {
-                        toast(R.string.Home_PinTimes_UsedOut);
-                    }
-                } else if (result.getSIMState() == Cons.PUK_REQUIRED) {
-                    pinTimeoutNext(result);
+        GetSimStatusHelper xGetSimStatusHelper = new GetSimStatusHelper();
+        xGetSimStatusHelper.setOnGetSimStatusSuccessListener(result -> {
+            if (result.getSIMState() == Cons.PIN_REQUIRED) {
+                int pinRemainingTimes = result.getPinRemainingTimes();
+                if (pinRemainingTimes >= 1) {
+                    String tip = pinRemainingTimes + " " + activity.getString(R.string.sim_unlocked_attempts);
+                    toast(tip);
+                } else {
+                    toast(R.string.Home_PinTimes_UsedOut);
                 }
-            }
-
-            @Override
-            protected void onResultError(ResponseBody.Error error) {
-                toast(R.string.setting_failed);
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                toast(R.string.setting_failed);
+            } else if (result.getSIMState() == Cons.PUK_REQUIRED) {
+                pinTimeoutNext(result);
             }
         });
+        xGetSimStatusHelper.setOnGetSimStatusFailedListener(() -> toast(R.string.setting_failed));
+        xGetSimStatusHelper.getSimStatus();
     }
 
     private OnChangePinSuccessListener onChangePinSuccessListener;

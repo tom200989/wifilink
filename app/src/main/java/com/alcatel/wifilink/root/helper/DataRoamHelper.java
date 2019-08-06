@@ -3,12 +3,11 @@ package com.alcatel.wifilink.root.helper;
 import android.app.Activity;
 
 import com.alcatel.wifilink.R;
-import com.alcatel.wifilink.root.bean.ConnectionSettings;
-import com.alcatel.wifilink.network.RX;
-import com.alcatel.wifilink.network.ResponseBody;
-import com.alcatel.wifilink.network.ResponseObject;
 import com.alcatel.wifilink.root.utils.CA;
 import com.alcatel.wifilink.root.utils.ToastUtil_m;
+import com.p_xhelper_smart.p_xhelper_smart.bean.GetConnectionSettingsBean;
+import com.p_xhelper_smart.p_xhelper_smart.helper.GetConnectionSettingsHelper;
+import com.p_xhelper_smart.p_xhelper_smart.helper.SetConnectionSettingsHelper;
 
 /**
  * Created by qianli.ma on 2017/12/11 0011.
@@ -30,37 +29,21 @@ public class DataRoamHelper {
             int needRoam = roamingConnect == Cons.WHEN_ROAM_CAN_CONNECT ? Cons.WHEN_ROAM_NOT_CONNECT : Cons.WHEN_ROAM_CAN_CONNECT;
             result.setRoamingConnect(needRoam);// 2.切换连接状态
             // 3.提交请求
-            RX.getInstant().setConnectionSettings(result, new ResponseObject() {
-                @Override
-                protected void onSuccess(Object result) {
-                    // 4.再次获取
-                    RX.getInstant().getConnectionSettings(new ResponseObject<ConnectionSettings>() {
-                        @Override
-                        protected void onSuccess(ConnectionSettings result) {
-                            roamConnSuccessNext(result);
-                        }
+            int connectMode = result.getConnectMode();
+            int pdpType = result.getPdpType();
+            int connOffTime = result.getConnOffTime();
+            SetConnectionSettingsHelper xSetConnectionSettingsHelper = new SetConnectionSettingsHelper();
+            xSetConnectionSettingsHelper.setOnsetConnectionSettingsSuccessListener(() -> {
+                // 4.再次获取
+                GetConnectionSettingsHelper xGetConnectionSettingsHelper = new GetConnectionSettingsHelper();
+                xGetConnectionSettingsHelper.setOnGetConnectionSettingsSuccessListener(attr -> roamConnSuccessNext(result));
+                xGetConnectionSettingsHelper.setOnGetConnectionSettingsFailedListener(() -> toast(R.string.connect_failed));
+                xGetConnectionSettingsHelper.getConnectionSettings();
 
-                        @Override
-                        protected void onResultError(ResponseBody.Error error) {
-                            toast(R.string.connect_failed);
-                        }
-
-                        @Override
-                        public void onError(Throwable e) {
-                            toast(R.string.connect_failed);
-                        }
-                    });
-                }
-                @Override
-                protected void onResultError(ResponseBody.Error error) {
-                    toast(R.string.connect_failed);
-                }
-
-                @Override
-                public void onError(Throwable e) {
-                    toast(R.string.connect_failed);
-                }
             });
+            xSetConnectionSettingsHelper.setOnsetConnectionSettingsFailedListener(() -> toast(R.string.connect_failed));
+            xSetConnectionSettingsHelper.setConnectionSettings(connectMode, roamingConnect, pdpType, connOffTime);
+
         });
         cshelper.getConnSettingStatus();
     }
@@ -69,7 +52,7 @@ public class DataRoamHelper {
 
     // 接口OnRoamConnSuccessListener
     public interface OnRoamConnSuccessListener {
-        void roamConnSuccess(ConnectionSettings attr);
+        void roamConnSuccess(GetConnectionSettingsBean attr);
     }
 
     // 对外方式setOnRoamConnSuccessListener
@@ -78,7 +61,7 @@ public class DataRoamHelper {
     }
 
     // 封装方法roamConnSuccessNext
-    private void roamConnSuccessNext(ConnectionSettings attr) {
+    private void roamConnSuccessNext(GetConnectionSettingsBean attr) {
         if (onRoamConnSuccessListener != null) {
             onRoamConnSuccessListener.roamConnSuccess(attr);
         }

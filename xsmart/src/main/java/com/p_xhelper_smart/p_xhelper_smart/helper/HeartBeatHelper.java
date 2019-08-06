@@ -21,16 +21,19 @@ public class HeartBeatHelper extends BaseHelper {
             @Override
             public void success(Object result) {
                 Logg.t(XCons.TAG).ww("--> heart beat success! -->");
+                heartbeatSuccessNext();
             }
 
             @Override
             public void appError(Throwable ex) {
                 Logg.t(XCons.TAG).ww("--> heart beat app error! -->");
+                heartbeatFailedNext();
             }
 
             @Override
             public void fwError(FwError fwError) {
                 Logg.t(XCons.TAG).ww("--> heart beat fw error! -->");
+                heartbeatFailedNext();
             }
 
             @Override
@@ -38,5 +41,43 @@ public class HeartBeatHelper extends BaseHelper {
 
             }
         });
+    }
+
+    private OnHeartBeatSuccessListener onHeartBeatSuccessListener;
+
+    // Inteerface--> 接口OnHeartBeatSuccessListener
+    public interface OnHeartBeatSuccessListener {
+        void heartbeatSuccess();
+    }
+
+    // 对外方式setOnHeartBeatSuccessListener
+    public void setOnHeartBeatSuccessListener(OnHeartBeatSuccessListener onHeartBeatSuccessListener) {
+        this.onHeartBeatSuccessListener = onHeartBeatSuccessListener;
+    }
+
+    // 封装方法heartbeatSuccessNext
+    private void heartbeatSuccessNext() {
+        if (onHeartBeatSuccessListener != null) {
+            onHeartBeatSuccessListener.heartbeatSuccess();
+        }
+    }
+
+    private OnHeartbeanFailedListener onHeartbeanFailedListener;
+
+    // Inteerface--> 接口OnHeartbeanFailedListener
+    public interface OnHeartbeanFailedListener {
+        void heartbeatFailed();
+    }
+
+    // 对外方式setOnHeartbeanFailedListener
+    public void setOnHeartbeanFailedListener(OnHeartbeanFailedListener onHeartbeanFailedListener) {
+        this.onHeartbeanFailedListener = onHeartbeanFailedListener;
+    }
+
+    // 封装方法heartbeatFailedNext
+    private void heartbeatFailedNext() {
+        if (onHeartbeanFailedListener != null) {
+            onHeartbeanFailedListener.heartbeatFailed();
+        }
     }
 }

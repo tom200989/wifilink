@@ -3,14 +3,13 @@ package com.alcatel.wifilink.root.helper;
 import android.content.Context;
 
 import com.alcatel.wifilink.R;
-import com.alcatel.wifilink.root.bean.UsageRecord;
-import com.alcatel.wifilink.root.bean.UsageSettings;
-import com.alcatel.wifilink.root.bean.NetworkInfos;
-import com.alcatel.wifilink.root.bean.NetworkRegisterState;
 import com.alcatel.wifilink.network.RX;
 import com.alcatel.wifilink.network.ResponseBody;
 import com.alcatel.wifilink.network.ResponseObject;
-import com.alcatel.wifilink.root.utils.Lgg;
+import com.alcatel.wifilink.root.bean.UsageRecord;
+import com.alcatel.wifilink.root.bean.UsageSettings;
+import com.p_xhelper_smart.p_xhelper_smart.helper.GetNetworkInfoHelper;
+import com.p_xhelper_smart.p_xhelper_smart.helper.GetNetworkRegisterStateHelper;
 
 import java.text.SimpleDateFormat;
 import java.util.Locale;
@@ -309,55 +308,38 @@ public class UsageHelper {
      */
     public void getRoamingInfo() {
         String currentTime = UsageHelper.getCurrentTime();
-        RX.getInstant().getNetworkRegisterState(new ResponseObject<NetworkRegisterState>() {
-            @Override
-            protected void onSuccess(NetworkRegisterState result) {
-                int regist_state = result.getRegist_state();
-                Lgg.t("test_usage").ii("state: "+regist_state);
-                if (regist_state == Cons.REGISTER_SUCCESSFUL) {
-                    RX.getInstant().getNetworkInfo(new ResponseObject<NetworkInfos>() {
-                        @Override
-                        protected void onSuccess(NetworkInfos networkInfos) {
-                            RX.getInstant().getUsageRecord(currentTime, new ResponseObject<UsageRecord>() {
-                                @Override
-                                protected void onSuccess(UsageRecord result) {
-                                    if (networkInfos.getRoaming() == Cons.ROAMING) {
-                                        roamingNext(result);
-                                    } else {
-                                        noRoamingNext(result);
-                                    }
-                                }
+        GetNetworkRegisterStateHelper xGetNetworkRegisterStateHelper = new GetNetworkRegisterStateHelper();
+        xGetNetworkRegisterStateHelper.setOnRegisterSuccessListener(() -> {
 
-                                @Override
-                                protected void onResultError(ResponseBody.Error error) {
-                                }
+            GetNetworkInfoHelper xGetNetworkInfoHelper = new GetNetworkInfoHelper();
+            xGetNetworkInfoHelper.setOnGetNetworkInfoSuccessListener(networkInfoBean -> {
 
-                                @Override
-                                public void onError(Throwable e) {
-                                }
-                            });
-
+                RX.getInstant().getUsageRecord(currentTime, new ResponseObject<UsageRecord>() {
+                    @Override
+                    protected void onSuccess(UsageRecord result) {
+                        if (networkInfoBean.getRoaming() == Cons.ROAMING) {
+                            roamingNext(result);
+                        } else {
+                            noRoamingNext(result);
                         }
+                    }
 
-                        @Override
-                        protected void onResultError(ResponseBody.Error error) {
-                        }
+                    @Override
+                    protected void onResultError(ResponseBody.Error error) {
+                    }
 
-                        @Override
-                        public void onError(Throwable e) {
-                        }
-                    });
-                }
-            }
+                    @Override
+                    public void onError(Throwable e) {
+                    }
+                });
+            });
+            xGetNetworkInfoHelper.setOnGetNetworkInfoFailedListener(() -> {
+                
+            });
+            xGetNetworkInfoHelper.getNetworkInfo();
 
-            @Override
-            protected void onResultError(ResponseBody.Error error) {
-            }
-
-            @Override
-            public void onError(Throwable e) {
-            }
         });
+        xGetNetworkRegisterStateHelper.getNetworkRegisterState();
     }
 
     private OnNoRoamingListener onNoRoamingListener;

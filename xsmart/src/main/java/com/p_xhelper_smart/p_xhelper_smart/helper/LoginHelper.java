@@ -33,8 +33,8 @@ public class LoginHelper extends BaseHelper {
      */
     public void login(String account, String password) {
 
-        this.account = account;
-        this.password = password;
+        this.account = account.trim().replace(" ", "");
+        this.password = password.trim().replace(" ", "");
         count = 0;
         prepareHelperNext();
         // 判断是否为E1版本
@@ -119,16 +119,22 @@ public class LoginHelper extends BaseHelper {
             public void fwError(FwError fwError) {
                 Logg.t(XCons.TAG).ee("reqLogin fwError :" + fwError.getCode());
                 String code = fwError.getCode();
-                if (code.equals("010101")) {// 密码不正确
-                    psdNotCorrectNext();
-                } else if (code.equals("010102")) {// 其他人已登录
-                    otherUserLoginNext();
-                } else if (code.equals("010103")) {// 设备重启
-                    deviceRebootNext();
-                } else if (code.equals("010104")) {// WEBUI登录
-                    guestWebuiNext();
-                } else {// 其他异常
-                    loginFailed();
+                switch (code) {
+                    case "010101": // 密码不正确
+                        psdNotCorrectNext();
+                        break;
+                    case "010102": // 其他人已登录
+                        otherUserLoginNext();
+                        break;
+                    case "010103": // 设备重启
+                        deviceRebootNext();
+                        break;
+                    case "010104": // WEBUI登录
+                        guestWebuiNext();
+                        break;
+                    default: // 其他异常
+                        loginFailed();
+                        break;
                 }
             }
 

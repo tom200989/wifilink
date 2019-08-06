@@ -4,14 +4,15 @@ import android.app.Activity;
 import android.util.Log;
 
 import com.alcatel.wifilink.R;
-import com.alcatel.wifilink.root.bean.ConnectionSettings;
-import com.alcatel.wifilink.root.bean.NetworkRegisterState;
-import com.alcatel.wifilink.network.RX;
 import com.alcatel.wifilink.network.ResponseBody;
-import com.alcatel.wifilink.network.ResponseObject;
-import com.alcatel.wifilink.root.bean.ConnectionStates;
 import com.alcatel.wifilink.root.utils.CA;
 import com.alcatel.wifilink.root.utils.ToastUtil_m;
+import com.p_xhelper_smart.p_xhelper_smart.bean.GetConnectionSettingsBean;
+import com.p_xhelper_smart.p_xhelper_smart.helper.ConnectHelper;
+import com.p_xhelper_smart.p_xhelper_smart.helper.DisConnectHelper;
+import com.p_xhelper_smart.p_xhelper_smart.helper.GetConnectionSettingsHelper;
+import com.p_xhelper_smart.p_xhelper_smart.helper.GetConnectionStateHelper;
+import com.p_xhelper_smart.p_xhelper_smart.helper.GetNetworkRegisterStateHelper;
 
 /**
  * Created by qianli.ma on 2017/11/25 0025.
@@ -27,37 +28,31 @@ public class ConnectSettingHelper {
      * 获取漫游时是否允许连接的状态
      */
     public void getConnWhenRoam() {
-        RX.getInstant().getConnectionSettings(new ResponseObject<ConnectionSettings>() {
-            @Override
-            protected void onSuccess(ConnectionSettings result) {
-                int roamingConnect = result.getRoamingConnect();
-                switch (roamingConnect) {
-                    case Cons.WHEN_ROAM_NOT_CONNECT:
-                        roamNotConnNext(result);
-                        break;
-                    case Cons.WHEN_ROAM_CAN_CONNECT:
-                        roamConnNext(result);
-                        break;
-                }
-            }
 
-            @Override
-            protected void onResultError(ResponseBody.Error error) {
-                resultErrorNext(error);
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                errorNext(e);
+        GetConnectionSettingsHelper xGetConnectionSettingsHelper = new GetConnectionSettingsHelper();
+        xGetConnectionSettingsHelper.setOnGetConnectionSettingsSuccessListener(result -> {
+            int roamingConnect = result.getRoamingConnect();
+            switch (roamingConnect) {
+                case Cons.WHEN_ROAM_NOT_CONNECT:
+                    roamNotConnNext(result);
+                    break;
+                case Cons.WHEN_ROAM_CAN_CONNECT:
+                    roamConnNext(result);
+                    break;
             }
         });
+        xGetConnectionSettingsHelper.setOnGetConnectionSettingsFailedListener(() -> {
+            resultErrorNext(null);
+            errorNext(null);
+        });
+        xGetConnectionSettingsHelper.getConnectionSettings();
     }
 
     private OnRoamNotConnListener onRoamNotConnListener;
 
     // 接口OnRoamNotConnListener
     public interface OnRoamNotConnListener {
-        void roamNotConn(ConnectionSettings attr);
+        void roamNotConn(GetConnectionSettingsBean attr);
     }
 
     // 对外方式setOnRoamNotConnListener
@@ -66,7 +61,7 @@ public class ConnectSettingHelper {
     }
 
     // 封装方法roamNotConnNext
-    private void roamNotConnNext(ConnectionSettings attr) {
+    private void roamNotConnNext(GetConnectionSettingsBean attr) {
         if (onRoamNotConnListener != null) {
             onRoamNotConnListener.roamNotConn(attr);
         }
@@ -76,7 +71,7 @@ public class ConnectSettingHelper {
 
     // 接口OnRoamConnListener
     public interface OnRoamConnListener {
-        void roamConn(ConnectionSettings attr);
+        void roamConn(GetConnectionSettingsBean attr);
     }
 
     // 对外方式setOnRoamConnListener
@@ -85,7 +80,7 @@ public class ConnectSettingHelper {
     }
 
     // 封装方法roamConnNext
-    private void roamConnNext(ConnectionSettings attr) {
+    private void roamConnNext(GetConnectionSettingsBean attr) {
         if (onRoamConnListener != null) {
             onRoamConnListener.roamConn(attr);
         }
@@ -95,36 +90,16 @@ public class ConnectSettingHelper {
      * 切断连接
      */
     public void toDisConnect() {
-        RX.getInstant().getNetworkRegisterState(new ResponseObject<NetworkRegisterState>() {
-            @Override
-            protected void onSuccess(NetworkRegisterState result) {
-                int state = result.getRegist_state();
-                switch (state) {
-                    case Cons.REGISTER_SUCCESSFUL:
-                        connectOrDisconnect(false);
-                        break;
-                    case Cons.REGISTTING:
-                        registingNext(state);
-                        break;
-                    case Cons.REGISTRATION_FAILED:
-                        registerFailedNext(state);
-                        break;
-                    case Cons.NOT_REGISETER:
-                        notRegisterNext(state);
-                        break;
-                }
-            }
-
-            @Override
-            protected void onResultError(ResponseBody.Error error) {
-                registerResultErrorNext(error);
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                registerErrorNext(e);
-            }
+        GetNetworkRegisterStateHelper xGetNetworkRegisterStateHelper = new GetNetworkRegisterStateHelper();
+        xGetNetworkRegisterStateHelper.setOnRegisterSuccessListener(() -> connectOrDisconnect(false));// 注册成功
+        xGetNetworkRegisterStateHelper.setOnRegisttingListener(() -> registingNext(1));// 注册中
+        xGetNetworkRegisterStateHelper.setOnGetNetworkRegisterStateFailedListener(() -> registerFailedNext(3));// 注册失败
+        xGetNetworkRegisterStateHelper.setOnNotRegisterListener(() -> notRegisterNext(0));// 没有注册
+        xGetNetworkRegisterStateHelper.setOnGetNetworkRegisterStateFailedListener(() -> {
+            registerResultErrorNext(null);
+            registerErrorNext(null);
         });
+        xGetNetworkRegisterStateHelper.getNetworkRegisterState();
     }
 
     /**
@@ -132,36 +107,16 @@ public class ConnectSettingHelper {
      */
     public void toConnect() {
         // 1.检测sim卡的注册状态
-        RX.getInstant().getNetworkRegisterState(new ResponseObject<NetworkRegisterState>() {
-            @Override
-            protected void onSuccess(NetworkRegisterState result) {
-                int state = result.getRegist_state();
-                switch (state) {
-                    case Cons.REGISTER_SUCCESSFUL:
-                        connectOrDisconnect(true);
-                        break;
-                    case Cons.REGISTTING:
-                        registingNext(state);
-                        break;
-                    case Cons.REGISTRATION_FAILED:
-                        registerFailedNext(state);
-                        break;
-                    case Cons.NOT_REGISETER:
-                        notRegisterNext(state);
-                        break;
-                }
-            }
-
-            @Override
-            protected void onResultError(ResponseBody.Error error) {
-                registerResultErrorNext(error);
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                registerErrorNext(e);
-            }
+        GetNetworkRegisterStateHelper xGetNetworkRegisterStateHelper = new GetNetworkRegisterStateHelper();
+        xGetNetworkRegisterStateHelper.setOnRegisterSuccessListener(() -> connectOrDisconnect(false));// 注册成功
+        xGetNetworkRegisterStateHelper.setOnRegisttingListener(() -> registingNext(1));// 注册中
+        xGetNetworkRegisterStateHelper.setOnGetNetworkRegisterStateFailedListener(() -> registerFailedNext(3));// 注册失败
+        xGetNetworkRegisterStateHelper.setOnNotRegisterListener(() -> notRegisterNext(0));// 没有注册
+        xGetNetworkRegisterStateHelper.setOnGetNetworkRegisterStateFailedListener(() -> {
+            registerResultErrorNext(null);
+            registerErrorNext(null);
         });
+        xGetNetworkRegisterStateHelper.getNetworkRegisterState();
     }
 
     private OnNotRegisterListener onNotRegisterListener;
@@ -266,39 +221,28 @@ public class ConnectSettingHelper {
      */
     private void connectOrDisconnect(boolean needConn) {
         if (needConn) {
-            RX.getInstant().connect(new ResponseObject() {
-                @Override
-                protected void onSuccess(Object result) {
-                    connSuccessNext(result);
-                }
 
-                @Override
-                protected void onResultError(ResponseBody.Error error) {
-                    resultErrorNext(error);
-                }
-
-                @Override
-                public void onError(Throwable e) {
-                    errorNext(e);
-                }
+            ConnectHelper xConnectHelper = new ConnectHelper();
+            xConnectHelper.setOnConnectSuccessListener(() -> {
+                connSuccessNext(null);
             });
+            xConnectHelper.setOnConnectFailedListener(() -> {
+                resultErrorNext(null);
+                errorNext(null);
+            });
+            xConnectHelper.connect();
+
         } else {
-            RX.getInstant().disConnect(new ResponseObject() {
-                @Override
-                protected void onSuccess(Object result) {
-                    disconnSuccessNext(result);
-                }
 
-                @Override
-                protected void onResultError(ResponseBody.Error error) {
-                    resultErrorNext(error);
-                }
+            DisConnectHelper xDisConnectHelper = new DisConnectHelper();
+            xDisConnectHelper.setOnDisconnectSuccessListener(() -> disconnSuccessNext(null));
+            xDisConnectHelper.setOnDisconnectFailedListener(() -> {
+                resultErrorNext(null);
+                errorNext(null);
 
-                @Override
-                public void onError(Throwable e) {
-                    errorNext(e);
-                }
             });
+            xDisConnectHelper.disconnect();
+
         }
     }
 
@@ -344,37 +288,32 @@ public class ConnectSettingHelper {
      * 获取连接状态
      */
     public void getConnSettingStatus() {
-        RX.getInstant().getConnectionSettings(new ResponseObject<ConnectionSettings>() {
-            @Override
-            protected void onSuccess(ConnectionSettings result) {
-                connResultNext(result);
-                switch (result.getConnectMode()) {
-                    case Cons.AUTO:
-                        connAutoNext(result);
-                        break;
-                    case Cons.MANUAL:
-                        connManualNext(result);
-                        break;
-                }
-            }
 
-            @Override
-            public void onError(Throwable e) {
-                errorNext(e);
-            }
-
-            @Override
-            protected void onResultError(ResponseBody.Error error) {
-                resultErrorNext(error);
+        GetConnectionSettingsHelper xGetConnectionSettingsHelper = new GetConnectionSettingsHelper();
+        xGetConnectionSettingsHelper.setOnGetConnectionSettingsSuccessListener(result -> {
+            connResultNext(result);
+            switch (result.getConnectMode()) {
+                case Cons.AUTO:
+                    connAutoNext(result);
+                    break;
+                case Cons.MANUAL:
+                    connManualNext(result);
+                    break;
             }
         });
+        xGetConnectionSettingsHelper.setOnGetConnectionSettingsFailedListener(() -> {
+            errorNext(null);
+            resultErrorNext(null);
+        });
+        xGetConnectionSettingsHelper.getConnectionSettings();
+
     }
 
     private OnNormalConnResultListener onNormalConnResultListener;
 
     // 接口OnNormalConnResultListener
     public interface OnNormalConnResultListener {
-        void connResult(ConnectionSettings attr);
+        void connResult(GetConnectionSettingsBean attr);
     }
 
     // 对外方式setOnNormalConnResultListener
@@ -383,7 +322,7 @@ public class ConnectSettingHelper {
     }
 
     // 封装方法connResultNext
-    private void connResultNext(ConnectionSettings attr) {
+    private void connResultNext(GetConnectionSettingsBean attr) {
         if (onNormalConnResultListener != null) {
             onNormalConnResultListener.connResult(attr);
         }
@@ -393,7 +332,7 @@ public class ConnectSettingHelper {
 
     // 接口OnConnManualListener
     public interface OnConnManualListener {
-        void connManual(ConnectionSettings attr);
+        void connManual(GetConnectionSettingsBean attr);
     }
 
     // 对外方式setOnConnManualListener
@@ -402,7 +341,7 @@ public class ConnectSettingHelper {
     }
 
     // 封装方法connManualNext
-    private void connManualNext(ConnectionSettings attr) {
+    private void connManualNext(GetConnectionSettingsBean attr) {
         if (onConnManualListener != null) {
             onConnManualListener.connManual(attr);
         }
@@ -412,7 +351,7 @@ public class ConnectSettingHelper {
 
     // 接口OnConnAutoListener
     public interface OnConnAutoListener {
-        void connAuto(ConnectionSettings attr);
+        void connAuto(GetConnectionSettingsBean attr);
     }
 
     // 对外方式setOnConnAutoListener
@@ -421,7 +360,7 @@ public class ConnectSettingHelper {
     }
 
     // 封装方法connAutoNext
-    private void connAutoNext(ConnectionSettings attr) {
+    private void connAutoNext(GetConnectionSettingsBean attr) {
         if (onConnAutoListener != null) {
             onConnAutoListener.connAuto(attr);
         }
@@ -470,34 +409,24 @@ public class ConnectSettingHelper {
      */
     public static void toConnect(Activity activity) {
         Log.v("ma_clickConn", "begin");
-        RX.getInstant().getConnectionStates(new ResponseObject<ConnectionStates>() {
-            @Override
-            protected void onSuccess(ConnectionStates result) {
-                int status = result.getConnectionStatus();
-                Log.v("ma_clickConn", "conn status:" + status);
-                if (status == Cons.DISCONNECTED | status == Cons.DISCONNECTING) {
-                    RX.getInstant().connect(new ResponseObject() {
-                        @Override
-                        protected void onSuccess(Object result) {
-                            Log.v("ma_clickConn", "success");
-                        }
 
-                        @Override
-                        protected void onResultError(ResponseBody.Error error) {
-                            ToastUtil_m.showLong(activity, activity.getString(R.string.usage_limit_over_notification_content));
-                            Log.v("ma_clickConn", "error:" + error.getMessage());
-                            Log.v("ma_clickConn", "errorCode:" + error.getCode());
-                        }
+        GetConnectionStateHelper xGetConnectionStateHelper = new GetConnectionStateHelper();
+        xGetConnectionStateHelper.setOnDisconnectedListener(() -> {
 
-                        @Override
-                        public void onError(Throwable e) {
-                            ToastUtil_m.showLong(activity, activity.getString(R.string.usage_limit_over_notification_content));
-                            Log.v("ma_clickConn", "e");
-                        }
-                    });
-                }
-            }
+            ConnectHelper xConnectHelper = new ConnectHelper();
+            xConnectHelper.setOnConnectFailedListener(() -> ToastUtil_m.showLong(activity, activity.getString(R.string.usage_limit_over_notification_content)));
+            xConnectHelper.connect();
+
         });
+        xGetConnectionStateHelper.setOnDisConnectingListener(() -> {
+
+            ConnectHelper xConnectHelper = new ConnectHelper();
+            xConnectHelper.setOnConnectFailedListener(() -> ToastUtil_m.showLong(activity, activity.getString(R.string.usage_limit_over_notification_content)));
+            xConnectHelper.connect();
+
+        });
+        xGetConnectionStateHelper.setOnGetConnectionStateFailedListener(() -> ToastUtil_m.showLong(activity, activity.getString(R.string.usage_limit_over_notification_content)));
+        xGetConnectionStateHelper.getConnectionState();
     }
 
     private static void toast(Activity activity, int resId) {

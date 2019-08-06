@@ -27,26 +27,36 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.alcatel.wifilink.R;
-import com.alcatel.wifilink.root.app.SmartLinkV3App;
-import com.alcatel.wifilink.root.utils.C_Constants;
-import com.alcatel.wifilink.root.bean.System_SystemInfo;
-import com.alcatel.wifilink.root.widget.PopupWindows;
-import com.alcatel.wifilink.root.bean.UsageSetting;
-import com.alcatel.wifilink.root.bean.ConnectionSettings;
-import com.alcatel.wifilink.root.bean.ConnectionState;
-import com.alcatel.wifilink.root.bean.Network;
-import com.alcatel.wifilink.root.bean.ProfileList;
-import com.alcatel.wifilink.root.bean.SimStatus;
 import com.alcatel.wifilink.network.RX;
 import com.alcatel.wifilink.network.ResponseBody;
 import com.alcatel.wifilink.network.ResponseObject;
+import com.alcatel.wifilink.root.app.SmartLinkV3App;
+import com.alcatel.wifilink.root.bean.ProfileList;
+import com.alcatel.wifilink.root.bean.System_SystemInfo;
+import com.alcatel.wifilink.root.bean.UsageSetting;
 import com.alcatel.wifilink.root.helper.BoardSimHelper;
 import com.alcatel.wifilink.root.helper.Cons;
 import com.alcatel.wifilink.root.utils.CA;
+import com.alcatel.wifilink.root.utils.C_Constants;
 import com.alcatel.wifilink.root.utils.OtherUtils;
 import com.alcatel.wifilink.root.utils.SP;
 import com.alcatel.wifilink.root.utils.ToastUtil_m;
 import com.alcatel.wifilink.root.utils.WifiUtils;
+import com.alcatel.wifilink.root.widget.PopupWindows;
+import com.p_xhelper_smart.p_xhelper_smart.bean.GetConnectionSettingsBean;
+import com.p_xhelper_smart.p_xhelper_smart.bean.GetNetworkSettingsBean;
+import com.p_xhelper_smart.p_xhelper_smart.bean.GetSimStatusBean;
+import com.p_xhelper_smart.p_xhelper_smart.bean.SetNetworkSettingsParam;
+import com.p_xhelper_smart.p_xhelper_smart.helper.ChangePinCodeHelper;
+import com.p_xhelper_smart.p_xhelper_smart.helper.ChangePinStateHelper;
+import com.p_xhelper_smart.p_xhelper_smart.helper.ConnectHelper;
+import com.p_xhelper_smart.p_xhelper_smart.helper.DisConnectHelper;
+import com.p_xhelper_smart.p_xhelper_smart.helper.GetConnectionSettingsHelper;
+import com.p_xhelper_smart.p_xhelper_smart.helper.GetConnectionStateHelper;
+import com.p_xhelper_smart.p_xhelper_smart.helper.GetNetworkSettingsBeanHelper;
+import com.p_xhelper_smart.p_xhelper_smart.helper.GetSimStatusHelper;
+import com.p_xhelper_smart.p_xhelper_smart.helper.SetConnectionSettingsHelper;
+import com.p_xhelper_smart.p_xhelper_smart.helper.SetNetworkSettingsHelper;
 import com.p_xhelper_smart.p_xhelper_smart.bean.GetProfileListBean;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetProfileListHelper;
 
@@ -68,10 +78,10 @@ public class SettingNetworkActivity extends BaseActivityWithBack implements OnCl
     private TextView mTvProfile;
     private boolean mOldMobileDataEnable;
 
-    private Network mNetworkSettings;
-    private ConnectionSettings mConnectionSettings;
+    private GetNetworkSettingsBean mNetworkSettings;
+    private GetConnectionSettingsBean mConnectionSettings;
     private UsageSetting mUsageSetting;
-    private SimStatus mSimStatus;
+    private GetSimStatusBean mSimStatus;
     //set data plan
     private TextView mMonthlyDataPlanText;
     private AppCompatSpinner mBillingDaySpinner;
@@ -110,10 +120,10 @@ public class SettingNetworkActivity extends BaseActivityWithBack implements OnCl
         mFirstSetConnectionMode = true;
         mFirstSetNetworkMode = true;
         mFirstSetBillingDay = true;
-        mNetworkSettings = new Network();
-        mConnectionSettings = new ConnectionSettings();
+        mNetworkSettings = new GetNetworkSettingsBean();
+        mConnectionSettings = new GetConnectionSettingsBean();
         mUsageSetting = new UsageSetting();
-        mSimStatus = new SimStatus();
+        mSimStatus = new GetSimStatusBean();
         //set data plan
         findViewById(R.id.rl_monthly_data_plan).setOnClickListener(this);
         findViewById(R.id.rl_set_time_limit).setOnClickListener(this);
@@ -261,159 +271,130 @@ public class SettingNetworkActivity extends BaseActivityWithBack implements OnCl
     }
 
     private void connect() {
-        RX.getInstant().connect(new ResponseObject() {
-            @Override
-            protected void onSuccess(Object result) {
-                Toast.makeText(SettingNetworkActivity.this, getString(R.string.success), Toast.LENGTH_SHORT).show();
-                mOldMobileDataEnable = true;
-            }
 
-            @Override
-            protected void onResultError(ResponseBody.Error error) {
-                Toast.makeText(SettingNetworkActivity.this, getString(R.string.restart_device_tip), Toast.LENGTH_SHORT).show();
-                mOldMobileDataEnable = false;
-                mMobileDataSwitchCompat.setChecked(false);
-            }
-
-            @Override
-            protected void onFailure() {
-                mOldMobileDataEnable = false;
-                mMobileDataSwitchCompat.setChecked(false);
-            }
+        ConnectHelper xConnectHelper = new ConnectHelper();
+        xConnectHelper.setOnConnectSuccessListener(() -> {
+            Toast.makeText(SettingNetworkActivity.this, getString(R.string.success), Toast.LENGTH_SHORT).show();
+            mOldMobileDataEnable = true;
         });
+        xConnectHelper.setOnConnectFailedListener(() -> {
+            Toast.makeText(SettingNetworkActivity.this, getString(R.string.restart_device_tip), Toast.LENGTH_SHORT).show();
+            mOldMobileDataEnable = false;
+            mMobileDataSwitchCompat.setChecked(false);
+        });
+        xConnectHelper.connect();
+
     }
 
     private void disConnect() {
-        RX.getInstant().disConnect(new ResponseObject() {
-            @Override
-            protected void onSuccess(Object result) {
-                Toast.makeText(SettingNetworkActivity.this, getString(R.string.success), Toast.LENGTH_SHORT).show();
-                mOldMobileDataEnable = false;
-            }
 
-            @Override
-            protected void onResultError(ResponseBody.Error error) {
-                Toast.makeText(SettingNetworkActivity.this, getString(R.string.setting_failed), Toast.LENGTH_SHORT).show();
-                mOldMobileDataEnable = true;
-                mMobileDataSwitchCompat.setChecked(true);
-            }
-
-            @Override
-            protected void onFailure() {
-                mOldMobileDataEnable = true;
-                mMobileDataSwitchCompat.setChecked(true);
-            }
+        DisConnectHelper xDisConnectHelper = new DisConnectHelper();
+        xDisConnectHelper.setOnDisconnectSuccessListener(() -> {
+            Toast.makeText(SettingNetworkActivity.this, getString(R.string.success), Toast.LENGTH_SHORT).show();
+            mOldMobileDataEnable = false;
         });
+        xDisConnectHelper.setOnDisconnectFailedListener(() -> {
+            Toast.makeText(SettingNetworkActivity.this, getString(R.string.setting_failed), Toast.LENGTH_SHORT).show();
+            mOldMobileDataEnable = true;
+            mMobileDataSwitchCompat.setChecked(true);
+        });
+        xDisConnectHelper.disconnect();
     }
 
     private void getConnectionState() {
-        RX.getInstant().getConnectionState(new ResponseObject<ConnectionState>() {
-            @Override
-            protected void onSuccess(ConnectionState result) {
-                // 0: disconnected  1: connecting 2: connected 3: disconnecting
-                if (result.getConnectionStatus() == C_Constants.ConnectionStatus.DISCONNECTED) {
-                    mMobileDataSwitchCompat.setChecked(false);
-                    mOldMobileDataEnable = false;
-                } else if (result.getConnectionStatus() == C_Constants.ConnectionStatus.CONNECTED) {
-                    mMobileDataSwitchCompat.setChecked(true);
-                    mOldMobileDataEnable = true;
-                }
-            }
 
-            @Override
-            protected void onFailure() {
-            }
+        GetConnectionStateHelper xGetConnectionStateHelper = new GetConnectionStateHelper();
+        xGetConnectionStateHelper.setOnDisconnectedListener(() -> {
+            mMobileDataSwitchCompat.setChecked(false);
+            mOldMobileDataEnable = false;
         });
+        xGetConnectionStateHelper.setOnConnectedListener(() -> {
+            mMobileDataSwitchCompat.setChecked(true);
+            mOldMobileDataEnable = true;
+        });
+        xGetConnectionStateHelper.getConnectionState();
     }
 
     private void setConnectionSettings(int connectMode) {
+        int connMode = 0;
         if (connectMode == 0) {
-            mConnectionSettings.setConnectMode(C_Constants.ConnectionSettings.CONNECTION_MODE_AUTO);
-        } else if (connectMode == 1) {
-            mConnectionSettings.setConnectMode(C_Constants.ConnectionSettings.CONNECTION_MODE_MANUAL);
+            connMode = 1;
         }
-        RX.getInstant().setConnectionSettings(mConnectionSettings, new ResponseObject() {
-            @Override
-            protected void onSuccess(Object result) {
-                Toast.makeText(SettingNetworkActivity.this, getString(R.string.success), Toast.LENGTH_SHORT).show();
-                if (connectMode == 0) {
-                    mRoamingRl.setVisibility(View.VISIBLE);
-                } else if (connectMode == 1) {
-                    mRoamingRl.setVisibility(View.GONE);
-                }
-            }
 
-            @Override
-            protected void onFailure() {
+        int roamingConnect = mConnectionSettings.getRoamingConnect();
+        int pdpType = mConnectionSettings.getPdpType();
+        int connOffTime = mConnectionSettings.getConnOffTime();
+
+        SetConnectionSettingsHelper xSetConnectionSettingsHelper = new SetConnectionSettingsHelper();
+        xSetConnectionSettingsHelper.setOnsetConnectionSettingsSuccessListener(() -> {
+            Toast.makeText(SettingNetworkActivity.this, getString(R.string.success), Toast.LENGTH_SHORT).show();
+            if (connectMode == 0) {
+                mRoamingRl.setVisibility(View.VISIBLE);
+            } else if (connectMode == 1) {
+                mRoamingRl.setVisibility(View.GONE);
             }
         });
+        xSetConnectionSettingsHelper.setConnectionSettings(connMode, roamingConnect, pdpType, connOffTime);
     }
 
     private void getConnectionSettings() {
-        RX.getInstant().getConnectionSettings(new ResponseObject<ConnectionSettings>() {
-            @Override
-            protected void onSuccess(ConnectionSettings result) {
-                //  0: manual connect 1: auto connect
-                mConnectionSettings = result;
-                if (result.getConnectMode() == C_Constants.ConnectionSettings.CONNECTION_MODE_AUTO) {
-                    mConnectionModeSpinner.setSelection(0);
-                    mRoamingRl.setVisibility(View.VISIBLE);
-                } else if (result.getConnectMode() == C_Constants.ConnectionSettings.CONNECTION_MODE_MANUAL) {
-                    mConnectionModeSpinner.setSelection(1);
-                    mRoamingRl.setVisibility(View.GONE);
-                }
-                if (result.getRoamingConnect() == C_Constants.ConnectionSettings.ROAMING_DISABLE) {
-                    mRoamingSwitchCompat.setImageResource(R.drawable.pwd_switcher_off);
-                    isRoaming = false;
-                } else if (result.getRoamingConnect() == C_Constants.ConnectionSettings.ROAMING_ENABLE) {
-                    isRoaming = true;
-                    mRoamingSwitchCompat.setImageResource(R.drawable.pwd_switcher_on);
-                }
-            }
 
-            @Override
-            protected void onFailure() {
+        GetConnectionSettingsHelper xGetConnectionSettingsHelper = new GetConnectionSettingsHelper();
+        xGetConnectionSettingsHelper.setOnGetConnectionSettingsSuccessListener(result -> {
+            //  0: manual connect 1: auto connect
+            mConnectionSettings = result;
+            if (result.getConnectMode() == C_Constants.ConnectionSettings.CONNECTION_MODE_AUTO) {
+                mConnectionModeSpinner.setSelection(0);
+                mRoamingRl.setVisibility(View.VISIBLE);
+            } else if (result.getConnectMode() == C_Constants.ConnectionSettings.CONNECTION_MODE_MANUAL) {
+                mConnectionModeSpinner.setSelection(1);
+                mRoamingRl.setVisibility(View.GONE);
+            }
+            if (result.getRoamingConnect() == C_Constants.ConnectionSettings.ROAMING_DISABLE) {
+                mRoamingSwitchCompat.setImageResource(R.drawable.pwd_switcher_off);
+                isRoaming = false;
+            } else if (result.getRoamingConnect() == C_Constants.ConnectionSettings.ROAMING_ENABLE) {
+                isRoaming = true;
+                mRoamingSwitchCompat.setImageResource(R.drawable.pwd_switcher_on);
             }
         });
+        xGetConnectionSettingsHelper.getConnectionSettings();
     }
 
     private void setNetworkSettings(int networkMode) {
-        mNetworkSettings.setNetworkMode(networkMode);
-        RX.getInstant().setNetworkSettings(mNetworkSettings, new ResponseObject() {
-            @Override
-            protected void onSuccess(Object result) {
-                Toast.makeText(SettingNetworkActivity.this, getString(R.string.success), Toast.LENGTH_SHORT).show();
-
-            }
-
-            @Override
-            protected void onFailure() {
-            }
-        });
+        SetNetworkSettingsParam param = new SetNetworkSettingsParam();
+        param.setDomesticRoam(mNetworkSettings.getDomesticRoam());
+        param.setDomesticRoamGuard(mNetworkSettings.getDomesticRoamGuard());
+        param.setNetselectionMode(mNetworkSettings.getNetselectionMode());
+        param.setNetworkBand(mNetworkSettings.getNetworkBand());
+        param.setNetworkMode(networkMode);
+        SetNetworkSettingsHelper xSetNetworkSettingsHelper = new SetNetworkSettingsHelper();
+        xSetNetworkSettingsHelper.setOnSetNetworkSettingsSuccessListener(() -> Toast.makeText(SettingNetworkActivity.this, getString(R.string.success), Toast.LENGTH_SHORT).show());
+        xSetNetworkSettingsHelper.setNetworkSettings(param);
     }
 
     private void getNetworkModeSettings() {
-        RX.getInstant().getNetworkSettings(new ResponseObject<Network>() {
-            @Override
-            protected void onSuccess(Network result) {
-                //  0: auto mode 1: 2G only 2: 3G only 3: LTE only
 
-                mNetworkSettings = result;
-                if (result.getNetworkMode() == C_Constants.SetNetWorkSeting.NET_WORK_MODE_AUTO) {
-                    mNetworkModeSpinner.setSelection(0);
-                } else if (result.getNetworkMode() == C_Constants.SetNetWorkSeting.NET_WORK_MODE_4G) {
-                    mNetworkModeSpinner.setSelection(1);
-                } else if (result.getNetworkMode() == C_Constants.SetNetWorkSeting.NET_WORK_MODE_3G) {
-                    mNetworkModeSpinner.setSelection(2);
-                } else if (result.getNetworkMode() == C_Constants.SetNetWorkSeting.NET_WORK_MODE_2G) {
-                    mNetworkModeSpinner.setSelection(3);
-                }
-            }
+        GetNetworkSettingsBeanHelper xGetNetworkSettingsBeanHelper = new GetNetworkSettingsBeanHelper();
+        xGetNetworkSettingsBeanHelper.setOnGetNetworkSettingsSuccessListener(result -> {
+            //  0: auto mode 1: 2G only 2: 3G only 3: LTE only
 
-            @Override
-            protected void onFailure() {
+            mNetworkSettings = result;
+            if (result.getNetworkMode() == C_Constants.SetNetWorkSeting.NET_WORK_MODE_AUTO) {
+                mNetworkModeSpinner.setSelection(0);
+            } else if (result.getNetworkMode() == C_Constants.SetNetWorkSeting.NET_WORK_MODE_4G) {
+                mNetworkModeSpinner.setSelection(1);
+            } else if (result.getNetworkMode() == C_Constants.SetNetWorkSeting.NET_WORK_MODE_3G) {
+                mNetworkModeSpinner.setSelection(2);
+            } else if (result.getNetworkMode() == C_Constants.SetNetWorkSeting.NET_WORK_MODE_2G) {
+                mNetworkModeSpinner.setSelection(3);
             }
         });
+        xGetNetworkSettingsBeanHelper.setOnGetNetworkSettingsFailedListener(() -> {
+
+        });
+        xGetNetworkSettingsBeanHelper.getNetworkSettings();
+
     }
 
     private void getProfileList() {
@@ -428,52 +409,42 @@ public class SettingNetworkActivity extends BaseActivityWithBack implements OnCl
     }
 
     private void changePinState(String pinCode, int enable) {
-        RX.getInstant().changePinState(pinCode, enable, new ResponseObject() {
-            @Override
-            protected void onSuccess(Object result) {
-                rl_settingPin.setVisibility(View.GONE);
-                mSimPinCompat.setChecked(enable == 1);
-            }
 
-            @Override
-            protected void onResultError(ResponseBody.Error error) {
-                et_settingPin.setText("");
-                OtherUtils.hideKeyBoard(SettingNetworkActivity.this);
-                int remainTimes = mSimStatus.getPinRemainingTimes() - 1;
-                String content = getString(R.string.pin_error_waring_title) + "\n" + getString(R.string.can_also_enter_times, remainTimes + "");
-                Toast.makeText(SettingNetworkActivity.this, content, Toast.LENGTH_SHORT).show();
-                getSimStatus();
-            }
-
-            @Override
-            protected void onFailure() {
-                mSimPinCompat.setChecked(enable == 1 ? false : true);
-            }
+        ChangePinStateHelper xChangePinStateHelper = new ChangePinStateHelper();
+        xChangePinStateHelper.setOnChangePinStateSuccessListener(() -> {
+            rl_settingPin.setVisibility(View.GONE);
+            mSimPinCompat.setChecked(enable == 1);
         });
+        xChangePinStateHelper.setOnChangePinStateFailedListener(() -> {
+            et_settingPin.setText("");
+            OtherUtils.hideKeyBoard(SettingNetworkActivity.this);
+            int remainTimes = mSimStatus.getPinRemainingTimes() - 1;
+            String content = getString(R.string.pin_error_waring_title) + "\n" + getString(R.string.can_also_enter_times, remainTimes + "");
+            Toast.makeText(SettingNetworkActivity.this, content, Toast.LENGTH_SHORT).show();
+            getSimStatus();
+            mSimPinCompat.setChecked(enable != 1);
+        });
+        xChangePinStateHelper.changePinState(pinCode, enable);
     }
 
     private void getSimStatus() {
-        RX.getInstant().getSimStatus(new ResponseObject<SimStatus>() {
-            @Override
-            protected void onSuccess(SimStatus result) {
-                // PinState: 0: unknown
-                // 1: enable but not verified
-                // 2: PIN enable verified
-                // 3: PIN disable
-                // 4: PUK required
-                // 5: PUK times used out;
-                mSimStatus = result;
-                if (result.getPinState() == 2) {
-                    mSimPinCompat.setChecked(true);
-                } else if (result.getPinState() == 3) {
-                    mSimPinCompat.setChecked(false);
-                }
-            }
 
-            @Override
-            protected void onFailure() {
+        GetSimStatusHelper xGetSimStatusHelper = new GetSimStatusHelper();
+        xGetSimStatusHelper.setOnGetSimStatusSuccessListener(attr -> {
+            // PinState: 0: unknown
+            // 1: enable but not verified
+            // 2: PIN enable verified
+            // 3: PIN disable
+            // 4: PUK required
+            // 5: PUK times used out;
+            mSimStatus = attr;
+            if (attr.getPinState() == 2) {
+                mSimPinCompat.setChecked(true);
+            } else if (attr.getPinState() == 3) {
+                mSimPinCompat.setChecked(false);
             }
         });
+        xGetSimStatusHelper.getSimStatus();
     }
 
     private void getSystemInfo() {
@@ -509,26 +480,20 @@ public class SettingNetworkActivity extends BaseActivityWithBack implements OnCl
     }
 
     private void changePinCode(String newPin, String currentPin) {
-        RX.getInstant().changePinCode(newPin, currentPin, new ResponseObject() {
-            @Override
-            protected void onSuccess(Object result) {
-                Toast.makeText(SettingNetworkActivity.this, getString(R.string.success), Toast.LENGTH_SHORT).show();
-                mCurrentSimPin.setText(null);
-                mNewSimPin.setText(null);
-                mConfirmNewSimPin.setText(null);
-            }
 
-            @Override
-            protected void onResultError(ResponseBody.Error error) {
-                int remainTimes = mSimStatus.getPinRemainingTimes() - 1;
-                Toast.makeText(SettingNetworkActivity.this, error.getMessage() + " " + getString(R.string.can_also_enter_times, remainTimes + ""), Toast.LENGTH_SHORT).show();
-                getSimStatus();
-            }
-
-            @Override
-            protected void onFailure() {
-            }
+        ChangePinCodeHelper xChangePinCodeHelper = new ChangePinCodeHelper();
+        xChangePinCodeHelper.setOnChangePinCodeSuccessListener(() -> {
+            Toast.makeText(SettingNetworkActivity.this, getString(R.string.success), Toast.LENGTH_SHORT).show();
+            mCurrentSimPin.setText(null);
+            mNewSimPin.setText(null);
+            mConfirmNewSimPin.setText(null);
         });
+        xChangePinCodeHelper.setOnChangePinCodeFailedListener(() -> {
+            int remainTimes = mSimStatus.getPinRemainingTimes() - 1;
+            Toast.makeText(SettingNetworkActivity.this, getString(R.string.can_also_enter_times, remainTimes + ""), Toast.LENGTH_SHORT).show();
+            getSimStatus();
+        });
+        xChangePinCodeHelper.changePinCode(newPin, currentPin);
     }
 
     private void getUsageSetting() {
@@ -635,85 +600,46 @@ public class SettingNetworkActivity extends BaseActivityWithBack implements OnCl
 
     private void modifyRoam() {
         pgd = OtherUtils.showProgressPop(this);
-        RX.getInstant().getSimStatus(new ResponseObject<SimStatus>() {
-            @Override
-            protected void onSuccess(SimStatus result) {
-                if (result.getSIMState() == Cons.READY) {
-                    // 切换标记位
-                    isRoaming = !isRoaming;
-                    // mRoamingSwitchCompat.setImageResource(roamCheck ? R.drawable.pwd_switcher_on : R.drawable.pwd_switcher_off);
-                    int RoamingConnect = isRoaming ? 1 : 0;// 原来是选中状态--> 显示为未选中
-                    // 先获取一次漫游状态
-                    RX.getInstant().getConnectionSettings(new ResponseObject<ConnectionSettings>() {
-                        @Override
-                        protected void onSuccess(ConnectionSettings result) {
-                            result.setRoamingConnect(RoamingConnect);
-                            // 提交
-                            RX.getInstant().setConnectionSettings(result, new ResponseObject() {
-                                @Override
-                                protected void onSuccess(Object result) {
-                                    RX.getInstant().getConnectionSettings(new ResponseObject<ConnectionSettings>() {
-                                        @Override
-                                        protected void onSuccess(ConnectionSettings result) {
-                                            OtherUtils.hideProgressPop(pgd);
-                                            int roamingConnect = result.getRoamingConnect();
-                                            mRoamingSwitchCompat.setImageResource(roamingConnect == 1 ? R.drawable.pwd_switcher_on : R.drawable.pwd_switcher_off);
-                                        }
+        GetSimStatusHelper xGetSimStatusHelper = new GetSimStatusHelper();
+        xGetSimStatusHelper.setOnGetSimStatusSuccessListener(attr -> {
+            if (attr.getSIMState() == Cons.READY) {
+                // 切换标记位
+                isRoaming = !isRoaming;
+                // mRoamingSwitchCompat.setImageResource(roamCheck ? R.drawable.pwd_switcher_on : R.drawable.pwd_switcher_off);
+                int RoamingConnect = isRoaming ? 1 : 0;// 原来是选中状态--> 显示为未选中
+                // 先获取一次漫游状态
+                GetConnectionSettingsHelper xGetConnectionSettingsHelper = new GetConnectionSettingsHelper();
+                xGetConnectionSettingsHelper.setOnGetConnectionSettingsSuccessListener(result -> {
+                    // 提交
+                    int connectMode = result.getConnectMode();
+                    int pdpType = result.getPdpType();
+                    int connOffTime = result.getConnOffTime();
+                    SetConnectionSettingsHelper xSetConnectionSettingsHelper = new SetConnectionSettingsHelper();
+                    xSetConnectionSettingsHelper.setOnsetConnectionSettingsSuccessListener(() -> {
+                        // 提交后再次获取一次
+                        GetConnectionSettingsHelper xGetConnectionSettingsHelper1 = new GetConnectionSettingsHelper();
+                        xGetConnectionSettingsHelper1.setOnGetConnectionSettingsSuccessListener(attr1 -> {
+                            OtherUtils.hideProgressPop(pgd);
+                            int roamingConnect = result.getRoamingConnect();
+                            mRoamingSwitchCompat.setImageResource(roamingConnect == 1 ? R.drawable.pwd_switcher_on : R.drawable.pwd_switcher_off);
+                        });
+                        xGetConnectionSettingsHelper1.setOnGetConnectionSettingsFailedListener(this::roamError);
+                        xGetConnectionSettingsHelper1.getConnectionSettings();
 
-                                        @Override
-                                        protected void onResultError(ResponseBody.Error error) {
-                                            roamError();
-                                        }
-
-                                        @Override
-                                        public void onError(Throwable e) {
-                                            roamError();
-                                        }
-                                    });
-
-                                }
-
-                                @Override
-                                protected void onResultError(ResponseBody.Error error) {
-                                    roamError();
-                                }
-
-                                @Override
-                                public void onError(Throwable e) {
-                                    roamError();
-                                }
-                            });
-                        }
-
-                        @Override
-                        protected void onResultError(ResponseBody.Error error) {
-                            ToastUtil_m.show(SettingNetworkActivity.this, R.string.connect_failed);
-                        }
-
-                        @Override
-                        public void onError(Throwable e) {
-                            ToastUtil_m.show(SettingNetworkActivity.this, R.string.connect_failed);
-                        }
                     });
-                } else {
-                    OtherUtils.hideProgressPop(pgd);
-                    ToastUtil_m.show(SettingNetworkActivity.this, R.string.insert_sim_or_wan);
-                }
-            }
+                    xSetConnectionSettingsHelper.setOnsetConnectionSettingsFailedListener(this::roamError);
+                    xSetConnectionSettingsHelper.setConnectionSettings(connectMode, RoamingConnect, pdpType, connOffTime);
 
-            @Override
-            protected void onResultError(ResponseBody.Error error) {
-                OtherUtils.hideProgressPop(pgd);
-                ToastUtil_m.show(SettingNetworkActivity.this, R.string.insert_sim_or_wan);
-            }
-
-            @Override
-            public void onError(Throwable e) {
+                });
+                xGetConnectionSettingsHelper.setOnGetConnectionSettingsFailedListener(() -> ToastUtil_m.show(SettingNetworkActivity.this, R.string.connect_failed));
+                xGetConnectionSettingsHelper.getConnectionSettings();
+            } else {
                 OtherUtils.hideProgressPop(pgd);
                 ToastUtil_m.show(SettingNetworkActivity.this, R.string.insert_sim_or_wan);
             }
         });
-
+        xGetSimStatusHelper.setOnGetSimStatusFailedListener(() -> ToastUtil_m.show(SettingNetworkActivity.this, R.string.connect_failed));
+        xGetSimStatusHelper.getSimStatus();
     }
 
     private void roamError() {

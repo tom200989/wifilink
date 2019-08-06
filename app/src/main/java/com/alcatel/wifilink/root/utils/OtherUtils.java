@@ -39,12 +39,13 @@ import com.alcatel.wifilink.root.bean.Other_SMSContactSelf;
 import com.alcatel.wifilink.root.bean.SMSContactList;
 import com.alcatel.wifilink.root.bean.SMSContentList;
 import com.alcatel.wifilink.root.bean.System_SystemInfo;
-import com.alcatel.wifilink.root.bean.User_LoginState;
 import com.alcatel.wifilink.root.helper.Cons;
 import com.alcatel.wifilink.root.helper.TimerHelper;
 import com.alcatel.wifilink.root.ue.activity.HomeRxActivity;
 import com.alcatel.wifilink.root.ue.activity.LoginRxActivity;
 import com.alcatel.wifilink.root.widget.PopupWindows;
+import com.p_xhelper_smart.p_xhelper_smart.helper.GetLoginStateHelper;
+import com.p_xhelper_smart.p_xhelper_smart.helper.HeartBeatHelper;
 import com.tcl.token.ndk.JniTokenUtils;
 
 import java.io.File;
@@ -649,28 +650,15 @@ public class OtherUtils {
                 // is wifi effect?
                 boolean isWifi = OtherUtils.isWifiConnect(oriActivity);
                 if (isWifi) {
-                    RX.getInstant().heartBeat(new ResponseObject() {
-                        @Override
-                        protected void onSuccess(Object result) {
-                            if (onHeartBeatListener != null) {
-                                onHeartBeatListener.onSucess();
-                            }
-                        }
-
-                        @Override
-                        public void onError(Throwable e) {
-                            Logs.v("ma_couldn_connect", "startHeartBeat1: " + e.getMessage());
-                            Logs.v("ma_unknown", "startHeartBeat1: onError");
-                            clear(oriActivity, acTimeout);
-                        }
-
-                        @Override
-                        protected void onResultError(ResponseBody.Error error) {
-                            Logs.v("ma_unknown", "startHeartBeat1: onResultError");
-                            Logs.v("ma_couldn_connect", "startHeartBeat2: " + error.getMessage());
-                            clear(oriActivity, acTimeout);
+                    HeartBeatHelper xHeartBeatHelper = new HeartBeatHelper();
+                    xHeartBeatHelper.setOnHeartBeatSuccessListener(() -> {
+                        if (onHeartBeatListener != null) {
+                            onHeartBeatListener.onSucess();
                         }
                     });
+                    xHeartBeatHelper.setOnHeartbeanFailedListener(() -> clear(oriActivity, acTimeout));
+                    xHeartBeatHelper.heartbeat();
+                    
                 } else {// wifi失效
                     Logs.v("ma_unknown", "startHeartBeat1: is not Wifi");
                     Logs.v("ma_couldn_connect", "no wifi");
@@ -873,46 +861,48 @@ public class OtherUtils {
 
         // 1.需要加密的 [ 定制版本 ]
         String needEncryptVersionCustomId = Cons.SW_VERSION_E1;
-        RX.getInstant().getLoginState(new ResponseObject<User_LoginState>() {
-            @Override
-            protected void onSuccess(User_LoginState result) {
-                // 字段值为1: 一定需要加密
-                if (result.getPwEncrypt() == Cons.NEED_ENCRYPT) {
-                    onSwVersionListener.getVersion(true);
-                } else {
-                    // 否则--> 获取系统信息:能使用systeminfo接口--> 判断是否为E1版本
-                    // 否则--> 获取系统信息:不能使用systeminfo接口--> 一定需要加密
-                    getSystemInfoImpl();
-                }
 
+        GetLoginStateHelper xGetLoginStateHelper = new GetLoginStateHelper();
+        xGetLoginStateHelper.setOnGetLoginStateSuccessListener(getLoginStateBean -> {
+            // 字段值为1: 一定需要加密
+            if (getLoginStateBean.getPwEncrypt() == Cons.NEED_ENCRYPT) {
+                onSwVersionListener.getVersion(true);
+            } else {
+                // 否则--> 获取系统信息:能使用systeminfo接口--> 判断是否为E1版本
+                // 否则--> 获取系统信息:不能使用systeminfo接口--> 一定需要加密
+                getSystemInfoImpl(needEncryptVersionCustomId);
+            }
+        });
+        xGetLoginStateHelper.setOnGetLoginStateFailedListener(() -> {
+            
+        });
+        xGetLoginStateHelper.getLoginState();
+    }
+
+    /* 访问systeminfo接口 */
+    private void getSystemInfoImpl(String needEncryptVersionCustomId) {
+        RX.getInstant().getSystemInfo(new ResponseObject<System_SystemInfo>() {
+            @Override
+            protected void onSuccess(System_SystemInfo result) {
+                // 2.获取当前版本
+                String currentVersion = result.getSwVersion();
+                String customId = currentVersion.split("_")[1];// customId:E1、IA、01....
+                if (onSwVersionListener != null) {
+                    // 如能获取到版本,则判断是否为[E1]定制版本
+                    if (customId.equalsIgnoreCase(needEncryptVersionCustomId) || customId.contains(needEncryptVersionCustomId)) {
+                        onSwVersionListener.getVersion(true);
+                    } else {
+                        onSwVersionListener.getVersion(false);
+                    }
+                }
             }
 
-            /* 访问systeminfo接口 */
-            private void getSystemInfoImpl() {
-                RX.getInstant().getSystemInfo(new ResponseObject<System_SystemInfo>() {
-                    @Override
-                    protected void onSuccess(System_SystemInfo result) {
-                        // 2.获取当前版本
-                        String currentVersion = result.getSwVersion();
-                        String customId = currentVersion.split("_")[1];// customId:E1、IA、01....
-                        if (onSwVersionListener != null) {
-                            // 如能获取到版本,则判断是否为[E1]定制版本
-                            if (customId.equalsIgnoreCase(needEncryptVersionCustomId) || customId.contains(needEncryptVersionCustomId)) {
-                                onSwVersionListener.getVersion(true);
-                            } else {
-                                onSwVersionListener.getVersion(false);
-                            }
-                        }
-                    }
-
-                    @Override
-                    protected void onResultError(ResponseBody.Error error) {
-                        // 如获取不到则一定是需要加密的
-                        if (onSwVersionListener != null) {
-                            onSwVersionListener.getVersion(true);
-                        }
-                    }
-                });
+            @Override
+            protected void onResultError(ResponseBody.Error error) {
+                // 如获取不到则一定是需要加密的
+                if (onSwVersionListener != null) {
+                    onSwVersionListener.getVersion(true);
+                }
             }
         });
     }

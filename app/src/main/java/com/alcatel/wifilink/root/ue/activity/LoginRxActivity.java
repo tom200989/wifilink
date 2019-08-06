@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -17,17 +16,10 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.alcatel.wifilink.R;
-import com.alcatel.wifilink.network.RX;
-import com.alcatel.wifilink.network.ResponseBody;
-import com.alcatel.wifilink.network.ResponseObject;
 import com.alcatel.wifilink.root.adapter.LoginDevicesAdapter;
 import com.alcatel.wifilink.root.bean.ConnectedList;
 import com.alcatel.wifilink.root.bean.Other_DeviceBean;
 import com.alcatel.wifilink.root.bean.Other_PinPukBean;
-import com.alcatel.wifilink.root.bean.SimStatus;
-import com.alcatel.wifilink.root.bean.System_SystemInfo;
-import com.alcatel.wifilink.root.bean.User_LoginResult;
-import com.alcatel.wifilink.root.bean.User_LoginState;
 import com.alcatel.wifilink.root.helper.CheckBoard;
 import com.alcatel.wifilink.root.helper.ConnectDeviceHelper;
 import com.alcatel.wifilink.root.helper.Cons;
@@ -39,17 +31,17 @@ import com.alcatel.wifilink.root.helper.SystemStatuHelper;
 import com.alcatel.wifilink.root.helper.TimerHelper;
 import com.alcatel.wifilink.root.helper.WpsHelper;
 import com.alcatel.wifilink.root.utils.CA;
-import com.alcatel.wifilink.root.utils.Constants;
-import com.alcatel.wifilink.root.utils.EncryptionUtil;
 import com.alcatel.wifilink.root.utils.Lgg;
 import com.alcatel.wifilink.root.utils.OtherUtils;
 import com.alcatel.wifilink.root.utils.SP;
 import com.alcatel.wifilink.root.utils.ToastUtil_m;
 import com.alcatel.wifilink.root.widget.DialogOkWidget;
-import com.p_encrypt.p_encrypt.core.md5.Md5Code;
 import com.p_freesharing.p_freesharing.bean.InteractiveRequestBean;
 import com.p_freesharing.p_freesharing.bean.InteractiveResponceBean;
 import com.p_freesharing.p_freesharing.ui.SharingFileActivity;
+import com.p_xhelper_smart.p_xhelper_smart.helper.GetLoginStateHelper;
+import com.p_xhelper_smart.p_xhelper_smart.helper.GetSimStatusHelper;
+import com.p_xhelper_smart.p_xhelper_smart.helper.LoginHelper;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -522,157 +514,43 @@ public class LoginRxActivity extends BaseActivityWithBack {
         new CheckBoard() {
             @Override
             public void successful() {
-                OtherUtils otherUtils = new OtherUtils();
-                otherUtils.setOnSwVersionListener(needToEncrypt -> {
-                    // needToEncrypt是2017年的版本--> 需要加密
-                    // 2018年新出的MW120版本, 需要根据版本判断--> 进行新型加密
-                    SystemInfoHelper sif = new SystemInfoHelper();
-                    sif.setOnErrorListener(attr -> {
-                        OtherUtils.hideProgressPop(pgd);
-                        ToastUtil_m.show(LoginRxActivity.this, R.string.connect_failed);
-                    });
-                    sif.setOnResultErrorListener(error -> {
-                        OtherUtils.hideProgressPop(pgd);
-                        ToastUtil_m.show(LoginRxActivity.this, R.string.connect_failed);
-                    });
-                    sif.setOnGetSystemInfoSuccessListener(systemInfo -> {
-                        // 如果是新设备
-                        toLogin(needToEncrypt, systemInfo);
-                    });
-                    sif.get();
+                pgd = OtherUtils.showProgressPop(LoginRxActivity.this);
+                String password = etLoginRx.getText().toString();
+                LoginHelper loginHelper = new LoginHelper();
+                loginHelper.setOnLoginSuccesListener(() -> getConnectMode());// 登录成功
+                loginHelper.setOnPsdNotCorrectListener(() -> {// 密码错误 -- 提示次数限制
+                    OtherUtils.hideProgressPop(pgd);
+                    showRemainTimes();
+                });// 密码不正确
+                loginHelper.setOnLoginFailedListener(() -> {// 其他原因导致的无法登陆
+                    OtherUtils.hideProgressPop(pgd);
+                    ToastUtil_m.show(LoginRxActivity.this, getString(R.string.login_failed));
                 });
-                otherUtils.getDeviceSwVersion();
+                loginHelper.setOnDeviceRebootListener(() -> {// 超出次数需要重启
+                    OtherUtils.hideProgressPop(pgd);
+                    ToastUtil_m.show(LoginRxActivity.this, getString(R.string.login_login_time_used_out_msg));
+                });
+                loginHelper.setOnGuestWebUiListener(() -> {// WEB端被登陆
+                    OtherUtils.hideProgressPop(pgd);
+                    ToastUtil_m.show(LoginRxActivity.this, getString(R.string.login_login_app_or_webui));
+                });
+                loginHelper.setOnOtherUserLoginListener(() -> {// 其他用户登陆
+                    OtherUtils.hideProgressPop(pgd);
+                    ToastUtil_m.show(LoginRxActivity.this, getString(R.string.login_other_user_logined_error_msg));
+                });
+                loginHelper.setOnLoginOutTimeListener(() -> {// 登陆出错超限
+                    OtherUtils.hideProgressPop(pgd);
+                    ToastUtil_m.show(LoginRxActivity.this, getString(R.string.login_login_time_used_out_msg));
+                });
+                loginHelper.login("admin", password);
             }
         }.checkBoard(this, RefreshWifiRxActivity.class, RefreshWifiRxActivity.class);
     }
 
     /**
-     * 登陆操作
-     *
-     * @param needEncrypt 2017年的版本需要加密
-     */
-    String account = Constants.USER_NAME_ADMIN;
-    String passwd = "";
-
-    private void toLogin(boolean needEncrypt, System_SystemInfo systemSystemInfo) {
-        boolean isMW120 = systemSystemInfo.getDeviceName().toLowerCase().startsWith(Cons.MW_SERIAL);
-        pgd = OtherUtils.showProgressPop(this);
-        // 明文密码
-        passwd = etLoginRx.getText().toString().trim();
-        account = Constants.USER_NAME_ADMIN;
-        account = needEncrypt ? EncryptionUtil.encryptUser(account) : account;
-        if (!isMW120) {
-            // 2017年的版本加密
-            passwd = needEncrypt ? EncryptionUtil.encryptUser(passwd) : passwd;
-        } else {
-            // 2018年版本加密
-            // 登陆账户名ADMIN使用原先算法
-            // 登陆密码直接在原文基础上采用MD5加密
-            // 登陆成功后返回的token和key, token再经过aes(token, key)后, 再经过BASE64包装 
-            // passwd = needEncrypt ? EncryptionUtil.encryptUser(passwd) : passwd;
-
-            // MW120的加密模式(必须小写)
-            passwd = Md5Code.encryption(passwd).toLowerCase();
-        }
-
-        // 正式请求登陆接口
-        requestLogin(account, passwd, systemSystemInfo);
-    }
-
-    /**
-     * 正式请求登陆接口
-     *
-     * @param account
-     * @param passwd
-     */
-    private void requestLogin(String account, String passwd, System_SystemInfo systemSystemInfo) {
-        // 获取设备名称
-        String deviceName = systemSystemInfo.getDeviceName();
-        boolean isMw120 = OtherUtils.isMw120(deviceName);
-        Lgg.t(TAG).ii("ase--> account: " + account);
-        Lgg.t(TAG).ii("ase--> passwd: " + passwd);
-        RX.getInstant().login(account, passwd, new ResponseObject<User_LoginResult>() {
-            @Override
-            protected void onSuccess(User_LoginResult userLoginResult) {
-                // 保存密码
-                putRemberPassword();
-                RX.getInstant().getLoginState(new ResponseObject<User_LoginState>() {
-                    @Override
-                    protected void onSuccess(User_LoginState userLoginState) {
-                        try {
-                            if (userLoginState.getState() == Cons.LOGIN) {
-                                if (!isMw120) {
-                                    // 非MW120机型
-                                    RX.getInstant().updateToken(userLoginResult.getToken(), deviceName, "", "");
-                                } else {
-                                    // 登陆成功后返回的token和key, token再经过aes(token, key, iv)后, 再经过BASE64包装 
-                                    String token = userLoginResult.getToken();
-                                    String key = userLoginResult.getKey();
-                                    String iv = userLoginResult.getIv();
-                                    RX.getInstant().updateToken(token, deviceName, key, iv);
-                                }
-
-                                // 判断连接的模式从而决定是否进入wizard向导页--> (延迟2秒)
-                                getConnectMode(isMw120);
-                            } else {
-                                OtherUtils.hideProgressPop(pgd);
-                                ToastUtil_m.show(LoginRxActivity.this, getString(R.string.smsdetail_tryagain_confirm));
-                            }
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        OtherUtils.hideProgressPop(pgd);
-                        CA.toActivity(LoginRxActivity.this, RefreshWifiRxActivity.class, false, true, false, 0);
-                    }
-
-                    @Override
-                    protected void onResultError(ResponseBody.Error error) {
-                        OtherUtils.hideProgressPop(pgd);
-                        if (error.getCode().equalsIgnoreCase(Cons.GET_LOGIN_STATE_FAILED)) {
-                            ToastUtil_m.show(LoginRxActivity.this, getString(R.string.connection_timed_out));
-                        } else {
-                            ToastUtil_m.show(LoginRxActivity.this, getString(R.string.login_failed));
-                        }
-                        CA.toActivity(LoginRxActivity.this, RefreshWifiRxActivity.class, false, true, false, 0);
-                    }
-                });
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                OtherUtils.hideProgressPop(pgd);
-                CA.toActivity(LoginRxActivity.this, RefreshWifiRxActivity.class, false, true, false, 0);
-            }
-
-            @Override
-            protected void onResultError(ResponseBody.Error error) {
-                Log.v("ma_loginrx", "login impl error: " + error.getCode() + ";errormes: " + error.getMessage());
-                OtherUtils.hideProgressPop(pgd);
-                if (Cons.PASSWORD_IS_NOT_CORRECT.equals(error.getCode())) {
-                    showRemainTimes();// 显示剩余次数
-                } else if (Cons.OTHER_USER_IS_LOGIN.equals(error.getCode())) {
-                    ToastUtil_m.show(LoginRxActivity.this, getString(R.string.login_other_user_logined_error_msg));
-                } else if (Cons.DEVICE_REBOOT.equals(error.getCode())) {
-                    ToastUtil_m.show(LoginRxActivity.this, getString(R.string.login_login_time_used_out_msg));
-                } else if (Cons.GUEST_AP_OR_WEBUI.equals(error.getCode())) {
-                    ToastUtil_m.show(LoginRxActivity.this, getString(R.string.login_login_app_or_webui));
-                } else {
-                    ToastUtil_m.show(LoginRxActivity.this, getString(R.string.login_failed));
-                }
-            }
-        });
-    }
-
-    /**
      * 检测连接模式
-     *
-     * @param isMw120
      */
-    private void getConnectMode(boolean isMw120) {
+    private void getConnectMode() {
 
         GetWanSettingHelper wan = new GetWanSettingHelper();
         wan.setOnGetwansettingsErrorListener(e -> {
@@ -694,74 +572,64 @@ public class LoginRxActivity extends BaseActivityWithBack {
             Lgg.t(TAG).ii("GetWanSettings: Success");
             /* 获取WAN口状态 */
             int wanStatus = result.getStatus();
-            RX.getInstant().getSimStatus(new ResponseObject<SimStatus>() {
-                @Override
-                protected void onSuccess(SimStatus result) {
-                    /* 获取SIM卡状态 */
-                    int simState = result.getSIMState();
-                    boolean simflag = simState == Cons.READY || simState == Cons.PIN_REQUIRED || simState == Cons.PUK_REQUIRED;
-                    OtherUtils.hideProgressPop(pgd);
-                    if (wanStatus == Cons.CONNECTED & simflag) {// 都有
-                        isToWizard();
-                        return;
-                    }
-                    if (wanStatus != Cons.CONNECTED && simflag) {// 只有SIM卡
-                        if (simState == Cons.READY) {
-                            simHadReady(false);
-                        } else if (simState == Cons.PIN_REQUIRED) {
-                            EventBus.getDefault().postSticky(new Other_PinPukBean(Cons.PIN_FLAG));
-                            to(PinPukIndexRxActivity.class);
-                        } else if (simState == Cons.PUK_REQUIRED) {
-                            EventBus.getDefault().postSticky(new Other_PinPukBean(Cons.PUK_FLAG));
-                            to(PinPukIndexRxActivity.class);
-                        } else {
-                            to(HomeRxActivity.class);
-                        }
-                        return;
-                    }
-                    if (wanStatus == Cons.CONNECTED & !simflag) {// 只有WAN口
-                        wanReady();
-                        return;
-                    }
-                    if (wanStatus != Cons.CONNECTED & !simflag) {// 都没有
-                        isToWizard();
-                        return;
-                    }
 
-                }
-
-                @Override
-                protected void onResultError(ResponseBody.Error error) {
+            GetSimStatusHelper xGetSimStatusHelper = new GetSimStatusHelper();
+            xGetSimStatusHelper.setOnGetSimStatusSuccessListener(bean -> {
+                /* 获取SIM卡状态 */
+                int simState = bean.getSIMState();
+                boolean simflag = simState == Cons.READY || simState == Cons.PIN_REQUIRED || simState == Cons.PUK_REQUIRED;
+                OtherUtils.hideProgressPop(pgd);
+                if (wanStatus == Cons.CONNECTED & simflag) {// 都有
                     isToWizard();
+                    return;
                 }
-
-                @Override
-                public void onError(Throwable e) {
-                    isToWizard();
-                }
-
-                /**
-                 * WAN口连接完成
-                 */
-                private void wanReady() {
-                    // 是否进入过wan口设置向导页
-                    if (SP.getInstance(LoginRxActivity.this).getBoolean(Cons.WANMODE_RX, false)) {
-                        // 是否进入过wifi向导页
-                        if (SP.getInstance(LoginRxActivity.this).getBoolean(Cons.WIFIINIT_RX, false)) {
-                            to(HomeRxActivity.class);
-                        } else {
-                            // 检测是否开启了WPS模式
-                            checkWps();
-                        }
+                if (wanStatus != Cons.CONNECTED && simflag) {// 只有SIM卡
+                    if (simState == Cons.READY) {
+                        simHadReady(false);
+                    } else if (simState == Cons.PIN_REQUIRED) {
+                        EventBus.getDefault().postSticky(new Other_PinPukBean(Cons.PIN_FLAG));
+                        to(PinPukIndexRxActivity.class);
+                    } else if (simState == Cons.PUK_REQUIRED) {
+                        EventBus.getDefault().postSticky(new Other_PinPukBean(Cons.PUK_FLAG));
+                        to(PinPukIndexRxActivity.class);
                     } else {
-                        to(WanModeRxActivity.class);
+                        to(HomeRxActivity.class);
                     }
+                    return;
+                }
+                if (wanStatus == Cons.CONNECTED & !simflag) {// 只有WAN口
+                    wanReady();
+                    return;
+                }
+                if (wanStatus != Cons.CONNECTED & !simflag) {// 都没有
+                    isToWizard();
+                    return;
                 }
 
             });
+            xGetSimStatusHelper.setOnGetSimStatusFailedListener(this::isToWizard);
+            xGetSimStatusHelper.getSimStatus();
         });
         wan.get();
 
+    }
+
+    /**
+     * WAN口连接完成
+     */
+    private void wanReady() {
+        // 是否进入过wan口设置向导页
+        if (SP.getInstance(LoginRxActivity.this).getBoolean(Cons.WANMODE_RX, false)) {
+            // 是否进入过wifi向导页
+            if (SP.getInstance(LoginRxActivity.this).getBoolean(Cons.WIFIINIT_RX, false)) {
+                to(HomeRxActivity.class);
+            } else {
+                // 检测是否开启了WPS模式
+                checkWps();
+            }
+        } else {
+            to(WanModeRxActivity.class);
+        }
     }
 
 
@@ -774,33 +642,25 @@ public class LoginRxActivity extends BaseActivityWithBack {
             String deviceName = systemInfo.getDeviceName().toLowerCase();
             if (OtherUtils.isMw120(deviceName)) {// MW120
                 Lgg.t(TAG).ii(":whenGetWanFailed() is mw120 again");
-                RX.getInstant().getSimStatus(new ResponseObject<SimStatus>() {
-                    @Override
-                    protected void onSuccess(SimStatus result) {
-                        int simState = result.getSIMState();
-                        if (simState == Cons.READY) {
-                            simHadReady(true);
-                        } else if (simState == Cons.PIN_REQUIRED) {
-                            EventBus.getDefault().postSticky(new Other_PinPukBean(Cons.PIN_FLAG));
-                            to(PinPukIndexRxActivity.class);
-                        } else if (simState == Cons.PUK_REQUIRED) {
-                            EventBus.getDefault().postSticky(new Other_PinPukBean(Cons.PUK_FLAG));
-                            to(PinPukIndexRxActivity.class);
-                        } else {
-                            to(HomeRxActivity.class);
-                        }
-                    }
 
-                    @Override
-                    protected void onFailure() {
-                        isToWizard();
-                    }
-
-                    @Override
-                    protected void onResultError(ResponseBody.Error error) {
-                        isToWizard();
+                GetSimStatusHelper xGetSimStatusHelper = new GetSimStatusHelper();
+                xGetSimStatusHelper.setOnGetSimStatusSuccessListener(attr -> {
+                    int simState = attr.getSIMState();
+                    if (simState == Cons.READY) {
+                        simHadReady(true);
+                    } else if (simState == Cons.PIN_REQUIRED) {
+                        EventBus.getDefault().postSticky(new Other_PinPukBean(Cons.PIN_FLAG));
+                        to(PinPukIndexRxActivity.class);
+                    } else if (simState == Cons.PUK_REQUIRED) {
+                        EventBus.getDefault().postSticky(new Other_PinPukBean(Cons.PUK_FLAG));
+                        to(PinPukIndexRxActivity.class);
+                    } else {
+                        to(HomeRxActivity.class);
                     }
                 });
+                xGetSimStatusHelper.setOnGetSimStatusFailedListener(this::isToWizard);
+                xGetSimStatusHelper.getSimStatus();
+
             } else {// HH70
                 Lgg.t(TAG).ee(":whenGetWanFailed() is not mw120 again");
                 ToastUtil_m.show(LoginRxActivity.this, getString(R.string.login_failed));
@@ -886,19 +746,19 @@ public class LoginRxActivity extends BaseActivityWithBack {
      * 显示剩余次数
      */
     public void showRemainTimes() {
-        RX.getInstant().getLoginState(new ResponseObject<User_LoginState>() {
-            @Override
-            protected void onSuccess(User_LoginState result) {
-                String content = "";
-                int remainingTimes = result.getLoginRemainingTimes();
-                String noRemain = getString(R.string.login_login_time_used_out_msg);
-                String remain = getString(R.string.login_psd_error_msg);
-                String tips = remain;
-                String remainTips = String.format(tips, remainingTimes);
-                content = remainingTimes <= 0 ? noRemain : remainTips;
-                ToastUtil_m.show(LoginRxActivity.this, content);
-            }
+        GetLoginStateHelper xGetLoginStateHelper = new GetLoginStateHelper();
+        xGetLoginStateHelper.setOnGetLoginStateSuccessListener(getLoginStateBean -> {
+            OtherUtils.hideProgressPop(pgd);
+            String content = "";
+            int remainingTimes = getLoginStateBean.getLoginRemainingTimes();
+            String noRemain = getString(R.string.login_login_time_used_out_msg);
+            String remain = getString(R.string.login_psd_error_msg);
+            String tips = remain;
+            String remainTips = String.format(tips, remainingTimes);
+            content = remainingTimes <= 0 ? noRemain : remainTips;
+            ToastUtil_m.show(LoginRxActivity.this, content);
         });
+        xGetLoginStateHelper.getLoginState();
     }
 
     /**

@@ -22,7 +22,6 @@ import com.alcatel.wifilink.root.helper.CheckServiceConnection;
 import com.alcatel.wifilink.root.helper.Cons;
 import com.alcatel.wifilink.root.helper.DeviceHelper;
 import com.alcatel.wifilink.root.helper.HomeService;
-import com.alcatel.wifilink.root.helper.LogoutHelper;
 import com.alcatel.wifilink.root.helper.TimerHelper;
 import com.alcatel.wifilink.root.helper.XXXSHelper;
 import com.alcatel.wifilink.root.ue.frag.FeedbackFragment;
@@ -46,6 +45,7 @@ import com.alcatel.wifilink.root.utils.ToastUtil_m;
 import com.alcatel.wifilink.root.utils.fraghandler.BackHandlerHelper;
 import com.p_freesharing.p_freesharing.bean.InteractiveRequestBean;
 import com.p_freesharing.p_freesharing.bean.InteractiveResponceBean;
+import com.p_xhelper_smart.p_xhelper_smart.helper.LogoutHelper;
 import com.zhy.android.percent.support.PercentFrameLayout;
 import com.zhy.android.percent.support.PercentLinearLayout;
 import com.zhy.android.percent.support.PercentRelativeLayout;
@@ -280,12 +280,10 @@ public class HomeRxActivity extends BaseActivityWithBack {
      */
     private void logout() {
         OtherUtils.clearAllTimer();
-        new LogoutHelper(this) {
-            @Override
-            public void logoutFinish() {
-                to(LoginRxActivity.class, true);
-            }
-        };
+        LogoutHelper xLogouthelper = new LogoutHelper();
+        xLogouthelper.setOnLogoutSuccessListener(() -> to(LoginRxActivity.class, true));
+        xLogouthelper.setOnLogOutFailedListener(() -> ToastUtil_m.show(this, getString(R.string.login_logout_failed)));
+        xLogouthelper.logout();
     }
 
     @Override

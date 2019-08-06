@@ -1,9 +1,8 @@
 package com.alcatel.wifilink.root.helper;
 
-import com.alcatel.wifilink.root.bean.WlanSetting;
-import com.alcatel.wifilink.network.RX;
 import com.alcatel.wifilink.network.ResponseBody;
-import com.alcatel.wifilink.network.ResponseObject;
+import com.p_xhelper_smart.p_xhelper_smart.bean.GetWlanSettingsBean;
+import com.p_xhelper_smart.p_xhelper_smart.helper.GetWlanSettingsHelper;
 
 /**
  * Created by qianli.ma on 2017/11/27 0027.
@@ -16,61 +15,54 @@ public class WpsHelper {
      */
     public void getWpsStatus() {
 
-        RX.getInstant().getWlanSetting(new ResponseObject<WlanSetting>() {
-            @Override
-            protected void onSuccess(WlanSetting result) {
-                WlanSetting.AP2GBean ap2G = result.getAP2G();
-                WlanSetting.AP2GGuestBean ap2G_guest = result.getAP2G_guest();
-                WlanSetting.AP5GBean ap5G = result.getAP5G();
-                WlanSetting.AP5GGuestBean ap5G_guest = result.getAP5G_guest();
-                boolean isWpsWork = false;
+        GetWlanSettingsHelper xGetWlanSettingsHelper = new GetWlanSettingsHelper();
+        xGetWlanSettingsHelper.setOnGetWlanSettingsSuccessListener(settingsBean -> {
+            GetWlanSettingsBean.AP2GBean ap2G = settingsBean.getAP2G();
+            GetWlanSettingsBean.AP2GGuestBean ap2G_guest = settingsBean.getAP2G_guest();
+            GetWlanSettingsBean.AP5GBean ap5G = settingsBean.getAP5G();
+            GetWlanSettingsBean.AP5GGuestBean ap5G_guest = settingsBean.getAP5G_guest();
+            boolean isWpsWork = false;
 
-                // 检测2.4G下的WPS状态
-                if (ap2G != null) {
-                    int apStatus = ap2G.getApStatus();
-                    if (apStatus == Cons.WPS) {
-                        isWpsWork = true;
-                    }
+            // 检测2.4G下的WPS状态
+            if (ap2G != null) {
+                int apStatus = ap2G.getApStatus();
+                if (apStatus == Cons.WPS) {
+                    isWpsWork = true;
                 }
-
-                // 检测2.4G-guest下的WPS状态
-                if (ap2G_guest != null) {
-                    int apStatus = ap2G_guest.getApStatus();
-                    if (apStatus == Cons.WPS) {
-                        isWpsWork = true;
-                    }
-                }
-
-                // 检测5G下的WPS状态
-                if (ap5G != null) {
-                    int apStatus = ap5G.getApStatus();
-                    if (apStatus == Cons.WPS) {
-                        isWpsWork = true;
-                    }
-                }
-
-                // 检测5G-guest下的WPS状态
-                if (ap5G_guest != null) {
-                    int apStatus = ap5G_guest.getApStatus();
-                    if (apStatus == Cons.WPS) {
-                        isWpsWork = true;
-                    }
-                }
-
-                // 对接
-                getWpsNext(isWpsWork);
             }
 
-            @Override
-            protected void onResultError(ResponseBody.Error error) {
-                resultErrorNext(error);
+            // 检测2.4G-guest下的WPS状态
+            if (ap2G_guest != null) {
+                int apStatus = ap2G_guest.getApStatus();
+                if (apStatus == Cons.WPS) {
+                    isWpsWork = true;
+                }
             }
 
-            @Override
-            public void onError(Throwable e) {
-                errorNext(e);
+            // 检测5G下的WPS状态
+            if (ap5G != null) {
+                int apStatus = ap5G.getApStatus();
+                if (apStatus == Cons.WPS) {
+                    isWpsWork = true;
+                }
             }
+
+            // 检测5G-guest下的WPS状态
+            if (ap5G_guest != null) {
+                int apStatus = ap5G_guest.getApStatus();
+                if (apStatus == Cons.WPS) {
+                    isWpsWork = true;
+                }
+            }
+
+            // 对接
+            getWpsNext(isWpsWork);
         });
+        xGetWlanSettingsHelper.setOnGetWlanSettingsFailedListener(() -> {
+            resultErrorNext(null);
+            errorNext(null);
+        });
+        xGetWlanSettingsHelper.getWlanSettings();
     }
 
     /* -------------------------------------------- interface -------------------------------------------- */

@@ -5,16 +5,11 @@ import android.content.Intent;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 
-import com.alcatel.wifilink.root.bean.User_LoginState;
-import com.alcatel.wifilink.network.RX;
-import com.alcatel.wifilink.network.ResponseBody;
-import com.alcatel.wifilink.network.ResponseObject;
 import com.alcatel.wifilink.root.app.SmartLinkV3App;
-import com.alcatel.wifilink.root.utils.AppInfo;
 import com.alcatel.wifilink.root.utils.Logs;
 import com.alcatel.wifilink.root.utils.OtherUtils;
-
-import java.util.List;
+import com.p_xhelper_smart.p_xhelper_smart.helper.GetLoginStateHelper;
+import com.p_xhelper_smart.p_xhelper_smart.helper.LogoutHelper;
 
 /**
  * Created by qianli.ma on 2017/8/10.
@@ -67,49 +62,15 @@ public class HomeService extends Service {
         return OtherUtils.isServiceWork(SmartLinkV3App.getInstance(), CheckService.class);
     }
 
-    /**
-     * 获取当前运行的包集合是否包含当前APP的包名(该操作在android6.0已过时)
-     */
-    private void getCurrentPackage() {
-        List<String> allRunningPackage = AppInfo.getAllRunningPackage(HomeService.this);
-        Logs.t("ma_package").vv(allRunningPackage.toString());
-        String currentPackName = getPackageName();// 当前包名
-        // 如果当前运行的包名没有包含当前服务的包名,则认为APP被杀死--> 退出
-        if (!allRunningPackage.contains(currentPackName)) {
-            logout();
-        }
-    }
-
     private void logout() {
-        RX.getInstant().getLoginState(new ResponseObject<User_LoginState>() {
-            @Override
-            protected void onSuccess(User_LoginState result) {
-                OtherUtils.clearAllTimer();
-                if (result.getState() == Cons.LOGIN) {
-                    Logs.t("ma_permission").vv("service logout");
-                    RX.getInstant().logout(new ResponseObject() {
-                        @Override
-                        protected void onSuccess(Object result) {
-                            stopSelf();
-                        }
-
-                        @Override
-                        protected void onResultError(ResponseBody.Error error) {
-
-                        }
-                    });
-                }
-            }
-
-            @Override
-            protected void onResultError(ResponseBody.Error error) {
-
-            }
-
-            @Override
-            public void onError(Throwable e) {
-
+        GetLoginStateHelper xGetLoginStateHelper = new GetLoginStateHelper();
+        xGetLoginStateHelper.setOnGetLoginStateSuccessListener(getLoginStateBean -> {
+            OtherUtils.clearAllTimer();
+            if (getLoginStateBean.getState() == Cons.LOGIN) {
+                LogoutHelper xLogoutHelper = new LogoutHelper();
+                xLogoutHelper.logout();
             }
         });
+        xGetLoginStateHelper.getLoginState();
     }
 }

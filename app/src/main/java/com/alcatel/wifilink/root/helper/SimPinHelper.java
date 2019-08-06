@@ -4,12 +4,13 @@ import android.app.Activity;
 import android.text.TextUtils;
 
 import com.alcatel.wifilink.R;
-import com.alcatel.wifilink.network.RX;
-import com.alcatel.wifilink.network.ResponseBody;
-import com.alcatel.wifilink.network.ResponseObject;
 import com.alcatel.wifilink.root.bean.SimStatus;
 import com.alcatel.wifilink.root.utils.CA;
 import com.alcatel.wifilink.root.utils.ToastUtil_m;
+import com.p_xhelper_smart.p_xhelper_smart.bean.ChangePinStateParam;
+import com.p_xhelper_smart.p_xhelper_smart.helper.ChangePinStateHelper;
+import com.p_xhelper_smart.p_xhelper_smart.helper.GetSimStatusHelper;
+import com.p_xhelper_smart.p_xhelper_smart.helper.UnlockPinHelper;
 
 /**
  * Created by qianli.ma on 2017/12/11 0011.
@@ -58,38 +59,17 @@ public class SimPinHelper {
     private void disablePin(SimStatus attr, String pincode) {
 
         // 1.先解PIN
-        RX.getInstant().unlockPin(pincode, new ResponseObject() {
-            @Override
-            protected void onSuccess(Object result) {
-                // 2.再改变PIN码状态
-                RX.getInstant().changePinState(pincode, Cons.DISABLE, new ResponseObject() {
-                    @Override
-                    protected void onSuccess(Object result) {
-                        pinDisableNext(attr);
-                    }
-
-                    @Override
-                    protected void onResultError(ResponseBody.Error error) {
-                        toast(R.string.setting_failed);
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        toast(R.string.setting_failed);
-                    }
-                });
-            }
-
-            @Override
-            protected void onResultError(ResponseBody.Error error) {
-                getPinRemaingTime(error);
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                toast(R.string.setting_failed);
-            }
+        UnlockPinHelper xUnlockPinHelper = new UnlockPinHelper();
+        xUnlockPinHelper.setOnUnlockPinSuccessListener(() -> {
+            // 2.再改变PIN码状态
+            ChangePinStateHelper xChangePinStateHelper = new ChangePinStateHelper();
+            xChangePinStateHelper.setOnChangePinStateSuccessListener(() -> pinDisableNext(null));
+            xChangePinStateHelper.setOnChangePinStateFailedListener(() -> toast(R.string.setting_failed));
+            xChangePinStateHelper.changePinState(pincode, ChangePinStateParam.CONS_DISABLED_PIN);
         });
+        xUnlockPinHelper.setOnUnlockPinRemainTimeFailedListener(this::getPinRemaingTime);
+        xUnlockPinHelper.setOnUnlockPinFailedListener(() -> toast(R.string.setting_failed));
+        xUnlockPinHelper.unlockPin(pincode);
     }
 
     /**
@@ -100,78 +80,41 @@ public class SimPinHelper {
      */
     private void enableUnlockFirst(SimStatus attr, String pincode) {
         // 1.先解PIN
-        RX.getInstant().unlockPin(pincode, new ResponseObject() {
-            @Override
-            protected void onSuccess(Object result) {
-                // 2.再改变PIN码状态
-                RX.getInstant().changePinState(pincode, Cons.ENABLE, new ResponseObject() {
-                    @Override
-                    protected void onSuccess(Object result) {
-                        pinEnableNext(attr);
-                    }
 
-                    @Override
-                    protected void onResultError(ResponseBody.Error error) {
-                        toast(R.string.setting_failed);
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        toast(R.string.setting_failed);
-                    }
-                });
-            }
-
-            @Override
-            protected void onResultError(ResponseBody.Error error) {
-                getPinRemaingTime(error);
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                toast(R.string.setting_failed);
-            }
+        UnlockPinHelper xUnlockPinHelper = new UnlockPinHelper();
+        xUnlockPinHelper.setOnUnlockPinSuccessListener(() -> {
+            // 2.再改变PIN码状态
+            ChangePinStateHelper xChangePinStateHelper = new ChangePinStateHelper();
+            xChangePinStateHelper.setOnChangePinStateSuccessListener(() -> pinEnableNext(null));
+            xChangePinStateHelper.setOnChangePinStateFailedListener(() -> toast(R.string.setting_failed));
+            xChangePinStateHelper.changePinState(pincode, ChangePinStateParam.CONS_ENABLED_PIN);
         });
+        xUnlockPinHelper.setOnUnlockPinRemainTimeFailedListener(this::getPinRemaingTime);
+        xUnlockPinHelper.setOnUnlockPinFailedListener(() -> toast(R.string.setting_failed));
+        xUnlockPinHelper.unlockPin(pincode);
     }
 
     /**
      * 获取剩余次数
      */
-    private void getPinRemaingTime(ResponseBody.Error error) {
-        // 提示
-        String code = error.getCode();
-        if (code.equalsIgnoreCase("204411") || code.equalsIgnoreCase("020201")) {
-            toast(R.string.pin_error_waring_title);
-        } else {
-            toast(R.string.setting_failed);
-        }
+    private void getPinRemaingTime() {
         // 获取剩余次数
-        RX.getInstant().getSimStatus(new ResponseObject<SimStatus>() {
-            @Override
-            protected void onSuccess(SimStatus result) {
-                if (result.getSIMState() == Cons.PIN_REQUIRED || result.getSIMState() == Cons.READY) {
-                    int pinRemainingTimes = result.getPinRemainingTimes();
-                    if (pinRemainingTimes >= 1) {
-                        String tip = pinRemainingTimes + " " + activity.getString(R.string.sim_unlocked_attempts);
-                        toast(tip);
-                    } else {
-                        toast(R.string.Home_PinTimes_UsedOut);
-                    }
-                } else if (result.getSIMState() == Cons.PUK_REQUIRED) {
-                    pinTimeoutNext(result);
+        GetSimStatusHelper xGetSimStatusHelper = new GetSimStatusHelper();
+        xGetSimStatusHelper.setOnGetSimStatusSuccessListener(result -> {
+            if (result.getSIMState() == Cons.PIN_REQUIRED || result.getSIMState() == Cons.READY) {
+                int pinRemainingTimes = result.getPinRemainingTimes();
+                if (pinRemainingTimes >= 1) {
+                    String tip = pinRemainingTimes + " " + activity.getString(R.string.sim_unlocked_attempts);
+                    toast(tip);
+                } else {
+                    toast(R.string.Home_PinTimes_UsedOut);
                 }
-            }
-
-            @Override
-            protected void onResultError(ResponseBody.Error error) {
-                toast(R.string.setting_failed);
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                toast(R.string.setting_failed);
+            } else if (result.getSIMState() == Cons.PUK_REQUIRED) {
+                pinTimeoutNext(result);
             }
         });
+        xGetSimStatusHelper.setOnGetSimStatusFailedListener(() -> toast(R.string.setting_failed));
+        xGetSimStatusHelper.getSimStatus();
     }
 
     /**
@@ -181,22 +124,10 @@ public class SimPinHelper {
      * @param pincode
      */
     private void enablePin(SimStatus attr, String pincode) {
-        RX.getInstant().changePinState(pincode, Cons.ENABLE, new ResponseObject() {
-            @Override
-            protected void onSuccess(Object result) {
-                pinEnableNext(attr);
-            }
-
-            @Override
-            protected void onResultError(ResponseBody.Error error) {
-                toast(R.string.setting_failed);
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                toast(R.string.setting_failed);
-            }
-        });
+        ChangePinStateHelper xChangePinStateHelper = new ChangePinStateHelper();
+        xChangePinStateHelper.setOnChangePinStateSuccessListener(() -> pinEnableNext(null));
+        xChangePinStateHelper.setOnChangePinStateFailedListener(() -> toast(R.string.setting_failed));
+        xChangePinStateHelper.changePinState(pincode, ChangePinStateParam.CONS_ENABLED_PIN);
     }
 
     /* -------------------------------------------- interface -------------------------------------------- */

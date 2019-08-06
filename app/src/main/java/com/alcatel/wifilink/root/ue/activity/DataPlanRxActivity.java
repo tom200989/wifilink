@@ -21,7 +21,6 @@ import com.alcatel.wifilink.network.ResponseBody;
 import com.alcatel.wifilink.network.ResponseObject;
 import com.alcatel.wifilink.root.bean.Other_PinPukBean;
 import com.alcatel.wifilink.root.helper.BoardSimHelper;
-import com.alcatel.wifilink.root.helper.LogoutHelper;
 import com.alcatel.wifilink.root.helper.UsageHelper;
 import com.alcatel.wifilink.root.helper.WpsHelper;
 import com.alcatel.wifilink.root.app.SmartLinkV3App;
@@ -34,6 +33,7 @@ import com.alcatel.wifilink.root.utils.OtherUtils;
 import com.alcatel.wifilink.root.utils.SP;
 import com.alcatel.wifilink.root.utils.ScreenSize;
 import com.alcatel.wifilink.root.utils.ToastUtil_m;
+import com.p_xhelper_smart.p_xhelper_smart.helper.LogoutHelper;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -168,13 +168,12 @@ public class DataPlanRxActivity extends BaseActivityWithBack {
     private void clickBackButton() {
         if (Cons.WIZARD_RX.equalsIgnoreCase(flag)) {
             to(WizardRxActivity.class);
+            
         } else {
-            new LogoutHelper(this) {
-                @Override
-                public void logoutFinish() {
-                    to(LoginRxActivity.class);
-                }
-            };
+            LogoutHelper xLogoutHelper = new LogoutHelper();
+            xLogoutHelper.setOnLogoutSuccessListener(() -> to(LoginRxActivity.class));
+            xLogoutHelper.setOnLogOutFailedListener(() -> ToastUtil_m.show(this, getString(R.string.login_logout_failed)));
+            xLogoutHelper.logout();
         }
     }
 

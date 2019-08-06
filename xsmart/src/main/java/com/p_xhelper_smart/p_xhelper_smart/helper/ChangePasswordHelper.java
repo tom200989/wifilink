@@ -43,6 +43,8 @@ public class ChangePasswordHelper extends BaseHelper {
                     currentPasswordWrongNext();
                 } else if (code.contains("010403")) {// 与默认密码相同
                     sameDefaultPasswordNext();
+                } else {
+                    changePasswordFailedNext();
                 }
             }
 

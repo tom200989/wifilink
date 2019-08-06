@@ -14,7 +14,7 @@ public class GetNetworkSettingsBeanHelper extends BaseHelper {
     /**
      * 获取网络设置
      */
-    public void getNetworkSettingsBean() {
+    public void getNetworkSettings() {
         prepareHelperNext();
         XSmart<GetNetworkSettingsBean> xNetworkSetting = new XSmart<>();
         xNetworkSetting.xMethod(XCons.METHOD_GET_NETWORK_SETTINGS);

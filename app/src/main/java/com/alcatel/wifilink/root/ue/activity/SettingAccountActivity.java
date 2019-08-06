@@ -13,17 +13,15 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.alcatel.wifilink.R;
-import com.alcatel.wifilink.network.RX;
-import com.alcatel.wifilink.network.ResponseBody;
-import com.alcatel.wifilink.network.ResponseObject;
 import com.alcatel.wifilink.root.helper.ResetHelper;
 import com.alcatel.wifilink.root.utils.CA;
-import com.alcatel.wifilink.root.utils.EncryptionUtil;
 import com.alcatel.wifilink.root.utils.Lgg;
 import com.alcatel.wifilink.root.utils.OtherUtils;
 import com.alcatel.wifilink.root.utils.ToastUtil_m;
 import com.alcatel.wifilink.root.widget.DialogOkWidget;
 import com.alcatel.wifilink.root.widget.WaitWidget;
+import com.p_xhelper_smart.p_xhelper_smart.helper.ChangePasswordHelper;
+import com.p_xhelper_smart.p_xhelper_smart.utils.EncryptUtils;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -181,60 +179,20 @@ public class SettingAccountActivity extends BaseActivityWithBack implements OnCl
     }
 
     public void changePsd(boolean needEncrypt, String UserName, String CurrentPassword, String NewPassword) {
-
-        // TOAT: 2017/7/13 加密算法--> FW完成加密机制后将下一句代码注释
-        //needEncrypt = false;// FW完成加密机制后将该句代码注释
-
-        UserName = needEncrypt ? EncryptionUtil.encryptUser(UserName) : UserName;
-        CurrentPassword = needEncrypt ? EncryptionUtil.encryptUser(CurrentPassword) : CurrentPassword;
-
-        NewPassword = needEncrypt ? EncryptionUtil.encrypt(NewPassword) : NewPassword;
-
-        RX.getInstant().changePassword(UserName, CurrentPassword, NewPassword, new ResponseObject() {
-            @Override
-            protected void onSuccess(Object result) {
-                Toast.makeText(SettingAccountActivity.this, R.string.succeed, Toast.LENGTH_SHORT).show();
-                // logout();
-                finish();
-            }
-
-            @Override
-            protected void onResultError(ResponseBody.Error error) {
-                if ("010401".equalsIgnoreCase(error.getCode())) {
-                    toast(R.string.change_password_failed);
-                } else if ("010402".equalsIgnoreCase(error.getCode())) {
-                    toast(R.string.the_current_password_is_wrong);
-                } else if ("010403".equalsIgnoreCase(error.getCode())) {
-                    toast(R.string.the_current_password_is_the_same_as_default_password);
-                } else {
-                    Toast.makeText(SettingAccountActivity.this, error.getMessage(), Toast.LENGTH_SHORT).show();
-                }
-
-            }
-
-            @Override
-            protected void onFailure() {
-                Toast.makeText(SettingAccountActivity.this, R.string.setting_failed, Toast.LENGTH_SHORT).show();
-            }
+        
+        UserName = needEncrypt ? EncryptUtils.encryptAdmin(UserName) : UserName;
+        CurrentPassword = needEncrypt ? EncryptUtils.encryptAdmin(CurrentPassword) : CurrentPassword;
+        NewPassword = needEncrypt ? EncryptUtils.encryptAdmin(NewPassword) : NewPassword;
+        // 发起请求
+        ChangePasswordHelper xChangePasswordHelper = new ChangePasswordHelper();
+        xChangePasswordHelper.setOnChangePasswordSuccessListener(() -> {// 成功
+            Toast.makeText(SettingAccountActivity.this, R.string.succeed, Toast.LENGTH_SHORT).show();
+            finish();
         });
-    }
-
-    /**
-     * A1.登出
-     */
-    private void logout() {
-        // 2. logout action
-        RX.getInstant().logout(new ResponseObject() {
-            @Override
-            protected void onSuccess(Object result) {
-                // CA.toActivity(SettingAccountActivity.this, LoginActivity.class, false, true, false, 0);
-            }
-
-            @Override
-            protected void onFailure() {
-                ToastUtil_m.show(SettingAccountActivity.this, getString(R.string.login_logout_failed));
-            }
-        });
+        xChangePasswordHelper.setOnChangePasswordFailedListener(() -> toast(R.string.change_password_failed));// 失败
+        xChangePasswordHelper.setOnCurrentPasswordWrongListener(() -> toast(R.string.the_current_password_is_wrong));// 当前密码错误
+        xChangePasswordHelper.setOnSameDefaultPasswordListener(() -> toast(R.string.the_current_password_is_the_same_as_default_password));// 与默认密码相同
+        xChangePasswordHelper.changePassword(CurrentPassword, NewPassword);
     }
 
     private void toast(int resId) {

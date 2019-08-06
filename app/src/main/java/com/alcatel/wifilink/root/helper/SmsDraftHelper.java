@@ -2,15 +2,15 @@ package com.alcatel.wifilink.root.helper;
 
 import android.app.Activity;
 
-import com.alcatel.wifilink.root.bean.SimStatus;
+import com.alcatel.wifilink.network.RX;
+import com.alcatel.wifilink.network.ResponseBody;
+import com.alcatel.wifilink.network.ResponseObject;
 import com.alcatel.wifilink.root.bean.SMSContentList;
 import com.alcatel.wifilink.root.bean.SMSContentParam;
 import com.alcatel.wifilink.root.bean.SMSDeleteParam;
 import com.alcatel.wifilink.root.bean.SMSSaveParam;
-import com.alcatel.wifilink.network.RX;
-import com.alcatel.wifilink.network.ResponseBody;
-import com.alcatel.wifilink.network.ResponseObject;
 import com.alcatel.wifilink.root.utils.DataUtils;
+import com.p_xhelper_smart.p_xhelper_smart.helper.GetSimStatusHelper;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -68,23 +68,18 @@ public class SmsDraftHelper {
 
     /* **** getDraftSms: 获取草稿短信--> 只执行1次 **** */
     public void getDraftSms() {
-        RX.getInstant().getSimStatus(new ResponseObject<SimStatus>() {
-            @Override
-            protected void onSuccess(SimStatus result) {
-                if (result.getSIMState() != Cons.READY) {// no sim
-                    if (onNoSimListener != null) {
-                        onNoSimListener.noSim();
-                    }
-                } else {// normal
-                    getDraftContent(activity, contactId);
-                }
-            }
 
-            @Override
-            protected void onResultError(ResponseBody.Error error) {
-                
+        GetSimStatusHelper xGetSimStatusHelper = new GetSimStatusHelper();
+        xGetSimStatusHelper.setOnGetSimStatusSuccessListener(result -> {
+            if (result.getSIMState() != Cons.READY) {// no sim
+                if (onNoSimListener != null) {
+                    onNoSimListener.noSim();
+                }
+            } else {// normal
+                getDraftContent(activity, contactId);
             }
         });
+        xGetSimStatusHelper.getSimStatus();
     }
 
     /* 获取草稿短信 */
@@ -116,32 +111,25 @@ public class SmsDraftHelper {
 
             @Override
             protected void onResultError(ResponseBody.Error error) {
-                
+
             }
         });
     }
 
     /* 清空草稿短信 */
     public void clearDraft() {
-        RX.getInstant().getSimStatus(new ResponseObject<SimStatus>() {
-            @Override
-            protected void onSuccess(SimStatus result) {
-                if (result.getSIMState() != Cons.READY) {
-                    if (onNoSimListener != null) {
-                        onNoSimListener.noSim();
-                    }
-                } else {
-                    clearSms(contactId);
-                }
-            }
 
-            @Override
-            protected void onResultError(ResponseBody.Error error) {
-                
+        GetSimStatusHelper xGetSimStatusHelper = new GetSimStatusHelper();
+        xGetSimStatusHelper.setOnGetSimStatusSuccessListener(result -> {
+            if (result.getSIMState() != Cons.READY) {
+                if (onNoSimListener != null) {
+                    onNoSimListener.noSim();
+                }
+            } else {
+                clearSms(contactId);
             }
         });
-
-
+        xGetSimStatusHelper.getSimStatus();
     }
 
     /* 清空指定的草稿短信 */
@@ -181,7 +169,7 @@ public class SmsDraftHelper {
 
             @Override
             protected void onResultError(ResponseBody.Error error) {
-                
+
             }
         });
     }
@@ -199,7 +187,7 @@ public class SmsDraftHelper {
 
             @Override
             protected void onResultError(ResponseBody.Error error) {
-                
+
             }
         });
     }

@@ -46,7 +46,6 @@ public class XCons {
     public static String METHOD_CHANGE_PASSWORD = "ChangePassword";
     public static String METHOD_HEART_BEAT = "HeartBeat";
     public static String METHOD_GET_SMS_STORAGE_STATE = "GetSMSStorageState";
-    public static String METHOD_SEARCH_NETWORK_RESULT = "SearchNetworkResult";
     public static String METHOD_GET_NETWORK_REGISTER_STATE = "GetNetworkRegisterState";
     public static String METHOD_GET_SIM_STATUS = "GetSimStatus";
     public static String METHOD_UNLOCK_PIN = "UnlockPin";

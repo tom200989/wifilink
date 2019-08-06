@@ -35,7 +35,12 @@ public class UnlockPinHelper extends BaseHelper {
 
             @Override
             public void fwError(FwError fwError) {
-                unlockPinFailedNext();
+                String code = fwError.getCode();
+                if (code.equals("020201") | code.equals("204411")) {
+                    unlockPinRemainTimeFailedNext();
+                } else {
+                    unlockPinFailedNext();
+                }
             }
 
             @Override
@@ -43,6 +48,25 @@ public class UnlockPinHelper extends BaseHelper {
                 doneHelperNext();
             }
         });
+    }
+
+    private OnUnlockPinRemainTimeFailedListener onUnlockPinRemainTimeFailedListener;
+
+    // Inteerface--> 接口OnUnlockPinRemainTimeListener
+    public interface OnUnlockPinRemainTimeFailedListener {
+        void unlockPinRemainTimeFailed();
+    }
+
+    // 对外方式setOnUnlockPinRemainTimeListener
+    public void setOnUnlockPinRemainTimeFailedListener(OnUnlockPinRemainTimeFailedListener onUnlockPinRemainTimeFailedListener) {
+        this.onUnlockPinRemainTimeFailedListener = onUnlockPinRemainTimeFailedListener;
+    }
+
+    // 封装方法unlockPinRemainTimeFailedNext
+    private void unlockPinRemainTimeFailedNext() {
+        if (onUnlockPinRemainTimeFailedListener != null) {
+            onUnlockPinRemainTimeFailedListener.unlockPinRemainTimeFailed();
+        }
     }
 
     private OnUnlockPinSuccessListener onUnlockPinSuccessListener;

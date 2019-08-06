@@ -3,13 +3,11 @@ package com.alcatel.wifilink.root.helper;
 import android.app.Activity;
 
 import com.alcatel.wifilink.R;
-import com.alcatel.wifilink.root.bean.ConnectionSettings;
-import com.alcatel.wifilink.network.RX;
-import com.alcatel.wifilink.network.ResponseBody;
-import com.alcatel.wifilink.network.ResponseObject;
-import com.alcatel.wifilink.root.helper.ConnectSettingHelper;
 import com.alcatel.wifilink.root.utils.CA;
 import com.alcatel.wifilink.root.utils.ToastUtil_m;
+import com.p_xhelper_smart.p_xhelper_smart.bean.GetConnectionSettingsBean;
+import com.p_xhelper_smart.p_xhelper_smart.helper.GetConnectionSettingsHelper;
+import com.p_xhelper_smart.p_xhelper_smart.helper.SetConnectionSettingsHelper;
 
 /**
  * Created by qianli.ma on 2017/12/11 0011.
@@ -30,43 +28,28 @@ public class ConnModeHelper {
      */
     public void transferConnMode(int connMode) {
         // 1.获取当前的连接模式
+
+
         ConnectSettingHelper cshelper = new ConnectSettingHelper();
-        cshelper.setOnNormalConnResultListener(result -> {
-            ConnectionSettings cs = result.deepClone();
+        cshelper.setOnNormalConnResultListener(result1 -> {
+            GetConnectionSettingsBean cs = result1.deepClone();
             cs.setConnectMode(connMode);// 2.更改连接模式
             // 3.提交请求
-            RX.getInstant().setConnectionSettings(cs, new ResponseObject() {
-                @Override
-                protected void onSuccess(Object result) {
-                    // 4.再次获取连接模式
-                    RX.getInstant().getConnectionSettings(new ResponseObject<ConnectionSettings>() {
-                        @Override
-                        protected void onSuccess(ConnectionSettings result) {
-                            connModeSuccessNext(result);
-                        }
-
-                        @Override
-                        protected void onResultError(ResponseBody.Error error) {
-                            toast(R.string.connect_failed);
-                        }
-
-                        @Override
-                        public void onError(Throwable e) {
-                            toast(R.string.connect_failed);
-                        }
-                    });
-                }
-
-                @Override
-                protected void onResultError(ResponseBody.Error error) {
-                    toast(R.string.connect_failed);
-                }
-
-                @Override
-                public void onError(Throwable e) {
-                    toast(R.string.connect_failed);
-                }
+            int connectMode = cs.getConnectMode();
+            int roamingConnect = cs.getRoamingConnect();
+            int pdpType = cs.getPdpType();
+            int connOffTime = cs.getConnOffTime();
+            SetConnectionSettingsHelper xSetConnectionSettingsHelper = new SetConnectionSettingsHelper();
+            xSetConnectionSettingsHelper.setOnsetConnectionSettingsSuccessListener(() -> {
+                // 4.再次获取连接模式
+                GetConnectionSettingsHelper xGetConnectionSettingsHelper = new GetConnectionSettingsHelper();
+                xGetConnectionSettingsHelper.setOnGetConnectionSettingsSuccessListener(attr -> connModeSuccessNext(result1));
+                xGetConnectionSettingsHelper.setOnGetConnectionSettingsFailedListener(() -> toast(R.string.connect_failed));
+                xGetConnectionSettingsHelper.getConnectionSettings();
             });
+            xSetConnectionSettingsHelper.setOnsetConnectionSettingsFailedListener(() -> toast(R.string.connect_failed));
+            xSetConnectionSettingsHelper.setConnectionSettings(connectMode, roamingConnect, pdpType, connOffTime);
+
         });
         cshelper.getConnSettingStatus();
     }
@@ -75,7 +58,7 @@ public class ConnModeHelper {
 
     // 接口OnConnModeSuccessListener
     public interface OnConnModeSuccessListener {
-        void connModeSuccess(ConnectionSettings attr);
+        void connModeSuccess(GetConnectionSettingsBean attr);
     }
 
     // 对外方式setOnConnModeSuccessListener
@@ -84,7 +67,7 @@ public class ConnModeHelper {
     }
 
     // 封装方法connModeSuccessNext
-    private void connModeSuccessNext(ConnectionSettings attr) {
+    private void connModeSuccessNext(GetConnectionSettingsBean attr) {
         if (onConnModeSuccessListener != null) {
             onConnModeSuccessListener.connModeSuccess(attr);
         }

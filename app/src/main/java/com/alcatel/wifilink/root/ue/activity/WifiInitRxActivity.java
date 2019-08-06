@@ -13,22 +13,21 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.alcatel.wifilink.R;
-import com.alcatel.wifilink.root.bean.WlanSetting;
-import com.alcatel.wifilink.network.RX;
-import com.alcatel.wifilink.network.ResponseBody;
-import com.alcatel.wifilink.network.ResponseObject;
-import com.alcatel.wifilink.root.helper.CheckBoardLogin;
-import com.alcatel.wifilink.root.helper.LogoutHelper;
-import com.alcatel.wifilink.root.helper.SystemInfoHelper;
-import com.alcatel.wifilink.root.widget.DialogOkWidget;
 import com.alcatel.wifilink.root.app.SmartLinkV3App;
+import com.alcatel.wifilink.root.helper.CheckBoardLogin;
 import com.alcatel.wifilink.root.helper.Cons;
+import com.alcatel.wifilink.root.helper.SystemInfoHelper;
 import com.alcatel.wifilink.root.helper.TimerHelper;
 import com.alcatel.wifilink.root.utils.CA;
 import com.alcatel.wifilink.root.utils.Lgg;
 import com.alcatel.wifilink.root.utils.OtherUtils;
 import com.alcatel.wifilink.root.utils.SP;
 import com.alcatel.wifilink.root.utils.ToastUtil_m;
+import com.alcatel.wifilink.root.widget.DialogOkWidget;
+import com.p_xhelper_smart.p_xhelper_smart.bean.GetWlanSettingsBean;
+import com.p_xhelper_smart.p_xhelper_smart.helper.GetWlanSettingsHelper;
+import com.p_xhelper_smart.p_xhelper_smart.helper.LogoutHelper;
+import com.p_xhelper_smart.p_xhelper_smart.helper.SetWlanSettingsHelper;
 import com.zhy.android.percent.support.PercentRelativeLayout;
 
 import butterknife.BindView;
@@ -112,8 +111,8 @@ public class WifiInitRxActivity extends BaseActivityWithBack {
     private int gray_color;
     private int showPsd_hex;
     private int hidePsd_hex;
-    private WlanSetting result;
-    private WlanSetting resultCache;// 备份缓存
+    private GetWlanSettingsBean result;
+    private GetWlanSettingsBean resultCache;// 备份缓存
     private ProgressDialog pgd;
     private View[] childPanelViewFor2G;// 2.4G子面板集合
     private View[] childPanelViewFor5G;// 5G子面板集合
@@ -175,66 +174,57 @@ public class WifiInitRxActivity extends BaseActivityWithBack {
             @Override
             public void afterCheckSuccess(ProgressDialog pgd) {
                 // 2.获取wlan信息
-                RX.getInstant().getWlanSetting(new ResponseObject<WlanSetting>() {
-                    @Override
-                    protected void onSuccess(WlanSetting result) {
-                        WifiInitRxActivity.this.result = result;
-                        WifiInitRxActivity.this.resultCache = result.deepClone();// 备份缓存
-                        WlanSetting.AP2GBean ap2G = result.getAP2G();
-                        boolean is2P4GEnable = false;
-                        if (ap2G != null) {
-                            is2P4GEnable = ap2G.getApStatus() == Cons.ENABLE;
-                        }
-                        WlanSetting.AP5GBean ap5G = result.getAP5G();
-                        boolean is5GEnable = false;
-                        if (ap5G != null) {
-                            is5GEnable = ap5G.getApStatus() == Cons.ENABLE;
-                        }
 
-                        if (!ismw120) {
-                            // 面板
-                            rl2p4GPanel.setVisibility(is2P4GEnable ? View.VISIBLE : View.GONE);
-                            rl5GPanel.setVisibility(is5GEnable ? View.VISIBLE : View.GONE);
-                        } else {
-                            switchMw120WifiPanel(is2P4GEnable);
-                            rl2p4GPanel.setVisibility(View.VISIBLE);
-                            rl5GPanel.setVisibility(View.VISIBLE);
-                        }
-
-                        // 开关UI
-                        ivSocket2p4G.setImageDrawable(is2P4GEnable ? switch_on : switch_off);
-                        ivSocket5G.setImageDrawable(is5GEnable ? switch_on : switch_off);
-                        // 编辑可操作状态
-                        OtherUtils.setEdittextEditable(etAccount2p4G, is2P4GEnable);
-                        OtherUtils.setEdittextEditable(etPassword2p4G, is2P4GEnable);
-                        OtherUtils.setEdittextEditable(etAccount5G, is5GEnable);
-                        OtherUtils.setEdittextEditable(etPassword5G, is5GEnable);
-                        // 编辑可视状态
-                        etPassword2p4G.setInputType(hidePsd);
-                        etPassword5G.setInputType(hidePsd);
-                        // 编辑文本颜色
-                        etAccount2p4G.setTextColor(is2P4GEnable ? blue_color : gray_color);
-                        etPassword2p4G.setTextColor(is2P4GEnable ? blue_color : gray_color);
-                        etAccount5G.setTextColor(is5GEnable ? blue_color : gray_color);
-                        etPassword5G.setTextColor(is5GEnable ? blue_color : gray_color);
-                        // 编辑SSID
-                        etAccount2p4G.setText(ap2G != null ? ap2G.getSsid() : "");
-                        etAccount5G.setText(ap5G != null ? ap5G.getSsid() : "");
-                        // 编辑密码
-                        etPassword2p4G.setText(ap2G != null ? ap2G.getWpaKey() : "");
-                        etPassword5G.setText(ap5G != null ? ap5G.getWpaKey() : "");
+                GetWlanSettingsHelper xGetWlanSettingsHelper = new GetWlanSettingsHelper();
+                xGetWlanSettingsHelper.setOnGetWlanSettingsSuccessListener(settingsBean -> {
+                    WifiInitRxActivity.this.result = settingsBean;
+                    WifiInitRxActivity.this.resultCache = result.deepClone();// 备份缓存
+                    GetWlanSettingsBean.AP2GBean ap2G = result.getAP2G();
+                    boolean is2P4GEnable = false;
+                    if (ap2G != null) {
+                        is2P4GEnable = ap2G.getApStatus() == Cons.ENABLE;
+                    }
+                    GetWlanSettingsBean.AP5GBean ap5G = result.getAP5G();
+                    boolean is5GEnable = false;
+                    if (ap5G != null) {
+                        is5GEnable = ap5G.getApStatus() == Cons.ENABLE;
                     }
 
-                    @Override
-                    public void onError(Throwable e) {
-                        rlFailedPanel.setVisibility(View.VISIBLE);
+                    if (!ismw120) {
+                        // 面板
+                        rl2p4GPanel.setVisibility(is2P4GEnable ? View.VISIBLE : View.GONE);
+                        rl5GPanel.setVisibility(is5GEnable ? View.VISIBLE : View.GONE);
+                    } else {
+                        switchMw120WifiPanel(is2P4GEnable);
+                        rl2p4GPanel.setVisibility(View.VISIBLE);
+                        rl5GPanel.setVisibility(View.VISIBLE);
                     }
 
-                    @Override
-                    protected void onResultError(ResponseBody.Error error) {
-                        rlFailedPanel.setVisibility(View.VISIBLE);
-                    }
+                    // 开关UI
+                    ivSocket2p4G.setImageDrawable(is2P4GEnable ? switch_on : switch_off);
+                    ivSocket5G.setImageDrawable(is5GEnable ? switch_on : switch_off);
+                    // 编辑可操作状态
+                    OtherUtils.setEdittextEditable(etAccount2p4G, is2P4GEnable);
+                    OtherUtils.setEdittextEditable(etPassword2p4G, is2P4GEnable);
+                    OtherUtils.setEdittextEditable(etAccount5G, is5GEnable);
+                    OtherUtils.setEdittextEditable(etPassword5G, is5GEnable);
+                    // 编辑可视状态
+                    etPassword2p4G.setInputType(hidePsd);
+                    etPassword5G.setInputType(hidePsd);
+                    // 编辑文本颜色
+                    etAccount2p4G.setTextColor(is2P4GEnable ? blue_color : gray_color);
+                    etPassword2p4G.setTextColor(is2P4GEnable ? blue_color : gray_color);
+                    etAccount5G.setTextColor(is5GEnable ? blue_color : gray_color);
+                    etPassword5G.setTextColor(is5GEnable ? blue_color : gray_color);
+                    // 编辑SSID
+                    etAccount2p4G.setText(ap2G != null ? ap2G.getSsid() : "");
+                    etAccount5G.setText(ap5G != null ? ap5G.getSsid() : "");
+                    // 编辑密码
+                    etPassword2p4G.setText(ap2G != null ? ap2G.getWpaKey() : "");
+                    etPassword5G.setText(ap5G != null ? ap5G.getWpaKey() : "");
                 });
+                xGetWlanSettingsHelper.setOnGetWlanSettingsFailedListener(() -> rlFailedPanel.setVisibility(View.VISIBLE));
+                xGetWlanSettingsHelper.getWlanSettings();
             }
         };
     }
@@ -388,8 +378,8 @@ public class WifiInitRxActivity extends BaseActivityWithBack {
      * 判断是否有修改过
      */
     private void checkChange() {
-        WlanSetting.AP2GBean ap2G = result.getAP2G();
-        WlanSetting.AP5GBean ap5G = result.getAP5G();
+        GetWlanSettingsBean.AP2GBean ap2G = result.getAP2G();
+        GetWlanSettingsBean.AP5GBean ap5G = result.getAP5G();
 
         // 默认为true
         boolean is2P4GAPStatusSame = true;
@@ -449,29 +439,20 @@ public class WifiInitRxActivity extends BaseActivityWithBack {
     private void pullSetting() {
         pgd = OtherUtils.showProgressPop(this);
         // 1.提交设置
-        RX.getInstant().setWlanSetting(result, new ResponseObject() {
-            @Override
-            protected void onSuccess(Object result) {
-                // 2.切断wifi
-                OtherUtils.setWifiActive(activity, false);
-                // 提交标记位
-                SP.getInstance(activity).putBoolean(Cons.WIFIINIT_RX, true);
-                toast(R.string.ergo_20181010_update_wifi);
-                OtherUtils.hideProgressPop(pgd);
-            }
-
-            @Override
-            protected void onResultError(ResponseBody.Error error) {
-                toast(R.string.setting_wifi_set_failed);
-                OtherUtils.hideProgressPop(pgd);
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                toast(R.string.setting_wifi_set_failed);
-                OtherUtils.hideProgressPop(pgd);
-            }
+        SetWlanSettingsHelper xSetWlanSettingsHelper = new SetWlanSettingsHelper();
+        xSetWlanSettingsHelper.setOnSetWlanSettingsSuccessListener(() -> {
+            // 2.切断wifi
+            OtherUtils.setWifiActive(activity, false);
+            // 提交标记位
+            SP.getInstance(activity).putBoolean(Cons.WIFIINIT_RX, true);
+            toast(R.string.ergo_20181010_update_wifi);
+            OtherUtils.hideProgressPop(pgd);
         });
+        xSetWlanSettingsHelper.setOnSetWlanSettingsFailedListener(() -> {
+            toast(R.string.setting_wifi_set_failed);
+            OtherUtils.hideProgressPop(pgd);
+        });
+        xSetWlanSettingsHelper.setWlanSettings(result);
     }
 
 
@@ -587,13 +568,10 @@ public class WifiInitRxActivity extends BaseActivityWithBack {
      */
     private void toLoginRx() {
         // 1.退出登陆
-        new LogoutHelper(this) {
-            @Override
-            public void logoutFinish() {
-                // 2.跳转到登陆界面
-                to(LoginRxActivity.class);
-            }
-        };
+        LogoutHelper xLogouthelper = new LogoutHelper();
+        xLogouthelper.setOnLogoutSuccessListener(() -> to(LoginRxActivity.class));
+        xLogouthelper.setOnLogOutFailedListener(() -> ToastUtil_m.show(this, getString(R.string.login_logout_failed)));
+        xLogouthelper.logout();
     }
 
     public void toast(int resId) {

@@ -1,11 +1,13 @@
 package com.p_xhelper_smart.p_xhelper_smart.bean;
 
+import com.p_xhelper_smart.p_xhelper_smart.utils.DeepCloneBean;
+
 import java.io.Serializable;
 
 /*
  * Created by qianli.ma on 2019/7/31 0031.
  */
-public class GetWlanSettingsBean implements Serializable {
+public class GetWlanSettingsBean extends DeepCloneBean implements Serializable {
 
     private int WiFiOffTime;
     private AP2GBean AP2G;

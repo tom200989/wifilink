@@ -14,23 +14,21 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.alcatel.wifilink.R;
-import com.alcatel.wifilink.root.ue.activity.HomeRxActivity;
-import com.alcatel.wifilink.root.widget.PopupWindows;
 import com.alcatel.wifilink.root.bean.ProfileList;
-import com.alcatel.wifilink.root.helper.ConnectSettingHelper;
-import com.alcatel.wifilink.root.helper.ConnectStatusHelper;
-import com.alcatel.wifilink.root.helper.NetworkSettingHelper;
-import com.alcatel.wifilink.root.helper.PinStatuHelper;
-import com.alcatel.wifilink.root.helper.ProfileHelper;
 import com.alcatel.wifilink.root.helper.ChangePinHelper;
 import com.alcatel.wifilink.root.helper.ConnModeHelper;
+import com.alcatel.wifilink.root.helper.ConnectSettingHelper;
+import com.alcatel.wifilink.root.helper.Cons;
 import com.alcatel.wifilink.root.helper.DataRoamHelper;
 import com.alcatel.wifilink.root.helper.MobileDataHelper;
 import com.alcatel.wifilink.root.helper.ModeHelper;
+import com.alcatel.wifilink.root.helper.NetworkSettingHelper;
+import com.alcatel.wifilink.root.helper.PinStatuHelper;
+import com.alcatel.wifilink.root.helper.ProfileHelper;
 import com.alcatel.wifilink.root.helper.SimNumImsiHelper;
 import com.alcatel.wifilink.root.helper.SimPinHelper;
-import com.alcatel.wifilink.root.helper.Cons;
 import com.alcatel.wifilink.root.helper.TimerHelper;
+import com.alcatel.wifilink.root.ue.activity.HomeRxActivity;
 import com.alcatel.wifilink.root.utils.CA;
 import com.alcatel.wifilink.root.utils.Lgg;
 import com.alcatel.wifilink.root.utils.Logs;
@@ -39,6 +37,8 @@ import com.alcatel.wifilink.root.utils.SP;
 import com.alcatel.wifilink.root.utils.ScreenSize;
 import com.alcatel.wifilink.root.utils.ToastUtil_m;
 import com.alcatel.wifilink.root.utils.fraghandler.FragmentBackHandler;
+import com.alcatel.wifilink.root.widget.PopupWindows;
+import com.p_xhelper_smart.p_xhelper_smart.helper.GetConnectionStateHelper;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -102,7 +102,6 @@ public class MobileNetworkRxFragment extends Fragment implements FragmentBackHan
     private Drawable switch_off;
     private Handler handler;
     private HomeRxActivity activity;
-    private ConnectStatusHelper connHelper;
     private ConnectSettingHelper connSettingHelper;
     private NetworkSettingHelper networkSettingHelper;
     private TimerHelper timerHelper;
@@ -256,13 +255,11 @@ public class MobileNetworkRxFragment extends Fragment implements FragmentBackHan
      * 获取网络连接状态
      */
     private void getMobileData() {
-        if (connHelper == null) {
-            connHelper = new ConnectStatusHelper();
-            connHelper.setOnDisConnecting(result -> ivMobileData.setImageDrawable(switch_off));
-            connHelper.setOnDisConnected(result -> ivMobileData.setImageDrawable(switch_off));
-            connHelper.setOnConnected(result -> ivMobileData.setImageDrawable(switch_on));
-        }
-        connHelper.getStatus();
+        GetConnectionStateHelper xGetConnectionStateHelper = new GetConnectionStateHelper();
+        xGetConnectionStateHelper.setOnDisConnectingListener(() -> ivMobileData.setImageDrawable(switch_off));
+        xGetConnectionStateHelper.setOnDisconnectedListener(() -> ivMobileData.setImageDrawable(switch_off));
+        xGetConnectionStateHelper.setOnConnectedListener(() -> ivMobileData.setImageDrawable(switch_on));
+        xGetConnectionStateHelper.getConnectionState();
     }
 
     /**

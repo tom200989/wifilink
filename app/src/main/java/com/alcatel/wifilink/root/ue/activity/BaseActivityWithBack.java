@@ -15,20 +15,19 @@ import android.view.Window;
 
 import com.alcatel.wifilink.R;
 import com.alcatel.wifilink.root.app.SmartLinkV3App;
-import com.alcatel.wifilink.root.utils.C_Constants;
-import com.alcatel.wifilink.root.bean.User_LoginState;
-import com.alcatel.wifilink.network.RX;
-import com.alcatel.wifilink.network.ResponseBody;
-import com.alcatel.wifilink.network.ResponseObject;
 import com.alcatel.wifilink.root.helper.Cons;
 import com.alcatel.wifilink.root.helper.TimerHelper;
 import com.alcatel.wifilink.root.utils.AppInfo;
 import com.alcatel.wifilink.root.utils.CA;
+import com.alcatel.wifilink.root.utils.C_Constants;
 import com.alcatel.wifilink.root.utils.Logs;
 import com.alcatel.wifilink.root.utils.OtherUtils;
 import com.alcatel.wifilink.root.utils.PreferenceUtil;
 import com.alcatel.wifilink.root.utils.SPUtils;
 import com.alcatel.wifilink.root.utils.ToastUtil_m;
+import com.p_xhelper_smart.p_xhelper_smart.bean.GetLoginStateBean;
+import com.p_xhelper_smart.p_xhelper_smart.helper.GetLoginStateHelper;
+import com.p_xhelper_smart.p_xhelper_smart.helper.LogoutHelper;
 
 import java.util.Locale;
 import java.util.Timer;
@@ -207,29 +206,21 @@ public class BaseActivityWithBack extends AppCompatActivity {
      */
     private void logout(boolean isLockScreen) {
         // 如果为锁屏则现判断是否为登陆--> 如果为登入,此时允许调用登出接口
-        RX.getInstant().getLoginState(new ResponseObject<User_LoginState>() {
-            @Override
-            protected void onSuccess(User_LoginState result) {
-                if (result.getState() == Cons.LOGIN) {
-                    requestLogout();
-                }
+        GetLoginStateHelper xGetLoginStateHelper = new GetLoginStateHelper();
+        xGetLoginStateHelper.setOnGetLoginStateSuccessListener(getLoginStateBean -> {
+            int state = getLoginStateBean.getState();
+            if (state == GetLoginStateBean.CONS_LOGIN) {
+                requestLogout();
             }
         });
+        xGetLoginStateHelper.getLoginState();
     }
 
     private void requestLogout() {
-        RX.getInstant().logout(new ResponseObject() {
-            @Override
-            protected void onSuccess(Object result) {
-                Logs.t("check login").ii(getClass().getSimpleName() + ": line--> " + "209");
-                CA.toActivity(BaseActivityWithBack.this, LoginRxActivity.class, false, true, false, 0);
-            }
-
-            @Override
-            protected void onResultError(ResponseBody.Error error) {
-                ToastUtil_m.show(BaseActivityWithBack.this, getString(R.string.login_logout_failed));
-            }
-        });
+        LogoutHelper xLogoutHelper = new LogoutHelper();
+        xLogoutHelper.setOnLogoutSuccessListener(() -> CA.toActivity(BaseActivityWithBack.this, LoginRxActivity.class, false, true, false, 0));
+        xLogoutHelper.setOnLogOutFailedListener(() -> ToastUtil_m.show(BaseActivityWithBack.this, getString(R.string.login_logout_failed)));
+        xLogoutHelper.logout();
     }
 
     @Override

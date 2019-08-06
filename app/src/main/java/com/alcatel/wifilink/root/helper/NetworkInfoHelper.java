@@ -4,11 +4,9 @@ import android.app.Activity;
 import android.content.Context;
 
 import com.alcatel.wifilink.R;
-import com.alcatel.wifilink.root.bean.NetworkInfos;
-import com.alcatel.wifilink.root.bean.NetworkRegisterState;
-import com.alcatel.wifilink.network.RX;
-import com.alcatel.wifilink.network.ResponseBody;
-import com.alcatel.wifilink.network.ResponseObject;
+import com.p_xhelper_smart.p_xhelper_smart.bean.GetNetworkInfoBean;
+import com.p_xhelper_smart.p_xhelper_smart.helper.GetNetworkInfoHelper;
+import com.p_xhelper_smart.p_xhelper_smart.helper.GetNetworkRegisterStateHelper;
 
 /**
  * Created by qianli.ma on 2017/11/24 0024.
@@ -54,54 +52,27 @@ public abstract class NetworkInfoHelper {
      * 获取network对象
      */
     public void get() {
-        RX.getInstant().getNetworkRegisterState(new ResponseObject<NetworkRegisterState>() {
-            @Override
-            protected void onSuccess(NetworkRegisterState result) {
-                int registState = result.getRegist_state();
-                if (registState == Cons.REGISTER_SUCCESSFUL) {
-                    // TODO: 2017/11/26 0026 暂时不用
-                    getNetworkInfo();
-                } else {
-                    noRegister();
-                }
-            }
 
-            /**
-             * 获取network信息
-             */
-            private void getNetworkInfo() {
-                RX.getInstant().getNetworkInfo(new ResponseObject<NetworkInfos>() {
-                    @Override
-                    protected void onSuccess(NetworkInfos result) {
-                        register(result);
-                    }
+        GetNetworkRegisterStateHelper xGetNetworkRegisterStateHelper = new GetNetworkRegisterStateHelper();
+        xGetNetworkRegisterStateHelper.setOnRegisterSuccessListener(this::getNetworkInfo);
+        xGetNetworkRegisterStateHelper.setOnNotRegisterListener(this::noRegister);
+        xGetNetworkRegisterStateHelper.setOnGetNetworkRegisterStateFailedListener(this::noRegister);
+        xGetNetworkRegisterStateHelper.setOnRegisttingListener(this::noRegister);
+        xGetNetworkRegisterStateHelper.getNetworkRegisterState();
+    }
 
-                    @Override
-                    protected void onResultError(ResponseBody.Error error) {
-                        noRegister();
-                    }
+    /**
+     * 获取network信息
+     */
+    private void getNetworkInfo() {
 
-                    @Override
-                    public void onError(Throwable e) {
-                        noRegister();
-                    }
-                });
-            }
-
-            @Override
-            protected void onResultError(ResponseBody.Error error) {
-                noRegister();
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                noRegister();
-            }
-
-        });
+        GetNetworkInfoHelper xGetNetworkInfoHelper = new GetNetworkInfoHelper();
+        xGetNetworkInfoHelper.setOnGetNetworkInfoSuccessListener(this::register);
+        xGetNetworkInfoHelper.setOnGetNetworkInfoFailedListener(this::noRegister);
+        xGetNetworkInfoHelper.getNetworkInfo();
     }
 
     public abstract void noRegister();
 
-    public abstract void register(NetworkInfos result);
+    public abstract void register(GetNetworkInfoBean result);
 }

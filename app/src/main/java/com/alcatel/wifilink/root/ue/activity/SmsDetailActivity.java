@@ -14,28 +14,28 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.alcatel.wifilink.R;
-import com.alcatel.wifilink.root.utils.C_Constants;
-import com.alcatel.wifilink.root.bean.SimStatus;
+import com.alcatel.wifilink.network.RX;
+import com.alcatel.wifilink.network.ResponseBody;
+import com.alcatel.wifilink.network.ResponseObject;
+import com.alcatel.wifilink.root.adapter.SmsDetatilAdapter;
 import com.alcatel.wifilink.root.bean.SMSContactList;
 import com.alcatel.wifilink.root.bean.SMSContentList;
 import com.alcatel.wifilink.root.bean.SMSContentParam;
 import com.alcatel.wifilink.root.bean.SMSDeleteParam;
 import com.alcatel.wifilink.root.bean.SmsInitState;
-import com.alcatel.wifilink.network.RX;
-import com.alcatel.wifilink.network.ResponseBody;
-import com.alcatel.wifilink.network.ResponseObject;
-import com.alcatel.wifilink.root.helper.SmsWatcher;
 import com.alcatel.wifilink.root.helper.Cons;
-import com.alcatel.wifilink.root.helper.TimerHelper;
-import com.alcatel.wifilink.root.adapter.SmsDetatilAdapter;
 import com.alcatel.wifilink.root.helper.SmsContentSortHelper;
 import com.alcatel.wifilink.root.helper.SmsDeletePop;
 import com.alcatel.wifilink.root.helper.SmsDraftHelper;
 import com.alcatel.wifilink.root.helper.SmsSendHelper;
+import com.alcatel.wifilink.root.helper.SmsWatcher;
+import com.alcatel.wifilink.root.helper.TimerHelper;
 import com.alcatel.wifilink.root.utils.ActionbarSetting;
+import com.alcatel.wifilink.root.utils.C_Constants;
 import com.alcatel.wifilink.root.utils.Logs;
 import com.alcatel.wifilink.root.utils.OtherUtils;
 import com.alcatel.wifilink.root.utils.ToastUtil_m;
+import com.p_xhelper_smart.p_xhelper_smart.helper.GetSimStatusHelper;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -295,23 +295,16 @@ public class SmsDetailActivity extends BaseActivityWithBack implements View.OnCl
     /* **** timertask: getSmsContents **** */
     private void getSmsContents(boolean isSetRcvToLast) {
         // 检测sim卡是否有插入
-        RX.getInstant().getSimStatus(new ResponseObject<SimStatus>() {
-            @Override
-            protected void onSuccess(SimStatus result) {
-                if (result.getSIMState() == Cons.READY) {// no sim
-                    getContent(isSetRcvToLast);
-                } else {// normal
-                    // ToastUtil_m.show(SmsDetailActivity.this, getString(R.string.home_no_sim));
-                    finish();
-                }
-            }
 
-            @Override
-            protected void onResultError(ResponseBody.Error error) {
-
+        GetSimStatusHelper xGetSimStatusHelper = new GetSimStatusHelper();
+        xGetSimStatusHelper.setOnGetSimStatusSuccessListener(result -> {
+            if (result.getSIMState() == Cons.READY) {// no sim
+                getContent(isSetRcvToLast);
+            } else {
+                finish();
             }
         });
-
+        xGetSimStatusHelper.getSimStatus();
     }
 
     /**
@@ -527,8 +520,8 @@ public class SmsDetailActivity extends BaseActivityWithBack implements View.OnCl
         deletePop = new SmsDeletePop(this) {
             @Override
             public void getView(View inflate) {
-                tv_delete_cancel =  inflate.findViewById(R.id.tv_smsdetail_detele_cancel);
-                tv_delete_confirm =  inflate.findViewById(R.id.tv_smsdetail_detele_confirm);
+                tv_delete_cancel = inflate.findViewById(R.id.tv_smsdetail_detele_cancel);
+                tv_delete_confirm = inflate.findViewById(R.id.tv_smsdetail_detele_confirm);
                 tv_delete_cancel.setOnClickListener(SmsDetailActivity.this);
                 tv_delete_confirm.setOnClickListener(SmsDetailActivity.this);
             }

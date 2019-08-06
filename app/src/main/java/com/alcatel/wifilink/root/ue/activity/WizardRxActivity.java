@@ -10,23 +10,23 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.alcatel.wifilink.R;
-import com.alcatel.wifilink.root.bean.SimStatus;
 import com.alcatel.wifilink.network.RX;
 import com.alcatel.wifilink.network.ResponseBody;
 import com.alcatel.wifilink.network.ResponseObject;
-import com.alcatel.wifilink.root.bean.Other_PinPukBean;
-import com.alcatel.wifilink.root.helper.GetWanSettingHelper;
-import com.alcatel.wifilink.root.helper.LogoutHelper;
-import com.alcatel.wifilink.root.helper.SystemInfoHelper;
-import com.alcatel.wifilink.root.helper.WpsHelper;
 import com.alcatel.wifilink.root.app.SmartLinkV3App;
+import com.alcatel.wifilink.root.bean.Other_PinPukBean;
 import com.alcatel.wifilink.root.helper.Cons;
+import com.alcatel.wifilink.root.helper.GetWanSettingHelper;
+import com.alcatel.wifilink.root.helper.SystemInfoHelper;
 import com.alcatel.wifilink.root.helper.TimerHelper;
+import com.alcatel.wifilink.root.helper.WpsHelper;
 import com.alcatel.wifilink.root.utils.CA;
 import com.alcatel.wifilink.root.utils.Logs;
 import com.alcatel.wifilink.root.utils.OtherUtils;
 import com.alcatel.wifilink.root.utils.SP;
 import com.alcatel.wifilink.root.utils.ToastUtil_m;
+import com.p_xhelper_smart.p_xhelper_smart.helper.GetSimStatusHelper;
+import com.p_xhelper_smart.p_xhelper_smart.helper.LogoutHelper;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -115,12 +115,10 @@ public class WizardRxActivity extends BaseActivityWithBack {
     }
 
     private void logout() {
-        new LogoutHelper(this) {
-            @Override
-            public void logoutFinish() {
-                to(LoginRxActivity.class);
-            }
-        };
+        LogoutHelper xLogouthelper = new LogoutHelper();
+        xLogouthelper.setOnLogoutSuccessListener(() -> to(LoginRxActivity.class));
+        xLogouthelper.setOnLogOutFailedListener(() -> ToastUtil_m.show(this, getString(R.string.login_logout_failed)));
+        xLogouthelper.logout();
     }
 
     /**
@@ -167,30 +165,22 @@ public class WizardRxActivity extends BaseActivityWithBack {
                     wan.get();
 
                     // 检测SIM卡连接
-                    RX.getInstant().getSimStatus(new ResponseObject<SimStatus>() {
-                        @Override
-                        protected void onSuccess(SimStatus result) {
-                            int simState = result.getSIMState();
-                            boolean isSimEffect = simState == Cons.PIN_REQUIRED | simState == Cons.PUK_REQUIRED | simState == Cons.READY;
-                            ivSimRx.setImageDrawable(isSimEffect ? sim_checked_pic : sim_unchecked_pic);
-                            tvSimRx.setText(isSimEffect ? sim_checked_str : sim_unchecked_str);
-                            tvSimRx.setTextColor(isSimEffect ? blue_color : red_color);
-                        }
 
-                        @Override
-                        protected void onResultError(ResponseBody.Error error) {
-                            ivSimRx.setImageDrawable(sim_unchecked_pic);
-                            tvSimRx.setText(sim_unchecked_str);
-                            tvSimRx.setTextColor(red_color);
-                        }
-
-                        @Override
-                        public void onError(Throwable e) {
-                            ivSimRx.setImageDrawable(sim_unchecked_pic);
-                            tvSimRx.setText(sim_unchecked_str);
-                            tvSimRx.setTextColor(red_color);
-                        }
+                    GetSimStatusHelper xGetSimStatusHelper = new GetSimStatusHelper();
+                    xGetSimStatusHelper.setOnGetSimStatusSuccessListener(result -> {
+                        int simState = result.getSIMState();
+                        boolean isSimEffect = simState == Cons.PIN_REQUIRED | simState == Cons.PUK_REQUIRED | simState == Cons.READY;
+                        ivSimRx.setImageDrawable(isSimEffect ? sim_checked_pic : sim_unchecked_pic);
+                        tvSimRx.setText(isSimEffect ? sim_checked_str : sim_unchecked_str);
+                        tvSimRx.setTextColor(isSimEffect ? blue_color : red_color);
                     });
+                    xGetSimStatusHelper.setOnGetSimStatusFailedListener(() -> {
+                        ivSimRx.setImageDrawable(sim_unchecked_pic);
+                        tvSimRx.setText(sim_unchecked_str);
+                        tvSimRx.setTextColor(red_color);
+                    });
+                    xGetSimStatusHelper.getSimStatus();
+
                 } else {
                     wifiDisconnect();// wifi失效
                 }
@@ -332,81 +322,70 @@ public class WizardRxActivity extends BaseActivityWithBack {
             if (pgd == null) {
                 pgd = OtherUtils.showProgressPop(this);
             }
-            RX.getInstant().getSimStatus(new ResponseObject<SimStatus>() {
-                @Override
-                protected void onSuccess(SimStatus result) {
-                    int simState = result.getSIMState();
-                    if (simState == Cons.READY) {
-                        OtherUtils.hideProgressPop(pgd);
-                        // 检测是否进入过向导设置
-                        if (SP.getInstance(WizardRxActivity.this).getBoolean(Cons.DATAPLAN_RX, false)) {
-                            if (SP.getInstance(WizardRxActivity.this).getBoolean(Cons.WIFIINIT_RX, false)) {
-                                to(HomeRxActivity.class);
-                            } else {
-                                checkWps();// 检测是否为WPS,true:则不允许进入wifi修改界面
-                            }
+
+            GetSimStatusHelper xGetSimStatusHelper = new GetSimStatusHelper();
+            xGetSimStatusHelper.setOnGetSimStatusSuccessListener(result -> {
+                int simState = result.getSIMState();
+                if (simState == Cons.READY) {
+                    OtherUtils.hideProgressPop(pgd);
+                    // 检测是否进入过向导设置
+                    if (SP.getInstance(WizardRxActivity.this).getBoolean(Cons.DATAPLAN_RX, false)) {
+                        if (SP.getInstance(WizardRxActivity.this).getBoolean(Cons.WIFIINIT_RX, false)) {
+                            to(HomeRxActivity.class);
                         } else {
-                            EventBus.getDefault().postSticky(Cons.WIZARD_RX);
-                            to(DataPlanRxActivity.class);
+                            checkWps();// 检测是否为WPS,true:则不允许进入wifi修改界面
                         }
-                        return;
-                    }
-                    if (simState == Cons.NONE) {
-                        OtherUtils.hideProgressPop(pgd);
-                        toast(R.string.connect_type_select_sim_card_disable);
-                        return;
-                    }
-                    if (simState == Cons.DETECTED || simState == Cons.INITING) {
-                        clickSimRl();
-                        return;
-                    }
-                    if (simState == Cons.SIMLOCK) {
-                        OtherUtils.hideProgressPop(pgd);
-                        toast(R.string.Home_SimLock_Required);
-                        return;
-                    }
-                    if (simState == Cons.ILLEGAL) {
-                        OtherUtils.hideProgressPop(pgd);
-                        toast(R.string.Home_sim_invalid);
-                        return;
-                    }
-                    if (simState == Cons.PIN_REQUIRED) {
-                        OtherUtils.hideProgressPop(pgd);
-                        EventBus.getDefault().postSticky(new Other_PinPukBean(Cons.PIN_FLAG));
+                    } else {
                         EventBus.getDefault().postSticky(Cons.WIZARD_RX);
-                        to(PinPukIndexRxActivity.class);
-                        return;
+                        to(DataPlanRxActivity.class);
                     }
-                    if (simState == Cons.PUK_REQUIRED) {
-                        OtherUtils.hideProgressPop(pgd);
-                        EventBus.getDefault().postSticky(new Other_PinPukBean(Cons.PUK_FLAG));
-                        EventBus.getDefault().postSticky(Cons.WIZARD_RX);
-                        to(PinPukIndexRxActivity.class);
-                        return;
-                    }
-                    if (simState == Cons.PUK_TIMESOUT) {
-                        OtherUtils.hideProgressPop(pgd);
-                        toast(R.string.puk_alarm_des1);
-                        return;
-                    }
+                    return;
                 }
-
-                @Override
-                protected void onResultError(ResponseBody.Error error) {
-                    Log.v("ma_couldn_connect", "WizardRx clickSimRl error:" + error.getMessage());
-                    toast(R.string.connect_failed);
+                if (simState == Cons.NONE) {
                     OtherUtils.hideProgressPop(pgd);
-                    to(RefreshWifiRxActivity.class);
+                    toast(R.string.connect_type_select_sim_card_disable);
+                    return;
                 }
-
-                @Override
-                public void onError(Throwable e) {
-                    Log.v("ma_couldn_connect", "WizardRx clickSimRl error:" + e.getMessage());
-                    toast(R.string.connect_failed);
+                if (simState == Cons.DETECTED || simState == Cons.INITING) {
+                    clickSimRl();
+                    return;
+                }
+                if (simState == Cons.SIMLOCK) {
                     OtherUtils.hideProgressPop(pgd);
-                    to(RefreshWifiRxActivity.class);
+                    toast(R.string.Home_SimLock_Required);
+                    return;
+                }
+                if (simState == Cons.ILLEGAL) {
+                    OtherUtils.hideProgressPop(pgd);
+                    toast(R.string.Home_sim_invalid);
+                    return;
+                }
+                if (simState == Cons.PIN_REQUIRED) {
+                    OtherUtils.hideProgressPop(pgd);
+                    EventBus.getDefault().postSticky(new Other_PinPukBean(Cons.PIN_FLAG));
+                    EventBus.getDefault().postSticky(Cons.WIZARD_RX);
+                    to(PinPukIndexRxActivity.class);
+                    return;
+                }
+                if (simState == Cons.PUK_REQUIRED) {
+                    OtherUtils.hideProgressPop(pgd);
+                    EventBus.getDefault().postSticky(new Other_PinPukBean(Cons.PUK_FLAG));
+                    EventBus.getDefault().postSticky(Cons.WIZARD_RX);
+                    to(PinPukIndexRxActivity.class);
+                    return;
+                }
+                if (simState == Cons.PUK_TIMESOUT) {
+                    OtherUtils.hideProgressPop(pgd);
+                    toast(R.string.puk_alarm_des1);
+                    return;
                 }
             });
+            xGetSimStatusHelper.setOnGetSimStatusFailedListener(() -> {
+                toast(R.string.connect_failed);
+                OtherUtils.hideProgressPop(pgd);
+                to(RefreshWifiRxActivity.class);
+            });
+            xGetSimStatusHelper.getSimStatus();
         } else {
             wifiDisconnect();
         }

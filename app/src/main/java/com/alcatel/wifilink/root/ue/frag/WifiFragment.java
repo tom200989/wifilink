@@ -22,30 +22,29 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.alcatel.wifilink.R;
-import com.alcatel.wifilink.root.bean.AP;
-import com.alcatel.wifilink.root.utils.C_ENUM;
-import com.alcatel.wifilink.root.bean.User_LoginState;
-import com.alcatel.wifilink.root.bean.WlanSettings;
-import com.alcatel.wifilink.root.bean.WlanSupportAPMode;
 import com.alcatel.wifilink.network.RX;
 import com.alcatel.wifilink.network.ResponseBody;
 import com.alcatel.wifilink.network.ResponseObject;
+import com.alcatel.wifilink.root.bean.AP;
+import com.alcatel.wifilink.root.bean.WlanSettings;
+import com.alcatel.wifilink.root.helper.Cons;
 import com.alcatel.wifilink.root.helper.PreHelper;
 import com.alcatel.wifilink.root.helper.SystemInfoHelper;
-import com.alcatel.wifilink.root.ue.activity.HomeRxActivity;
-import com.alcatel.wifilink.root.widget.DialogOkWidget;
-import com.alcatel.wifilink.root.ue.activity.RefreshWifiActivity;
-import com.alcatel.wifilink.root.ue.activity.WlanAdvancedSettingsActivity;
-import com.alcatel.wifilink.root.helper.Cons;
 import com.alcatel.wifilink.root.helper.TimerHelper;
 import com.alcatel.wifilink.root.helper.WepPsdHelper;
 import com.alcatel.wifilink.root.helper.WpaPsdHelper;
+import com.alcatel.wifilink.root.ue.activity.HomeRxActivity;
+import com.alcatel.wifilink.root.ue.activity.RefreshWifiActivity;
+import com.alcatel.wifilink.root.ue.activity.WlanAdvancedSettingsActivity;
 import com.alcatel.wifilink.root.utils.CA;
+import com.alcatel.wifilink.root.utils.C_ENUM;
 import com.alcatel.wifilink.root.utils.Lgg;
 import com.alcatel.wifilink.root.utils.Logs;
 import com.alcatel.wifilink.root.utils.OtherUtils;
 import com.alcatel.wifilink.root.utils.ToastUtil_m;
 import com.alcatel.wifilink.root.utils.fraghandler.FragmentBackHandler;
+import com.alcatel.wifilink.root.widget.DialogOkWidget;
+import com.p_xhelper_smart.p_xhelper_smart.helper.GetWlanSupportModeHelper;
 
 import static android.app.Activity.RESULT_OK;
 import static com.alcatel.wifilink.R.id.text_advanced_settings_2g;
@@ -323,24 +322,19 @@ public class WifiFragment extends Fragment implements View.OnClickListener, Adap
 
 
     private void requestWlanSupportMode() {
-        RX.getInstant().getWlanSupportMode(new ResponseObject<WlanSupportAPMode>() {
-            @Override
-            protected void onSuccess(WlanSupportAPMode result) {
-                // 获取到wlan支持模式
-                // 0: 2.4G
-                // 1: 5G
-                // 2: 2.4G+2.4G
-                // 3: 5G+5G
-                int wlanSupportAPMode = result.getWlanSupportAPMode();
-                updateUIWithSupportMode(wlanSupportAPMode);
-                requestWlanSettings();
-            }
 
-            @Override
-            protected void onFailure() {
-
-            }
+        GetWlanSupportModeHelper xGetWlanSupportModeHelper = new GetWlanSupportModeHelper();
+        xGetWlanSupportModeHelper.setOnGetWlanSupportModeSuccessListener(attr -> {
+            // 获取到wlan支持模式
+            // 0: 2.4G
+            // 1: 5G
+            // 2: 2.4G+2.4G
+            // 3: 5G+5G
+            int wlanSupportAPMode = attr.getWlanAPMode();
+            updateUIWithSupportMode(wlanSupportAPMode);
+            requestWlanSettings();
         });
+        xGetWlanSupportModeHelper.getWlanSupportMode();
     }
 
     private void updateUIWithWlanSettings() {
@@ -673,30 +667,6 @@ public class WifiFragment extends Fragment implements View.OnClickListener, Adap
             @Override
             protected void onFailure() {
                 rlWait.setVisibility(View.GONE);
-            }
-        });
-    }
-
-    private void checkLoginState() {
-        RX.getInstant().getLoginState(new ResponseObject<User_LoginState>() {
-            @Override
-            protected void onSuccess(User_LoginState result) {
-                checkLoginState();
-            }
-
-            @Override
-            protected void onResultError(ResponseBody.Error error) {
-                error();
-            }
-
-            @Override
-            protected void onFailure() {
-                error();
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                error();
             }
         });
     }

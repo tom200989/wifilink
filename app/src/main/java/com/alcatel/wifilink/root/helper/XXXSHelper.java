@@ -3,12 +3,12 @@ package com.alcatel.wifilink.root.helper;
 import android.app.Activity;
 import android.app.ProgressDialog;
 
-import com.alcatel.wifilink.root.bean.SimStatus;
-import com.alcatel.wifilink.root.bean.SMSStorageState;
-import com.alcatel.wifilink.root.bean.SmsInitState;
 import com.alcatel.wifilink.network.RX;
 import com.alcatel.wifilink.network.ResponseBody;
 import com.alcatel.wifilink.network.ResponseObject;
+import com.alcatel.wifilink.root.bean.SimStatus;
+import com.alcatel.wifilink.root.bean.SmsInitState;
+import com.p_xhelper_smart.p_xhelper_smart.helper.GetSMSStorageStateHelper;
 
 /**
  * Created by qianli.ma on 2017/11/22 0022.
@@ -85,23 +85,17 @@ public class XXXSHelper {
      * 获取未读短信数
      */
     private void getSmsUnread() {
-        RX.getInstant().getSMSStorageState(new ResponseObject<SMSStorageState>() {
-            @Override
-            protected void onSuccess(SMSStorageState result) {
-                int unreadSMSCount = result.getUnreadSMSCount();
-                unreadNext(unreadSMSCount);
-            }
 
-            @Override
-            protected void onResultError(ResponseBody.Error error) {
-                resultErrorNext(error);
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                errorNext(e);
-            }
+        GetSMSStorageStateHelper xGetSMSStorageStateHelper = new GetSMSStorageStateHelper();
+        xGetSMSStorageStateHelper.setOnGetSMSStoreStateSuccessListener(stateBean -> {
+            int unreadSMSCount = stateBean.getUnreadSMSCount();
+            unreadNext(unreadSMSCount);
         });
+        xGetSMSStorageStateHelper.setOnGetSMSStoreStateFailedListener(() -> {
+            resultErrorNext(null);
+            errorNext(null);
+        });
+        xGetSMSStorageStateHelper.getSMSStorageState();
     }
 
     /* -------------------------------------------- interface -------------------------------------------- */

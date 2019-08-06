@@ -2,12 +2,12 @@ package com.alcatel.wifilink.root.helper;
 
 import android.app.Activity;
 
-import com.alcatel.wifilink.root.bean.User_LoginState;
-import com.alcatel.wifilink.network.RX;
 import com.alcatel.wifilink.network.ResponseBody;
-import com.alcatel.wifilink.network.ResponseObject;
+import com.alcatel.wifilink.root.bean.User_LoginState;
 import com.alcatel.wifilink.root.utils.Logs;
 import com.alcatel.wifilink.root.utils.OtherUtils;
+import com.p_xhelper_smart.p_xhelper_smart.bean.GetLoginStateBean;
+import com.p_xhelper_smart.p_xhelper_smart.helper.GetLoginStateHelper;
 
 /**
  * Created by qianli.ma on 2018/1/4 0004.
@@ -26,24 +26,14 @@ public class LoginStateHelper {
         if (wifiConnect) {
             yesWifiNext(wifiConnect);
             // 请求接口前
-            RX.getInstant().getLoginState(new ResponseObject<User_LoginState>() {
-                @Override
-                protected void onSuccess(User_LoginState result) {
-                    loginStateNext(result);
-                }
-
-                @Override
-                protected void onResultError(ResponseBody.Error error) {
-                    Logs.v("ma_unknown", "LoginStateHelper: onResultError");
-                    resultErrorNext(error);
-                }
-
-                @Override
-                public void onError(Throwable e) {
-                    Logs.v("ma_unknown", "LoginStateHelper: onError");
-                    errorNext(e);
-                }
+            GetLoginStateHelper xGetLoginStateHelper = new GetLoginStateHelper();
+            xGetLoginStateHelper.setOnGetLoginStateSuccessListener(this::loginStateNext);
+            xGetLoginStateHelper.setOnGetLoginStateFailedListener(() -> {
+                resultErrorNext(null);
+                errorNext(null);
             });
+            xGetLoginStateHelper.getLoginState();
+
         } else {
             Logs.v("ma_unknown", "LoginStateHelper: no wifi");
             noWifiNext(wifiConnect);
@@ -63,7 +53,7 @@ public class LoginStateHelper {
     }
 
     // 封装方法loginStateNext
-    private void loginStateNext(User_LoginState attr) {
+    private void loginStateNext(GetLoginStateBean attr) {
         if (onLoginstateListener != null) {
             onLoginstateListener.loginState(attr);
         }

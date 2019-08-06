@@ -3,13 +3,11 @@ package com.alcatel.wifilink.root.helper;
 import android.app.Activity;
 
 import com.alcatel.wifilink.R;
-import com.alcatel.wifilink.root.bean.Network;
-import com.alcatel.wifilink.network.RX;
-import com.alcatel.wifilink.network.ResponseBody;
-import com.alcatel.wifilink.network.ResponseObject;
-import com.alcatel.wifilink.root.helper.NetworkSettingHelper;
 import com.alcatel.wifilink.root.utils.CA;
 import com.alcatel.wifilink.root.utils.ToastUtil_m;
+import com.p_xhelper_smart.p_xhelper_smart.bean.GetNetworkSettingsBean;
+import com.p_xhelper_smart.p_xhelper_smart.bean.SetNetworkSettingsParam;
+import com.p_xhelper_smart.p_xhelper_smart.helper.SetNetworkSettingsHelper;
 
 /**
  * Created by qianli.ma on 2017/12/11 0011.
@@ -26,27 +24,22 @@ public class ModeHelper {
         // 1.现获取当前的Mode对象
         NetworkSettingHelper nshelper = new NetworkSettingHelper();
         nshelper.setOnNormalNetworkListener(attr -> {
-            attr.setNetworkMode(mode);// 2.修改为目标类型
             // 3.提交请求
-            RX.getInstant().setNetworkSettings(attr, new ResponseObject() {
-                @Override
-                protected void onSuccess(Object result) {
-                    // 4.再次获取
-                    NetworkSettingHelper networkSettingHelper = new NetworkSettingHelper();
-                    networkSettingHelper.setOnNormalNetworkListener(result1 -> modeSuccessNext(result1));
-                    networkSettingHelper.getNetworkSetting();
-                }
-
-                @Override
-                protected void onResultError(ResponseBody.Error error) {
-                    toast(R.string.connect_failed);
-                }
-
-                @Override
-                public void onError(Throwable e) {
-                    toast(R.string.connect_failed);
-                }
+            SetNetworkSettingsParam param = new SetNetworkSettingsParam();
+            param.setDomesticRoam(attr.getDomesticRoam());
+            param.setDomesticRoamGuard(attr.getDomesticRoamGuard());
+            param.setNetselectionMode(attr.getNetselectionMode());
+            param.setNetworkBand(attr.getNetworkBand());
+            param.setNetworkMode(mode);
+            SetNetworkSettingsHelper xSetNetworkSettingsHelper = new SetNetworkSettingsHelper();
+            xSetNetworkSettingsHelper.setOnSetNetworkSettingsSuccessListener(() -> {
+                // 4.再次获取
+                NetworkSettingHelper networkSettingHelper = new NetworkSettingHelper();
+                networkSettingHelper.setOnNormalNetworkListener(this::modeSuccessNext);
+                networkSettingHelper.getNetworkSetting();
             });
+            xSetNetworkSettingsHelper.setOnSetNetworkSettingsFailedListener(() -> toast(R.string.connect_failed));
+            xSetNetworkSettingsHelper.setNetworkSettings(param);
         });
         nshelper.getNetworkSetting();
     }
@@ -55,7 +48,7 @@ public class ModeHelper {
 
     // 接口OnModeSuccessListener
     public interface OnModeSuccessListener {
-        void modeSuccess(Network attr);
+        void modeSuccess(GetNetworkSettingsBean attr);
     }
 
     // 对外方式setOnModeSuccessListener
@@ -64,7 +57,7 @@ public class ModeHelper {
     }
 
     // 封装方法modeSuccessNext
-    private void modeSuccessNext(Network attr) {
+    private void modeSuccessNext(GetNetworkSettingsBean attr) {
         if (onModeSuccessListener != null) {
             onModeSuccessListener.modeSuccess(attr);
         }

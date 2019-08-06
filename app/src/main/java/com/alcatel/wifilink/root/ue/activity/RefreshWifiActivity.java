@@ -13,14 +13,9 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.alcatel.wifilink.R;
-import com.alcatel.wifilink.root.bean.User_LoginState;
-import com.alcatel.wifilink.network.RX;
-import com.alcatel.wifilink.network.ResponseBody;
-import com.alcatel.wifilink.network.ResponseObject;
 import com.alcatel.wifilink.root.utils.OtherUtils;
-
-import java.net.ConnectException;
-import java.net.SocketTimeoutException;
+import com.p_xhelper_smart.p_xhelper_smart.helper.GetLoginStateHelper;
+import com.p_xhelper_smart.p_xhelper_smart.helper.LogoutHelper;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -62,22 +57,8 @@ public class RefreshWifiActivity extends AppCompatActivity {
     }
 
     private void logout() {
-        RX.getInstant().logout(new ResponseObject() {
-            @Override
-            protected void onSuccess(Object result) {
-                
-            }
-
-            @Override
-            protected void onResultError(ResponseBody.Error error) {
-                
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                
-            }
-        });
+        LogoutHelper xLogoutHelper = new LogoutHelper();
+        xLogoutHelper.logout();
     }
 
     private void initDate() {
@@ -114,37 +95,17 @@ public class RefreshWifiActivity extends AppCompatActivity {
      */
     private void checkBoardIsConn() {
         // 1.检测接口是否有数据返回--> success连接正确 failed连接不正确
-        RX.getInstant().getLoginState(new ResponseObject<User_LoginState>() {
-
-            @Override
-            public void onStart() {
-                pdDialog.setMessage(getString(R.string.connecting));
-                pdDialog.show();
-            }
-
-            @Override
-            protected void onSuccess(User_LoginState result) {
-                pdDialog.dismiss();
-                // CA.toActivity(refreshContext, LoginActivity.class, false, true, false, 0);
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                pdDialog.dismiss();
-                showConnDialog();
-                if (e instanceof SocketTimeoutException) {/* 连接超时 */
-                    // to RefreshWifiActivity
-                } else if (e instanceof ConnectException) {
-                    // to RefreshWifiActivity
-                } else {
-                }
-            }
-
-            @Override
-            protected void onResultError(ResponseBody.Error error) {
-                pdDialog.dismiss();
-            }
+        pdDialog.setMessage(getString(R.string.connecting));
+        pdDialog.show();
+        GetLoginStateHelper xGetLoginStateHelper = new GetLoginStateHelper();
+        xGetLoginStateHelper.setOnGetLoginStateSuccessListener(getLoginStateBean -> {
+            pdDialog.dismiss();
         });
+        xGetLoginStateHelper.setOnGetLoginStateFailedListener(() -> {
+            pdDialog.dismiss();
+            showConnDialog();
+        });
+        xGetLoginStateHelper.getLoginState();
     }
 
 

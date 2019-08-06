@@ -9,7 +9,6 @@ import com.alcatel.wifilink.network.ResponseBody;
 import com.alcatel.wifilink.network.ResponseObject;
 import com.alcatel.wifilink.root.bean.Other_PinPukBean;
 import com.alcatel.wifilink.root.helper.CheckBoard;
-import com.alcatel.wifilink.root.helper.LogoutHelper;
 import com.alcatel.wifilink.root.ue.frag.PinPukPinFragment;
 import com.alcatel.wifilink.root.ue.frag.PinPukPukFragment;
 import com.alcatel.wifilink.root.app.SmartLinkV3App;
@@ -17,6 +16,8 @@ import com.alcatel.wifilink.root.helper.Cons;
 import com.alcatel.wifilink.root.helper.TimerHelper;
 import com.alcatel.wifilink.root.utils.CA;
 import com.alcatel.wifilink.root.utils.FraHelpers;
+import com.alcatel.wifilink.root.utils.ToastUtil_m;
+import com.p_xhelper_smart.p_xhelper_smart.helper.LogoutHelper;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -105,12 +106,10 @@ public class PinPukIndexRxActivity extends BaseActivityWithBack {
         if (Cons.WIZARD_RX.equalsIgnoreCase(flag)) {
             to(WizardRxActivity.class);
         } else {
-            new LogoutHelper(this) {
-                @Override
-                public void logoutFinish() {
-                    to(LoginRxActivity.class);
-                }
-            };
+            LogoutHelper xLogouthelper = new LogoutHelper();
+            xLogouthelper.setOnLogoutSuccessListener(() -> to(LoginRxActivity.class));
+            xLogouthelper.setOnLogOutFailedListener(() -> ToastUtil_m.show(this, getString(R.string.login_logout_failed)));
+            xLogouthelper.logout();
         }
     }
 

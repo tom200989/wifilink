@@ -39,7 +39,6 @@ import com.alcatel.wifilink.root.helper.Extender_GetWIFIExtenderSettingsHelper;
 import com.alcatel.wifilink.root.helper.BoardSimHelper;
 import com.alcatel.wifilink.root.helper.BoardWanHelper;
 import com.alcatel.wifilink.root.helper.CheckBoardLogin;
-import com.alcatel.wifilink.root.helper.LogoutHelper;
 import com.alcatel.wifilink.root.helper.SystemInfoHelper;
 import com.alcatel.wifilink.root.helper.FirmUpgradeHelper;
 import com.alcatel.wifilink.root.helper.UpgradeHelper;
@@ -63,6 +62,7 @@ import com.alcatel.wifilink.root.utils.ScreenSize;
 import com.alcatel.wifilink.root.utils.ToastUtil_m;
 import com.alcatel.wifilink.root.utils.fraghandler.FragmentBackHandler;
 import com.p_numberbar.p_numberbar.core.NumberProgressBar;
+import com.p_xhelper_smart.p_xhelper_smart.helper.LogoutHelper;
 
 import java.io.File;
 import java.net.SocketTimeoutException;
@@ -1107,12 +1107,9 @@ public class SettingFragment extends Fragment implements View.OnClickListener, F
      */
     private void logout() {
         OtherUtils.clearAllTimer();
-        new LogoutHelper(getActivity()) {
-            @Override
-            public void logoutFinish() {
-                Logs.t("check login").ii(getClass().getSimpleName() + ": line--> " + "1105");
-                to(LoginRxActivity.class, true);
-            }
-        };
+        LogoutHelper xLogouthelper = new LogoutHelper();
+        xLogouthelper.setOnLogoutSuccessListener(() -> to(LoginRxActivity.class, true));
+        xLogouthelper.setOnLogOutFailedListener(() -> ToastUtil_m.show(getActivity(), getString(R.string.login_logout_failed)));
+        xLogouthelper.logout();
     }
 }

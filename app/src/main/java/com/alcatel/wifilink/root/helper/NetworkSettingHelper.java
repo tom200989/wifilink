@@ -1,10 +1,9 @@
 package com.alcatel.wifilink.root.helper;
 
-import com.alcatel.wifilink.root.bean.Network;
-import com.alcatel.wifilink.root.bean.NetworkRegisterState;
-import com.alcatel.wifilink.network.RX;
 import com.alcatel.wifilink.network.ResponseBody;
-import com.alcatel.wifilink.network.ResponseObject;
+import com.p_xhelper_smart.p_xhelper_smart.bean.GetNetworkSettingsBean;
+import com.p_xhelper_smart.p_xhelper_smart.helper.GetNetworkRegisterStateHelper;
+import com.p_xhelper_smart.p_xhelper_smart.helper.GetNetworkSettingsBeanHelper;
 
 /**
  * Created by qianli.ma on 2017/12/11 0011.
@@ -21,82 +20,60 @@ public class NetworkSettingHelper {
      */
     public void getNetworkSetting() {
         // 先获取注册状态
-        RX.getInstant().getNetworkRegisterState(new ResponseObject<NetworkRegisterState>() {
-            @Override
-            protected void onSuccess(NetworkRegisterState result) {
-                if (result.getRegist_state() == Cons.REGISTER_SUCCESSFUL) {
-                    // 再获取网络注册模式
-                    getnetworkSetting();
-                }
-            }
-
-            @Override
-            protected void onResultError(ResponseBody.Error error) {
-
-            }
-
-            @Override
-            public void onError(Throwable e) {
-
-            }
-        });
-
+        GetNetworkRegisterStateHelper xGetNetworkRegisterStateHelper = new GetNetworkRegisterStateHelper();
+        xGetNetworkRegisterStateHelper.setOnRegisterSuccessListener(this::getnetworkSetting);
+        xGetNetworkRegisterStateHelper.getNetworkRegisterState();
     }
 
     private void getnetworkSetting() {
-        RX.getInstant().getNetworkSettings(new ResponseObject<Network>() {
-            @Override
-            protected void onSuccess(Network result) {
-                normalNetworkNext(result);
-                int networkMode = result.getNetworkMode();
-                switch (networkMode) {
-                    // 自动模式
-                    case Cons.AUTO_MODE:
-                        autoNext(result);
-                        break;
 
-                    // 2G模式
-                    case Cons.ONLY_2G:
-                    case Cons.GSM_LTE:
-                    case Cons.GSM_UMTS:
-                        mode2GNext(result);
-                        break;
+        GetNetworkSettingsBeanHelper xGetNetworkSettingsBeanHelper = new GetNetworkSettingsBeanHelper();
+        xGetNetworkSettingsBeanHelper.setOnGetNetworkSettingsSuccessListener(result -> {
+            normalNetworkNext(result);
+            int networkMode = result.getNetworkMode();
+            switch (networkMode) {
+                // 自动模式
+                case Cons.AUTO_MODE:
+                    autoNext(result);
+                    break;
 
-                    // 3G模式
-                    case Cons.ONLY_3G:
-                    case Cons.UMTS_LTE:
-                    case Cons.CDMA_EVDO:
-                    case Cons.EVDO_ONLY:
-                    case Cons.CDMA_EHRPD:
-                    case Cons.CDMA_ONLY_1X_SPRINT:
-                        mode3GNext(result);
-                        break;
+                // 2G模式
+                case Cons.ONLY_2G:
+                case Cons.GSM_LTE:
+                case Cons.GSM_UMTS:
+                    mode2GNext(result);
+                    break;
 
-                    // 4G模式
-                    case Cons.ONLY_LTE:
-                    case Cons.LTE_CDMA_EVDO:
-                        mode4GNext(result);
-                        break;
-                }
-            }
+                // 3G模式
+                case Cons.ONLY_3G:
+                case Cons.UMTS_LTE:
+                case Cons.CDMA_EVDO:
+                case Cons.EVDO_ONLY:
+                case Cons.CDMA_EHRPD:
+                case Cons.CDMA_ONLY_1X_SPRINT:
+                    mode3GNext(result);
+                    break;
 
-            @Override
-            public void onError(Throwable e) {
-                errorNext(e);
-            }
-
-            @Override
-            protected void onResultError(ResponseBody.Error error) {
-                resultErrorNext(error);
+                // 4G模式
+                case Cons.ONLY_LTE:
+                case Cons.LTE_CDMA_EVDO:
+                    mode4GNext(result);
+                    break;
             }
         });
+        xGetNetworkSettingsBeanHelper.setOnGetNetworkSettingsFailedListener(() -> {
+            errorNext(null);
+            resultErrorNext(null);
+        });
+        xGetNetworkSettingsBeanHelper.getNetworkSettings();
+
     }
 
     private OnNormalNetworkListener onNormalNetworkListener;
 
     // 接口OnNormalNetworkListener
     public interface OnNormalNetworkListener {
-        void normalNetwork(Network attr);
+        void normalNetwork(GetNetworkSettingsBean attr);
     }
 
     // 对外方式setOnNormalNetworkListener
@@ -105,7 +82,7 @@ public class NetworkSettingHelper {
     }
 
     // 封装方法normalNetworkNext
-    private void normalNetworkNext(Network attr) {
+    private void normalNetworkNext(GetNetworkSettingsBean attr) {
         if (onNormalNetworkListener != null) {
             onNormalNetworkListener.normalNetwork(attr);
         }
@@ -115,7 +92,7 @@ public class NetworkSettingHelper {
 
     // 接口OnAutoListener
     public interface OnAutoListener {
-        void auto(Network attr);
+        void auto(GetNetworkSettingsBean attr);
     }
 
     // 对外方式setOnAutoListener
@@ -124,7 +101,7 @@ public class NetworkSettingHelper {
     }
 
     // 封装方法autoNext
-    private void autoNext(Network attr) {
+    private void autoNext(GetNetworkSettingsBean attr) {
         if (onAutoListener != null) {
             onAutoListener.auto(attr);
         }
@@ -134,7 +111,7 @@ public class NetworkSettingHelper {
 
     // 接口On4GListener
     public interface On4GListener {
-        void mode4G(Network attr);
+        void mode4G(GetNetworkSettingsBean attr);
     }
 
     // 对外方式setOn4GListener
@@ -143,7 +120,7 @@ public class NetworkSettingHelper {
     }
 
     // 封装方法mode4GNext
-    private void mode4GNext(Network attr) {
+    private void mode4GNext(GetNetworkSettingsBean attr) {
         if (on4GListener != null) {
             on4GListener.mode4G(attr);
         }
@@ -153,7 +130,7 @@ public class NetworkSettingHelper {
 
     // 接口On3GListener
     public interface On3GListener {
-        void mode3G(Network attr);
+        void mode3G(GetNetworkSettingsBean attr);
     }
 
     // 对外方式setOn3GListener
@@ -162,7 +139,7 @@ public class NetworkSettingHelper {
     }
 
     // 封装方法mode3GNext
-    private void mode3GNext(Network attr) {
+    private void mode3GNext(GetNetworkSettingsBean attr) {
         if (on3GListener != null) {
             on3GListener.mode3G(attr);
         }
@@ -172,7 +149,7 @@ public class NetworkSettingHelper {
 
     // 接口On2GListener
     public interface On2GListener {
-        void mode2G(Network attr);
+        void mode2G(GetNetworkSettingsBean attr);
     }
 
     // 对外方式setOn2GListener
@@ -181,7 +158,7 @@ public class NetworkSettingHelper {
     }
 
     // 封装方法mode2GNext
-    private void mode2GNext(Network attr) {
+    private void mode2GNext(GetNetworkSettingsBean attr) {
         if (on2GListener != null) {
             on2GListener.mode2G(attr);
         }

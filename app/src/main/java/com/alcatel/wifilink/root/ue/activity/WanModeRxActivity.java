@@ -16,7 +16,6 @@ import com.alcatel.wifilink.root.bean.WanSettingsResult;
 import com.alcatel.wifilink.root.helper.BoardWanHelper;
 import com.alcatel.wifilink.root.helper.CheckBoardLogin;
 import com.alcatel.wifilink.root.helper.GetWanSettingHelper;
-import com.alcatel.wifilink.root.helper.LogoutHelper;
 import com.alcatel.wifilink.root.helper.WpsHelper;
 import com.alcatel.wifilink.root.app.SmartLinkV3App;
 import com.alcatel.wifilink.root.helper.Cons;
@@ -26,6 +25,7 @@ import com.alcatel.wifilink.root.utils.Logs;
 import com.alcatel.wifilink.root.utils.OtherUtils;
 import com.alcatel.wifilink.root.utils.SP;
 import com.alcatel.wifilink.root.utils.ToastUtil_m;
+import com.p_xhelper_smart.p_xhelper_smart.helper.LogoutHelper;
 import com.zhy.android.percent.support.PercentRelativeLayout;
 
 import org.greenrobot.eventbus.EventBus;
@@ -219,12 +219,10 @@ public class WanModeRxActivity extends AppCompatActivity {
         if (Cons.WIZARD_RX.equalsIgnoreCase(flag)) {
             to(WizardRxActivity.class);
         } else {
-            new LogoutHelper(this) {
-                @Override
-                public void logoutFinish() {
-                    to(LoginRxActivity.class);
-                }
-            };
+            LogoutHelper xLogouthelper = new LogoutHelper();
+            xLogouthelper.setOnLogoutSuccessListener(() -> to(LoginRxActivity.class));
+            xLogouthelper.setOnLogOutFailedListener(() -> ToastUtil_m.show(this, getString(R.string.login_logout_failed)));
+            xLogouthelper.logout();
         }
     }
 

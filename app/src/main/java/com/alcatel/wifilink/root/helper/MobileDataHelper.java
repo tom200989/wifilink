@@ -3,12 +3,9 @@ package com.alcatel.wifilink.root.helper;
 import android.app.Activity;
 
 import com.alcatel.wifilink.R;
-import com.alcatel.wifilink.root.helper.BoardSimHelper;
-import com.alcatel.wifilink.root.helper.ConnectSettingHelper;
-import com.alcatel.wifilink.root.helper.ConnectStatusHelper;
-import com.alcatel.wifilink.root.helper.UsageHelper;
 import com.alcatel.wifilink.root.utils.CA;
 import com.alcatel.wifilink.root.utils.ToastUtil_m;
+import com.p_xhelper_smart.p_xhelper_smart.helper.GetConnectionStateHelper;
 
 /**
  * Created by qianli.ma on 2017/12/11 0011.
@@ -30,14 +27,13 @@ public class MobileDataHelper {
         BoardSimHelper boardSimHelper = new BoardSimHelper(context);
         boardSimHelper.setOnSimReadyListener(result -> {
             // 2.获取连接状态(断连--> 连接,连接--> 断连)
-            ConnectStatusHelper connectStatusHelper = new ConnectStatusHelper();
-            connectStatusHelper.setOnError(e -> toast(R.string.connect_failed));
-            connectStatusHelper.setOnResultError(e -> toast(R.string.connect_failed));
-            connectStatusHelper.setOnDisConnected(result1 -> toConn());// 连接
-            connectStatusHelper.setOnConnected(e -> toDisConn());// 断连
-            connectStatusHelper.setOnConnecting(result1 -> toast(R.string.connecting));
-            connectStatusHelper.setOnDisConnecting(result1 -> toast(R.string.setting_network_try_again));
-            connectStatusHelper.getStatus();
+            GetConnectionStateHelper xGetConnectionStateHelper = new GetConnectionStateHelper();
+            xGetConnectionStateHelper.setOnGetConnectionStateFailedListener(() -> toast(R.string.connect_failed));
+            xGetConnectionStateHelper.setOnDisConnectingListener(() -> toast(R.string.setting_network_try_again));
+            xGetConnectionStateHelper.setOnDisconnectedListener(this::toConn);
+            xGetConnectionStateHelper.setOnConnectingListener(() -> toast(R.string.connecting));
+            xGetConnectionStateHelper.setOnConnectedListener(this::toDisConn);
+            xGetConnectionStateHelper.getConnectionState();
         });
         boardSimHelper.setOnInitingListener(simStatus -> toast(R.string.home_initializing));
         boardSimHelper.setOnDetectedListener(simStatus -> toast(R.string.Home_SimCard_Detected));

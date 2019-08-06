@@ -13,6 +13,7 @@ import com.alcatel.wifilink.network.ResponseObject;
 import com.alcatel.wifilink.root.utils.CA;
 import com.alcatel.wifilink.root.utils.OtherUtils;
 import com.alcatel.wifilink.root.utils.ToastUtil_m;
+import com.p_xhelper_smart.p_xhelper_smart.helper.GetConnectionStateHelper;
 
 /**
  * Created by qianli.ma on 2017/12/15 0015.
@@ -193,14 +194,13 @@ public class FirmUpgradeHelper {
                 toast(R.string.qs_pin_unlock_can_not_connect_des);
             } else {
                 // 加入拨号连接的判断, 如果没有拨号连接则提示没有拨号
-                ConnectStatusHelper csh = new ConnectStatusHelper();
-                csh.setOnResultError(error -> toast(R.string.qs_pin_unlock_can_not_connect_des));
-                csh.setOnError(e -> toast(R.string.qs_pin_unlock_can_not_connect_des));
-                csh.setOnDisConnecting(result -> toast(R.string.setting_upgrade_no_connection));
-                csh.setOnDisConnected(result -> toast(R.string.setting_upgrade_no_connection));
-                csh.setOnConnecting(result -> toast(R.string.setting_upgrade_no_connection));
-                csh.setOnConnected(result -> checkNw());// 检查新版本
-                csh.getStatus();
+                GetConnectionStateHelper xGetConnectionStateHelper = new GetConnectionStateHelper();
+                xGetConnectionStateHelper.setOnGetConnectionStateFailedListener(() -> toast(R.string.qs_pin_unlock_can_not_connect_des));
+                xGetConnectionStateHelper.setOnDisConnectingListener(() -> toast(R.string.setting_upgrade_no_connection));
+                xGetConnectionStateHelper.setOnDisconnectedListener(() -> toast(R.string.setting_upgrade_no_connection));
+                xGetConnectionStateHelper.setOnConnectingListener(() ->toast(R.string.setting_upgrade_no_connection) );
+                xGetConnectionStateHelper.setOnConnectedListener(this::checkNw);
+                xGetConnectionStateHelper.getConnectionState();
             }
         });
         bsh.boardTimer();

@@ -5,16 +5,12 @@ import android.app.ProgressDialog;
 import android.util.Log;
 
 import com.alcatel.wifilink.R;
-import com.alcatel.wifilink.root.bean.User_LoginState;
-import com.alcatel.wifilink.network.RX;
-import com.alcatel.wifilink.network.ResponseBody;
-import com.alcatel.wifilink.network.ResponseObject;
 import com.alcatel.wifilink.root.ue.activity.LoginRxActivity;
 import com.alcatel.wifilink.root.ue.activity.RefreshWifiRxActivity;
 import com.alcatel.wifilink.root.utils.CA;
-import com.alcatel.wifilink.root.utils.Logs;
 import com.alcatel.wifilink.root.utils.OtherUtils;
 import com.alcatel.wifilink.root.utils.ToastUtil_m;
+import com.p_xhelper_smart.p_xhelper_smart.helper.GetLoginStateHelper;
 
 /**
  * 检测是否连接上硬件并处于登陆状态
@@ -48,32 +44,18 @@ public abstract class CheckBoardLogin {
                 @Override
                 public void successful() {
                     // 2.登陆状态
-                    RX.getInstant().getLoginState(new ResponseObject<User_LoginState>() {
-                        @Override
-                        protected void onSuccess(User_LoginState result) {
-                            if (result.getState() == Cons.LOGOUT) {
-                                Logs.t("check login").ii(getClass().getSimpleName() + ": line--> " + "56");
-                                to(LoginRxActivity.class);
-                                return;
-                            }
-                            // 3.连接成功后
-                            afterCheckSuccess(pgd);
+                    GetLoginStateHelper xGetLoginStateHelper = new GetLoginStateHelper();
+                    xGetLoginStateHelper.setOnGetLoginStateSuccessListener(getLoginStateBean -> {
+                        if (getLoginStateBean.getState() == Cons.LOGOUT) {
+                            to(LoginRxActivity.class);
+                            return;
                         }
-
-                        @Override
-                        protected void onResultError(ResponseBody.Error error) {
-                            // 3.错误--> wifi界面
-                            to(RefreshWifiRxActivity.class);
-                            Logs.t("ma_unknown").vv("CheckBoardLogin--> initCheckTimer--> onResultError");
-                        }
-
-                        @Override
-                        public void onError(Throwable e) {
-                            // 3.错误--> wifi界面
-                            to(RefreshWifiRxActivity.class);
-                            Logs.t("ma_unknown").vv("CheckBoardLogin--> initCheckTimer--> onError");
-                        }
+                        // 3.连接成功后
+                        afterCheckSuccess(pgd);
                     });
+                    xGetLoginStateHelper.setOnGetLoginStateFailedListener(() -> to(RefreshWifiRxActivity.class));
+                    xGetLoginStateHelper.getLoginState();
+
                 }
             };
         }
@@ -97,37 +79,22 @@ public abstract class CheckBoardLogin {
                 @Override
                 public void successful() {
                     // 2.登陆状态
-                    RX.getInstant().getLoginState(new ResponseObject<User_LoginState>() {
-                        @Override
-                        protected void onSuccess(User_LoginState result) {
-                            if (result.getState() == Cons.LOGOUT) {
-                                Logs.t("check login").ii(getClass().getSimpleName() + ": line--> " + "105");
-                                to(LoginRxActivity.class);
-                                return;
-                            }
-                            // 3.连接成功后
-                            afterCheckSuccess(pgd);
-                            OtherUtils.hideProgressPop(pgd);
+                    GetLoginStateHelper xGetLoginStateHelper = new GetLoginStateHelper();
+                    xGetLoginStateHelper.setOnGetLoginStateSuccessListener(getLoginStateBean -> {
+                        if (getLoginStateBean.getState() == Cons.LOGOUT) {
+                            to(LoginRxActivity.class);
+                            return;
                         }
-
-                        @Override
-                        protected void onResultError(ResponseBody.Error error) {
-                            Log.v("ma_couldn_connect", "checkBoardLogin initCheckOne error: " + error.getMessage());
-                            OtherUtils.hideProgressPop(pgd);
-                            toast(R.string.connect_failed);
-                            to(RefreshWifiRxActivity.class);
-                            Logs.t("ma_unknown").vv("CheckBoardLogin--> initCheckOne--> onResultError");
-                        }
-
-                        @Override
-                        public void onError(Throwable e) {
-                            Log.v("ma_couldn_connect", "checkBoardLogin initCheckOne error: " + e.getMessage());
-                            OtherUtils.hideProgressPop(pgd);
-                            toast(R.string.connect_failed);
-                            to(RefreshWifiRxActivity.class);
-                            Logs.t("ma_unknown").vv("CheckBoardLogin--> initCheckOne--> onError");
-                        }
+                        // 3.连接成功后
+                        afterCheckSuccess(pgd);
+                        OtherUtils.hideProgressPop(pgd);
                     });
+                    xGetLoginStateHelper.setOnGetLoginStateFailedListener(() -> {
+                        OtherUtils.hideProgressPop(pgd);
+                        toast(R.string.connect_failed);
+                        to(RefreshWifiRxActivity.class);
+                    });
+                    xGetLoginStateHelper.getLoginState();
                 }
             };
         }

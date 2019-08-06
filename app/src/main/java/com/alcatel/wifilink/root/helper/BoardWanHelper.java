@@ -6,18 +6,18 @@ import android.os.Handler;
 import android.util.Log;
 
 import com.alcatel.wifilink.R;
-import com.alcatel.wifilink.root.bean.User_LoginState;
-import com.alcatel.wifilink.root.bean.WanSettingsParams;
-import com.alcatel.wifilink.root.bean.WanSettingsResult;
 import com.alcatel.wifilink.network.RX;
 import com.alcatel.wifilink.network.ResponseBody;
 import com.alcatel.wifilink.network.ResponseObject;
+import com.alcatel.wifilink.root.bean.WanSettingsParams;
+import com.alcatel.wifilink.root.bean.WanSettingsResult;
 import com.alcatel.wifilink.root.ue.activity.LoginRxActivity;
 import com.alcatel.wifilink.root.ue.activity.RefreshWifiRxActivity;
 import com.alcatel.wifilink.root.utils.CA;
 import com.alcatel.wifilink.root.utils.Logs;
 import com.alcatel.wifilink.root.utils.OtherUtils;
 import com.alcatel.wifilink.root.utils.ToastUtil_m;
+import com.p_xhelper_smart.p_xhelper_smart.helper.GetLoginStateHelper;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetWanSettingsHelper;
 
 /**
@@ -61,37 +61,22 @@ public class BoardWanHelper {
             checkBoardClick = new CheckBoard() {
                 @Override
                 public void successful() {
-                    // 2.登陆状态
-                    RX.getInstant().getLoginState(new ResponseObject<User_LoginState>() {
-                        @Override
-                        protected void onSuccess(User_LoginState result) {
-                            if (result.getState() == Cons.LOGOUT) {
-                                Logs.t("check login").ii(getClass().getSimpleName() + ": line--> " + "70");
-                                to(LoginRxActivity.class);
-                                return;
-                            }
-                            // 3.WAN状态
-                            obtainWanStatus();
+                    // 2.获取状态
+                    GetLoginStateHelper xGetLoginStateHelper = new GetLoginStateHelper();
+                    xGetLoginStateHelper.setOnGetLoginStateSuccessListener(getLoginStateBean -> {
+                        if (getLoginStateBean.getState() == Cons.LOGOUT) {
+                            to(LoginRxActivity.class);
+                            return;
                         }
-
-                        @Override
-                        protected void onResultError(ResponseBody.Error error) {
-                            Log.v("ma_couldn_connect", "boardWanHelper getLoginState error: " + error.getMessage());
-                            OtherUtils.hideProgressPop(pgd);
-                            toast(R.string.connect_failed);
-                            to(RefreshWifiRxActivity.class);
-                            Logs.t("ma_unknown").vv("boardWanhelper--> boardNormal--> onResultError");
-                        }
-
-                        @Override
-                        public void onError(Throwable e) {
-                            Log.v("ma_couldn_connect", "boardWanHelper getLoginState error: " + e.getMessage());
-                            OtherUtils.hideProgressPop(pgd);
-                            toast(R.string.connect_failed);
-                            to(RefreshWifiRxActivity.class);
-                            Logs.t("ma_unknown").vv("boardWanhelper--> boardNormal--> onError");
-                        }
+                        // 3.WAN状态
+                        obtainWanStatus();
                     });
+                    xGetLoginStateHelper.setOnGetLoginStateFailedListener(() -> {
+                        OtherUtils.hideProgressPop(pgd);
+                        toast(R.string.connect_failed);
+                        to(RefreshWifiRxActivity.class);
+                    });
+                    xGetLoginStateHelper.getLoginState();
                 }
             };
         }
@@ -108,28 +93,20 @@ public class BoardWanHelper {
                 @Override
                 public void successful() {
                     // 2.登陆状态
-                    RX.getInstant().getLoginState(new ResponseObject<User_LoginState>() {
-                        @Override
-                        protected void onSuccess(User_LoginState result) {
-                            if (result.getState() == Cons.LOGOUT) {
-                                Logs.t("check login").ii(getClass().getSimpleName() + ": line--> " + "116");
-                                to(LoginRxActivity.class);
-                                return;
-                            }
-                            // 3.WAN状态
-                            obtainWanStatusRoll();
+                    GetLoginStateHelper xGetLoginStateHelper = new GetLoginStateHelper();
+                    xGetLoginStateHelper.setOnGetLoginStateSuccessListener(getLoginStateBean -> {
+                        if (getLoginStateBean.getState() == Cons.LOGOUT) {
+                            to(LoginRxActivity.class);
+                            return;
                         }
-
-                        @Override
-                        protected void onResultError(ResponseBody.Error error) {
-                            resultErrorNext(error);
-                        }
-
-                        @Override
-                        public void onError(Throwable e) {
-                            errorNext(e);
-                        }
+                        // 3.WAN状态
+                        obtainWanStatusRoll();
                     });
+                    xGetLoginStateHelper.setOnGetLoginStateFailedListener(() -> {
+                        resultErrorNext(null);
+                        errorNext(null);
+                    });
+                    xGetLoginStateHelper.getLoginState();
                 }
             };
         }
@@ -232,7 +209,7 @@ public class BoardWanHelper {
      * 获取wan状态
      */
     private void obtainWanStatus() {
-        
+
         GetWanSettingHelper wan = new GetWanSettingHelper();
         wan.setOnGetwansettingsErrorListener(e -> {
             Log.v("ma_couldn_connect", "boardWanHelper obtainWanStatus error: " + e.getMessage());

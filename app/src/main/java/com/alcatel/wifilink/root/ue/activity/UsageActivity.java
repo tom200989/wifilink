@@ -9,17 +9,17 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.alcatel.wifilink.R;
-import com.alcatel.wifilink.root.utils.C_CommonUtil;
-import com.alcatel.wifilink.root.bean.UsageRecord;
-import com.alcatel.wifilink.root.bean.NetworkInfos;
 import com.alcatel.wifilink.network.RX;
 import com.alcatel.wifilink.network.ResponseObject;
+import com.alcatel.wifilink.root.bean.UsageRecord;
 import com.alcatel.wifilink.root.helper.TimerHelper;
 import com.alcatel.wifilink.root.utils.ActionbarSetting;
 import com.alcatel.wifilink.root.utils.CA;
+import com.alcatel.wifilink.root.utils.C_CommonUtil;
 import com.alcatel.wifilink.root.utils.DataUtils;
 import com.alcatel.wifilink.root.utils.OtherUtils;
 import com.p_xhelper_smart.p_xhelper_smart.helper.SetUsageRecordClearHelper;
+import com.p_xhelper_smart.p_xhelper_smart.helper.GetNetworkInfoHelper;
 
 import static com.alcatel.wifilink.R.id.tv_network_settings;
 
@@ -176,20 +176,18 @@ public class UsageActivity extends BaseActivityWithBack implements View.OnClickL
         String strCurrDuration = String.format(durationformat, totalTime / 3600, (totalTime % 3600) / 60);
         mTvHomeTime.setText(strCurrDuration);
 
-
-        RX.getInstant().getNetworkInfo(new ResponseObject<NetworkInfos>() {
-            @Override
-            protected void onSuccess(NetworkInfos result) {
-                //0: roaming   1: no roaming
-                if (result.getRoaming() == 0) {
-                    String strTotalDuration = String.format(durationformat, connectTime / 3600, (connectTime % 3600) / 60);
-                    mTvRoamingTime.setText(strTotalDuration);
-                } else {
-                    String strTotalDuration = String.format(durationformat, 0, 0);
-                    mTvRoamingTime.setText(strTotalDuration);
-                }
+        GetNetworkInfoHelper xGetNetworkInfoHelper = new GetNetworkInfoHelper();
+        xGetNetworkInfoHelper.setOnGetNetworkInfoSuccessListener(networkInfoBean -> {
+            //0: roaming   1: no roaming
+            if (networkInfoBean.getRoaming() == 0) {
+                String strTotalDuration = String.format(durationformat, connectTime / 3600, (connectTime % 3600) / 60);
+                mTvRoamingTime.setText(strTotalDuration);
+            } else {
+                String strTotalDuration = String.format(durationformat, 0, 0);
+                mTvRoamingTime.setText(strTotalDuration);
             }
         });
+        xGetNetworkInfoHelper.getNetworkInfo();
 
     }
 }

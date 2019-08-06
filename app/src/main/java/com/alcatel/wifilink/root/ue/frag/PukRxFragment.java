@@ -15,18 +15,16 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.alcatel.wifilink.R;
-import com.alcatel.wifilink.root.bean.SimStatus;
-import com.alcatel.wifilink.network.RX;
-import com.alcatel.wifilink.network.ResponseBody;
-import com.alcatel.wifilink.network.ResponseObject;
 import com.alcatel.wifilink.root.helper.BoardSimHelper;
-import com.alcatel.wifilink.root.ue.activity.HomeRxActivity;
 import com.alcatel.wifilink.root.helper.Cons;
+import com.alcatel.wifilink.root.ue.activity.HomeRxActivity;
 import com.alcatel.wifilink.root.utils.CA;
 import com.alcatel.wifilink.root.utils.OtherUtils;
 import com.alcatel.wifilink.root.utils.SP;
 import com.alcatel.wifilink.root.utils.ToastUtil_m;
 import com.alcatel.wifilink.root.utils.fraghandler.FragmentBackHandler;
+import com.p_xhelper_smart.p_xhelper_smart.bean.GetSimStatusBean;
+import com.p_xhelper_smart.p_xhelper_smart.helper.UnlockPukHelper;
 import com.zhy.android.percent.support.PercentRelativeLayout;
 
 import butterknife.BindView;
@@ -138,7 +136,7 @@ public class PukRxFragment extends Fragment implements FragmentBackHandler {
      *
      * @param simStatus
      */
-    private void toShowRemain(SimStatus simStatus) {
+    private void toShowRemain(GetSimStatusBean simStatus) {
         int pukTime = simStatus.getPukRemainingTimes();
         tvPukRxTipNum.setText(String.valueOf(pukTime));
         if (pukTime < 3) {
@@ -241,39 +239,31 @@ public class PukRxFragment extends Fragment implements FragmentBackHandler {
         boardSimHelper.boardNormal();
     }
 
-    private void pukTimeout(SimStatus result) {
+    private void pukTimeout(GetSimStatusBean result) {
         toShowRemain(result);
     }
 
     private void unlockPukRequest() {
         String puk = OtherUtils.getEdContent(etPukRx);
         String pin = OtherUtils.getEdContent(etPukResetpinRx);
-        RX.getInstant().unlockPuk(puk, pin, new ResponseObject() {
-            @Override
-            protected void onSuccess(Object result) {
-                // 1.是否勾选了记住PIN
-                boolean isRememPin = ivPukRemempinRxCheckbox.getDrawable() == check_pic;
-                if (isRememPin) {
-                    String pin = OtherUtils.getEdContent(etPukResetpinRx);
-                    SP.getInstance(getActivity()).putString(Cons.PIN_REMEM_STR_RX, pin);
-                    SP.getInstance(getActivity()).putBoolean(Cons.PIN_REMEM_FLAG_RX, isRememPin);
-                }
-                // 2.进入其他界面
-                toOtherRx();
-            }
 
-            @Override
-            protected void onResultError(ResponseBody.Error error) {
-                toast(R.string.puk_error_waring_title);
-                getRemainTime();
+        UnlockPukHelper xUnlockPukHelper = new UnlockPukHelper();
+        xUnlockPukHelper.setOnUnlockPukSuccessListener(() -> {
+            // 1.是否勾选了记住PIN
+            boolean isRememPin = ivPukRemempinRxCheckbox.getDrawable() == check_pic;
+            if (isRememPin) {
+                String pins = OtherUtils.getEdContent(etPukResetpinRx);
+                SP.getInstance(getActivity()).putString(Cons.PIN_REMEM_STR_RX, pins);
+                SP.getInstance(getActivity()).putBoolean(Cons.PIN_REMEM_FLAG_RX, isRememPin);
             }
-
-            @Override
-            public void onError(Throwable e) {
-                toast(R.string.puk_unlock_failed);
-                getRemainTime();
-            }
+            // 2.进入其他界面
+            toOtherRx();
         });
+        xUnlockPukHelper.setOnUnlockPukFailedListener(() -> {
+            toast(R.string.puk_unlock_failed);
+            getRemainTime();
+        });
+        xUnlockPukHelper.unlockPuk(puk, pin);
     }
 
     private void toOtherRx() {

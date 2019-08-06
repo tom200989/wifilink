@@ -12,8 +12,8 @@ public class ChangePinStateParam implements Serializable {
      * State : 1
      */
 
-    public static int CONS_Disabled_PIN = 0;
-    public static int CONS_Enabled_PIN = 1;
+    public static int CONS_DISABLED_PIN = 0;
+    public static int CONS_ENABLED_PIN = 1;
 
     private String Pin;
     private int State;

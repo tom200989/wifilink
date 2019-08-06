@@ -15,22 +15,20 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.alcatel.wifilink.R;
-import com.alcatel.wifilink.root.bean.SimStatus;
-import com.alcatel.wifilink.network.RX;
-import com.alcatel.wifilink.network.ResponseBody;
-import com.alcatel.wifilink.network.ResponseObject;
 import com.alcatel.wifilink.root.helper.BoardSimHelper;
+import com.alcatel.wifilink.root.helper.Cons;
 import com.alcatel.wifilink.root.helper.WpsHelper;
 import com.alcatel.wifilink.root.ue.activity.DataPlanRxActivity;
 import com.alcatel.wifilink.root.ue.activity.HomeRxActivity;
 import com.alcatel.wifilink.root.ue.activity.PinPukIndexRxActivity;
 import com.alcatel.wifilink.root.ue.activity.WifiInitRxActivity;
-import com.alcatel.wifilink.root.helper.Cons;
 import com.alcatel.wifilink.root.utils.CA;
 import com.alcatel.wifilink.root.utils.Lgg;
 import com.alcatel.wifilink.root.utils.OtherUtils;
 import com.alcatel.wifilink.root.utils.SP;
 import com.alcatel.wifilink.root.utils.ToastUtil_m;
+import com.p_xhelper_smart.p_xhelper_smart.bean.GetSimStatusBean;
+import com.p_xhelper_smart.p_xhelper_smart.helper.UnlockPinHelper;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -137,7 +135,7 @@ public class PinPukPinFragment extends Fragment {
      * @param simStatus
      */
     @SuppressLint("SetTextI18n")
-    private void toRemain(SimStatus simStatus) {
+    private void toRemain(GetSimStatusBean simStatus) {
         int pinTime = simStatus.getPinRemainingTimes();
         Lgg.t("pin_question").vv("pintime: " + pinTime);
         // pinTime = 0;//  测试Puk界面跳转,请将该代码注释
@@ -258,7 +256,7 @@ public class PinPukPinFragment extends Fragment {
      *
      * @param result
      */
-    private void toPukfragment(SimStatus result) {
+    private void toPukfragment(GetSimStatusBean result) {
         activity.fraHelper.transfer(activity.allClass[1]);
     }
 
@@ -267,38 +265,29 @@ public class PinPukPinFragment extends Fragment {
      *
      * @param result
      */
-    private void unlockPinRequest(SimStatus result) {
-        
-        
+    private void unlockPinRequest(GetSimStatusBean result) {
+
+
         String pin = OtherUtils.getEdContent(etPinRx);
-        RX.getInstant().unlockPin(pin, new ResponseObject() {
-            @Override
-            protected void onSuccess(Object result) {
-                // 是否勾选了记住PIN
-                boolean isRememPin = ivPinRxCheckbox.getDrawable() == check_pic;
-                if (isRememPin) {
-                    String pin = OtherUtils.getEdContent(etPinRx);
-                    SP.getInstance(getActivity()).putString(Cons.PIN_REMEM_STR_RX, pin);
-                    SP.getInstance(getActivity()).putBoolean(Cons.PIN_REMEM_FLAG_RX, isRememPin);
-                }
-                // 进入其他界面
-                toAc();
-            }
 
-            @Override
-            protected void onResultError(ResponseBody.Error error) {
-                etPinRx.setText("");
-                toast(R.string.pin_error_waring_title);
-                getRemainTime();
+        UnlockPinHelper xUnlockPinHelper = new UnlockPinHelper();
+        xUnlockPinHelper.setOnUnlockPinRemainTimeFailedListener(() -> {
+            // 是否勾选了记住PIN
+            boolean isRememPin = ivPinRxCheckbox.getDrawable() == check_pic;
+            if (isRememPin) {
+                String pins = OtherUtils.getEdContent(etPinRx);
+                SP.getInstance(getActivity()).putString(Cons.PIN_REMEM_STR_RX, pins);
+                SP.getInstance(getActivity()).putBoolean(Cons.PIN_REMEM_FLAG_RX, isRememPin);
             }
-
-            @Override
-            public void onError(Throwable e) {
-                etPinRx.setText("");
-                toast(R.string.sim_unlocked_failed);
-                getRemainTime();
-            }
+            // 进入其他界面
+            toAc();
         });
+        xUnlockPinHelper.setOnUnlockPinRemainTimeFailedListener(() -> {
+            etPinRx.setText("");
+            toast(R.string.pin_error_waring_title);
+            getRemainTime();
+        });
+        xUnlockPinHelper.unlockPin(pin);
     }
 
     /* -------------------------------------------- HELPER -------------------------------------------- */

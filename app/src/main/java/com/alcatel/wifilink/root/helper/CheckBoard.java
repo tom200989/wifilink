@@ -2,15 +2,14 @@ package com.alcatel.wifilink.root.helper;
 
 import android.app.Activity;
 
-import com.alcatel.wifilink.root.bean.User_LoginState;
-import com.alcatel.wifilink.network.RX;
 import com.alcatel.wifilink.network.ResponseBody;
-import com.alcatel.wifilink.network.ResponseObject;
 import com.alcatel.wifilink.root.ue.activity.LoginRxActivity;
 import com.alcatel.wifilink.root.utils.AppInfo;
 import com.alcatel.wifilink.root.utils.CA;
 import com.alcatel.wifilink.root.utils.Logs;
 import com.alcatel.wifilink.root.utils.OtherUtils;
+import com.p_xhelper_smart.p_xhelper_smart.bean.GetLoginStateBean;
+import com.p_xhelper_smart.p_xhelper_smart.helper.GetLoginStateHelper;
 
 /**
  * Created by qianli.ma on 2017/11/15 0015.
@@ -47,36 +46,21 @@ public abstract class CheckBoard {
             yesWifiNext(wifiConnect);
             // 请求接口前
             onPrepare();
-            RX.getInstant().getLoginState(new ResponseObject<User_LoginState>() {
-                @Override
-                protected void onSuccess(User_LoginState result) {
-                    onSuccessful();// 请求接口成功后
-                    successful();
-                    loginStateNext(result);
-                }
 
-                @Override
-                protected void onResultError(ResponseBody.Error error) {
-                    Logs.t("checkboard").vv("checkboarderror: " + error.getMessage());
-                    resultErrorNext(error);
-                    allError();
-                    onResultErrors(error);// 请求接口中途错误
-                    // ToastUtil_m.show(ori, ori.getString(R.string.connect_failed));
-                    Logs.t("check login").ii(getClass().getSimpleName() + ": line--> " + "66");
-                    CA.toActivity(ori, target[0], false, true, false, 0);
-                }
-
-                @Override
-                public void onError(Throwable e) {
-                    Logs.t("ma_unknown").vv("Checkboard--> onError");
-                    Logs.t("checkboard").vv("checkboarderror: " + e.getMessage());
-                    errorNext(e);
-                    allError();
-                    onErrors(e);// 请求接口错误溢出
-                    // ToastUtil_m.show(ori, ori.getString(R.string.connect_failed));
-                    CA.toActivity(ori, target[0], false, true, false, 0);
-                }
+            GetLoginStateHelper xGetLoginStateHelper = new GetLoginStateHelper();
+            xGetLoginStateHelper.setOnGetLoginStateSuccessListener(getLoginStateBean -> {
+                onSuccessful();// 请求接口成功后
+                successful();
+                loginStateNext(getLoginStateBean);
             });
+            xGetLoginStateHelper.setOnGetLoginStateFailedListener(() -> {
+                resultErrorNext(null);
+                allError();
+                onResultErrors(null);// 请求接口中途错误
+                CA.toActivity(ori, target[0], false, true, false, 0);
+            });
+            xGetLoginStateHelper.getLoginState();
+            
         } else {
             Logs.t("ma_unknown").vv("Checkboard--> wifi not Connect");
             noWifiNext(wifiConnect);
@@ -103,7 +87,7 @@ public abstract class CheckBoard {
 
     // 接口OnLoginstateListener
     public interface OnLoginstateListener {
-        void loginState(User_LoginState attr);
+        void loginState(GetLoginStateBean attr);
     }
 
     // 对外方式setOnLoginstateListener
@@ -112,7 +96,7 @@ public abstract class CheckBoard {
     }
 
     // 封装方法loginStateNext
-    private void loginStateNext(User_LoginState attr) {
+    private void loginStateNext(GetLoginStateBean attr) {
         if (onLoginstateListener != null) {
             onLoginstateListener.loginState(attr);
         }
