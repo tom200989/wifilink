@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.p_xhelper_smart.p_xhelper_smart">
+
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_MULTICAST_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <!--<application-->
+        <!--android:name=".app.XSmartApp"-->
+        <!--android:allowBackup="true"-->
+        <!--android:icon="@drawable/smart_ic_launcher"-->
+        <!--android:label="@string/smart_app_name"-->
+        <!--android:supportsRtl="true"-->
+        <!--android:theme="@style/AppTheme"-->
+        <!--tools:ignore="AllowBackup,GoogleAppIndexingWarning">-->
+        <!--<activity android:name=".ui.MainActivity">-->
+            <!--<intent-filter>-->
+                <!--<action android:name="android.intent.action.MAIN" />-->
+                <!--<category android:name="android.intent.category.LAUNCHER" />-->
+            <!--</intent-filter>-->
+        <!--</activity>-->
+    <!--</application>-->
+
+</manifest>

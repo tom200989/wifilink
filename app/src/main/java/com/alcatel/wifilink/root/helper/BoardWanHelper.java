@@ -18,6 +18,7 @@ import com.alcatel.wifilink.root.utils.CA;
 import com.alcatel.wifilink.root.utils.Logs;
 import com.alcatel.wifilink.root.utils.OtherUtils;
 import com.alcatel.wifilink.root.utils.ToastUtil_m;
+import com.p_xhelper_smart.p_xhelper_smart.helper.GetWanSettingsHelper;
 
 /**
  * Created by qianli.ma on 2017/11/16 0016.
@@ -152,9 +153,26 @@ public class BoardWanHelper {
              */
             private void reGetWanStatus() {
 
-                GetWanSettingHelper wan = new GetWanSettingHelper();
-                wan.setOnGetWanSettingsSuccessListener(wanSettings -> {
-                    int status = wanSettings.getStatus();
+                // TODO: 2019/8/5 0005  新框架示例
+                // GetWanSettingHelper wan = new GetWanSettingHelper();
+                // wan.setOnGetWanSettingsSuccessListener(wanSettings -> {
+                //     int status = wanSettings.getStatus();
+                //     if (status == Cons.CONNECTED) {
+                //         sendSuccessNext();
+                //     } else if (status == Cons.CONNECTING) {
+                //         reGetWanStatus();
+                //     } else {
+                //         sendFailedNext();
+                //     }
+                // });
+                // wan.setOnGetwansettingsErrorListener(e -> sendFailedNext());
+                // wan.setOnGetWanSettingsResultErrorListener(error -> sendFailedNext());
+                // wan.setOnGetWanSettingsFailedListener(() -> sendFailedNext());
+                // wan.get();
+
+                GetWanSettingsHelper xGetWanSettingHelper = new GetWanSettingsHelper();
+                xGetWanSettingHelper.setOnGetWanSettingsSuccessListener(getWanSettingsBean -> {
+                    int status = getWanSettingsBean.getStatus();
                     if (status == Cons.CONNECTED) {
                         sendSuccessNext();
                     } else if (status == Cons.CONNECTING) {
@@ -163,10 +181,8 @@ public class BoardWanHelper {
                         sendFailedNext();
                     }
                 });
-                wan.setOnGetwansettingsErrorListener(e -> sendFailedNext());
-                wan.setOnGetWanSettingsResultErrorListener(error -> sendFailedNext());
-                wan.setOnGetWanSettingsFailedListener(() -> sendFailedNext());
-                wan.get();
+                xGetWanSettingHelper.setOnGetWanSettingsFailedListener(() -> sendFailedNext());
+                xGetWanSettingHelper.getWanSettings();
             }
 
 

@@ -9,15 +9,15 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.alcatel.wifilink.R;
-import com.alcatel.wifilink.root.utils.C_Constants;
-import com.alcatel.wifilink.root.bean.System_SysStatus;
-import com.alcatel.wifilink.root.bean.Sharing_DLNASettings;
-import com.alcatel.wifilink.root.bean.Sharing_FTPSettings;
-import com.alcatel.wifilink.root.bean.Sharing_SambaSettings;
 import com.alcatel.wifilink.network.RX;
 import com.alcatel.wifilink.network.ResponseBody;
 import com.alcatel.wifilink.network.ResponseObject;
+import com.alcatel.wifilink.root.bean.Sharing_DLNASettings;
+import com.alcatel.wifilink.root.bean.Sharing_FTPSettings;
+import com.alcatel.wifilink.root.bean.Sharing_SambaSettings;
 import com.alcatel.wifilink.root.helper.TimerHelper;
+import com.alcatel.wifilink.root.utils.C_Constants;
+import com.p_xhelper_smart.p_xhelper_smart.helper.GetSystemStatusHelper;
 
 public class SettingShareActivity extends BaseActivityWithBack implements OnClickListener, CompoundButton.OnCheckedChangeListener {
 
@@ -63,34 +63,52 @@ public class SettingShareActivity extends BaseActivityWithBack implements OnClic
     }
 
     private void requestGetSystemStatus() {
-        RX.getInstant().getSystemStatus(new ResponseObject<System_SysStatus>() {
-            @Override
-            protected void onSuccess(System_SysStatus result) {
-                runOnUiThread(() -> {
-                    switch (result.getUsbStatus()) {
-                        case C_Constants.DeviceUSBStatus.NOT_INSERT:
-                            mUSBStorageText.setText(R.string.not_inserted);
-                            break;
-                        case C_Constants.DeviceUSBStatus.USB_STORAGE:
-                            mUSBStorageText.setText(R.string.setting_usb_storage);
-                            break;
-                        case C_Constants.DeviceUSBStatus.USB_PRINT:
-                            mUSBStorageText.setText(R.string.usb_printer);
-                            break;
-                    }
-                });
-            }
 
-            @Override
-            protected void onResultError(ResponseBody.Error error) {
-                super.onResultError(error);
-            }
-
-            @Override
-            protected void onFailure() {
-                super.onFailure();
+        // TODO: 2019/8/5 0005  新框架示例
+        GetSystemStatusHelper xGetSystemStatusHelper = new GetSystemStatusHelper();
+        xGetSystemStatusHelper.setOnGetSystemStatusSuccessListener(getSystemStatusBean -> {
+            switch (getSystemStatusBean.getUsbStatus()) {
+                case C_Constants.DeviceUSBStatus.NOT_INSERT:
+                    mUSBStorageText.setText(R.string.not_inserted);
+                    break;
+                case C_Constants.DeviceUSBStatus.USB_STORAGE:
+                    mUSBStorageText.setText(R.string.setting_usb_storage);
+                    break;
+                case C_Constants.DeviceUSBStatus.USB_PRINT:
+                    mUSBStorageText.setText(R.string.usb_printer);
+                    break;
             }
         });
+        xGetSystemStatusHelper.getSystemStatus();
+
+        // RX.getInstant().getSystemStatus(new ResponseObject<System_SysStatus>() {
+        //     @Override
+        //     protected void onSuccess(System_SysStatus result) {
+        //         runOnUiThread(() -> {
+        //             switch (result.getUsbStatus()) {
+        //                 case C_Constants.DeviceUSBStatus.NOT_INSERT:
+        //                     mUSBStorageText.setText(R.string.not_inserted);
+        //                     break;
+        //                 case C_Constants.DeviceUSBStatus.USB_STORAGE:
+        //                     mUSBStorageText.setText(R.string.setting_usb_storage);
+        //                     break;
+        //                 case C_Constants.DeviceUSBStatus.USB_PRINT:
+        //                     mUSBStorageText.setText(R.string.usb_printer);
+        //                     break;
+        //             }
+        //         });
+        //     }
+        //
+        //     @Override
+        //     protected void onResultError(ResponseBody.Error error) {
+        //         super.onResultError(error);
+        //     }
+        //
+        //     @Override
+        //     protected void onFailure() {
+        //         super.onFailure();
+        //     }
+        // });
     }
 
     private void requestGetFTPSettings() {

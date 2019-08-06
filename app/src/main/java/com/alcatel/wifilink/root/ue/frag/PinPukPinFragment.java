@@ -268,6 +268,8 @@ public class PinPukPinFragment extends Fragment {
      * @param result
      */
     private void unlockPinRequest(SimStatus result) {
+        
+        
         String pin = OtherUtils.getEdContent(etPinRx);
         RX.getInstant().unlockPin(pin, new ResponseObject() {
             @Override

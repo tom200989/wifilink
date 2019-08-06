@@ -4,10 +4,10 @@ import android.app.Activity;
 import android.text.TextUtils;
 
 import com.alcatel.wifilink.R;
-import com.alcatel.wifilink.root.bean.SimStatus;
 import com.alcatel.wifilink.network.RX;
 import com.alcatel.wifilink.network.ResponseBody;
 import com.alcatel.wifilink.network.ResponseObject;
+import com.alcatel.wifilink.root.bean.SimStatus;
 import com.alcatel.wifilink.root.utils.CA;
 import com.alcatel.wifilink.root.utils.ToastUtil_m;
 
