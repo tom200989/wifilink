@@ -9,6 +9,7 @@ import com.p_xhelper_smart.p_xhelper_smart.utils.XCons;
 /**
  * Created by wzhiqiang on 2019/7/30
  */
+@SuppressWarnings("unchecked")
 public class SetDeviceNameHelper extends BaseHelper {
 
     public void setDeviceName(SetDeviceNameParam param) {
@@ -17,17 +18,17 @@ public class SetDeviceNameHelper extends BaseHelper {
         xSmart.xMethod(XCons.METHOD_SET_DEVICE_NAME).xParam(param).xPost(new XNormalCallback() {
             @Override
             public void success(Object result) {
-                setDeviceUnBlockSuccessNext();
+                setDeviceNameSuccessNext();
             }
 
             @Override
             public void appError(Throwable ex) {
-                setDeviceUnBlockFailNext();
+                setDeviceNameFailNext();
             }
 
             @Override
             public void fwError(FwError fwError) {
-                setDeviceUnBlockFailNext();
+                setDeviceNameFailNext();
             }
 
             @Override
@@ -39,40 +40,41 @@ public class SetDeviceNameHelper extends BaseHelper {
 
 
     /*----------------------------------设置设备名成功的回调------------------------------*/
-    public interface OnSetDeviceUnblockSuccessListener {
-        void setDeviceUnBlockSuccess();
+    public interface OnSetDeviceNameSuccessListener {
+        void setDeviceNameSuccess();
     }
 
-    private OnSetDeviceUnblockSuccessListener onSetDeviceUnblockSuccessListener;
+    private OnSetDeviceNameSuccessListener onSetDeviceNameSuccessListener;
 
-    //对外方式setOnSetDeviceUnblockSuccessListener
-    public void setOnSetDeviceUnblockSuccessListener(OnSetDeviceUnblockSuccessListener onSetDeviceUnblockSuccessListener) {
-        this.onSetDeviceUnblockSuccessListener = onSetDeviceUnblockSuccessListener;
+    //对外方式setOnSetDeviceNameSuccessListener
+    public void setOnSetDeviceNameSuccessListener(OnSetDeviceNameSuccessListener onSetDeviceNameSuccessListener) {
+        this.onSetDeviceNameSuccessListener = onSetDeviceNameSuccessListener;
     }
 
-    //封装方法setDeviceUnBlockSuccessNext
-    private void setDeviceUnBlockSuccessNext() {
-        if (onSetDeviceUnblockSuccessListener != null) {
-            onSetDeviceUnblockSuccessListener.setDeviceUnBlockSuccess();
+    //封装方法setDeviceNameSuccessNext
+    private void setDeviceNameSuccessNext() {
+        if (onSetDeviceNameSuccessListener != null) {
+            onSetDeviceNameSuccessListener.setDeviceNameSuccess();
         }
     }
 
     /*----------------------------------设置设备名失败的回调------------------------------*/
-    public interface OnSetDeviceUnblockFailListener {
-        void setDeviceUnBlockFail();
+    public interface OnSetDeviceNameFailListener {
+        void setDeviceNameFail();
     }
 
-    private OnSetDeviceUnblockFailListener onSetDeviceUnblockFailListener;
+    private OnSetDeviceNameFailListener onSetDeviceNameFailListener;
 
-    //对外方式setOnSetDeviceUnblockFailListener
-    public void setOnSetDeviceUnblockFailListener(OnSetDeviceUnblockFailListener onSetDeviceUnblockFailListener) {
-        this.onSetDeviceUnblockFailListener = onSetDeviceUnblockFailListener;
+    //对外方式setOnSetDeviceNameFailListener
+    public void setOnSetDeviceNameFailListener(OnSetDeviceNameFailListener onSetDeviceNameFailListener) {
+        this.onSetDeviceNameFailListener = onSetDeviceNameFailListener;
     }
 
-    //封装方法setDeviceUnBlockFailNext
-    private void setDeviceUnBlockFailNext() {
-        if (onSetDeviceUnblockFailListener != null) {
-            onSetDeviceUnblockFailListener.setDeviceUnBlockFail();
+    //封装方法setDeviceNameFailNext
+    private void setDeviceNameFailNext() {
+        if (onSetDeviceNameFailListener != null) {
+            onSetDeviceNameFailListener.setDeviceNameFail();
         }
     }
+
 }

@@ -14,7 +14,7 @@ public class GetSendSMSResultHelper extends BaseHelper {
     /**
      * 获取发送短信结果
      */
-    public void getSMSContactList() {
+    public void getSendSmsResult() {
         prepareHelperNext();
         XSmart<GetSendSMSResultBean> xSmart = new XSmart<>();
         xSmart.xMethod(XCons.METHOD_GET_SEND_SMS_RESULT).xPost(new XNormalCallback<GetSendSMSResultBean>() {

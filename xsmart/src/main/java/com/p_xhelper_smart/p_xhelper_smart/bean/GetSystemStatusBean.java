@@ -113,8 +113,17 @@ public class GetSystemStatusBean implements Serializable {
     private int WlanState_2g;
     private int WlanState_5g;
     private int DeviceUptime;
+    private int CurrentConnection;// 获取当前连接
 
     public GetSystemStatusBean() {
+    }
+
+    public int getCurrentConnection() {
+        return CurrentConnection;
+    }
+
+    public void setCurrentConnection(int currentConnection) {
+        CurrentConnection = currentConnection;
     }
 
     public int getNetworkType() {

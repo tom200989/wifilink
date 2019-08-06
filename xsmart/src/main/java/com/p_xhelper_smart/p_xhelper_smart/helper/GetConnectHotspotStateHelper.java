@@ -1,6 +1,5 @@
 package com.p_xhelper_smart.p_xhelper_smart.helper;
 
-import com.p_xhelper_smart.p_xhelper_smart.bean.GetConnectHotSpotStateParam;
 import com.p_xhelper_smart.p_xhelper_smart.bean.GetConnectHotspotStateBean;
 import com.p_xhelper_smart.p_xhelper_smart.core.XSmart;
 import com.p_xhelper_smart.p_xhelper_smart.impl.FwError;
@@ -15,10 +14,10 @@ public class GetConnectHotspotStateHelper extends BaseHelper {
     /**
      * 获取当前热点的连接状态
      */
-    public void getConnectHotspotState(GetConnectHotSpotStateParam param) {
+    public void getConnectHotspotState() {
         prepareHelperNext();
         XSmart<GetConnectHotspotStateBean> xSmart = new XSmart<>();
-        xSmart.xMethod(XCons.METHOD_GET_CONNECT_HOTSPOT_STATE).xParam(param).xPost(new XNormalCallback<GetConnectHotspotStateBean>() {
+        xSmart.xMethod(XCons.METHOD_GET_CONNECT_HOTSPOT_STATE).xPost(new XNormalCallback<GetConnectHotspotStateBean>() {
             @Override
             public void success(GetConnectHotspotStateBean result) {
                 getConnectHotSpotStateSuNext(result);

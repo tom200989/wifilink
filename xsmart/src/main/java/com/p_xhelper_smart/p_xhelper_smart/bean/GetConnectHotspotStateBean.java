@@ -12,7 +12,6 @@ public class GetConnectHotspotStateBean implements Serializable {
      * State : 0
      */
 
-
     private int State;//当前热点的连接状态 0: none  1: connecting  2: success  3: password error
                         //4: need password  5: fail 6: open 确认,有些ap从有加密改为了open的,需要用户确认才能连接
 

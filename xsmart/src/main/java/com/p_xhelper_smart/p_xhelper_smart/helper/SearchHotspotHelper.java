@@ -8,6 +8,7 @@ import com.p_xhelper_smart.p_xhelper_smart.utils.XCons;
 /**
  * Created by wzhiqiang on 2019/7/30
  */
+@SuppressWarnings("unchecked")
 public class SearchHotspotHelper extends BaseHelper {
 
     public void searchHotSpot() {
