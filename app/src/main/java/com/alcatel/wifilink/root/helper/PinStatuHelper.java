@@ -3,9 +3,9 @@ package com.alcatel.wifilink.root.helper;
 import android.app.Activity;
 
 import com.alcatel.wifilink.R;
-import com.alcatel.wifilink.root.bean.SimStatus;
 import com.alcatel.wifilink.root.utils.CA;
 import com.alcatel.wifilink.root.utils.ToastUtil_m;
+import com.p_xhelper_smart.p_xhelper_smart.bean.GetSimStatusBean;
 
 /**
  * Created by qianli.ma on 2017/12/12 0012.
@@ -88,7 +88,7 @@ public class PinStatuHelper {
      *
      * @param result
      */
-    private void getPinStatus(SimStatus result) {
+    private void getPinStatus(GetSimStatusBean result) {
         normalPinStatesNext(result);
         int pinState = result.getPinState();
         switch (pinState) {
@@ -119,7 +119,7 @@ public class PinStatuHelper {
 
     // 接口OnPukTimeoutListener
     public interface OnPukTimeoutListener {
-        void pukTimeout(SimStatus attr);
+        void pukTimeout(GetSimStatusBean attr);
     }
 
     // 对外方式setOnPukTimeoutListener
@@ -128,7 +128,7 @@ public class PinStatuHelper {
     }
 
     // 封装方法pukTimeoutNext
-    private void pukTimeoutNext(SimStatus attr) {
+    private void pukTimeoutNext(GetSimStatusBean attr) {
         if (onPukTimeoutListener != null) {
             onPukTimeoutListener.pukTimeout(attr);
         }
@@ -138,7 +138,7 @@ public class PinStatuHelper {
 
     // 接口OnPukRequiredListener
     public interface OnPukRequiredListener {
-        void pukRequired(SimStatus attr);
+        void pukRequired(GetSimStatusBean attr);
     }
 
     // 对外方式setOnPukRequiredListener
@@ -147,7 +147,7 @@ public class PinStatuHelper {
     }
 
     // 封装方法pukRequiredNext
-    private void pukRequiredNext(SimStatus attr) {
+    private void pukRequiredNext(GetSimStatusBean attr) {
         if (onPukRequiredListener != null) {
             onPukRequiredListener.pukRequired(attr);
         }
@@ -157,7 +157,7 @@ public class PinStatuHelper {
 
     // 接口OnPinDisableListener
     public interface OnPinDisableListener {
-        void pinDisable(SimStatus attr);
+        void pinDisable(GetSimStatusBean attr);
     }
 
     // 对外方式setOnPinDisableListener
@@ -166,7 +166,7 @@ public class PinStatuHelper {
     }
 
     // 封装方法pinDisableNext
-    private void pinDisableNext(SimStatus attr) {
+    private void pinDisableNext(GetSimStatusBean attr) {
         if (onPinDisableListener != null) {
             onPinDisableListener.pinDisable(attr);
         }
@@ -176,7 +176,7 @@ public class PinStatuHelper {
 
     // 接口OnPinEnableVerifyListener
     public interface OnPinEnableVerifyListener {
-        void pinEnableVerify(SimStatus attr);
+        void pinEnableVerify(GetSimStatusBean attr);
     }
 
     // 对外方式setOnPinEnableVerifyListener
@@ -185,7 +185,7 @@ public class PinStatuHelper {
     }
 
     // 封装方法pinEnableVerifyNext
-    private void pinEnableVerifyNext(SimStatus attr) {
+    private void pinEnableVerifyNext(GetSimStatusBean attr) {
         if (onPinEnableVerifyListener != null) {
             onPinEnableVerifyListener.pinEnableVerify(attr);
         }
@@ -195,7 +195,7 @@ public class PinStatuHelper {
 
     // 接口OnPinEnableButNotVerifyListener
     public interface OnPinEnableButNotVerifyListener {
-        void pinEnableButNotVerify(SimStatus attr);
+        void pinEnableButNotVerify(GetSimStatusBean attr);
     }
 
     // 对外方式setOnPinEnableButNotVerifyListener
@@ -204,7 +204,7 @@ public class PinStatuHelper {
     }
 
     // 封装方法pinEnableButNotVerifyNext
-    private void pinEnableButNotVerifyNext(SimStatus attr) {
+    private void pinEnableButNotVerifyNext(GetSimStatusBean attr) {
         if (onPinEnableButNotVerifyListener != null) {
             onPinEnableButNotVerifyListener.pinEnableButNotVerify(attr);
         }
@@ -214,7 +214,7 @@ public class PinStatuHelper {
 
     // 接口OnUnkonwnListener
     public interface OnUnkonwnListener {
-        void unknown(SimStatus attr);
+        void unknown(GetSimStatusBean attr);
     }
 
     // 对外方式setOnUnkonwnListener
@@ -223,7 +223,7 @@ public class PinStatuHelper {
     }
 
     // 封装方法unknownNext
-    private void unknownNext(SimStatus attr) {
+    private void unknownNext(GetSimStatusBean attr) {
         if (onUnkonwnListener != null) {
             onUnkonwnListener.unknown(attr);
         }
@@ -233,7 +233,7 @@ public class PinStatuHelper {
 
     // 接口OnNormalPinStatesListener
     public interface OnNormalPinStatesListener {
-        void normalPinStates(SimStatus attr);
+        void normalPinStates(GetSimStatusBean attr);
     }
 
     // 对外方式setOnNormalPinStatesListener
@@ -242,7 +242,7 @@ public class PinStatuHelper {
     }
 
     // 封装方法normalPinStatesNext
-    private void normalPinStatesNext(SimStatus attr) {
+    private void normalPinStatesNext(GetSimStatusBean attr) {
         if (onNormalPinStatesListener != null) {
             onNormalPinStatesListener.normalPinStates(attr);
         }

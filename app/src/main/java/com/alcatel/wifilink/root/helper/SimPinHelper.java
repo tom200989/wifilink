@@ -57,7 +57,7 @@ public class SimPinHelper {
      * @param attr
      * @param pincode
      */
-    private void disablePin(SimStatus attr, String pincode) {
+    private void disablePin(GetSimStatusBean attr, String pincode) {
 
         // 1.先解PIN
         UnlockPinHelper xUnlockPinHelper = new UnlockPinHelper();
@@ -79,7 +79,7 @@ public class SimPinHelper {
      * @param attr
      * @param pincode
      */
-    private void enableUnlockFirst(SimStatus attr, String pincode) {
+    private void enableUnlockFirst(GetSimStatusBean attr, String pincode) {
         // 1.先解PIN
 
         UnlockPinHelper xUnlockPinHelper = new UnlockPinHelper();
@@ -124,7 +124,7 @@ public class SimPinHelper {
      * @param attr
      * @param pincode
      */
-    private void enablePin(SimStatus attr, String pincode) {
+    private void enablePin(GetSimStatusBean attr, String pincode) {
         ChangePinStateHelper xChangePinStateHelper = new ChangePinStateHelper();
         xChangePinStateHelper.setOnChangePinStateSuccessListener(() -> pinEnableNext(null));
         xChangePinStateHelper.setOnChangePinStateFailedListener(() -> toast(R.string.setting_failed));
@@ -194,7 +194,7 @@ public class SimPinHelper {
 
     // 接口OnPukLockedListener
     public interface OnPukLockedListener {
-        void pukLock(SimStatus attr);
+        void pukLock(GetSimStatusBean attr);
     }
 
     // 对外方式setOnPukLockedListener
@@ -203,7 +203,7 @@ public class SimPinHelper {
     }
 
     // 封装方法pukLockNext
-    private void pukLockNext(SimStatus attr) {
+    private void pukLockNext(GetSimStatusBean attr) {
         if (onPukLockedListener != null) {
             onPukLockedListener.pukLock(attr);
         }

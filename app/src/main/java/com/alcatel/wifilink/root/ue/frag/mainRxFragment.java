@@ -22,7 +22,6 @@ import com.alcatel.wifilink.network.ResponseBody;
 import com.alcatel.wifilink.network.ResponseObject;
 import com.alcatel.wifilink.root.bean.ConnectedList;
 import com.alcatel.wifilink.root.bean.Extender_GetWIFIExtenderCurrentStatusResult;
-import com.alcatel.wifilink.root.bean.NetworkInfos;
 import com.alcatel.wifilink.root.bean.System_SystemInfo;
 import com.alcatel.wifilink.root.bean.System_SystemStates;
 import com.alcatel.wifilink.root.bean.UsageSetting;
@@ -52,6 +51,7 @@ import com.alcatel.wifilink.root.widget.MainMW70BatteryView;
 import com.alcatel.wifilink.root.widget.MainMW70BottomView;
 import com.de.wave.core.WaveView;
 import com.p_freesharing.p_freesharing.ui.SharingFileActivity;
+import com.p_xhelper_smart.p_xhelper_smart.bean.GetNetworkInfoBean;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetConnectionStateHelper;
 import com.zhy.android.percent.support.PercentRelativeLayout;
 
@@ -740,7 +740,7 @@ public class mainRxFragment extends Fragment implements FragmentBackHandler {
                 }
 
                 @Override
-                public void register(NetworkInfos result) {
+                public void register(GetNetworkInfoBean result) {
                     rlSignalPanel.setVisibility(View.VISIBLE);
                     // 设置漫游+信号强度
                     boolean isRoam = result.getRoaming() == Cons.ROAMING;
