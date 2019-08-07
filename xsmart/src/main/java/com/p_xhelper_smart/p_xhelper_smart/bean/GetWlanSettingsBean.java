@@ -15,47 +15,47 @@ public class GetWlanSettingsBean extends DeepCloneBean implements Serializable {
     private AP5GBean AP5G;
     private AP5GGuestBean AP5G_guest;
 
-    public static int CONS_DISABLE_WIFI_AUTO_OFF = 0;
-    public static int CONS_THE_TIME_FOR_SLEEP = 10;
+    public static final int CONS_DISABLE_WIFI_AUTO_OFF = 0;
+    public static final int CONS_THE_TIME_FOR_SLEEP = 10;
                       
-    public static int CONS_APSTATUS_OFF = 0;
-    public static int CONS_APSTATUS_ON = 1;
-    public static int CONS_APSTATUS_WPS = 2;
+    public static final int CONS_AP_STATUS_OFF = 0;
+    public static final int CONS_AP_STATUS_ON = 1;
+    public static final int CONS_AP_STATUS_WPS = 2;
                      
-    public static int CONS_WMODE_AUTO = 0;
-    public static int CONS_WMODE_802_11B = 1;
-    public static int CONS_WMODE_802_11B_G = 2;
-    public static int CONS_WMODE_802_11B_G_N = 3;
-    public static int CONS_WMODE_802_11A = 4;
-    public static int CONS_WMODE_802_11A_N = 5;
-    public static int CONS_WMODE_802_11A_C = 6;
+    public static final int CONS_WMODE_AUTO = 0;
+    public static final int CONS_WMODE_802_11B = 1;
+    public static final int CONS_WMODE_802_11B_G = 2;
+    public static final int CONS_WMODE_802_11B_G_N = 3;
+    public static final int CONS_WMODE_802_11A = 4;
+    public static final int CONS_WMODE_802_11A_N = 5;
+    public static final int CONS_WMODE_802_11A_C = 6;
                       
-    public static int CONS_SSID_HIDDEN_DISABLE = 0;
-    public static int CONS_SSID_HIDDEN_ENABLE = 1;
+    public static final int CONS_SSID_HIDDEN_DISABLE = 0;
+    public static final int CONS_SSID_HIDDEN_ENABLE = 1;
                       
-    public static int CONS_CHANNEL_AUTO = 0;
+    public static final int CONS_CHANNEL_AUTO = 0;
                      
-    public static int CONS_SECURITY_MODE_DISABLE = 0;
-    public static int CONS_SECURITY_MODE_WEP = 1;
-    public static int CONS_SECURITY_MODE_WPA = 2;
-    public static int CONS_SECURITY_MODE_WPA2 = 3;
-    public static int CONS_SECURITY_MODE_WPA_WPA2 = 4;
+    public static final int CONS_SECURITY_MODE_DISABLE = 0;
+    public static final int CONS_SECURITY_MODE_WEP = 1;
+    public static final int CONS_SECURITY_MODE_WPA = 2;
+    public static final int CONS_SECURITY_MODE_WPA2 = 3;
+    public static final int CONS_SECURITY_MODE_WPA_WPA2 = 4;
                       
-    public static int CONS_WEP_TYPE_OPEN = 0;
-    public static int CONS_WEP_TYPE_SHARE = 1;
+    public static final int CONS_WEP_TYPE_OPEN = 0;
+    public static final int CONS_WEP_TYPE_SHARE = 1;
                       
-    public static int CONS_TKIP = 0;
-    public static int CONS_AES = 1;
-    public static int CONS_AUTO = 2;
+    public static final int CONS_TKIP = 0;
+    public static final int CONS_AES = 1;
+    public static final int CONS_AUTO = 2;
                       
-    public static int CONS_APISOLATION_DISABLE = 0;
-    public static int CONS_APISOLATION_ENABLE = 1;
+    public static final int CONS_APISOLATION_DISABLE = 0;
+    public static final int CONS_APISOLATION_ENABLE = 1;
                       
-    public static int CONS_MHZ_20_40 = 0;
-    public static int CONS_MHZ_20 = 1;
-    public static int CONS_MHZ_40 = 2;
-    public static int CONS_MHZ_80 = 3;
-    public static int CONS_MHZ40_80 = 4;
+    public static final int CONS_MHZ_20_40 = 0;
+    public static final int CONS_MHZ_20 = 1;
+    public static final int CONS_MHZ_40 = 2;
+    public static final int CONS_MHZ_80 = 3;
+    public static final int CONS_MHZ40_80 = 4;
 
     public GetWlanSettingsBean() {
     }

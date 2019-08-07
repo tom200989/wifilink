@@ -8,6 +8,7 @@ import android.support.annotation.Nullable;
 import com.alcatel.wifilink.root.app.SmartLinkV3App;
 import com.alcatel.wifilink.root.utils.Logs;
 import com.alcatel.wifilink.root.utils.OtherUtils;
+import com.p_xhelper_smart.p_xhelper_smart.bean.GetLoginStateBean;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetLoginStateHelper;
 import com.p_xhelper_smart.p_xhelper_smart.helper.LogoutHelper;
 
@@ -66,7 +67,7 @@ public class HomeService extends Service {
         GetLoginStateHelper xGetLoginStateHelper = new GetLoginStateHelper();
         xGetLoginStateHelper.setOnGetLoginStateSuccessListener(getLoginStateBean -> {
             OtherUtils.clearAllTimer();
-            if (getLoginStateBean.getState() == Cons.LOGIN) {
+            if (getLoginStateBean.getState() ==  GetLoginStateBean.CONS_LOGOUT) {
                 LogoutHelper xLogoutHelper = new LogoutHelper();
                 xLogoutHelper.logout();
             }

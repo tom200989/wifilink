@@ -16,16 +16,16 @@ public class GetConnectionSettingsBean extends DeepCloneBean implements Serializ
      * ConnOffTime : 600
      */
 
-    public static int CONS_MANUAL_CONNECT = 0;
-    public static int CONS_AUTO_CONNECT = 1;
+    public static final int CONS_MANUAL_CONNECT = 0;
+    public static final int CONS_AUTO_CONNECT = 1;
 
-    public static int CONS_WHEN_ROAMING_CAN_NOT_CONNECT = 0;
-    public static int CONS_WHEN_ROAMING_CAN_CONNECT = 1;
+    public static final int CONS_WHEN_ROAMING_CAN_NOT_CONNECT = 0;
+    public static final int CONS_WHEN_ROAMING_CAN_CONNECT = 1;
 
-    public static int CONS_IPV4 = 0;
-    public static int CONS_PPP = 1;
-    public static int CONS_IPV6 = 2;
-    public static int CONS_IPV4V6 = 3;
+    public static final int CONS_IPV4 = 0;
+    public static final int CONS_PPP = 1;
+    public static final int CONS_IPV6 = 2;
+    public static final int CONS_IPV4V6 = 3;
 
     private int ConnectMode;
     private int RoamingConnect;

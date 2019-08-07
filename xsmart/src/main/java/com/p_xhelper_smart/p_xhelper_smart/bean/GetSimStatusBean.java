@@ -18,15 +18,15 @@ public class GetSimStatusBean implements Serializable {
      * SPN :
      */
 
-    public static int CONS_NOWN = 0;// 未知状态
-    public static int CONS_SIM_CARD_DETECTED = 1;// 移除状态
-    public static int CONS_PIN_REQUIRED = 2;// PIN码请求状态
-    public static int CONS_PUK_REQUIRED = 3;// PUK码请求状态
-    public static int CONS_SIM_LOCK_REQUIRED = 4;// SIM卡锁定状态
-    public static int CONS_PUK_TIMES_USED_OUT = 5;// PUK码次数超限
-    public static int CONS_SIM_CARD_ILLEGAL = 6;// 非法状态
-    public static int CONS_SIM_CARD_READY = 7;// 准备状态
-    public static int CONS_SIM_CARD_IS_INITING = 11;// 初始化状态
+    public static final int CONS_NOWN = 0;// 未知状态
+    public static final int CONS_SIM_CARD_DETECTED = 1;// 移除状态
+    public static final int CONS_PIN_REQUIRED = 2;// PIN码请求状态
+    public static final int CONS_PUK_REQUIRED = 3;// PUK码请求状态
+    public static final int CONS_SIM_LOCK_REQUIRED = 4;// SIM卡锁定状态
+    public static final int CONS_PUK_TIMES_USED_OUT = 5;// PUK码次数超限
+    public static final int CONS_SIM_CARD_ILLEGAL = 6;// 非法状态
+    public static final int CONS_SIM_CARD_READY = 7;// 准备状态
+    public static final int CONS_SIM_CARD_IS_INITING = 11;// 初始化状态
 
     private int SIMState;// SIM卡状态
     private int PinState;// PIN码状态

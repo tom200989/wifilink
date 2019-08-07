@@ -25,6 +25,7 @@ import com.alcatel.wifilink.root.utils.Logs;
 import com.alcatel.wifilink.root.utils.OtherUtils;
 import com.alcatel.wifilink.root.utils.SP;
 import com.alcatel.wifilink.root.utils.ToastUtil_m;
+import com.p_xhelper_smart.p_xhelper_smart.bean.GetSimStatusBean;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetSimStatusHelper;
 import com.p_xhelper_smart.p_xhelper_smart.helper.LogoutHelper;
 
@@ -169,7 +170,8 @@ public class WizardRxActivity extends BaseActivityWithBack {
                     GetSimStatusHelper xGetSimStatusHelper = new GetSimStatusHelper();
                     xGetSimStatusHelper.setOnGetSimStatusSuccessListener(result -> {
                         int simState = result.getSIMState();
-                        boolean isSimEffect = simState == Cons.PIN_REQUIRED | simState == Cons.PUK_REQUIRED | simState == Cons.READY;
+                        boolean isSimEffect =
+                                simState == GetSimStatusBean.CONS_PIN_REQUIRED | simState == GetSimStatusBean.CONS_PUK_REQUIRED | simState == GetSimStatusBean.CONS_SIM_CARD_READY;
                         ivSimRx.setImageDrawable(isSimEffect ? sim_checked_pic : sim_unchecked_pic);
                         tvSimRx.setText(isSimEffect ? sim_checked_str : sim_unchecked_str);
                         tvSimRx.setTextColor(isSimEffect ? blue_color : red_color);
@@ -326,7 +328,7 @@ public class WizardRxActivity extends BaseActivityWithBack {
             GetSimStatusHelper xGetSimStatusHelper = new GetSimStatusHelper();
             xGetSimStatusHelper.setOnGetSimStatusSuccessListener(result -> {
                 int simState = result.getSIMState();
-                if (simState == Cons.READY) {
+                if (simState == GetSimStatusBean.CONS_SIM_CARD_READY) {
                     OtherUtils.hideProgressPop(pgd);
                     // 检测是否进入过向导设置
                     if (SP.getInstance(WizardRxActivity.this).getBoolean(Cons.DATAPLAN_RX, false)) {
@@ -341,40 +343,40 @@ public class WizardRxActivity extends BaseActivityWithBack {
                     }
                     return;
                 }
-                if (simState == Cons.NONE) {
+                if (simState == GetSimStatusBean.CONS_NOWN) {
                     OtherUtils.hideProgressPop(pgd);
                     toast(R.string.connect_type_select_sim_card_disable);
                     return;
                 }
-                if (simState == Cons.DETECTED || simState == Cons.INITING) {
+                if (simState == GetSimStatusBean.CONS_SIM_CARD_DETECTED || simState == GetSimStatusBean.CONS_SIM_CARD_IS_INITING) {
                     clickSimRl();
                     return;
                 }
-                if (simState == Cons.SIMLOCK) {
+                if (simState == GetSimStatusBean.CONS_SIM_LOCK_REQUIRED) {
                     OtherUtils.hideProgressPop(pgd);
                     toast(R.string.Home_SimLock_Required);
                     return;
                 }
-                if (simState == Cons.ILLEGAL) {
+                if (simState == GetSimStatusBean.CONS_SIM_CARD_ILLEGAL) {
                     OtherUtils.hideProgressPop(pgd);
                     toast(R.string.Home_sim_invalid);
                     return;
                 }
-                if (simState == Cons.PIN_REQUIRED) {
+                if (simState == GetSimStatusBean.CONS_PIN_REQUIRED) {
                     OtherUtils.hideProgressPop(pgd);
                     EventBus.getDefault().postSticky(new Other_PinPukBean(Cons.PIN_FLAG));
                     EventBus.getDefault().postSticky(Cons.WIZARD_RX);
                     to(PinPukIndexRxActivity.class);
                     return;
                 }
-                if (simState == Cons.PUK_REQUIRED) {
+                if (simState == GetSimStatusBean.CONS_PUK_REQUIRED) {
                     OtherUtils.hideProgressPop(pgd);
                     EventBus.getDefault().postSticky(new Other_PinPukBean(Cons.PUK_FLAG));
                     EventBus.getDefault().postSticky(Cons.WIZARD_RX);
                     to(PinPukIndexRxActivity.class);
                     return;
                 }
-                if (simState == Cons.PUK_TIMESOUT) {
+                if (simState == GetSimStatusBean.CONS_PUK_TIMES_USED_OUT) {
                     OtherUtils.hideProgressPop(pgd);
                     toast(R.string.puk_alarm_des1);
                     return;

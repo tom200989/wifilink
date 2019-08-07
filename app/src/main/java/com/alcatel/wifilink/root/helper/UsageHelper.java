@@ -8,6 +8,7 @@ import com.alcatel.wifilink.network.ResponseBody;
 import com.alcatel.wifilink.network.ResponseObject;
 import com.alcatel.wifilink.root.bean.UsageRecord;
 import com.alcatel.wifilink.root.bean.UsageSettings;
+import com.p_xhelper_smart.p_xhelper_smart.bean.GetNetworkInfoBean;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetNetworkInfoHelper;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetNetworkRegisterStateHelper;
 
@@ -317,7 +318,7 @@ public class UsageHelper {
                 RX.getInstant().getUsageRecord(currentTime, new ResponseObject<UsageRecord>() {
                     @Override
                     protected void onSuccess(UsageRecord result) {
-                        if (networkInfoBean.getRoaming() == Cons.ROAMING) {
+                        if (networkInfoBean.getRoaming() == GetNetworkInfoBean.CONS_ROAMING) {
                             roamingNext(result);
                         } else {
                             noRoamingNext(result);

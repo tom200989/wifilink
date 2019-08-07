@@ -33,10 +33,10 @@ public class ConnectSettingHelper {
         xGetConnectionSettingsHelper.setOnGetConnectionSettingsSuccessListener(result -> {
             int roamingConnect = result.getRoamingConnect();
             switch (roamingConnect) {
-                case Cons.WHEN_ROAM_NOT_CONNECT:
+                case GetConnectionSettingsBean.CONS_WHEN_ROAMING_CAN_NOT_CONNECT:
                     roamNotConnNext(result);
                     break;
-                case Cons.WHEN_ROAM_CAN_CONNECT:
+                case GetConnectionSettingsBean.CONS_WHEN_ROAMING_CAN_CONNECT:
                     roamConnNext(result);
                     break;
             }
@@ -293,10 +293,10 @@ public class ConnectSettingHelper {
         xGetConnectionSettingsHelper.setOnGetConnectionSettingsSuccessListener(result -> {
             connResultNext(result);
             switch (result.getConnectMode()) {
-                case Cons.AUTO:
+                case GetConnectionSettingsBean.CONS_AUTO_CONNECT:
                     connAutoNext(result);
                     break;
-                case Cons.MANUAL:
+                case GetConnectionSettingsBean.CONS_MANUAL_CONNECT:
                     connManualNext(result);
                     break;
             }

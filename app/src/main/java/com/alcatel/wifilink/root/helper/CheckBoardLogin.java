@@ -10,6 +10,7 @@ import com.alcatel.wifilink.root.ue.activity.RefreshWifiRxActivity;
 import com.alcatel.wifilink.root.utils.CA;
 import com.alcatel.wifilink.root.utils.OtherUtils;
 import com.alcatel.wifilink.root.utils.ToastUtil_m;
+import com.p_xhelper_smart.p_xhelper_smart.bean.GetLoginStateBean;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetLoginStateHelper;
 
 /**
@@ -46,7 +47,7 @@ public abstract class CheckBoardLogin {
                     // 2.登陆状态
                     GetLoginStateHelper xGetLoginStateHelper = new GetLoginStateHelper();
                     xGetLoginStateHelper.setOnGetLoginStateSuccessListener(getLoginStateBean -> {
-                        if (getLoginStateBean.getState() == Cons.LOGOUT) {
+                        if (getLoginStateBean.getState() == GetLoginStateBean.CONS_LOGOUT) {
                             to(LoginRxActivity.class);
                             return;
                         }
@@ -81,7 +82,7 @@ public abstract class CheckBoardLogin {
                     // 2.登陆状态
                     GetLoginStateHelper xGetLoginStateHelper = new GetLoginStateHelper();
                     xGetLoginStateHelper.setOnGetLoginStateSuccessListener(getLoginStateBean -> {
-                        if (getLoginStateBean.getState() == Cons.LOGOUT) {
+                        if (getLoginStateBean.getState() ==  GetLoginStateBean.CONS_LOGOUT) {
                             to(LoginRxActivity.class);
                             return;
                         }

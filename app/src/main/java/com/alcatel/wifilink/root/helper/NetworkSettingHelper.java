@@ -33,30 +33,30 @@ public class NetworkSettingHelper {
             int networkMode = result.getNetworkMode();
             switch (networkMode) {
                 // 自动模式
-                case Cons.AUTO_MODE:
+                case GetNetworkSettingsBean.CONS_AUTO_MODE:
                     autoNext(result);
                     break;
 
                 // 2G模式
-                case Cons.ONLY_2G:
-                case Cons.GSM_LTE:
-                case Cons.GSM_UMTS:
+                case GetNetworkSettingsBean.CONS_ONLY_2G:
+                case GetNetworkSettingsBean.CONS_GSM_LTE:
+                case GetNetworkSettingsBean.CONS_GSM_UMTS:
                     mode2GNext(result);
                     break;
 
                 // 3G模式
-                case Cons.ONLY_3G:
-                case Cons.UMTS_LTE:
-                case Cons.CDMA_EVDO:
-                case Cons.EVDO_ONLY:
-                case Cons.CDMA_EHRPD:
-                case Cons.CDMA_ONLY_1X_SPRINT:
+                case GetNetworkSettingsBean.CONS_ONLY_3G:
+                case GetNetworkSettingsBean.CONS_UMTS_LTE:
+                case GetNetworkSettingsBean.CONS_CDMA_EVDO_FOR_Y856_SPRINT:
+                case GetNetworkSettingsBean.CONS_ONLY_EVDO:
+                case GetNetworkSettingsBean.CONS_CDMA_EHRPD:
+                case GetNetworkSettingsBean.CONS_CDMA_ONLY_1X_SPRINT:
                     mode3GNext(result);
                     break;
 
                 // 4G模式
-                case Cons.ONLY_LTE:
-                case Cons.LTE_CDMA_EVDO:
+                case GetNetworkSettingsBean.CONS_ONLY_LTE:
+                case GetNetworkSettingsBean.CONS_LTE_CDMA_EVDO_FOR_Y856:
                     mode4GNext(result);
                     break;
             }

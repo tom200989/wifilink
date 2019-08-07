@@ -6,8 +6,8 @@ import android.app.ProgressDialog;
 import com.alcatel.wifilink.network.RX;
 import com.alcatel.wifilink.network.ResponseBody;
 import com.alcatel.wifilink.network.ResponseObject;
-import com.alcatel.wifilink.root.bean.SimStatus;
 import com.alcatel.wifilink.root.bean.SmsInitState;
+import com.p_xhelper_smart.p_xhelper_smart.bean.GetSimStatusBean;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetSMSStorageStateHelper;
 
 /**
@@ -101,7 +101,7 @@ public class XXXSHelper {
     /* -------------------------------------------- interface -------------------------------------------- */
 
     public interface OnNownListener {
-        void nown(SimStatus simStatus);
+        void nown(GetSimStatusBean simStatus);
     }
 
     public interface OnUnreadListener {
@@ -152,7 +152,7 @@ public class XXXSHelper {
 
     /* -------------------------------------------- method -------------------------------------------- */
 
-    private void nownNext(SimStatus simStatus) {
+    private void nownNext(GetSimStatusBean simStatus) {
         onNownListener.nown(simStatus);
     }
 

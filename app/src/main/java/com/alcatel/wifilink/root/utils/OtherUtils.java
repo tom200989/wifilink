@@ -44,6 +44,7 @@ import com.alcatel.wifilink.root.helper.TimerHelper;
 import com.alcatel.wifilink.root.ue.activity.HomeRxActivity;
 import com.alcatel.wifilink.root.ue.activity.LoginRxActivity;
 import com.alcatel.wifilink.root.widget.PopupWindows;
+import com.p_xhelper_smart.p_xhelper_smart.bean.GetLoginStateBean;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetLoginStateHelper;
 import com.p_xhelper_smart.p_xhelper_smart.helper.HeartBeatHelper;
 import com.tcl.token.ndk.JniTokenUtils;
@@ -865,7 +866,7 @@ public class OtherUtils {
         GetLoginStateHelper xGetLoginStateHelper = new GetLoginStateHelper();
         xGetLoginStateHelper.setOnGetLoginStateSuccessListener(getLoginStateBean -> {
             // 字段值为1: 一定需要加密
-            if (getLoginStateBean.getPwEncrypt() == Cons.NEED_ENCRYPT) {
+            if (getLoginStateBean.getPwEncrypt() ==  GetLoginStateBean.CONS_PWENCRYPT_ON) {
                 onSwVersionListener.getVersion(true);
             } else {
                 // 否则--> 获取系统信息:能使用systeminfo接口--> 判断是否为E1版本

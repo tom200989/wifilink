@@ -182,12 +182,12 @@ public class WifiInitRxActivity extends BaseActivityWithBack {
                     GetWlanSettingsBean.AP2GBean ap2G = result.getAP2G();
                     boolean is2P4GEnable = false;
                     if (ap2G != null) {
-                        is2P4GEnable = ap2G.getApStatus() == Cons.ENABLE;
+                        is2P4GEnable = ap2G.getApStatus() == GetWlanSettingsBean.CONS_AP_STATUS_ON;
                     }
                     GetWlanSettingsBean.AP5GBean ap5G = result.getAP5G();
                     boolean is5GEnable = false;
                     if (ap5G != null) {
-                        is5GEnable = ap5G.getApStatus() == Cons.ENABLE;
+                        is5GEnable = ap5G.getApStatus() == GetWlanSettingsBean.CONS_AP_STATUS_ON;
                     }
 
                     if (!ismw120) {

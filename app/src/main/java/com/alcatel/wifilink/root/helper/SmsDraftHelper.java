@@ -10,6 +10,7 @@ import com.alcatel.wifilink.root.bean.SMSContentParam;
 import com.alcatel.wifilink.root.bean.SMSDeleteParam;
 import com.alcatel.wifilink.root.bean.SMSSaveParam;
 import com.alcatel.wifilink.root.utils.DataUtils;
+import com.p_xhelper_smart.p_xhelper_smart.bean.GetSimStatusBean;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetSimStatusHelper;
 
 import java.util.ArrayList;
@@ -71,7 +72,7 @@ public class SmsDraftHelper {
 
         GetSimStatusHelper xGetSimStatusHelper = new GetSimStatusHelper();
         xGetSimStatusHelper.setOnGetSimStatusSuccessListener(result -> {
-            if (result.getSIMState() != Cons.READY) {// no sim
+            if (result.getSIMState() != GetSimStatusBean.CONS_SIM_CARD_READY) {// no sim
                 if (onNoSimListener != null) {
                     onNoSimListener.noSim();
                 }
@@ -121,7 +122,7 @@ public class SmsDraftHelper {
 
         GetSimStatusHelper xGetSimStatusHelper = new GetSimStatusHelper();
         xGetSimStatusHelper.setOnGetSimStatusSuccessListener(result -> {
-            if (result.getSIMState() != Cons.READY) {
+            if (result.getSIMState() != GetSimStatusBean.CONS_SIM_CARD_READY) {
                 if (onNoSimListener != null) {
                     onNoSimListener.noSim();
                 }

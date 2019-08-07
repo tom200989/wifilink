@@ -26,7 +26,7 @@ public class WpsHelper {
             // 检测2.4G下的WPS状态
             if (ap2G != null) {
                 int apStatus = ap2G.getApStatus();
-                if (apStatus == Cons.WPS) {
+                if (apStatus == GetWlanSettingsBean.CONS_AP_STATUS_WPS) {
                     isWpsWork = true;
                 }
             }
@@ -34,7 +34,7 @@ public class WpsHelper {
             // 检测2.4G-guest下的WPS状态
             if (ap2G_guest != null) {
                 int apStatus = ap2G_guest.getApStatus();
-                if (apStatus == Cons.WPS) {
+                if (apStatus == GetWlanSettingsBean.CONS_AP_STATUS_WPS) {
                     isWpsWork = true;
                 }
             }
@@ -42,7 +42,7 @@ public class WpsHelper {
             // 检测5G下的WPS状态
             if (ap5G != null) {
                 int apStatus = ap5G.getApStatus();
-                if (apStatus == Cons.WPS) {
+                if (apStatus ==GetWlanSettingsBean.CONS_AP_STATUS_WPS) {
                     isWpsWork = true;
                 }
             }
@@ -50,7 +50,7 @@ public class WpsHelper {
             // 检测5G-guest下的WPS状态
             if (ap5G_guest != null) {
                 int apStatus = ap5G_guest.getApStatus();
-                if (apStatus == Cons.WPS) {
+                if (apStatus == GetWlanSettingsBean.CONS_AP_STATUS_WPS) {
                     isWpsWork = true;
                 }
             }

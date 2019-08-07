@@ -39,6 +39,7 @@ import com.alcatel.wifilink.root.widget.DialogOkWidget;
 import com.p_freesharing.p_freesharing.bean.InteractiveRequestBean;
 import com.p_freesharing.p_freesharing.bean.InteractiveResponceBean;
 import com.p_freesharing.p_freesharing.ui.SharingFileActivity;
+import com.p_xhelper_smart.p_xhelper_smart.bean.GetSimStatusBean;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetLoginStateHelper;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetSimStatusHelper;
 import com.p_xhelper_smart.p_xhelper_smart.helper.LoginHelper;
@@ -577,7 +578,8 @@ public class LoginRxActivity extends BaseActivityWithBack {
             xGetSimStatusHelper.setOnGetSimStatusSuccessListener(bean -> {
                 /* 获取SIM卡状态 */
                 int simState = bean.getSIMState();
-                boolean simflag = simState == Cons.READY || simState == Cons.PIN_REQUIRED || simState == Cons.PUK_REQUIRED;
+                boolean simflag =
+                        simState == GetSimStatusBean.CONS_SIM_CARD_READY || simState == GetSimStatusBean.CONS_PIN_REQUIRED || simState == GetSimStatusBean.CONS_PUK_REQUIRED;
                 OtherUtils.hideProgressPop(pgd);
                 if (wanStatus == Cons.CONNECTED & simflag) {// 都有
                     isToWizard();
@@ -586,10 +588,10 @@ public class LoginRxActivity extends BaseActivityWithBack {
                 if (wanStatus != Cons.CONNECTED && simflag) {// 只有SIM卡
                     if (simState == Cons.READY) {
                         simHadReady(false);
-                    } else if (simState == Cons.PIN_REQUIRED) {
+                    } else if (simState == GetSimStatusBean.CONS_PIN_REQUIRED) {
                         EventBus.getDefault().postSticky(new Other_PinPukBean(Cons.PIN_FLAG));
                         to(PinPukIndexRxActivity.class);
-                    } else if (simState == Cons.PUK_REQUIRED) {
+                    } else if (simState == GetSimStatusBean.CONS_PUK_REQUIRED) {
                         EventBus.getDefault().postSticky(new Other_PinPukBean(Cons.PUK_FLAG));
                         to(PinPukIndexRxActivity.class);
                     } else {
@@ -646,12 +648,12 @@ public class LoginRxActivity extends BaseActivityWithBack {
                 GetSimStatusHelper xGetSimStatusHelper = new GetSimStatusHelper();
                 xGetSimStatusHelper.setOnGetSimStatusSuccessListener(attr -> {
                     int simState = attr.getSIMState();
-                    if (simState == Cons.READY) {
+                    if (simState == GetSimStatusBean.CONS_SIM_CARD_READY) {
                         simHadReady(true);
-                    } else if (simState == Cons.PIN_REQUIRED) {
+                    } else if (simState == GetSimStatusBean.CONS_PIN_REQUIRED ) {
                         EventBus.getDefault().postSticky(new Other_PinPukBean(Cons.PIN_FLAG));
                         to(PinPukIndexRxActivity.class);
-                    } else if (simState == Cons.PUK_REQUIRED) {
+                    } else if (simState == GetSimStatusBean.CONS_PUK_REQUIRED) {
                         EventBus.getDefault().postSticky(new Other_PinPukBean(Cons.PUK_FLAG));
                         to(PinPukIndexRxActivity.class);
                     } else {

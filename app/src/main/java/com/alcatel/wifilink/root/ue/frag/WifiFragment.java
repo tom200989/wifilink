@@ -44,6 +44,7 @@ import com.alcatel.wifilink.root.utils.OtherUtils;
 import com.alcatel.wifilink.root.utils.ToastUtil_m;
 import com.alcatel.wifilink.root.utils.fraghandler.FragmentBackHandler;
 import com.alcatel.wifilink.root.widget.DialogOkWidget;
+import com.p_xhelper_smart.p_xhelper_smart.bean.GetWlanSupportModeBean;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetWlanSupportModeHelper;
 
 import static android.app.Activity.RESULT_OK;
@@ -341,9 +342,9 @@ public class WifiFragment extends Fragment implements View.OnClickListener, Adap
         if (mOriginSettings == null) {
             return;
         }
-        if (mSupportMode == C_ENUM.WlanSupportMode.Mode2Point4G.ordinal()) {
+        if (mSupportMode == GetWlanSupportModeBean.CONS_WLAN_2_4G) {
             set2GData();
-        } else if (mSupportMode == C_ENUM.WlanSupportMode.Mode5G.ordinal()) {
+        } else if (mSupportMode == GetWlanSupportModeBean.CONS_WLAN_5G) {
             set5GData();
         } else {
             set2GData();

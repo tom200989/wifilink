@@ -6,6 +6,7 @@ import android.text.TextUtils;
 import com.alcatel.wifilink.R;
 import com.alcatel.wifilink.root.utils.CA;
 import com.alcatel.wifilink.root.utils.ToastUtil_m;
+import com.p_xhelper_smart.p_xhelper_smart.bean.GetSimStatusBean;
 import com.p_xhelper_smart.p_xhelper_smart.helper.ChangePinCodeHelper;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetSimStatusHelper;
 import com.p_xhelper_smart.p_xhelper_smart.helper.UnlockPinHelper;
@@ -91,7 +92,7 @@ public class ChangePinHelper {
         // 获取剩余次数
         GetSimStatusHelper xGetSimStatusHelper = new GetSimStatusHelper();
         xGetSimStatusHelper.setOnGetSimStatusSuccessListener(result -> {
-            if (result.getSIMState() == Cons.PIN_REQUIRED) {
+            if (result.getSIMState() == GetSimStatusBean.CONS_PIN_REQUIRED) {
                 int pinRemainingTimes = result.getPinRemainingTimes();
                 if (pinRemainingTimes >= 1) {
                     String tip = pinRemainingTimes + " " + activity.getString(R.string.sim_unlocked_attempts);
@@ -99,7 +100,7 @@ public class ChangePinHelper {
                 } else {
                     toast(R.string.Home_PinTimes_UsedOut);
                 }
-            } else if (result.getSIMState() == Cons.PUK_REQUIRED) {
+            } else if (result.getSIMState() == GetSimStatusBean.CONS_PUK_REQUIRED) {
                 pinTimeoutNext(result);
             }
         });

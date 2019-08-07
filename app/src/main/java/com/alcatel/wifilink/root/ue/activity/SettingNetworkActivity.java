@@ -31,7 +31,6 @@ import com.alcatel.wifilink.network.RX;
 import com.alcatel.wifilink.network.ResponseBody;
 import com.alcatel.wifilink.network.ResponseObject;
 import com.alcatel.wifilink.root.app.SmartLinkV3App;
-import com.alcatel.wifilink.root.bean.ProfileList;
 import com.alcatel.wifilink.root.bean.System_SystemInfo;
 import com.alcatel.wifilink.root.bean.UsageSetting;
 import com.alcatel.wifilink.root.helper.BoardSimHelper;
@@ -45,6 +44,7 @@ import com.alcatel.wifilink.root.utils.WifiUtils;
 import com.alcatel.wifilink.root.widget.PopupWindows;
 import com.p_xhelper_smart.p_xhelper_smart.bean.GetConnectionSettingsBean;
 import com.p_xhelper_smart.p_xhelper_smart.bean.GetNetworkSettingsBean;
+import com.p_xhelper_smart.p_xhelper_smart.bean.GetProfileListBean;
 import com.p_xhelper_smart.p_xhelper_smart.bean.GetSimStatusBean;
 import com.p_xhelper_smart.p_xhelper_smart.bean.SetNetworkSettingsParam;
 import com.p_xhelper_smart.p_xhelper_smart.helper.ChangePinCodeHelper;
@@ -54,11 +54,10 @@ import com.p_xhelper_smart.p_xhelper_smart.helper.DisConnectHelper;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetConnectionSettingsHelper;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetConnectionStateHelper;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetNetworkSettingsBeanHelper;
+import com.p_xhelper_smart.p_xhelper_smart.helper.GetProfileListHelper;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetSimStatusHelper;
 import com.p_xhelper_smart.p_xhelper_smart.helper.SetConnectionSettingsHelper;
 import com.p_xhelper_smart.p_xhelper_smart.helper.SetNetworkSettingsHelper;
-import com.p_xhelper_smart.p_xhelper_smart.bean.GetProfileListBean;
-import com.p_xhelper_smart.p_xhelper_smart.helper.GetProfileListHelper;
 
 import java.util.List;
 
@@ -343,17 +342,17 @@ public class SettingNetworkActivity extends BaseActivityWithBack implements OnCl
         xGetConnectionSettingsHelper.setOnGetConnectionSettingsSuccessListener(result -> {
             //  0: manual connect 1: auto connect
             mConnectionSettings = result;
-            if (result.getConnectMode() == C_Constants.ConnectionSettings.CONNECTION_MODE_AUTO) {
+            if (result.getConnectMode() == GetConnectionSettingsBean.CONS_AUTO_CONNECT) {
                 mConnectionModeSpinner.setSelection(0);
                 mRoamingRl.setVisibility(View.VISIBLE);
-            } else if (result.getConnectMode() == C_Constants.ConnectionSettings.CONNECTION_MODE_MANUAL) {
+            } else if (result.getConnectMode() == GetConnectionSettingsBean.CONS_MANUAL_CONNECT) {
                 mConnectionModeSpinner.setSelection(1);
                 mRoamingRl.setVisibility(View.GONE);
             }
-            if (result.getRoamingConnect() == C_Constants.ConnectionSettings.ROAMING_DISABLE) {
+            if (result.getRoamingConnect() == GetConnectionSettingsBean.CONS_WHEN_ROAMING_CAN_NOT_CONNECT) {
                 mRoamingSwitchCompat.setImageResource(R.drawable.pwd_switcher_off);
                 isRoaming = false;
-            } else if (result.getRoamingConnect() == C_Constants.ConnectionSettings.ROAMING_ENABLE) {
+            } else if (result.getRoamingConnect() == GetConnectionSettingsBean.CONS_WHEN_ROAMING_CAN_CONNECT) {
                 isRoaming = true;
                 mRoamingSwitchCompat.setImageResource(R.drawable.pwd_switcher_on);
             }
@@ -380,13 +379,13 @@ public class SettingNetworkActivity extends BaseActivityWithBack implements OnCl
             //  0: auto mode 1: 2G only 2: 3G only 3: LTE only
 
             mNetworkSettings = result;
-            if (result.getNetworkMode() == C_Constants.SetNetWorkSeting.NET_WORK_MODE_AUTO) {
+            if (result.getNetworkMode() == GetNetworkSettingsBean.CONS_AUTO_MODE) {
                 mNetworkModeSpinner.setSelection(0);
-            } else if (result.getNetworkMode() == C_Constants.SetNetWorkSeting.NET_WORK_MODE_4G) {
+            } else if (result.getNetworkMode() == GetNetworkSettingsBean.CONS_ONLY_LTE) {
                 mNetworkModeSpinner.setSelection(1);
-            } else if (result.getNetworkMode() == C_Constants.SetNetWorkSeting.NET_WORK_MODE_3G) {
+            } else if (result.getNetworkMode() == GetNetworkSettingsBean.CONS_ONLY_3G) {
                 mNetworkModeSpinner.setSelection(2);
-            } else if (result.getNetworkMode() == C_Constants.SetNetWorkSeting.NET_WORK_MODE_2G) {
+            } else if (result.getNetworkMode() == GetNetworkSettingsBean.CONS_ONLY_2G) {
                 mNetworkModeSpinner.setSelection(3);
             }
         });
@@ -602,7 +601,7 @@ public class SettingNetworkActivity extends BaseActivityWithBack implements OnCl
         pgd = OtherUtils.showProgressPop(this);
         GetSimStatusHelper xGetSimStatusHelper = new GetSimStatusHelper();
         xGetSimStatusHelper.setOnGetSimStatusSuccessListener(attr -> {
-            if (attr.getSIMState() == Cons.READY) {
+            if (attr.getSIMState() == GetSimStatusBean.CONS_SIM_CARD_READY) {
                 // 切换标记位
                 isRoaming = !isRoaming;
                 // mRoamingSwitchCompat.setImageResource(roamCheck ? R.drawable.pwd_switcher_on : R.drawable.pwd_switcher_off);

@@ -35,6 +35,7 @@ import com.alcatel.wifilink.root.utils.C_Constants;
 import com.alcatel.wifilink.root.utils.Logs;
 import com.alcatel.wifilink.root.utils.OtherUtils;
 import com.alcatel.wifilink.root.utils.ToastUtil_m;
+import com.p_xhelper_smart.p_xhelper_smart.bean.GetSimStatusBean;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetSimStatusHelper;
 
 import org.greenrobot.eventbus.EventBus;
@@ -298,7 +299,7 @@ public class SmsDetailActivity extends BaseActivityWithBack implements View.OnCl
 
         GetSimStatusHelper xGetSimStatusHelper = new GetSimStatusHelper();
         xGetSimStatusHelper.setOnGetSimStatusSuccessListener(result -> {
-            if (result.getSIMState() == Cons.READY) {// no sim
+            if (result.getSIMState() == GetSimStatusBean.CONS_SIM_CARD_READY) {// no sim
                 getContent(isSetRcvToLast);
             } else {
                 finish();

@@ -17,6 +17,7 @@ import com.alcatel.wifilink.root.utils.CA;
 import com.alcatel.wifilink.root.utils.Logs;
 import com.alcatel.wifilink.root.utils.OtherUtils;
 import com.alcatel.wifilink.root.utils.ToastUtil_m;
+import com.p_xhelper_smart.p_xhelper_smart.bean.GetLoginStateBean;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetLoginStateHelper;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetWanSettingsHelper;
 
@@ -64,7 +65,7 @@ public class BoardWanHelper {
                     // 2.获取状态
                     GetLoginStateHelper xGetLoginStateHelper = new GetLoginStateHelper();
                     xGetLoginStateHelper.setOnGetLoginStateSuccessListener(getLoginStateBean -> {
-                        if (getLoginStateBean.getState() == Cons.LOGOUT) {
+                        if (getLoginStateBean.getState() ==  GetLoginStateBean.CONS_LOGOUT) {
                             to(LoginRxActivity.class);
                             return;
                         }
@@ -95,7 +96,7 @@ public class BoardWanHelper {
                     // 2.登陆状态
                     GetLoginStateHelper xGetLoginStateHelper = new GetLoginStateHelper();
                     xGetLoginStateHelper.setOnGetLoginStateSuccessListener(getLoginStateBean -> {
-                        if (getLoginStateBean.getState() == Cons.LOGOUT) {
+                        if (getLoginStateBean.getState() ==  GetLoginStateBean.CONS_LOGOUT) {
                             to(LoginRxActivity.class);
                             return;
                         }

@@ -12,6 +12,7 @@ import com.alcatel.wifilink.root.ue.activity.RefreshWifiRxActivity;
 import com.alcatel.wifilink.root.utils.CA;
 import com.alcatel.wifilink.root.utils.OtherUtils;
 import com.alcatel.wifilink.root.utils.ToastUtil_m;
+import com.p_xhelper_smart.p_xhelper_smart.bean.GetLoginStateBean;
 import com.p_xhelper_smart.p_xhelper_smart.bean.GetSimStatusBean;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetLoginStateHelper;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetSimStatusHelper;
@@ -59,7 +60,7 @@ public class BoardSimHelper {
                 // 2.登陆状态
                 GetLoginStateHelper xGetLoginStateHelper = new GetLoginStateHelper();
                 xGetLoginStateHelper.setOnGetLoginStateSuccessListener(getLoginStateBean -> {
-                    if (getLoginStateBean.getState() == Cons.LOGOUT) {
+                    if (getLoginStateBean.getState() == GetLoginStateBean.CONS_LOGOUT) {
                         to(LoginRxActivity.class);
                         return;
                     }
@@ -88,7 +89,7 @@ public class BoardSimHelper {
 
                 GetLoginStateHelper xGetLoginStateHelper = new GetLoginStateHelper();
                 xGetLoginStateHelper.setOnGetLoginStateSuccessListener(getLoginStateBean -> {
-                    if (getLoginStateBean.getState() == Cons.LOGOUT) {
+                    if (getLoginStateBean.getState() == GetLoginStateBean.CONS_LOGOUT) {
                         to(LoginRxActivity.class);
                         return;
                     }
@@ -111,37 +112,37 @@ public class BoardSimHelper {
             normalSimStatusNext(result);
             int simState = result.getSIMState();
             switch (simState) {
-                case Cons.NONE:
+                case GetSimStatusBean.CONS_NOWN:
                     nownStatusNext(result);
                     toast(R.string.Home_no_sim);
                     break;
-                case Cons.DETECTED:
+                case GetSimStatusBean.CONS_SIM_CARD_DETECTED:
                     delayRepeatGetSimstatu();
                     break;
-                case Cons.PIN_REQUIRED:
+                case GetSimStatusBean.CONS_PIN_REQUIRED:
                     pinRequireNext(result);
                     break;
-                case Cons.PUK_REQUIRED:
+                case GetSimStatusBean.CONS_PUK_REQUIRED:
                     pukRequireNext(result);
                     break;
-                case Cons.SIMLOCK:
+                case GetSimStatusBean.CONS_SIM_LOCK_REQUIRED:
                     simlockNext(result);
                     toast(R.string.home_sim_loched);
                     break;
-                case Cons.PUK_TIMESOUT:
+                case GetSimStatusBean.CONS_PUK_TIMES_USED_OUT:
                     pukTimeoutNext(result);
                     break;
-                case Cons.ILLEGAL:
+                case GetSimStatusBean.CONS_SIM_CARD_ILLEGAL:
                     toast(R.string.Home_sim_invalid);
                     break;
-                case Cons.READY:
+                case GetSimStatusBean.CONS_SIM_CARD_READY:
                     simReadyNext(result);
                     break;
-                case Cons.INITING:
+                case GetSimStatusBean.CONS_SIM_CARD_IS_INITING:
                     delayRepeatGetSimstatu();
                     break;
             }
-            if (simState != Cons.DETECTED & simState != Cons.INITING) {
+            if (simState != GetSimStatusBean.CONS_SIM_CARD_DETECTED & simState != GetSimStatusBean.CONS_SIM_CARD_IS_INITING) {
                 OtherUtils.hideProgressPop(pgd);
             }
         });
@@ -164,30 +165,30 @@ public class BoardSimHelper {
             normalSimStatusNext(result);
             int simState = result.getSIMState();
             switch (simState) {
-                case Cons.NONE:
+                case GetSimStatusBean.CONS_NOWN:
                     nownStatusNext(result);
                     break;
-                case Cons.DETECTED:
+                case GetSimStatusBean.CONS_SIM_CARD_DETECTED:
                     detectedNext(result);
                     break;
-                case Cons.PIN_REQUIRED:
+                case GetSimStatusBean.CONS_PIN_REQUIRED:
                     pinRequireNext(result);
                     break;
-                case Cons.PUK_REQUIRED:
+                case GetSimStatusBean.CONS_PUK_REQUIRED:
                     pukRequireNext(result);
                     break;
-                case Cons.SIMLOCK:
+                case GetSimStatusBean.CONS_SIM_LOCK_REQUIRED:
                     simlockNext(result);
                     break;
-                case Cons.PUK_TIMESOUT:
+                case GetSimStatusBean.CONS_PUK_TIMES_USED_OUT:
                     pukTimeoutNext(result);
                     break;
-                case Cons.ILLEGAL:
+                case GetSimStatusBean.CONS_SIM_CARD_ILLEGAL:
                     break;
-                case Cons.READY:
+                case GetSimStatusBean.CONS_SIM_CARD_READY:
                     simReadyNext(result);
                     break;
-                case Cons.INITING:
+                case GetSimStatusBean.CONS_SIM_CARD_IS_INITING:
                     initingNext(result);
                     break;
             }
