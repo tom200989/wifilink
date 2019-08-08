@@ -3,14 +3,10 @@ package com.alcatel.wifilink.root.helper;
 import android.content.Context;
 
 import com.alcatel.wifilink.R;
-import com.alcatel.wifilink.network.RX;
-import com.alcatel.wifilink.network.ResponseBody;
-import com.alcatel.wifilink.network.ResponseObject;
-import com.alcatel.wifilink.root.bean.UsageRecord;
-import com.alcatel.wifilink.root.bean.UsageSettings;
-import com.p_xhelper_smart.p_xhelper_smart.bean.GetNetworkInfoBean;
+import com.p_xhelper_smart.p_xhelper_smart.bean.GetUsageRecordBean;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetNetworkInfoHelper;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetNetworkRegisterStateHelper;
+import com.p_xhelper_smart.p_xhelper_smart.helper.GetUsageRecordHelper;
 
 import java.text.SimpleDateFormat;
 import java.util.Locale;
@@ -136,120 +132,31 @@ public class UsageHelper {
         public String min;
     }
 
-    /* -------------------------------------------- method1 -------------------------------------------- */
-
-    /**
-     * 获取流量设置的相关信息(monthly data limit,biilling day,usage alert,auto disconnect....)
-     */
-    public void getUsageSettingAll() {
-        RX.getInstant().getUsageSettings(new ResponseObject<UsageSettings>() {
-            @Override
-            protected void onSuccess(UsageSettings result) {
-                usageSettingNext(result);
-            }
-
-            @Override
-            protected void onResultError(ResponseBody.Error error) {
-                resultErrorNext(error);
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                errorNext(e);
-            }
-        });
-    }
-
-    private OnUsageSettingListener onUsageSettingListener;
-
-    // 接口OnUsageSettingListener
-    public interface OnUsageSettingListener {
-        void usageSetting(UsageSettings attr);
-    }
-
-    // 对外方式setOnUsageSettingListener
-    public void setOnUsageSettingListener(OnUsageSettingListener onUsageSettingListener) {
-        this.onUsageSettingListener = onUsageSettingListener;
-    }
-
-    // 封装方法usageSettingNext
-    private void usageSettingNext(UsageSettings attr) {
-        if (onUsageSettingListener != null) {
-            onUsageSettingListener.usageSetting(attr);
-        }
-    }
-
-    private OnErrorListener onErrorListener;
-
-    // 接口OnErrorListener
-    public interface OnErrorListener {
-        void error(Throwable attr);
-    }
-
-    // 对外方式setOnErrorListener
-    public void setOnErrorListener(OnErrorListener onErrorListener) {
-        this.onErrorListener = onErrorListener;
-    }
-
-    // 封装方法errorNext
-    private void errorNext(Throwable attr) {
-        if (onErrorListener != null) {
-            onErrorListener.error(attr);
-        }
-    }
-
-    private OnResultErrorListener onResultErrorListener;
-
-    // 接口OnResultErrorListener
-    public interface OnResultErrorListener {
-        void resultError(ResponseBody.Error attr);
-    }
-
-    // 对外方式setOnResultErrorListener
-    public void setOnResultErrorListener(OnResultErrorListener onResultErrorListener) {
-        this.onResultErrorListener = onResultErrorListener;
-    }
-
-    // 封装方法resultErrorNext
-    private void resultErrorNext(ResponseBody.Error attr) {
-        if (onResultErrorListener != null) {
-            onResultErrorListener.resultError(attr);
-        }
-    }
-
     /* -------------------------------------------- method2 -------------------------------------------- */
 
     /**
      * 获取流量超限状况
      */
     public void getOverUsage() {
-        RX.getInstant().getUsageSettings(new ResponseObject<UsageSettings>() {
-            @Override
-            protected void onSuccess(UsageSettings result) {
-                long monthlyPlan = result.getMonthlyPlan();
-                long usedData = result.getUsedData();
-                if (usedData >= monthlyPlan) {
-                    overMonthlyNext(result);
-                }
-            }
-
-            @Override
-            protected void onResultError(ResponseBody.Error error) {
-                getUsageResultErrorNext(error);
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                getUsageErrorNext(e);
+        UsageSettingHelper getUsageSettingsHelper = new UsageSettingHelper(context);
+        getUsageSettingsHelper.setOngetSuccessListener(result -> {
+            long monthlyPlan = result.getMonthlyPlan();
+            long usedData = result.getUsedData();
+            if (usedData >= monthlyPlan) {
+                overMonthlyNext();
             }
         });
+        getUsageSettingsHelper.setOnErrorListener(() -> {
+            getUsageErrorNext();
+        });
+        getUsageSettingsHelper.getUsageSetting();
     }
 
     private OnOverMonthlyListener onOverMonthlyListener;
 
     // 接口OnOverMonthlyListener
     public interface OnOverMonthlyListener {
-        void overMonthly(UsageSettings attr);
+        void overMonthly();
     }
 
     // 对外方式setOnOverMonthlyListener
@@ -258,28 +165,9 @@ public class UsageHelper {
     }
 
     // 封装方法overMonthlyNext
-    private void overMonthlyNext(UsageSettings attr) {
+    private void overMonthlyNext() {
         if (onOverMonthlyListener != null) {
-            onOverMonthlyListener.overMonthly(attr);
-        }
-    }
-
-    private OnGetUsageResultErrorListener onGetUsageResultErrorListener;
-
-    // 接口OnGetUsageResultErrorListener
-    public interface OnGetUsageResultErrorListener {
-        void getUsageResultError(ResponseBody.Error attr);
-    }
-
-    // 对外方式setOnGetUsageResultErrorListener
-    public void setOnGetUsageResultErrorListener(OnGetUsageResultErrorListener onGetUsageResultErrorListener) {
-        this.onGetUsageResultErrorListener = onGetUsageResultErrorListener;
-    }
-
-    // 封装方法getUsageResultErrorNext
-    private void getUsageResultErrorNext(ResponseBody.Error attr) {
-        if (onGetUsageResultErrorListener != null) {
-            onGetUsageResultErrorListener.getUsageResultError(attr);
+            onOverMonthlyListener.overMonthly();
         }
     }
 
@@ -287,7 +175,7 @@ public class UsageHelper {
 
     // 接口OnGetUsageErrorListener
     public interface OnGetUsageErrorListener {
-        void getUsageError(Throwable attr);
+        void getUsageError();
     }
 
     // 对外方式setOnGetUsageErrorListener
@@ -296,9 +184,9 @@ public class UsageHelper {
     }
 
     // 封装方法getUsageErrorNext
-    private void getUsageErrorNext(Throwable attr) {
+    private void getUsageErrorNext() {
         if (onGetUsageErrorListener != null) {
-            onGetUsageErrorListener.getUsageError(attr);
+            onGetUsageErrorListener.getUsageError();
         }
     }
 
@@ -315,24 +203,16 @@ public class UsageHelper {
             GetNetworkInfoHelper xGetNetworkInfoHelper = new GetNetworkInfoHelper();
             xGetNetworkInfoHelper.setOnGetNetworkInfoSuccessListener(networkInfoBean -> {
 
-                RX.getInstant().getUsageRecord(currentTime, new ResponseObject<UsageRecord>() {
-                    @Override
-                    protected void onSuccess(UsageRecord result) {
-                        if (networkInfoBean.getRoaming() == GetNetworkInfoBean.CONS_ROAMING) {
-                            roamingNext(result);
-                        } else {
-                            noRoamingNext(result);
-                        }
-                    }
+                            GetUsageRecordHelper helper = new GetUsageRecordHelper();
+                            helper.setOnGetUsageRecordSuccess(result -> {
+                                if (networkInfoBean.getRoaming() == Cons.ROAMING) {
+                                    roamingNext(result);
+                                } else {
+                                    noRoamingNext(result);
+                                }
+                            });
+                            helper.getUsageRecord(currentTime);
 
-                    @Override
-                    protected void onResultError(ResponseBody.Error error) {
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                    }
-                });
             });
             xGetNetworkInfoHelper.setOnGetNetworkInfoFailedListener(() -> {
                 
@@ -347,7 +227,7 @@ public class UsageHelper {
 
     // 接口OnNoRoamingListener
     public interface OnNoRoamingListener {
-        void noRoaming(UsageRecord attr);
+        void noRoaming(GetUsageRecordBean attr);
     }
 
     // 对外方式setOnNoRoamingListener
@@ -356,7 +236,7 @@ public class UsageHelper {
     }
 
     // 封装方法noRoamingNext
-    private void noRoamingNext(UsageRecord attr) {
+    private void noRoamingNext(GetUsageRecordBean attr) {
         if (onNoRoamingListener != null) {
             onNoRoamingListener.noRoaming(attr);
         }
@@ -366,7 +246,7 @@ public class UsageHelper {
 
     // 接口OnRoamingListener
     public interface OnRoamingListener {
-        void roaming(UsageRecord result);
+        void roaming(GetUsageRecordBean result);
     }
 
     // 对外方式setOnRoamingListener
@@ -375,7 +255,7 @@ public class UsageHelper {
     }
 
     // 封装方法roamingNext
-    private void roamingNext(UsageRecord attr) {
+    private void roamingNext(GetUsageRecordBean attr) {
         if (onRoamingListener != null) {
             onRoamingListener.roaming(attr);
         }

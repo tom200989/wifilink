@@ -10,13 +10,13 @@ import android.widget.Button;
 
 import com.alcatel.wifilink.R;
 import com.alcatel.wifilink.root.helper.CheckBoard;
-import com.alcatel.wifilink.root.helper.SystemInfoHelper;
-import com.alcatel.wifilink.root.widget.RefreshGetConnWidget;
-import com.alcatel.wifilink.root.widget.RefreshWaitWidget;
 import com.alcatel.wifilink.root.utils.CA;
 import com.alcatel.wifilink.root.utils.Lgg;
 import com.alcatel.wifilink.root.utils.OtherUtils;
 import com.alcatel.wifilink.root.utils.ToastUtil_m;
+import com.alcatel.wifilink.root.widget.RefreshGetConnWidget;
+import com.alcatel.wifilink.root.widget.RefreshWaitWidget;
+import com.p_xhelper_smart.p_xhelper_smart.helper.GetSystemInfoHelper;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -74,22 +74,16 @@ public class RefreshWifiRxActivity extends Activity {
         boolean iswifi = OtherUtils.isWifiConnect(this);
         Lgg.t(TAG).ii("is wifi open: " + iswifi);
         if (iswifi) {
-            SystemInfoHelper sif = new SystemInfoHelper();
-            sif.setOnResultErrorListener(error -> {
-                showOrHideWidget(MODE_GOT_CONNECT);
-                Lgg.t(TAG).ww("get SystemInfoHelper onResultError: " + error.getCode() + ":" + error.getMessage());
-            });
-            sif.setOnErrorListener(e -> {
-                showOrHideWidget(MODE_GOT_CONNECT);
-                Lgg.t(TAG).ww("get SystemInfoHelper onError: " + e.getMessage());
-            });
-            sif.setOnGetSystemInfoSuccessListener(attr -> {
+            GetSystemInfoHelper getSystemInfoHelper = new GetSystemInfoHelper();
+            getSystemInfoHelper.setOnGetSystemInfoSuccessListener(info -> {
                 if (!isFinishing()) {
                     showOrHideWidget(MODE_GOT_CONNECT);
                 }
                 to(LoadingRxActivity.class, true);
             });
-            sif.get();
+            getSystemInfoHelper.setOnFwErrorListener(() -> showOrHideWidget(MODE_GOT_CONNECT));
+            getSystemInfoHelper.setOnAppErrorListener(() -> showOrHideWidget(MODE_GOT_CONNECT));
+            getSystemInfoHelper.getSystemInfo();
         } else {
             showOrHideWidget(MODE_GOT_CONNECT);
             Lgg.t(TAG).ww("wifi is not open");

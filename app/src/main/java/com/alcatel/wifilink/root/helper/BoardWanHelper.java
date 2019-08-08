@@ -6,11 +6,7 @@ import android.os.Handler;
 import android.util.Log;
 
 import com.alcatel.wifilink.R;
-import com.alcatel.wifilink.network.RX;
 import com.alcatel.wifilink.network.ResponseBody;
-import com.alcatel.wifilink.network.ResponseObject;
-import com.alcatel.wifilink.root.bean.WanSettingsParams;
-import com.alcatel.wifilink.root.bean.WanSettingsResult;
 import com.alcatel.wifilink.root.ue.activity.LoginRxActivity;
 import com.alcatel.wifilink.root.ue.activity.RefreshWifiRxActivity;
 import com.alcatel.wifilink.root.utils.CA;
@@ -18,8 +14,11 @@ import com.alcatel.wifilink.root.utils.Logs;
 import com.alcatel.wifilink.root.utils.OtherUtils;
 import com.alcatel.wifilink.root.utils.ToastUtil_m;
 import com.p_xhelper_smart.p_xhelper_smart.bean.GetLoginStateBean;
+import com.p_xhelper_smart.p_xhelper_smart.bean.GetWanSettingsBean;
+import com.p_xhelper_smart.p_xhelper_smart.bean.SetWanSettingsParam;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetLoginStateHelper;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetWanSettingsHelper;
+import com.p_xhelper_smart.p_xhelper_smart.helper.SetWanSettingsHelper;
 
 /**
  * Created by qianli.ma on 2017/11/16 0016.
@@ -119,91 +118,68 @@ public class BoardWanHelper {
      *
      * @param wsp
      */
-    public void sendWanRequest(WanSettingsParams wsp) {
-        RX.getInstant().setWanSettings(wsp, new ResponseObject() {
-            @Override
-            protected void onSuccess(Object result) {
-                reGetWanStatus();// 重复获取WAN口状态
-            }
+    public void sendWanRequest(SetWanSettingsParam wsp) {
+        SetWanSettingsHelper helper = new SetWanSettingsHelper();
+        helper.setOnSetWanSettingsSuccessListener(() -> {
+            reGetWanStatus();// 重复获取WAN口状态
+        });
+        helper.setOnSetWanSettingsFailedListener(() -> {
+            sendFailedNext();
+        });
+        helper.setWanSettings(wsp);
+    }
 
-            /**
-             * 重复获取WAN口状态
-             */
-            private void reGetWanStatus() {
+    /**
+     * 重复获取WAN口状态
+     */
+    private void reGetWanStatus() {
 
-                // TODO: 2019/8/5 0005  新框架示例
-                // GetWanSettingHelper wan = new GetWanSettingHelper();
-                // wan.setOnGetWanSettingsSuccessListener(wanSettings -> {
-                //     int status = wanSettings.getStatus();
-                //     if (status == Cons.CONNECTED) {
-                //         sendSuccessNext();
-                //     } else if (status == Cons.CONNECTING) {
-                //         reGetWanStatus();
-                //     } else {
-                //         sendFailedNext();
-                //     }
-                // });
-                // wan.setOnGetwansettingsErrorListener(e -> sendFailedNext());
-                // wan.setOnGetWanSettingsResultErrorListener(error -> sendFailedNext());
-                // wan.setOnGetWanSettingsFailedListener(() -> sendFailedNext());
-                // wan.get();
-
-                GetWanSettingsHelper xGetWanSettingHelper = new GetWanSettingsHelper();
-                xGetWanSettingHelper.setOnGetWanSettingsSuccessListener(getWanSettingsBean -> {
-                    int status = getWanSettingsBean.getStatus();
-                    if (status == Cons.CONNECTED) {
-                        sendSuccessNext();
-                    } else if (status == Cons.CONNECTING) {
-                        reGetWanStatus();
-                    } else {
-                        sendFailedNext();
-                    }
-                });
-                xGetWanSettingHelper.setOnGetWanSettingsFailedListener(() -> sendFailedNext());
-                xGetWanSettingHelper.getWanSettings();
-            }
-
-
-            @Override
-            protected void onResultError(ResponseBody.Error error) {
-                sendFailedNext();
-            }
-
-            @Override
-            public void onError(Throwable e) {
+        GetWanSettingsHelper xGetWanSettingHelper = new GetWanSettingsHelper();
+        xGetWanSettingHelper.setOnGetWanSettingsSuccessListener(getWanSettingsBean -> {
+            int status = getWanSettingsBean.getStatus();
+            if (status == GetWanSettingsBean.CONS_CONNECTED) {
+                sendSuccessNext();
+            } else if (status == GetWanSettingsBean.CONS_CONNECTING) {
+                reGetWanStatus();
+            } else {
                 sendFailedNext();
             }
         });
+        xGetWanSettingHelper.setOnAppErrorListener(() -> sendFailedNext());
+        xGetWanSettingHelper.setOnFwErrorListener(() -> sendFailedNext());
+        xGetWanSettingHelper.getWanSettings();
     }
 
     /**
      * 获取wan状态
      */
     private void obtainWanStatusRoll() {
-
-        GetWanSettingHelper wan = new GetWanSettingHelper();
-        wan.setOnGetwansettingsErrorListener(this::errorNext);
-        wan.setOnGetWanSettingsFailedListener(() -> errorNext(null));
-        wan.setOnGetWanSettingsResultErrorListener(this::resultErrorNext);
-        wan.setOnGetWanSettingsSuccessListener(result -> {
+        GetWanSettingsHelper helper = new GetWanSettingsHelper();
+        helper.setOnFwErrorListener(() -> {
+            resultErrorNext(null);
+        });
+        helper.setOnAppErrorListener(() -> {
+            errorNext(null);
+        });
+        helper.setOnGetWanSettingsSuccessListener(result -> {
             normalNext(result);
             int status = result.getStatus();
             switch (status) {
-                case Cons.CONNECTED:
+                case GetWanSettingsBean.CONS_CONNECTED:
                     connectedNext(result);
                     break;
-                case Cons.CONNECTING:
+                case GetWanSettingsBean.CONS_CONNECTING:
                     connectingNext(result);
                     break;
-                case Cons.DISCONNECTED:
+                case GetWanSettingsBean.CONS_DISCONNECTED:
                     disconnectedNext(result);
                     break;
-                case Cons.DISCONNECTING:
+                case GetWanSettingsBean.CONS_DISCONNECTING:
                     disconnectingNext(result);
                     break;
             }
         });
-        wan.get();
+        helper.getWanSettings();
     }
 
     /**
@@ -211,53 +187,47 @@ public class BoardWanHelper {
      */
     private void obtainWanStatus() {
 
-        GetWanSettingHelper wan = new GetWanSettingHelper();
-        wan.setOnGetwansettingsErrorListener(e -> {
-            Log.v("ma_couldn_connect", "boardWanHelper obtainWanStatus error: " + e.getMessage());
-            OtherUtils.hideProgressPop(pgd);
-            toast(R.string.connect_failed);
-            to(RefreshWifiRxActivity.class);
-            Logs.t("ma_unknown").vv("boardWanhelper--> obtainWanStatus--> onError");
-        });
-        wan.setOnGetWanSettingsFailedListener(() -> {
-            OtherUtils.hideProgressPop(pgd);
-            toast(R.string.connect_failed);
-            to(RefreshWifiRxActivity.class);
-            Logs.t("ma_unknown").vv("boardWanhelper--> obtainWanStatus--> onError");
-        });
-        wan.setOnGetWanSettingsResultErrorListener(error -> {
+        GetWanSettingsHelper helper = new GetWanSettingsHelper();
+        helper.setOnFwErrorListener(() -> {
             OtherUtils.hideProgressPop(pgd);
             toast(R.string.check_your_wan_cabling);
             to(RefreshWifiRxActivity.class);
             Logs.t("ma_unknown").vv("boardWanhelper--> obtainWanStatus--> onResultError");
         });
-        wan.setOnGetWanSettingsSuccessListener(result -> {
+        helper.setOnAppErrorListener(() -> {
+            OtherUtils.hideProgressPop(pgd);
+            toast(R.string.connect_failed);
+            to(RefreshWifiRxActivity.class);
+            Logs.t("ma_unknown").vv("boardWanhelper--> obtainWanStatus--> onError");
+        });
+        helper.setOnGetWanSettingsSuccessListener(result -> {
             normalNext(result);
             int status = result.getStatus();
             switch (status) {
-                case Cons.CONNECTED:// 2
+                case GetWanSettingsBean.CONS_CONNECTED:// 2
                     Log.v("ma_boardwan", "wan connected");
                     connectedNext(result);
                     break;
-                case Cons.CONNECTING:// 1
+                case GetWanSettingsBean.CONS_CONNECTING:// 1
                     Log.v("ma_boardwan", "wan connecting");
                     connectingNext(result);
                     delayRepeatGetWanstatu();
                     break;
-                case Cons.DISCONNECTED:// 0
+                case GetWanSettingsBean.CONS_DISCONNECTED:// 0
                     Log.v("ma_boardwan", "wan disconnected");
                     disconnectedNext(result);
                     break;
-                case Cons.DISCONNECTING:// 3
+                case GetWanSettingsBean.CONS_DISCONNECTING:// 3
                     Log.v("ma_boardwan", "wan wan disconneting");
                     disconnectingNext(result);
                     break;
             }
-            if (status != Cons.CONNECTING) {
+            if (status != GetWanSettingsBean.CONS_CONNECTING) {
                 OtherUtils.hideProgressPop(pgd);
             }
         });
-        wan.get();
+        helper.getWanSettings();
+
     }
 
     /**
@@ -296,23 +266,23 @@ public class BoardWanHelper {
     }
 
     public interface OnNormalNextListener {
-        void normalNext(WanSettingsResult wanResult);
+        void normalNext(GetWanSettingsBean wanResult);
     }
 
     public interface OnConnetedNextListener {
-        void connectedNext(WanSettingsResult wanResult);
+        void connectedNext(GetWanSettingsBean wanResult);
     }
 
     public interface OnDisConnetedNextListener {
-        void disConnectedNext(WanSettingsResult wanResult);
+        void disConnectedNext(GetWanSettingsBean wanResult);
     }
 
     public interface OnConnetingNextListener {
-        void connectingNext(WanSettingsResult wanResult);
+        void connectingNext(GetWanSettingsBean wanResult);
     }
 
     public interface OnDisconnetingNextListener {
-        void disConnectingNext(WanSettingsResult wanResult);
+        void disConnectingNext(GetWanSettingsBean wanResult);
     }
 
     /* -------------------------------------------- METHOD -------------------------------------------- */
@@ -379,31 +349,31 @@ public class BoardWanHelper {
         }
     }
 
-    private void normalNext(WanSettingsResult result) {
+    private void normalNext(GetWanSettingsBean result) {
         if (onNormalNextListener != null) {
             onNormalNextListener.normalNext(result);
         }
     }
 
-    private void connectedNext(WanSettingsResult result) {
+    private void connectedNext(GetWanSettingsBean result) {
         if (onConnetedNextListener != null) {
             onConnetedNextListener.connectedNext(result);
         }
     }
 
-    private void disconnectedNext(WanSettingsResult result) {
+    private void disconnectedNext(GetWanSettingsBean result) {
         if (onDisConnetedNextListener != null) {
             onDisConnetedNextListener.disConnectedNext(result);
         }
     }
 
-    private void connectingNext(WanSettingsResult result) {
+    private void connectingNext(GetWanSettingsBean result) {
         if (onConnetingNextListener != null) {
             onConnetingNextListener.connectingNext(result);
         }
     }
 
-    private void disconnectingNext(WanSettingsResult result) {
+    private void disconnectingNext(GetWanSettingsBean result) {
         if (onDisconnetingNextListener != null) {
             onDisconnetingNextListener.disConnectingNext(result);
         }

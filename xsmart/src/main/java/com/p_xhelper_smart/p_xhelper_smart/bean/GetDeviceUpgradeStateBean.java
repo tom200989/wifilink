@@ -14,9 +14,9 @@ public class GetDeviceUpgradeStateBean implements Serializable {
     private int Status;
     private int Process;
     
-    public static int CONS_NO_START_UPDATE = 0;
-    public static int CONS_UPDATING = 1;
-    public static int CONS_COMPLETE = 2;
+    public static final int CONS_NO_START_UPDATE = 0;
+    public static final int CONS_UPDATING = 1;
+    public static final int CONS_COMPLETE = 2;
 
     public GetDeviceUpgradeStateBean() {
     }

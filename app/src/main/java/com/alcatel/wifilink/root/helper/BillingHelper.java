@@ -3,7 +3,6 @@ package com.alcatel.wifilink.root.helper;
 import android.app.Activity;
 
 import com.alcatel.wifilink.R;
-import com.alcatel.wifilink.root.helper.UsageSettingHelper;
 import com.alcatel.wifilink.root.utils.CA;
 import com.alcatel.wifilink.root.utils.ToastUtil_m;
 
@@ -25,8 +24,8 @@ public class BillingHelper {
      */
     public void setBillingDay(int day) {
         // 1. 先获取当前的流量对象
-        UsageSettingHelper ush_g = new UsageSettingHelper(activity);
-        ush_g.setOngetSuccessListener(attr -> {
+        UsageSettingHelper helper = new UsageSettingHelper(activity);
+        helper.setOngetSuccessListener(attr -> {
             // 2.修改结算日
             attr.setBillingDay(day);
             // 3.提交最新请求
@@ -36,7 +35,7 @@ public class BillingHelper {
             });
             ush_s.setUsageSetting(attr);
         });
-        ush_g.getUsageSetting();
+        helper.getUsageSetting();
     }
 
     private void toast(int resId) {

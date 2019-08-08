@@ -11,20 +11,20 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.alcatel.wifilink.R;
-import com.alcatel.wifilink.root.bean.WanSettingsParams;
-import com.alcatel.wifilink.root.bean.WanSettingsResult;
+import com.alcatel.wifilink.root.app.SmartLinkV3App;
 import com.alcatel.wifilink.root.helper.BoardWanHelper;
 import com.alcatel.wifilink.root.helper.CheckBoardLogin;
-import com.alcatel.wifilink.root.helper.GetWanSettingHelper;
-import com.alcatel.wifilink.root.helper.WpsHelper;
-import com.alcatel.wifilink.root.app.SmartLinkV3App;
 import com.alcatel.wifilink.root.helper.Cons;
 import com.alcatel.wifilink.root.helper.TimerHelper;
+import com.alcatel.wifilink.root.helper.WpsHelper;
 import com.alcatel.wifilink.root.utils.CA;
 import com.alcatel.wifilink.root.utils.Logs;
 import com.alcatel.wifilink.root.utils.OtherUtils;
 import com.alcatel.wifilink.root.utils.SP;
 import com.alcatel.wifilink.root.utils.ToastUtil_m;
+import com.p_xhelper_smart.p_xhelper_smart.bean.GetWanSettingsBean;
+import com.p_xhelper_smart.p_xhelper_smart.bean.SetWanSettingsParam;
+import com.p_xhelper_smart.p_xhelper_smart.helper.GetWanSettingsHelper;
 import com.p_xhelper_smart.p_xhelper_smart.helper.LogoutHelper;
 import com.zhy.android.percent.support.PercentRelativeLayout;
 
@@ -103,7 +103,7 @@ public class WanModeRxActivity extends AppCompatActivity {
     private TimerHelper heartTimer;
     private ImageView[] iv_wanmodes;
     private ProgressDialog pgd;
-    private WanSettingsResult result;
+    private GetWanSettingsBean result;
     private BoardWanHelper boardWanHelper;
     private Activity activity;
     private String flag = "";
@@ -144,35 +144,33 @@ public class WanModeRxActivity extends AppCompatActivity {
         if (pgd == null) {
             pgd = OtherUtils.showProgressPop(this);
         }
-
-        GetWanSettingHelper wan = new GetWanSettingHelper();
-        wan.setOnGetwansettingsErrorListener(e -> {
-            toast(R.string.check_your_wan_cabling);
-            to(RefreshWifiRxActivity.class);
-            OtherUtils.hideProgressPop(pgd);
-        });
-        wan.setOnGetWanSettingsFailedListener(() -> {
-        });
-        wan.setOnGetWanSettingsResultErrorListener(error -> {
-            toast(R.string.check_your_wan_cabling);
-            OtherUtils.hideProgressPop(pgd);
-        });
-        wan.setOnGetWanSettingsSuccessListener(result -> {
+        GetWanSettingsHelper helper = new GetWanSettingsHelper();
+        helper.setOnGetWanSettingsSuccessListener(result -> {
             WanModeRxActivity.this.result = result;
             int wanStatus = result.getStatus();
-            if (wanStatus == Cons.CONNECTED) {
+            if (wanStatus == GetWanSettingsBean.CONS_CONNECTED) {
                 OtherUtils.hideProgressPop(pgd);
                 MODE = result.getConnectType();
                 showCheck(MODE);// 切换到对应的选项板
                 showDetail(MODE, result);// 显示对应的参数
-            } else if (wanStatus == Cons.CONNECTING) {
+            } else if (wanStatus == GetWanSettingsBean.CONS_CONNECTING) {
                 initData();
             } else {
                 toast(R.string.check_your_wan_cabling);
                 OtherUtils.hideProgressPop(pgd);
             }
         });
-        wan.get();
+        helper.setOnAppErrorListener(() -> {
+            toast(R.string.check_your_wan_cabling);
+            to(RefreshWifiRxActivity.class);
+            OtherUtils.hideProgressPop(pgd);
+        });
+        helper.setOnFwErrorListener(() -> {
+            toast(R.string.check_your_wan_cabling);
+            OtherUtils.hideProgressPop(pgd);
+        });
+
+        helper.getWanSettings();
     }
 
     /**
@@ -181,14 +179,14 @@ public class WanModeRxActivity extends AppCompatActivity {
      * @param mode
      * @param result
      */
-    private void showDetail(int mode, WanSettingsResult result) {
+    private void showDetail(int mode, GetWanSettingsBean result) {
         switch (mode) {
-            case Cons.PPPOE:
+            case GetWanSettingsBean.CONS_PPPOE:
                 etPppoeAccount.setText(result.getAccount());
                 etPppoePsd.setText(result.getPassword());
                 etPppoeMtu.setText(String.valueOf(result.getPppoeMtu()));
                 break;
-            case Cons.STATIC:
+            case GetWanSettingsBean.CONS_STATIC:
                 Logs.t("ma_etherwan").vv("static ip_phone: " + result.getStaticIpAddress());
                 etStaticIpaddress.setText(result.getStaticIpAddress());
                 etStaticSubnet.setText(result.getSubNetMask());
@@ -343,7 +341,7 @@ public class WanModeRxActivity extends AppCompatActivity {
      */
     private void hibernateAndRequest(int connectType) {
         //  初始化--> 封装数据
-        WanSettingsParams wsp = new WanSettingsParams();
+        SetWanSettingsParam wsp = new SetWanSettingsParam();
         wsp.setSubNetMask(result.getSubNetMask());
         wsp.setGateway(result.getGateway());
         wsp.setIpAddress(result.getIpAddress());
@@ -381,7 +379,7 @@ public class WanModeRxActivity extends AppCompatActivity {
     /**
      * 检查WAN口状态并准备提交
      */
-    private void checkWanStatuAndReadyToRequest(WanSettingsParams wsp) {
+    private void checkWanStatuAndReadyToRequest(SetWanSettingsParam wsp) {
         if (pgd == null) {
             pgd = OtherUtils.showProgressPop(this);
         }
@@ -398,7 +396,7 @@ public class WanModeRxActivity extends AppCompatActivity {
     /**
      * 发送WAN设置请求
      */
-    private void sendRequest(WanSettingsParams wsp) {
+    private void sendRequest(SetWanSettingsParam wsp) {
         if (boardWanHelper == null) {
             boardWanHelper = new BoardWanHelper(this);
         }

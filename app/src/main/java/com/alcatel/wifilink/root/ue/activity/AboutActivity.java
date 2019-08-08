@@ -13,12 +13,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.alcatel.wifilink.R;
-import com.alcatel.wifilink.root.bean.System_SystemInfo;
-import com.alcatel.wifilink.root.bean.WlanLanSettings;
-import com.alcatel.wifilink.network.RX;
-import com.alcatel.wifilink.network.ResponseBody;
-import com.alcatel.wifilink.network.ResponseObject;
 import com.alcatel.wifilink.root.utils.Logs;
+import com.p_xhelper_smart.p_xhelper_smart.helper.GetLanSettingsHelper;
+import com.p_xhelper_smart.p_xhelper_smart.helper.GetSystemInfoHelper;
 
 public class AboutActivity extends BaseActivityWithBack implements View.OnClickListener {
     private final static String TAG = "AboutActivity";
@@ -58,53 +55,32 @@ public class AboutActivity extends BaseActivityWithBack implements View.OnClickL
     }
 
     private void getDataFromNet() {
-        RX.getInstant().getSystemInfo(new ResponseObject<System_SystemInfo>() {
-
-
-            @Override
-            public void onStart() {
-                super.onStart();
-                showLoadingDialog();
+        GetSystemInfoHelper getSystemInfoHelper = new GetSystemInfoHelper();
+        getSystemInfoHelper.setOnGetSystemInfoSuccessListener(result -> {
+            String swVersion = result.getSwVersion();
+            String[] split = swVersion.split("_");
+            // 注：项目名只取前四位
+            // 实例1：软件版本号为HH40_E4_02.00_01，则取出的项目名为HH40,定制ID为E4
+            // 实例2：软件版本号为HH40V_00_02.00_11，则取出的项目名为HH40,定制ID为00
+            mProject = split[0];
+            if (mProject.length() > 4) {
+                mProject = mProject.substring(0, 4);
             }
-
-            @Override
-            protected void onSuccess(System_SystemInfo result) {
-                dismissLoadingDialog();
-                String swVersion = result.getSwVersion();
-                String[] split = swVersion.split("_");
-                // 注：项目名只取前四位
-                // 实例1：软件版本号为HH40_E4_02.00_01，则取出的项目名为HH40,定制ID为E4
-                // 实例2：软件版本号为HH40V_00_02.00_11，则取出的项目名为HH40,定制ID为00
-                mProject = split[0];
-                if (mProject.length() > 4) {
-                    mProject = mProject.substring(0, 4);
-                }
-                mCustom = split[1];
-                mDeviceNameTxt.setText(result.getDeviceName());
-                mImeiTxt.setText(result.getIMEI());
-                mMacAddressTxt.setText(result.getMacAddress());
-                // mAppVersionTxt.setText(result.getAppVersion());
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                super.onError(e);
-                dismissLoadingDialog();
-            }
-
-            @Override
-            protected void onResultError(ResponseBody.Error error) {
-                super.onResultError(error);
-                dismissLoadingDialog();
-            }
+            mCustom = split[1];
+            mDeviceNameTxt.setText(result.getDeviceName());
+            mImeiTxt.setText(result.getIMEI());
+            mMacAddressTxt.setText(result.getMacAddress());
         });
-        RX.getInstant().getLanSettings(new ResponseObject<WlanLanSettings>() {
-            @Override
-            protected void onSuccess(WlanLanSettings result) {
-                mManagementIpTxt.setText(result.getIPv4IPAddress().isEmpty() ? "0.0.0.0" : result.getIPv4IPAddress());
-                mSubnetMaskTxt.setText(result.getSubnetMask().isEmpty() ? "0.0.0.0" : result.getSubnetMask());
-            }
+        getSystemInfoHelper.setOnPrepareHelperListener(() ->  showLoadingDialog());
+        getSystemInfoHelper.setOnDoneHelperListener(() -> dismissLoadingDialog());
+        getSystemInfoHelper.getSystemInfo();
+
+        GetLanSettingsHelper getLanSettingsHelper = new GetLanSettingsHelper();
+        getLanSettingsHelper.setOnGetLanSettingsSuccessListener(result -> {
+            mManagementIpTxt.setText(result.getIPv4IPAddress().isEmpty() ? "0.0.0.0" : result.getIPv4IPAddress());
+            mSubnetMaskTxt.setText(result.getSubnetMask().isEmpty() ? "0.0.0.0" : result.getSubnetMask());
         });
+        getLanSettingsHelper.getLanSettings();
 
     }
 

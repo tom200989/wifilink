@@ -28,8 +28,6 @@ import com.alcatel.wifilink.network.ResponseObject;
 import com.alcatel.wifilink.root.bean.AP;
 import com.alcatel.wifilink.root.bean.WlanSettings;
 import com.alcatel.wifilink.root.helper.Cons;
-import com.alcatel.wifilink.root.helper.PreHelper;
-import com.alcatel.wifilink.root.helper.SystemInfoHelper;
 import com.alcatel.wifilink.root.helper.TimerHelper;
 import com.alcatel.wifilink.root.helper.WepPsdHelper;
 import com.alcatel.wifilink.root.helper.WpaPsdHelper;
@@ -45,6 +43,8 @@ import com.alcatel.wifilink.root.utils.ToastUtil_m;
 import com.alcatel.wifilink.root.utils.fraghandler.FragmentBackHandler;
 import com.alcatel.wifilink.root.widget.DialogOkWidget;
 import com.p_xhelper_smart.p_xhelper_smart.bean.GetWlanSupportModeBean;
+import com.p_xhelper_smart.p_xhelper_smart.helper.GetSystemInfoHelper;
+import com.p_xhelper_smart.p_xhelper_smart.helper.GetSystemStatusHelper;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetWlanSupportModeHelper;
 
 import static android.app.Activity.RESULT_OK;
@@ -155,24 +155,25 @@ public class WifiFragment extends Fragment implements View.OnClickListener, Adap
      * 获取各类初始化信息(devices name, wifi on or off)
      */
     private void getKindState() {
-        SystemInfoHelper sif = new SystemInfoHelper();
-        sif.setOnGetSystemInfoSuccessListener(systeminfo -> {
+        GetSystemInfoHelper getSystemInfoHelper = new GetSystemInfoHelper();
+        getSystemInfoHelper.setOnGetSystemInfoSuccessListener(systeminfo -> {
             // 1.得到设备名
             deviceName = systeminfo.getDeviceName().toLowerCase();
             // 2.获取systemstatus--> 得到目前正在启用的WIFI
-            PreHelper pr = new PreHelper(getActivity());
-            pr.setOnSuccessListener(systemStates -> {
-                wlanState_2g = systemStates.getWlanState_2g();
-                wlanState_5g = systemStates.getWlanState_5g();
+            GetSystemStatusHelper helper = new GetSystemStatusHelper();
+            helper.setOnGetSystemStatusSuccessListener(getSystemStatusBean -> {
+                wlanState_2g = getSystemStatusBean.getWlanState_2g();
+                wlanState_5g = getSystemStatusBean.getWlanState_5g();
                 requestWlanSupportMode();
             });
-            pr.setOnErrorListener(systemStates -> requestWlanSupportMode());
-            pr.setOnResultErrorListener(systemStates -> requestWlanSupportMode());
-            pr.get();
+            helper.setOnGetSystemStatusFailedListener(() -> {
+                requestWlanSupportMode();
+            });
+            helper.getSystemStatus();
         });
-        sif.setOnResultErrorListener(systeminfo -> requestWlanSupportMode());
-        sif.setOnErrorListener(systeminfo -> requestWlanSupportMode());
-        sif.get();
+        getSystemInfoHelper.setOnFwErrorListener(() -> requestWlanSupportMode());
+        getSystemInfoHelper.setOnAppErrorListener(() -> requestWlanSupportMode());
+        getSystemInfoHelper.getSystemInfo();
     }
 
     @Nullable
@@ -185,19 +186,14 @@ public class WifiFragment extends Fragment implements View.OnClickListener, Adap
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-
-        SystemInfoHelper sif = new SystemInfoHelper();
-        sif.setOnGetSystemInfoSuccessListener(attr -> {
+        GetSystemInfoHelper getSystemInfoHelper = new GetSystemInfoHelper();
+        getSystemInfoHelper.setOnGetSystemInfoSuccessListener(attr -> {
             deviceName = attr.getDeviceName().toLowerCase();
             initUi(view, OtherUtils.isMw120(deviceName));
         });
-        sif.setOnErrorListener(attr -> {
-            initUi(view, false);
-        });
-        sif.setOnResultErrorListener(attr -> {
-            initUi(view, false);
-        });
-        sif.get();
+        getSystemInfoHelper.setOnFwErrorListener(() -> initUi(view, false));
+        getSystemInfoHelper.setOnAppErrorListener(() -> initUi(view, false));
+        getSystemInfoHelper.getSystemInfo();
     }
 
     private void initUi(View view, boolean isMw120) {

@@ -48,8 +48,8 @@ public class GetUsageRecordHelper extends BaseHelper {
     private OnGetUsageRecordSuccessListener onGetUsageRecordSuccessListener;
 
     //对外方式setOnGetUsageRecordHel
-    public void setOnGetUsageRecordHel(OnGetUsageRecordSuccessListener onGetUsageRecordHe) {
-        this.onGetUsageRecordSuccessListener = onGetUsageRecordHe;
+    public void setOnGetUsageRecordSuccess(OnGetUsageRecordSuccessListener onGetUsageRecordSuccessListener) {
+        this.onGetUsageRecordSuccessListener = onGetUsageRecordSuccessListener;
     }
 
     //封装方法getUsageRecordSuccessNext

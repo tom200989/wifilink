@@ -13,7 +13,6 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.alcatel.wifilink.R;
-import com.alcatel.wifilink.root.helper.ResetHelper;
 import com.alcatel.wifilink.root.utils.CA;
 import com.alcatel.wifilink.root.utils.Lgg;
 import com.alcatel.wifilink.root.utils.OtherUtils;
@@ -21,6 +20,7 @@ import com.alcatel.wifilink.root.utils.ToastUtil_m;
 import com.alcatel.wifilink.root.widget.DialogOkWidget;
 import com.alcatel.wifilink.root.widget.WaitWidget;
 import com.p_xhelper_smart.p_xhelper_smart.helper.ChangePasswordHelper;
+import com.p_xhelper_smart.p_xhelper_smart.helper.SetDeviceResetHelper;
 import com.p_xhelper_smart.p_xhelper_smart.utils.EncryptUtils;
 
 import java.util.regex.Matcher;
@@ -137,20 +137,14 @@ public class SettingAccountActivity extends BaseActivityWithBack implements OnCl
      */
     public void toReset() {
         dgWidgetWait.setVisibility(View.VISIBLE);
-        ResetHelper resetHelper = new ResetHelper();
-        resetHelper.setOnResultErrorListener(error -> {
-            Lgg.t(TAG).ee("Method--> " + getClass().getSimpleName() + ":toReset()--> " + error.getMessage());
+        SetDeviceResetHelper helper = new SetDeviceResetHelper();
+        helper.setOnSetDeviceResetFailedListener(() -> {
             dgWidgetWait.setVisibility(View.GONE);
         });
-        resetHelper.setOnFailedListener(() -> {
-            Lgg.t(TAG).ee("Method--> " + getClass().getSimpleName() + ":toReset() failed");
-            dgWidgetWait.setVisibility(View.GONE);
+        helper.setOnSetDeviceResetSuccessListener(() -> {
+
         });
-        resetHelper.setOnErrorListener(throwable -> {
-            Lgg.t(TAG).ee("Method--> " + getClass().getSimpleName() + ":toReset() --> " + throwable.getMessage());
-            dgWidgetWait.setVisibility(View.GONE);
-        });
-        resetHelper.reset();
+        helper.SetDeviceReset();
     }
 
     @Override

@@ -22,17 +22,12 @@ import com.alcatel.wifilink.network.ResponseBody;
 import com.alcatel.wifilink.network.ResponseObject;
 import com.alcatel.wifilink.root.bean.ConnectedList;
 import com.alcatel.wifilink.root.bean.Extender_GetWIFIExtenderCurrentStatusResult;
-import com.alcatel.wifilink.root.bean.System_SystemInfo;
-import com.alcatel.wifilink.root.bean.System_SystemStates;
-import com.alcatel.wifilink.root.bean.UsageSetting;
 import com.alcatel.wifilink.root.helper.BoardSimHelper;
 import com.alcatel.wifilink.root.helper.BoardWanHelper;
 import com.alcatel.wifilink.root.helper.ConnectSettingHelper;
 import com.alcatel.wifilink.root.helper.Cons;
 import com.alcatel.wifilink.root.helper.Extender_GetWIFIExtenderSettingsHelper;
 import com.alcatel.wifilink.root.helper.NetworkInfoHelper;
-import com.alcatel.wifilink.root.helper.SystemInfoHelper;
-import com.alcatel.wifilink.root.helper.SystemStatuHelper;
 import com.alcatel.wifilink.root.helper.TimerHelper;
 import com.alcatel.wifilink.root.helper.UsageHelper;
 import com.alcatel.wifilink.root.helper.UsageSettingHelper;
@@ -52,7 +47,12 @@ import com.alcatel.wifilink.root.widget.MainMW70BottomView;
 import com.de.wave.core.WaveView;
 import com.p_freesharing.p_freesharing.ui.SharingFileActivity;
 import com.p_xhelper_smart.p_xhelper_smart.bean.GetNetworkInfoBean;
+import com.p_xhelper_smart.p_xhelper_smart.bean.GetSystemInfoBean;
+import com.p_xhelper_smart.p_xhelper_smart.bean.GetSystemStatusBean;
+import com.p_xhelper_smart.p_xhelper_smart.bean.GetUsageSettingsBean;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetConnectionStateHelper;
+import com.p_xhelper_smart.p_xhelper_smart.helper.GetSystemInfoHelper;
+import com.p_xhelper_smart.p_xhelper_smart.helper.GetSystemStatusHelper;
 import com.zhy.android.percent.support.PercentRelativeLayout;
 
 import org.greenrobot.eventbus.EventBus;
@@ -176,10 +176,10 @@ public class mainRxFragment extends Fragment implements FragmentBackHandler {
     private BoardSimHelper simHelper_simLocked;
     private NetworkInfoHelper networkHelper;
     private GetConnectionStateHelper xGetConnectionStateHelper;
-    private SystemInfoHelper systemInfoHelper;
+    private GetSystemInfoHelper systemInfoHelper;
     private Extender_GetWIFIExtenderSettingsHelper extenderHelper;
-    private SystemStatuHelper systemStatuHelper;
-    private SystemStatuHelper systemStatuHelper_for_russia;
+    private GetSystemStatusHelper systemStatuHelper;
+    private GetSystemStatusHelper systemStatuHelper_for_russia;
 
     private HomeRxActivity activity;
     private Class[] fragmentClazz;// fragment集合(在HomeRxActivity)
@@ -237,12 +237,12 @@ public class mainRxFragment extends Fragment implements FragmentBackHandler {
         simHelper_simConnect = new BoardSimHelper(getActivity());
         simHelper_simLocked = new BoardSimHelper(getActivity());
         xGetConnectionStateHelper = new GetConnectionStateHelper();
-        systemInfoHelper = new SystemInfoHelper();
+        systemInfoHelper = new GetSystemInfoHelper();
         extenderHelper = new Extender_GetWIFIExtenderSettingsHelper();
 
         // 定时检测是否为MW120新型设备
-        systemInfoHelper.setOnResultErrorListener(err -> getSystemInfoError());/* 1.1.发生错误先走wan口 */
-        systemInfoHelper.setOnErrorListener(err -> getSystemInfoError());/* 1.1.发生错误先走wan口 */
+        systemInfoHelper.setOnFwErrorListener(() -> getSystemInfoError());/* 1.1.发生错误先走wan口 */
+        systemInfoHelper.setOnAppErrorListener(() -> getSystemInfoError());/* 1.1.发生错误先走wan口 */
         systemInfoHelper.setOnGetSystemInfoSuccessListener(this::judgeDevices);/* 1.1.否则判断设备类型 */
 
         // 定时检测wifi extender是否有开启
@@ -252,16 +252,14 @@ public class mainRxFragment extends Fragment implements FragmentBackHandler {
         extenderHelper.setOnCurrentHotpotListener(this::showExtenderStrength);
 
         // 定时获取电池状态以及信号强度等状态
-        systemStatuHelper = new SystemStatuHelper();
-        systemStatuHelper.setOnResultErrorListener(error -> showBatteryAndSignalUi(null));
-        systemStatuHelper.setOnFailedListener(o -> showBatteryAndSignalUi(null));
-        systemStatuHelper.setOnSuccessListener(this::showBatteryAndSignalUi);
+        systemStatuHelper = new GetSystemStatusHelper();
+        systemStatuHelper.setOnGetSystemStatusSuccessListener(getSystemStatusBean -> showBatteryAndSignalUi(getSystemStatusBean));
+        systemStatuHelper.setOnGetSystemStatusFailedListener(() -> showBatteryAndSignalUi(null));
 
         // 应俄罗斯要求, 先判断当前currentconnection状态, 取消wan口优先原则
-        systemStatuHelper_for_russia = new SystemStatuHelper();
-        systemStatuHelper_for_russia.setOnFailedListener(o -> currentConnection = 0);// 出错--> 无网络
-        systemStatuHelper_for_russia.setOnResultErrorListener(error -> currentConnection = 0);// 出错--> 无网络
-        systemStatuHelper_for_russia.setOnSuccessListener(systemSystemStates -> currentConnection = systemSystemStates.getCurrentConnection());
+        systemStatuHelper_for_russia = new GetSystemStatusHelper();
+        systemStatuHelper_for_russia.setOnGetSystemStatusFailedListener(() -> currentConnection = 0);// 出错--> 无网络
+        systemStatuHelper_for_russia.setOnGetSystemStatusSuccessListener(getSystemStatusBean -> currentConnection = getSystemStatusBean.getCurrentConnection());
 
         // 定时获取WAN口状态
         wanHelper.setOnResultError(error -> getSim());// 出错
@@ -294,31 +292,6 @@ public class mainRxFragment extends Fragment implements FragmentBackHandler {
         xGetConnectionStateHelper.getConnectionState();
     }
 
-    /**
-     * 获取设备类型
-     */
-    private void getDevicesType() {
-        // 获取版本号- 判断是否为俄罗斯版本
-        SystemInfoHelper sif = new SystemInfoHelper();
-        sif.setOnGetSystemInfoSuccessListener(attr -> {
-            String webUiVersion = attr.getWebUiVersion();
-            if (webUiVersion.equalsIgnoreCase("HH40_JRDRESOURCE_MB")) {// 检测到是俄罗斯版本
-                if (currentConnection == Cons.NO_CONNECTION) {
-                    getSim();
-                } else if (currentConnection == Cons.SIM_CONNECTION) {
-                    getSim();
-                } else if (currentConnection == Cons.WAN_CONNECTION) {
-                    wanFirst();
-                }
-            } else {
-                wanFirst();
-            }
-        });
-        sif.setOnGetSystemInfoFailedListener(this::wanFirst);
-        sif.setOnErrorListener(attr -> wanFirst());
-        sif.setOnResultErrorListener(attr -> wanFirst());
-        sif.get();
-    }
 
     /**
      * 设置wifi extender开启与关闭情况下的network显示以及电池、信号面板的显示
@@ -361,7 +334,7 @@ public class mainRxFragment extends Fragment implements FragmentBackHandler {
      *
      * @param systemSystemInfo
      */
-    private void judgeDevices(System_SystemInfo systemSystemInfo) {
+    private void judgeDevices(GetSystemInfoBean systemSystemInfo) {
         // 1.是否为新型MW120设备
         isMW120 = systemSystemInfo.getDeviceName().toLowerCase().startsWith(Cons.MW_SERIAL);
         // 2.显示MW120 ui与否
@@ -382,7 +355,7 @@ public class mainRxFragment extends Fragment implements FragmentBackHandler {
      * 获取system status来查看电池信息
      */
     private void getSystemStatus() {
-        systemStatuHelper.get();
+        systemStatuHelper.getSystemStatus();
     }
 
     /**
@@ -390,7 +363,7 @@ public class mainRxFragment extends Fragment implements FragmentBackHandler {
      *
      * @param systemSystemStates
      */
-    private void showBatteryAndSignalUi(System_SystemStates systemSystemStates) {
+    private void showBatteryAndSignalUi(GetSystemStatusBean systemSystemStates) {
         if (systemSystemStates != null) {
             boolean isCharing = systemSystemStates.getChg_state() == Cons.BATTERY_CHARING;// 电池状态
             int cap = systemSystemStates.getBat_cap();// 电池电量
@@ -526,8 +499,8 @@ public class mainRxFragment extends Fragment implements FragmentBackHandler {
      */
     private void getSystemInfoFirstAndRussia() {
         /* 1.判断是否为MW120新型设备 */
-        systemInfoHelper.get();
-        systemStatuHelper_for_russia.get();
+        systemInfoHelper.getSystemInfo();
+        systemStatuHelper_for_russia.getSystemStatus();
     }
 
     /**
@@ -631,90 +604,81 @@ public class mainRxFragment extends Fragment implements FragmentBackHandler {
      * 获取流量
      */
     private void getUsage() {
-        RX.getInstant().getUsageSetting(new ResponseObject<UsageSetting>() {
-            @Override
-            protected void onSuccess(UsageSetting result) {
-                if (temp == 0) {
-                    temp++;
-                }
+        UsageSettingHelper getUsageSettingsHelper = new UsageSettingHelper(activity);
+        getUsageSettingsHelper.setOngetSuccessListener(result -> {
+            if (temp == 0) {
+                temp++;
+            }
 
-                // 设置已使用流量 
-                UsageHelper.Usage usedUsage = UsageHelper.getUsageByte(getActivity(), result.getUsedData());
-                boolean isRussian = OtherUtils.getCurrentLanguage().equalsIgnoreCase(C_Constants.Language.RUSSIAN);
-                tvUsedUnit.setVisibility(isRussian ? View.GONE : View.VISIBLE);
-                if (isRussian) {
-                    tvUsedData.setTextSize(TypedValue.COMPLEX_UNIT_SP, 24);
-                }
-                tvUsedData.setVisibility(View.VISIBLE);
-                tvUsedUnit.setText(usedUsage.unit);
-                String usage = usedUsage.usage;
-                if (isRussian) {
-                    // test russia show problem
-                    usage = usage.replace(".", ",") + " " + usedUsage.unit;
-                }
-                tvUsedData.setText(usage);
-                // 设置月计划流量
-                UsageHelper.Usage planUsage = UsageHelper.getUsageByte(getActivity(), result.getMonthlyPlan());
-                String planUnit = result.getUnit() == Cons.MB ? mb_unit : gb_unit;
-                long plan = result.getMonthlyPlan();
-                // used of 0.88GB
-                String montyUsage = planUsage.usage;
-                if (isRussian) {
-                    montyUsage = montyUsage.replace(".", ",") + " ";
-                }
-                String montyUnit = planUnit;
-                tvUsedTotal.setText(plan <= 0 ? noUsagePlan : useOf + BLANK_TEXT + montyUsage + montyUnit);
-                // 计算已使用流量比率
-                usageLimit = SP.getInstance(getActivity()).getInt(Cons.USAGE_LIMIT, 90);
-                if (usageLimit == -1) {
-                    // TODO: 2019/7/22 0022 替换waveview
+            // 设置已使用流量
+            UsageHelper.Usage usedUsage = UsageHelper.getUsageByte(getActivity(), result.getUsedData());
+            boolean isRussian = OtherUtils.getCurrentLanguage().equalsIgnoreCase(C_Constants.Language.RUSSIAN);
+            tvUsedUnit.setVisibility(isRussian ? View.GONE : View.VISIBLE);
+            if (isRussian) {
+                tvUsedData.setTextSize(TypedValue.COMPLEX_UNIT_SP, 24);
+            }
+            tvUsedData.setVisibility(View.VISIBLE);
+            tvUsedUnit.setText(usedUsage.unit);
+            String usage = usedUsage.usage;
+            if (isRussian) {
+                // test russia show problem
+                usage = usage.replace(".", ",") + " " + usedUsage.unit;
+            }
+            tvUsedData.setText(usage);
+            // 设置月计划流量
+            UsageHelper.Usage planUsage = UsageHelper.getUsageByte(getActivity(), result.getMonthlyPlan());
+            String planUnit = result.getUnit() == GetUsageSettingsBean.CONS_UNIT_MB ? mb_unit : gb_unit;
+            long plan = result.getMonthlyPlan();
+            // used of 0.88GB
+            String montyUsage = planUsage.usage;
+            if (isRussian) {
+                montyUsage = montyUsage.replace(".", ",") + " ";
+            }
+            String montyUnit = planUnit;
+            tvUsedTotal.setText(plan <= 0 ? noUsagePlan : useOf + BLANK_TEXT + montyUsage + montyUnit);
+            // 计算已使用流量比率
+            usageLimit = SP.getInstance(getActivity()).getInt(Cons.USAGE_LIMIT, 90);
+            if (usageLimit == -1) {
+                // TODO: 2019/7/22 0022 替换waveview
+                btSimConnected.setFrontColor(Color.parseColor(frontColor_nor));
+                btSimConnected.setBehindColor(Color.parseColor(behindColor_nor));
+                btSimConnected.setHeightRatio(0.3f);
+                // waveButton.setWaveColor(behindColor_nor, frontColor_nor);
+                // waveButton.setLevel(30);
+            } else {
+                // TODO: 2019/7/22 0022 替换waveview
+                int rate = UsageHelper.getRateUsed(result.getUsedData(), result.getMonthlyPlan());
+                if (rate > usageLimit) {
+                    btSimConnected.setFrontColor(Color.parseColor(frontColor_over));
+                    btSimConnected.setBehindColor(Color.parseColor(behindColor_over));
+                    // waveButton.setWaveColor(behindColor_over, frontColor_over);
+                } else {
                     btSimConnected.setFrontColor(Color.parseColor(frontColor_nor));
                     btSimConnected.setBehindColor(Color.parseColor(behindColor_nor));
-                    btSimConnected.setHeightRatio(0.3f);
                     // waveButton.setWaveColor(behindColor_nor, frontColor_nor);
-                    // waveButton.setLevel(30);
-                } else {
-                    // TODO: 2019/7/22 0022 替换waveview
-                    int rate = UsageHelper.getRateUsed(result.getUsedData(), result.getMonthlyPlan());
-                    if (rate > usageLimit) {
-                        btSimConnected.setFrontColor(Color.parseColor(frontColor_over));
-                        btSimConnected.setBehindColor(Color.parseColor(behindColor_over));
-                        // waveButton.setWaveColor(behindColor_over, frontColor_over);
-                    } else {
-                        btSimConnected.setFrontColor(Color.parseColor(frontColor_nor));
-                        btSimConnected.setBehindColor(Color.parseColor(behindColor_nor));
-                        // waveButton.setWaveColor(behindColor_nor, frontColor_nor);
-                    }
-                    float v = rate * 1f / 100f;
-                    btSimConnected.setHeightRatio(rate < 0.1f ? 0.1f : v);
-                    // waveButton.setLevel(rate < 0.3f ? 0.3f : rate);
                 }
-            }
-
-            @Override
-            protected void onResultError(ResponseBody.Error error) {
-                usageError();
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                usageError();
-            }
-
-            private void usageError() {
-                if (tvUsedUnit != null) {
-                    tvUsedUnit.setText(mb_unit);
-                }
-                if (tvUsedData != null) {
-                    tvUsedData.setText("-");
-                }
-                if (tvUsedTotal != null) {
-                    tvUsedTotal.setText(getString(R.string.used_of) + " -");
-                }
+                float v = rate * 1f / 100f;
+                btSimConnected.setHeightRatio(rate < 0.1f ? 0.1f : v);
+                // waveButton.setLevel(rate < 0.3f ? 0.3f : rate);
             }
         });
+        getUsageSettingsHelper.setOnErrorListener(() -> {
+            usageError();
+        });
+        getUsageSettingsHelper.getUsageSetting();
     }
 
+    private void usageError() {
+        if (tvUsedUnit != null) {
+            tvUsedUnit.setText(mb_unit);
+        }
+        if (tvUsedData != null) {
+            tvUsedData.setText("-");
+        }
+        if (tvUsedTotal != null) {
+            tvUsedTotal.setText(getString(R.string.used_of) + " -");
+        }
+    }
 
     /**
      * 获取注册状态
@@ -911,10 +875,8 @@ public class mainRxFragment extends Fragment implements FragmentBackHandler {
         simHelper_simNotConnect.setOnpukTimeoutListener(result -> showPukTimeoutTip());// PUK
         simHelper_simNotConnect.setOnSimReadyListener(result -> {
             // 检测是否超过流量
-            UsageSettingHelper usb = new UsageSettingHelper(getActivity());
-            usb.setOnErrorListener(attr -> toast(R.string.connect_failed));
-            usb.setOnResutlErrorListener(attr -> toast(R.string.connect_failed));
-            usb.setOngetSuccessListener(attr -> {
+            UsageSettingHelper getUsageSettingsHelper = new UsageSettingHelper(activity);
+            getUsageSettingsHelper.setOngetSuccessListener(attr -> {
                 long monthlyPlan = attr.getMonthlyPlan();
                 long usedData = attr.getUsedData();
                 if (usedData >= monthlyPlan && monthlyPlan != 0) {// 超出--> 提示
@@ -923,7 +885,10 @@ public class mainRxFragment extends Fragment implements FragmentBackHandler {
                     ConnectSettingHelper.toConnect(getActivity());
                 }
             });
-            usb.getUsageSetting();
+            getUsageSettingsHelper.setOnErrorListener(() -> {
+                toast(R.string.connect_failed);
+            });
+            getUsageSettingsHelper.getUsageSetting();
 
         });// to connect
         simHelper_simNotConnect.boardNormal();

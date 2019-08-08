@@ -18,11 +18,9 @@ import android.widget.TextView;
 
 import com.alcatel.wifilink.R;
 import com.alcatel.wifilink.root.adapter.BillingAdaper;
-import com.alcatel.wifilink.root.bean.UsageSettings;
 import com.alcatel.wifilink.root.helper.BillingHelper;
 import com.alcatel.wifilink.root.helper.Cons;
 import com.alcatel.wifilink.root.helper.SetTimeLimitHelper;
-import com.alcatel.wifilink.root.helper.SystemInfoHelper;
 import com.alcatel.wifilink.root.helper.TimerHelper;
 import com.alcatel.wifilink.root.helper.UsageHelper;
 import com.alcatel.wifilink.root.helper.UsageSettingHelper;
@@ -36,6 +34,8 @@ import com.alcatel.wifilink.root.utils.ScreenSize;
 import com.alcatel.wifilink.root.utils.ToastUtil_m;
 import com.alcatel.wifilink.root.utils.fraghandler.FragmentBackHandler;
 import com.alcatel.wifilink.root.widget.PopupWindows;
+import com.p_xhelper_smart.p_xhelper_smart.bean.GetUsageSettingsBean;
+import com.p_xhelper_smart.p_xhelper_smart.helper.GetSystemInfoHelper;
 import com.zhy.android.percent.support.PercentRelativeLayout;
 
 import java.util.Arrays;
@@ -102,10 +102,10 @@ public class SetDataPlanRxfragment extends Fragment implements FragmentBackHandl
     private String mb;
     private String hour;
     private String min;
-    private UsageSettings usageSettings;
+    private GetUsageSettingsBean usageSettings;
     private TimerHelper timerHelper;
     private UsageHelper usageHelper;
-    private SystemInfoHelper systemInfoHelper;
+    private GetSystemInfoHelper systemInfoHelper;
     private PopupWindows pop_billing;
     private PopupWindows pop_alert;
     private PopupWindows pop_setTimelimit;
@@ -113,7 +113,7 @@ public class SetDataPlanRxfragment extends Fragment implements FragmentBackHandl
     private Drawable pop_bg;
     private int count = 0;
     private boolean isHH71 = false;
-    private UsageSettings tempSetting;
+    private GetUsageSettingsBean tempSetting;
 
     @Nullable
     @Override
@@ -158,7 +158,6 @@ public class SetDataPlanRxfragment extends Fragment implements FragmentBackHandl
         fraHelpers = activity.fraHelpers;
         fraClass = activity.clazz;
         usageHelper = new UsageHelper(getActivity());
-        systemInfoHelper = new SystemInfoHelper();
     }
 
     private void resetUi() {
@@ -187,41 +186,37 @@ public class SetDataPlanRxfragment extends Fragment implements FragmentBackHandl
 
     private void initData() {
         /* 获取设备信息 */
+        systemInfoHelper = new GetSystemInfoHelper();
         systemInfoHelper.setOnGetSystemInfoSuccessListener(systemInfo -> {
             String deviceName = systemInfo.getDeviceName().toLowerCase();
             isHH71 = deviceName.contains(Cons.HH71);
             rlSetPlanRxUsageButton.setVisibility(isHH71 ? View.VISIBLE : View.GONE);
             getUsageSetting();
         });
-        systemInfoHelper.setOnResultErrorListener(attr -> {
+        systemInfoHelper.setOnAppErrorListener(() -> {
             rlSetPlanRxUsageButton.setVisibility(View.GONE);
             rlSetPlanRxAllContent.setVisibility(View.VISIBLE);
             getUsageSetting();
         });
-        systemInfoHelper.setOnGetSystemInfoFailedListener(() -> {
+        systemInfoHelper.setOnFwErrorListener(() -> {
             rlSetPlanRxUsageButton.setVisibility(View.GONE);
             rlSetPlanRxAllContent.setVisibility(View.VISIBLE);
             getUsageSetting();
         });
-        systemInfoHelper.setOnErrorListener(attr -> {
-            rlSetPlanRxUsageButton.setVisibility(View.GONE);
-            rlSetPlanRxAllContent.setVisibility(View.VISIBLE);
-            getUsageSetting();
-        });
-        systemInfoHelper.get();
+        systemInfoHelper.getSystemInfo();
     }
 
     private void getUsageSetting() {
         /* 获取流量信息 */
-        usageHelper.setOnErrorListener(attr -> toErrorUi());
-        usageHelper.setOnResultErrorListener(attr -> toErrorUi());
-        usageHelper.setOnUsageSettingListener(result -> {
+        UsageSettingHelper getUsageSettingsHelper = new UsageSettingHelper(activity);
+        getUsageSettingsHelper.setOnErrorListener(() -> toErrorUi());
+        getUsageSettingsHelper.setOngetSuccessListener(result -> {
             tempSetting = result;
             // 判断是否为71
             if (isHH71) {
                 int status = result.getStatus();
-                ivSetPlanRxUsageButton.setImageDrawable(status == Cons.ENABLE ? switch_on : switch_off);
-                rlSetPlanRxAllContent.setVisibility(status == Cons.ENABLE ? View.VISIBLE : View.GONE);
+                ivSetPlanRxUsageButton.setImageDrawable(status == GetUsageSettingsBean.CONS_STATUS_ENABLE ? switch_on : switch_off);
+                rlSetPlanRxAllContent.setVisibility(status == GetUsageSettingsBean.CONS_STATUS_ENABLE ? View.VISIBLE : View.GONE);
             } else {
                 rlSetPlanRxAllContent.setVisibility(View.VISIBLE);
             }
@@ -246,12 +241,12 @@ public class SetDataPlanRxfragment extends Fragment implements FragmentBackHandl
             int per = SP.getInstance(getActivity()).getInt(Cons.USAGE_LIMIT, 90);
             tvUsageAlert.setText(OtherUtils.getAlert(alerts, per));
             // auto disconnect
-            ivAutoDisconnect.setImageDrawable(result.getAutoDisconnFlag() == Cons.ENABLE ? switch_on : switch_off);
+            ivAutoDisconnect.setImageDrawable(result.getAutoDisconnFlag() == GetUsageSettingsBean.CONS_AUTO_DISCONNECT_ABLE ? switch_on : switch_off);
             // time limit
-            ivTimelimit.setImageDrawable(result.getTimeLimitFlag() == Cons.ENABLE ? switch_on : switch_off);
+            ivTimelimit.setImageDrawable(result.getTimeLimitFlag() == GetUsageSettingsBean.CONS_TIME_LIMIT_ABLE ? switch_on : switch_off);
             // set time limit show or hide
             // rlSetTimelimit.setVisibility(result.getTimeLimitFlag() == Cons.ENABLE ? View.VISIBLE : View.GONE);
-            tvSetTimelimitTag.setTextColor(result.getTimeLimitFlag() == Cons.ENABLE ? black_color : gray_color);
+            tvSetTimelimitTag.setTextColor(result.getTimeLimitFlag() == GetUsageSettingsBean.CONS_TIME_LIMIT_ABLE ? black_color : gray_color);
             // set time limit
             UsageHelper.Times timelimit_o = UsageHelper.getUsedTimeForMin(getActivity(), result.getTimeLimitTimes());
             if (timelimit_o.hour.equalsIgnoreCase("0") & timelimit_o.min.equalsIgnoreCase("0")) {
@@ -263,7 +258,7 @@ public class SetDataPlanRxfragment extends Fragment implements FragmentBackHandl
             }
 
         });
-        usageHelper.getUsageSettingAll();
+        getUsageSettingsHelper.getUsageSetting();
     }
 
     /**
@@ -336,17 +331,14 @@ public class SetDataPlanRxfragment extends Fragment implements FragmentBackHandl
     private void clickUsageEnable() {
         // 修改状态
         ProgressDialog pgd = OtherUtils.showProgressPop(getActivity());
-        tempSetting.setStatus(tempSetting.getStatus() == Cons.ENABLE ? Cons.DISABLE : Cons.ENABLE);
+        tempSetting.setStatus(tempSetting.getStatus() == GetUsageSettingsBean.CONS_STATUS_ENABLE ?
+                GetUsageSettingsBean.CONS_STATUS_DISABLE : GetUsageSettingsBean.CONS_STATUS_ENABLE);
         UsageSettingHelper usageSettingHelper = new UsageSettingHelper(getActivity());
         usageSettingHelper.setOnSetSuccessListener(attr -> {
             ToastUtil_m.show(getActivity(), R.string.succeed);
             pgd.dismiss();
         });
-        usageSettingHelper.setOnResutlErrorListener(attr -> {
-            ToastUtil_m.show(getActivity(), R.string.connect_failed);
-            pgd.dismiss();
-        });
-        usageSettingHelper.setOnErrorListener(attr -> {
+        usageSettingHelper.setOnErrorListener(() -> {
             ToastUtil_m.show(getActivity(), R.string.connect_failed);
             pgd.dismiss();
         });
@@ -404,7 +396,7 @@ public class SetDataPlanRxfragment extends Fragment implements FragmentBackHandl
         UsageSettingHelper ush = new UsageSettingHelper(getActivity());
         // 1.先获取一次usage-setting
         ush.setOngetSuccessListener(attr -> {
-            attr.setUnit(tvmb.getCurrentTextColor() == blue_color ? Cons.MB : Cons.GB);
+            attr.setUnit(tvmb.getCurrentTextColor() == blue_color ? GetUsageSettingsBean.CONS_UNIT_MB : GetUsageSettingsBean.CONS_UNIT_GB);
             attr.setMonthlyPlan(tvmb.getCurrentTextColor() == blue_color ? num * 1024l * 1024l : num * 1024l * 1024l * 1024l);
             // 2.在提交usage-setting
             UsageSettingHelper ush1 = new UsageSettingHelper(getActivity());
@@ -412,18 +404,13 @@ public class SetDataPlanRxfragment extends Fragment implements FragmentBackHandl
                 toast(R.string.success);
                 pgd.dismiss();
             });
-            ush1.setOnErrorListener(attr1 -> {
-                toast(R.string.connect_failed);
-                pgd.dismiss();
-            });
-            ush1.setOnResutlErrorListener(attr1 -> {
+            ush1.setOnErrorListener(() -> {
                 toast(R.string.connect_failed);
                 pgd.dismiss();
             });
             ush1.setUsageSetting(attr);
         });
-        ush.setOnErrorListener(attr1 -> pgd.dismiss());
-        ush.setOnResutlErrorListener(attr1 -> pgd.dismiss());
+        ush.setOnErrorListener(() -> pgd.dismiss());
         ush.getUsageSetting();
     }
 
@@ -473,15 +460,14 @@ public class SetDataPlanRxfragment extends Fragment implements FragmentBackHandl
         ProgressDialog pgd = OtherUtils.showProgressPop(getActivity());
         UsageSettingHelper ush = new UsageSettingHelper(getActivity());
         ush.setOngetSuccessListener(attr -> {
-            attr.setAutoDisconnFlag(attr.getAutoDisconnFlag() == Cons.ENABLE ? Cons.DISABLE : Cons.ENABLE);
+            attr.setAutoDisconnFlag(attr.getAutoDisconnFlag() == GetUsageSettingsBean.CONS_AUTO_DISCONNECT_ABLE ?
+                    GetUsageSettingsBean.CONS_AUTO_DISCONNECT_DISABLE : GetUsageSettingsBean.CONS_AUTO_DISCONNECT_ABLE);
             UsageSettingHelper ush1 = new UsageSettingHelper(getActivity());
             ush1.setOnSetSuccessListener(attr1 -> pgd.dismiss());
-            ush1.setOnErrorListener(attr1 -> pgd.dismiss());
-            ush1.setOnResutlErrorListener(attr1 -> pgd.dismiss());
+            ush1.setOnErrorListener(() -> pgd.dismiss());
             ush1.setUsageSetting(attr);
         });
-        ush.setOnErrorListener(attr1 -> pgd.dismiss());
-        ush.setOnResutlErrorListener(attr1 -> pgd.dismiss());
+        ush.setOnErrorListener(() -> pgd.dismiss());
         ush.getUsageSetting();
     }
 
@@ -492,15 +478,14 @@ public class SetDataPlanRxfragment extends Fragment implements FragmentBackHandl
         ProgressDialog pgd = OtherUtils.showProgressPop(getActivity());
         UsageSettingHelper ush = new UsageSettingHelper(getActivity());
         ush.setOngetSuccessListener(attr -> {
-            attr.setTimeLimitFlag(attr.getTimeLimitFlag() == Cons.ENABLE ? Cons.DISABLE : Cons.ENABLE);
+            attr.setTimeLimitFlag(attr.getTimeLimitFlag() == GetUsageSettingsBean.CONS_TIME_LIMIT_ABLE ?
+                    GetUsageSettingsBean.CONS_TIME_LIMIT_DISABLE : GetUsageSettingsBean.CONS_TIME_LIMIT_ABLE);
             UsageSettingHelper ush1 = new UsageSettingHelper(getActivity());
-            ush1.setOnResutlErrorListener(attr1 -> pgd.dismiss());
-            ush1.setOnErrorListener(attr1 -> pgd.dismiss());
+            ush1.setOnErrorListener(() -> pgd.dismiss());
             ush1.setOnSetSuccessListener(attr1 -> pgd.dismiss());
             ush1.setUsageSetting(attr);
         });
-        ush.setOnErrorListener(attr1 -> pgd.dismiss());
-        ush.setOnResutlErrorListener(attr1 -> pgd.dismiss());
+        ush.setOnErrorListener(() -> pgd.dismiss());
         ush.getUsageSetting();
     }
 
@@ -549,15 +534,13 @@ public class SetDataPlanRxfragment extends Fragment implements FragmentBackHandl
             UsageSettingHelper ush = new UsageSettingHelper(getActivity());
             ush.setOngetSuccessListener(attr -> {
                 // 强制设定为disable
-                attr.setTimeLimitFlag(Cons.DISABLE);
+                attr.setTimeLimitFlag(GetUsageSettingsBean.CONS_TIME_LIMIT_DISABLE);
                 UsageSettingHelper ush1 = new UsageSettingHelper(getActivity());
-                ush1.setOnResutlErrorListener(attr1 -> pgd.dismiss());
-                ush1.setOnErrorListener(attr1 -> pgd.dismiss());
+                ush1.setOnErrorListener(() -> pgd.dismiss());
                 ush1.setOnSetSuccessListener(attr1 -> pgd.dismiss());
                 ush1.setUsageSetting(attr);
             });
-            ush.setOnErrorListener(attr1 -> pgd.dismiss());
-            ush.setOnResutlErrorListener(attr1 -> pgd.dismiss());
+            ush.setOnErrorListener(() -> pgd.dismiss());
             ush.getUsageSetting();
             return;
         }
@@ -567,12 +550,10 @@ public class SetDataPlanRxfragment extends Fragment implements FragmentBackHandl
             attr.setTimeLimitTimes(total);
             UsageSettingHelper ush1 = new UsageSettingHelper(getActivity());
             ush1.setOnSetSuccessListener(attr1 -> pgd.dismiss());
-            ush1.setOnErrorListener(attr1 -> pgd.dismiss());
-            ush1.setOnResutlErrorListener(attr1 -> pgd.dismiss());
+            ush1.setOnErrorListener(() -> pgd.dismiss());
             ush1.setUsageSetting(attr);
         });
-        ush.setOnErrorListener(attr1 -> pgd.dismiss());
-        ush.setOnResutlErrorListener(attr1 -> pgd.dismiss());
+        ush.setOnErrorListener(() -> pgd.dismiss());
         ush.getUsageSetting();
     }
 
@@ -589,8 +570,7 @@ public class SetDataPlanRxfragment extends Fragment implements FragmentBackHandl
             // 2.弹出剩余流量
             ProgressDialog pgd = OtherUtils.showProgressPop(getActivity());
             UsageSettingHelper ush = new UsageSettingHelper(getActivity());
-            ush.setOnErrorListener(attr -> pgd.dismiss());
-            ush.setOnResutlErrorListener(attr -> pgd.dismiss());
+            ush.setOnErrorListener(() -> pgd.dismiss());
             ush.setOngetSuccessListener(attr -> {
                 if (count == 0) {// 1.首次显示
                     float usedData = attr.getUsedData() * 1f;

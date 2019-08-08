@@ -86,9 +86,16 @@ public class GetSystemStatusBean implements Serializable {
     public static int CONS_WLANSTATE_5G_ON = 1;
     public static int CONS_WLANSTATE_5G_WPS = 2;
     
-    public static int CONS_NOT_INSERT = 0;
-    public static int CONS_USB_STORAGE = 1;
-    public static int CONS_USB_PRINT = 2;
+    public static final int CONS_NOT_INSERT = 0;
+    public static final int CONS_USB_STORAGE = 1;
+    public static final int CONS_USB_PRINT = 2;
+
+    public static final int CONS_CHARGE_CHARGING = 0;
+    public static final int CONS_CHARGE_DONE = 1;
+    public static final int CONS_CHARGE_REMOVE = 2;
+    public static final int CONS_CHARGE_ERROR = 3;
+    public static final int CONS_CHARGE_OUT_POWER_BANK = 4;
+
 
     private int NetworkType;
     private String NetworkName;

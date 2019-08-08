@@ -87,9 +87,8 @@ public class MobileDataHelper {
      */
     private void checkMonthly() {
         UsageHelper usageHelper = new UsageHelper(context);
-        usageHelper.setOnGetUsageErrorListener(attr -> toast(R.string.connect_failed));
-        usageHelper.setOnGetUsageResultErrorListener(attr -> toast(R.string.connect_failed));
-        usageHelper.setOnOverMonthlyListener(attr -> toast(R.string.usage_limit_over_notification_content));// 超出流量
+        usageHelper.setOnGetUsageErrorListener(() -> toast(R.string.connect_failed));
+        usageHelper.setOnOverMonthlyListener(() -> toast(R.string.usage_limit_over_notification_content));// 超出流量
         usageHelper.getOverUsage();
     }
 

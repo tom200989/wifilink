@@ -27,9 +27,6 @@ import android.widget.EditText;
 import android.widget.RelativeLayout;
 
 import com.alcatel.wifilink.R;
-import com.alcatel.wifilink.network.RX;
-import com.alcatel.wifilink.network.ResponseBody;
-import com.alcatel.wifilink.network.ResponseObject;
 import com.alcatel.wifilink.root.app.SmartLinkV3App;
 import com.alcatel.wifilink.root.bean.ConnectedList;
 import com.alcatel.wifilink.root.bean.Extender_GetHotspotListResult;
@@ -38,7 +35,6 @@ import com.alcatel.wifilink.root.bean.Other_DeviceBean;
 import com.alcatel.wifilink.root.bean.Other_SMSContactSelf;
 import com.alcatel.wifilink.root.bean.SMSContactList;
 import com.alcatel.wifilink.root.bean.SMSContentList;
-import com.alcatel.wifilink.root.bean.System_SystemInfo;
 import com.alcatel.wifilink.root.helper.Cons;
 import com.alcatel.wifilink.root.helper.TimerHelper;
 import com.alcatel.wifilink.root.ue.activity.HomeRxActivity;
@@ -46,6 +42,7 @@ import com.alcatel.wifilink.root.ue.activity.LoginRxActivity;
 import com.alcatel.wifilink.root.widget.PopupWindows;
 import com.p_xhelper_smart.p_xhelper_smart.bean.GetLoginStateBean;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetLoginStateHelper;
+import com.p_xhelper_smart.p_xhelper_smart.helper.GetSystemInfoHelper;
 import com.p_xhelper_smart.p_xhelper_smart.helper.HeartBeatHelper;
 import com.tcl.token.ndk.JniTokenUtils;
 
@@ -836,23 +833,24 @@ public class OtherUtils {
      * 是否为定制的版本
      */
     public void isCustomVersion() {
-        RX.getInstant().getSystemInfo(new ResponseObject<System_SystemInfo>() {
-            @Override
-            protected void onSuccess(System_SystemInfo result) {
-                String customId = result.getSwVersion().split("_")[1];
-                if (onCustomizedVersionListener != null) {
-                    onCustomizedVersionListener.getCustomizedStatus(customId.equalsIgnoreCase(Cons.SW_VERSION_E1));
-                }
-            }
-
-            @Override
-            protected void onResultError(ResponseBody.Error error) {
-                super.onResultError(error);
-                if (onCustomizedVersionListener != null) {
-                    onCustomizedVersionListener.getCustomizedStatus(false);
-                }
+        GetSystemInfoHelper getSystemInfoHelper = new GetSystemInfoHelper();
+        getSystemInfoHelper.setOnGetSystemInfoSuccessListener(result -> {
+            String customId = result.getSwVersion().split("_")[1];
+            if (onCustomizedVersionListener != null) {
+                onCustomizedVersionListener.getCustomizedStatus(customId.equalsIgnoreCase(Cons.SW_VERSION_E1));
             }
         });
+        getSystemInfoHelper.setOnFwErrorListener(() -> {
+            if (onCustomizedVersionListener != null) {
+                onCustomizedVersionListener.getCustomizedStatus(false);
+            }
+        });
+        getSystemInfoHelper.setOnAppErrorListener(() -> {
+            if (onCustomizedVersionListener != null) {
+                onCustomizedVersionListener.getCustomizedStatus(false);
+            }
+        });
+        getSystemInfoHelper.getSystemInfo();
     }
 
     /**
@@ -880,33 +878,39 @@ public class OtherUtils {
         xGetLoginStateHelper.getLoginState();
     }
 
-    /* 访问systeminfo接口 */
+            /* 访问systeminfo接口 */
     private void getSystemInfoImpl(String needEncryptVersionCustomId) {
-        RX.getInstant().getSystemInfo(new ResponseObject<System_SystemInfo>() {
-            @Override
-            protected void onSuccess(System_SystemInfo result) {
-                // 2.获取当前版本
-                String currentVersion = result.getSwVersion();
-                String customId = currentVersion.split("_")[1];// customId:E1、IA、01....
-                if (onSwVersionListener != null) {
-                    // 如能获取到版本,则判断是否为[E1]定制版本
-                    if (customId.equalsIgnoreCase(needEncryptVersionCustomId) || customId.contains(needEncryptVersionCustomId)) {
-                        onSwVersionListener.getVersion(true);
-                    } else {
-                        onSwVersionListener.getVersion(false);
-                    }
-                }
-            }
 
-            @Override
-            protected void onResultError(ResponseBody.Error error) {
-                // 如获取不到则一定是需要加密的
-                if (onSwVersionListener != null) {
+        GetSystemInfoHelper getSystemInfoHelper = new GetSystemInfoHelper();
+        getSystemInfoHelper.setOnGetSystemInfoSuccessListener(result -> {
+            // 2.获取当前版本
+            String currentVersion = result.getSwVersion();
+            String customId = currentVersion.split("_")[1];// customId:E1、IA、01....
+            if (onSwVersionListener != null) {
+                // 如能获取到版本,则判断是否为[E1]定制版本
+                if (customId.equalsIgnoreCase(needEncryptVersionCustomId) || customId.contains(needEncryptVersionCustomId)) {
                     onSwVersionListener.getVersion(true);
+                } else {
+                    onSwVersionListener.getVersion(false);
                 }
             }
         });
+        getSystemInfoHelper.setOnAppErrorListener(() -> {
+            // 如获取不到则一定是需要加密的
+            if (onSwVersionListener != null) {
+                onSwVersionListener.getVersion(true);
+            }
+        });
+        getSystemInfoHelper.setOnFwErrorListener(() -> {
+            // 如获取不到则一定是需要加密的
+            if (onSwVersionListener != null) {
+                onSwVersionListener.getVersion(true);
+            }
+        });
+        getSystemInfoHelper.getSystemInfo();
     }
+    //     });
+    // }
 
 
     /**
@@ -917,19 +921,13 @@ public class OtherUtils {
         List<String> needEncryptVersions = new ArrayList<String>();
         needEncryptVersions.add("HH70");
         // 2.获取当前版本
-        RX.getInstant().getSystemInfo(new ResponseObject<System_SystemInfo>() {
-            @Override
-            protected void onSuccess(System_SystemInfo result) {
-                if (onHwVersionListener != null) {
-                    onHwVersionListener.getVersion(result.getSwVersion());
-                }
-            }
-
-            @Override
-            protected void onResultError(ResponseBody.Error error) {
-
+        GetSystemInfoHelper getSystemInfoHelper = new GetSystemInfoHelper();
+        getSystemInfoHelper.setOnGetSystemInfoSuccessListener(result -> {
+            if (onHwVersionListener != null) {
+                onHwVersionListener.getVersion(result.getSwVersion());
             }
         });
+        getSystemInfoHelper.getSystemInfo();
     }
 
 
@@ -1296,3 +1294,4 @@ public class OtherUtils {
         this.onCustomizedVersionListener = onCustomizedVersionListener;
     }
 }
+

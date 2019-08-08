@@ -12,14 +12,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.alcatel.wifilink.R;
-import com.alcatel.wifilink.root.bean.WanSettingsParams;
-import com.alcatel.wifilink.root.bean.WanSettingsResult;
-import com.alcatel.wifilink.network.RX;
-import com.alcatel.wifilink.network.ResponseObject;
-import com.alcatel.wifilink.root.helper.GetWanSettingHelper;
 import com.alcatel.wifilink.root.helper.Cons;
 import com.alcatel.wifilink.root.utils.OtherUtils;
 import com.alcatel.wifilink.root.utils.ToastUtil_m;
+import com.p_xhelper_smart.p_xhelper_smart.bean.GetWanSettingsBean;
+import com.p_xhelper_smart.p_xhelper_smart.bean.SetWanSettingsParam;
+import com.p_xhelper_smart.p_xhelper_smart.helper.GetWanSettingsHelper;
+import com.p_xhelper_smart.p_xhelper_smart.helper.SetWanSettingsHelper;
 
 public class EthernetWanConnectionActivity extends BaseActivityWithBack implements OnClickListener {
     private static final String TAG = "EthernetWanConnectionActivity";
@@ -45,8 +44,8 @@ public class EthernetWanConnectionActivity extends BaseActivityWithBack implemen
     private EditText mStaticIpMtu;
 
     private Button mConnectOrDisconnect;
-    private WanSettingsResult mWanSettingsResult;
-    private WanSettingsParams mWanSettingsParams;
+    private GetWanSettingsBean mWanSettingsResult;
+    private SetWanSettingsParam mWanSettingsParams;
     private boolean mIsConnecting;
     private int flag = Cons.FLAG_PPPOE;
 
@@ -56,8 +55,8 @@ public class EthernetWanConnectionActivity extends BaseActivityWithBack implemen
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ethernet_wan_connection);
         setTitle(getString(R.string.ethernet_wan_connection));
-        mWanSettingsResult = new WanSettingsResult();
-        mWanSettingsParams = new WanSettingsParams();
+        mWanSettingsResult = new GetWanSettingsBean();
+        mWanSettingsParams = new SetWanSettingsParam();
         mSelectedPppopImg = (ImageView) findViewById(R.id.pppoe_selected_img);
         mSelectedDhcpImg = (ImageView) findViewById(R.id.dhcp_selected_img);
         mSelectedStaticIpImg = (ImageView) findViewById(R.id.static_ip_selected_img);
@@ -90,26 +89,20 @@ public class EthernetWanConnectionActivity extends BaseActivityWithBack implemen
     }
 
     private void getWanSettings() {
-
-        GetWanSettingHelper wan = new GetWanSettingHelper();
-        wan.setOnGetwansettingsErrorListener(e -> {
-        });
-        wan.setOnGetWanSettingsFailedListener(() -> {
-        });
-        wan.setOnGetWanSettingsResultErrorListener(error -> Toast.makeText(EthernetWanConnectionActivity.this, getString(R.string.setting_failed), Toast.LENGTH_SHORT).show());
-        wan.setOnGetWanSettingsSuccessListener(result -> {
+        GetWanSettingsHelper helper = new GetWanSettingsHelper();
+        helper.setOnGetWanSettingsSuccessListener(result -> {
             mWanSettingsResult = result;
-            if (result.getStatus() == 1 && mIsConnecting) {
+            if (result.getStatus() == GetWanSettingsBean.CONS_CONNECTING && mIsConnecting) {
                 getWanSettings();
                 return;
-            } else if (result.getStatus() == 2) {
+            } else if (result.getStatus() == GetWanSettingsBean.CONS_CONNECTED) {
                 mIsConnecting = false;
             }
-            if (result.getConnectType() == 0) {
+            if (result.getConnectType() == GetWanSettingsBean.CONS_PPPOE) {
                 showConnectPppoe();
-            } else if (result.getConnectType() == 1) {
+            } else if (result.getConnectType() == GetWanSettingsBean.CONS_DHCP) {
                 showConnectDhcp();
-            } else if (result.getConnectType() == 2) {
+            } else if (result.getConnectType() == GetWanSettingsBean.CONS_STATIC) {
                 showConnectStaticIp();
             }
             mPppoeAccount.setText(result.getAccount());
@@ -122,22 +115,25 @@ public class EthernetWanConnectionActivity extends BaseActivityWithBack implemen
             mStaticIpSecondaryDns.setText(result.getSecondaryDNS());
             mStaticIpMtu.setText(String.valueOf(result.getMtu()));
         });
-        wan.get();
+        helper.setOnFwErrorListener(() -> {
+            Toast.makeText(EthernetWanConnectionActivity.this, getString(R.string.setting_failed), Toast.LENGTH_SHORT).show();
+        });
+        helper.setOnAppErrorListener(() -> {
+            Toast.makeText(EthernetWanConnectionActivity.this, getString(R.string.setting_failed), Toast.LENGTH_SHORT).show();
+        });
+        helper.getWanSettings();
     }
 
     private void setWanSettings() {
-        RX.getInstant().setWanSettings(mWanSettingsParams, new ResponseObject() {
-            @Override
-            protected void onSuccess(Object result) {
-                Toast.makeText(EthernetWanConnectionActivity.this, getString(R.string.success), Toast.LENGTH_SHORT).show();
-                getWanSettings();
-            }
-
-            @Override
-            protected void onFailure() {
-                mIsConnecting = false;
-            }
+        SetWanSettingsHelper setWanSettingsHelper = new SetWanSettingsHelper();
+        setWanSettingsHelper.setOnSetWanSettingsSuccessListener(() -> {
+            Toast.makeText(EthernetWanConnectionActivity.this, getString(R.string.success), Toast.LENGTH_SHORT).show();
+            getWanSettings();
         });
+        setWanSettingsHelper.setOnSetWanSettingsFailedListener(() -> {
+            mIsConnecting = false;
+        });
+        setWanSettingsHelper.setWanSettings(mWanSettingsParams);
     }
 
     private String getEdContent(EditText et) {
@@ -255,7 +251,7 @@ public class EthernetWanConnectionActivity extends BaseActivityWithBack implemen
 
     private void showConnectStaticIp() {
         flag = Cons.FLAG_STATIC_IP;
-        if (mWanSettingsResult.getConnectType() == 2 && mWanSettingsResult.getStatus() == 2) {
+        if (mWanSettingsResult.getConnectType() == GetWanSettingsBean.CONS_STATIC && mWanSettingsResult.getStatus() == GetWanSettingsBean.CONS_CONNECTED) {
             mConnectOrDisconnect.setTextColor(getResources().getColor(R.color.gray));
         } else {
             mConnectOrDisconnect.setTextColor(getResources().getColor(R.color.white));
@@ -271,7 +267,7 @@ public class EthernetWanConnectionActivity extends BaseActivityWithBack implemen
 
     private void showConnectDhcp() {
         flag = Cons.FLAG_DHCP;
-        if (mWanSettingsResult.getConnectType() == 1 && mWanSettingsResult.getStatus() == 2) {
+        if (mWanSettingsResult.getConnectType() == GetWanSettingsBean.CONS_DHCP && mWanSettingsResult.getStatus() == GetWanSettingsBean.CONS_CONNECTED) {
             mConnectOrDisconnect.setTextColor(getResources().getColor(R.color.gray));
         } else {
             mConnectOrDisconnect.setTextColor(getResources().getColor(R.color.white));
@@ -287,7 +283,7 @@ public class EthernetWanConnectionActivity extends BaseActivityWithBack implemen
 
     private void showConnectPppoe() {
         flag = Cons.FLAG_PPPOE;
-        if (mWanSettingsResult.getConnectType() == 0 && mWanSettingsResult.getStatus() == 2) {
+        if (mWanSettingsResult.getConnectType() == GetWanSettingsBean.CONS_PPPOE && mWanSettingsResult.getStatus() == GetWanSettingsBean.CONS_CONNECTED) {
             mConnectOrDisconnect.setTextColor(getResources().getColor(R.color.gray));
         } else {
             mConnectOrDisconnect.setTextColor(getResources().getColor(R.color.white));

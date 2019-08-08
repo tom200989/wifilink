@@ -11,7 +11,6 @@ import com.p_xhelper_smart.p_xhelper_smart.utils.XCons;
  */
 public class GetWanSettingsHelper extends BaseHelper {
 
-
     /**
      * 获取WAN口设置
      */
@@ -27,12 +26,12 @@ public class GetWanSettingsHelper extends BaseHelper {
 
             @Override
             public void appError(Throwable ex) {
-                GetWanSettingsFailedNext();
+                appErrorNext();
             }
 
             @Override
             public void fwError(FwError fwError) {
-                GetWanSettingsFailedNext();
+                fwErrorNext();
             }
 
             @Override
@@ -61,22 +60,43 @@ public class GetWanSettingsHelper extends BaseHelper {
         }
     }
 
-    private OnGetWanSettingsFailedListener onGetWanSettingsFailedListener;
+    private OnAppErrorListener onAppErrorListener;
 
-    // Inteerface--> 接口OnGetWanSettingsFailedListener
-    public interface OnGetWanSettingsFailedListener {
-        void GetWanSettingsFailed();
+    // Inteerface--> 接口OnAppErrorListener
+    public interface OnAppErrorListener {
+        void appError();
     }
 
-    // 对外方式setOnGetWanSettingsFailedListener
-    public void setOnGetWanSettingsFailedListener(OnGetWanSettingsFailedListener onGetWanSettingsFailedListener) {
-        this.onGetWanSettingsFailedListener = onGetWanSettingsFailedListener;
+    // 对外方式setOnAppErrorListener
+    public void setOnAppErrorListener(OnAppErrorListener onAppErrorListener) {
+        this.onAppErrorListener = onAppErrorListener;
     }
 
-    // 封装方法GetWanSettingsFailedNext
-    private void GetWanSettingsFailedNext() {
-        if (onGetWanSettingsFailedListener != null) {
-            onGetWanSettingsFailedListener.GetWanSettingsFailed();
+    // 封装方法appErrorNext
+    private void appErrorNext() {
+        if (onAppErrorListener != null) {
+            onAppErrorListener.appError();
         }
     }
+
+    private OnFwErrorListener onFwErrorListener;
+
+    // Inteerface--> 接口OnFwErrorListener
+    public interface OnFwErrorListener {
+        void fwError();
+    }
+
+    // 对外方式setOnFwErrorListener
+    public void setOnFwErrorListener(OnFwErrorListener onFwErrorListener) {
+        this.onFwErrorListener = onFwErrorListener;
+    }
+
+    // 封装方法fwErrorNext
+    private void fwErrorNext() {
+        if (onFwErrorListener != null) {
+            onFwErrorListener.fwError();
+        }
+    }
+
+
 }

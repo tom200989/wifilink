@@ -14,18 +14,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.alcatel.wifilink.R;
-import com.alcatel.wifilink.root.widget.PopupWindows;
-import com.alcatel.wifilink.root.bean.UsageSetting;
-import com.alcatel.wifilink.network.RX;
-import com.alcatel.wifilink.network.ResponseBody;
-import com.alcatel.wifilink.network.ResponseObject;
+import com.alcatel.wifilink.root.app.SmartLinkV3App;
 import com.alcatel.wifilink.root.bean.Other_PinPukBean;
 import com.alcatel.wifilink.root.helper.BoardSimHelper;
-import com.alcatel.wifilink.root.helper.UsageHelper;
-import com.alcatel.wifilink.root.helper.WpsHelper;
-import com.alcatel.wifilink.root.app.SmartLinkV3App;
 import com.alcatel.wifilink.root.helper.Cons;
 import com.alcatel.wifilink.root.helper.TimerHelper;
+import com.alcatel.wifilink.root.helper.UsageHelper;
+import com.alcatel.wifilink.root.helper.UsageSettingHelper;
+import com.alcatel.wifilink.root.helper.WpsHelper;
 import com.alcatel.wifilink.root.utils.CA;
 import com.alcatel.wifilink.root.utils.Lgg;
 import com.alcatel.wifilink.root.utils.Logs;
@@ -33,7 +29,11 @@ import com.alcatel.wifilink.root.utils.OtherUtils;
 import com.alcatel.wifilink.root.utils.SP;
 import com.alcatel.wifilink.root.utils.ScreenSize;
 import com.alcatel.wifilink.root.utils.ToastUtil_m;
+import com.alcatel.wifilink.root.widget.PopupWindows;
+import com.p_xhelper_smart.p_xhelper_smart.bean.GetUsageSettingsBean;
+import com.p_xhelper_smart.p_xhelper_smart.bean.SetUsageSettingsParam;
 import com.p_xhelper_smart.p_xhelper_smart.helper.LogoutHelper;
+import com.p_xhelper_smart.p_xhelper_smart.helper.SetUsageSettingsHelper;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -73,7 +73,7 @@ public class DataPlanRxActivity extends BaseActivityWithBack {
     private String MB;
     private String GB;
     private ProgressDialog pgd;
-    private UsageSetting result;
+    private GetUsageSettingsBean result;
     private String flag = "";
 
     private void startHeartTimer() {
@@ -126,35 +126,26 @@ public class DataPlanRxActivity extends BaseActivityWithBack {
 
     private void initBean() {
         pgd = OtherUtils.showProgressPop(this);
-        RX.getInstant().getUsageSetting(new ResponseObject<UsageSetting>() {
-            @Override
-            protected void onSuccess(UsageSetting result) {
-                OtherUtils.hideProgressPop(pgd);
-                DataPlanRxActivity.this.result = result;
-                // 设置原有的月计划
-                UsageHelper.Usage usageByte = UsageHelper.getUsageByte(DataPlanRxActivity.this, result.getMonthlyPlan());
-                float aFloat = Float.valueOf(usageByte.usage);
-                String usage = String.valueOf(aFloat);
-                etDataplanRxLimit.setText(result.getMonthlyPlan() == 0 ? "0" : usage);
-                // 设置单位
-                tvDataplanRxLimitUnit.setText(result.getUnit() == Cons.MB ? MB : GB);
-                // 设置自动断线
-                boolean isAuto = result.getAutoDisconnFlag() == Cons.ENABLE_AUTODISCONNECT;
-                ivDataplanRxAuto.setImageDrawable(isAuto ? switch_on : switch_off);
-            }
-
-            @Override
-            protected void onResultError(ResponseBody.Error error) {
-                failed();
-                Logs.e("ma_conn_error", "getUsageSetting onResultError: " + error);
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                failed();
-                Logs.e("ma_conn_error", "getUsageSetting onError: " + e.getMessage());
-            }
+        UsageSettingHelper getUsageSettingsHelper = new UsageSettingHelper(this);
+        getUsageSettingsHelper.setOngetSuccessListener(result -> {
+            OtherUtils.hideProgressPop(pgd);
+            DataPlanRxActivity.this.result = result;
+            // 设置原有的月计划
+            UsageHelper.Usage usageByte = UsageHelper.getUsageByte(DataPlanRxActivity.this, result.getMonthlyPlan());
+            float aFloat = Float.valueOf(usageByte.usage);
+            String usage = String.valueOf(aFloat);
+            etDataplanRxLimit.setText(result.getMonthlyPlan() == 0 ? "0" : usage);
+            // 设置单位
+            tvDataplanRxLimitUnit.setText(result.getUnit() == GetUsageSettingsBean.CONS_UNIT_MB ? MB : GB);
+            // 设置自动断线
+            boolean isAuto = result.getAutoDisconnFlag() == GetUsageSettingsBean.CONS_AUTO_DISCONNECT_ABLE;
+            ivDataplanRxAuto.setImageDrawable(isAuto ? switch_on : switch_off);
         });
+        getUsageSettingsHelper.setOnErrorListener(() -> {
+            failed();
+            Logs.e("ma_conn_error", "getUsageSetting onResultError: ");
+        });
+        getUsageSettingsHelper.getUsageSetting();
     }
 
     @Override
@@ -273,27 +264,17 @@ public class DataPlanRxActivity extends BaseActivityWithBack {
     private void usageRequest() {
         String monthly_s = OtherUtils.getEdContent(etDataplanRxLimit);
         double monthly_c = Double.valueOf(TextUtils.isEmpty(monthly_s) ? "0" : monthly_s);
-        double monthly_b = result.getUnit() == Cons.MB ? monthly_c * 1024l * 1024l : monthly_c * 1024l * 1024l * 1024l;
+        double monthly_b = result.getUnit() == GetUsageSettingsBean.CONS_UNIT_MB ? monthly_c * 1024l * 1024l : monthly_c * 1024l * 1024l * 1024l;
         result.setMonthlyPlan((long) monthly_b);
-        RX.getInstant().setUsageSetting(result, new ResponseObject() {
-            @Override
-            protected void onSuccess(Object result) {
-                toast(R.string.success);
-                toAc();
-            }
-
-            @Override
-            protected void onResultError(ResponseBody.Error error) {
-                Lgg.t("ma_init_usage").ii("result error: " + error.getMessage());
-                failed();
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                Lgg.t("ma_init_usage").ii("result error: " + e.getMessage());
-                failed();
-            }
+        SetUsageSettingsParam param = new SetUsageSettingsParam();
+        param.copy(result);
+        SetUsageSettingsHelper helper = new SetUsageSettingsHelper();
+        helper.setOnSetUsageSettingsSuccessListener(() -> {
+            toast(R.string.success);
+            toAc();
         });
+        helper.setOnSetUsageSettingsFailListener(() -> failed());
+        helper.setUsageSettings(param);
     }
 
     private void toAc() {
@@ -354,18 +335,18 @@ public class DataPlanRxActivity extends BaseActivityWithBack {
         TextView mb = inflate.findViewById(R.id.tv_dataplan_rx_pop_mb);
         TextView gb = inflate.findViewById(R.id.tv_dataplan_rx_pop_gb);
         // 初始化颜色
-        boolean isMb = result.getUnit() == Cons.MB;
+        boolean isMb = result.getUnit() == GetUsageSettingsBean.CONS_UNIT_MB;
         mb.setTextColor(isMb ? check_color : uncheck_color);
         gb.setTextColor(isMb ? uncheck_color : check_color);
-        mb.setOnClickListener(v -> setUnit(Cons.MB));
-        gb.setOnClickListener(v -> setUnit(Cons.GB));
+        mb.setOnClickListener(v -> setUnit(GetUsageSettingsBean.CONS_UNIT_MB));
+        gb.setOnClickListener(v -> setUnit(GetUsageSettingsBean.CONS_UNIT_GB));
         pop = new PopupWindows(this, inflate, width, height, new ColorDrawable(Color.TRANSPARENT));
     }
 
     private void setUnit(int unit) {
         if (result != null) {
             result.setUnit(unit);
-            tvDataplanRxLimitUnit.setText(unit == Cons.MB ? MB : GB);
+            tvDataplanRxLimitUnit.setText(unit == GetUsageSettingsBean.CONS_UNIT_MB ? MB : GB);
         }
         pop.dismiss();
     }

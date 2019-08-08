@@ -4,29 +4,17 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.text.TextUtils;
 
-import com.alcatel.wifilink.root.bean.NetworkRegisterState;
-import com.alcatel.wifilink.root.bean.System_SysStatus;
-import com.alcatel.wifilink.root.bean.System_SystemStates;
-import com.alcatel.wifilink.root.bean.User_LoginParams;
-import com.alcatel.wifilink.root.bean.User_LoginState;
-import com.alcatel.wifilink.root.bean.UsageParams;
-import com.alcatel.wifilink.root.bean.UsageRecord;
-import com.alcatel.wifilink.root.bean.UsageRecordParam;
-import com.alcatel.wifilink.root.bean.UsageSetting;
-import com.alcatel.wifilink.root.bean.UsageSettings;
-import com.alcatel.wifilink.root.bean.Update_DeviceNewVersion;
-import com.alcatel.wifilink.root.bean.Update_DeviceUpgradeState;
-import com.alcatel.wifilink.root.bean.Sharing_DLNASettings;
-import com.alcatel.wifilink.root.bean.Sharing_FTPSettings;
+import com.alcatel.wifilink.root.app.SmartLinkV3App;
 import com.alcatel.wifilink.root.bean.BatteryState;
+import com.alcatel.wifilink.root.bean.BlockList;
+import com.alcatel.wifilink.root.bean.ConnectedDeviceBlockParam;
+import com.alcatel.wifilink.root.bean.ConnectedList;
 import com.alcatel.wifilink.root.bean.ConnectionMode;
 import com.alcatel.wifilink.root.bean.ConnectionSettings;
 import com.alcatel.wifilink.root.bean.ConnectionState;
-import com.alcatel.wifilink.root.bean.ConnectedDeviceBlockParam;
+import com.alcatel.wifilink.root.bean.ConnectionStates;
 import com.alcatel.wifilink.root.bean.DeviceNameParam;
 import com.alcatel.wifilink.root.bean.DeviceUnblockParam;
-import com.alcatel.wifilink.root.bean.BlockList;
-import com.alcatel.wifilink.root.bean.ConnectedList;
 import com.alcatel.wifilink.root.bean.Extender_ConnectHotspotParam;
 import com.alcatel.wifilink.root.bean.Extender_GetConnectHotspotStateResult;
 import com.alcatel.wifilink.root.bean.Extender_GetHotspotListResult;
@@ -36,16 +24,8 @@ import com.alcatel.wifilink.root.bean.Extender_SetWIFIExtenderSettingsParam;
 import com.alcatel.wifilink.root.bean.LanguageResult;
 import com.alcatel.wifilink.root.bean.Network;
 import com.alcatel.wifilink.root.bean.NetworkInfos;
+import com.alcatel.wifilink.root.bean.NetworkRegisterState;
 import com.alcatel.wifilink.root.bean.ProfileList;
-import com.alcatel.wifilink.root.bean.Sharing_SambaSettings;
-import com.alcatel.wifilink.root.bean.Sim_AutoValidatePinState;
-import com.alcatel.wifilink.root.bean.Sim_ChangePinParams;
-import com.alcatel.wifilink.root.bean.Sim_PinParams;
-import com.alcatel.wifilink.root.bean.Sim_PinStateParams;
-import com.alcatel.wifilink.root.bean.Sim_PukParams;
-import com.alcatel.wifilink.root.bean.Sim_SetAutoValidatePinStateParams;
-import com.alcatel.wifilink.root.bean.SimStatus;
-import com.alcatel.wifilink.root.bean.Sim_UnlockSimlockParams;
 import com.alcatel.wifilink.root.bean.SMSContactList;
 import com.alcatel.wifilink.root.bean.SMSContactListParam;
 import com.alcatel.wifilink.root.bean.SMSContentList;
@@ -53,15 +33,34 @@ import com.alcatel.wifilink.root.bean.SMSContentParam;
 import com.alcatel.wifilink.root.bean.SMSDeleteParam;
 import com.alcatel.wifilink.root.bean.SMSSaveParam;
 import com.alcatel.wifilink.root.bean.SMSSendParam;
-import com.alcatel.wifilink.root.bean.SMSStorageState;
 import com.alcatel.wifilink.root.bean.SMSSendResult;
+import com.alcatel.wifilink.root.bean.SMSStorageState;
+import com.alcatel.wifilink.root.bean.Sharing_DLNASettings;
+import com.alcatel.wifilink.root.bean.Sharing_FTPSettings;
+import com.alcatel.wifilink.root.bean.Sharing_SambaSettings;
+import com.alcatel.wifilink.root.bean.SimStatus;
+import com.alcatel.wifilink.root.bean.Sim_AutoValidatePinState;
+import com.alcatel.wifilink.root.bean.Sim_ChangePinParams;
+import com.alcatel.wifilink.root.bean.Sim_PinParams;
+import com.alcatel.wifilink.root.bean.Sim_PinStateParams;
+import com.alcatel.wifilink.root.bean.Sim_PukParams;
+import com.alcatel.wifilink.root.bean.Sim_SetAutoValidatePinStateParams;
+import com.alcatel.wifilink.root.bean.Sim_UnlockSimlockParams;
 import com.alcatel.wifilink.root.bean.SmsInitState;
 import com.alcatel.wifilink.root.bean.SmsSingle;
+import com.alcatel.wifilink.root.bean.System_SysStatus;
 import com.alcatel.wifilink.root.bean.System_SystemInfo;
+import com.alcatel.wifilink.root.bean.System_SystemStates;
 import com.alcatel.wifilink.root.bean.System_WanSetting;
+import com.alcatel.wifilink.root.bean.Update_DeviceNewVersion;
+import com.alcatel.wifilink.root.bean.Update_DeviceUpgradeState;
+import com.alcatel.wifilink.root.bean.UsageRecord;
+import com.alcatel.wifilink.root.bean.UsageSetting;
+import com.alcatel.wifilink.root.bean.UsageSettings;
+import com.alcatel.wifilink.root.bean.User_LoginParams;
 import com.alcatel.wifilink.root.bean.User_LoginResult;
+import com.alcatel.wifilink.root.bean.User_LoginState;
 import com.alcatel.wifilink.root.bean.User_NewPasswdParams;
-import com.alcatel.wifilink.root.bean.WanSettingsParams;
 import com.alcatel.wifilink.root.bean.WanSettingsResult;
 import com.alcatel.wifilink.root.bean.WlanLanSettings;
 import com.alcatel.wifilink.root.bean.WlanSetting;
@@ -69,9 +68,7 @@ import com.alcatel.wifilink.root.bean.WlanSettings;
 import com.alcatel.wifilink.root.bean.WlanState;
 import com.alcatel.wifilink.root.bean.WlanStatus;
 import com.alcatel.wifilink.root.bean.WlanSupportAPMode;
-import com.alcatel.wifilink.root.app.SmartLinkV3App;
 import com.alcatel.wifilink.root.helper.Cons;
-import com.alcatel.wifilink.root.bean.ConnectionStates;
 import com.alcatel.wifilink.root.utils.Constants;
 import com.alcatel.wifilink.root.utils.EncryptionUtil;
 import com.alcatel.wifilink.root.utils.FileUtils;
@@ -330,9 +327,9 @@ public class RX {
     }
 
     // other
-    public void setDeviceUpdateStop(ResponseObject subscriber) {
-        subscribe(subscriber, smartLinkApi.request(new RequestBody(Methods.SET_DEVICE_UPDATE_STOP)));
-    }
+    // public void setDeviceUpdateStop(ResponseObject subscriber) {
+    //     subscribe(subscriber, smartLinkApi.request(new RequestBody(Methods.SET_DEVICE_UPDATE_STOP)));
+    // }
 
     public void getNetworkRegisterState(ResponseObject<NetworkRegisterState> subscriber) {
         subscribe(subscriber, smartLinkApi.getNetworkRegisterState(new RequestBody(Methods.GET_NETWORK_REGISTER_STATE)));
@@ -489,93 +486,89 @@ public class RX {
         subscribe(subscriber, smartLinkApi.request(new RequestBody(Methods.SET_WLAN_SETTINGS, setting)));
     }
 
-    public void getWlanSupportMode(ResponseObject<WlanSupportAPMode> subscriber) {
-        subscribe(subscriber, smartLinkApi.getWlanSupportMode(new RequestBody(Methods.GET_WLAN_SUPPORT_MODE)));
-    }
+    // public void getSystemStatus(ResponseObject<System_SysStatus> subscriber) {
+    //     subscribe(subscriber, smartLinkApi.getSystemStatus(new RequestBody(Methods.GET_SYSTEM_STATUS)));
+    // }
 
-    public void getSystemStatus(ResponseObject<System_SysStatus> subscriber) {
-        subscribe(subscriber, smartLinkApi.getSystemStatus(new RequestBody(Methods.GET_SYSTEM_STATUS)));
-    }
+    // public void getSystemStates(ResponseObject<System_SystemStates> subscriber) {
+    //     subscribe(subscriber, smartLinkApi.getSystemStates(new RequestBody(Methods.GET_SYSTEM_STATUS)));
+    // }
 
-    public void getSystemStates(ResponseObject<System_SystemStates> subscriber) {
-        subscribe(subscriber, smartLinkApi.getSystemStates(new RequestBody(Methods.GET_SYSTEM_STATUS)));
-    }
+    // public void rebootDevice(ResponseObject subscriber) {
+    //     subscribe(subscriber, smartLinkApi.reboot(new RequestBody(Methods.SET_DEVICE_REBOOT)));
+    // }
 
-    public void rebootDevice(ResponseObject subscriber) {
-        subscribe(subscriber, smartLinkApi.reboot(new RequestBody(Methods.SET_DEVICE_REBOOT)));
-    }
+    // public void resetDevice(ResponseObject subscriber) {
+    //     subscribe(subscriber, smartLinkApi.resetDevice(new RequestBody(Methods.SET_DEVICE_RESET)));
+    // }
 
-    public void resetDevice(ResponseObject subscriber) {
-        subscribe(subscriber, smartLinkApi.resetDevice(new RequestBody(Methods.SET_DEVICE_RESET)));
-    }
+    // public void backupDevice(ResponseObject subscriber) {
+    //     subscribe(subscriber, smartLinkApi.backupDevice(new RequestBody(Methods.SET_DEVICE_BACKUP)));
+    // }
 
-    public void backupDevice(ResponseObject subscriber) {
-        subscribe(subscriber, smartLinkApi.backupDevice(new RequestBody(Methods.SET_DEVICE_BACKUP)));
-    }
+    // public void getSystemInfo(ResponseObject<System_SystemInfo> subscriber) {
+    //     subscribe(subscriber, smartLinkApi.getSystemInfo(new RequestBody(Methods.GET_SYSTEM_INFO)));
+    // }
 
-    public void getSystemInfo(ResponseObject<System_SystemInfo> subscriber) {
-        subscribe(subscriber, smartLinkApi.getSystemInfo(new RequestBody(Methods.GET_SYSTEM_INFO)));
-    }
+    // public void getWanSeting(ResponseObject<System_WanSetting> subscriber) {
+    //     subscribe(subscriber, smartLinkApi.getWanSeting(new RequestBody(Methods.GET_WAN_SETTINGS)));
+    // }
 
-    public void getWanSeting(ResponseObject<System_WanSetting> subscriber) {
-        subscribe(subscriber, smartLinkApi.getWanSeting(new RequestBody(Methods.GET_WAN_SETTINGS)));
-    }
+    // public void getWanSettings(ResponseObject<WanSettingsResult> subscriber) {
+    //     subscribe(subscriber, smartLinkApi.getWanSettings(new RequestBody(Methods.GET_WAN_SETTINGS)));
+    // }
 
-    public void getWanSettings(ResponseObject<WanSettingsResult> subscriber) {
-        subscribe(subscriber, smartLinkApi.getWanSettings(new RequestBody(Methods.GET_WAN_SETTINGS)));
-    }
+    // public void setWanSettings(WanSettingsParams wsp, ResponseObject subscriber) {
+    //     subscribe(subscriber, smartLinkApi.request(new RequestBody(Methods.SET_WAN_SETTINGS, wsp)));
+    // }
 
-    public void setWanSettings(WanSettingsParams wsp, ResponseObject subscriber) {
-        subscribe(subscriber, smartLinkApi.request(new RequestBody(Methods.SET_WAN_SETTINGS, wsp)));
-    }
+    // public void getDeviceNewVersion(ResponseObject<Update_DeviceNewVersion> subscriber) {
+    //     subscribe(subscriber, smartLinkApi.getDeviceNewVersion(new RequestBody(Methods.GET_DEVICE_NEW_VERSION)));
+    // }
 
-    public void getDeviceNewVersion(ResponseObject<Update_DeviceNewVersion> subscriber) {
-        subscribe(subscriber, smartLinkApi.getDeviceNewVersion(new RequestBody(Methods.GET_DEVICE_NEW_VERSION)));
-    }
+    // public void setCheckNewVersion(ResponseObject subscriber) {
+    //     subscribe(subscriber, smartLinkApi.request(new RequestBody(Methods.SET_CHECK_NEW_VERSION)));
+    // }
 
-    public void setCheckNewVersion(ResponseObject subscriber) {
-        subscribe(subscriber, smartLinkApi.request(new RequestBody(Methods.SET_CHECK_NEW_VERSION)));
-    }
+    // public void setDeviceStartUpdate(ResponseObject subscriber) {
+    //     subscribe(subscriber, smartLinkApi.request(new RequestBody(Methods.SET_DEVICE_START_UPDATE)));
+    // }
 
-    public void setDeviceStartUpdate(ResponseObject subscriber) {
-        subscribe(subscriber, smartLinkApi.request(new RequestBody(Methods.SET_DEVICE_START_UPDATE)));
-    }
+    // public void SetFOTAStartDownload(ResponseObject subscriber) {
+    //     subscribe(subscriber, smartLinkApi.request(new RequestBody(Methods.SET_FOTA_START_DOWNLOAD)));
+    // }
 
-    public void SetFOTAStartDownload(ResponseObject subscriber) {
-        subscribe(subscriber, smartLinkApi.request(new RequestBody(Methods.SET_FOTA_START_DOWNLOAD)));
-    }
+    // public void getDeviceUpgradeState(ResponseObject<Update_DeviceUpgradeState> subscriber) {
+    //     subscribe(subscriber, smartLinkApi.getDeviceUpgradeState(new RequestBody(Methods.GET_DEVICE_UPGRADE_STATE)));
+    // }
 
-    public void getDeviceUpgradeState(ResponseObject<Update_DeviceUpgradeState> subscriber) {
-        subscribe(subscriber, smartLinkApi.getDeviceUpgradeState(new RequestBody(Methods.GET_DEVICE_UPGRADE_STATE)));
-    }
+    // public void downConfigureFile(Subscriber subscriber, String url, File file) {
+    //     subscribeDownloadFile(subscriber, smartLinkApi.downloadFile(url), file);
+    // }
 
-    public void downConfigureFile(Subscriber subscriber, String url, File file) {
-        subscribeDownloadFile(subscriber, smartLinkApi.downloadFile(url), file);
-    }
+    // public void getFTPSettings(ResponseObject<Sharing_FTPSettings> subscriber) {
+    //     subscribe(subscriber, smartLinkApi.getFTPSettings(new RequestBody(Methods.GET_FTP_SETTINGS)));
+    // }
 
-    public void getFTPSettings(ResponseObject<Sharing_FTPSettings> subscriber) {
-        subscribe(subscriber, smartLinkApi.getFTPSettings(new RequestBody(Methods.GET_FTP_SETTINGS)));
-    }
+    // public void getSambaSettings(ResponseObject<Sharing_SambaSettings> subscriber) {
+    //     subscribe(subscriber, smartLinkApi.getSambaSettings(new RequestBody(Methods.GET_SAMBA_SETTINGS)));
+    // }
 
-    public void getSambaSettings(ResponseObject<Sharing_SambaSettings> subscriber) {
-        subscribe(subscriber, smartLinkApi.getSambaSettings(new RequestBody(Methods.GET_SAMBA_SETTINGS)));
-    }
+    // public void getDLNASettings(ResponseObject<Sharing_DLNASettings> subscriber) {
+    //     subscribe(subscriber, smartLinkApi.getDLNASettings(new RequestBody(Methods.GET_DLNA_SETTINGS)));
+    // }
 
-    public void getDLNASettings(ResponseObject<Sharing_DLNASettings> subscriber) {
-        subscribe(subscriber, smartLinkApi.getDLNASettings(new RequestBody(Methods.GET_DLNA_SETTINGS)));
-    }
+    // public void setFTPSettings(Sharing_FTPSettings settings, ResponseObject subscriber) {
+    //     subscribe(subscriber, smartLinkApi.request(new RequestBody(Methods.SET_FTP_SETTINGS, settings)));
+    // }
 
-    public void setFTPSettings(Sharing_FTPSettings settings, ResponseObject subscriber) {
-        subscribe(subscriber, smartLinkApi.request(new RequestBody(Methods.SET_FTP_SETTINGS, settings)));
-    }
+    // public void setSambaSettings(Sharing_SambaSettings settings, ResponseObject subscriber) {
+    //     subscribe(subscriber, smartLinkApi.request(new RequestBody(Methods.SET_SAMBA_SETTINGS, settings)));
+    // }
 
-    public void setSambaSettings(Sharing_SambaSettings settings, ResponseObject subscriber) {
-        subscribe(subscriber, smartLinkApi.request(new RequestBody(Methods.SET_SAMBA_SETTINGS, settings)));
-    }
-
-    public void setDLNASettings(Sharing_DLNASettings settings, ResponseObject subscriber) {
-        subscribe(subscriber, smartLinkApi.request(new RequestBody(Methods.SET_DLNA_SETTINGS, settings)));
-    }
+    // public void setDLNASettings(Sharing_DLNASettings settings, ResponseObject subscriber) {
+    //     subscribe(subscriber, smartLinkApi.request(new RequestBody(Methods.SET_DLNA_SETTINGS, settings)));
+    // }
 
     public void getConnectionStates(ResponseObject<ConnectionStates> subscriber) {
         subscribe(subscriber, smartLinkApi.getConnectionStates(new RequestBody(Methods.GET_CONNECTION_STATE)));
@@ -620,37 +613,37 @@ public class RX {
         subscribe(subscriber, smartLinkApi.request(new RequestBody(Methods.SET_NETWORK_SETTINGS, network)));
     }
 
-    public void getUsageRecord(String current_time, ResponseObject<UsageRecord> subscriber) {
-        subscribe(subscriber, smartLinkApi.getUsageRecord(new RequestBody(Methods.GET_USAGERECORD, new UsageRecordParam(current_time))));
-    }
+    // public void getUsageRecord(String current_time, ResponseObject<UsageRecord> subscriber) {
+    //     subscribe(subscriber, smartLinkApi.getUsageRecord(new RequestBody(Methods.GET_USAGERECORD, new UsageRecordParam(current_time))));
+    // }
 
     public void getBatteryState(ResponseObject<BatteryState> subscriber) {
         subscribe(subscriber, smartLinkApi.getBatteryState(new RequestBody(Methods.GET_BATTERYSTATE)));
     }
 
-    public void setUsageSetting(UsageSetting usageSettingParams, ResponseObject subscriber) {
-        subscribe(subscriber, smartLinkApi.request(new RequestBody(Methods.SET_USAGE_SETTING, usageSettingParams)));
-    }
+    // public void setUsageSetting(UsageSetting usageSettingParams, ResponseObject subscriber) {
+    //     subscribe(subscriber, smartLinkApi.request(new RequestBody(Methods.SET_USAGE_SETTING, usageSettingParams)));
+    // }
 
-    public void setUsageSettings(UsageSettings us, ResponseObject subscriber) {
-        subscribe(subscriber, smartLinkApi.request(new RequestBody(Methods.SET_USAGE_SETTING, us)));
-    }
+    // public void setUsageSettings(UsageSettings us, ResponseObject subscriber) {
+    //     subscribe(subscriber, smartLinkApi.request(new RequestBody(Methods.SET_USAGE_SETTING, us)));
+    // }
 
-    public void getUsageSetting(ResponseObject<UsageSetting> subscriber) {
-        subscribe(subscriber, smartLinkApi.getUsageSetting(new RequestBody(Methods.GET_USAGESETTING)));
-    }
+    // public void getUsageSetting(ResponseObject<UsageSetting> subscriber) {
+    //     subscribe(subscriber, smartLinkApi.getUsageSetting(new RequestBody(Methods.GET_USAGESETTING)));
+    // }
 
-    public void getUsageSettings(ResponseObject<UsageSettings> subscriber) {
-        subscribe(subscriber, smartLinkApi.getUsageSettings(new RequestBody(Methods.GET_USAGESETTING)));
-    }
+    // public void getUsageSettings(ResponseObject<UsageSettings> subscriber) {
+    //     subscribe(subscriber, smartLinkApi.getUsageSettings(new RequestBody(Methods.GET_USAGESETTING)));
+    // }
 
-    public void getNetworkInfo(ResponseObject<NetworkInfos> subscriber) {
-        subscribe(subscriber, smartLinkApi.getNetworkInfo(new RequestBody(Methods.GET_NETWORKINFO)));
-    }
+    // public void getNetworkInfo(ResponseObject<NetworkInfos> subscriber) {
+    //     subscribe(subscriber, smartLinkApi.getNetworkInfo(new RequestBody(Methods.GET_NETWORKINFO)));
+    // }
 
-    public void setUsageRecordClear(String clearTime, ResponseObject subscriber) {
-        subscribe(subscriber, smartLinkApi.request(new RequestBody(Methods.SET_USAGERECORDCLEAR, new UsageParams(clearTime))));
-    }
+    // public void setUsageRecordClear(String clearTime, ResponseObject subscriber) {
+    //     subscribe(subscriber, smartLinkApi.request(new RequestBody(Methods.SET_USAGERECORDCLEAR, new UsageParams(clearTime))));
+    // }
 
     public void getConnectedDeviceList(ResponseObject<ConnectedList> subscriber) {
         subscribe(subscriber, smartLinkApi.getConnectedDeviceList(new RequestBody(Methods.GET_CONNECTEDDEVICELIST)));
@@ -714,9 +707,9 @@ public class RX {
         subscribe(subscriber, smartLinkApi.GetSingleSMS(new RequestBody(Methods.GET_SEND_SMS_RESULT, SMSId)));
     }
 
-    public void getLanSettings(ResponseObject<WlanLanSettings> subscriber) {
-        subscribe(subscriber, smartLinkApi.GetLanSettings(new RequestBody(Methods.GET_LAN_SETTINGS)));
-    }
+    // public void getLanSettings(ResponseObject<WlanLanSettings> subscriber) {
+    //     subscribe(subscriber, smartLinkApi.GetLanSettings(new RequestBody(Methods.GET_LAN_SETTINGS)));
+    // }
 
     // TOAT: 接口
     interface SmartLinkApi {

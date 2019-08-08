@@ -29,19 +29,21 @@ public class SetDeviceBackupHelper extends BaseHelper {
         xSetDeviceBackup.xPost(new XNormalCallback() {
             @Override
             public void success(Object result) {
-                reqBackup();// 请求下载地址
+                doneHelperNext();
+                setDeviceBackupSuccessNext();
             }
 
             @Override
             public void appError(Throwable ex) {
-                SetDeviceBackupFailedNext();
                 doneHelperNext();
+                SetDeviceBackupFailedNext();
+
             }
 
             @Override
             public void fwError(FwError fwError) {
-                SetDeviceBackupFailedNext();
                 doneHelperNext();
+                SetDeviceBackupFailedNext();
             }
 
             @Override
@@ -53,9 +55,10 @@ public class SetDeviceBackupHelper extends BaseHelper {
     /**
      * 请求下载地址
      */
-    private void reqBackup() {
+    public void reqBackup() {
         String savePath = getSavepath();
         XSmart xBackup = new XSmart();
+        prepareHelperNext();
         xBackup.xBackup(savePath, new XBackupCallback() {
             @Override
             public void waiting() {
@@ -231,6 +234,24 @@ public class SetDeviceBackupHelper extends BaseHelper {
     private void SetDeviceBackupFailedNext() {
         if (onSetDeviceBackupFailedListener != null) {
             onSetDeviceBackupFailedListener.SetDeviceBackupFailed();
+        }
+    }
+
+    public interface OnSetDeviceBackupSuccessListener {
+        void setDeviceBackupSuccess();
+    }
+
+    private OnSetDeviceBackupSuccessListener onSetDeviceBackupSuccessListener;
+
+    //对外方式setOnSetDeviceBackupSuccessListener
+    public void setOnSetDeviceBackupSuccessListener(OnSetDeviceBackupSuccessListener onSetDeviceBackupSuccessListener) {
+        this.onSetDeviceBackupSuccessListener = onSetDeviceBackupSuccessListener;
+    }
+
+    //封装方法setDeviceBackupSuccessNext
+    private void setDeviceBackupSuccessNext() {
+        if (onSetDeviceBackupSuccessListener != null) {
+            onSetDeviceBackupSuccessListener.setDeviceBackupSuccess();
         }
     }
 }

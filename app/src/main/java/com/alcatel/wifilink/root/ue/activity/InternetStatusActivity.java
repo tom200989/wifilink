@@ -9,9 +9,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.alcatel.wifilink.R;
-import com.alcatel.wifilink.root.helper.GetWanSettingHelper;
 import com.alcatel.wifilink.root.utils.ActionbarSetting;
 import com.alcatel.wifilink.root.utils.CA;
+import com.p_xhelper_smart.p_xhelper_smart.helper.GetWanSettingsHelper;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -123,31 +123,26 @@ public class InternetStatusActivity extends BaseActivityWithBack {
      * A2.重新获取wan口信息
      */
     private void getWanInfo() {
+        GetWanSettingsHelper helper = new GetWanSettingsHelper();
+        helper.setOnGetWanSettingsSuccessListener(result -> {
+            String defaultWan = "0.0.0.0";
 
-        GetWanSettingHelper wan = new GetWanSettingHelper();
-        wan.setOnGetwansettingsErrorListener(e -> {});
-        wan.setOnGetWanSettingsFailedListener(() -> {});
-        wan.setOnGetWanSettingsResultErrorListener(error -> {});
-        wan.setOnGetWanSettingsSuccessListener(result -> {
-            runOnUiThread(() -> {
-                String defaultWan = "0.0.0.0";
+            String ipAddress = result.getIpAddress();
+            tvInternetContentIPAddress.setText(TextUtils.isEmpty(ipAddress) ? defaultWan : ipAddress);
 
-                String ipAddress = result.getIpAddress();
-                tvInternetContentIPAddress.setText(TextUtils.isEmpty(ipAddress) ? defaultWan : ipAddress);
+            String subNetMask = result.getSubNetMask();
+            tvInternetContentSubnetmask.setText(TextUtils.isEmpty(ipAddress) ? defaultWan : subNetMask);
 
-                String subNetMask = result.getSubNetMask();
-                tvInternetContentSubnetmask.setText(TextUtils.isEmpty(ipAddress) ? defaultWan : subNetMask);
+            String gateway = result.getGateway();
+            tvInternetContentGateway.setText(TextUtils.isEmpty(ipAddress) ? defaultWan : gateway);
 
-                String gateway = result.getGateway();
-                tvInternetContentGateway.setText(TextUtils.isEmpty(ipAddress) ? defaultWan : gateway);
+            String primaryDNS = result.getPrimaryDNS();
+            tvInternetContentDns.setText(TextUtils.isEmpty(ipAddress) ? defaultWan : primaryDNS);
 
-                String primaryDNS = result.getPrimaryDNS();
-                tvInternetContentDns.setText(TextUtils.isEmpty(ipAddress) ? defaultWan : primaryDNS);
-
-                String secondaryDNS = result.getSecondaryDNS();
-                tvInternetContentSecondDns.setText(TextUtils.isEmpty(ipAddress) ? defaultWan : secondaryDNS);
-            });
+            String secondaryDNS = result.getSecondaryDNS();
+            tvInternetContentSecondDns.setText(TextUtils.isEmpty(ipAddress) ? defaultWan : secondaryDNS);
         });
-        wan.get();
+        helper.getWanSettings();
+
     }
 }

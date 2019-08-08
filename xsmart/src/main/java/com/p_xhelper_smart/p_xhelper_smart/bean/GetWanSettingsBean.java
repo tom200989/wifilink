@@ -24,14 +24,14 @@ public class GetWanSettingsBean implements Serializable {
      * WanType : eth0
      */
 
-    public static int CONS_PPPOE = 0;
-    public static int CONS_DHCP = 1;
-    public static int CONS_STATIC = 2;
+    public static final int CONS_PPPOE = 0;
+    public static final int CONS_DHCP = 1;
+    public static final int CONS_STATIC = 2;
 
-    public static int CONS_DISCONNECTED = 0;
-    public static int CONS_CONNECTING = 1;
-    public static int CONS_CONNECTED = 2;
-    public static int CONS_DISCONNECTING = 3;
+    public static final int CONS_DISCONNECTED = 0;
+    public static final int CONS_CONNECTING = 1;
+    public static final int CONS_CONNECTED = 2;
+    public static final int CONS_DISCONNECTING = 3;
 
     private String SubNetMask;
     private String Gateway;

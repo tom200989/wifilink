@@ -18,12 +18,12 @@ public class GetDeviceNewVersionBean implements Serializable {
     private String Version;
     private int total_size;
 
-    public static int CONS_CHECKING = 0;
-    public static int CONS_NEW_VERSION = 1;
-    public static int CONS_NO_NEW_VERSION = 2;
-    public static int CONS_NO_CONNECT = 3;
-    public static int CONS_SERVICE_NOT_AVAILABLE = 4;
-    public static int CONS_CHECK_ERROR = 5;// 出错说明没有新版本
+    public static final int CONS_CHECKING = 0;
+    public static final int CONS_NEW_VERSION = 1;
+    public static final int CONS_NO_NEW_VERSION = 2;
+    public static final int CONS_NO_CONNECT = 3;
+    public static final int CONS_SERVICE_NOT_AVAILABLE = 4;
+    public static final int CONS_CHECK_ERROR = 5;// 出错说明没有新版本
 
     public GetDeviceNewVersionBean() {
     }

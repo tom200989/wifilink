@@ -9,17 +9,15 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.alcatel.wifilink.R;
-import com.alcatel.wifilink.network.RX;
-import com.alcatel.wifilink.network.ResponseObject;
-import com.alcatel.wifilink.root.bean.UsageRecord;
 import com.alcatel.wifilink.root.helper.TimerHelper;
 import com.alcatel.wifilink.root.utils.ActionbarSetting;
 import com.alcatel.wifilink.root.utils.CA;
 import com.alcatel.wifilink.root.utils.C_CommonUtil;
 import com.alcatel.wifilink.root.utils.DataUtils;
-import com.alcatel.wifilink.root.utils.OtherUtils;
-import com.p_xhelper_smart.p_xhelper_smart.helper.SetUsageRecordClearHelper;
+import com.p_xhelper_smart.p_xhelper_smart.bean.GetUsageRecordBean;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetNetworkInfoHelper;
+import com.p_xhelper_smart.p_xhelper_smart.helper.GetUsageRecordHelper;
+import com.p_xhelper_smart.p_xhelper_smart.helper.SetUsageRecordClearHelper;
 
 import static com.alcatel.wifilink.R.id.tv_network_settings;
 
@@ -151,21 +149,13 @@ public class UsageActivity extends BaseActivityWithBack implements View.OnClickL
 
     /* **** getUsageRecord **** */
     private void getUsageRecord() {
-        RX.getInstant().getUsageRecord(DataUtils.getCurrent(), new ResponseObject<UsageRecord>() {
-            @Override
-            public void onError(Throwable e) {
-
-            }
-
-            @Override
-            protected void onSuccess(UsageRecord results) {
-                updateUsageRecord(results);
-            }
-        });
+        GetUsageRecordHelper helper = new GetUsageRecordHelper();
+        helper.setOnGetUsageRecordSuccess(bean -> updateUsageRecord(bean));
+        helper.getUsageRecord(DataUtils.getCurrent());
     }
 
     /* **** updateUsageRecord **** */
-    private void updateUsageRecord(UsageRecord result) {
+    private void updateUsageRecord(GetUsageRecordBean result) {
         long useData = result.getHUseData();
         mHomeData.setText(C_CommonUtil.ConvertTrafficMB(this, useData));
         mRoamingData.setText(C_CommonUtil.ConvertTrafficMB(this, (long) result.getRoamUseData()));

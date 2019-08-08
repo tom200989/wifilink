@@ -5,15 +5,15 @@ import android.app.ProgressDialog;
 import android.graphics.drawable.Drawable;
 
 import com.alcatel.wifilink.R;
-import com.alcatel.wifilink.root.bean.System_SystemInfo;
-import com.alcatel.wifilink.root.bean.Update_DeviceNewVersion;
-import com.alcatel.wifilink.network.RX;
-import com.alcatel.wifilink.network.ResponseBody;
-import com.alcatel.wifilink.network.ResponseObject;
 import com.alcatel.wifilink.root.utils.CA;
 import com.alcatel.wifilink.root.utils.OtherUtils;
 import com.alcatel.wifilink.root.utils.ToastUtil_m;
+import com.p_xhelper_smart.p_xhelper_smart.bean.GetDeviceNewVersionBean;
+import com.p_xhelper_smart.p_xhelper_smart.bean.GetSystemInfoBean;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetConnectionStateHelper;
+import com.p_xhelper_smart.p_xhelper_smart.helper.GetSystemInfoHelper;
+import com.p_xhelper_smart.p_xhelper_smart.helper.SetDeviceStartUpdateHelper;
+import com.p_xhelper_smart.p_xhelper_smart.helper.SetFOTAStartDownloadHelper;
 
 /**
  * Created by qianli.ma on 2017/12/15 0015.
@@ -34,29 +34,21 @@ public class FirmUpgradeHelper {
      * 开始升级
      */
     public void startUpgrade() {
-        RX.getInstant().setDeviceStartUpdate(new ResponseObject() {
-            @Override
-            protected void onSuccess(Object result) {
-                startUpgradeNext(result);
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                errorNext(e);
-            }
-
-            @Override
-            protected void onResultError(ResponseBody.Error error) {
-                resultErrorNext(error);
-            }
+        SetDeviceStartUpdateHelper startUpdateHelper = new SetDeviceStartUpdateHelper();
+        startUpdateHelper.setOnSetDeviceStartUpdateSuccessListener(() -> {
+            startUpgradeNext();
         });
+        startUpdateHelper.setOnSetDeviceStartUpdateFailedListener(() -> {
+            errorNext();
+        });
+        startUpdateHelper.setDeviceStartUpdate();
     }
 
     private OnStartUpgradeListener onStartUpgradeListener;
 
     // 接口OnStartUpgradeListener
     public interface OnStartUpgradeListener {
-        void startUpgrade(Object attr);
+        void startUpgrade();
     }
 
     // 对外方式setOnStartUpgradeListener
@@ -65,84 +57,30 @@ public class FirmUpgradeHelper {
     }
 
     // 封装方法startUpgradeNext
-    private void startUpgradeNext(Object attr) {
+    private void startUpgradeNext() {
         if (onStartUpgradeListener != null) {
-            onStartUpgradeListener.startUpgrade(attr);
+            onStartUpgradeListener.startUpgrade();
         }
     }
 
-    /* -------------------------------------------- method3 -------------------------------------------- */
 
-    /**
-     * 停止升级
-     */
-    public void stopUpgrade() {
-        RX.getInstant().setDeviceUpdateStop(new ResponseObject() {
-            @Override
-            protected void onSuccess(Object result) {
-                stopUpgradeNext(result);
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                errorNext(e);
-            }
-
-            @Override
-            protected void onResultError(ResponseBody.Error error) {
-                resultErrorNext(error);
-            }
-        });
-    }
-
-    private OnStopUpgradeListener onStopUpgradeListener;
-
-    // 接口OnStopUpgradeListener
-    public interface OnStopUpgradeListener {
-        void stopUpgrade(Object attr);
-    }
-
-    // 对外方式setOnStopUpgradeListener
-    public void setOnStopUpgradeListener(OnStopUpgradeListener onStopUpgradeListener) {
-        this.onStopUpgradeListener = onStopUpgradeListener;
-    }
-
-    // 封装方法stopUpgradeNext
-    private void stopUpgradeNext(Object attr) {
-        if (onStopUpgradeListener != null) {
-            onStopUpgradeListener.stopUpgrade(attr);
-        }
-    }
-    
     /* -------------------------------------------- method2 -------------------------------------------- */
 
     /**
      * 触发FOTA下载
      */
     public void triggerFOTA() {
-        RX.getInstant().SetFOTAStartDownload(new ResponseObject() {
-            @Override
-            protected void onSuccess(Object result) {
-                setFOTADownSuccessNext(result);
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                errorNext(e);
-            }
-
-            @Override
-            protected void onResultError(ResponseBody.Error error) {
-                resultErrorNext(error);
-            }
-        });
+        SetFOTAStartDownloadHelper setFOTAStartDownloadHelper = new SetFOTAStartDownloadHelper();
+        setFOTAStartDownloadHelper.setOnSetFOTAStartDownloadSuccessListener(() -> setFOTADownSuccessNext());
+        setFOTAStartDownloadHelper.setOnSetFOTAStartDownloadFailedListener(() -> errorNext());
+        setFOTAStartDownloadHelper.setFOTAStartDownload();
     }
 
     private OnSetFOTADownSuccessListener onSetFOTADownSuccessListener;
 
     // 接口OnSetFOTADownSuccessListener
     public interface OnSetFOTADownSuccessListener {
-        void setFOTADownSuccess(Object attr);
+        void setFOTADownSuccess();
     }
 
     // 对外方式setOnSetFOTADownSuccessListener
@@ -151,12 +89,12 @@ public class FirmUpgradeHelper {
     }
 
     // 封装方法setFOTADownSuccessNext
-    private void setFOTADownSuccessNext(Object attr) {
+    private void setFOTADownSuccessNext() {
         if (onSetFOTADownSuccessListener != null) {
-            onSetFOTADownSuccessListener.setFOTADownSuccess(attr);
+            onSetFOTADownSuccessListener.setFOTADownSuccess();
         }
     }
-    
+
     /* -------------------------------------------- method1 -------------------------------------------- */
 
     /**
@@ -213,8 +151,8 @@ public class FirmUpgradeHelper {
         hideDialog();// 停止先前的等待条
         Drawable pop_bg = activity.getResources().getDrawable(R.drawable.bg_pop_conner);
         UpgradeHelper uh = new UpgradeHelper(activity, true);
-        uh.setOnResultErrorListener(attr -> toast(R.string.setting_upgrade_check_firmware_failed));
-        uh.setOnErrorListener(attr -> toast(R.string.setting_upgrade_check_firmware_failed));
+        uh.setOnResultErrorListener(() -> toast(R.string.setting_upgrade_check_firmware_failed));
+        uh.setOnErrorListener(() -> toast(R.string.setting_upgrade_check_firmware_failed));
         uh.setOnCheckErrorListener(this::getCurrentVersion);
 
         uh.setOnServiceNotAvailableListener(attr -> toast(R.string.setting_upgrade_not_available));
@@ -227,38 +165,21 @@ public class FirmUpgradeHelper {
     /**
      * 获取当前版本号
      */
-    private void getCurrentVersion(Update_DeviceNewVersion updateDeviceNewVersion) {
-        SystemInfoHelper sif = new SystemInfoHelper();
-        sif.setOnErrorListener(attr -> toast(R.string.setting_upgrade_check_firmware_failed));
-        sif.setOnResultErrorListener(attr -> toast(R.string.setting_upgrade_check_firmware_failed));
-        sif.setOnGetSystemInfoSuccessListener(systemInfo -> noNewVersionNext(updateDeviceNewVersion, systemInfo));
-        sif.get();
-    }
-
-    private OnResultErrorListener onResultErrorListener;
-
-    // 接口OnResultErrorListener
-    public interface OnResultErrorListener {
-        void resultError(ResponseBody.Error attr);
-    }
-
-    // 对外方式setOnResultErrorListener
-    public void setOnResultErrorListener(OnResultErrorListener onResultErrorListener) {
-        this.onResultErrorListener = onResultErrorListener;
-    }
-
-    // 封装方法resultErrorNext
-    private void resultErrorNext(ResponseBody.Error attr) {
-        if (onResultErrorListener != null) {
-            onResultErrorListener.resultError(attr);
-        }
+    private void getCurrentVersion(GetDeviceNewVersionBean updateDeviceNewVersion) {
+        GetSystemInfoHelper getSystemInfoHelper = new GetSystemInfoHelper();
+        getSystemInfoHelper.setOnGetSystemInfoSuccessListener(result -> {
+            noNewVersionNext(updateDeviceNewVersion, result);
+        });
+        getSystemInfoHelper.setOnAppErrorListener(() -> toast(R.string.setting_upgrade_check_firmware_failed));
+        getSystemInfoHelper.setOnFwErrorListener(() -> toast(R.string.setting_upgrade_check_firmware_failed));
+        getSystemInfoHelper.getSystemInfo();
     }
 
     private OnErrorListener onErrorListener;
 
     // 接口OnErrorListener
     public interface OnErrorListener {
-        void error(Throwable attr);
+        void error();
     }
 
     // 对外方式setOnErrorListener
@@ -267,9 +188,9 @@ public class FirmUpgradeHelper {
     }
 
     // 封装方法errorNext
-    private void errorNext(Throwable attr) {
+    private void errorNext() {
         if (onErrorListener != null) {
-            onErrorListener.error(attr);
+            onErrorListener.error();
         }
     }
 
@@ -277,7 +198,7 @@ public class FirmUpgradeHelper {
 
     // 接口OnNewVersionListener
     public interface OnNewVersionListener {
-        void newVersion(Update_DeviceNewVersion attr);
+        void newVersion(GetDeviceNewVersionBean attr);
     }
 
     // 对外方式setOnNewVersionListener
@@ -286,7 +207,7 @@ public class FirmUpgradeHelper {
     }
 
     // 封装方法newVersionNext
-    private void newVersionNext(Update_DeviceNewVersion attr) {
+    private void newVersionNext(GetDeviceNewVersionBean attr) {
         if (onNewVersionListener != null) {
             onNewVersionListener.newVersion(attr);
         }
@@ -296,7 +217,7 @@ public class FirmUpgradeHelper {
 
     // 接口OnNoNewVersionListener
     public interface OnNoNewVersionListener {
-        void noNewVersion(Update_DeviceNewVersion updateDeviceNewVersion, System_SystemInfo attr);
+        void noNewVersion(GetDeviceNewVersionBean updateDeviceNewVersion, GetSystemInfoBean attr);
     }
 
     // 对外方式setOnNoNewVersionListener
@@ -305,7 +226,7 @@ public class FirmUpgradeHelper {
     }
 
     // 封装方法noNewVersionNext
-    private void noNewVersionNext(Update_DeviceNewVersion updateDeviceNewVersion, System_SystemInfo attr) {
+    private void noNewVersionNext(GetDeviceNewVersionBean updateDeviceNewVersion, GetSystemInfoBean attr) {
         if (onNoNewVersionListener != null) {
             onNoNewVersionListener.noNewVersion(updateDeviceNewVersion, attr);
         }

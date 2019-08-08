@@ -19,13 +19,14 @@ public class SetUsageSettingsParam implements Serializable {
      */
 
     private int BillingDay;//Min:1, Max:31
-    private int MonthlyPlan;//每个月的流量限制，如果是0，代表没限制
+    private long MonthlyPlan;//每个月的流量限制，如果是0，代表没限制
     private int UsedData;//一个月中总漫游和家庭使用的流量数据
     private int Unit;// 流量单位标识 0: MB  1: GB   2: KB
     private int TimeLimitFlag;//0: disable 1: enable
     private int TimeLimitTimes;//如果打开了时间限制，那就要限制时间，单位为分钟
     private int UsedTimes;//打开了时间限制后，已经使用了了多长时间，单位为分钟
     private int AutoDisconnFlag;//0: disable, not auto disconnect   1: enable, auto disconnect
+    private int status;// HH71特有
 
     public static final int CONS_UNIT_MB = 0;
     public static final int CONS_UNIT_GB = 1;
@@ -48,12 +49,20 @@ public class SetUsageSettingsParam implements Serializable {
         this.BillingDay = BillingDay;
     }
 
-    public int getMonthlyPlan() {
+    public long getMonthlyPlan() {
         return MonthlyPlan;
     }
 
-    public void setMonthlyPlan(int MonthlyPlan) {
-        this.MonthlyPlan = MonthlyPlan;
+    public void setMonthlyPlan(long monthlyPlan) {
+        MonthlyPlan = monthlyPlan;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
     }
 
     public int getUsedData() {
@@ -102,5 +111,17 @@ public class SetUsageSettingsParam implements Serializable {
 
     public void setAutoDisconnFlag(int AutoDisconnFlag) {
         this.AutoDisconnFlag = AutoDisconnFlag;
+    }
+
+    public void copy(GetUsageSettingsBean bean) {
+        this.BillingDay = bean.getBillingDay();
+        this.MonthlyPlan = bean.getMonthlyPlan();
+        this.UsedData = bean.getUsedData();
+        this.Unit = bean.getUnit();
+        this.TimeLimitFlag = bean.getTimeLimitFlag();
+        this.TimeLimitTimes = bean.getTimeLimitTimes();
+        this.UsedTimes = bean.getUsedTimes();
+        this.AutoDisconnFlag = bean.getAutoDisconnFlag();
+        this.status = bean.getStatus();
     }
 }

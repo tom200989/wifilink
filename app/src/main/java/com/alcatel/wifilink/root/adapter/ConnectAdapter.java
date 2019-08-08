@@ -14,16 +14,14 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
 import com.alcatel.wifilink.R;
+import com.alcatel.wifilink.network.RX;
+import com.alcatel.wifilink.network.ResponseObject;
 import com.alcatel.wifilink.root.bean.ConnectModel;
 import com.alcatel.wifilink.root.bean.ConnectedList;
-import com.alcatel.wifilink.network.RX;
-import com.alcatel.wifilink.network.ResponseBody;
-import com.alcatel.wifilink.network.ResponseObject;
+import com.alcatel.wifilink.root.helper.MacHelper;
 import com.alcatel.wifilink.root.ue.activity.ActivityDeviceManager;
 import com.alcatel.wifilink.root.ue.frag.DeviceConnectFragment;
-import com.alcatel.wifilink.root.helper.MacHelper;
 import com.alcatel.wifilink.root.utils.ToastUtil_m;
-import com.p_xhelper_smart.p_xhelper_smart.bean.SetDeviceNameParam;
 import com.p_xhelper_smart.p_xhelper_smart.helper.SetConnectedDeviceBlockHelper;
 import com.p_xhelper_smart.p_xhelper_smart.helper.SetDeviceNameHelper;
 
@@ -173,7 +171,6 @@ public class ConnectAdapter extends RecyclerView.Adapter<ConnectHolder> {
     /* setDeviceName */
     private void setDeviceName(String strDeviceName, String strMac, int nDeviceType) {
         SetDeviceNameHelper xSetDeviceNameHelper = new SetDeviceNameHelper();
-        // TODO: 2019/8/6 haide 还没做完
         //xSetDeviceNameHelper.setDeviceName(new SetDeviceNameParam());
         RX.getInstant().setDeviceName(strDeviceName, strMac, nDeviceType, new ResponseObject() {
             @Override

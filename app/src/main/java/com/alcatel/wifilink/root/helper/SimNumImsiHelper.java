@@ -2,10 +2,7 @@ package com.alcatel.wifilink.root.helper;
 
 import android.text.TextUtils;
 
-import com.alcatel.wifilink.root.bean.System_SystemInfo;
-import com.alcatel.wifilink.network.RX;
-import com.alcatel.wifilink.network.ResponseBody;
-import com.alcatel.wifilink.network.ResponseObject;
+import com.p_xhelper_smart.p_xhelper_smart.helper.GetSystemInfoHelper;
 
 /**
  * Created by qianli.ma on 2017/12/11 0011.
@@ -19,29 +16,21 @@ public class SimNumImsiHelper {
      * 获取IMSI号以及SIM号
      */
     public void getSimNumAndImsi() {
-        RX.getInstant().getSystemInfo(new ResponseObject<System_SystemInfo>() {
-            @Override
-            protected void onSuccess(System_SystemInfo result) {
-                String msisdn = result.getMSISDN();
-                String imsi = result.getIMSI();
-                if (!TextUtils.isEmpty(msisdn)) {
-                    simNumberNext(msisdn);
-                }
-                if (!TextUtils.isEmpty(imsi)) {
-                    imsiNext(imsi);
-                }
-            }
 
-            @Override
-            protected void onResultError(ResponseBody.Error error) {
-                resultErrorNext(error);
+        GetSystemInfoHelper getSystemInfoHelper = new GetSystemInfoHelper();
+        getSystemInfoHelper.setOnGetSystemInfoSuccessListener(result -> {
+            String msisdn = result.getMSISDN();
+            String imsi = result.getIMSI();
+            if (!TextUtils.isEmpty(msisdn)) {
+                simNumberNext(msisdn);
             }
-
-            @Override
-            public void onError(Throwable e) {
-                errorNext(e);
+            if (!TextUtils.isEmpty(imsi)) {
+                imsiNext(imsi);
             }
         });
+        getSystemInfoHelper.setOnAppErrorListener(() -> errorNext());
+        getSystemInfoHelper.setOnFwErrorListener(() -> resultErrorNext());
+        getSystemInfoHelper.getSystemInfo();
     }
 
     private OnImsiListener onImsiListener;
@@ -86,7 +75,7 @@ public class SimNumImsiHelper {
 
     // 接口OnResultErrorListener
     public interface OnResultErrorListener {
-        void resultError(ResponseBody.Error attr);
+        void resultError();
     }
 
     // 对外方式setOnResultErrorListener
@@ -95,9 +84,9 @@ public class SimNumImsiHelper {
     }
 
     // 封装方法resultErrorNext
-    private void resultErrorNext(ResponseBody.Error attr) {
+    private void resultErrorNext() {
         if (onResultErrorListener != null) {
-            onResultErrorListener.resultError(attr);
+            onResultErrorListener.resultError();
         }
     }
 
@@ -105,7 +94,7 @@ public class SimNumImsiHelper {
 
     // 接口OnErrorListener
     public interface OnErrorListener {
-        void error(Throwable attr);
+        void error();
     }
 
     // 对外方式setOnErrorListener
@@ -114,9 +103,9 @@ public class SimNumImsiHelper {
     }
 
     // 封装方法errorNext
-    private void errorNext(Throwable attr) {
+    private void errorNext() {
         if (onErrorListener != null) {
-            onErrorListener.error(attr);
+            onErrorListener.error();
         }
     }
 }

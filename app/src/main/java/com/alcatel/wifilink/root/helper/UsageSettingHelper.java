@@ -3,12 +3,12 @@ package com.alcatel.wifilink.root.helper;
 import android.content.Context;
 
 import com.alcatel.wifilink.R;
-import com.alcatel.wifilink.network.RX;
-import com.alcatel.wifilink.network.ResponseBody;
-import com.alcatel.wifilink.network.ResponseObject;
-import com.alcatel.wifilink.root.bean.UsageSettings;
 import com.alcatel.wifilink.root.utils.CA;
 import com.alcatel.wifilink.root.utils.ToastUtil_m;
+import com.p_xhelper_smart.p_xhelper_smart.bean.GetUsageSettingsBean;
+import com.p_xhelper_smart.p_xhelper_smart.bean.SetUsageSettingsParam;
+import com.p_xhelper_smart.p_xhelper_smart.helper.GetUsageSettingsHelper;
+import com.p_xhelper_smart.p_xhelper_smart.helper.SetUsageSettingsHelper;
 
 /**
  * Created by qianli.ma on 2017/12/13 0013.
@@ -26,31 +26,23 @@ public class UsageSettingHelper {
      * 获取流量设置
      */
     public void getUsageSetting() {
-        RX.getInstant().getUsageSettings(new ResponseObject<UsageSettings>() {
-            @Override
-            protected void onSuccess(UsageSettings result) {
-                getSuccessNext(result);
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                toast(R.string.connect_failed);
-                errorNext(e);
-            }
-
-            @Override
-            protected void onResultError(ResponseBody.Error error) {
-                toast(R.string.connect_failed);
-                resultErrorNext(error);
-            }
+        GetUsageSettingsHelper getUsageSettingsHelper = new GetUsageSettingsHelper();
+        getUsageSettingsHelper.setOnGetUSageSettingsSuccessListener(result -> {
+            getSuccessNext(result);
         });
+        getUsageSettingsHelper.setOnGetUsageSettingsFailListener(() -> {
+            toast(R.string.connect_failed);
+            errorNext();
+        });
+        getUsageSettingsHelper.getUsageSetting();
+
     }
 
     private OngetSuccessListener ongetSuccessListener;
 
     // 接口OngetSuccessListener
     public interface OngetSuccessListener {
-        void getSuccess(UsageSettings attr);
+        void getSuccess(GetUsageSettingsBean attr);
     }
 
     // 对外方式setOngetSuccessListener
@@ -59,7 +51,7 @@ public class UsageSettingHelper {
     }
 
     // 封装方法getSuccessNext
-    private void getSuccessNext(UsageSettings attr) {
+    private void getSuccessNext(GetUsageSettingsBean attr) {
         if (ongetSuccessListener != null) {
             ongetSuccessListener.getSuccess(attr);
         }
@@ -70,49 +62,34 @@ public class UsageSettingHelper {
      *
      * @param us
      */
-    public void setUsageSetting(UsageSettings us) {
-        RX.getInstant().setUsageSettings(us, new ResponseObject() {
-            @Override
-            protected void onSuccess(Object result) {
-                RX.getInstant().getUsageSettings(new ResponseObject<UsageSettings>() {
-                    @Override
-                    protected void onSuccess(UsageSettings result) {
-                        setSuccessNext(result);
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        toast(R.string.connect_failed);
-                        errorNext(e);
-                    }
-
-                    @Override
-                    protected void onResultError(ResponseBody.Error error) {
-                        toast(R.string.connect_failed);
-                        resultErrorNext(error);
-                    }
-                });
-
-            }
-
-            @Override
-            public void onError(Throwable e) {
+    public void setUsageSetting(GetUsageSettingsBean us) {
+        SetUsageSettingsParam param = new SetUsageSettingsParam();
+        param.copy(us);
+        SetUsageSettingsHelper helper = new SetUsageSettingsHelper();
+        helper.setOnSetUsageSettingsSuccessListener(() -> {
+            GetUsageSettingsHelper getUsageSettingsHelper = new GetUsageSettingsHelper();
+            getUsageSettingsHelper.setOnGetUSageSettingsSuccessListener(result -> {
+                setSuccessNext(result);
+            });
+            getUsageSettingsHelper.setOnGetUsageSettingsFailListener(() -> {
                 toast(R.string.connect_failed);
-                errorNext(e);
-            }
-
-            @Override
-            protected void onResultError(ResponseBody.Error error) {
-                resultErrorNext(error);
-            }
+                errorNext();
+            });
+            getUsageSettingsHelper.getUsageSetting();
         });
+        helper.setOnSetUsageSettingsFailListener(() -> {
+            toast(R.string.connect_failed);
+            errorNext();
+        });
+        helper.setUsageSettings(param);
+
     }
 
     private OnSetSuccessListener onSetSuccessListener;
 
     // 接口OnSetSuccessListener
     public interface OnSetSuccessListener {
-        void setSuccess(UsageSettings attr);
+        void setSuccess(GetUsageSettingsBean attr);
     }
 
     // 对外方式setOnSetSuccessListener
@@ -121,36 +98,18 @@ public class UsageSettingHelper {
     }
 
     // 封装方法setSuccessNext
-    private void setSuccessNext(UsageSettings attr) {
+    private void setSuccessNext(GetUsageSettingsBean attr) {
         if (onSetSuccessListener != null) {
             onSetSuccessListener.setSuccess(attr);
         }
     }
 
-    private OnResutlErrorListener onResutlErrorListener;
-
-    // 接口OnResutlErrorListener
-    public interface OnResutlErrorListener {
-        void resultError(ResponseBody.Error attr);
-    }
-
-    // 对外方式setOnResutlErrorListener
-    public void setOnResutlErrorListener(OnResutlErrorListener onResutlErrorListener) {
-        this.onResutlErrorListener = onResutlErrorListener;
-    }
-
-    // 封装方法resultErrorNext
-    private void resultErrorNext(ResponseBody.Error attr) {
-        if (onResutlErrorListener != null) {
-            onResutlErrorListener.resultError(attr);
-        }
-    }
 
     private OnErrorListener onErrorListener;
 
     // 接口OnErrorListener
     public interface OnErrorListener {
-        void error(Throwable attr);
+        void error();
     }
 
     // 对外方式setOnErrorListener
@@ -159,9 +118,9 @@ public class UsageSettingHelper {
     }
 
     // 封装方法errorNext
-    private void errorNext(Throwable attr) {
+    private void errorNext() {
         if (onErrorListener != null) {
-            onErrorListener.error(attr);
+            onErrorListener.error();
         }
     }
 

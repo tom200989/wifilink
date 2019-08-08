@@ -19,22 +19,18 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.alcatel.wifilink.R;
-import com.alcatel.wifilink.root.bean.System_SystemInfo;
-import com.alcatel.wifilink.root.ue.activity.HomeRxActivity;
-import com.alcatel.wifilink.root.widget.ExtenderWait;
 import com.alcatel.wifilink.network.ResponseBody;
 import com.alcatel.wifilink.root.adapter.FeedbackPhotoAdapter;
 import com.alcatel.wifilink.root.adapter.FeedbackTypeAdapter;
 import com.alcatel.wifilink.root.bean.FeedbackCommitParam;
 import com.alcatel.wifilink.root.bean.FeedbackPhotoBean;
 import com.alcatel.wifilink.root.bean.FeedbackTypeBean;
+import com.alcatel.wifilink.root.helper.Cons;
 import com.alcatel.wifilink.root.helper.FeedBackLoginHelperFeedback;
 import com.alcatel.wifilink.root.helper.FeedbackCommitHelper;
-import com.alcatel.wifilink.root.helper.FeedbackUploadPicHelper;
 import com.alcatel.wifilink.root.helper.FeedbackEnterWatcher;
-import com.alcatel.wifilink.root.helper.SystemInfoHelper;
-import com.alcatel.wifilink.root.widget.DialogOkWidget;
-import com.alcatel.wifilink.root.helper.Cons;
+import com.alcatel.wifilink.root.helper.FeedbackUploadPicHelper;
+import com.alcatel.wifilink.root.ue.activity.HomeRxActivity;
 import com.alcatel.wifilink.root.utils.CA;
 import com.alcatel.wifilink.root.utils.FormatTools;
 import com.alcatel.wifilink.root.utils.Lgg;
@@ -42,8 +38,12 @@ import com.alcatel.wifilink.root.utils.Logs;
 import com.alcatel.wifilink.root.utils.OtherUtils;
 import com.alcatel.wifilink.root.utils.PermissionUtils;
 import com.alcatel.wifilink.root.utils.ToastUtil_m;
-import com.alibaba.fastjson.JSONObject;
 import com.alcatel.wifilink.root.utils.fraghandler.FragmentBackHandler;
+import com.alcatel.wifilink.root.widget.DialogOkWidget;
+import com.alcatel.wifilink.root.widget.ExtenderWait;
+import com.alibaba.fastjson.JSONObject;
+import com.p_xhelper_smart.p_xhelper_smart.bean.GetSystemInfoBean;
+import com.p_xhelper_smart.p_xhelper_smart.helper.GetSystemInfoHelper;
 import com.zhy.android.percent.support.PercentRelativeLayout;
 
 import java.io.File;
@@ -320,11 +320,11 @@ public class FeedbackFragment extends Fragment implements FragmentBackHandler {
      * 提交数据到服务器
      */
     private void commit() {
-        SystemInfoHelper sif = new SystemInfoHelper();
-        sif.setOnResultErrorListener(attr -> connnFailed("commit", attr));
-        sif.setOnErrorListener(attr -> connnFailed("commit", null));
-        sif.setOnGetSystemInfoSuccessListener(this::toCommitLoginBegin);
-        sif.get();
+        GetSystemInfoHelper getSystemInfoHelper = new GetSystemInfoHelper();
+        getSystemInfoHelper.setOnGetSystemInfoSuccessListener(result -> toCommitLoginBegin(result));
+        getSystemInfoHelper.setOnAppErrorListener(() -> connnFailed("commit", null));
+        getSystemInfoHelper.setOnFwErrorListener(() -> connnFailed("commit", null));
+        getSystemInfoHelper.getSystemInfo();
     }
 
     /**
@@ -350,7 +350,7 @@ public class FeedbackFragment extends Fragment implements FragmentBackHandler {
     /**
      * C1.登陆连接服务器提交数据
      */
-    private void toCommitLoginBegin(System_SystemInfo systemSystemInfo) {
+    private void toCommitLoginBegin(GetSystemInfoBean systemSystemInfo) {
 
         // 1.判断问题类型以及建议字符
         String questionType = etSelectType.getText().toString();// 问题类型

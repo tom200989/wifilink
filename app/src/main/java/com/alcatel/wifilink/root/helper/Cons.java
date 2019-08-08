@@ -211,12 +211,12 @@ public class Cons {
     public static final int REGISTRATION_FAILED = 3;
 
     /* upgrade */
-    public static final int CHECKING = 0;
-    public static final int NEW_VERSION = 1;
-    public static final int NO_NEW_VERSION = 2;
-    public static final int NO_CONNECT = 3;
-    public static final int SERVICE_NOT_AVAILABLE = 4;
-    public static final int CHECK_ERROR = 5;
+    // public static final int CHECKING = 0;
+    // public static final int NEW_VERSION = 1;
+    // public static final int NO_NEW_VERSION = 2;
+    // public static final int NO_CONNECT = 3;
+    // public static final int SERVICE_NOT_AVAILABLE = 4;
+    // public static final int CHECK_ERROR = 5;
 
     /* network setting */
     public static final int AUTO_MODE = 0;

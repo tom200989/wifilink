@@ -16,8 +16,6 @@ import com.alcatel.wifilink.network.ResponseObject;
 import com.alcatel.wifilink.root.app.SmartLinkV3App;
 import com.alcatel.wifilink.root.bean.Other_PinPukBean;
 import com.alcatel.wifilink.root.helper.Cons;
-import com.alcatel.wifilink.root.helper.GetWanSettingHelper;
-import com.alcatel.wifilink.root.helper.SystemInfoHelper;
 import com.alcatel.wifilink.root.helper.TimerHelper;
 import com.alcatel.wifilink.root.helper.WpsHelper;
 import com.alcatel.wifilink.root.utils.CA;
@@ -26,7 +24,10 @@ import com.alcatel.wifilink.root.utils.OtherUtils;
 import com.alcatel.wifilink.root.utils.SP;
 import com.alcatel.wifilink.root.utils.ToastUtil_m;
 import com.p_xhelper_smart.p_xhelper_smart.bean.GetSimStatusBean;
+import com.p_xhelper_smart.p_xhelper_smart.bean.GetWanSettingsBean;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetSimStatusHelper;
+import com.p_xhelper_smart.p_xhelper_smart.helper.GetSystemInfoHelper;
+import com.p_xhelper_smart.p_xhelper_smart.helper.GetWanSettingsHelper;
 import com.p_xhelper_smart.p_xhelper_smart.helper.LogoutHelper;
 
 import org.greenrobot.eventbus.EventBus;
@@ -130,40 +131,38 @@ public class WizardRxActivity extends BaseActivityWithBack {
             @Override
             public void doSomething() {
                 // 检测设备是否为MW120新型设备
-                SystemInfoHelper sif = new SystemInfoHelper();
-                sif.setOnGetSystemInfoSuccessListener(attr -> {
+                GetSystemInfoHelper getSystemInfoHelper = new GetSystemInfoHelper();
+                getSystemInfoHelper.setOnGetSystemInfoSuccessListener(attr -> {
                     boolean isMw120 = attr.getDeviceName().toLowerCase().startsWith(Cons.MW_SERIAL);
                     vRxSplitWizard.setVisibility(isMw120 ? View.GONE : View.VISIBLE);
                     tvRxSplitWizard.setVisibility(isMw120 ? View.GONE : View.VISIBLE);
                     rlWanRx.setVisibility(isMw120 ? View.GONE : View.VISIBLE);
                 });
-                sif.get();
+                getSystemInfoHelper.getSystemInfo();
 
 
                 // wifi是否生效
                 boolean iswifi = OtherUtils.isWifiConnect(WizardRxActivity.this);
                 if (iswifi) {
                     // 检测WAN口连接
-                    GetWanSettingHelper wan = new GetWanSettingHelper();
-                    wan.setOnGetwansettingsErrorListener(e -> {
-                        ivWanRx.setImageDrawable(wan_unchecked_pic);
-                        tvWanRx.setText(wan_unchecked_str);
-                        tvWanRx.setTextColor(red_color);
-                    });
-                    wan.setOnGetWanSettingsFailedListener(() -> {
-                    });
-                    wan.setOnGetWanSettingsResultErrorListener(error -> {
-                        ivWanRx.setImageDrawable(wan_unchecked_pic);
-                        tvWanRx.setText(wan_unchecked_str);
-                        tvWanRx.setTextColor(red_color);
-                    });
-                    wan.setOnGetWanSettingsSuccessListener(result -> {
-                        boolean isWanConnect = result.getStatus() == Cons.CONNECTED;
+                    GetWanSettingsHelper helper = new GetWanSettingsHelper();
+                    helper.setOnGetWanSettingsSuccessListener(result -> {
+                        boolean isWanConnect = result.getStatus() == GetWanSettingsBean.CONS_CONNECTED;
                         ivWanRx.setImageDrawable(isWanConnect ? wan_checked_pic : wan_unchecked_pic);
                         tvWanRx.setText(isWanConnect ? wan_checked_str : wan_unchecked_str);
                         tvWanRx.setTextColor(isWanConnect ? blue_color : red_color);
                     });
-                    wan.get();
+                    helper.setOnFwErrorListener(() -> {
+                        ivWanRx.setImageDrawable(wan_unchecked_pic);
+                        tvWanRx.setText(wan_unchecked_str);
+                        tvWanRx.setTextColor(red_color);
+                    });
+                    helper.setOnAppErrorListener(() -> {
+                        ivWanRx.setImageDrawable(wan_unchecked_pic);
+                        tvWanRx.setText(wan_unchecked_str);
+                        tvWanRx.setTextColor(red_color);
+                    });
+                    helper.getWanSettings();
 
                     // 检测SIM卡连接
 
@@ -262,25 +261,10 @@ public class WizardRxActivity extends BaseActivityWithBack {
                 pgd = OtherUtils.showProgressPop(this);
             }
 
-
-            GetWanSettingHelper wan = new GetWanSettingHelper();
-            wan.setOnGetwansettingsErrorListener(e -> {
-                Log.v("ma_couldn_connect", "WizardRx wifiDisconnect error:" + e.getMessage());
-                toast(R.string.connect_failed);
-                OtherUtils.hideProgressPop(pgd);
-                to(RefreshWifiRxActivity.class);
-            });
-            wan.setOnGetWanSettingsFailedListener(() -> {
-            });
-            wan.setOnGetWanSettingsResultErrorListener(error -> {
-                Log.v("ma_couldn_connect", "WizardRx wifiDisconnect error:" + error.getMessage());
-                toast(R.string.connect_failed);
-                OtherUtils.hideProgressPop(pgd);
-                to(RefreshWifiRxActivity.class);
-            });
-            wan.setOnGetWanSettingsSuccessListener(result -> {
+            GetWanSettingsHelper helper = new GetWanSettingsHelper();
+            helper.setOnGetWanSettingsSuccessListener(result -> {
                 int status = result.getStatus();
-                if (status == Cons.CONNECTED) {
+                if (status == GetWanSettingsBean.CONS_CONNECTED) {
                     OtherUtils.hideProgressPop(pgd);
                     if (SP.getInstance(WizardRxActivity.this).getBoolean(Cons.WANMODE_RX, false)) {
                         if (SP.getInstance(WizardRxActivity.this).getBoolean(Cons.WIFIINIT_RX, false)) {
@@ -291,14 +275,25 @@ public class WizardRxActivity extends BaseActivityWithBack {
                     } else {
                         to(WanModeRxActivity.class);
                     }
-                } else if (status == Cons.CONNECTING) {
+                } else if (status == GetWanSettingsBean.CONS_CONNECTING) {
                     clickWanRl();
                 } else {
                     OtherUtils.hideProgressPop(pgd);
                     toast(R.string.connect_type_select_wan_port_disable);
                 }
             });
-            wan.get();
+            helper.setOnFwErrorListener(() -> {
+                toast(R.string.connect_failed);
+                OtherUtils.hideProgressPop(pgd);
+                to(RefreshWifiRxActivity.class);
+            });
+            helper.setOnAppErrorListener(() -> {
+                toast(R.string.connect_failed);
+                OtherUtils.hideProgressPop(pgd);
+                to(RefreshWifiRxActivity.class);
+            });
+            helper.getWanSettings();
+
         } else {
             wifiDisconnect();
         }

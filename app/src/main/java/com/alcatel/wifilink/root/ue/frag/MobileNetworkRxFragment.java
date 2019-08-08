@@ -205,8 +205,8 @@ public class MobileNetworkRxFragment extends Fragment implements FragmentBackHan
     private void getSimAndImsi() {
         if (simNumImsiHelper == null) {
             simNumImsiHelper = new SimNumImsiHelper();
-            simNumImsiHelper.setOnErrorListener(attr -> simNumImsiEmpty());
-            simNumImsiHelper.setOnResultErrorListener(attr -> simNumImsiEmpty());
+            simNumImsiHelper.setOnErrorListener(() -> simNumImsiEmpty());
+            simNumImsiHelper.setOnResultErrorListener(() -> simNumImsiEmpty());
             simNumImsiHelper.setOnSimNumberListener(simNum -> tvSimNum.setText(simNum));
             simNumImsiHelper.setOnImsiListener(imsi -> tvImsi.setText(imsi));
         }

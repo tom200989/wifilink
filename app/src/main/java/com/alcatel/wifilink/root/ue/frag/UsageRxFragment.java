@@ -13,24 +13,21 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.alcatel.wifilink.R;
-import com.alcatel.wifilink.root.ue.activity.HomeRxActivity;
-import com.alcatel.wifilink.root.utils.C_Constants;
-import com.alcatel.wifilink.root.bean.UsageRecord;
-import com.alcatel.wifilink.root.bean.UsageSettings;
-import com.alcatel.wifilink.network.RX;
-import com.alcatel.wifilink.network.ResponseBody;
-import com.alcatel.wifilink.network.ResponseObject;
-import com.alcatel.wifilink.root.helper.UsageHelper;
-import com.alcatel.wifilink.root.widget.DialogOkWidget;
 import com.alcatel.wifilink.root.helper.Cons;
 import com.alcatel.wifilink.root.helper.TimerHelper;
+import com.alcatel.wifilink.root.helper.UsageHelper;
+import com.alcatel.wifilink.root.helper.UsageSettingHelper;
+import com.alcatel.wifilink.root.ue.activity.HomeRxActivity;
 import com.alcatel.wifilink.root.utils.CA;
+import com.alcatel.wifilink.root.utils.C_Constants;
 import com.alcatel.wifilink.root.utils.FraHelpers;
 import com.alcatel.wifilink.root.utils.Lgg;
 import com.alcatel.wifilink.root.utils.Logs;
 import com.alcatel.wifilink.root.utils.OtherUtils;
 import com.alcatel.wifilink.root.utils.ToastUtil_m;
 import com.alcatel.wifilink.root.utils.fraghandler.FragmentBackHandler;
+import com.alcatel.wifilink.root.widget.DialogOkWidget;
+import com.p_xhelper_smart.p_xhelper_smart.helper.GetUsageRecordHelper;
 import com.p_xhelper_smart.p_xhelper_smart.helper.SetUsageRecordClearHelper;
 
 import org.greenrobot.eventbus.EventBus;
@@ -216,78 +213,60 @@ public class UsageRxFragment extends Fragment implements FragmentBackHandler {
      */
     private void getHomeNetworkMonthly() {
         // 获取已使用流量
-        RX.getInstant().getUsageRecord(UsageHelper.getCurrentTime(), new ResponseObject<UsageRecord>() {
-            @Override
-            protected void onSuccess(UsageRecord result) {
-                // 处理已经使用的流量
-                usedData_l = result.getHUseData();
-                UsageHelper.Usage hUseDataByte = UsageHelper.getUsageByte(getActivity(), usedData_l);
-                String used = hUseDataByte.usage;
-                if (OtherUtils.getCurrentLanguage().equalsIgnoreCase(C_Constants.Language.RUSSIAN)) {
-                    used = used.replace(".", ",") + " ";
-                }
-                String used_unit = hUseDataByte.unit;
-                String usedData_s = used + used_unit;
-                // 处理月流量
-                UsageHelper.Usage monthByte = UsageHelper.getUsageByte(getActivity(), monthly_l);
-                String month = monthByte.usage;
-                if (OtherUtils.getCurrentLanguage().equalsIgnoreCase(C_Constants.Language.RUSSIAN)) {
-                    month = month.replace(".", ",") + " ";
-                }
-                String month_unit = monthByte.unit;
-                String monthly_s = month + month_unit;
-                // 显示流量使用情况
-                String normal = usedData_s + "/" + monthly_s;
-                tvNetworkTraffic.setText(monthly_l <= 0 ? usedData_s : normal);
+        GetUsageRecordHelper getUsageRecordHelper = new GetUsageRecordHelper();
+        getUsageRecordHelper.setOnGetUsageRecordSuccess(result -> {
+            // 处理已经使用的流量
+            usedData_l = result.getHUseData();
+            UsageHelper.Usage hUseDataByte = UsageHelper.getUsageByte(getActivity(), usedData_l);
+            String used = hUseDataByte.usage;
+            if (OtherUtils.getCurrentLanguage().equalsIgnoreCase(C_Constants.Language.RUSSIAN)) {
+                used = used.replace(".", ",") + " ";
             }
-
-            @Override
-            protected void onResultError(ResponseBody.Error error) {
-
+            String used_unit = hUseDataByte.unit;
+            String usedData_s = used + used_unit;
+            // 处理月流量
+            UsageHelper.Usage monthByte = UsageHelper.getUsageByte(getActivity(), monthly_l);
+            String month = monthByte.usage;
+            if (OtherUtils.getCurrentLanguage().equalsIgnoreCase(C_Constants.Language.RUSSIAN)) {
+                month = month.replace(".", ",") + " ";
             }
-
-            @Override
-            public void onError(Throwable e) {
-
-            }
+            String month_unit = monthByte.unit;
+            String monthly_s = month + month_unit;
+            // 显示流量使用情况
+            String normal = usedData_s + "/" + monthly_s;
+            tvNetworkTraffic.setText(monthly_l <= 0 ? usedData_s : normal);
         });
+        getUsageRecordHelper.getUsageRecord(UsageHelper.getCurrentTime());
+
 
         // 获取月流量
-        RX.getInstant().getUsageSettings(new ResponseObject<UsageSettings>() {
-            @Override
-            protected void onSuccess(UsageSettings result) {
-                //  月流量计划
-                monthly_l = result.getMonthlyPlan();
-                UsageHelper.Usage monthByte = UsageHelper.getUsageByte(getActivity(), monthly_l);
-                String month = monthByte.usage;
-                if (OtherUtils.getCurrentLanguage().equalsIgnoreCase(C_Constants.Language.RUSSIAN)) {
-                    month = month.replace(".", ",") + " ";
-                }
-                String month_unit = monthByte.unit;
-                String monthly_s = month + month_unit;
-                // 处理已经使用流量
-                UsageHelper.Usage hUseDataByte = UsageHelper.getUsageByte(getActivity(), usedData_l);
-                String used = hUseDataByte.usage;
-                if (OtherUtils.getCurrentLanguage().equalsIgnoreCase(C_Constants.Language.RUSSIAN)) {
-                    used = used.replace(".", ",") + " ";
-                }
-                String used_unit = hUseDataByte.unit;
-                String usedData_s = used + used_unit;
-                // 显示流量使用情况
-                String normal = usedData_s + "/" + monthly_s;
-                tvNetworkTraffic.setText(monthly_l <= 0 ? usedData_s : normal);
+        UsageSettingHelper helper = new UsageSettingHelper(activity);
+        helper.setOngetSuccessListener(result -> {
+            //  月流量计划
+            monthly_l = result.getMonthlyPlan();
+            UsageHelper.Usage monthByte = UsageHelper.getUsageByte(getActivity(), monthly_l);
+            String month = monthByte.usage;
+            if (OtherUtils.getCurrentLanguage().equalsIgnoreCase(C_Constants.Language.RUSSIAN)) {
+                month = month.replace(".", ",") + " ";
             }
-
-            @Override
-            protected void onResultError(ResponseBody.Error error) {
-
+            String month_unit = monthByte.unit;
+            String monthly_s = month + month_unit;
+            // 处理已经使用流量
+            UsageHelper.Usage hUseDataByte = UsageHelper.getUsageByte(getActivity(), usedData_l);
+            String used = hUseDataByte.usage;
+            if (OtherUtils.getCurrentLanguage().equalsIgnoreCase(C_Constants.Language.RUSSIAN)) {
+                used = used.replace(".", ",") + " ";
             }
-
-            @Override
-            public void onError(Throwable e) {
-
-            }
+            String used_unit = hUseDataByte.unit;
+            String usedData_s = used + used_unit;
+            // 显示流量使用情况
+            String normal = usedData_s + "/" + monthly_s;
+            tvNetworkTraffic.setText(monthly_l <= 0 ? usedData_s : normal);
         });
+        helper.setOnErrorListener(() -> {
+
+        });
+        helper.getUsageSetting();
     }
 
     @Override

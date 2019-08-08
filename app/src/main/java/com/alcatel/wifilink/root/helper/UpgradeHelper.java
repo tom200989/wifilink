@@ -9,15 +9,16 @@ import android.view.View;
 
 import com.alcatel.wifilink.R;
 import com.alcatel.wifilink.root.bean.Update_DeviceNewVersion;
-import com.alcatel.wifilink.root.widget.CountDownTextView;
-import com.alcatel.wifilink.root.widget.PopupWindows;
-import com.alcatel.wifilink.root.bean.Update_DeviceUpgradeState;
-import com.alcatel.wifilink.network.RX;
-import com.alcatel.wifilink.network.ResponseBody;
-import com.alcatel.wifilink.network.ResponseObject;
 import com.alcatel.wifilink.root.utils.OtherUtils;
 import com.alcatel.wifilink.root.utils.ScreenSize;
 import com.alcatel.wifilink.root.utils.ToastUtil_m;
+import com.alcatel.wifilink.root.widget.CountDownTextView;
+import com.alcatel.wifilink.root.widget.PopupWindows;
+import com.p_xhelper_smart.p_xhelper_smart.bean.GetDeviceNewVersionBean;
+import com.p_xhelper_smart.p_xhelper_smart.bean.GetDeviceUpgradeStateBean;
+import com.p_xhelper_smart.p_xhelper_smart.helper.GetDeviceNewVersionHelper;
+import com.p_xhelper_smart.p_xhelper_smart.helper.GetDeviceUpgradeStateHelper;
+import com.p_xhelper_smart.p_xhelper_smart.helper.SetCheckNewVersionHelper;
 
 /**
  * Created by qianli.ma on 2017/12/14 0014.
@@ -45,44 +46,33 @@ public class UpgradeHelper {
      * 获取下载进度
      */
     public void getDownState() {
-        RX.getInstant().getDeviceUpgradeState(new ResponseObject<Update_DeviceUpgradeState>() {
-            @Override
-            protected void onSuccess(Update_DeviceUpgradeState result) {
-                // 0: No start update(UI does not send the start update command)
-                // 1: updating (Download Firmware phase)
-                // 2: complete
-                upgradeStateNormalNext(result);
-                int status = result.getStatus();
-                switch (status) {
-                    case Cons.NO_START_UPDATE:
-                        noStartUpdateNext(result);
-                        break;
-                    case Cons.UPDATING:
-                        updatingNext(result);
-                        break;
-                    case Cons.COMPLETE:
-                        completeNext(result);
-                        break;
-                }
-            }
-
-            @Override
-            protected void onResultError(ResponseBody.Error error) {
-                resultErrorNext(error);
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                errorNext(e);
+        GetDeviceUpgradeStateHelper getDeviceUpgradeStateHelper = new GetDeviceUpgradeStateHelper();
+        getDeviceUpgradeStateHelper.setOnGetDeviceUpgradeStateSuccessListener(result -> {
+            upgradeStateNormalNext(result);
+            int status = result.getStatus();
+            switch (status) {
+                case GetDeviceUpgradeStateBean.CONS_NO_START_UPDATE:
+                    noStartUpdateNext(result);
+                    break;
+                case GetDeviceUpgradeStateBean.CONS_UPDATING:
+                    updatingNext(result);
+                    break;
+                case GetDeviceUpgradeStateBean.CONS_COMPLETE:
+                    completeNext(result);
+                    break;
             }
         });
+        getDeviceUpgradeStateHelper.setOnGetDeviceUpgradeStateFailedListener(() -> {
+            errorNext();
+        });
+        getDeviceUpgradeStateHelper.getDeviceUpgradeState();
     }
 
     private OnCompleteListener onCompleteListener;
 
     // 接口OnCompleteListener
     public interface OnCompleteListener {
-        void complete(Update_DeviceUpgradeState attr);
+        void complete(GetDeviceUpgradeStateBean attr);
     }
 
     // 对外方式setOnCompleteListener
@@ -91,7 +81,7 @@ public class UpgradeHelper {
     }
 
     // 封装方法completeNext
-    private void completeNext(Update_DeviceUpgradeState attr) {
+    private void completeNext(GetDeviceUpgradeStateBean attr) {
         if (onCompleteListener != null) {
             onCompleteListener.complete(attr);
         }
@@ -101,7 +91,7 @@ public class UpgradeHelper {
 
     // 接口OnUpdatingListener
     public interface OnUpdatingListener {
-        void updating(Update_DeviceUpgradeState attr);
+        void updating(GetDeviceUpgradeStateBean attr);
     }
 
     // 对外方式setOnUpdatingListener
@@ -110,7 +100,7 @@ public class UpgradeHelper {
     }
 
     // 封装方法updatingNext
-    private void updatingNext(Update_DeviceUpgradeState attr) {
+    private void updatingNext(GetDeviceUpgradeStateBean attr) {
         if (onUpdatingListener != null) {
             onUpdatingListener.updating(attr);
         }
@@ -120,7 +110,7 @@ public class UpgradeHelper {
 
     // 接口OnNoStartUpdateListener
     public interface OnNoStartUpdateListener {
-        void noStartUpdate(Update_DeviceUpgradeState attr);
+        void noStartUpdate(GetDeviceUpgradeStateBean attr);
     }
 
     // 对外方式setOnNoStartUpdateListener
@@ -129,7 +119,7 @@ public class UpgradeHelper {
     }
 
     // 封装方法noStartUpdateNext
-    private void noStartUpdateNext(Update_DeviceUpgradeState attr) {
+    private void noStartUpdateNext(GetDeviceUpgradeStateBean attr) {
         if (onNoStartUpdateListener != null) {
             onNoStartUpdateListener.noStartUpdate(attr);
         }
@@ -139,7 +129,7 @@ public class UpgradeHelper {
 
     // 接口OnUpgradeStateListener
     public interface OnUpgradeStateNormalListener {
-        void upgradeState(Update_DeviceUpgradeState attr);
+        void upgradeState(GetDeviceUpgradeStateBean attr);
     }
 
     // 对外方式setOnUpgradeStateListener
@@ -148,12 +138,12 @@ public class UpgradeHelper {
     }
 
     // 封装方法upgradeStateNext
-    private void upgradeStateNormalNext(Update_DeviceUpgradeState attr) {
+    private void upgradeStateNormalNext(GetDeviceUpgradeStateBean attr) {
         if (onUpgradeStateListener != null) {
             onUpgradeStateListener.upgradeState(attr);
         }
     }
-    
+
     /* -------------------------------------------- method1 -------------------------------------------- */
 
     /**
@@ -209,25 +199,16 @@ public class UpgradeHelper {
 
     private void setCheck() {
         // 1.先触发检查new version
-        RX.getInstant().setCheckNewVersion(new ResponseObject() {
-            @Override
-            protected void onSuccess(Object result) {
-                // 2.在获取查询new version
-                getNewVersionDo();
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                hideDialog();
-                errorNext(e);
-            }
-
-            @Override
-            protected void onResultError(ResponseBody.Error error) {
-                hideDialog();
-                resultErrorNext(error);
-            }
+        SetCheckNewVersionHelper helper = new SetCheckNewVersionHelper();
+        helper.setOnSetCheckNewVersionSuccessListener(() -> {
+            // 2.在获取查询new version
+            getNewVersionDo();
         });
+        helper.setOnSetCheckNewVersionFailedListener(() -> {
+            hideDialog();
+            errorNext();
+        });
+        helper.setCheckNewVersion();
     }
 
     /**
@@ -235,50 +216,40 @@ public class UpgradeHelper {
      */
     private void getNewVersionDo() {
         if (isContinueChecking) {// 是否允许获取状态(该标记位是在180秒后如果状态还是checking则认为失败)
-            RX.getInstant().getDeviceNewVersion(new ResponseObject<Update_DeviceNewVersion>() {
-                @Override
-                protected void onSuccess(Update_DeviceNewVersion result) {
-                    switch (result.getState()) {
-                        case Cons.CHECKING:
-                            checkingNext(result);
-                            // handler.postDelayed(() -> getNewVersionDo(), 300);
-                            getNewVersionDo();
-                            break;
-                        case Cons.NEW_VERSION:
-                            hideDialog();
-                            newVersionNext(result);
-                            break;
-                        case Cons.NO_NEW_VERSION:
-                            hideDialog();
-                            noNewVersionNext(result);
-                            break;
-                        case Cons.NO_CONNECT:
-                            hideDialog();
-                            noConnectNext(result);
-                            break;
-                        case Cons.SERVICE_NOT_AVAILABLE:
-                            hideDialog();
-                            serviceNotAvailableNext(result);
-                            break;
-                        case Cons.CHECK_ERROR:
-                            hideDialog();
-                            checkErrorNext(result);
-                            break;
-                    }
-                }
-
-                @Override
-                public void onError(Throwable e) {
-                    hideDialog();
-                    errorNext(e);
-                }
-
-                @Override
-                protected void onResultError(ResponseBody.Error error) {
-                    hideDialog();
-                    resultErrorNext(error);
+            GetDeviceNewVersionHelper getDeviceNewVersionHelper = new GetDeviceNewVersionHelper();
+            getDeviceNewVersionHelper.setOnGetDeviceNewVersionSuccessListener(result -> {
+                switch (result.getState()) {
+                    case GetDeviceNewVersionBean.CONS_CHECKING:
+                        checkingNext(result);
+                        getNewVersionDo();
+                        break;
+                    case GetDeviceNewVersionBean.CONS_NEW_VERSION:
+                        hideDialog();
+                        newVersionNext(result);
+                        break;
+                    case GetDeviceNewVersionBean.CONS_NO_NEW_VERSION:
+                        hideDialog();
+                        noNewVersionNext(result);
+                        break;
+                    case GetDeviceNewVersionBean.CONS_NO_CONNECT:
+                        hideDialog();
+                        noConnectNext(result);
+                        break;
+                    case GetDeviceNewVersionBean.CONS_SERVICE_NOT_AVAILABLE:
+                        hideDialog();
+                        serviceNotAvailableNext(result);
+                        break;
+                    case GetDeviceNewVersionBean.CONS_CHECK_ERROR:
+                        hideDialog();
+                        checkErrorNext(result);
+                        break;
                 }
             });
+            getDeviceNewVersionHelper.setOnGetDeviceNewVersionFailedListener(() -> {
+                hideDialog();
+                errorNext();
+            });
+            getDeviceNewVersionHelper.getDeviceNewVersion();
         } else {
             hideDialog();
             ToastUtil_m.show(activity, R.string.could_not_update_try_again);
@@ -325,7 +296,7 @@ public class UpgradeHelper {
 
     // 接口OnCheckErrorListener
     public interface OnCheckErrorListener {
-        void checkError(Update_DeviceNewVersion attr);
+        void checkError(GetDeviceNewVersionBean attr);
     }
 
     // 对外方式setOnCheckErrorListener
@@ -334,7 +305,7 @@ public class UpgradeHelper {
     }
 
     // 封装方法checkErrorNext
-    private void checkErrorNext(Update_DeviceNewVersion attr) {
+    private void checkErrorNext(GetDeviceNewVersionBean attr) {
         if (onCheckErrorListener != null) {
             onCheckErrorListener.checkError(attr);
         }
@@ -344,7 +315,7 @@ public class UpgradeHelper {
 
     // 接口OnServiceNotAvailableListener
     public interface OnServiceNotAvailableListener {
-        void serviceNotAvailable(Update_DeviceNewVersion attr);
+        void serviceNotAvailable(GetDeviceNewVersionBean attr);
     }
 
     // 对外方式setOnServiceNotAvailableListener
@@ -353,7 +324,7 @@ public class UpgradeHelper {
     }
 
     // 封装方法serviceNotAvailableNext
-    private void serviceNotAvailableNext(Update_DeviceNewVersion attr) {
+    private void serviceNotAvailableNext(GetDeviceNewVersionBean attr) {
         if (onServiceNotAvailableListener != null) {
             onServiceNotAvailableListener.serviceNotAvailable(attr);
         }
@@ -363,7 +334,7 @@ public class UpgradeHelper {
 
     // 接口OnNoConnectListener
     public interface OnNoConnectListener {
-        void noConnect(Update_DeviceNewVersion attr);
+        void noConnect(GetDeviceNewVersionBean attr);
     }
 
     // 对外方式setOnNoConnectListener
@@ -372,7 +343,7 @@ public class UpgradeHelper {
     }
 
     // 封装方法noConnectNext
-    private void noConnectNext(Update_DeviceNewVersion attr) {
+    private void noConnectNext(GetDeviceNewVersionBean attr) {
         if (onNoConnectListener != null) {
             onNoConnectListener.noConnect(attr);
         }
@@ -382,7 +353,7 @@ public class UpgradeHelper {
 
     // 接口OnNoNewVersionListener
     public interface OnNoNewVersionListener {
-        void noNewVersion(Update_DeviceNewVersion attr);
+        void noNewVersion(GetDeviceNewVersionBean attr);
     }
 
     // 对外方式setOnNoNewVersionListener
@@ -391,7 +362,7 @@ public class UpgradeHelper {
     }
 
     // 封装方法noNewVersionNext
-    private void noNewVersionNext(Update_DeviceNewVersion attr) {
+    private void noNewVersionNext(GetDeviceNewVersionBean attr) {
         if (onNoNewVersionListener != null) {
             onNoNewVersionListener.noNewVersion(attr);
         }
@@ -401,7 +372,7 @@ public class UpgradeHelper {
 
     // 接口OnNewVersionListener
     public interface OnNewVersionListener {
-        void newVersion(Update_DeviceNewVersion attr);
+        void newVersion(GetDeviceNewVersionBean attr);
     }
 
     // 对外方式setOnNewVersionListener
@@ -410,7 +381,7 @@ public class UpgradeHelper {
     }
 
     // 封装方法newVersionNext
-    private void newVersionNext(Update_DeviceNewVersion attr) {
+    private void newVersionNext(GetDeviceNewVersionBean attr) {
         if (onNewVersionListener != null) {
             onNewVersionListener.newVersion(attr);
         }
@@ -420,7 +391,7 @@ public class UpgradeHelper {
 
     // 接口OnCheckingListener
     public interface OnCheckingListener {
-        void checking(Update_DeviceNewVersion attr);
+        void checking(GetDeviceNewVersionBean attr);
     }
 
     // 对外方式setOnCheckingListener
@@ -429,7 +400,7 @@ public class UpgradeHelper {
     }
 
     // 封装方法checkingNext
-    private void checkingNext(Update_DeviceNewVersion attr) {
+    private void checkingNext(GetDeviceNewVersionBean attr) {
         if (onCheckingListener != null) {
             onCheckingListener.checking(attr);
         }
@@ -439,7 +410,7 @@ public class UpgradeHelper {
 
     // 接口OnResultErrorListener
     public interface OnResultErrorListener {
-        void resultError(ResponseBody.Error attr);
+        void resultError();
     }
 
     // 对外方式setOnResultErrorListener
@@ -448,9 +419,9 @@ public class UpgradeHelper {
     }
 
     // 封装方法resultErrorNext
-    private void resultErrorNext(ResponseBody.Error attr) {
+    private void resultErrorNext() {
         if (onResultErrorListener != null) {
-            onResultErrorListener.resultError(attr);
+            onResultErrorListener.resultError();
         }
     }
 
@@ -458,7 +429,7 @@ public class UpgradeHelper {
 
     // 接口OnErrorListener
     public interface OnErrorListener {
-        void error(Throwable attr);
+        void error();
     }
 
     // 对外方式setOnErrorListener
@@ -467,9 +438,9 @@ public class UpgradeHelper {
     }
 
     // 封装方法errorNext
-    private void errorNext(Throwable attr) {
+    private void errorNext() {
         if (onErrorListener != null) {
-            onErrorListener.error(attr);
+            onErrorListener.error();
         }
     }
 }

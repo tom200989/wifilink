@@ -16,7 +16,6 @@ import com.alcatel.wifilink.R;
 import com.alcatel.wifilink.root.app.SmartLinkV3App;
 import com.alcatel.wifilink.root.helper.CheckBoardLogin;
 import com.alcatel.wifilink.root.helper.Cons;
-import com.alcatel.wifilink.root.helper.SystemInfoHelper;
 import com.alcatel.wifilink.root.helper.TimerHelper;
 import com.alcatel.wifilink.root.utils.CA;
 import com.alcatel.wifilink.root.utils.Lgg;
@@ -25,6 +24,7 @@ import com.alcatel.wifilink.root.utils.SP;
 import com.alcatel.wifilink.root.utils.ToastUtil_m;
 import com.alcatel.wifilink.root.widget.DialogOkWidget;
 import com.p_xhelper_smart.p_xhelper_smart.bean.GetWlanSettingsBean;
+import com.p_xhelper_smart.p_xhelper_smart.helper.GetSystemInfoHelper;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetWlanSettingsHelper;
 import com.p_xhelper_smart.p_xhelper_smart.helper.LogoutHelper;
 import com.p_xhelper_smart.p_xhelper_smart.helper.SetWlanSettingsHelper;
@@ -152,17 +152,16 @@ public class WifiInitRxActivity extends BaseActivityWithBack {
 
     private void initData() {
         // 获取设备类型
-        SystemInfoHelper sih = new SystemInfoHelper();
-        sih.setOnGetSystemInfoFailedListener(() -> getSupportModeAndCurrentStatus(false));
-        sih.setOnErrorListener(attr -> getSupportModeAndCurrentStatus(false));
-        sih.setOnResultErrorListener(attr -> getSupportModeAndCurrentStatus(false));
-        sih.setOnGetSystemInfoSuccessListener(systemInfo -> {
+        GetSystemInfoHelper getSystemInfoHelper = new GetSystemInfoHelper();
+        getSystemInfoHelper.setOnGetSystemInfoSuccessListener(systemInfo -> {
             String deviceName = systemInfo.getDeviceName();
             isMw120 = OtherUtils.isMw120(deviceName);
             // 获取支持的模式(2.4|5)以及当前模式的状态
             getSupportModeAndCurrentStatus(isMw120);
         });
-        sih.get();
+        getSystemInfoHelper.setOnFwErrorListener(() -> getSupportModeAndCurrentStatus(false));
+        getSystemInfoHelper.setOnAppErrorListener(() -> getSupportModeAndCurrentStatus(false));
+        getSystemInfoHelper.getSystemInfo();
     }
 
     /**

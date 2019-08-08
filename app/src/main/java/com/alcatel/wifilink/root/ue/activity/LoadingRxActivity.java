@@ -9,13 +9,13 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 
 import com.alcatel.wifilink.R;
-import com.alcatel.wifilink.root.helper.LoginStateHelper;
-import com.alcatel.wifilink.root.helper.SystemInfoHelper;
 import com.alcatel.wifilink.root.helper.Cons;
+import com.alcatel.wifilink.root.helper.LoginStateHelper;
 import com.alcatel.wifilink.root.utils.CA;
 import com.alcatel.wifilink.root.utils.OtherUtils;
 import com.alcatel.wifilink.root.utils.SP;
 import com.alcatel.wifilink.root.utils.ToastUtil_m;
+import com.p_xhelper_smart.p_xhelper_smart.helper.GetSystemInfoHelper;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -102,14 +102,14 @@ public class LoadingRxActivity extends BaseActivityWithBack {
      * 获取系统相关信息(主要用于设备类型)
      */
     private void getSystemAbout() {
-        SystemInfoHelper sfh = new SystemInfoHelper();
-        sfh.setOnGetSystemInfoSuccessListener(info -> {
+        GetSystemInfoHelper getSystemInfoHelper = new GetSystemInfoHelper();
+        getSystemInfoHelper.setOnGetSystemInfoSuccessListener(info -> {
             String deviceName = info.getDeviceName();
             EventBus.getDefault().postSticky(deviceName);// 发送--> LoginRxActivity
         });
-        sfh.setOnErrorListener(attr -> to(RefreshWifiRxActivity.class, true));
-        sfh.setOnResultErrorListener(attr -> to(RefreshWifiRxActivity.class, true));
-        sfh.get();
+        getSystemInfoHelper.setOnFwErrorListener(() -> to(RefreshWifiRxActivity.class, true));
+        getSystemInfoHelper.setOnAppErrorListener(() -> to(RefreshWifiRxActivity.class, true));
+        getSystemInfoHelper.getSystemInfo();
     }
 
     /**

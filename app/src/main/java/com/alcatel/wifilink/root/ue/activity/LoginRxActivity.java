@@ -24,10 +24,7 @@ import com.alcatel.wifilink.root.helper.CheckBoard;
 import com.alcatel.wifilink.root.helper.ConnectDeviceHelper;
 import com.alcatel.wifilink.root.helper.Cons;
 import com.alcatel.wifilink.root.helper.DeviceHelper;
-import com.alcatel.wifilink.root.helper.GetWanSettingHelper;
 import com.alcatel.wifilink.root.helper.PreHelper;
-import com.alcatel.wifilink.root.helper.SystemInfoHelper;
-import com.alcatel.wifilink.root.helper.SystemStatuHelper;
 import com.alcatel.wifilink.root.helper.TimerHelper;
 import com.alcatel.wifilink.root.helper.WpsHelper;
 import com.alcatel.wifilink.root.utils.CA;
@@ -40,8 +37,13 @@ import com.p_freesharing.p_freesharing.bean.InteractiveRequestBean;
 import com.p_freesharing.p_freesharing.bean.InteractiveResponceBean;
 import com.p_freesharing.p_freesharing.ui.SharingFileActivity;
 import com.p_xhelper_smart.p_xhelper_smart.bean.GetSimStatusBean;
+import com.p_xhelper_smart.p_xhelper_smart.bean.GetSystemStatusBean;
+import com.p_xhelper_smart.p_xhelper_smart.bean.GetWanSettingsBean;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetLoginStateHelper;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetSimStatusHelper;
+import com.p_xhelper_smart.p_xhelper_smart.helper.GetSystemInfoHelper;
+import com.p_xhelper_smart.p_xhelper_smart.helper.GetSystemStatusHelper;
+import com.p_xhelper_smart.p_xhelper_smart.helper.GetWanSettingsHelper;
 import com.p_xhelper_smart.p_xhelper_smart.helper.LoginHelper;
 
 import org.greenrobot.eventbus.EventBus;
@@ -128,7 +130,7 @@ public class LoginRxActivity extends BaseActivityWithBack {
     private Drawable hh71_logo;
     private Drawable default_logo;
     private String TAG = "LoginRxActivity";
-    private SystemStatuHelper ssuh;
+    private GetSystemStatusHelper getSystemStatusHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -176,7 +178,7 @@ public class LoginRxActivity extends BaseActivityWithBack {
         preTimer = new TimerHelper(this) {
             @Override
             public void doSomething() {
-                phe.get();// 获取与网络相关(信号强度,网络类型)
+                getSystemStatusHelper.getSystemStatus();// 获取与网络相关(信号强度,网络类型)
                 cdh.get();// 获取设备数详细信息(IP地址,MAC地址,设备名)
             }
         };
@@ -189,8 +191,8 @@ public class LoginRxActivity extends BaseActivityWithBack {
     private void getDevicesInfo() {
         // 1.初始化设备列表对象
         cdh = new ConnectDeviceHelper();
-        SystemInfoHelper sif = new SystemInfoHelper();
-        sif.setOnGetSystemInfoSuccessListener(attr -> {
+        GetSystemInfoHelper getSystemInfoHelper = new GetSystemInfoHelper();
+        getSystemInfoHelper.setOnGetSystemInfoSuccessListener(attr -> {
             // 2.如果是MW120设备, 则显示LINKZONE,否则显示LINKHUB
             String deviceName = attr.getDeviceName().toLowerCase();
             boolean isMwSerial = deviceName.startsWith(Cons.MW_SERIAL);// 是否为MW系列
@@ -217,9 +219,9 @@ public class LoginRxActivity extends BaseActivityWithBack {
                 });
             }
         });
-        sif.setOnResultErrorListener(attr -> ivLoginrxLogo.setImageDrawable(default_logo));
-        sif.setOnGetSystemInfoFailedListener(() -> ivLoginrxLogo.setImageDrawable(default_logo));
-        sif.get();
+        getSystemInfoHelper.setOnFwErrorListener(() -> ivLoginrxLogo.setImageDrawable(default_logo));
+        getSystemInfoHelper.setOnAppErrorListener(() -> ivLoginrxLogo.setImageDrawable(default_logo));
+        getSystemInfoHelper.getSystemInfo();
 
     }
 
@@ -228,13 +230,13 @@ public class LoginRxActivity extends BaseActivityWithBack {
      * 获取cmcc名称
      */
     private void getSystemStatusInfo() {
-        ssuh = new SystemStatuHelper();
-        ssuh.setOnFailedListener(o -> tvLoginPreNetName.setText(""));
-        ssuh.setOnResultErrorListener(error -> tvLoginPreNetName.setText(""));
-        ssuh.setOnSuccessListener(systemStates -> {
-            String networkName = systemStates.getNetworkName();
+        GetSystemStatusHelper helper = new GetSystemStatusHelper();
+        helper.setOnGetSystemStatusSuccessListener(getSystemStatusBean -> {
+            String networkName = getSystemStatusBean.getNetworkName();
             tvLoginPreNetName.setText(networkName);
         });
+        helper.setOnGetSystemStatusFailedListener(() -> tvLoginPreNetName.setText(""));
+        helper.getSystemStatus();
     }
 
     /**
@@ -243,11 +245,12 @@ public class LoginRxActivity extends BaseActivityWithBack {
     private void getSignalAbout() {
         /* 电池+强度+网络类型+连接数 */
         phe = new PreHelper(this);
-        phe.setOnSuccessListener(result -> {
+        getSystemStatusHelper = new GetSystemStatusHelper();
+        getSystemStatusHelper.setOnGetSystemStatusSuccessListener(result -> {
             // 设置电池电量
             Drawable batFlash = getResources().getDrawable(R.drawable.battery_01_flash);
             Drawable batUse = getResources().getDrawable(R.drawable.battery_01);
-            boolean isCharing = result.getChg_state() == Cons.BATTERY_CHARING;// 电池状态
+            boolean isCharing = result.getChg_state() == GetSystemStatusBean.CONS_CHARGE_CHARGING;// 电池状态
             int cap = result.getBat_cap();// 电池电量
             pgLoginPreBattery.setProgress(isCharing ? 0 : cap <= 12 ? 12 : cap);
             pgLoginPreBattery.setProgressDrawable(isCharing ? batFlash : batUse);
@@ -263,8 +266,9 @@ public class LoginRxActivity extends BaseActivityWithBack {
             int c5g = result.getCurr_num_5g();
             tvLoginPreConnectedCount.setText(String.valueOf(c2g + c5g));
         });
-        phe.setOnErrorListener(attr -> preError());
-        phe.setOnResultErrorListener(attr -> preError());
+        getSystemStatusHelper.setOnGetSystemStatusFailedListener(() -> {
+            preError();
+        });
     }
 
 
@@ -316,8 +320,8 @@ public class LoginRxActivity extends BaseActivityWithBack {
 
             /* 正常登陆界面显示--> 新设备: 显示预登陆; 老设备: 退出   (优先级2) */
         } else {
-            SystemInfoHelper sif = new SystemInfoHelper();
-            sif.setOnGetSystemInfoSuccessListener(attr -> {
+            GetSystemInfoHelper getSystemInfoHelper = new GetSystemInfoHelper();
+            getSystemInfoHelper.setOnGetSystemInfoSuccessListener(attr -> {
                 // 如果是MW120新设备--> 则显示预登陆界面; 反之退出
                 if (attr.getDeviceName().toLowerCase().startsWith(Cons.MW_SERIAL)) {
                     showLoginPreOrNot(true);
@@ -325,9 +329,9 @@ public class LoginRxActivity extends BaseActivityWithBack {
                     exit();
                 }
             });
-            sif.setOnErrorListener(attr -> exit());
-            sif.setOnResultErrorListener(attr -> exit());
-            sif.get();
+            getSystemInfoHelper.setOnFwErrorListener(() -> exit());
+            getSystemInfoHelper.setOnAppErrorListener(() -> exit());
+            getSystemInfoHelper.getSystemInfo();
         }
     }
 
@@ -553,23 +557,18 @@ public class LoginRxActivity extends BaseActivityWithBack {
      */
     private void getConnectMode() {
 
-        GetWanSettingHelper wan = new GetWanSettingHelper();
-        wan.setOnGetwansettingsErrorListener(e -> {
+        GetWanSettingsHelper helper = new GetWanSettingsHelper();
+        helper.setOnFwErrorListener(() -> {
             OtherUtils.hideProgressPop(pgd);
             whenGetWanFailed();
-            Lgg.t(TAG).ee("Getwansettings: error--> " + e.getMessage());
+            Lgg.t(TAG).ee("Getwansettings: resultError--> ");
         });
-        wan.setOnGetWanSettingsFailedListener(() -> {
+        helper.setOnAppErrorListener(() -> {
             OtherUtils.hideProgressPop(pgd);
             whenGetWanFailed();
-            Lgg.t(TAG).ee("Getwansettings: failed");
+            Lgg.t(TAG).ee("Getwansettings: resultError--> ");
         });
-        wan.setOnGetWanSettingsResultErrorListener(error -> {
-            OtherUtils.hideProgressPop(pgd);
-            whenGetWanFailed();
-            Lgg.t(TAG).ee("Getwansettings: resultError--> " + error.getMessage());
-        });
-        wan.setOnGetWanSettingsSuccessListener(result -> {
+        helper.setOnGetWanSettingsSuccessListener(result -> {
             Lgg.t(TAG).ii("GetWanSettings: Success");
             /* 获取WAN口状态 */
             int wanStatus = result.getStatus();
@@ -581,16 +580,16 @@ public class LoginRxActivity extends BaseActivityWithBack {
                 boolean simflag =
                         simState == GetSimStatusBean.CONS_SIM_CARD_READY || simState == GetSimStatusBean.CONS_PIN_REQUIRED || simState == GetSimStatusBean.CONS_PUK_REQUIRED;
                 OtherUtils.hideProgressPop(pgd);
-                if (wanStatus == Cons.CONNECTED & simflag) {// 都有
+                    if (wanStatus == GetWanSettingsBean.CONS_CONNECTED & simflag) {// 都有
                     isToWizard();
                     return;
                 }
-                if (wanStatus != Cons.CONNECTED && simflag) {// 只有SIM卡
-                    if (simState == Cons.READY) {
-                        simHadReady(false);
-                    } else if (simState == GetSimStatusBean.CONS_PIN_REQUIRED) {
+                    if (wanStatus != GetWanSettingsBean.CONS_CONNECTED && simflag) {// 只有SIM卡
+                        if (simState == Cons.READY) {
+                            simHadReady(false);
+                        } else if (simState == Cons.PIN_REQUIRED) {
                         EventBus.getDefault().postSticky(new Other_PinPukBean(Cons.PIN_FLAG));
-                        to(PinPukIndexRxActivity.class);
+                            to(PinPukIndexRxActivity.class);
                     } else if (simState == GetSimStatusBean.CONS_PUK_REQUIRED) {
                         EventBus.getDefault().postSticky(new Other_PinPukBean(Cons.PUK_FLAG));
                         to(PinPukIndexRxActivity.class);
@@ -599,11 +598,11 @@ public class LoginRxActivity extends BaseActivityWithBack {
                     }
                     return;
                 }
-                if (wanStatus == Cons.CONNECTED & !simflag) {// 只有WAN口
+                    if (wanStatus == GetWanSettingsBean.CONS_CONNECTED & !simflag) {// 只有WAN口
                     wanReady();
                     return;
                 }
-                if (wanStatus != Cons.CONNECTED & !simflag) {// 都没有
+                    if (wanStatus != GetWanSettingsBean.CONS_CONNECTED & !simflag) {// 都没有
                     isToWizard();
                     return;
                 }
@@ -612,8 +611,7 @@ public class LoginRxActivity extends BaseActivityWithBack {
             xGetSimStatusHelper.setOnGetSimStatusFailedListener(this::isToWizard);
             xGetSimStatusHelper.getSimStatus();
         });
-        wan.get();
-
+        helper.getWanSettings();
     }
 
     /**
@@ -639,8 +637,8 @@ public class LoginRxActivity extends BaseActivityWithBack {
      * 当获取wan口失败做出设备类型判断
      */
     private void whenGetWanFailed() {
-        SystemInfoHelper sif = new SystemInfoHelper();
-        sif.setOnGetSystemInfoSuccessListener(systemInfo -> {
+        GetSystemInfoHelper getSystemInfoHelper = new GetSystemInfoHelper();
+        getSystemInfoHelper.setOnGetSystemInfoSuccessListener(systemInfo -> {
             String deviceName = systemInfo.getDeviceName().toLowerCase();
             if (OtherUtils.isMw120(deviceName)) {// MW120
                 Lgg.t(TAG).ii(":whenGetWanFailed() is mw120 again");
@@ -668,15 +666,15 @@ public class LoginRxActivity extends BaseActivityWithBack {
                 ToastUtil_m.show(LoginRxActivity.this, getString(R.string.login_failed));
             }
         });
-        sif.setOnErrorListener(attr -> {
-            Lgg.t(TAG).ee("HH70: whenGetWanFailed error--> " + attr.getMessage());
+        getSystemInfoHelper.setOnFwErrorListener(() -> {
+            Lgg.t(TAG).ee("HH70: whenGetWanFailed error--> ");
             ToastUtil_m.show(LoginRxActivity.this, getString(R.string.login_failed));
         });
-        sif.setOnResultErrorListener(attr -> {
-            Lgg.t(TAG).ee("HH70: whenGetWanFailed error--> " + attr.getMessage());
+        getSystemInfoHelper.setOnAppErrorListener(() -> {
+            Lgg.t(TAG).ee("HH70: whenGetWanFailed error--> ");
             ToastUtil_m.show(LoginRxActivity.this, getString(R.string.login_failed));
         });
-        sif.get();
+        getSystemInfoHelper.getSystemInfo();
     }
 
     /**

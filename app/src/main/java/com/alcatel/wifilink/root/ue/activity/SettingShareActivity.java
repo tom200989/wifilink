@@ -9,15 +9,21 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.alcatel.wifilink.R;
-import com.alcatel.wifilink.network.RX;
-import com.alcatel.wifilink.network.ResponseBody;
-import com.alcatel.wifilink.network.ResponseObject;
-import com.alcatel.wifilink.root.bean.Sharing_DLNASettings;
-import com.alcatel.wifilink.root.bean.Sharing_FTPSettings;
-import com.alcatel.wifilink.root.bean.Sharing_SambaSettings;
 import com.alcatel.wifilink.root.helper.TimerHelper;
-import com.alcatel.wifilink.root.utils.C_Constants;
+import com.p_xhelper_smart.p_xhelper_smart.bean.GetDLNASettingsBean;
+import com.p_xhelper_smart.p_xhelper_smart.bean.GetFtpSettingsBean;
+import com.p_xhelper_smart.p_xhelper_smart.bean.GetSambaSettingsBean;
+import com.p_xhelper_smart.p_xhelper_smart.bean.GetSystemStatusBean;
+import com.p_xhelper_smart.p_xhelper_smart.bean.SetDLNASettingsParam;
+import com.p_xhelper_smart.p_xhelper_smart.bean.SetFtpSettingsParam;
+import com.p_xhelper_smart.p_xhelper_smart.bean.SetSambaSettingsParam;
+import com.p_xhelper_smart.p_xhelper_smart.helper.GetDLNASettingsHelper;
+import com.p_xhelper_smart.p_xhelper_smart.helper.GetFtpSettingsHelper;
+import com.p_xhelper_smart.p_xhelper_smart.helper.GetSambaSettingsHelper;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetSystemStatusHelper;
+import com.p_xhelper_smart.p_xhelper_smart.helper.SetDLNASettingsHelper;
+import com.p_xhelper_smart.p_xhelper_smart.helper.SetFtpSettingsHelper;
+import com.p_xhelper_smart.p_xhelper_smart.helper.SetSambaSettingsHelper;
 
 public class SettingShareActivity extends BaseActivityWithBack implements OnClickListener, CompoundButton.OnCheckedChangeListener {
 
@@ -64,170 +70,65 @@ public class SettingShareActivity extends BaseActivityWithBack implements OnClic
 
     private void requestGetSystemStatus() {
 
-        // TODO: 2019/8/5 0005  新框架示例
         GetSystemStatusHelper xGetSystemStatusHelper = new GetSystemStatusHelper();
         xGetSystemStatusHelper.setOnGetSystemStatusSuccessListener(getSystemStatusBean -> {
             switch (getSystemStatusBean.getUsbStatus()) {
-                case C_Constants.DeviceUSBStatus.NOT_INSERT:
+                case GetSystemStatusBean.CONS_NOT_INSERT:
                     mUSBStorageText.setText(R.string.not_inserted);
                     break;
-                case C_Constants.DeviceUSBStatus.USB_STORAGE:
+                case GetSystemStatusBean.CONS_USB_STORAGE:
                     mUSBStorageText.setText(R.string.setting_usb_storage);
                     break;
-                case C_Constants.DeviceUSBStatus.USB_PRINT:
+                case GetSystemStatusBean.CONS_USB_PRINT:
                     mUSBStorageText.setText(R.string.usb_printer);
                     break;
             }
         });
         xGetSystemStatusHelper.getSystemStatus();
-
-        // RX.getInstant().getSystemStatus(new ResponseObject<System_SysStatus>() {
-        //     @Override
-        //     protected void onSuccess(System_SysStatus result) {
-        //         runOnUiThread(() -> {
-        //             switch (result.getUsbStatus()) {
-        //                 case C_Constants.DeviceUSBStatus.NOT_INSERT:
-        //                     mUSBStorageText.setText(R.string.not_inserted);
-        //                     break;
-        //                 case C_Constants.DeviceUSBStatus.USB_STORAGE:
-        //                     mUSBStorageText.setText(R.string.setting_usb_storage);
-        //                     break;
-        //                 case C_Constants.DeviceUSBStatus.USB_PRINT:
-        //                     mUSBStorageText.setText(R.string.usb_printer);
-        //                     break;
-        //             }
-        //         });
-        //     }
-        //
-        //     @Override
-        //     protected void onResultError(ResponseBody.Error error) {
-        //         super.onResultError(error);
-        //     }
-        //
-        //     @Override
-        //     protected void onFailure() {
-        //         super.onFailure();
-        //     }
-        // });
     }
 
     private void requestGetFTPSettings() {
-        RX.getInstant().getFTPSettings(new ResponseObject<Sharing_FTPSettings>() {
-            @Override
-            protected void onSuccess(Sharing_FTPSettings result) {
-                mFTPSwitch.setChecked(result.getFtpStatus() == 1);
-            }
-
-            @Override
-            protected void onFailure() {
-            }
-
-            @Override
-            protected void onResultError(ResponseBody.Error error) {
-                super.onResultError(error);
-            }
-        });
+        GetFtpSettingsHelper helper = new GetFtpSettingsHelper();
+        helper.setOnGetFtpSettingsSuccessListener(result -> mFTPSwitch.setChecked(result.getFtpStatus() == GetFtpSettingsBean.CONS_FTPSTATUS_ENABLE));
+        helper.getFtpSettings();
     }
 
     private void requestGetSambaSettings() {
-        RX.getInstant().getSambaSettings(new ResponseObject<Sharing_SambaSettings>() {
-            @Override
-            protected void onSuccess(Sharing_SambaSettings result) {
-                mSambaSwitch.setChecked(result.getSambaStatus() == 1);
-            }
-
-            @Override
-            protected void onFailure() {
-            }
-
-            @Override
-            protected void onResultError(ResponseBody.Error error) {
-                super.onResultError(error);
-            }
-        });
+        GetSambaSettingsHelper getSambaSettingsHelper = new GetSambaSettingsHelper();
+        getSambaSettingsHelper.setOnGetSambaSettingsSuccessListener(result -> mSambaSwitch.setChecked(result.getSambaStatus() == GetSambaSettingsBean.CONS_SAMBASTATUS_DISABLE));
+        getSambaSettingsHelper.getSambaSettings();
     }
 
     private void requestGetDLNASettings() {
-        RX.getInstant().getDLNASettings(new ResponseObject<Sharing_DLNASettings>() {
-            @Override
-            protected void onSuccess(Sharing_DLNASettings result) {
-                mDLNASwitch.setChecked(result.getDlnaStatus() == 1);
-            }
-
-            @Override
-            protected void onFailure() {
-            }
-
-            @Override
-            protected void onResultError(ResponseBody.Error error) {
-                super.onResultError(error);
-            }
-        });
+        GetDLNASettingsHelper getDLNASettingsHelper = new GetDLNASettingsHelper();
+        getDLNASettingsHelper.setOnGetDLNASettingsSuccessListener(result -> mDLNASwitch.setChecked(result.getDlnaStatus() == GetDLNASettingsBean.CONS_ENABLE));
+        getDLNASettingsHelper.getDLNASettings();
     }
 
     private void requestSetFTPSettings() {
-        Sharing_FTPSettings settings = new Sharing_FTPSettings();
-        settings.setFtpStatus(mFTPSwitch.isChecked() ? 1 : 0);
-        settings.setAnonymous(0);
-        settings.setAuthType(0);
-        RX.getInstant().setFTPSettings(settings, new ResponseObject() {
-            @Override
-            protected void onSuccess(Object result) {
-            }
-
-            @Override
-            protected void onResultError(ResponseBody.Error error) {
-                super.onResultError(error);
-            }
-
-            @Override
-            protected void onFailure() {
-                super.onFailure();
-            }
-        });
+        SetFtpSettingsParam param = new SetFtpSettingsParam();
+        param.setFtpStatus(mFTPSwitch.isChecked() ? 1 : 0);
+        param.setAnonymous(0);
+        param.setAuthType(0);
+        SetFtpSettingsHelper setFtpSettingsHelper = new SetFtpSettingsHelper();
+        setFtpSettingsHelper.setFtpSettings(param);
     }
 
     private void requestSetSambaSettings() {
-        Sharing_SambaSettings settings = new Sharing_SambaSettings();
-        settings.setSambaStatus(mSambaSwitch.isChecked() ? 1 : 0);
-        settings.setAnonymous(0);
-        settings.setAuthType(0);
-        RX.getInstant().setSambaSettings(settings, new ResponseObject() {
-            @Override
-            protected void onSuccess(Object result) {
-            }
-
-            @Override
-            protected void onResultError(ResponseBody.Error error) {
-                super.onResultError(error);
-            }
-
-            @Override
-            protected void onFailure() {
-                super.onFailure();
-            }
-        });
+        SetSambaSettingsParam param = new SetSambaSettingsParam();
+        param.setSambaStatus(mSambaSwitch.isChecked() ? 1 : 0);
+        param.setAnonymous(0);
+        param.setAuthType(0);
+        SetSambaSettingsHelper setSambaSettingsHelper = new SetSambaSettingsHelper();
+        setSambaSettingsHelper.setSambaSettings(param);
     }
 
     private void requestSetDLNASettings() {
-        Sharing_DLNASettings settings = new Sharing_DLNASettings();
-        settings.setDlnaStatus(mDLNASwitch.isChecked() ? 1 : 0);
-        settings.setDlnaName("");
-        RX.getInstant().setDLNASettings(settings, new ResponseObject() {
-            @Override
-            protected void onSuccess(Object result) {
-            }
-
-            @Override
-            protected void onResultError(ResponseBody.Error error) {
-                super.onResultError(error);
-            }
-
-            @Override
-            protected void onFailure() {
-                super.onFailure();
-            }
-        });
+        SetDLNASettingsParam param = new SetDLNASettingsParam();
+        param.setDlnaStatus(mDLNASwitch.isChecked() ? 1 : 0);
+        param.setDlnaName("");
+        SetDLNASettingsHelper setDLNASettingsHelper = new SetDLNASettingsHelper();
+        setDLNASettingsHelper.setDLNASettings(param);
     }
 
     @Override

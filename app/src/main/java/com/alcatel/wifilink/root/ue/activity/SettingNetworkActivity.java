@@ -27,14 +27,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.alcatel.wifilink.R;
-import com.alcatel.wifilink.network.RX;
-import com.alcatel.wifilink.network.ResponseBody;
-import com.alcatel.wifilink.network.ResponseObject;
 import com.alcatel.wifilink.root.app.SmartLinkV3App;
-import com.alcatel.wifilink.root.bean.System_SystemInfo;
-import com.alcatel.wifilink.root.bean.UsageSetting;
 import com.alcatel.wifilink.root.helper.BoardSimHelper;
 import com.alcatel.wifilink.root.helper.Cons;
+import com.alcatel.wifilink.root.helper.UsageSettingHelper;
 import com.alcatel.wifilink.root.utils.CA;
 import com.alcatel.wifilink.root.utils.C_Constants;
 import com.alcatel.wifilink.root.utils.OtherUtils;
@@ -46,7 +42,9 @@ import com.p_xhelper_smart.p_xhelper_smart.bean.GetConnectionSettingsBean;
 import com.p_xhelper_smart.p_xhelper_smart.bean.GetNetworkSettingsBean;
 import com.p_xhelper_smart.p_xhelper_smart.bean.GetProfileListBean;
 import com.p_xhelper_smart.p_xhelper_smart.bean.GetSimStatusBean;
+import com.p_xhelper_smart.p_xhelper_smart.bean.GetUsageSettingsBean;
 import com.p_xhelper_smart.p_xhelper_smart.bean.SetNetworkSettingsParam;
+import com.p_xhelper_smart.p_xhelper_smart.bean.SetUsageSettingsParam;
 import com.p_xhelper_smart.p_xhelper_smart.helper.ChangePinCodeHelper;
 import com.p_xhelper_smart.p_xhelper_smart.helper.ChangePinStateHelper;
 import com.p_xhelper_smart.p_xhelper_smart.helper.ConnectHelper;
@@ -56,8 +54,10 @@ import com.p_xhelper_smart.p_xhelper_smart.helper.GetConnectionStateHelper;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetNetworkSettingsBeanHelper;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetProfileListHelper;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetSimStatusHelper;
+import com.p_xhelper_smart.p_xhelper_smart.helper.GetSystemInfoHelper;
 import com.p_xhelper_smart.p_xhelper_smart.helper.SetConnectionSettingsHelper;
 import com.p_xhelper_smart.p_xhelper_smart.helper.SetNetworkSettingsHelper;
+import com.p_xhelper_smart.p_xhelper_smart.helper.SetUsageSettingsHelper;
 
 import java.util.List;
 
@@ -79,7 +79,7 @@ public class SettingNetworkActivity extends BaseActivityWithBack implements OnCl
 
     private GetNetworkSettingsBean mNetworkSettings;
     private GetConnectionSettingsBean mConnectionSettings;
-    private UsageSetting mUsageSetting;
+    private GetUsageSettingsBean mUsageSetting;
     private GetSimStatusBean mSimStatus;
     //set data plan
     private TextView mMonthlyDataPlanText;
@@ -121,7 +121,7 @@ public class SettingNetworkActivity extends BaseActivityWithBack implements OnCl
         mFirstSetBillingDay = true;
         mNetworkSettings = new GetNetworkSettingsBean();
         mConnectionSettings = new GetConnectionSettingsBean();
-        mUsageSetting = new UsageSetting();
+        mUsageSetting = new GetUsageSettingsBean();
         mSimStatus = new GetSimStatusBean();
         //set data plan
         findViewById(R.id.rl_monthly_data_plan).setOnClickListener(this);
@@ -447,35 +447,20 @@ public class SettingNetworkActivity extends BaseActivityWithBack implements OnCl
     }
 
     private void getSystemInfo() {
-        RX.getInstant().getSystemInfo(new ResponseObject<System_SystemInfo>() {
-            @Override
-            protected void onSuccess(System_SystemInfo result) {
-                mSimNumberTextView.setText(result.getMSISDN());
-                mImsiTextView.setText(result.getIMSI());
-            }
-
-            @Override
-            protected void onFailure() {
-            }
+        GetSystemInfoHelper getSystemInfoHelper = new GetSystemInfoHelper();
+        getSystemInfoHelper.setOnGetSystemInfoSuccessListener(result -> {
+            mSimNumberTextView.setText(result.getMSISDN());
+            mImsiTextView.setText(result.getIMSI());
         });
+        getSystemInfoHelper.getSystemInfo();
     }
 
-    private void setUsageSetting(UsageSetting usageSetting) {
-        RX.getInstant().setUsageSetting(usageSetting, new ResponseObject() {
-            @Override
-            protected void onSuccess(Object result) {
-                getUsageSetting();
-            }
-
-            @Override
-            protected void onFailure() {
-            }
-
-            @Override
-            protected void onResultError(ResponseBody.Error error) {
-
-            }
-        });
+    private void setUsageSetting(GetUsageSettingsBean usageSetting) {
+        SetUsageSettingsParam param = new SetUsageSettingsParam();
+        param.copy(usageSetting);
+        SetUsageSettingsHelper helper = new SetUsageSettingsHelper();
+        helper.setOnSetUsageSettingsSuccessListener(() -> getUsageSetting());
+        helper.setUsageSettings(param);
     }
 
     private void changePinCode(String newPin, String currentPin) {
@@ -496,45 +481,36 @@ public class SettingNetworkActivity extends BaseActivityWithBack implements OnCl
     }
 
     private void getUsageSetting() {
-        RX.getInstant().getUsageSetting(new ResponseObject<UsageSetting>() {
-            @Override
-            protected void onSuccess(UsageSetting result) {
-                mUsageSetting = result;
-                String unit = "";
-                if (result.getUnit() == C_Constants.UsageSetting.UNIT_MB) {
-                    unit = "MB";
-                } else if (result.getUnit() == C_Constants.UsageSetting.UNIT_GB) {
-                    unit = "GB";
-                } else if (result.getUnit() == C_Constants.UsageSetting.UNIT_KB) {
-                    unit = "KB";
-                }
-                long dataPlanByte = getDataPlanByte(result.getUnit());
-                double monthPlan = result.getMonthlyPlan() / dataPlanByte;
-                mMonthlyDataPlanText.setText(monthPlan + " " + unit);
-                mBillingDaySpinner.setSelection(result.getBillingDay());
-                // mUsageAlertSpinner
-                if (result.getAutoDisconnFlag() == 0) {
-                    mDisconnectCompat.setChecked(false);
-                } else if (result.getAutoDisconnFlag() == 1) {
-                    mDisconnectCompat.setChecked(true);
-                }
-                if (result.getTimeLimitFlag() == 0) {
-                    mLimitAutoDisaconectCompat.setChecked(false);
-                } else if (result.getTimeLimitFlag() == 1) {
-                    mLimitAutoDisaconectCompat.setChecked(true);
-                }
-                mSetTimeLimitText.setText(result.getTimeLimitTimes() + getString(R.string.min_s));
+        UsageSettingHelper getUsageSettingsHelper = new UsageSettingHelper(this);
+        getUsageSettingsHelper.setOngetSuccessListener(result -> {
+            mUsageSetting = result;
+            String unit = "";
+            if (result.getUnit() == GetUsageSettingsBean.CONS_UNIT_MB) {
+                unit = "MB";
+            } else if (result.getUnit() == GetUsageSettingsBean.CONS_UNIT_GB) {
+                unit = "GB";
+            } else if (result.getUnit() == GetUsageSettingsBean.CONS_UNIT_KB) {
+                unit = "KB";
             }
 
-            @Override
-            protected void onResultError(ResponseBody.Error error) {
-                Toast.makeText(SettingNetworkActivity.this, error.getMessage(), Toast.LENGTH_SHORT).show();
+            long dataPlanByte = getDataPlanByte(result.getUnit());
+            double monthPlan = result.getMonthlyPlan() / dataPlanByte;
+            mMonthlyDataPlanText.setText(monthPlan + " " + unit);
+            mBillingDaySpinner.setSelection(result.getBillingDay());
+            // mUsageAlertSpinner
+            if (result.getAutoDisconnFlag() == GetUsageSettingsBean.CONS_AUTO_DISCONNECT_DISABLE) {
+                mDisconnectCompat.setChecked(false);
+            } else if (result.getAutoDisconnFlag() == GetUsageSettingsBean.CONS_AUTO_DISCONNECT_ABLE) {
+                mDisconnectCompat.setChecked(true);
             }
-
-            @Override
-            protected void onFailure() {
+            if (result.getTimeLimitFlag() == GetUsageSettingsBean.CONS_TIME_LIMIT_DISABLE) {
+                mLimitAutoDisaconectCompat.setChecked(false);
+            } else if (result.getTimeLimitFlag() == GetUsageSettingsBean.CONS_TIME_LIMIT_ABLE) {
+                mLimitAutoDisaconectCompat.setChecked(true);
             }
+            mSetTimeLimitText.setText(result.getTimeLimitTimes() + getString(R.string.min_s));
         });
+        getUsageSettingsHelper.getUsageSetting();
     }
 
     @Override

@@ -29,29 +29,22 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.alcatel.wifilink.R;
-import com.alcatel.wifilink.root.bean.Update_DeviceNewVersion;
-import com.alcatel.wifilink.root.widget.PopupWindows;
-import com.alcatel.wifilink.root.bean.System_SystemInfo;
 import com.alcatel.wifilink.network.RX;
-import com.alcatel.wifilink.network.ResponseBody;
-import com.alcatel.wifilink.network.ResponseObject;
-import com.alcatel.wifilink.root.helper.Extender_GetWIFIExtenderSettingsHelper;
 import com.alcatel.wifilink.root.helper.BoardSimHelper;
 import com.alcatel.wifilink.root.helper.BoardWanHelper;
 import com.alcatel.wifilink.root.helper.CheckBoardLogin;
-import com.alcatel.wifilink.root.helper.SystemInfoHelper;
+import com.alcatel.wifilink.root.helper.Cons;
+import com.alcatel.wifilink.root.helper.Extender_GetWIFIExtenderSettingsHelper;
 import com.alcatel.wifilink.root.helper.FirmUpgradeHelper;
+import com.alcatel.wifilink.root.helper.TimerHelper;
 import com.alcatel.wifilink.root.helper.UpgradeHelper;
-import com.alcatel.wifilink.root.ue.activity.HomeRxActivity;
-import com.alcatel.wifilink.root.ue.activity.LoginRxActivity;
-import com.alcatel.wifilink.root.widget.DialogOkWidget;
 import com.alcatel.wifilink.root.ue.activity.AboutActivity;
 import com.alcatel.wifilink.root.ue.activity.EthernetWanConnectionActivity;
+import com.alcatel.wifilink.root.ue.activity.HomeRxActivity;
+import com.alcatel.wifilink.root.ue.activity.LoginRxActivity;
 import com.alcatel.wifilink.root.ue.activity.SettingAccountActivity;
 import com.alcatel.wifilink.root.ue.activity.SettingLanguageActivity;
 import com.alcatel.wifilink.root.ue.activity.SettingShareActivity;
-import com.alcatel.wifilink.root.helper.Cons;
-import com.alcatel.wifilink.root.helper.TimerHelper;
 import com.alcatel.wifilink.root.utils.CA;
 import com.alcatel.wifilink.root.utils.FileUtils;
 import com.alcatel.wifilink.root.utils.Lgg;
@@ -61,8 +54,17 @@ import com.alcatel.wifilink.root.utils.SPUtils;
 import com.alcatel.wifilink.root.utils.ScreenSize;
 import com.alcatel.wifilink.root.utils.ToastUtil_m;
 import com.alcatel.wifilink.root.utils.fraghandler.FragmentBackHandler;
+import com.alcatel.wifilink.root.widget.DialogOkWidget;
+import com.alcatel.wifilink.root.widget.PopupWindows;
 import com.p_numberbar.p_numberbar.core.NumberProgressBar;
+import com.p_xhelper_smart.p_xhelper_smart.bean.GetDeviceNewVersionBean;
+import com.p_xhelper_smart.p_xhelper_smart.bean.GetSystemInfoBean;
+import com.p_xhelper_smart.p_xhelper_smart.helper.GetSystemInfoHelper;
 import com.p_xhelper_smart.p_xhelper_smart.helper.LogoutHelper;
+import com.p_xhelper_smart.p_xhelper_smart.helper.SetDeviceBackupHelper;
+import com.p_xhelper_smart.p_xhelper_smart.helper.SetDeviceRebootHelper;
+import com.p_xhelper_smart.p_xhelper_smart.helper.SetDeviceResetHelper;
+import com.p_xhelper_smart.p_xhelper_smart.helper.SetDeviceUpdateStopHelper;
 
 import java.io.File;
 import java.net.SocketTimeoutException;
@@ -134,7 +136,7 @@ public class SettingFragment extends Fragment implements View.OnClickListener, F
     private TimerHelper downTimer;
     private BoardSimHelper simTimerHelper;
     private BoardWanHelper wanTimerHelper;
-    private SystemInfoHelper systemInfoHelper;
+    private GetSystemInfoHelper systemInfoHelper;
     private Extender_GetWIFIExtenderSettingsHelper extenderHelper;
     private String off;
     private String on;
@@ -203,7 +205,7 @@ public class SettingFragment extends Fragment implements View.OnClickListener, F
         simTimerHelper.setOnSimReadyListener(result -> mMobileNetworkSimSocket.setText(on));
 
         // 加入MW120设备类型判断
-        systemInfoHelper = new SystemInfoHelper();
+        systemInfoHelper = new GetSystemInfoHelper();
         systemInfoHelper.setOnGetSystemInfoSuccessListener(systemInfo -> {
             String deviceName = systemInfo.getDeviceName().toLowerCase();
             isMW120 = deviceName.startsWith(Cons.MW_SERIAL);
@@ -266,7 +268,7 @@ public class SettingFragment extends Fragment implements View.OnClickListener, F
                 public void doSomething() {
                     // 检测WAN口 | SIM是否连接 | 是否为新设备
                     simTimerHelper.boardTimer();
-                    systemInfoHelper.get();
+                    systemInfoHelper.getSystemInfo();
                 }
             };
         }
@@ -398,9 +400,9 @@ public class SettingFragment extends Fragment implements View.OnClickListener, F
      *
      * @param updateDeviceNewVersion
      */
-    private void popversion(Update_DeviceNewVersion updateDeviceNewVersion, System_SystemInfo systemSystemInfo) {
+    private void popversion(GetDeviceNewVersionBean updateDeviceNewVersion, GetSystemInfoBean systemSystemInfo) {
         // 1.获取状态 ( NO_NEW_VERSION || CHECK_ERROR 均为没有版本可以升级 )
-        boolean noNewVersion = updateDeviceNewVersion.getState() == Cons.NO_NEW_VERSION || updateDeviceNewVersion.getState() == Cons.CHECK_ERROR;
+        boolean noNewVersion = updateDeviceNewVersion.getState() == GetDeviceNewVersionBean.CONS_NO_NEW_VERSION || updateDeviceNewVersion.getState() == GetDeviceNewVersionBean.CONS_CHECK_ERROR;
         // 2.显示弹窗
         Drawable pop_bg = getResources().getDrawable(R.drawable.bg_pop_conner);
         View inflate = View.inflate(getActivity(), R.layout.pop_setting_upgrade_checkversion, null);
@@ -439,18 +441,13 @@ public class SettingFragment extends Fragment implements View.OnClickListener, F
         count = 0;
         isDownloading = true;
         FirmUpgradeHelper fuh = new FirmUpgradeHelper(getActivity(), false);
-        fuh.setOnErrorListener(attr -> {
-            count = 0;
-            toast(R.string.connect_failed);
-            isDownloading = false;
-        });
-        fuh.setOnResultErrorListener(attr -> {
+        fuh.setOnErrorListener(() -> {
             count = 0;
             toast(R.string.connect_failed);
             isDownloading = false;
         });
         // 触发成功
-        fuh.setOnSetFOTADownSuccessListener(attr -> {
+        fuh.setOnSetFOTADownSuccessListener(() -> {
             /* 1.显示进度弹窗 */
             Drawable pop_bg = getResources().getDrawable(R.drawable.bg_pop_conner);
             View v = View.inflate(getActivity(), R.layout.pop_setting_dowing, null);
@@ -468,21 +465,22 @@ public class SettingFragment extends Fragment implements View.OnClickListener, F
                 // 1.2.停止定时器
                 stopDownTimerAndPop();
                 // 1.3.请求停止
-                FirmUpgradeHelper fuh1 = new FirmUpgradeHelper(getActivity(), false);
-                fuh1.setOnErrorListener(attr1 -> downError(-1));
-                fuh1.setOnResultErrorListener(attr1 -> downError(-1));
-                fuh1.setOnStopUpgradeListener(attr1 -> {
+                SetDeviceUpdateStopHelper helper = new SetDeviceUpdateStopHelper();
+                helper.setOnSetDeviceUpdateStopSuccessListener(() -> {
                     stopDownTimerAndPop();
                     toast(R.string.setting_upgrade_stop_error);
                     isDownloading = false;
                 });
-                fuh1.stopUpgrade();
+                helper.setOnSetDeviceUpdateStopFailedListener(() -> {
+                    downError(-1);
+                });
+                helper.setDeviceUpdateStop();
             });
 
             /* 2.启动定时器 */
             UpgradeHelper uh = new UpgradeHelper(getActivity(), false);
-            uh.setOnErrorListener(attr1 -> downError(R.string.setting_upgrade_get_update_state_failed));
-            uh.setOnResultErrorListener(attr1 -> downError(R.string.setting_upgrade_get_update_state_failed));
+            uh.setOnErrorListener(() -> downError(R.string.setting_upgrade_get_update_state_failed));
+            uh.setOnResultErrorListener(() -> downError(R.string.setting_upgrade_get_update_state_failed));
             uh.setOnNoStartUpdateListener(attr1 -> {
                 per.setText(String.valueOf(attr1.getProcess() + perText));
                 upgrade_Temp++;
@@ -577,9 +575,8 @@ public class SettingFragment extends Fragment implements View.OnClickListener, F
     private void startDeviceUpgrade() {
         isDownloading = true;
         FirmUpgradeHelper fuh = new FirmUpgradeHelper(getActivity(), false);
-        fuh.setOnErrorListener(attr -> downError(R.string.setting_upgrade_start_update_failed));
-        fuh.setOnResultErrorListener(attr -> downError(R.string.setting_upgrade_start_update_failed));
-        fuh.setOnStartUpgradeListener(attr -> {
+        fuh.setOnErrorListener(() -> downError(R.string.setting_upgrade_start_update_failed));
+        fuh.setOnStartUpgradeListener(() -> {
             toast(R.string.device_will_restart_later);
             OtherUtils.showProgressPop(getActivity(), getString(R.string.updating));
         });
@@ -653,42 +650,22 @@ public class SettingFragment extends Fragment implements View.OnClickListener, F
     public int requestTimes = 0;
 
     private void backupDevice() {
-
-        RX.getInstant().backupDevice(new ResponseObject() {
-            @Override
-            public void onStart() {
-                super.onStart();
-                if (mProgressDialog == null) {
-                    showLoadingDialog();
-                }
-            }
-
-            @Override
-            protected void onSuccess(Object result) {
-                requestTimes = 0;
-                dismissLoadingDialog();
-                showBackupSuccessDialog();
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                requestTimes++;
-                if (requestTimes > 12) {
-                    super.onError(e);
-                    dismissLoadingDialog();
-                    showFailedDialog(R.string.couldn_t_backup_try_again);
-                } else {
-                    backupDevice();
-                }
-                requestTimes = 0;
-            }
-
-            @Override
-            protected void onResultError(ResponseBody.Error error) {
-
+        SetDeviceBackupHelper helper = new SetDeviceBackupHelper();
+        helper.setOnPrepareHelperListener(() -> {
+            if (mProgressDialog == null) {
+                showLoadingDialog();
             }
         });
-
+        helper.setOnDoneHelperListener(() -> {
+            dismissLoadingDialog();
+        });
+        helper.setOnSetDeviceBackupFailedListener(() -> {
+            showFailedDialog(R.string.couldn_t_backup_try_again);
+        });
+        helper.setOnSetDeviceBackupSuccessListener(() -> {
+            showBackupSuccessDialog();
+        });
+        helper.setDeviceBackup();
     }
 
     private void showBackupSuccessDialog() {
@@ -722,39 +699,12 @@ public class SettingFragment extends Fragment implements View.OnClickListener, F
     }
 
     private void downLoadConfigureFile(String saveUrl) {
-        if (!saveUrl.startsWith("/")) {
-            saveUrl = "/" + saveUrl;
-        }
-        File file = new File(FileUtils.createFilePath(saveUrl), "configure.bin");
-        if (file.exists()) {
-            file.delete();
-        }
-        String downloadFileUrl = "/cfgbak/configure.bin";
-        RX.getInstant().downConfigureFile(new Subscriber() {
-            @Override
-            public void onStart() {
-                super.onStart();
-                showLoadingDialog();
-            }
-
-            @Override
-            public void onCompleted() {
-                dismissLoadingDialog();
-                ToastUtil_m.show(getActivity(), R.string.succeed);
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                dismissLoadingDialog();
-                ToastUtil_m.show(getActivity(), R.string.fail);
-            }
-
-            @Override
-            public void onNext(Object o) {
-                dismissLoadingDialog();
-
-            }
-        }, downloadFileUrl, file);
+        SetDeviceBackupHelper helper = new SetDeviceBackupHelper();
+        helper.setOnPrepareHelperListener(() -> showLoadingDialog());
+        helper.setOnDoneHelperListener(() -> dismissLoadingDialog());
+        helper.setOnDownSuccessListener(attr -> ToastUtil_m.show(getActivity(), R.string.succeed));
+        helper.setOnSetDeviceBackupFailedListener(() -> ToastUtil_m.show(getActivity(), R.string.fail));
+        helper.reqBackup();
     }
 
 
@@ -779,65 +729,37 @@ public class SettingFragment extends Fragment implements View.OnClickListener, F
     }
 
     private void restartDevice() {
-        RX.getInstant().rebootDevice(new ResponseObject() {
-            @Override
-            public void onStart() {
-                super.onStart();
-                showLoadingDialog();
-            }
-
-            @Override
-            protected void onSuccess(Object result) {
-                ToastUtil_m.show(getActivity(), R.string.succeed);
-                dismissLoadingDialog();
-            }
-
-            @Override
-            protected void onFailure() {
-                super.onFailure();
-                ToastUtil_m.show(getActivity(), R.string.fail);
-                dismissLoadingDialog();
-            }
-
-            @Override
-            protected void onResultError(ResponseBody.Error error) {
-                super.onResultError(error);
-                ToastUtil_m.show(getActivity(), R.string.fail);
-                dismissLoadingDialog();
-            }
+        SetDeviceRebootHelper helper = new SetDeviceRebootHelper();
+        helper.setOnSetDeviceRebootSuccessListener(() -> {
+            ToastUtil_m.show(getActivity(), R.string.succeed);
         });
+        helper.setOnSetDeviceRebootFailedListener(() -> {
+            ToastUtil_m.show(getActivity(), R.string.fail);
+        });
+        helper.setOnPrepareHelperListener(() -> {
+            showLoadingDialog();
+        });
+        helper.setOnDoneHelperListener(() -> {
+            dismissLoadingDialog();
+        });
+        helper.SetDeviceReboot();
     }
 
 
     private void resetDevice() {
-        RX.getInstant().resetDevice(new ResponseObject() {
-            @Override
-            public void onStart() {
-                super.onStart();
-                showLoadingDialog();
-            }
-
-            @Override
-            protected void onSuccess(Object result) {
-                dismissLoadingDialog();
-                showSuccessDialog();
-            }
-
-            @Override
-            protected void onFailure() {
-                super.onFailure();
-                dismissLoadingDialog();
-                showFailedDialog(R.string.couldn_t_reset_try_again);
-            }
-
-            @Override
-            protected void onResultError(ResponseBody.Error error) {
-                super.onResultError(error);
-                dismissLoadingDialog();
-                showFailedDialog(R.string.couldn_t_reset_try_again);
-            }
+        SetDeviceResetHelper helper = new SetDeviceResetHelper();
+        helper.setOnPrepareHelperListener(() -> {
+            showLoadingDialog();
         });
-
+        helper.setOnSetDeviceResetSuccessListener(() -> {
+            dismissLoadingDialog();
+            showSuccessDialog();
+        });
+        helper.setOnSetDeviceResetFailedListener(() -> {
+            dismissLoadingDialog();
+            showFailedDialog(R.string.couldn_t_reset_try_again);
+        });
+        helper.SetDeviceReset();
     }
 
     public int restoreTimes = 0;
@@ -947,20 +869,12 @@ public class SettingFragment extends Fragment implements View.OnClickListener, F
      */
     private void getDeviceFWCurrentVersion() {
         // 1.获取当前版本
-        RX.getInstant().getSystemInfo(new ResponseObject<System_SystemInfo>() {
-            @Override
-            protected void onSuccess(System_SystemInfo result) {
-                mDeviceVersion.setText(result.getSwVersionMain());
-            }
-
-            @Override
-            protected void onResultError(ResponseBody.Error error) {
-            }
-
-            @Override
-            protected void onFailure() {
-            }
+        GetSystemInfoHelper getSystemInfoHelper = new GetSystemInfoHelper();
+        getSystemInfoHelper.setOnGetSystemInfoSuccessListener(result -> {
+            mDeviceVersion.setText(result.getSwVersionMain());
         });
+        getSystemInfoHelper.getSystemInfo();
+
         // 2.检测新版本
         UpgradeHelper uh = new UpgradeHelper(getActivity(), false);
         uh.setOnNewVersionListener(attr -> mFirmwareUpgrade_dot.setVisibility(View.VISIBLE));
