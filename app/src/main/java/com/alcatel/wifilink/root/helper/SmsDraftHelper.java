@@ -151,44 +151,69 @@ public class SmsDraftHelper {
     private void clearSms(long contactId) {
         // 先清空原先的草稿
         List<Long> draftList = new ArrayList<>();
-        // 获取所有草稿短信
-        SMSContentParam ssp = new SMSContentParam(0, contactId);
-        RX.getInstant().getSMSContentList(ssp, new ResponseObject<SMSContentList>() {
-            @Override
-            protected void onSuccess(SMSContentList result) {
-                for (SMSContentList.SMSContentBean scb : result.getSMSContentList()) {
-                    if (scb.getSMSType() == Cons.DRAFT) {
-                        draftList.add(scb.getSMSId());
-                    }
+
+        //用smart框架内部param代替旧的Param
+        GetSmsContentListParam getSmsContentListParam = new GetSmsContentListParam();
+        getSmsContentListParam.setPage(0);
+        getSmsContentListParam.setContactId((int) contactId);
+
+        GetSMSContentListHelper xGetSMSContentListHelper = new GetSMSContentListHelper();
+        xGetSMSContentListHelper.setOnGetSmsContentListSuccessListener(bean -> {
+            //将xsmart框架内部的Bean转为旧的Bean
+            SMSContentList smsContentList = new SMSContentList();
+            smsContentList.setPage(bean.getPage());
+            smsContentList.setContactId(bean.getContactId());
+            smsContentList.setPhoneNumber(bean.getPhoneNumber());
+            smsContentList.setTotalPageCount(bean.getTotalPageCount());
+            //xsmart框架内部Bean列表
+            List<GetSMSContentListBean.SMSContentBean> smsContentBeans = bean.getSMSContentList();
+            if(smsContentBeans != null && smsContentBeans.size() > 0){
+                //旧的Bean列表容器
+                List<SMSContentList.SMSContentBean> tempSMSContentList = new ArrayList<>();
+                for(GetSMSContentListBean.SMSContentBean smsContentBean : smsContentBeans){
+                    //旧Bean容器
+                    SMSContentList.SMSContentBean tempSmsContentBean = new SMSContentList.SMSContentBean();
+                    tempSmsContentBean.setReportStatus(smsContentBean.getReportStatus());
+                    tempSmsContentBean.setSMSContent(smsContentBean.getSMSContent());
+                    tempSmsContentBean.setSMSId(smsContentBean.getSMSId());
+                    tempSmsContentBean.setSMSTime(smsContentBean.getSMSTime());
+                    tempSmsContentBean.setSMSType(smsContentBean.getSMSType());
+                    //填充旧的Bean
+                    tempSMSContentList.add(tempSmsContentBean);
                 }
-                // 删除全部草稿短信
-                DeleteSmsParam xDeleteSmsParam = new DeleteSmsParam();
-                xDeleteSmsParam.setDelFlag(Cons.DELETE_MORE_SMS);
-                xDeleteSmsParam.setSMSArray(draftList);
-                DeleteSMSHelper xDeleteSMSHelper = new DeleteSMSHelper();
-                xDeleteSMSHelper.setOnDeleteSmsSuccessListener(object -> {
-                    if (onClearDraftListener != null) {
-                        onClearDraftListener.clear();
-                    }
-                });
-                xDeleteSMSHelper.setOnDeleteSmsFailListener(() -> {
-                    if (onClearDraftListener != null) {
-                        onClearDraftListener.clear();
-                    }
-                });
-                xDeleteSMSHelper.setOnDeleteFailListener(() -> {
-                    if (onClearDraftListener != null) {
-                        onClearDraftListener.clear();
-                    }
-                });
-                xDeleteSMSHelper.deleteSms(xDeleteSmsParam);
+                //填充旧的Bean列表容器
+                smsContentList.setSMSContentList(tempSMSContentList);
             }
 
-            @Override
-            protected void onResultError(ResponseBody.Error error) {
-
+            for (SMSContentList.SMSContentBean scb : smsContentList.getSMSContentList()) {
+                if (scb.getSMSType() == Cons.DRAFT) {
+                    draftList.add(scb.getSMSId());
+                }
             }
+            // 删除全部草稿短信
+            DeleteSmsParam xDeleteSmsParam = new DeleteSmsParam();
+            xDeleteSmsParam.setDelFlag(Cons.DELETE_MORE_SMS);
+            xDeleteSmsParam.setSMSArray(draftList);
+            DeleteSMSHelper xDeleteSMSHelper = new DeleteSMSHelper();
+            xDeleteSMSHelper.setOnDeleteSmsSuccessListener(object -> {
+                if (onClearDraftListener != null) {
+                    onClearDraftListener.clear();
+                }
+            });
+            xDeleteSMSHelper.setOnDeleteSmsFailListener(() -> {
+                if (onClearDraftListener != null) {
+                    onClearDraftListener.clear();
+                }
+            });
+            xDeleteSMSHelper.setOnDeleteFailListener(() -> {
+                if (onClearDraftListener != null) {
+                    onClearDraftListener.clear();
+                }
+            });
+            xDeleteSMSHelper.deleteSms(xDeleteSmsParam);
+
         });
+        xGetSMSContentListHelper.getSMSContentList(getSmsContentListParam);
     }
 
     /* 保存草稿短信 */

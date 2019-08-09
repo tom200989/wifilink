@@ -22,6 +22,7 @@ import com.alcatel.wifilink.root.helper.MacHelper;
 import com.alcatel.wifilink.root.ue.activity.ActivityDeviceManager;
 import com.alcatel.wifilink.root.ue.frag.DeviceConnectFragment;
 import com.alcatel.wifilink.root.utils.ToastUtil_m;
+import com.p_xhelper_smart.p_xhelper_smart.bean.SetDeviceNameParam;
 import com.p_xhelper_smart.p_xhelper_smart.helper.SetConnectedDeviceBlockHelper;
 import com.p_xhelper_smart.p_xhelper_smart.helper.SetDeviceNameHelper;
 

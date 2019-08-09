@@ -16,6 +16,7 @@ import com.alcatel.wifilink.network.RX;
 import com.alcatel.wifilink.network.ResponseObject;
 import com.alcatel.wifilink.root.bean.Other_SMSContactSelf;
 import com.alcatel.wifilink.root.bean.Other_SMSContactSelfSort;
+import com.alcatel.wifilink.root.ue.activity.ActivitySmsDetail;
 import com.alcatel.wifilink.root.ue.frag.SmsFragments;
 import com.alcatel.wifilink.root.helper.Cons;
 import com.alcatel.wifilink.root.helper.SmsCountHelper;
@@ -23,6 +24,9 @@ import com.alcatel.wifilink.root.ue.activity.SmsDetailActivity;
 import com.alcatel.wifilink.root.utils.CA;
 import com.alcatel.wifilink.root.utils.Logs;
 import com.alcatel.wifilink.root.utils.OtherUtils;
+import com.p_xhelper_smart.p_xhelper_smart.bean.GetSMSContentListBean;
+import com.p_xhelper_smart.p_xhelper_smart.bean.GetSmsContentListParam;
+import com.p_xhelper_smart.p_xhelper_smart.helper.GetSMSContentListHelper;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -235,14 +239,20 @@ public class SmsRcvAdapter extends RecyclerView.Adapter<SmsHolder> {
     private void setReaded(SMSContactList.SMSContact smsContact) {
         // 清空缓冲区短信未读数量
         smsUnreadMap.put(smsContact.getContactId(), 0);
-        // 调用此接口的目的是为了告知路由器该ID下的短信已读
-        SMSContentParam scp = new SMSContentParam(0, smsContact.getContactId());
-        RX.getInstant().getSMSContentList(scp, new ResponseObject<SMSContentList>() {
-            @Override
-            protected void onSuccess(SMSContentList result) {
 
-            }
+        // 调用此接口的目的是为了告知路由器该ID下的短信已读
+
+        //用smart框架内部param代替旧的Param
+        GetSmsContentListParam getSmsContentListParam = new GetSmsContentListParam();
+        getSmsContentListParam.setPage(0);
+        getSmsContentListParam.setContactId((int) smsContact.getContactId());
+
+        GetSMSContentListHelper xGetSMSContentListHelper = new GetSMSContentListHelper();
+        xGetSMSContentListHelper.setOnGetSmsContentListSuccessListener(bean -> {
+
         });
+        xGetSMSContentListHelper.getSMSContentList(getSmsContentListParam);
+
         RX.getInstant().getSingleSMS(smsContact.getSMSId(), new ResponseObject<SmsSingle>() {
             @Override
             protected void onSuccess(SmsSingle result) {

@@ -570,30 +570,21 @@ public class RX {
     //     subscribe(subscriber, smartLinkApi.request(new RequestBody(Methods.SET_DLNA_SETTINGS, settings)));
     // }
 
-    public void getConnectionStates(ResponseObject<ConnectionStates> subscriber) {
+    /*public void getConnectionStates(ResponseObject<ConnectionStates> subscriber) {
         subscribe(subscriber, smartLinkApi.getConnectionStates(new RequestBody(Methods.GET_CONNECTION_STATE)));
     }
 
-
-    /**
-     * change password
-     *
-     * @param userName   user name
-     * @param currPasswd current password
-     * @param newPasswd  new password
-     * @param subscriber callback
-     */
     public void changePassword(String userName, String currPasswd, String newPasswd, ResponseObject subscriber) {
         User_NewPasswdParams passwdParams = new User_NewPasswdParams(userName, currPasswd, newPasswd);
         subscribe(subscriber, smartLinkApi.request(new RequestBody(Methods.CHANGE_PASSWORD, passwdParams)));
-    }
+    }*/
 
     public void connect(ResponseObject subscriber) {
         Logs.v("ma_test", "gateWay: " + gateWay);
         subscribe(subscriber, smartLinkApi.request(new RequestBody(Methods.CONNECT)));
     }
 
-    public void disConnect(ResponseObject subscriber) {
+    /*public void disConnect(ResponseObject subscriber) {
         subscribe(subscriber, smartLinkApi.request(new RequestBody(Methods.DISCONNECT)));
     }
 
@@ -611,15 +602,15 @@ public class RX {
 
     public void setNetworkSettings(Network network, ResponseObject subscriber) {
         subscribe(subscriber, smartLinkApi.request(new RequestBody(Methods.SET_NETWORK_SETTINGS, network)));
-    }
+    }*/
 
     // public void getUsageRecord(String current_time, ResponseObject<UsageRecord> subscriber) {
     //     subscribe(subscriber, smartLinkApi.getUsageRecord(new RequestBody(Methods.GET_USAGERECORD, new UsageRecordParam(current_time))));
     // }
 
-    public void getBatteryState(ResponseObject<BatteryState> subscriber) {
+    /*public void getBatteryState(ResponseObject<BatteryState> subscriber) {
         subscribe(subscriber, smartLinkApi.getBatteryState(new RequestBody(Methods.GET_BATTERYSTATE)));
-    }
+    }*/
 
     // public void setUsageSetting(UsageSetting usageSettingParams, ResponseObject subscriber) {
     //     subscribe(subscriber, smartLinkApi.request(new RequestBody(Methods.SET_USAGE_SETTING, usageSettingParams)));
@@ -645,7 +636,7 @@ public class RX {
     //     subscribe(subscriber, smartLinkApi.request(new RequestBody(Methods.SET_USAGERECORDCLEAR, new UsageParams(clearTime))));
     // }
 
-    public void getConnectedDeviceList(ResponseObject<ConnectedList> subscriber) {
+    /*public void getConnectedDeviceList(ResponseObject<ConnectedList> subscriber) {
         subscribe(subscriber, smartLinkApi.getConnectedDeviceList(new RequestBody(Methods.GET_CONNECTEDDEVICELIST)));
     }
 
@@ -656,17 +647,17 @@ public class RX {
 
     public void setConnectedDeviceBlock(String DeviceName, String MacAddress, ResponseObject subscriber) {
         subscribe(subscriber, smartLinkApi.request(new RequestBody(Methods.SET_CONNECTEDDEVICEBLOCK, new ConnectedDeviceBlockParam(DeviceName, MacAddress))));
-    }
+    }*/
 
-    public void setDeviceUnblock(String DeviceName, String MacAddress, ResponseObject subscriber) {
+    /*public void setDeviceUnblock(String DeviceName, String MacAddress, ResponseObject subscriber) {
         subscribe(subscriber, smartLinkApi.request(new RequestBody(Methods.SET_DEVICEUNBLOCK, new DeviceUnblockParam(DeviceName, MacAddress))));
-    }
+    }*/
 
-    public void setDeviceName(String DeviceName, String MacAddress, int DeviceType, ResponseObject subscriber) {
+    /*public void setDeviceName(String DeviceName, String MacAddress, int DeviceType, ResponseObject subscriber) {
         subscribe(subscriber, smartLinkApi.request(new RequestBody(Methods.SET_DEVICENAME, new DeviceNameParam(DeviceName, MacAddress, DeviceType))));
-    }
+    }*/
 
-    public void setConnectionMode(int connectMode, ResponseObject subscriber) {
+    /*public void setConnectionMode(int connectMode, ResponseObject subscriber) {
         ConnectionMode connectionModeParams = new ConnectionMode(connectMode);
         subscribe(subscriber, smartLinkApi.request(new RequestBody(Methods.SET_CONNECTION_MODE, connectionModeParams)));
     }
@@ -681,27 +672,27 @@ public class RX {
 
     public void getSmsInitState(ResponseObject<SmsInitState> subscriber) {
         subscribe(subscriber, smartLinkApi.getSmsInitState(new RequestBody(Methods.GET_SMSINITSTATE)));
-    }
+    }*/
 
-    public void getSMSContentList(SMSContentParam scp, ResponseObject<SMSContentList> subscriber) {
+    /*public void getSMSContentList(SMSContentParam scp, ResponseObject<SMSContentList> subscriber) {
         subscribe(subscriber, smartLinkApi.getSMSContentList(new RequestBody(Methods.GET_SMSCONTENTLIST, scp)));
-    }
+    }*/
 
-    public void saveSMS(SMSSaveParam ssp, ResponseObject subscriber) {
+    /*public void saveSMS(SMSSaveParam ssp, ResponseObject subscriber) {
         subscribe(subscriber, smartLinkApi.request(new RequestBody(Methods.SAVESMS, ssp)));
-    }
+    }*/
 
-    public void deleteSMS(SMSDeleteParam sp, ResponseObject subscriber) {
+    /*public void deleteSMS(SMSDeleteParam sp, ResponseObject subscriber) {
         subscribe(subscriber, smartLinkApi.request(new RequestBody(Methods.DELETESMS, sp)));
-    }
+    }*/
 
-    public void sendSMS(SMSSendParam sssp, ResponseObject subscriber) {
+    /*public void sendSMS(SMSSendParam sssp, ResponseObject subscriber) {
         subscribe(subscriber, smartLinkApi.request(new RequestBody(Methods.SENDSMS, sssp)));
-    }
+    }*/
 
-    public void GetSendSMSResult(ResponseObject<SMSSendResult> subscriber) {
+    /*public void GetSendSMSResult(ResponseObject<SMSSendResult> subscriber) {
         subscribe(subscriber, smartLinkApi.GetSendSMSResult(new RequestBody(Methods.GET_SEND_SMS_RESULT)));
-    }
+    }*/
 
     public void getSingleSMS(long SMSId, ResponseObject<SmsSingle> subscriber) {
         subscribe(subscriber, smartLinkApi.GetSingleSMS(new RequestBody(Methods.GET_SEND_SMS_RESULT, SMSId)));

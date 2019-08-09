@@ -169,24 +169,16 @@ public class SmsDeleteSessionHelper {
         xGetSmsInitStateHelper.setOnGetSmsInitStateSuccessListener(bean -> {
             if (bean.getState() == GetSmsInitStateHelper.SMS_COMPLETE) {
                 // 2.完成状态下进行删除操作
-                SMSDeleteParam sdp = new SMSDeleteParam(Cons.DELETE_MORE_SMS, contactIds);
-                RX.getInstant().deleteSMS(sdp, new ResponseObject() {
-                    @Override
-                    protected void onSuccess(Object result) {
-                        // 删除多个会话成功
-                        DelMoreSessionSuccessNext(result);
-                    }
+                DeleteSmsParam xDeleteSmsParam = new DeleteSmsParam();
+                xDeleteSmsParam.setDelFlag(Cons.DELETE_MORE_SMS);
+                xDeleteSmsParam.setSMSArray(contactIds);
 
-                    @Override
-                    protected void onResultError(ResponseBody.Error error) {
-                        resultErrorNext(error);
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        errorNext(e);
-                    }
-                });
+                DeleteSMSHelper xDeleteSMSHelper = new DeleteSMSHelper();
+                // 删除多个会话成功
+                xDeleteSMSHelper.setOnDeleteSmsSuccessListener(this::DelMoreSessionSuccessNext);
+                xDeleteSMSHelper.setOnDeleteSmsFailListener(() -> errorNext(null));
+                xDeleteSMSHelper.setOnDeleteFailListener(() -> resultErrorNext(null));
+                xDeleteSMSHelper.deleteSms(xDeleteSmsParam);
             }else{
                 deleteMoreSessionSms(contactIds);
             }

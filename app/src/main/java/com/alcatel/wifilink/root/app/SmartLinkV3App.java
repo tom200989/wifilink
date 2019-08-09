@@ -10,6 +10,7 @@ import com.alcatel.wifilink.root.utils.Constants;
 import com.alcatel.wifilink.root.utils.HostnameUtils;
 import com.alcatel.wifilink.root.utils.OtherUtils;
 import com.alcatel.wifilink.root.utils.PreferenceUtil;
+import com.p_xhelper_smart.p_xhelper_smart.core.XSmart;
 
 import org.xutils.x;
 
@@ -49,5 +50,7 @@ public class SmartLinkV3App extends MultiDexApplication {
         // 4.清空share
         SharedPreferences sp = SmartLinkV3App.getInstance().getSharedPreferences(Constants.SP_GLOBAL_INFO, Context.MODE_PRIVATE);
         sp.edit().clear().apply();
+        //初始化 by haide at 2019-08-09 , 不加就会崩溃
+        XSmart.init(getApplicationContext());
     }
 }

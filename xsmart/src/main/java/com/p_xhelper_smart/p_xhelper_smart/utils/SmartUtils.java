@@ -7,6 +7,9 @@ import android.net.NetworkInfo;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 
+/**
+ * The type Smart utils.
+ */
 /*
  * Created by qianli.ma on 2019/7/25 0025.
  */
@@ -64,7 +67,7 @@ public class SmartUtils {
      * WIFI是否连接
      *
      * @param context 域
-     * @return T:有
+     * @return T :有
      */
     public static boolean isWifiOn(Context context) {
         // 第一种方式测量WIFI是否打开
