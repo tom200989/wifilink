@@ -6,7 +6,7 @@ public class ConnectedList {
 
     public List<Device> ConnectedList;
 
-    public class Device {
+    public static class Device {
         public int id;
         public String DeviceName;
         public String MacAddress;

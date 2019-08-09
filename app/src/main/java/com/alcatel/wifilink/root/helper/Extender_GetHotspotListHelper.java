@@ -4,6 +4,11 @@ import com.alcatel.wifilink.root.bean.Extender_GetHotspotListResult;
 import com.alcatel.wifilink.network.RX;
 import com.alcatel.wifilink.network.ResponseBody;
 import com.alcatel.wifilink.network.ResponseObject;
+import com.p_xhelper_smart.p_xhelper_smart.bean.GetHotSpotListBean;
+import com.p_xhelper_smart.p_xhelper_smart.helper.GetHotspotListHelper;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by qianli.ma on 2018/5/23 0023.
@@ -11,22 +16,31 @@ import com.alcatel.wifilink.network.ResponseObject;
 
 public class Extender_GetHotspotListHelper {
     public void get() {
-        RX.getInstant().getHotspotList(new ResponseObject<Extender_GetHotspotListResult>() {
-            @Override
-            protected void onSuccess(Extender_GetHotspotListResult result) {
-                successNext(result);
+        GetHotspotListHelper xGetHotspotListHelper = new GetHotspotListHelper();
+        xGetHotspotListHelper.setOnGetHotSpotListSuccessListener(bean -> {
+            Extender_GetHotspotListResult extenderGetHotspotListResult = new Extender_GetHotspotListResult();
+            List<GetHotSpotListBean.HotspotBean> hotspotBeanList = bean.getHotspotList();
+            if(hotspotBeanList != null && hotspotBeanList.size() >0 ){
+                List<Extender_GetHotspotListResult.HotspotListBean> tempHotspotList = new ArrayList<>();
+                for(GetHotSpotListBean.HotspotBean hotspotBean : hotspotBeanList){
+                    Extender_GetHotspotListResult.HotspotListBean tempHotspotListBean = new Extender_GetHotspotListResult.HotspotListBean();
+                    tempHotspotListBean.setConnectState(hotspotBean.getConnectState());
+                    tempHotspotListBean.setHotspotId(hotspotBean.getHotspotId());
+                    tempHotspotListBean.setIsSave(hotspotBean.getIsSave());
+                    tempHotspotListBean.setSecurityMode(hotspotBean.getSecurityMode());
+                    tempHotspotListBean.setSignal(hotspotBean.getSignal());
+                    tempHotspotListBean.setSSID(hotspotBean.getSSID());
+                    tempHotspotList.add(tempHotspotListBean);
+                }
+                extenderGetHotspotListResult.setHotspotList(tempHotspotList);
             }
-
-            @Override
-            protected void onFailure() {
-                failedNext(null);
-            }
-
-            @Override
-            protected void onResultError(ResponseBody.Error error) {
-                resultErrorNext(error);
-            }
+            extenderGetHotspotListResult.setStatus(bean.getStatus());
+            successNext(extenderGetHotspotListResult);
         });
+        xGetHotspotListHelper.setOnGetHotSpotListFailListener(() -> {
+
+        });
+        xGetHotspotListHelper.getHotSpotList();
     }
 
     private OnResultErrorListener onResultErrorListener;

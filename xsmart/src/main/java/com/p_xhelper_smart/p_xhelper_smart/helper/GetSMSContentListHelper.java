@@ -31,6 +31,9 @@ public class GetSMSContentListHelper extends BaseHelper {
 
             @Override
             public void fwError(FwError fwError) {
+                if(fwError != null && fwError.code.equals("060301")){
+                    getListFailNext();
+                }
                 getSmsContentListFailNext();
             }
 
@@ -81,4 +84,22 @@ public class GetSMSContentListHelper extends BaseHelper {
         }
     }
 
+    /*----------------------------------获取短信内容列表失败的回调------------------------------*/
+    public interface OnGetListFailListener {
+        void GetListFail();
+    }
+
+    private OnGetListFailListener onGetListFailListener;
+
+    //对外方式setOnGetListFailListener
+    public void setOnGetListFailListener(OnGetListFailListener onGetListFailListener) {
+        this.onGetListFailListener = onGetListFailListener;
+    }
+
+    //封装方法GetListFailNext
+    private void getListFailNext() {
+        if (onGetListFailListener != null) {
+            onGetListFailListener.GetListFail();
+        }
+    }
 }

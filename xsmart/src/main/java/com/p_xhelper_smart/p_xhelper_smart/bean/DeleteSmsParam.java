@@ -18,7 +18,7 @@ public class DeleteSmsParam implements Serializable {
                         //1: delete one record in Contact SMS list
                         //2: delete one record in Content SMS list
                         //3: delete one or more SMS
-    private List<Integer> SMSArray;//要删除的sms的短信id
+    private List<Long> SMSArray;//要删除的sms的短信id
 
     public static final int CONS_DELETE_ALL = 0;
     public static final int CONS_DELETE_ONY_BY_CONTACT = 1;
@@ -37,11 +37,11 @@ public class DeleteSmsParam implements Serializable {
         this.DelFlag = DelFlag;
     }
 
-    public List<Integer> getSMSArray() {
+    public List<Long> getSMSArray() {
         return SMSArray;
     }
 
-    public void setSMSArray(List<Integer> SMSArray) {
+    public void setSMSArray(List<Long> SMSArray) {
         this.SMSArray = SMSArray;
     }
 }

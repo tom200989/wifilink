@@ -50,6 +50,18 @@ import com.alcatel.wifilink.root.utils.ActionbarSetting;
 import com.alcatel.wifilink.root.utils.DataUtils;
 import com.alcatel.wifilink.root.utils.ToastUtil;
 import com.alcatel.wifilink.root.utils.ToastUtil_m;
+import com.p_xhelper_smart.p_xhelper_smart.bean.DeleteSmsParam;
+import com.p_xhelper_smart.p_xhelper_smart.bean.GetSMSContentListBean;
+import com.p_xhelper_smart.p_xhelper_smart.bean.GetSendSMSResultBean;
+import com.p_xhelper_smart.p_xhelper_smart.bean.GetSmsContentListParam;
+import com.p_xhelper_smart.p_xhelper_smart.bean.SaveSmsParam;
+import com.p_xhelper_smart.p_xhelper_smart.bean.SendSmsParam;
+import com.p_xhelper_smart.p_xhelper_smart.helper.DeleteSMSHelper;
+import com.p_xhelper_smart.p_xhelper_smart.helper.GetSMSContentListHelper;
+import com.p_xhelper_smart.p_xhelper_smart.helper.GetSendSMSResultHelper;
+import com.p_xhelper_smart.p_xhelper_smart.helper.GetSmsInitStateHelper;
+import com.p_xhelper_smart.p_xhelper_smart.helper.SaveSMSHelper;
+import com.p_xhelper_smart.p_xhelper_smart.helper.SendSMSHelper;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -62,7 +74,6 @@ import static android.widget.RelativeLayout.ALIGN_LEFT;
 import static android.widget.RelativeLayout.CENTER_VERTICAL;
 import static android.widget.RelativeLayout.LEFT_OF;
 import static com.alcatel.wifilink.R.id.sms_sent_fail_left_iv;
-import static com.alcatel.wifilink.root.helper.Cons.GET_SMS_CONTENT_LIST_FAILED;
 
 public class ActivitySmsDetail extends BaseActivityWithBack implements OnClickListener, OnScrollListener, TextWatcher {
     public static final String INTENT_EXTRA_SMS_NUMBER = "sms_number";
@@ -162,36 +173,54 @@ public class ActivitySmsDetail extends BaseActivityWithBack implements OnClickLi
 
     /* **** getAllstatus **** */
     private void getAllStatus() {
-        RX.getInstant().getSmsInitState(new ResponseObject<SmsInitState>() {
-            @Override
-            protected void onSuccess(SmsInitState result) {
-                if (result.getState() == Cons.SMS_COMPLETE) {
-                    // getInstant sms contents
-                    getSMSContentList();
-                }
+        GetSmsInitStateHelper xGetSmsInitStateHelper = new GetSmsInitStateHelper();
+        xGetSmsInitStateHelper.setOnGetSmsInitStateSuccessListener(bean -> {
+            if (bean.getState() == GetSmsInitStateHelper.SMS_COMPLETE) {
+                // getInstant sms contents
+                getSMSContentList();
             }
         });
+        xGetSmsInitStateHelper.getSmsInitState();
     }
 
     /* **** getSMSContentList **** */
     private void getSMSContentList() {
-        SMSContentParam scp = new SMSContentParam(0, m_nContactID);
-        RX.getInstant().getSMSContentList(scp, new ResponseObject<SMSContentList>() {
-            @Override
-            protected void onSuccess(SMSContentList result) {
-                // if ok
-                getSuccessful(result);
-            }
+        //用smart框架内部param代替旧的Param
+        GetSmsContentListParam getSmsContentListParam = new GetSmsContentListParam();
+        getSmsContentListParam.setPage(0);
+        getSmsContentListParam.setContactId(m_nContactID);
 
-            @Override
-            protected void onResultError(ResponseBody.Error error) {
-                if (error.getCode().equals(GET_SMS_CONTENT_LIST_FAILED)) {
-                    ActivitySmsDetail.this.finish();
-                    return;
+        GetSMSContentListHelper xGetSMSContentListHelper = new GetSMSContentListHelper();
+        xGetSMSContentListHelper.setOnGetSmsContentListSuccessListener(bean -> {
+            //将xsmart框架内部的Bean转为旧的Bean
+            SMSContentList smsContentList = new SMSContentList();
+            smsContentList.setPage(bean.getPage());
+            smsContentList.setContactId(bean.getContactId());
+            smsContentList.setPhoneNumber(bean.getPhoneNumber());
+            smsContentList.setTotalPageCount(bean.getTotalPageCount());
+            //xsmart框架内部Bean列表
+            List<GetSMSContentListBean.SMSContentBean> smsContentBeans = bean.getSMSContentList();
+            if(smsContentBeans != null && smsContentBeans.size() > 0){
+                //旧的Bean列表容器
+                List<SMSContentList.SMSContentBean> tempSMSContentList = new ArrayList<>();
+                for(GetSMSContentListBean.SMSContentBean smsContentBean : smsContentBeans){
+                    //旧Bean容器
+                    SMSContentList.SMSContentBean tempSmsContentBean = new SMSContentList.SMSContentBean();
+                    tempSmsContentBean.setReportStatus(smsContentBean.getReportStatus());
+                    tempSmsContentBean.setSMSContent(smsContentBean.getSMSContent());
+                    tempSmsContentBean.setSMSId(smsContentBean.getSMSId());
+                    tempSmsContentBean.setSMSTime(smsContentBean.getSMSTime());
+                    tempSmsContentBean.setSMSType(smsContentBean.getSMSType());
+                    //填充旧的Bean
+                    tempSMSContentList.add(tempSmsContentBean);
                 }
-                super.onResultError(error);
+                //填充旧的Bean列表容器
+                smsContentList.setSMSContentList(tempSMSContentList);
             }
+            getSuccessful(smsContentList);
         });
+        xGetSMSContentListHelper.setOnGetListFailListener(ActivitySmsDetail.this::finish);
+        xGetSMSContentListHelper.getSMSContentList(getSmsContentListParam);
     }
 
     /* **** getSuccessful **** */
@@ -303,25 +332,25 @@ public class ActivitySmsDetail extends BaseActivityWithBack implements OnClickLi
 
             List<String> phones = new ArrayList<>();
             phones.add(strNumber);
-            SMSSaveParam ssp = new SMSSaveParam(item.nSMSID, strContent, DataUtils.getCurrent(), phones);
-            RX.getInstant().saveSMS(ssp, new ResponseObject() {
-                @Override
-                protected void onSuccess(Object result) {
-                    ToastUtil_m.show(ActivitySmsDetail.this, getString(R.string.sms_save_success));
-                }
-
-                @Override
-                protected void onResultError(ResponseBody.Error error) {
-                    super.onResultError(error);
-                    String code = error.getCode();
-                    if (code.equals(Cons.SAVE_FAIL_WITH_STORE_SPACE_FULL)) {
-                        ToastUtil_m.show(ActivitySmsDetail.this, getString(R.string.sms_error_message_full_storage));
-                    } else {
-                        ToastUtil_m.show(ActivitySmsDetail.this, getString(R.string.sms_save_error));
-                    }
-                    ActivitySmsDetail.this.finish();
-                }
+            //用xsmart内部的Param替换旧的Param
+            SaveSmsParam xSaveSmsParam = new SaveSmsParam();
+            xSaveSmsParam.setSMSId((int) item.nSMSID);
+            xSaveSmsParam.setSMSContent(strContent);
+            xSaveSmsParam.setSMSTime(DataUtils.getCurrent());
+            xSaveSmsParam.setPhoneNumber(phones);
+            SaveSMSHelper xSaveSMSHelper = new SaveSMSHelper();
+            xSaveSMSHelper.setOnSaveSMSSuccessListener(() -> {
+                ToastUtil_m.show(ActivitySmsDetail.this, getString(R.string.sms_save_success));
             });
+            xSaveSMSHelper.setOnSaveFailListener(() -> {
+                ToastUtil_m.show(ActivitySmsDetail.this, getString(R.string.sms_save_error));
+                ActivitySmsDetail.this.finish();
+            });
+            xSaveSMSHelper.setOnSpaceFullListener(() -> {
+                ToastUtil_m.show(ActivitySmsDetail.this, getString(R.string.sms_error_message_full_storage));
+                ActivitySmsDetail.this.finish();
+            });
+            xSaveSMSHelper.saveSms(xSaveSmsParam);
         } else {
             this.finish();
             if (m_smsListData.size() == 0)
@@ -383,112 +412,113 @@ public class ActivitySmsDetail extends BaseActivityWithBack implements OnClickLi
 
         List<String> phones = new ArrayList<>();
         phones.add(tv_title.getText().toString());
-        SMSSendParam sssp = new SMSSendParam(-1, m_etContent.getText().toString(), DataUtils.getCurrent(), phones);
-        /* send */
-        RX.getInstant().sendSMS(sssp, new ResponseObject() {
-            @Override
-            protected void onSuccess(Object result) {
-                m_progressWaiting.setVisibility(View.GONE);
-                /* getSendResult */
-                getSendResult();
-            }
-
-            /* **** getSendResult **** */
-            private void getSendResult() {
-                RX.getInstant().GetSendSMSResult(new ResponseObject<SMSSendResult>() {
-                    @Override
-                    protected void onSuccess(SMSSendResult result) {
-                        m_progressWaiting.setVisibility(View.GONE);
-                        int resultCode = result.getSendStatus();
-                        SendStatus sendStatus = SendStatus.build(resultCode);
-                        m_sendStatus = sendStatus;
-                        boolean bEnd = false;
-                        if (sendStatus == SendStatus.Fail) {
-                            String msgRes = ActivitySmsDetail.this.getString(R.string.sms_error_send_error);
-                            Toast.makeText(ActivitySmsDetail.this, msgRes, Toast.LENGTH_SHORT).show();
-                            bEnd = true;
-                        }
-                        if (sendStatus == SendStatus.Fail_Memory_Full) {
-                            String msgRes = ActivitySmsDetail.this.getString(R.string.sms_error_message_full_storage);
-                            ToastUtil.showMessage(ActivitySmsDetail.this, msgRes, Toast.LENGTH_SHORT);
-                            bEnd = true;
-                        }
-                        if (sendStatus == SendStatus.Success) {
-                            String msgRes = ActivitySmsDetail.this.getString(R.string.sms_send_success);
-                            Toast.makeText(ActivitySmsDetail.this, msgRes, Toast.LENGTH_SHORT).show();
-                            bEnd = true;
-                        }
-
-                        /* attesion: if the first state is sending, then request again */
-                        if (sendStatus == SendStatus.Sending) {
-                            getSendResult();
-                        }
-
-
-                        if (bEnd == true) {
-                            m_bSendEnd = true;
-                            getAllStatus();
-                        }
-                    }
-
-                    @Override
-                    protected void onFailure() {
-                        super.onFailure();
-                        m_progressWaiting.setVisibility(View.GONE);
-                        m_etContent.setEnabled(true);
-                        m_btnSend.setEnabled(true);
-                        iv_delete.setEnabled(true);
-                        m_bDeleteSingleEnable = true;
-                    }
-
-                    @Override
-                    protected void onResultError(ResponseBody.Error error) {
-                        super.onResultError(error);
-                        m_progressWaiting.setVisibility(View.GONE);
-                        if (error.getCode().equals(Cons.GET_SEND_SMS_STATUS_FAILED)) {
-                            ToastUtil_m.show(ActivitySmsDetail.this, getString(R.string.sms_error_send_error));
-                        }
-                    }
-                });
-            }
-
-            @Override
-            protected void onResultError(ResponseBody.Error error) {
-                super.onResultError(error);
-                String code = error.getCode();
-                if (code.equals(Cons.FAIL_WITH_STORE_SPACE_FULL)) {
-                    String msgRes = ActivitySmsDetail.this.getString(R.string.sms_error_message_full_storage);
-                    ToastUtil.showMessage(ActivitySmsDetail.this, msgRes, Toast.LENGTH_SHORT);
-                    m_progressWaiting.setVisibility(View.GONE);
-                    m_etContent.setEnabled(true);
-                    m_btnSend.setEnabled(true);
-                    iv_delete.setEnabled(true);
-                    m_bDeleteSingleEnable = true;
-                    m_bSendEnd = true;
-                    m_sendStatus = SendStatus.Fail_Memory_Full;
-                    getAllStatus();
-                } else {
-                    String msgRes = ActivitySmsDetail.this.getString(R.string.sms_error_send_error);
-                    Toast.makeText(ActivitySmsDetail.this, msgRes, Toast.LENGTH_SHORT).show();
-                    m_progressWaiting.setVisibility(View.GONE);
-                    m_etContent.setEnabled(true);
-                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                    imm.hideSoftInputFromWindow(m_etContent.getWindowToken(), 0);
-                    m_btnSend.setEnabled(true);
-                    iv_delete.setEnabled(true);
-                    m_bDeleteSingleEnable = true;
-                    m_bSendEnd = true;
-                    m_sendStatus = SendStatus.Fail;
-                    getAllStatus();
-                }
-            }
+        //用xsmart内部的Param替换旧的Param
+        SendSmsParam xSendSmsParam = new SendSmsParam();
+        xSendSmsParam.setSMSId(-1);
+        xSendSmsParam.setSMSContent(m_etContent.getText().toString());
+        xSendSmsParam.setSMSTime(DataUtils.getCurrent());
+        xSendSmsParam.setPhoneNumber(phones);
+        SendSMSHelper xSendSMSHelper = new SendSMSHelper();
+        xSendSMSHelper.setOnSendSmsSuccessListener(() -> {
+            m_progressWaiting.setVisibility(View.GONE);
+            /* getSendResult */
+            getSendResult();
         });
+        xSendSMSHelper.setOnSendFailListener(() -> {
+            String msgRes = ActivitySmsDetail.this.getString(R.string.sms_error_send_error);
+            Toast.makeText(ActivitySmsDetail.this, msgRes, Toast.LENGTH_SHORT).show();
+            m_progressWaiting.setVisibility(View.GONE);
+            m_etContent.setEnabled(true);
+            InputMethodManager imm0 = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm0.hideSoftInputFromWindow(m_etContent.getWindowToken(), 0);
+            m_btnSend.setEnabled(true);
+            iv_delete.setEnabled(true);
+            m_bDeleteSingleEnable = true;
+            m_bSendEnd = true;
+            m_sendStatus = SendStatus.Fail;
+            getAllStatus();
+        });
+        xSendSMSHelper.setOnLastMessageListener(() -> {
+            String msgRes = ActivitySmsDetail.this.getString(R.string.sms_error_send_error);
+            Toast.makeText(ActivitySmsDetail.this, msgRes, Toast.LENGTH_SHORT).show();
+            m_progressWaiting.setVisibility(View.GONE);
+            m_etContent.setEnabled(true);
+            InputMethodManager imm1 = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm1.hideSoftInputFromWindow(m_etContent.getWindowToken(), 0);
+            m_btnSend.setEnabled(true);
+            iv_delete.setEnabled(true);
+            m_bDeleteSingleEnable = true;
+            m_bSendEnd = true;
+            m_sendStatus = SendStatus.Fail;
+            getAllStatus();
+        });
+        xSendSMSHelper.setOnSpaceFullListener(() -> {
+            String msgRes = ActivitySmsDetail.this.getString(R.string.sms_error_message_full_storage);
+            ToastUtil.showMessage(ActivitySmsDetail.this, msgRes, Toast.LENGTH_SHORT);
+            m_progressWaiting.setVisibility(View.GONE);
+            m_etContent.setEnabled(true);
+            m_btnSend.setEnabled(true);
+            iv_delete.setEnabled(true);
+            m_bDeleteSingleEnable = true;
+            m_bSendEnd = true;
+            m_sendStatus = SendStatus.Fail_Memory_Full;
+            getAllStatus();
+        });
+        xSendSMSHelper.sendSms(xSendSmsParam);
 
         m_progressWaiting.setVisibility(View.VISIBLE);
         m_btnSend.setEnabled(false);
         m_etContent.setEnabled(false);
         iv_delete.setEnabled(false);
         m_bDeleteSingleEnable = false;
+    }
+
+    /* **** getSendResult **** */
+    private void getSendResult() {
+        GetSendSMSResultHelper xGetSendSMSResultHelper = new GetSendSMSResultHelper();
+        xGetSendSMSResultHelper.setOnGetSendSmsResultSuccessListener(bean -> {
+            m_progressWaiting.setVisibility(View.GONE);
+            int resultCode = bean.getSendStatus();
+            SendStatus sendStatus = SendStatus.build(resultCode);
+            m_sendStatus = sendStatus;
+            boolean bEnd = false;
+            if (sendStatus == SendStatus.Fail) {
+                String msgRes = ActivitySmsDetail.this.getString(R.string.sms_error_send_error);
+                Toast.makeText(ActivitySmsDetail.this, msgRes, Toast.LENGTH_SHORT).show();
+                bEnd = true;
+            }
+            if (sendStatus == SendStatus.Fail_Memory_Full) {
+                String msgRes = ActivitySmsDetail.this.getString(R.string.sms_error_message_full_storage);
+                ToastUtil.showMessage(ActivitySmsDetail.this, msgRes, Toast.LENGTH_SHORT);
+                bEnd = true;
+            }
+            if (sendStatus == SendStatus.Success) {
+                String msgRes = ActivitySmsDetail.this.getString(R.string.sms_send_success);
+                Toast.makeText(ActivitySmsDetail.this, msgRes, Toast.LENGTH_SHORT).show();
+                bEnd = true;
+            }
+
+            /* attesion: if the first state is sending, then request again */
+            if (sendStatus == SendStatus.Sending) {
+                getSendResult();
+            }
+
+            if (bEnd == true) {
+                m_bSendEnd = true;
+                getAllStatus();
+            }
+        });
+        xGetSendSMSResultHelper.setOnGetSendSmsResultFailListener(() -> {
+            m_progressWaiting.setVisibility(View.GONE);
+            m_etContent.setEnabled(true);
+            m_btnSend.setEnabled(true);
+            iv_delete.setEnabled(true);
+            m_bDeleteSingleEnable = true;
+        });
+        xGetSendSMSResultHelper.setOnGetSendFailListener(() -> {
+            ToastUtil_m.show(ActivitySmsDetail.this, getString(R.string.sms_error_send_error));
+        });
+        xGetSendSMSResultHelper.getSendSmsResult();
     }
 
     /* **** getOneSmsLenth **** */
@@ -810,55 +840,43 @@ public class ActivitySmsDetail extends BaseActivityWithBack implements OnClickLi
     }
 
     /* **** deletedSmsFuntion **** */
-    private void deletedSmsFuntion(int DelFlag, List<Long> smsIds, List<SMSDetailItem> m_smsListData, @Nullable SMSDetailItem 
+    private void deletedSmsFuntion(int DelFlag, List<Long> smsIds, List<SMSDetailItem> m_smsListData, @Nullable SMSDetailItem
                                                                                                             item) {
-        SMSDeleteParam sdp = new SMSDeleteParam(DelFlag, smsIds);
-        RX.getInstant().deleteSMS(sdp, new ResponseObject() {
-            @Override
-            protected void onSuccess(Object result) {
+        //用xsmart内部的Param替换旧的Param
+        DeleteSmsParam xDeleteSmsParam = new DeleteSmsParam();
+        xDeleteSmsParam.setDelFlag(DelFlag);
+        xDeleteSmsParam.setSMSArray(smsIds);
 
-                // when deleted sendAgainSuccess then reset all status
-                rebackStatus(false);
+        DeleteSMSHelper xDeleteSMSHelper = new DeleteSMSHelper();
+        xDeleteSMSHelper.setOnDeleteSmsSuccessListener(result-> {
+            // when deleted sendAgainSuccess then reset all status
+            rebackStatus(false);
 
-                m_bDeleteEnd = true;
-                m_progressWaiting.setVisibility(View.GONE);
-                Toast.makeText(ActivitySmsDetail.this, getString(R.string.sms_delete_multi_success), Toast.LENGTH_SHORT).show();
-                
-                /* if item is not null it means that just del the single sms */
-                if (item != null && m_smsListData.size() > 0 && m_smsListData.contains(item)) {
-                    m_smsListData.remove(item);
-                }
+            m_bDeleteEnd = true;
+            m_progressWaiting.setVisibility(View.GONE);
+            Toast.makeText(ActivitySmsDetail.this, getString(R.string.sms_delete_multi_success), Toast.LENGTH_SHORT).show();
 
-                if (m_smsListData.size() <= 0) {
-                    ActivitySmsDetail.this.finish();
-                } else {
-                    // 重新获取内容
-                    getAllStatus();
-                }
-
+            /* if item is not null it means that just del the single sms */
+            if (item != null && m_smsListData.size() > 0 && m_smsListData.contains(item)) {
+                m_smsListData.remove(item);
             }
 
-            @Override
-            protected void onFailure() {
-                super.onFailure();
-                rebackStatus(false);
-                m_progressWaiting.setVisibility(View.GONE);
-                Toast.makeText(ActivitySmsDetail.this, getString(R.string.sms_delete_error), Toast.LENGTH_SHORT).show();
+            if (m_smsListData.size() <= 0) {
+                ActivitySmsDetail.this.finish();
+            } else {
                 // 重新获取内容
                 getAllStatus();
             }
-
-            @Override
-            protected void onResultError(ResponseBody.Error error) {
-                super.onResultError(error);
-                rebackStatus(false);
-                String code = error.getCode();
-                if (code.equals(Cons.DELETE_SMS_FAILED)) {
-                    m_progressWaiting.setVisibility(View.GONE);
-                }
-            }
-
         });
+        xDeleteSMSHelper.setOnDeleteSmsFailListener(() -> {
+            rebackStatus(false);
+            m_progressWaiting.setVisibility(View.GONE);
+            Toast.makeText(ActivitySmsDetail.this, getString(R.string.sms_delete_error), Toast.LENGTH_SHORT).show();
+            // 重新获取内容
+            getAllStatus();
+        });
+        xDeleteSMSHelper.setOnDeleteFailListener(() -> m_progressWaiting.setVisibility(View.GONE));
+        xDeleteSMSHelper.deleteSms(xDeleteSmsParam);
     }
 
     /* **** rebackStatus **** */

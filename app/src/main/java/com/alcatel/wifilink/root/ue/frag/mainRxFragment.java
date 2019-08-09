@@ -53,6 +53,8 @@ import com.p_xhelper_smart.p_xhelper_smart.bean.GetUsageSettingsBean;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetConnectionStateHelper;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetSystemInfoHelper;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetSystemStatusHelper;
+import com.p_xhelper_smart.p_xhelper_smart.bean.GetConnectDeviceListBean;
+import com.p_xhelper_smart.p_xhelper_smart.helper.GetConnectedDeviceListHelper;
 import com.zhy.android.percent.support.PercentRelativeLayout;
 
 import org.greenrobot.eventbus.EventBus;
@@ -729,43 +731,32 @@ public class mainRxFragment extends Fragment implements FragmentBackHandler {
      * 获取连接设备数
      */
     private void getDevice() {
-        RX.getInstant().getConnectedDeviceList(new ResponseObject<ConnectedList>() {
-            @Override
-            protected void onSuccess(ConnectedList result) {
-                deviceSize = result.getConnectedList().size();
-                ivConnectedPeople.setImageDrawable(deviceSize > 0 ? connected_more : connected_none);
-                String hadConnect = deviceSize + BLANK_TEXT + connected_text;
-                if (OtherUtils.getCurrentLanguage().equalsIgnoreCase(C_Constants.Language.RUSSIAN)) {
-                    hadConnect = connected_text + ":" + BLANK_TEXT + deviceSize;
-                }
-                tvConnectedPeople.setText(deviceSize > 0 ? hadConnect : connected_text);
-                tvConnectedPeople.setTextColor(deviceSize > 0 ? blue_color : gray_color);
+        GetConnectedDeviceListHelper xGetConnectedDeviceListHelper = new GetConnectedDeviceListHelper();
+        xGetConnectedDeviceListHelper.setOnGetDeviceListSuccessListener(bean -> {
+            deviceSize = bean.getConnectedList().size();
+            ivConnectedPeople.setImageDrawable(deviceSize > 0 ? connected_more : connected_none);
+            String hadConnect = deviceSize + BLANK_TEXT + connected_text;
+            if (OtherUtils.getCurrentLanguage().equalsIgnoreCase(C_Constants.Language.RUSSIAN)) {
+                hadConnect = connected_text + ":" + BLANK_TEXT + deviceSize;
             }
-
-            @Override
-            protected void onResultError(ResponseBody.Error error) {
-                noneConnected();
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                noneConnected();
-            }
-
-            /**
-             * 状态错误 | 状态不良 使用此UI
-             */
-            private void noneConnected() {
-                if (ivConnectedPeople != null) {
-                    ivConnectedPeople.setImageDrawable(connected_none);
-                }
-                if (tvConnectedPeople != null) {
-                    tvConnectedPeople.setText(NONE_TEXT);
-                    tvConnectedPeople.setTextColor(gray_color);
-                }
-            }
-
+            tvConnectedPeople.setText(deviceSize > 0 ? hadConnect : connected_text);
+            tvConnectedPeople.setTextColor(deviceSize > 0 ? blue_color : gray_color);
         });
+        xGetConnectedDeviceListHelper.setOnGetDeviceListFailListener(this::noneConnected);
+        xGetConnectedDeviceListHelper.getConnectDeviceList();
+    }
+
+    /**
+     * 状态错误 | 状态不良 使用此UI
+     */
+    private void noneConnected() {
+        if (ivConnectedPeople != null) {
+            ivConnectedPeople.setImageDrawable(connected_none);
+        }
+        if (tvConnectedPeople != null) {
+            tvConnectedPeople.setText(NONE_TEXT);
+            tvConnectedPeople.setTextColor(gray_color);
+        }
     }
 
 

@@ -20,18 +20,17 @@ import android.widget.Toast;
 
 import com.alcatel.wifilink.R;
 import com.alcatel.wifilink.root.utils.C_ENUM.SendStatus;
-import com.alcatel.wifilink.root.bean.SMSSaveParam;
-import com.alcatel.wifilink.root.bean.SMSSendParam;
-import com.alcatel.wifilink.root.bean.SMSSendResult;
-import com.alcatel.wifilink.network.RX;
-import com.alcatel.wifilink.network.ResponseBody;
-import com.alcatel.wifilink.network.ResponseObject;
 import com.alcatel.wifilink.root.helper.SmsWatcher;
 import com.alcatel.wifilink.root.helper.Cons;
 import com.alcatel.wifilink.root.utils.ActionbarSetting;
 import com.alcatel.wifilink.root.utils.DataUtils;
 import com.alcatel.wifilink.root.utils.ProgressUtils;
 import com.alcatel.wifilink.root.utils.ToastUtil_m;
+import com.p_xhelper_smart.p_xhelper_smart.bean.SaveSmsParam;
+import com.p_xhelper_smart.p_xhelper_smart.bean.SendSmsParam;
+import com.p_xhelper_smart.p_xhelper_smart.helper.GetSendSMSResultHelper;
+import com.p_xhelper_smart.p_xhelper_smart.helper.SaveSMSHelper;
+import com.p_xhelper_smart.p_xhelper_smart.helper.SendSMSHelper;
 
 import java.util.ArrayList;
 import java.util.regex.Matcher;
@@ -233,38 +232,25 @@ public class ActivityNewSms extends BaseActivityWithBack implements OnClickListe
         strContent = strContent.trim();
         if (strContent.length() > 0 && strNumber.length() > 0) {
             if (checkNumbers()) {
-
                 String num = m_etNumber.getText().toString();
                 ArrayList<String> numList = new ArrayList<>();
                 numList.add(num);
-                RX.getInstant().saveSMS(new SMSSaveParam(-1, m_etContent.getText().toString(), DataUtils.getCurrent(), numList), new ResponseObject() {
-                    @Override
-                    protected void onSuccess(Object result) {
-                        ToastUtil_m.show(ActivityNewSms.this, getString(R.string.sms_save_success));
-                        finish();
-                    }
+                //用xsmart框架内部的Param代替旧的Param
+                SaveSmsParam xSaveSmsParam = new SaveSmsParam();
+                xSaveSmsParam.setSMSId(-1);
+                xSaveSmsParam.setSMSContent(m_etContent.getText().toString());
+                xSaveSmsParam.setSMSTime(DataUtils.getCurrent());
+                xSaveSmsParam.setPhoneNumber(numList);
 
-                    @Override
-                    protected void onResultError(ResponseBody.Error error) {
-                        super.onResultError(error);
-                        //060801: Save SMS failed. 060802: Fail with store space full.
-                        if (error.getCode().equals("060801")) {
-                            ToastUtil_m.show(ActivityNewSms.this, getString(R.string.sms_save_error));
-
-                        } else if (error.getCode().equals("060802")) {
-                            ToastUtil_m.show(ActivityNewSms.this, getString(R.string.sms_error_message_full_storage));
-                        }
-                        finish();
-                    }
-
-                    @Override
-                    protected void onFailure() {
-                        super.onFailure();
-                        finish();
-                    }
+                SaveSMSHelper xSaveSMSHelper = new SaveSMSHelper();
+                xSaveSMSHelper.setOnSaveSMSSuccessListener(() -> {
+                    ToastUtil_m.show(ActivityNewSms.this, getString(R.string.sms_save_success));
+                    finish();
                 });
-
-
+                xSaveSMSHelper.setOnSaveSmsFailListener(this::finish);
+                xSaveSMSHelper.setOnSaveFailListener(() -> ToastUtil_m.show(ActivityNewSms.this, getString(R.string.sms_save_error)));
+                xSaveSMSHelper.setOnSpaceFullListener(() -> ToastUtil_m.show(ActivityNewSms.this, getString(R.string.sms_error_message_full_storage)));
+                xSaveSMSHelper.saveSms(xSaveSmsParam);
             } else {
                 String msgRes = this.getString(R.string.sms_number_invalid);
                 Toast.makeText(this, msgRes, Toast.LENGTH_SHORT).show();
@@ -284,36 +270,26 @@ public class ActivityNewSms extends BaseActivityWithBack implements OnClickListe
             String num = m_etNumber.getText().toString();
             ArrayList<String> numList = new ArrayList<>();
             numList.add(num);
-            RX.getInstant().sendSMS(new SMSSendParam(-1, m_etContent.getText().toString(), DataUtils.getCurrent(), numList), new ResponseObject() {
-                @Override
-                protected void onSuccess(Object result) {
-                    getSendSMSResult();
-                }
 
-                @Override
-                protected void onResultError(ResponseBody.Error error) {
-                    super.onResultError(error);
-                    //060601: Send SMS failed. 060602: Fail still sending last message. 060603: Fail with store space full.
-                    resetUI();
-                    switch (error.getCode()) {
-                        case "060601":
-                            ToastUtil_m.show(ActivityNewSms.this, getString(R.string.send_sms_failed));
-                            break;
-                        case "060602":
-                            ToastUtil_m.show(ActivityNewSms.this, getString(R.string.fail_still_sending_last_message));
-                            break;
-                        case "060603":
-                            ToastUtil_m.show(ActivityNewSms.this, getString(R.string.fail_with_store_space_full));
-                            break;
-                    }
-                }
+            SendSmsParam xSendSmsParam = new SendSmsParam();
+            xSendSmsParam.setSMSId(-1);
+            xSendSmsParam.setSMSContent(m_etContent.getText().toString());
+            xSendSmsParam.setSMSTime(DataUtils.getCurrent());
+            xSendSmsParam.setPhoneNumber(numList);
 
-                @Override
-                protected void onFailure() {
-                    super.onFailure();
-                    resetUI();
-                }
+            SendSMSHelper xSendSMSHelper = new SendSMSHelper();
+            xSendSMSHelper.setOnSendSmsSuccessListener(this::getSendSMSResult);
+            xSendSMSHelper.setOnSendSmsFailListener(this::resetUI);
+            xSendSMSHelper.setOnSendFailListener(() -> {
+                ToastUtil_m.show(ActivityNewSms.this, getString(R.string.send_sms_failed));
             });
+            xSendSMSHelper.setOnLastMessageListener(() -> {
+                ToastUtil_m.show(ActivityNewSms.this, getString(R.string.fail_still_sending_last_message));
+            });
+            xSendSMSHelper.setOnSpaceFullListener(() -> {
+                ToastUtil_m.show(ActivityNewSms.this, getString(R.string.fail_with_store_space_full));
+            });
+            xSendSMSHelper.sendSms(xSendSmsParam);
 
             m_progressWaiting.setVisibility(View.VISIBLE);
             m_btnSend.setEnabled(false);
@@ -341,55 +317,45 @@ public class ActivityNewSms extends BaseActivityWithBack implements OnClickListe
      * 获取短信结果
      */
     private void getSendSMSResult() {
-        RX.getInstant().GetSendSMSResult(new ResponseObject<SMSSendResult>() {
-            @Override
-            protected void onSuccess(SMSSendResult result) {
-                //0 : none 1 : sending 2 : sendAgainSuccess 3: fail still sending last message 4 : fail with Memory full 5: fail
-                resetUI();
-                int sendStatus = result.getSendStatus();
-                if (sendStatus == Cons.NONE) {
-                    m_progressWaiting.setVisibility(View.GONE);
-                    pd.dismiss();
-                    ToastUtil_m.show(ActivityNewSms.this, getString(R.string.none));
-                    finish();
-                } else if (sendStatus == Cons.SENDING) {
-                    getSendSMSResult();
-                } else if (sendStatus == Cons.SUCCESS) {
-                    pd.dismiss();
-                    m_progressWaiting.setVisibility(View.GONE);
-                    ToastUtil_m.show(ActivityNewSms.this, getString(R.string.succeed));
-                    finish();
-                } else if (sendStatus == Cons.FAIL_STILL_SENDING_LAST_MSG) {
-                    m_progressWaiting.setVisibility(View.GONE);
-                    getSendSMSResult();
-                } else if (sendStatus == Cons.FAIL_WITH_MEMORY_FULL) {
-                    pd.dismiss();
-                    m_progressWaiting.setVisibility(View.GONE);
-                    ToastUtil_m.show(ActivityNewSms.this, getString(R.string.fail_with_memory_full));
-                    finish();
-                } else if (sendStatus == Cons.FAIL) {
-                    pd.dismiss();
-                    m_progressWaiting.setVisibility(View.GONE);
-                    ToastUtil_m.show(ActivityNewSms.this, getString(R.string.fail));
-                    finish();
-                }
-            }
-
-            @Override
-            protected void onFailure() {
-                super.onFailure();
-                resetUI();
-            }
-
-            @Override
-            protected void onResultError(ResponseBody.Error error) {
-                super.onResultError(error);
-                resetUI();
-                if (pd != null) {
-                    pd.dismiss();
-                }
+        GetSendSMSResultHelper xGetSendSMSResultHelper = new GetSendSMSResultHelper();
+        xGetSendSMSResultHelper.setOnGetSendSmsResultSuccessListener(bean -> {
+            //0 : none 1 : sending 2 : sendAgainSuccess 3: fail still sending last message 4 : fail with Memory full 5: fail
+            resetUI();
+            int sendStatus = bean.getSendStatus();
+            if (sendStatus == Cons.NONE) {
+                m_progressWaiting.setVisibility(View.GONE);
+                pd.dismiss();
+                ToastUtil_m.show(ActivityNewSms.this, getString(R.string.none));
+                finish();
+            } else if (sendStatus == Cons.SENDING) {
+                getSendSMSResult();
+            } else if (sendStatus == Cons.SUCCESS) {
+                pd.dismiss();
+                m_progressWaiting.setVisibility(View.GONE);
+                ToastUtil_m.show(ActivityNewSms.this, getString(R.string.succeed));
+                finish();
+            } else if (sendStatus == Cons.FAIL_STILL_SENDING_LAST_MSG) {
+                m_progressWaiting.setVisibility(View.GONE);
+                getSendSMSResult();
+            } else if (sendStatus == Cons.FAIL_WITH_MEMORY_FULL) {
+                pd.dismiss();
+                m_progressWaiting.setVisibility(View.GONE);
+                ToastUtil_m.show(ActivityNewSms.this, getString(R.string.fail_with_memory_full));
+                finish();
+            } else if (sendStatus == Cons.FAIL) {
+                pd.dismiss();
+                m_progressWaiting.setVisibility(View.GONE);
+                ToastUtil_m.show(ActivityNewSms.this, getString(R.string.fail));
+                finish();
             }
         });
+        xGetSendSMSResultHelper.setOnGetSendSmsResultFailListener(() -> {
+            resetUI();
+            if (pd != null) {
+                pd.dismiss();
+            }
+        });
+        xGetSendSMSResultHelper.getSendSmsResult();
     }
 
     /**

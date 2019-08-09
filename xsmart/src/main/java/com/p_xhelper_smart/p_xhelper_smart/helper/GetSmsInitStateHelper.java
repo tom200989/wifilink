@@ -11,6 +11,9 @@ import com.p_xhelper_smart.p_xhelper_smart.utils.XCons;
  */
 public class GetSmsInitStateHelper extends BaseHelper {
 
+    public static int SMS_INITING = 1;
+    public static int SMS_COMPLETE = 0;
+
     /**
      * 获取黑名单设备列表
      */

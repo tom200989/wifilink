@@ -4,6 +4,7 @@ import com.alcatel.wifilink.root.bean.Extender_GetWIFIExtenderCurrentStatusResul
 import com.alcatel.wifilink.network.RX;
 import com.alcatel.wifilink.network.ResponseBody;
 import com.alcatel.wifilink.network.ResponseObject;
+import com.p_xhelper_smart.p_xhelper_smart.helper.GetWIFIExtenderCurrentStatusHelper;
 
 /**
  * Created by qianli.ma on 2018/5/23 0023.
@@ -11,22 +12,21 @@ import com.alcatel.wifilink.network.ResponseObject;
 
 public class Extender_GetWIFIExtenderCurrentStatusHelper {
     public void get() {
-        RX.getInstant().getWIFIExtenderCurrentStatus(new ResponseObject<Extender_GetWIFIExtenderCurrentStatusResult>() {
-            @Override
-            protected void onSuccess(Extender_GetWIFIExtenderCurrentStatusResult result) {
-                successNext(result);
-            }
-
-            @Override
-            protected void onFailure() {
-                failedNext(null);
-            }
-
-            @Override
-            protected void onResultError(ResponseBody.Error error) {
-                resultErrorNext(error);
-            }
+        GetWIFIExtenderCurrentStatusHelper xGetWIFIExtenderCurrentStatusHelper = new GetWIFIExtenderCurrentStatusHelper();
+        xGetWIFIExtenderCurrentStatusHelper.setOnGetWifiExCurStatusSuccessListener(bean -> {
+            Extender_GetWIFIExtenderCurrentStatusResult extenderGetWIFIExtenderCurrentStatusResult = new Extender_GetWIFIExtenderCurrentStatusResult();
+            extenderGetWIFIExtenderCurrentStatusResult.setHotspotConnectStatus(bean.getHotspotConnectStatus());
+            extenderGetWIFIExtenderCurrentStatusResult.setHotspotSSID(bean.getHotspotSSID());
+            extenderGetWIFIExtenderCurrentStatusResult.setIPV4Addr(bean.getIPV4Addr());
+            extenderGetWIFIExtenderCurrentStatusResult.setIPV6Addr(bean.getIPV6Addr());
+            extenderGetWIFIExtenderCurrentStatusResult.setSignal(bean.getSignal());
+            successNext(extenderGetWIFIExtenderCurrentStatusResult);
         });
+        xGetWIFIExtenderCurrentStatusHelper.setOnGetWifiExCurStatusFailListener(() -> {
+            failedNext(null);
+            resultErrorNext(null);
+        });
+        xGetWIFIExtenderCurrentStatusHelper.getWIFIExtenderCurrentStatus();
     }
 
     private OnResultErrorListener onResultErrorListener;

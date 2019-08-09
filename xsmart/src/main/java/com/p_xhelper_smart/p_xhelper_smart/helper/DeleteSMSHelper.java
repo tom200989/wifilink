@@ -19,7 +19,7 @@ public class DeleteSMSHelper extends BaseHelper {
         xSmart.xMethod(XCons.METHOD_DELETE_SMS).xParam(param).xPost(new XNormalCallback() {
             @Override
             public void success(Object result) {
-                deleteSmsSuccessNext();
+                deleteSmsSuccessNext(result);
             }
 
             @Override
@@ -29,6 +29,9 @@ public class DeleteSMSHelper extends BaseHelper {
 
             @Override
             public void fwError(FwError fwError) {
+                if(fwError != null && fwError.getCode().equals("060501")){
+                    deleteFailNext();
+                }
                 deleteSmsFailNext();
             }
 
@@ -41,7 +44,7 @@ public class DeleteSMSHelper extends BaseHelper {
 
 
     public interface OnDeleteSmsSuccessListener {
-        void delteSmsSuccess();
+        void delteSmsSuccess(Object object);
     }
 
     private OnDeleteSmsSuccessListener onDeleteSmsSuccessListener;
@@ -52,9 +55,9 @@ public class DeleteSMSHelper extends BaseHelper {
     }
 
     //封装方法deleteSmsSuccessNext
-    private void deleteSmsSuccessNext() {
+    private void deleteSmsSuccessNext(Object object) {
         if (onDeleteSmsSuccessListener != null) {
-            onDeleteSmsSuccessListener.delteSmsSuccess();
+            onDeleteSmsSuccessListener.delteSmsSuccess(object);
         }
     }
 
@@ -76,4 +79,22 @@ public class DeleteSMSHelper extends BaseHelper {
         }
     }
 
+
+    public interface OnDeleteFailListener {
+        void DeleteFail();
+    }
+
+    private OnDeleteFailListener onDeleteFailListener;
+
+    //对外方式setOnDeleteFailListener
+    public void setOnDeleteFailListener(OnDeleteFailListener onDeleteFailListener) {
+        this.onDeleteFailListener = onDeleteFailListener;
+    }
+
+    //封装方法DeleteFailNext
+    private void deleteFailNext() {
+        if (onDeleteFailListener != null) {
+            onDeleteFailListener.DeleteFail();
+        }
+    }
 }

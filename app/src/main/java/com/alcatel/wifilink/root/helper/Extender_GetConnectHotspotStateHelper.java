@@ -4,6 +4,8 @@ import com.alcatel.wifilink.root.bean.Extender_GetConnectHotspotStateResult;
 import com.alcatel.wifilink.network.RX;
 import com.alcatel.wifilink.network.ResponseBody;
 import com.alcatel.wifilink.network.ResponseObject;
+import com.p_xhelper_smart.p_xhelper_smart.bean.GetConnectHotspotStateBean;
+import com.p_xhelper_smart.p_xhelper_smart.helper.GetConnectHotspotStateHelper;
 
 /**
  * Created by qianli.ma on 2018/5/24 0024.
@@ -19,23 +21,17 @@ public class Extender_GetConnectHotspotStateHelper {
     // 5: fail
 
     public void get() {
-        RX.getInstant().getConnectHotspotState(new ResponseObject<Extender_GetConnectHotspotStateResult>() {
-            @Override
-            protected void onSuccess(Extender_GetConnectHotspotStateResult result) {
-                successNext(result);
-            }
-
-            @Override
-            protected void onFailure() {
-                failedNext(null);
-            }
-
-            @Override
-            protected void onResultError(ResponseBody.Error error) {
-                resultErrorNext(error);
-            }
+        GetConnectHotspotStateHelper xGetConnectHotspotStateHelper = new GetConnectHotspotStateHelper();
+        xGetConnectHotspotStateHelper.setOnGetConnectHotSpotStateSuccessListener(bean -> {
+            Extender_GetConnectHotspotStateResult extenderGetConnectHotspotStateResult = new Extender_GetConnectHotspotStateResult();
+            extenderGetConnectHotspotStateResult.setState(bean.getState());
+            successNext(extenderGetConnectHotspotStateResult);
         });
-
+        xGetConnectHotspotStateHelper.setOnGetConnectHotSpotFailListener(() -> {
+            failedNext(null);
+            resultErrorNext(null);
+        });
+        xGetConnectHotspotStateHelper.getConnectHotspotState();
     }
 
     private OnResultErrorListener onResultErrorListener;

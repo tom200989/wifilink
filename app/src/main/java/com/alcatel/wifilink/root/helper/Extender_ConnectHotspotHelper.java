@@ -3,6 +3,9 @@ package com.alcatel.wifilink.root.helper;
 import com.alcatel.wifilink.network.RX;
 import com.alcatel.wifilink.network.ResponseBody;
 import com.alcatel.wifilink.network.ResponseObject;
+import com.p_xhelper_smart.p_xhelper_smart.bean.ConnectHotspotParam;
+import com.p_xhelper_smart.p_xhelper_smart.helper.ConnectHotspotHelper;
+import com.p_xhelper_smart.p_xhelper_smart.helper.DisConnectHotspotHelper;
 
 /**
  * Created by qianli.ma on 2018/5/24 0024.
@@ -11,22 +14,21 @@ import com.alcatel.wifilink.network.ResponseObject;
 public class Extender_ConnectHotspotHelper {
     
     public void connect(String HotspotId, String SSID, String Key, int SecurityMode, int Hidden) {
-        RX.getInstant().connectHotspot(HotspotId, SSID, Key, SecurityMode, Hidden, new ResponseObject() {
-            @Override
-            protected void onSuccess(Object result) {
-                successNext(result);
-            }
 
-            @Override
-            protected void onFailure() {
-                failedNext(null);
-            }
+        ConnectHotspotParam xConnectHotspotParam = new ConnectHotspotParam();
+        xConnectHotspotParam.setHidden(Hidden);
+        xConnectHotspotParam.setHotspotId(HotspotId);
+        xConnectHotspotParam.setKey(Key);
+        xConnectHotspotParam.setSecurityMode(SecurityMode);
+        xConnectHotspotParam.setSSID(SSID);
 
-            @Override
-            protected void onResultError(ResponseBody.Error error) {
-                resultErrorNext(error);
-            }
+        ConnectHotspotHelper xConnectHotspotHelper = new ConnectHotspotHelper();
+        xConnectHotspotHelper.setOnConnectHotSpotFailListener(() -> {
+            failedNext(null);
+            resultErrorNext(null);
         });
+        xConnectHotspotHelper.setOnConnectHotSpotSuccessListener(this::successNext);
+        xConnectHotspotHelper.connectHotSpot(xConnectHotspotParam);
     }
 
     private OnResultErrorListener onResultErrorListener;

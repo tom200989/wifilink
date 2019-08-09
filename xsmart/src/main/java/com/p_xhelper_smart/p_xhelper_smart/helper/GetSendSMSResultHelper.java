@@ -30,6 +30,9 @@ public class GetSendSMSResultHelper extends BaseHelper {
 
             @Override
             public void fwError(FwError fwError) {
+                if(fwError != null && fwError.getCode().equals("060701")){
+                    getSendFailNext();
+                }
                 getSendSmsResultFailNext();
             }
 
@@ -75,6 +78,25 @@ public class GetSendSMSResultHelper extends BaseHelper {
     private void getSendSmsResultFailNext() {
         if (onGetSendSmsResultFailListener != null) {
             onGetSendSmsResultFailListener.getSendSmsResultFail();
+        }
+    }
+
+    /*----------------------------------获取发送短信结果的失败的回调------------------------------*/
+    public interface OnGetSendFailListener {
+        void GetSendFail();
+    }
+
+    private OnGetSendFailListener onGetSendFailListener;
+
+    //对外方式setOnGetSendFailListener
+    public void setOnGetSendFailListener(OnGetSendFailListener onGetSendFailListener) {
+        this.onGetSendFailListener = onGetSendFailListener;
+    }
+
+    //封装方法GetSendFailNext
+    private void getSendFailNext() {
+        if (onGetSendFailListener != null) {
+            onGetSendFailListener.GetSendFail();
         }
     }
 }

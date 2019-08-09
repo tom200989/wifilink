@@ -1,5 +1,6 @@
 package com.alcatel.wifilink.root.helper;
 
+import com.alcatel.wifilink.R;
 import com.alcatel.wifilink.root.bean.SMSContentList;
 import com.alcatel.wifilink.root.bean.SMSContentParam;
 import com.alcatel.wifilink.root.bean.SMSDeleteParam;
@@ -8,7 +9,15 @@ import com.alcatel.wifilink.network.RX;
 import com.alcatel.wifilink.network.ResponseBody;
 import com.alcatel.wifilink.network.ResponseObject;
 import com.alcatel.wifilink.root.helper.Cons;
+import com.alcatel.wifilink.root.ue.activity.SmsDetailActivity;
 import com.alcatel.wifilink.root.utils.OtherUtils;
+import com.alcatel.wifilink.root.utils.ToastUtil_m;
+import com.p_xhelper_smart.p_xhelper_smart.bean.DeleteSmsParam;
+import com.p_xhelper_smart.p_xhelper_smart.bean.GetSMSContentListBean;
+import com.p_xhelper_smart.p_xhelper_smart.bean.GetSmsContentListParam;
+import com.p_xhelper_smart.p_xhelper_smart.helper.DeleteSMSHelper;
+import com.p_xhelper_smart.p_xhelper_smart.helper.GetSMSContentListHelper;
+import com.p_xhelper_smart.p_xhelper_smart.helper.GetSmsInitStateHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,25 +38,24 @@ public class SmsDeleteSessionHelper {
      */
     public void deleteOneSessionSms(long contactId) {
         List<Long> smsIds = new ArrayList<>();// 抽取所有需要删除的短信ID
-        SMSContentParam scp = new SMSContentParam(0, contactId);
-        RX.getInstant().getSMSContentList(scp, new ResponseObject<SMSContentList>() {
-            @Override
-            protected void onSuccess(SMSContentList result) {
-                // getInstant all smsids
-                for (SMSContentList.SMSContentBean scb : result.getSMSContentList()) {
-                    smsIds.add(scb.getSMSId());
-                }
-                // deleted it
-                SMSDeleteParam sdp = new SMSDeleteParam(Cons.DELETE_MORE_SMS, smsIds);
-                RX.getInstant().deleteSMS(sdp, new ResponseObject() {
-                    @Override
-                    protected void onSuccess(Object result) {
-                        // 删除一个会话成功
-                        deletedOneSessionNext(result);
-                    }
-                });
+        GetSmsContentListParam getSmsContentListParam = new GetSmsContentListParam();
+        getSmsContentListParam.setPage(0);
+        getSmsContentListParam.setContactId((int) contactId);
+        GetSMSContentListHelper xGetSMSContentListHelper = new GetSMSContentListHelper();
+        xGetSMSContentListHelper.setOnGetSmsContentListSuccessListener(bean -> {
+            // getInstant all smsids
+            for (GetSMSContentListBean.SMSContentBean scb : bean.getSMSContentList()) {
+                smsIds.add((long)scb.getSMSId());
             }
+            // deleted it
+            DeleteSmsParam xDeleteSmsParam = new DeleteSmsParam();
+            xDeleteSmsParam.setDelFlag(Cons.DELETE_MORE_SMS);
+            xDeleteSmsParam.setSMSArray(smsIds);
+            DeleteSMSHelper xDeleteSMSHelper = new DeleteSMSHelper();
+            xDeleteSMSHelper.setOnDeleteSmsSuccessListener(this::deletedOneSessionNext);
+            xDeleteSMSHelper.deleteSms(xDeleteSmsParam);
         });
+        xGetSMSContentListHelper.getSMSContentList(getSmsContentListParam);
     }
 
     /* -------------------------------------------- method2 -------------------------------------------- */
@@ -70,29 +78,41 @@ public class SmsDeleteSessionHelper {
      */
     private void getAllSmsIds(List<Long> contactIds) {
         if (index < contactIds.size()) {/* 未完成收集前 */
-            SMSContentParam scp = new SMSContentParam(0, contactIds.get(index));
-            RX.getInstant().getSMSContentList(scp, new ResponseObject<SMSContentList>() {
-                @Override
-                protected void onSuccess(SMSContentList result) {
-                    smsIdsAll.addAll(OtherUtils.getAllSmsIdByOneSession(result));
-                    index++;
-                    getAllSmsIds(contactIds);
+            GetSmsContentListParam getSmsContentListParam = new GetSmsContentListParam();
+            getSmsContentListParam.setPage(0);
+            getSmsContentListParam.setContactId(contactIds.get(index).intValue());
+            GetSMSContentListHelper xGetSMSContentListHelper = new GetSMSContentListHelper();
+            xGetSMSContentListHelper.setOnGetSmsContentListSuccessListener(bean -> {
+                SMSContentList smsContentList = new SMSContentList();
+                smsContentList.setPage(bean.getPage());
+                smsContentList.setContactId(bean.getContactId());
+                smsContentList.setPhoneNumber(bean.getPhoneNumber());
+                smsContentList.setTotalPageCount(bean.getTotalPageCount());
+                List<SMSContentList.SMSContentBean> tempSMSContentList = new ArrayList<>();
+                List<GetSMSContentListBean.SMSContentBean> smsContentBeans= bean.getSMSContentList();
+                if(smsContentBeans != null && smsContentBeans.size() > 0){
+                    for(GetSMSContentListBean.SMSContentBean smsContentBean : smsContentBeans){
+                        SMSContentList.SMSContentBean tempSmsContentBean = new SMSContentList.SMSContentBean();
+                        tempSmsContentBean.setReportStatus(smsContentBean.getReportStatus());
+                        tempSmsContentBean.setSMSContent(smsContentBean.getSMSContent());
+                        tempSmsContentBean.setSMSId(smsContentBean.getSMSId());
+                        tempSmsContentBean.setSMSTime(smsContentBean.getSMSTime());
+                        tempSmsContentBean.setSMSType(smsContentBean.getSMSType());
+                        tempSMSContentList.add(tempSmsContentBean);
+                    }
                 }
-
-                @Override
-                protected void onResultError(ResponseBody.Error error) {
-                    resultErrorNext(error);
-                    smsIdsAll.clear();
-                    index = 0;
-                }
-
-                @Override
-                public void onError(Throwable e) {
-                    errorNext(e);
-                    smsIdsAll.clear();
-                    index = 0;
-                }
+                smsContentList.setSMSContentList(tempSMSContentList);
+                smsIdsAll.addAll(OtherUtils.getAllSmsIdByOneSession(smsContentList));
+                index++;
+                getAllSmsIds(contactIds);
             });
+            xGetSMSContentListHelper.setOnGetSmsContentListFailListener(() -> {
+                resultErrorNext(null);
+                errorNext(null);
+                smsIdsAll.clear();
+                index = 0;
+            });
+            xGetSMSContentListHelper.getSMSContentList(getSmsContentListParam);
         } else {/* 已完成收集 */
             getSmsIdsNext(smsIdsAll);
             index = 0;// 恢复导引
@@ -106,23 +126,14 @@ public class SmsDeleteSessionHelper {
      * @param smsIdsAll
      */
     private void doDelSms(List<Long> smsIdsAll) {
-        SMSDeleteParam sdp = new SMSDeleteParam(Cons.DELETE_MORE_SMS, smsIdsAll);
-        RX.getInstant().deleteSMS(sdp, new ResponseObject() {
-            @Override
-            protected void onSuccess(Object result) {
-                DelMoreSessionSuccessNext(result);
-            }
-
-            @Override
-            protected void onResultError(ResponseBody.Error error) {
-                resultErrorNext(error);
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                errorNext(e);
-            }
-        });
+        DeleteSmsParam xDeleteSmsParam = new DeleteSmsParam();
+        xDeleteSmsParam.setDelFlag(Cons.DELETE_MORE_SMS);
+        xDeleteSmsParam.setSMSArray(smsIdsAll);
+        DeleteSMSHelper xDeleteSMSHelper = new DeleteSMSHelper();
+        xDeleteSMSHelper.setOnDeleteSmsSuccessListener(this::DelMoreSessionSuccessNext);
+        xDeleteSMSHelper.setOnDeleteSmsFailListener(() -> errorNext(null));
+        xDeleteSMSHelper.setOnDeleteFailListener(() -> resultErrorNext(null));
+        xDeleteSMSHelper.deleteSms(xDeleteSmsParam);
     }
 
     private OnSMSIdsListener onSMSIdsListener;
@@ -154,45 +165,37 @@ public class SmsDeleteSessionHelper {
     @Deprecated
     public void deleteMoreSessionSms(List<Long> contactIds) {
         // 1.检测初始化状态
-        RX.getInstant().getSmsInitState(new ResponseObject<SmsInitState>() {
-            @Override
-            protected void onSuccess(SmsInitState result) {
-                if (result.getState() == Cons.COMPLETE) {
-                    // 2.完成状态下进行删除操作
-                    SMSDeleteParam sdp = new SMSDeleteParam(Cons.DELETE_MORE_SMS, contactIds);
-                    RX.getInstant().deleteSMS(sdp, new ResponseObject() {
-                        @Override
-                        protected void onSuccess(Object result) {
-                            // 删除多个会话成功
-                            DelMoreSessionSuccessNext(result);
-                        }
+        GetSmsInitStateHelper xGetSmsInitStateHelper = new GetSmsInitStateHelper();
+        xGetSmsInitStateHelper.setOnGetSmsInitStateSuccessListener(bean -> {
+            if (bean.getState() == GetSmsInitStateHelper.SMS_COMPLETE) {
+                // 2.完成状态下进行删除操作
+                SMSDeleteParam sdp = new SMSDeleteParam(Cons.DELETE_MORE_SMS, contactIds);
+                RX.getInstant().deleteSMS(sdp, new ResponseObject() {
+                    @Override
+                    protected void onSuccess(Object result) {
+                        // 删除多个会话成功
+                        DelMoreSessionSuccessNext(result);
+                    }
 
-                        @Override
-                        protected void onResultError(ResponseBody.Error error) {
-                            resultErrorNext(error);
-                        }
+                    @Override
+                    protected void onResultError(ResponseBody.Error error) {
+                        resultErrorNext(error);
+                    }
 
-                        @Override
-                        public void onError(Throwable e) {
-                            errorNext(e);
-                        }
-                    });
-                } else {
-                    deleteMoreSessionSms(contactIds);
-                }
-
-            }
-
-            @Override
-            protected void onResultError(ResponseBody.Error error) {
-                resultErrorNext(error);
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                errorNext(e);
+                    @Override
+                    public void onError(Throwable e) {
+                        errorNext(e);
+                    }
+                });
+            }else{
+                deleteMoreSessionSms(contactIds);
             }
         });
+        xGetSmsInitStateHelper.setOnGetSmsInitStateFailListener(() -> {
+            resultErrorNext(null);
+            errorNext(null);
+        });
+        xGetSmsInitStateHelper.getSmsInitState();
     }
 
     private OnResultErrorListener onResultErrorListener;

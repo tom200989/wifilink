@@ -115,6 +115,4 @@ public interface Methods {
     String CONNECT_HOTSPOT = "ConnectHotspot";
     String GET_CONNECT_HOTSPOT_STATE = "GetConnectHotspotState";
     String DISCONNECT_HOTSPOT = "DisConnectHotspot";
-
-
 }

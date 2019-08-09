@@ -11,6 +11,9 @@ import com.alcatel.wifilink.network.RX;
 import com.alcatel.wifilink.network.ResponseBody;
 import com.alcatel.wifilink.network.ResponseObject;
 import com.alcatel.wifilink.root.ue.activity.HomeRxActivity;
+import com.p_xhelper_smart.p_xhelper_smart.bean.GetSMSContactListBean;
+import com.p_xhelper_smart.p_xhelper_smart.helper.GetSMSContactListHelper;
+import com.p_xhelper_smart.p_xhelper_smart.helper.GetSmsInitStateHelper;
 
 import java.util.Set;
 
@@ -29,70 +32,54 @@ public class SmsCountHelper {
      * @param tv
      */
     public static void setSmsCount(Activity activity, TextView tv) {
+        // TODO: 2019/8/6 这个activity是否可删
         SmsCountHelper.activity = activity;
         // check the init state
-        RX.getInstant().getSmsInitState(new ResponseObject<SmsInitState>() {
-            @Override
-            protected void onSuccess(SmsInitState result) {
-                if (result.getState() == Cons.SMS_COMPLETE) {
-                    getSmsContactList(tv);
-                }
-            }
-
-            @Override
-            protected void onResultError(ResponseBody.Error error) {
-
+        GetSmsInitStateHelper xGetSmsInitStateHelper = new GetSmsInitStateHelper();
+        xGetSmsInitStateHelper.setOnGetSmsInitStateSuccessListener(bean -> {
+            if (bean.getState() == GetSmsInitStateHelper.SMS_COMPLETE) {
+                // getInstant sms contents
+                getSmsContactList(tv);
             }
         });
-
+        xGetSmsInitStateHelper.getSmsInitState();
     }
 
     private static void getSmsContactList(TextView mTvSmsCount) {
-        RX.getInstant().getSMSContactList(0, new ResponseObject<SMSContactList>() {
-            @Override
-            protected void onSuccess(SMSContactList result) {
-                activity.runOnUiThread(() -> {
-                    // caculate the sms count
-                    int unReadCount = 0;
-                    for (SMSContactList.SMSContact smsContact : result.getSMSContactList()) {
+        GetSMSContactListHelper xGetSMSContactListHelper = new GetSMSContactListHelper();
+        xGetSMSContactListHelper.setOnGetSmsContactListSuccessListener(bean -> {
+            // caculate the sms count
+            int unReadCount = 0;
+            for (GetSMSContactListBean.SMSContacBean smsContact : bean.getSMSContactList()) {
 
-                        // 到缓冲区去查看是否有缓冲的未读短信数量
-                        int unreadCache = getUnreadCache(smsContact.getContactId());
-                        int unreadCount = smsContact.getUnreadCount();
-                        // 取得两者当中数量不为0的那一个值
-                        if (unreadCache > 0) {
-                            unReadCount += unreadCache;
-                        } else if (unreadCount > 0) {
-                            unReadCount += unreadCount;
-                        } else {
-                            unReadCount += unreadCount;
-                        }
-                    }
-
-
-                    // show sms ui according the count
-                    if (unReadCount <= 0) {
-                        mTvSmsCount.setVisibility(View.GONE);
-                    } else if (unReadCount < 10) {
-                        mTvSmsCount.setVisibility(View.VISIBLE);
-                        mTvSmsCount.setText(String.valueOf(unReadCount));
-                        int nDrawable = R.drawable.tab_sms_new;
-                        mTvSmsCount.setBackgroundResource(nDrawable);
-                    } else {
-                        mTvSmsCount.setVisibility(View.VISIBLE);
-                        mTvSmsCount.setText("");
-                        int nDrawable = R.drawable.tab_sms_new_9_plus;
-                        mTvSmsCount.setBackgroundResource(nDrawable);
-                    }
-                });
-
+                // 到缓冲区去查看是否有缓冲的未读短信数量
+                int unreadCache = getUnreadCache(smsContact.getContactId());
+                int unreadCount = smsContact.getUnreadCount();
+                // 取得两者当中数量不为0的那一个值
+                if (unreadCache > 0) {
+                    unReadCount += unreadCache;
+                } else if (unreadCount > 0) {
+                    unReadCount += unreadCount;
+                } else {
+                    unReadCount += unreadCount;
+                }
             }
-
-            @Override
-            protected void onResultError(ResponseBody.Error error) {
-
+            // show sms ui according the count
+            if (unReadCount <= 0) {
+                mTvSmsCount.setVisibility(View.GONE);
+            } else if (unReadCount < 10) {
+                mTvSmsCount.setVisibility(View.VISIBLE);
+                mTvSmsCount.setText(String.valueOf(unReadCount));
+                int nDrawable = R.drawable.tab_sms_new;
+                mTvSmsCount.setBackgroundResource(nDrawable);
+            } else {
+                mTvSmsCount.setVisibility(View.VISIBLE);
+                mTvSmsCount.setText("");
+                int nDrawable = R.drawable.tab_sms_new_9_plus;
+                mTvSmsCount.setBackgroundResource(nDrawable);
             }
         });
+        xGetSMSContactListHelper.getSMSContactList(0);
     }
 
     /**

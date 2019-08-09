@@ -20,7 +20,7 @@ public class SetWIFIExtenderSettingsHelper extends BaseHelper{
         xSmart.xMethod(XCons.METHOD_SET_WIFI_EXTENDER_SETTINGS).xParam(param).xPost(new XNormalCallback() {
             @Override
             public void success(Object result) {
-                setWifiExSettingSuccessNext();
+                setWifiExSettingSuccessNext(result);
             }
 
             @Override
@@ -42,7 +42,7 @@ public class SetWIFIExtenderSettingsHelper extends BaseHelper{
 
     /*----------------------------------设置外部扩展成功回调------------------------------*/
     public interface OnSetWifiExSettingsSuccessListener {
-        void setWifiExSettingSuccess();
+        void setWifiExSettingSuccess(Object object);
     }
 
     private OnSetWifiExSettingsSuccessListener onSetWifiExSettingsSuccessListener;
@@ -53,9 +53,9 @@ public class SetWIFIExtenderSettingsHelper extends BaseHelper{
     }
 
     //封装方法setWifiExSettingSuccessNext
-    private void setWifiExSettingSuccessNext() {
+    private void setWifiExSettingSuccessNext(Object object) {
         if (onSetWifiExSettingsSuccessListener != null) {
-            onSetWifiExSettingsSuccessListener.setWifiExSettingSuccess();
+            onSetWifiExSettingsSuccessListener.setWifiExSettingSuccess(object);
         }
     }
 

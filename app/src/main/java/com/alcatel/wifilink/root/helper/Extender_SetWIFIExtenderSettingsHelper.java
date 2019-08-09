@@ -4,6 +4,7 @@ import com.alcatel.wifilink.network.RX;
 import com.alcatel.wifilink.network.ResponseBody;
 import com.alcatel.wifilink.network.ResponseObject;
 import com.alcatel.wifilink.root.utils.Logs;
+import com.p_xhelper_smart.p_xhelper_smart.helper.SetWIFIExtenderSettingsHelper;
 
 /**
  * Created by qianli.ma on 2018/5/23 0023.
@@ -13,26 +14,17 @@ public class Extender_SetWIFIExtenderSettingsHelper {
     private String TAG = "Extender_SetWIFIExtenderSettingsHelper";
 
     public void set(int StationEnable) {
-        RX.getInstant().setWIFIExtenderSettings(StationEnable, new ResponseObject() {
-
-            @Override
-            protected void onSuccess(Object result) {
-                Logs.t(TAG).ii("Extender_SetWIFIExtenderSettingsHelper: set successful");
-                successNext(result);
-            }
-
-            @Override
-            protected void onFailure() {
-                Logs.t(TAG).ii("Extender_SetWIFIExtenderSettingsHelper: set failed");
-                failedNext(null);
-            }
-
-            @Override
-            protected void onResultError(ResponseBody.Error error) {
-                Logs.t(TAG).ii("Extender_SetWIFIExtenderSettingsHelper: set onResultError: " + error.getMessage());
-                resultErrorNext(error);
-            }
+        SetWIFIExtenderSettingsHelper xSetWIFIExtenderSettingsHelper = new SetWIFIExtenderSettingsHelper();
+        xSetWIFIExtenderSettingsHelper.setOnSetWifiExSettingsSuccessListener(result -> {
+            Logs.t(TAG).ii("Extender_SetWIFIExtenderSettingsHelper: set successful");
+            successNext(result);
         });
+        xSetWIFIExtenderSettingsHelper.setOnSetWifiExSettingFailListener(() -> {
+            Logs.t(TAG).ii("Extender_SetWIFIExtenderSettingsHelper: set failed");
+            failedNext(null);
+            resultErrorNext(null);
+        });
+        xSetWIFIExtenderSettingsHelper.setWifiExSettings(StationEnable);
     }
 
     private OnResultErrorListener onResultErrorListener;

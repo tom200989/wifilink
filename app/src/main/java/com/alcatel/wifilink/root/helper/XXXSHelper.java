@@ -9,6 +9,7 @@ import com.alcatel.wifilink.network.ResponseObject;
 import com.alcatel.wifilink.root.bean.SmsInitState;
 import com.p_xhelper_smart.p_xhelper_smart.bean.GetSimStatusBean;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetSMSStorageStateHelper;
+import com.p_xhelper_smart.p_xhelper_smart.helper.GetSmsInitStateHelper;
 
 /**
  * Created by qianli.ma on 2017/11/22 0022.
@@ -59,26 +60,20 @@ public class XXXSHelper {
      * 获取sim初始化状态
      */
     private void getSmsStatus() {
+
         // 3.获取sim初始化状态
-        RX.getInstant().getSmsInitState(new ResponseObject<SmsInitState>() {
-            @Override
-            protected void onSuccess(SmsInitState result) {
-                int state = result.getState();
-                if (state == Cons.SMS_COMPLETE) {
-                    getSmsUnread();// 4. 获取未读短信数
-                }
-            }
-
-            @Override
-            protected void onResultError(ResponseBody.Error error) {
-                resultErrorNext(error);
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                errorNext(e);
+        GetSmsInitStateHelper xGetSmsInitStateHelper = new GetSmsInitStateHelper();
+        xGetSmsInitStateHelper.setOnGetSmsInitStateSuccessListener(bean -> {
+            if (bean.getState() == GetSmsInitStateHelper.SMS_COMPLETE) {
+                // getInstant sms contents
+                getSmsUnread();// 4. 获取未读短信数
             }
         });
+        xGetSmsInitStateHelper.setOnGetSmsInitStateFailListener(() -> {
+            resultErrorNext(null);
+            errorNext(null);
+        });
+        xGetSmsInitStateHelper.getSmsInitState();
     }
 
     /**

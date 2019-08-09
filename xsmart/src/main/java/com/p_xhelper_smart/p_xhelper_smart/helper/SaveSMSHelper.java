@@ -28,6 +28,13 @@ public class SaveSMSHelper extends BaseHelper {
 
             @Override
             public void fwError(FwError fwError) {
+                if(fwError != null){
+                    if (fwError.getCode().equals("060801")) {
+                        saveFailNext();
+                    } else if (fwError.getCode().equals("060802")) {
+                        spaceFullNext();
+                    }
+                }
                 saveSmsFailNext();
             }
 
@@ -74,6 +81,45 @@ public class SaveSMSHelper extends BaseHelper {
     private void saveSmsFailNext() {
         if (onSaveSmsFailListener != null) {
             onSaveSmsFailListener.saveSmsFail();
+        }
+    }
+
+    /*----------------------------------保存失败回调------------------------------*/
+    public interface OnSaveFailListener {
+        void SaveFail();
+    }
+
+    private OnSaveFailListener onSaveFailListener;
+
+    //对外方式setOnSaveFailListener
+    public void setOnSaveFailListener(OnSaveFailListener onSaveFailListener) {
+        this.onSaveFailListener = onSaveFailListener;
+    }
+
+    //封装方法SaveFailNext
+    private void saveFailNext() {
+        if (onSaveFailListener != null) {
+            onSaveFailListener.SaveFail();
+        }
+    }
+
+
+    /*---------------------------------- 存储满了 ------------------------------*/
+    public interface OnSpaceFullListener {
+        void SpaceFull();
+    }
+
+    private OnSpaceFullListener onSpaceFullListener;
+
+    //对外方式setOnSpaceFullListener
+    public void setOnSpaceFullListener(OnSpaceFullListener onSpaceFullListener) {
+        this.onSpaceFullListener = onSpaceFullListener;
+    }
+
+    //封装方法SpaceFullNext
+    private void spaceFullNext() {
+        if (onSpaceFullListener != null) {
+            onSpaceFullListener.SpaceFull();
         }
     }
 }

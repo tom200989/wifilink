@@ -170,14 +170,13 @@ public class ConnectAdapter extends RecyclerView.Adapter<ConnectHolder> {
 
     /* setDeviceName */
     private void setDeviceName(String strDeviceName, String strMac, int nDeviceType) {
-        SetDeviceNameHelper xSetDeviceNameHelper = new SetDeviceNameHelper();
-        //xSetDeviceNameHelper.setDeviceName(new SetDeviceNameParam());
-        RX.getInstant().setDeviceName(strDeviceName, strMac, nDeviceType, new ResponseObject() {
-            @Override
-            protected void onSuccess(Object result) {
+        SetDeviceNameParam setDeviceNameParam= new SetDeviceNameParam();
+        setDeviceNameParam.setDeviceName(strDeviceName);
+        setDeviceNameParam.setMacAddress(strMac);
+        setDeviceNameParam.setDeviceType(nDeviceType);
 
-            }
-        });
+        SetDeviceNameHelper xSetDeviceNameHelper = new SetDeviceNameHelper();
+        xSetDeviceNameHelper.setDeviceName(setDeviceNameParam);
     }
 
     /* setConnectedDeviceBlock */

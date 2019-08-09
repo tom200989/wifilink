@@ -21,8 +21,12 @@ import com.alcatel.wifilink.root.ue.activity.ActivityDeviceManager;
 import com.alcatel.wifilink.root.adapter.ConnectAdapter;
 import com.alcatel.wifilink.root.helper.ModelHelper;
 import com.alcatel.wifilink.root.helper.TimerHelper;
+import com.alcatel.wifilink.root.utils.C_Constants;
+import com.alcatel.wifilink.root.utils.OtherUtils;
 import com.p_xhelper_smart.p_xhelper_smart.bean.GetBlockDeviceListBean;
+import com.p_xhelper_smart.p_xhelper_smart.bean.GetConnectDeviceListBean;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetBlockDeviceListHelper;
+import com.p_xhelper_smart.p_xhelper_smart.helper.GetConnectedDeviceListHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -95,15 +99,40 @@ public class DeviceConnectFragment extends Fragment {
 
     /* **** updateConnectedDeviceUI **** */
     private void updateConnectedDeviceUI() {
-        RX.getInstant().getConnectedDeviceList(new ResponseObject<ConnectedList>() {
-            @Override
-            protected void onSuccess(ConnectedList result) {
-                connectModelList = ModelHelper.getConnectModel(result);
-                if (connectModelList.size() > 0) {
-                    rvAdapter.notifys(connectModelList);
+        GetConnectedDeviceListHelper xGetConnectedDeviceListHelper = new GetConnectedDeviceListHelper();
+        xGetConnectedDeviceListHelper.setOnGetDeviceListSuccessListener(bean -> {
+            //将xsmart框架内部的Bean转为旧的Bean
+            ConnectedList tempConnectedList = new ConnectedList();
+            //框架内部返回的列表
+            List<GetConnectDeviceListBean.ConnectedDeviceBean> connectedList = bean.getConnectedList();
+            if(connectedList != null && connectedList.size() > 0){
+                //旧的Bean列表
+                List<ConnectedList.Device> tempDeviceArrayList = new ArrayList<>();
+                for(GetConnectDeviceListBean.ConnectedDeviceBean connectedDeviceBean : connectedList){
+                    //旧的Bean
+                    ConnectedList.Device device = new ConnectedList.Device();
+                    device.setAssociationTime(connectedDeviceBean.getAssociationTime());
+                    device.setConnectMode(connectedDeviceBean.getConnectMode());
+                    device.setDeviceName(connectedDeviceBean.getDeviceName());
+                    device.setDeviceType(connectedDeviceBean.getDeviceType());
+                    device.setId(connectedDeviceBean.getId());
+                    device.setInternetRight(connectedDeviceBean.getInternetRight());
+                    device.setIPAddress(connectedDeviceBean.getIPAddress());
+                    device.setMacAddress(connectedDeviceBean.getMacAddress());
+                    device.setStorageRight(connectedDeviceBean.getStorageRight());
+                    //旧的Bean列表
+                    tempDeviceArrayList.add(device);
                 }
+                //填充旧的bean
+                tempConnectedList.setConnectedList(tempDeviceArrayList);
+            }
+            //向外抛出
+            connectModelList = ModelHelper.getConnectModel(tempConnectedList);
+            if (connectModelList.size() > 0) {
+                rvAdapter.notifys(connectModelList);
             }
         });
+        xGetConnectedDeviceListHelper.getConnectDeviceList();
     }
 
     /* **** updateBlockCount **** */

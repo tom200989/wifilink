@@ -17,7 +17,7 @@ public class SearchHotspotHelper extends BaseHelper {
         xSmart.xMethod(XCons.METHOD_SEARCH_HOTSPOT).xPost(new XNormalCallback() {
             @Override
             public void success(Object result) {
-                searchHotSpotSuccessNext();
+                searchHotSpotSuccessNext(result);
             }
 
             @Override
@@ -39,7 +39,7 @@ public class SearchHotspotHelper extends BaseHelper {
     
     /*----------------------------------触发搜索热点成功的回调------------------------------*/
     public interface OnSearchHotSpotSuccessListener {
-        void searchHotSpotSuccess();
+        void searchHotSpotSuccess(Object object);
     }
 
     private OnSearchHotSpotSuccessListener onSearchHotSpotSuccessListener;
@@ -50,9 +50,9 @@ public class SearchHotspotHelper extends BaseHelper {
     }
 
     //封装方法
-    private void searchHotSpotSuccessNext() {
+    private void searchHotSpotSuccessNext(Object object) {
         if (onSearchHotSpotSuccessListener != null) {
-            onSearchHotSpotSuccessListener.searchHotSpotSuccess();
+            onSearchHotSpotSuccessListener.searchHotSpotSuccess(object);
         }
     }
 

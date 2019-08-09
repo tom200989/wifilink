@@ -28,6 +28,19 @@ public class SendSMSHelper extends BaseHelper {
 
             @Override
             public void fwError(FwError fwError) {
+                if(fwError != null){
+                    switch (fwError.getCode()) {
+                        case "060601":
+                            sendFailNext();
+                            break;
+                        case "060602":
+                            lastMessageNext();
+                            break;
+                        case "060603":
+                            spaceFullNext();
+                            break;
+                    }
+                }
                 sendSmsFailNext();
             }
 
@@ -77,5 +90,60 @@ public class SendSMSHelper extends BaseHelper {
         }
     }
 
+    /*----------------------------------发送短信失败的回调------------------------------*/
+    public interface OnSendFailListener {
+        void SendFail();
+    }
 
+    private OnSendFailListener onSendFailListener;
+
+    //对外方式setOnSendFailListener
+    public void setOnSendFailListener(OnSendFailListener onSendFailListener) {
+        this.onSendFailListener = onSendFailListener;
+    }
+
+    //封装方法SendFailNext
+    private void sendFailNext() {
+        if (onSendFailListener != null) {
+            onSendFailListener.SendFail();
+        }
+    }
+
+    /*----------------------------------发送失败的回调------------------------------*/
+    public interface OnLastMessageListener {
+        void LastMessage();
+    }
+
+    private OnLastMessageListener onLastMessageListener;
+
+    //对外方式setOnLastMessageListener
+    public void setOnLastMessageListener(OnLastMessageListener onLastMessageListener) {
+        this.onLastMessageListener = onLastMessageListener;
+    }
+
+    //封装方法LastMessageNext
+    private void lastMessageNext() {
+        if (onLastMessageListener != null) {
+            onLastMessageListener.LastMessage();
+        }
+    }
+
+    /*----------------------------------空间满了回调------------------------------*/
+    public interface OnSpaceFullListener {
+        void SpaceFull();
+    }
+
+    private OnSpaceFullListener onSpaceFullListener;
+
+    //对外方式setOnSpaceFullListener
+    public void setOnSpaceFullListener(OnSpaceFullListener onSpaceFullListener) {
+        this.onSpaceFullListener = onSpaceFullListener;
+    }
+
+    //封装方法SpaceFullNext
+    private void spaceFullNext() {
+        if (onSpaceFullListener != null) {
+            onSpaceFullListener.SpaceFull();
+        }
+    }
 }

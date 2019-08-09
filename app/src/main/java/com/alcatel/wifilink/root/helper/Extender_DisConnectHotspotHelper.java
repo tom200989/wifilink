@@ -3,6 +3,8 @@ package com.alcatel.wifilink.root.helper;
 import com.alcatel.wifilink.network.RX;
 import com.alcatel.wifilink.network.ResponseBody;
 import com.alcatel.wifilink.network.ResponseObject;
+import com.p_xhelper_smart.p_xhelper_smart.helper.ConnectHotspotHelper;
+import com.p_xhelper_smart.p_xhelper_smart.helper.DisConnectHotspotHelper;
 
 /**
  * Created by qianli.ma on 2018/5/24 0024.
@@ -10,22 +12,13 @@ import com.alcatel.wifilink.network.ResponseObject;
 
 public class Extender_DisConnectHotspotHelper {
     public void disconnect() {
-        RX.getInstant().disConnectHotspot(new ResponseObject() {
-            @Override
-            protected void onSuccess(Object result) {
-                successNext(null);
-            }
-
-            @Override
-            protected void onFailure() {
-                failedNext(null);
-            }
-
-            @Override
-            protected void onResultError(ResponseBody.Error error) {
-                resultErrorNext(error);
-            }
+        DisConnectHotspotHelper xDisConnectHotspotHelper = new DisConnectHotspotHelper();
+        xDisConnectHotspotHelper.setOnDisConnectHotSpotSuccessListener(() -> successNext(null));
+        xDisConnectHotspotHelper.setOnDisConnectHotSpotFailListener(() -> {
+            failedNext(null);
+            resultErrorNext(null);
         });
+        xDisConnectHotspotHelper.disConnectHotspot();
     }
 
     private OnResultErrorListener onResultErrorListener;

@@ -37,6 +37,14 @@ import com.alcatel.wifilink.root.utils.OtherUtils;
 import com.alcatel.wifilink.root.utils.ToastUtil_m;
 import com.p_xhelper_smart.p_xhelper_smart.bean.GetSimStatusBean;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetSimStatusHelper;
+import com.p_xhelper_smart.p_xhelper_smart.bean.DeleteSmsParam;
+import com.p_xhelper_smart.p_xhelper_smart.bean.GetSMSContactListBean;
+import com.p_xhelper_smart.p_xhelper_smart.bean.GetSMSContentListBean;
+import com.p_xhelper_smart.p_xhelper_smart.bean.GetSmsContentListParam;
+import com.p_xhelper_smart.p_xhelper_smart.helper.DeleteSMSHelper;
+import com.p_xhelper_smart.p_xhelper_smart.helper.GetSMSContactListHelper;
+import com.p_xhelper_smart.p_xhelper_smart.helper.GetSMSContentListHelper;
+import com.p_xhelper_smart.p_xhelper_smart.helper.GetSmsInitStateHelper;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -313,102 +321,112 @@ public class SmsDetailActivity extends BaseActivityWithBack implements View.OnCl
      */
     /* **** getContent **** */
     private void getContent(boolean isSetRcvToLast) {
-
-        RX.getInstant().getSmsInitState(new ResponseObject<SmsInitState>() {
-            @Override
-            protected void onSuccess(SmsInitState result) {
-                if (result.getState() == Cons.SMS_COMPLETE) {
-                    // 重新获取当前号码是否有未读消息
-                    RX.getInstant().getSMSContactList(0, new ResponseObject<SMSContactList>() {
-                        @Override
-                        protected void onSuccess(SMSContactList result) {
-
-                            // 1.1.判断最新获取的contact id集合是否包含传进来的id--> 是:回退
-                            List<Long> contactIds = new ArrayList<>();
-                            for (SMSContactList.SMSContact scc : result.getSMSContactList()) {
-                                contactIds.add(scc.getContactId());
-                            }
-                            if (!contactIds.contains(smsContact.getContactId())) {
-                                clickBack();
-                                return;
-                            }
-
-                            // 1.2.否:获取最新的短信列表
-                            for (SMSContactList.SMSContact scc : result.getSMSContactList()) {
-                                long contactId = scc.getContactId();
-                                // 1.是当前的contact id
-                                if (contactId == smsContact.getContactId()) {
-                                    // 2.获取当前号码的未读消息数
-                                    int unreadCount = scc.getUnreadCount();
-                                    if (unreadCount > 0) {/* 如果有未读消息 */
-                                        // 3.用户是否停留在短信详情页
-                                        if (HomeRxActivity.CURRENT_ACTIVITY.contains(ActivityName)) {
-                                            // 4.向接口发起请求
-                                            realToGetContent();
-                                        } else {
-                                            // 3.用户离开
-                                            // 4.把未读消息数量保存到MAP中
-                                            HomeRxActivity.smsUnreadMap.put(contactId, unreadCount);
-                                        }
-                                    } else {/* 没有未读消息, 直接获取内容--> 正常显示已读的消息 */
-                                        realToGetContent();// 向接口发起请求
-                                    }
-                                }
-                            }
-                        }
-
-                        @Override
-                        protected void onResultError(ResponseBody.Error error) {
-
-                        }
-                    });
-                }
-            }
-
-            @Override
-            protected void onResultError(ResponseBody.Error error) {
-
-            }
-
-            /**
-             * 向接口发起请求
-             */
-            private void realToGetContent() {
-                long contactId = smsContact.getContactId();
-                SMSContentParam ssp = new SMSContentParam(0, contactId);
-                RX.getInstant().getSMSContentList(ssp, new ResponseObject<SMSContentList>() {
-                    @Override
-                    protected void onSuccess(SMSContentList result) {
-                        boolean isLast = false;
-                        // 1. refresh the list
-                        smsContentList = result;
-                        // 1.1.获取最新信息数
-                        int newSize = smsContentList.getSMSContentList().size();
-                        if (newSize > current_sms_num) {
-                            isLast = true;// 如果最新获取到的信息数比临时缓存的大, 则修改[滚动到最后一条]标记
-                        }
-                        // 更新临时最新消息数
-                        current_sms_num = newSize;
-                        // 刷新适配器
-                        if (adapter != null) {
-                            adapter.notifys(smsContentList, isLast);
-                        }
-                        // 2. refresh the router time
-                        setPositionTextTime();
-                        // 3. force to  set rcv position to last
-                        if (isLast) {
-                            setRecyclePositionToLast(adapter.getItemCount() - 1);
-                        }
+        GetSmsInitStateHelper xGetSmsInitStateHelper = new GetSmsInitStateHelper();
+        xGetSmsInitStateHelper.setOnGetSmsInitStateSuccessListener(SmsInitStateBean -> {
+            if (SmsInitStateBean.getState() == GetSmsInitStateHelper.SMS_COMPLETE) {
+                // 重新获取当前号码是否有未读消息
+                GetSMSContactListHelper xGetSMSContactListHelper = new GetSMSContactListHelper();
+                xGetSMSContactListHelper.setOnGetSmsContactListSuccessListener(SmsContactListBean -> {
+                    // 1.1.判断最新获取的contact id集合是否包含传进来的id--> 是:回退
+                    List<Long> contactIds = new ArrayList<>();
+                    for (GetSMSContactListBean.SMSContacBean scc : SmsContactListBean.getSMSContactList()) {
+                        contactIds.add((long)scc.getContactId());
+                    }
+                    if (!contactIds.contains(smsContact.getContactId())) {
+                        clickBack();
+                        return;
                     }
 
-                    @Override
-                    protected void onResultError(ResponseBody.Error error) {
-                        // when the current number have no sms, then close it
-                        finish();
+                    // 1.2.否:获取最新的短信列表
+                    for (GetSMSContactListBean.SMSContacBean scc : SmsContactListBean.getSMSContactList()) {
+                        long contactId = scc.getContactId();
+                        // 1.是当前的contact id
+                        if (contactId == smsContact.getContactId()) {
+                            // 2.获取当前号码的未读消息数
+                            int unreadCount = scc.getUnreadCount();
+                            if (unreadCount > 0) {/* 如果有未读消息 */
+                                // 3.用户是否停留在短信详情页
+                                if (HomeRxActivity.CURRENT_ACTIVITY.contains(ActivityName)) {
+                                    // 4.向接口发起请求
+                                    realToGetContent();
+                                } else {
+                                    // 3.用户离开
+                                    // 4.把未读消息数量保存到MAP中
+                                    HomeRxActivity.smsUnreadMap.put(contactId, unreadCount);
+                                }
+                            } else {/* 没有未读消息, 直接获取内容--> 正常显示已读的消息 */
+                                realToGetContent();// 向接口发起请求
+                            }
+                        }
                     }
                 });
+                xGetSMSContactListHelper.getSMSContactList(0);
             }
         });
+        xGetSmsInitStateHelper.getSmsInitState();
+    }
+
+    /**
+     * 向接口发起请求
+     */
+    private void realToGetContent() {
+        long contactId = smsContact.getContactId();
+        //用xsmart内部的Param替换旧的Param
+        GetSmsContentListParam getSmsContentListParam = new GetSmsContentListParam();
+        getSmsContentListParam.setPage(0);
+        getSmsContentListParam.setContactId((int) contactId);
+
+        GetSMSContentListHelper xGetSMSContentListHelper = new GetSMSContentListHelper();
+        xGetSMSContentListHelper.setOnGetSmsContentListSuccessListener(bean -> {
+            //用xsmart内部Bean转化为旧的bean，定义容器
+            SMSContentList tempSmsContentList = new SMSContentList();
+            tempSmsContentList.setPage(bean.getPage());
+            tempSmsContentList.setContactId(bean.getContactId());
+            tempSmsContentList.setPhoneNumber(bean.getPhoneNumber());
+            tempSmsContentList.setTotalPageCount(bean.getTotalPageCount());
+
+            List<GetSMSContentListBean.SMSContentBean> smsContentBeans= bean.getSMSContentList();
+            if(smsContentBeans != null && smsContentBeans.size() > 0){
+                //旧的Bean列表容器
+                List<SMSContentList.SMSContentBean> tempSmsContentBeans = new ArrayList<>();
+                for(GetSMSContentListBean.SMSContentBean smsContentBean : smsContentBeans){
+                    //旧的Bean容器
+                    SMSContentList.SMSContentBean tempSmsContentBean = new SMSContentList.SMSContentBean();
+                    tempSmsContentBean.setReportStatus(smsContentBean.getReportStatus());
+                    tempSmsContentBean.setSMSContent(smsContentBean.getSMSContent());
+                    tempSmsContentBean.setSMSId(smsContentBean.getSMSId());
+                    tempSmsContentBean.setSMSTime(smsContentBean.getSMSTime());
+                    tempSmsContentBean.setSMSType(smsContentBean.getSMSType());
+                    //填充旧的Bean
+                    tempSmsContentBeans.add(tempSmsContentBean);
+                }
+                //填充旧的Bean列表
+                tempSmsContentList.setSMSContentList(tempSmsContentBeans);
+            }
+            boolean isLast = false;
+            // 1. refresh the list
+            smsContentList = tempSmsContentList;
+            // 1.1.获取最新信息数
+            int newSize = smsContentList.getSMSContentList().size();
+            if (newSize > current_sms_num) {
+                isLast = true;// 如果最新获取到的信息数比临时缓存的大, 则修改[滚动到最后一条]标记
+            }
+            // 更新临时最新消息数
+            current_sms_num = newSize;
+            // 刷新适配器
+            if (adapter != null) {
+                adapter.notifys(smsContentList, isLast);
+            }
+            // 2. refresh the router time
+            setPositionTextTime();
+            // 3. force to  set rcv position to last
+            if (isLast) {
+                setRecyclePositionToLast(adapter.getItemCount() - 1);
+            }
+        });
+        // when the current number have no sms, then close it
+        xGetSMSContentListHelper.setOnGetSmsContentListFailListener(this::finish);
+        xGetSMSContentListHelper.getSMSContentList(getSmsContentListParam);
     }
 
     /* **** 获取草稿短信(只执行1次)  **** */
@@ -533,21 +551,25 @@ public class SmsDetailActivity extends BaseActivityWithBack implements View.OnCl
     private void deleteSms() {
         // reset the long status
         resetLongClickFlag();
-        SMSDeleteParam sdp = new SMSDeleteParam(Cons.DELETE_MORE_SMS, smsIds);
-        RX.getInstant().deleteSMS(sdp, new ResponseObject() {
-            @Override
-            protected void onSuccess(Object result) {
-                if (isLongClick) {
-                    ToastUtil_m.show(SmsDetailActivity.this, getString(R.string.sms_delete_success));
-                }
-                resetLongClickFlag();
-                getSmsContents(false);/* 删除短信后无需跳到最后一条 */
-            }
+        //用新的Param替换旧的Param
+        DeleteSmsParam xDeleteSmsParam = new DeleteSmsParam();
+        xDeleteSmsParam.setDelFlag(Cons.DELETE_MORE_SMS);
+        xDeleteSmsParam.setSMSArray(smsIds);
 
-            @Override
-            protected void onResultError(ResponseBody.Error error) {
-                ToastUtil_m.show(SmsDetailActivity.this, getString(R.string.sms_delete_error));
+        DeleteSMSHelper xDeleteSMSHelper = new DeleteSMSHelper();
+        xDeleteSMSHelper.setOnDeleteSmsSuccessListener(result -> {
+            if (isLongClick) {
+                ToastUtil_m.show(SmsDetailActivity.this, getString(R.string.sms_delete_success));
             }
+            resetLongClickFlag();
+            getSmsContents(false);/* 删除短信后无需跳到最后一条 */
         });
+        xDeleteSMSHelper.setOnDeleteSmsFailListener(() -> {
+            ToastUtil_m.show(SmsDetailActivity.this, getString(R.string.sms_delete_error));
+        });
+        xDeleteSMSHelper.setOnDeleteFailListener(() -> {
+            ToastUtil_m.show(SmsDetailActivity.this, getString(R.string.sms_delete_error));
+        });
+        xDeleteSMSHelper.deleteSms(xDeleteSmsParam);
     }
 }

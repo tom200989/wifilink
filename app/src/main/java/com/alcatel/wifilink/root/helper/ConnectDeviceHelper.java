@@ -4,6 +4,11 @@ import com.alcatel.wifilink.root.bean.ConnectedList;
 import com.alcatel.wifilink.network.RX;
 import com.alcatel.wifilink.network.ResponseBody;
 import com.alcatel.wifilink.network.ResponseObject;
+import com.p_xhelper_smart.p_xhelper_smart.bean.GetConnectDeviceListBean;
+import com.p_xhelper_smart.p_xhelper_smart.helper.GetConnectedDeviceListHelper;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by qianli.ma on 2018/5/18 0018.
@@ -12,22 +17,34 @@ import com.alcatel.wifilink.network.ResponseObject;
 public class ConnectDeviceHelper {
 
     public void get() {
-        RX.getInstant().getConnectedDeviceList(new ResponseObject<ConnectedList>() {
-            @Override
-            protected void onSuccess(ConnectedList result) {
-                devicesSuccessNext(result);
+        GetConnectedDeviceListHelper xGetConnectedDeviceListHelper = new GetConnectedDeviceListHelper();
+        xGetConnectedDeviceListHelper.setOnGetDeviceListSuccessListener(bean -> {
+            ConnectedList tempConnectedList = new ConnectedList();
+            List<GetConnectDeviceListBean.ConnectedDeviceBean> connectedList = bean.getConnectedList();
+            if(connectedList != null && connectedList.size() > 0){
+                List<ConnectedList.Device> tempDeviceArrayList = new ArrayList<>();
+                for(GetConnectDeviceListBean.ConnectedDeviceBean connectedDeviceBean : connectedList){
+                    ConnectedList.Device device = new ConnectedList.Device();
+                    device.setAssociationTime(connectedDeviceBean.getAssociationTime());
+                    device.setConnectMode(connectedDeviceBean.getConnectMode());
+                    device.setDeviceName(connectedDeviceBean.getDeviceName());
+                    device.setDeviceType(connectedDeviceBean.getDeviceType());
+                    device.setId(connectedDeviceBean.getId());
+                    device.setInternetRight(connectedDeviceBean.getInternetRight());
+                    device.setIPAddress(connectedDeviceBean.getIPAddress());
+                    device.setMacAddress(connectedDeviceBean.getMacAddress());
+                    device.setStorageRight(connectedDeviceBean.getStorageRight());
+                    tempDeviceArrayList.add(device);
+                }
+                tempConnectedList.setConnectedList(tempDeviceArrayList);
             }
-
-            @Override
-            protected void onFailure() {
-                devicesFailedNext(null);
-            }
-
-            @Override
-            protected void onResultError(ResponseBody.Error error) {
-                devicesErrorNext(error);
-            }
+            devicesSuccessNext(tempConnectedList);
         });
+        xGetConnectedDeviceListHelper.setOnGetDeviceListFailListener(() -> {
+            devicesFailedNext(null);
+            devicesErrorNext(null);
+        });
+        xGetConnectedDeviceListHelper.getConnectDeviceList();
     }
 
     private OnDevicesSuccessListener onDevicesSuccessListener;

@@ -19,7 +19,7 @@ public class ConnectHotspotHelper extends BaseHelper {
         xSmart.xMethod(XCons.METHOD_CONNECT_HOTSPOT).xParam(param).xPost(new XNormalCallback() {
             @Override
             public void success(Object result) {
-                connectHotSpotSuccessNext();
+                connectHotSpotSuccessNext(result);
             }
 
             @Override
@@ -42,7 +42,7 @@ public class ConnectHotspotHelper extends BaseHelper {
 
     /*----------------------------------请求连接热点成功的回调------------------------------*/
     public interface OnConnectHotSpotSuccessListener {
-        void connectHotSpotSuccess();
+        void connectHotSpotSuccess(Object object);
     }
 
     private OnConnectHotSpotSuccessListener onConnectHotSpotSuccessListener;
@@ -53,9 +53,9 @@ public class ConnectHotspotHelper extends BaseHelper {
     }
 
     //封装方法connectHotSpotSuccessNext
-    private void connectHotSpotSuccessNext() {
+    private void connectHotSpotSuccessNext(Object object) {
         if (onConnectHotSpotSuccessListener != null) {
-            onConnectHotSpotSuccessListener.connectHotSpotSuccess();
+            onConnectHotSpotSuccessListener.connectHotSpotSuccess(object);
         }
     }
 

@@ -5,6 +5,10 @@ import com.alcatel.wifilink.root.bean.Extender_GetWIFIExtenderSettingsResult;
 import com.alcatel.wifilink.network.RX;
 import com.alcatel.wifilink.network.ResponseBody;
 import com.alcatel.wifilink.network.ResponseObject;
+import com.p_xhelper_smart.p_xhelper_smart.bean.GetWIFIExtenderCurrentStatusBean;
+import com.p_xhelper_smart.p_xhelper_smart.bean.GetWIFIExtenderSettingsBean;
+import com.p_xhelper_smart.p_xhelper_smart.helper.GetWIFIExtenderCurrentStatusHelper;
+import com.p_xhelper_smart.p_xhelper_smart.helper.GetWIFIExtenderSettingsHelper;
 
 /**
  * Created by qianli.ma on 2018/5/23 0023.
@@ -12,69 +16,60 @@ import com.alcatel.wifilink.network.ResponseObject;
 
 public class Extender_GetWIFIExtenderSettingsHelper {
     public void get() {
-        RX.getInstant().getWIFIExtenderSettings(new ResponseObject<Extender_GetWIFIExtenderSettingsResult>() {
-            @Override
-            protected void onSuccess(Extender_GetWIFIExtenderSettingsResult result) {
-                successNext(result);
-                /* 1.接口: 开关状态 */
-                switch (result.getStationEnable()) {
-                    case 0:// disable
-                        stateEnableOffNext(0);
-                        break;
-                    case 1:// enable
-                        stateEnableOnNext(1);
-                        /* 2.接口: 初始化状态 */
-                        switch (result.getExtenderInitingStatus()) {
-                            case 0:// initing
-                                initNext(0);
-                                break;
-                            case 1:// Complete
-                                completeNext(1);
-                                getCurrentHotpot();
-                                break;
-                            case 2:// Inited Failed
-                                initFailedNext(2);
-                                break;
-                        }
-
-                        break;
-                }
-
-
-            }
-
-            @Override
-            protected void onFailure() {
-                failedNext(null);
-            }
-
-            @Override
-            protected void onResultError(ResponseBody.Error error) {
-                resultErrorNext(error);
+        GetWIFIExtenderSettingsHelper xGetWIFIExtenderSettingsHelper = new GetWIFIExtenderSettingsHelper();
+        xGetWIFIExtenderSettingsHelper.setGetWifiExtenderSettingsSuccessListener(bean -> {
+            Extender_GetWIFIExtenderSettingsResult extenderGetWIFIExtenderSettingsResult = new Extender_GetWIFIExtenderSettingsResult();
+            extenderGetWIFIExtenderSettingsResult.setExtenderInitingStatus(bean.getExtenderInitingStatus());
+            extenderGetWIFIExtenderSettingsResult.setStationEnable(bean.getStationEnable());
+            successNext(extenderGetWIFIExtenderSettingsResult);
+            /* 1.接口: 开关状态 */
+            switch (bean.getStationEnable()) {
+                case 0:// disable
+                    stateEnableOffNext(0);
+                    break;
+                case 1:// enable
+                    stateEnableOnNext(1);
+                    /* 2.接口: 初始化状态 */
+                    switch (bean.getExtenderInitingStatus()) {
+                        case 0:// initing
+                            initNext(0);
+                            break;
+                        case 1:// Complete
+                            completeNext(1);
+                            getCurrentHotpot();
+                            break;
+                        case 2:// Inited Failed
+                            initFailedNext(2);
+                            break;
+                    }
+                    break;
             }
         });
+        xGetWIFIExtenderSettingsHelper.setGetWifiExtenderSettingsFailListener(() -> {
+            failedNext(null);
+            resultErrorNext(null);
+        });
+        xGetWIFIExtenderSettingsHelper.getWIFIExtenderSettings();
     }
 
     /**
      * 获取当前热点信息
      */
     private void getCurrentHotpot() {
-        RX.getInstant().getWIFIExtenderCurrentStatus(new ResponseObject<Extender_GetWIFIExtenderCurrentStatusResult>() {
-            @Override
-            protected void onSuccess(Extender_GetWIFIExtenderCurrentStatusResult result) {
-                currentHotpotNext(result);
-            }
-
-            @Override
-            protected void onFailure() {
-                currentHotpotNext(null);
-            }
-
-            @Override
-            protected void onResultError(ResponseBody.Error error) {
-                currentHotpotNext(null);
-            }
+        GetWIFIExtenderCurrentStatusHelper xGetWIFIExtenderCurrentStatusHelper = new GetWIFIExtenderCurrentStatusHelper();
+        xGetWIFIExtenderCurrentStatusHelper.setOnGetWifiExCurStatusSuccessListener(bean -> {
+            Extender_GetWIFIExtenderCurrentStatusResult extenderGetWIFIExtenderCurrentStatusResult = new Extender_GetWIFIExtenderCurrentStatusResult();
+            extenderGetWIFIExtenderCurrentStatusResult.setHotspotConnectStatus(bean.getHotspotConnectStatus());
+            extenderGetWIFIExtenderCurrentStatusResult.setHotspotSSID(bean.getHotspotSSID());
+            extenderGetWIFIExtenderCurrentStatusResult.setIPV4Addr(bean.getIPV4Addr());
+            extenderGetWIFIExtenderCurrentStatusResult.setIPV6Addr(bean.getIPV6Addr());
+            extenderGetWIFIExtenderCurrentStatusResult.setSignal(bean.getSignal());
+            currentHotpotNext(extenderGetWIFIExtenderCurrentStatusResult);
         });
+        xGetWIFIExtenderCurrentStatusHelper.setOnGetWifiExCurStatusFailListener(() -> {
+            currentHotpotNext(null);
+        });
+        xGetWIFIExtenderCurrentStatusHelper.getWIFIExtenderCurrentStatus();
     }
 
     private OnCurrentHotpotListener onCurrentHotpotListener;
