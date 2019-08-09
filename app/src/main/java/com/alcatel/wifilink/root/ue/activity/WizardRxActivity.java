@@ -131,38 +131,38 @@ public class WizardRxActivity extends BaseActivityWithBack {
             @Override
             public void doSomething() {
                 // 检测设备是否为MW120新型设备
-                GetSystemInfoHelper getSystemInfoHelper = new GetSystemInfoHelper();
-                getSystemInfoHelper.setOnGetSystemInfoSuccessListener(attr -> {
+                GetSystemInfoHelper xGetSystemInfoHelper = new GetSystemInfoHelper();
+                xGetSystemInfoHelper.setOnGetSystemInfoSuccessListener(attr -> {
                     boolean isMw120 = attr.getDeviceName().toLowerCase().startsWith(Cons.MW_SERIAL);
                     vRxSplitWizard.setVisibility(isMw120 ? View.GONE : View.VISIBLE);
                     tvRxSplitWizard.setVisibility(isMw120 ? View.GONE : View.VISIBLE);
                     rlWanRx.setVisibility(isMw120 ? View.GONE : View.VISIBLE);
                 });
-                getSystemInfoHelper.getSystemInfo();
+                xGetSystemInfoHelper.getSystemInfo();
 
 
                 // wifi是否生效
                 boolean iswifi = OtherUtils.isWifiConnect(WizardRxActivity.this);
                 if (iswifi) {
                     // 检测WAN口连接
-                    GetWanSettingsHelper helper = new GetWanSettingsHelper();
-                    helper.setOnGetWanSettingsSuccessListener(result -> {
+                    GetWanSettingsHelper xGetWanSettingsHelper = new GetWanSettingsHelper();
+                    xGetWanSettingsHelper.setOnGetWanSettingsSuccessListener(result -> {
                         boolean isWanConnect = result.getStatus() == GetWanSettingsBean.CONS_CONNECTED;
                         ivWanRx.setImageDrawable(isWanConnect ? wan_checked_pic : wan_unchecked_pic);
                         tvWanRx.setText(isWanConnect ? wan_checked_str : wan_unchecked_str);
                         tvWanRx.setTextColor(isWanConnect ? blue_color : red_color);
                     });
-                    helper.setOnFwErrorListener(() -> {
+                    xGetWanSettingsHelper.setOnFwErrorListener(() -> {
                         ivWanRx.setImageDrawable(wan_unchecked_pic);
                         tvWanRx.setText(wan_unchecked_str);
                         tvWanRx.setTextColor(red_color);
                     });
-                    helper.setOnAppErrorListener(() -> {
+                    xGetWanSettingsHelper.setOnAppErrorListener(() -> {
                         ivWanRx.setImageDrawable(wan_unchecked_pic);
                         tvWanRx.setText(wan_unchecked_str);
                         tvWanRx.setTextColor(red_color);
                     });
-                    helper.getWanSettings();
+                    xGetWanSettingsHelper.getWanSettings();
 
                     // 检测SIM卡连接
 
@@ -261,8 +261,8 @@ public class WizardRxActivity extends BaseActivityWithBack {
                 pgd = OtherUtils.showProgressPop(this);
             }
 
-            GetWanSettingsHelper helper = new GetWanSettingsHelper();
-            helper.setOnGetWanSettingsSuccessListener(result -> {
+            GetWanSettingsHelper xGetWanSettingsHelper = new GetWanSettingsHelper();
+            xGetWanSettingsHelper.setOnGetWanSettingsSuccessListener(result -> {
                 int status = result.getStatus();
                 if (status == GetWanSettingsBean.CONS_CONNECTED) {
                     OtherUtils.hideProgressPop(pgd);
@@ -282,17 +282,17 @@ public class WizardRxActivity extends BaseActivityWithBack {
                     toast(R.string.connect_type_select_wan_port_disable);
                 }
             });
-            helper.setOnFwErrorListener(() -> {
+            xGetWanSettingsHelper.setOnFwErrorListener(() -> {
                 toast(R.string.connect_failed);
                 OtherUtils.hideProgressPop(pgd);
                 to(RefreshWifiRxActivity.class);
             });
-            helper.setOnAppErrorListener(() -> {
+            xGetWanSettingsHelper.setOnAppErrorListener(() -> {
                 toast(R.string.connect_failed);
                 OtherUtils.hideProgressPop(pgd);
                 to(RefreshWifiRxActivity.class);
             });
-            helper.getWanSettings();
+            xGetWanSettingsHelper.getWanSettings();
 
         } else {
             wifiDisconnect();

@@ -102,14 +102,14 @@ public class LoadingRxActivity extends BaseActivityWithBack {
      * 获取系统相关信息(主要用于设备类型)
      */
     private void getSystemAbout() {
-        GetSystemInfoHelper getSystemInfoHelper = new GetSystemInfoHelper();
-        getSystemInfoHelper.setOnGetSystemInfoSuccessListener(info -> {
+        GetSystemInfoHelper xGetSystemInfoHelper = new GetSystemInfoHelper();
+        xGetSystemInfoHelper.setOnGetSystemInfoSuccessListener(info -> {
             String deviceName = info.getDeviceName();
             EventBus.getDefault().postSticky(deviceName);// 发送--> LoginRxActivity
         });
-        getSystemInfoHelper.setOnFwErrorListener(() -> to(RefreshWifiRxActivity.class, true));
-        getSystemInfoHelper.setOnAppErrorListener(() -> to(RefreshWifiRxActivity.class, true));
-        getSystemInfoHelper.getSystemInfo();
+        xGetSystemInfoHelper.setOnFwErrorListener(() -> to(RefreshWifiRxActivity.class, true));
+        xGetSystemInfoHelper.setOnAppErrorListener(() -> to(RefreshWifiRxActivity.class, true));
+        xGetSystemInfoHelper.getSystemInfo();
     }
 
     /**

@@ -136,7 +136,7 @@ public class SettingFragment extends Fragment implements View.OnClickListener, F
     private TimerHelper downTimer;
     private BoardSimHelper simTimerHelper;
     private BoardWanHelper wanTimerHelper;
-    private GetSystemInfoHelper systemInfoHelper;
+    private GetSystemInfoHelper xGetSystemInfoHelper;
     private Extender_GetWIFIExtenderSettingsHelper extenderHelper;
     private String off;
     private String on;
@@ -205,8 +205,8 @@ public class SettingFragment extends Fragment implements View.OnClickListener, F
         simTimerHelper.setOnSimReadyListener(result -> mMobileNetworkSimSocket.setText(on));
 
         // 加入MW120设备类型判断
-        systemInfoHelper = new GetSystemInfoHelper();
-        systemInfoHelper.setOnGetSystemInfoSuccessListener(systemInfo -> {
+        xGetSystemInfoHelper = new GetSystemInfoHelper();
+        xGetSystemInfoHelper.setOnGetSystemInfoSuccessListener(systemInfo -> {
             String deviceName = systemInfo.getDeviceName().toLowerCase();
             isMW120 = deviceName.startsWith(Cons.MW_SERIAL);
             isHH71 = deviceName.startsWith(Cons.HH71);
@@ -268,7 +268,7 @@ public class SettingFragment extends Fragment implements View.OnClickListener, F
                 public void doSomething() {
                     // 检测WAN口 | SIM是否连接 | 是否为新设备
                     simTimerHelper.boardTimer();
-                    systemInfoHelper.getSystemInfo();
+                    xGetSystemInfoHelper.getSystemInfo();
                 }
             };
         }
@@ -465,16 +465,16 @@ public class SettingFragment extends Fragment implements View.OnClickListener, F
                 // 1.2.停止定时器
                 stopDownTimerAndPop();
                 // 1.3.请求停止
-                SetDeviceUpdateStopHelper helper = new SetDeviceUpdateStopHelper();
-                helper.setOnSetDeviceUpdateStopSuccessListener(() -> {
+                SetDeviceUpdateStopHelper xSetDeviceUpdateStopHelper = new SetDeviceUpdateStopHelper();
+                xSetDeviceUpdateStopHelper.setOnSetDeviceUpdateStopSuccessListener(() -> {
                     stopDownTimerAndPop();
                     toast(R.string.setting_upgrade_stop_error);
                     isDownloading = false;
                 });
-                helper.setOnSetDeviceUpdateStopFailedListener(() -> {
+                xSetDeviceUpdateStopHelper.setOnSetDeviceUpdateStopFailedListener(() -> {
                     downError(-1);
                 });
-                helper.setDeviceUpdateStop();
+                xSetDeviceUpdateStopHelper.setDeviceUpdateStop();
             });
 
             /* 2.启动定时器 */
@@ -650,22 +650,22 @@ public class SettingFragment extends Fragment implements View.OnClickListener, F
     public int requestTimes = 0;
 
     private void backupDevice() {
-        SetDeviceBackupHelper helper = new SetDeviceBackupHelper();
-        helper.setOnPrepareHelperListener(() -> {
+        SetDeviceBackupHelper xSetDeviceBackupHelper = new SetDeviceBackupHelper();
+        xSetDeviceBackupHelper.setOnPrepareHelperListener(() -> {
             if (mProgressDialog == null) {
                 showLoadingDialog();
             }
         });
-        helper.setOnDoneHelperListener(() -> {
+        xSetDeviceBackupHelper.setOnDoneHelperListener(() -> {
             dismissLoadingDialog();
         });
-        helper.setOnSetDeviceBackupFailedListener(() -> {
+        xSetDeviceBackupHelper.setOnSetDeviceBackupFailedListener(() -> {
             showFailedDialog(R.string.couldn_t_backup_try_again);
         });
-        helper.setOnSetDeviceBackupSuccessListener(() -> {
+        xSetDeviceBackupHelper.setOnSetDeviceBackupSuccessListener(() -> {
             showBackupSuccessDialog();
         });
-        helper.setDeviceBackup();
+        xSetDeviceBackupHelper.setDeviceBackup();
     }
 
     private void showBackupSuccessDialog() {
@@ -729,37 +729,37 @@ public class SettingFragment extends Fragment implements View.OnClickListener, F
     }
 
     private void restartDevice() {
-        SetDeviceRebootHelper helper = new SetDeviceRebootHelper();
-        helper.setOnSetDeviceRebootSuccessListener(() -> {
+        SetDeviceRebootHelper xSetDeviceRebootHelper = new SetDeviceRebootHelper();
+        xSetDeviceRebootHelper.setOnSetDeviceRebootSuccessListener(() -> {
             ToastUtil_m.show(getActivity(), R.string.succeed);
         });
-        helper.setOnSetDeviceRebootFailedListener(() -> {
+        xSetDeviceRebootHelper.setOnSetDeviceRebootFailedListener(() -> {
             ToastUtil_m.show(getActivity(), R.string.fail);
         });
-        helper.setOnPrepareHelperListener(() -> {
+        xSetDeviceRebootHelper.setOnPrepareHelperListener(() -> {
             showLoadingDialog();
         });
-        helper.setOnDoneHelperListener(() -> {
+        xSetDeviceRebootHelper.setOnDoneHelperListener(() -> {
             dismissLoadingDialog();
         });
-        helper.SetDeviceReboot();
+        xSetDeviceRebootHelper.SetDeviceReboot();
     }
 
 
     private void resetDevice() {
-        SetDeviceResetHelper helper = new SetDeviceResetHelper();
-        helper.setOnPrepareHelperListener(() -> {
+        SetDeviceResetHelper xSetDeviceResetHelper = new SetDeviceResetHelper();
+        xSetDeviceResetHelper.setOnPrepareHelperListener(() -> {
             showLoadingDialog();
         });
-        helper.setOnSetDeviceResetSuccessListener(() -> {
+        xSetDeviceResetHelper.setOnSetDeviceResetSuccessListener(() -> {
             dismissLoadingDialog();
             showSuccessDialog();
         });
-        helper.setOnSetDeviceResetFailedListener(() -> {
+        xSetDeviceResetHelper.setOnSetDeviceResetFailedListener(() -> {
             dismissLoadingDialog();
             showFailedDialog(R.string.couldn_t_reset_try_again);
         });
-        helper.SetDeviceReset();
+        xSetDeviceResetHelper.SetDeviceReset();
     }
 
     public int restoreTimes = 0;
@@ -869,11 +869,11 @@ public class SettingFragment extends Fragment implements View.OnClickListener, F
      */
     private void getDeviceFWCurrentVersion() {
         // 1.获取当前版本
-        GetSystemInfoHelper getSystemInfoHelper = new GetSystemInfoHelper();
-        getSystemInfoHelper.setOnGetSystemInfoSuccessListener(result -> {
+        GetSystemInfoHelper xGetSystemInfoHelper = new GetSystemInfoHelper();
+        xGetSystemInfoHelper.setOnGetSystemInfoSuccessListener(result -> {
             mDeviceVersion.setText(result.getSwVersionMain());
         });
-        getSystemInfoHelper.getSystemInfo();
+        xGetSystemInfoHelper.getSystemInfo();
 
         // 2.检测新版本
         UpgradeHelper uh = new UpgradeHelper(getActivity(), false);

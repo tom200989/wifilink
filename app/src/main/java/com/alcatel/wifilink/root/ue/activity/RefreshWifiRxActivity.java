@@ -74,16 +74,16 @@ public class RefreshWifiRxActivity extends Activity {
         boolean iswifi = OtherUtils.isWifiConnect(this);
         Lgg.t(TAG).ii("is wifi open: " + iswifi);
         if (iswifi) {
-            GetSystemInfoHelper getSystemInfoHelper = new GetSystemInfoHelper();
-            getSystemInfoHelper.setOnGetSystemInfoSuccessListener(info -> {
+            GetSystemInfoHelper xGetSystemInfoHelper = new GetSystemInfoHelper();
+            xGetSystemInfoHelper.setOnGetSystemInfoSuccessListener(info -> {
                 if (!isFinishing()) {
                     showOrHideWidget(MODE_GOT_CONNECT);
                 }
                 to(LoadingRxActivity.class, true);
             });
-            getSystemInfoHelper.setOnFwErrorListener(() -> showOrHideWidget(MODE_GOT_CONNECT));
-            getSystemInfoHelper.setOnAppErrorListener(() -> showOrHideWidget(MODE_GOT_CONNECT));
-            getSystemInfoHelper.getSystemInfo();
+            xGetSystemInfoHelper.setOnFwErrorListener(() -> showOrHideWidget(MODE_GOT_CONNECT));
+            xGetSystemInfoHelper.setOnAppErrorListener(() -> showOrHideWidget(MODE_GOT_CONNECT));
+            xGetSystemInfoHelper.getSystemInfo();
         } else {
             showOrHideWidget(MODE_GOT_CONNECT);
             Lgg.t(TAG).ww("wifi is not open");

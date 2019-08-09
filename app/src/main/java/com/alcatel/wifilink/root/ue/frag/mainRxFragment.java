@@ -17,10 +17,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.alcatel.wifilink.R;
-import com.alcatel.wifilink.network.RX;
-import com.alcatel.wifilink.network.ResponseBody;
-import com.alcatel.wifilink.network.ResponseObject;
-import com.alcatel.wifilink.root.bean.ConnectedList;
 import com.alcatel.wifilink.root.bean.Extender_GetWIFIExtenderCurrentStatusResult;
 import com.alcatel.wifilink.root.helper.BoardSimHelper;
 import com.alcatel.wifilink.root.helper.BoardWanHelper;
@@ -53,7 +49,6 @@ import com.p_xhelper_smart.p_xhelper_smart.bean.GetUsageSettingsBean;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetConnectionStateHelper;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetSystemInfoHelper;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetSystemStatusHelper;
-import com.p_xhelper_smart.p_xhelper_smart.bean.GetConnectDeviceListBean;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetConnectedDeviceListHelper;
 import com.zhy.android.percent.support.PercentRelativeLayout;
 
@@ -178,10 +173,10 @@ public class mainRxFragment extends Fragment implements FragmentBackHandler {
     private BoardSimHelper simHelper_simLocked;
     private NetworkInfoHelper networkHelper;
     private GetConnectionStateHelper xGetConnectionStateHelper;
-    private GetSystemInfoHelper systemInfoHelper;
+    private GetSystemInfoHelper xGetSystemInfoHelper;
     private Extender_GetWIFIExtenderSettingsHelper extenderHelper;
-    private GetSystemStatusHelper systemStatuHelper;
-    private GetSystemStatusHelper systemStatuHelper_for_russia;
+    private GetSystemStatusHelper xGetSystemStatusHelper;
+    private GetSystemStatusHelper xsystemStatuHelper_for_russia;
 
     private HomeRxActivity activity;
     private Class[] fragmentClazz;// fragment集合(在HomeRxActivity)
@@ -239,13 +234,13 @@ public class mainRxFragment extends Fragment implements FragmentBackHandler {
         simHelper_simConnect = new BoardSimHelper(getActivity());
         simHelper_simLocked = new BoardSimHelper(getActivity());
         xGetConnectionStateHelper = new GetConnectionStateHelper();
-        systemInfoHelper = new GetSystemInfoHelper();
+        xGetSystemInfoHelper = new GetSystemInfoHelper();
         extenderHelper = new Extender_GetWIFIExtenderSettingsHelper();
 
         // 定时检测是否为MW120新型设备
-        systemInfoHelper.setOnFwErrorListener(() -> getSystemInfoError());/* 1.1.发生错误先走wan口 */
-        systemInfoHelper.setOnAppErrorListener(() -> getSystemInfoError());/* 1.1.发生错误先走wan口 */
-        systemInfoHelper.setOnGetSystemInfoSuccessListener(this::judgeDevices);/* 1.1.否则判断设备类型 */
+        xGetSystemInfoHelper.setOnFwErrorListener(() -> getSystemInfoError());/* 1.1.发生错误先走wan口 */
+        xGetSystemInfoHelper.setOnAppErrorListener(() -> getSystemInfoError());/* 1.1.发生错误先走wan口 */
+        xGetSystemInfoHelper.setOnGetSystemInfoSuccessListener(this::judgeDevices);/* 1.1.否则判断设备类型 */
 
         // 定时检测wifi extender是否有开启
         extenderHelper.setOnResultErrorListener(resultError -> setMainMW120NetworkAndBatteryUi(false));
@@ -254,14 +249,14 @@ public class mainRxFragment extends Fragment implements FragmentBackHandler {
         extenderHelper.setOnCurrentHotpotListener(this::showExtenderStrength);
 
         // 定时获取电池状态以及信号强度等状态
-        systemStatuHelper = new GetSystemStatusHelper();
-        systemStatuHelper.setOnGetSystemStatusSuccessListener(getSystemStatusBean -> showBatteryAndSignalUi(getSystemStatusBean));
-        systemStatuHelper.setOnGetSystemStatusFailedListener(() -> showBatteryAndSignalUi(null));
+        xGetSystemStatusHelper = new GetSystemStatusHelper();
+        xGetSystemStatusHelper.setOnGetSystemStatusSuccessListener(getSystemStatusBean -> showBatteryAndSignalUi(getSystemStatusBean));
+        xGetSystemStatusHelper.setOnGetSystemStatusFailedListener(() -> showBatteryAndSignalUi(null));
 
         // 应俄罗斯要求, 先判断当前currentconnection状态, 取消wan口优先原则
-        systemStatuHelper_for_russia = new GetSystemStatusHelper();
-        systemStatuHelper_for_russia.setOnGetSystemStatusFailedListener(() -> currentConnection = 0);// 出错--> 无网络
-        systemStatuHelper_for_russia.setOnGetSystemStatusSuccessListener(getSystemStatusBean -> currentConnection = getSystemStatusBean.getCurrentConnection());
+        xsystemStatuHelper_for_russia = new GetSystemStatusHelper();
+        xsystemStatuHelper_for_russia.setOnGetSystemStatusFailedListener(() -> currentConnection = 0);// 出错--> 无网络
+        xsystemStatuHelper_for_russia.setOnGetSystemStatusSuccessListener(getSystemStatusBean -> currentConnection = getSystemStatusBean.getCurrentConnection());
 
         // 定时获取WAN口状态
         wanHelper.setOnResultError(error -> getSim());// 出错
@@ -357,7 +352,7 @@ public class mainRxFragment extends Fragment implements FragmentBackHandler {
      * 获取system status来查看电池信息
      */
     private void getSystemStatus() {
-        systemStatuHelper.getSystemStatus();
+        xGetSystemStatusHelper.getSystemStatus();
     }
 
     /**
@@ -501,8 +496,8 @@ public class mainRxFragment extends Fragment implements FragmentBackHandler {
      */
     private void getSystemInfoFirstAndRussia() {
         /* 1.判断是否为MW120新型设备 */
-        systemInfoHelper.getSystemInfo();
-        systemStatuHelper_for_russia.getSystemStatus();
+        xGetSystemInfoHelper.getSystemInfo();
+        xsystemStatuHelper_for_russia.getSystemStatus();
     }
 
     /**

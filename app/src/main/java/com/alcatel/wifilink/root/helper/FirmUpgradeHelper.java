@@ -34,14 +34,14 @@ public class FirmUpgradeHelper {
      * 开始升级
      */
     public void startUpgrade() {
-        SetDeviceStartUpdateHelper startUpdateHelper = new SetDeviceStartUpdateHelper();
-        startUpdateHelper.setOnSetDeviceStartUpdateSuccessListener(() -> {
+        SetDeviceStartUpdateHelper xSetDeviceStartUpdateHelper = new SetDeviceStartUpdateHelper();
+        xSetDeviceStartUpdateHelper.setOnSetDeviceStartUpdateSuccessListener(() -> {
             startUpgradeNext();
         });
-        startUpdateHelper.setOnSetDeviceStartUpdateFailedListener(() -> {
+        xSetDeviceStartUpdateHelper.setOnSetDeviceStartUpdateFailedListener(() -> {
             errorNext();
         });
-        startUpdateHelper.setDeviceStartUpdate();
+        xSetDeviceStartUpdateHelper.setDeviceStartUpdate();
     }
 
     private OnStartUpgradeListener onStartUpgradeListener;
@@ -70,10 +70,10 @@ public class FirmUpgradeHelper {
      * 触发FOTA下载
      */
     public void triggerFOTA() {
-        SetFOTAStartDownloadHelper setFOTAStartDownloadHelper = new SetFOTAStartDownloadHelper();
-        setFOTAStartDownloadHelper.setOnSetFOTAStartDownloadSuccessListener(() -> setFOTADownSuccessNext());
-        setFOTAStartDownloadHelper.setOnSetFOTAStartDownloadFailedListener(() -> errorNext());
-        setFOTAStartDownloadHelper.setFOTAStartDownload();
+        SetFOTAStartDownloadHelper xSetFOTAStartDownloadHelper = new SetFOTAStartDownloadHelper();
+        xSetFOTAStartDownloadHelper.setOnSetFOTAStartDownloadSuccessListener(() -> setFOTADownSuccessNext());
+        xSetFOTAStartDownloadHelper.setOnSetFOTAStartDownloadFailedListener(() -> errorNext());
+        xSetFOTAStartDownloadHelper.setFOTAStartDownload();
     }
 
     private OnSetFOTADownSuccessListener onSetFOTADownSuccessListener;
@@ -166,13 +166,13 @@ public class FirmUpgradeHelper {
      * 获取当前版本号
      */
     private void getCurrentVersion(GetDeviceNewVersionBean updateDeviceNewVersion) {
-        GetSystemInfoHelper getSystemInfoHelper = new GetSystemInfoHelper();
-        getSystemInfoHelper.setOnGetSystemInfoSuccessListener(result -> {
+        GetSystemInfoHelper xGetSystemInfoHelper = new GetSystemInfoHelper();
+        xGetSystemInfoHelper.setOnGetSystemInfoSuccessListener(result -> {
             noNewVersionNext(updateDeviceNewVersion, result);
         });
-        getSystemInfoHelper.setOnAppErrorListener(() -> toast(R.string.setting_upgrade_check_firmware_failed));
-        getSystemInfoHelper.setOnFwErrorListener(() -> toast(R.string.setting_upgrade_check_firmware_failed));
-        getSystemInfoHelper.getSystemInfo();
+        xGetSystemInfoHelper.setOnAppErrorListener(() -> toast(R.string.setting_upgrade_check_firmware_failed));
+        xGetSystemInfoHelper.setOnFwErrorListener(() -> toast(R.string.setting_upgrade_check_firmware_failed));
+        xGetSystemInfoHelper.getSystemInfo();
     }
 
     private OnErrorListener onErrorListener;

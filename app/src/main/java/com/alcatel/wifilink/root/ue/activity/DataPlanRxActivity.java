@@ -268,13 +268,13 @@ public class DataPlanRxActivity extends BaseActivityWithBack {
         result.setMonthlyPlan((long) monthly_b);
         SetUsageSettingsParam param = new SetUsageSettingsParam();
         param.copy(result);
-        SetUsageSettingsHelper helper = new SetUsageSettingsHelper();
-        helper.setOnSetUsageSettingsSuccessListener(() -> {
+        SetUsageSettingsHelper xSetUsageSettingsHelper = new SetUsageSettingsHelper();
+        xSetUsageSettingsHelper.setOnSetUsageSettingsSuccessListener(() -> {
             toast(R.string.success);
             toAc();
         });
-        helper.setOnSetUsageSettingsFailListener(() -> failed());
-        helper.setUsageSettings(param);
+        xSetUsageSettingsHelper.setOnSetUsageSettingsFailListener(() -> failed());
+        xSetUsageSettingsHelper.setUsageSettings(param);
     }
 
     private void toAc() {

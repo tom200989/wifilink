@@ -46,8 +46,8 @@ public class UpgradeHelper {
      * 获取下载进度
      */
     public void getDownState() {
-        GetDeviceUpgradeStateHelper getDeviceUpgradeStateHelper = new GetDeviceUpgradeStateHelper();
-        getDeviceUpgradeStateHelper.setOnGetDeviceUpgradeStateSuccessListener(result -> {
+        GetDeviceUpgradeStateHelper xGetDeviceUpgradeStateHelper = new GetDeviceUpgradeStateHelper();
+        xGetDeviceUpgradeStateHelper.setOnGetDeviceUpgradeStateSuccessListener(result -> {
             upgradeStateNormalNext(result);
             int status = result.getStatus();
             switch (status) {
@@ -62,10 +62,10 @@ public class UpgradeHelper {
                     break;
             }
         });
-        getDeviceUpgradeStateHelper.setOnGetDeviceUpgradeStateFailedListener(() -> {
+        xGetDeviceUpgradeStateHelper.setOnGetDeviceUpgradeStateFailedListener(() -> {
             errorNext();
         });
-        getDeviceUpgradeStateHelper.getDeviceUpgradeState();
+        xGetDeviceUpgradeStateHelper.getDeviceUpgradeState();
     }
 
     private OnCompleteListener onCompleteListener;
@@ -199,16 +199,16 @@ public class UpgradeHelper {
 
     private void setCheck() {
         // 1.先触发检查new version
-        SetCheckNewVersionHelper helper = new SetCheckNewVersionHelper();
-        helper.setOnSetCheckNewVersionSuccessListener(() -> {
+        SetCheckNewVersionHelper xSetCheckNewVersionHelper = new SetCheckNewVersionHelper();
+        xSetCheckNewVersionHelper.setOnSetCheckNewVersionSuccessListener(() -> {
             // 2.在获取查询new version
             getNewVersionDo();
         });
-        helper.setOnSetCheckNewVersionFailedListener(() -> {
+        xSetCheckNewVersionHelper.setOnSetCheckNewVersionFailedListener(() -> {
             hideDialog();
             errorNext();
         });
-        helper.setCheckNewVersion();
+        xSetCheckNewVersionHelper.setCheckNewVersion();
     }
 
     /**
@@ -216,8 +216,8 @@ public class UpgradeHelper {
      */
     private void getNewVersionDo() {
         if (isContinueChecking) {// 是否允许获取状态(该标记位是在180秒后如果状态还是checking则认为失败)
-            GetDeviceNewVersionHelper getDeviceNewVersionHelper = new GetDeviceNewVersionHelper();
-            getDeviceNewVersionHelper.setOnGetDeviceNewVersionSuccessListener(result -> {
+            GetDeviceNewVersionHelper xGetDeviceNewVersionHelper = new GetDeviceNewVersionHelper();
+            xGetDeviceNewVersionHelper.setOnGetDeviceNewVersionSuccessListener(result -> {
                 switch (result.getState()) {
                     case GetDeviceNewVersionBean.CONS_CHECKING:
                         checkingNext(result);
@@ -245,11 +245,11 @@ public class UpgradeHelper {
                         break;
                 }
             });
-            getDeviceNewVersionHelper.setOnGetDeviceNewVersionFailedListener(() -> {
+            xGetDeviceNewVersionHelper.setOnGetDeviceNewVersionFailedListener(() -> {
                 hideDialog();
                 errorNext();
             });
-            getDeviceNewVersionHelper.getDeviceNewVersion();
+            xGetDeviceNewVersionHelper.getDeviceNewVersion();
         } else {
             hideDialog();
             ToastUtil_m.show(activity, R.string.could_not_update_try_again);

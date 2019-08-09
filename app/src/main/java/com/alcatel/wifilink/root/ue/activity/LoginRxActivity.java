@@ -130,7 +130,7 @@ public class LoginRxActivity extends BaseActivityWithBack {
     private Drawable hh71_logo;
     private Drawable default_logo;
     private String TAG = "LoginRxActivity";
-    private GetSystemStatusHelper getSystemStatusHelper;
+    private GetSystemStatusHelper xGetSystemStatusHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -178,7 +178,7 @@ public class LoginRxActivity extends BaseActivityWithBack {
         preTimer = new TimerHelper(this) {
             @Override
             public void doSomething() {
-                getSystemStatusHelper.getSystemStatus();// 获取与网络相关(信号强度,网络类型)
+                xGetSystemStatusHelper.getSystemStatus();// 获取与网络相关(信号强度,网络类型)
                 cdh.get();// 获取设备数详细信息(IP地址,MAC地址,设备名)
             }
         };
@@ -191,8 +191,8 @@ public class LoginRxActivity extends BaseActivityWithBack {
     private void getDevicesInfo() {
         // 1.初始化设备列表对象
         cdh = new ConnectDeviceHelper();
-        GetSystemInfoHelper getSystemInfoHelper = new GetSystemInfoHelper();
-        getSystemInfoHelper.setOnGetSystemInfoSuccessListener(attr -> {
+        GetSystemInfoHelper xGetSystemInfoHelper = new GetSystemInfoHelper();
+        xGetSystemInfoHelper.setOnGetSystemInfoSuccessListener(attr -> {
             // 2.如果是MW120设备, 则显示LINKZONE,否则显示LINKHUB
             String deviceName = attr.getDeviceName().toLowerCase();
             boolean isMwSerial = deviceName.startsWith(Cons.MW_SERIAL);// 是否为MW系列
@@ -219,9 +219,9 @@ public class LoginRxActivity extends BaseActivityWithBack {
                 });
             }
         });
-        getSystemInfoHelper.setOnFwErrorListener(() -> ivLoginrxLogo.setImageDrawable(default_logo));
-        getSystemInfoHelper.setOnAppErrorListener(() -> ivLoginrxLogo.setImageDrawable(default_logo));
-        getSystemInfoHelper.getSystemInfo();
+        xGetSystemInfoHelper.setOnFwErrorListener(() -> ivLoginrxLogo.setImageDrawable(default_logo));
+        xGetSystemInfoHelper.setOnAppErrorListener(() -> ivLoginrxLogo.setImageDrawable(default_logo));
+        xGetSystemInfoHelper.getSystemInfo();
 
     }
 
@@ -230,13 +230,13 @@ public class LoginRxActivity extends BaseActivityWithBack {
      * 获取cmcc名称
      */
     private void getSystemStatusInfo() {
-        GetSystemStatusHelper helper = new GetSystemStatusHelper();
-        helper.setOnGetSystemStatusSuccessListener(getSystemStatusBean -> {
+        GetSystemStatusHelper xGetSystemStatusHelper = new GetSystemStatusHelper();
+        xGetSystemStatusHelper.setOnGetSystemStatusSuccessListener(getSystemStatusBean -> {
             String networkName = getSystemStatusBean.getNetworkName();
             tvLoginPreNetName.setText(networkName);
         });
-        helper.setOnGetSystemStatusFailedListener(() -> tvLoginPreNetName.setText(""));
-        helper.getSystemStatus();
+        xGetSystemStatusHelper.setOnGetSystemStatusFailedListener(() -> tvLoginPreNetName.setText(""));
+        xGetSystemStatusHelper.getSystemStatus();
     }
 
     /**
@@ -245,8 +245,8 @@ public class LoginRxActivity extends BaseActivityWithBack {
     private void getSignalAbout() {
         /* 电池+强度+网络类型+连接数 */
         phe = new PreHelper(this);
-        getSystemStatusHelper = new GetSystemStatusHelper();
-        getSystemStatusHelper.setOnGetSystemStatusSuccessListener(result -> {
+        xGetSystemStatusHelper = new GetSystemStatusHelper();
+        xGetSystemStatusHelper.setOnGetSystemStatusSuccessListener(result -> {
             // 设置电池电量
             Drawable batFlash = getResources().getDrawable(R.drawable.battery_01_flash);
             Drawable batUse = getResources().getDrawable(R.drawable.battery_01);
@@ -266,7 +266,7 @@ public class LoginRxActivity extends BaseActivityWithBack {
             int c5g = result.getCurr_num_5g();
             tvLoginPreConnectedCount.setText(String.valueOf(c2g + c5g));
         });
-        getSystemStatusHelper.setOnGetSystemStatusFailedListener(() -> {
+        xGetSystemStatusHelper.setOnGetSystemStatusFailedListener(() -> {
             preError();
         });
     }
@@ -320,8 +320,8 @@ public class LoginRxActivity extends BaseActivityWithBack {
 
             /* 正常登陆界面显示--> 新设备: 显示预登陆; 老设备: 退出   (优先级2) */
         } else {
-            GetSystemInfoHelper getSystemInfoHelper = new GetSystemInfoHelper();
-            getSystemInfoHelper.setOnGetSystemInfoSuccessListener(attr -> {
+            GetSystemInfoHelper xGetSystemInfoHelper = new GetSystemInfoHelper();
+            xGetSystemInfoHelper.setOnGetSystemInfoSuccessListener(attr -> {
                 // 如果是MW120新设备--> 则显示预登陆界面; 反之退出
                 if (attr.getDeviceName().toLowerCase().startsWith(Cons.MW_SERIAL)) {
                     showLoginPreOrNot(true);
@@ -329,9 +329,9 @@ public class LoginRxActivity extends BaseActivityWithBack {
                     exit();
                 }
             });
-            getSystemInfoHelper.setOnFwErrorListener(() -> exit());
-            getSystemInfoHelper.setOnAppErrorListener(() -> exit());
-            getSystemInfoHelper.getSystemInfo();
+            xGetSystemInfoHelper.setOnFwErrorListener(() -> exit());
+            xGetSystemInfoHelper.setOnAppErrorListener(() -> exit());
+            xGetSystemInfoHelper.getSystemInfo();
         }
     }
 
@@ -557,18 +557,18 @@ public class LoginRxActivity extends BaseActivityWithBack {
      */
     private void getConnectMode() {
 
-        GetWanSettingsHelper helper = new GetWanSettingsHelper();
-        helper.setOnFwErrorListener(() -> {
+        GetWanSettingsHelper xGetWanSettingsHelper = new GetWanSettingsHelper();
+        xGetWanSettingsHelper.setOnFwErrorListener(() -> {
             OtherUtils.hideProgressPop(pgd);
             whenGetWanFailed();
             Lgg.t(TAG).ee("Getwansettings: resultError--> ");
         });
-        helper.setOnAppErrorListener(() -> {
+        xGetWanSettingsHelper.setOnAppErrorListener(() -> {
             OtherUtils.hideProgressPop(pgd);
             whenGetWanFailed();
             Lgg.t(TAG).ee("Getwansettings: resultError--> ");
         });
-        helper.setOnGetWanSettingsSuccessListener(result -> {
+        xGetWanSettingsHelper.setOnGetWanSettingsSuccessListener(result -> {
             Lgg.t(TAG).ii("GetWanSettings: Success");
             /* 获取WAN口状态 */
             int wanStatus = result.getStatus();
@@ -611,7 +611,7 @@ public class LoginRxActivity extends BaseActivityWithBack {
             xGetSimStatusHelper.setOnGetSimStatusFailedListener(this::isToWizard);
             xGetSimStatusHelper.getSimStatus();
         });
-        helper.getWanSettings();
+        xGetWanSettingsHelper.getWanSettings();
     }
 
     /**
@@ -637,8 +637,8 @@ public class LoginRxActivity extends BaseActivityWithBack {
      * 当获取wan口失败做出设备类型判断
      */
     private void whenGetWanFailed() {
-        GetSystemInfoHelper getSystemInfoHelper = new GetSystemInfoHelper();
-        getSystemInfoHelper.setOnGetSystemInfoSuccessListener(systemInfo -> {
+        GetSystemInfoHelper xGetSystemInfoHelper = new GetSystemInfoHelper();
+        xGetSystemInfoHelper.setOnGetSystemInfoSuccessListener(systemInfo -> {
             String deviceName = systemInfo.getDeviceName().toLowerCase();
             if (OtherUtils.isMw120(deviceName)) {// MW120
                 Lgg.t(TAG).ii(":whenGetWanFailed() is mw120 again");
@@ -666,15 +666,15 @@ public class LoginRxActivity extends BaseActivityWithBack {
                 ToastUtil_m.show(LoginRxActivity.this, getString(R.string.login_failed));
             }
         });
-        getSystemInfoHelper.setOnFwErrorListener(() -> {
+        xGetSystemInfoHelper.setOnFwErrorListener(() -> {
             Lgg.t(TAG).ee("HH70: whenGetWanFailed error--> ");
             ToastUtil_m.show(LoginRxActivity.this, getString(R.string.login_failed));
         });
-        getSystemInfoHelper.setOnAppErrorListener(() -> {
+        xGetSystemInfoHelper.setOnAppErrorListener(() -> {
             Lgg.t(TAG).ee("HH70: whenGetWanFailed error--> ");
             ToastUtil_m.show(LoginRxActivity.this, getString(R.string.login_failed));
         });
-        getSystemInfoHelper.getSystemInfo();
+        xGetSystemInfoHelper.getSystemInfo();
     }
 
     /**

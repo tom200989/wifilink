@@ -88,21 +88,21 @@ public class SettingShareActivity extends BaseActivityWithBack implements OnClic
     }
 
     private void requestGetFTPSettings() {
-        GetFtpSettingsHelper helper = new GetFtpSettingsHelper();
-        helper.setOnGetFtpSettingsSuccessListener(result -> mFTPSwitch.setChecked(result.getFtpStatus() == GetFtpSettingsBean.CONS_FTPSTATUS_ENABLE));
-        helper.getFtpSettings();
+        GetFtpSettingsHelper xGetFtpSettingsHelper = new GetFtpSettingsHelper();
+        xGetFtpSettingsHelper.setOnGetFtpSettingsSuccessListener(result -> mFTPSwitch.setChecked(result.getFtpStatus() == GetFtpSettingsBean.CONS_FTPSTATUS_ENABLE));
+        xGetFtpSettingsHelper.getFtpSettings();
     }
 
     private void requestGetSambaSettings() {
-        GetSambaSettingsHelper getSambaSettingsHelper = new GetSambaSettingsHelper();
-        getSambaSettingsHelper.setOnGetSambaSettingsSuccessListener(result -> mSambaSwitch.setChecked(result.getSambaStatus() == GetSambaSettingsBean.CONS_SAMBASTATUS_DISABLE));
-        getSambaSettingsHelper.getSambaSettings();
+        GetSambaSettingsHelper xGetSambaSettingsHelper = new GetSambaSettingsHelper();
+        xGetSambaSettingsHelper.setOnGetSambaSettingsSuccessListener(result -> mSambaSwitch.setChecked(result.getSambaStatus() == GetSambaSettingsBean.CONS_SAMBASTATUS_DISABLE));
+        xGetSambaSettingsHelper.getSambaSettings();
     }
 
     private void requestGetDLNASettings() {
-        GetDLNASettingsHelper getDLNASettingsHelper = new GetDLNASettingsHelper();
-        getDLNASettingsHelper.setOnGetDLNASettingsSuccessListener(result -> mDLNASwitch.setChecked(result.getDlnaStatus() == GetDLNASettingsBean.CONS_ENABLE));
-        getDLNASettingsHelper.getDLNASettings();
+        GetDLNASettingsHelper xGetDLNASettingsHelper = new GetDLNASettingsHelper();
+        xGetDLNASettingsHelper.setOnGetDLNASettingsSuccessListener(result -> mDLNASwitch.setChecked(result.getDlnaStatus() == GetDLNASettingsBean.CONS_ENABLE));
+        xGetDLNASettingsHelper.getDLNASettings();
     }
 
     private void requestSetFTPSettings() {
@@ -110,8 +110,8 @@ public class SettingShareActivity extends BaseActivityWithBack implements OnClic
         param.setFtpStatus(mFTPSwitch.isChecked() ? 1 : 0);
         param.setAnonymous(0);
         param.setAuthType(0);
-        SetFtpSettingsHelper setFtpSettingsHelper = new SetFtpSettingsHelper();
-        setFtpSettingsHelper.setFtpSettings(param);
+        SetFtpSettingsHelper xSetFtpSettingsHelper = new SetFtpSettingsHelper();
+        xSetFtpSettingsHelper.setFtpSettings(param);
     }
 
     private void requestSetSambaSettings() {
@@ -119,16 +119,16 @@ public class SettingShareActivity extends BaseActivityWithBack implements OnClic
         param.setSambaStatus(mSambaSwitch.isChecked() ? 1 : 0);
         param.setAnonymous(0);
         param.setAuthType(0);
-        SetSambaSettingsHelper setSambaSettingsHelper = new SetSambaSettingsHelper();
-        setSambaSettingsHelper.setSambaSettings(param);
+        SetSambaSettingsHelper xSetSambaSettingsHelper = new SetSambaSettingsHelper();
+        xSetSambaSettingsHelper.setSambaSettings(param);
     }
 
     private void requestSetDLNASettings() {
         SetDLNASettingsParam param = new SetDLNASettingsParam();
         param.setDlnaStatus(mDLNASwitch.isChecked() ? 1 : 0);
         param.setDlnaName("");
-        SetDLNASettingsHelper setDLNASettingsHelper = new SetDLNASettingsHelper();
-        setDLNASettingsHelper.setDLNASettings(param);
+        SetDLNASettingsHelper xSetDLNASettingsHelper = new SetDLNASettingsHelper();
+        xSetDLNASettingsHelper.setDLNASettings(param);
     }
 
     @Override

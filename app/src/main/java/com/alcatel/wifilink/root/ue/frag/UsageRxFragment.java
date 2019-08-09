@@ -213,8 +213,8 @@ public class UsageRxFragment extends Fragment implements FragmentBackHandler {
      */
     private void getHomeNetworkMonthly() {
         // 获取已使用流量
-        GetUsageRecordHelper getUsageRecordHelper = new GetUsageRecordHelper();
-        getUsageRecordHelper.setOnGetUsageRecordSuccess(result -> {
+        GetUsageRecordHelper xGetUsageRecordHelper = new GetUsageRecordHelper();
+        xGetUsageRecordHelper.setOnGetUsageRecordSuccess(result -> {
             // 处理已经使用的流量
             usedData_l = result.getHUseData();
             UsageHelper.Usage hUseDataByte = UsageHelper.getUsageByte(getActivity(), usedData_l);
@@ -236,7 +236,7 @@ public class UsageRxFragment extends Fragment implements FragmentBackHandler {
             String normal = usedData_s + "/" + monthly_s;
             tvNetworkTraffic.setText(monthly_l <= 0 ? usedData_s : normal);
         });
-        getUsageRecordHelper.getUsageRecord(UsageHelper.getCurrentTime());
+        xGetUsageRecordHelper.getUsageRecord(UsageHelper.getCurrentTime());
 
 
         // 获取月流量

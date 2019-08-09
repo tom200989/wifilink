@@ -137,14 +137,14 @@ public class SettingAccountActivity extends BaseActivityWithBack implements OnCl
      */
     public void toReset() {
         dgWidgetWait.setVisibility(View.VISIBLE);
-        SetDeviceResetHelper helper = new SetDeviceResetHelper();
-        helper.setOnSetDeviceResetFailedListener(() -> {
+        SetDeviceResetHelper xSetDeviceResetHelper = new SetDeviceResetHelper();
+        xSetDeviceResetHelper.setOnSetDeviceResetFailedListener(() -> {
             dgWidgetWait.setVisibility(View.GONE);
         });
-        helper.setOnSetDeviceResetSuccessListener(() -> {
+        xSetDeviceResetHelper.setOnSetDeviceResetSuccessListener(() -> {
 
         });
-        helper.SetDeviceReset();
+        xSetDeviceResetHelper.SetDeviceReset();
     }
 
     @Override

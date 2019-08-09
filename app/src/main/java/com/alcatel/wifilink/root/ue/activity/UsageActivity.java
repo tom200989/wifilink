@@ -149,9 +149,9 @@ public class UsageActivity extends BaseActivityWithBack implements View.OnClickL
 
     /* **** getUsageRecord **** */
     private void getUsageRecord() {
-        GetUsageRecordHelper helper = new GetUsageRecordHelper();
-        helper.setOnGetUsageRecordSuccess(bean -> updateUsageRecord(bean));
-        helper.getUsageRecord(DataUtils.getCurrent());
+        GetUsageRecordHelper xGetUsageRecordHelper = new GetUsageRecordHelper();
+        xGetUsageRecordHelper.setOnGetUsageRecordSuccess(bean -> updateUsageRecord(bean));
+        xGetUsageRecordHelper.getUsageRecord(DataUtils.getCurrent());
     }
 
     /* **** updateUsageRecord **** */

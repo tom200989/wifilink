@@ -123,8 +123,8 @@ public class InternetStatusActivity extends BaseActivityWithBack {
      * A2.重新获取wan口信息
      */
     private void getWanInfo() {
-        GetWanSettingsHelper helper = new GetWanSettingsHelper();
-        helper.setOnGetWanSettingsSuccessListener(result -> {
+        GetWanSettingsHelper xGetWanSettingsHelper = new GetWanSettingsHelper();
+        xGetWanSettingsHelper.setOnGetWanSettingsSuccessListener(result -> {
             String defaultWan = "0.0.0.0";
 
             String ipAddress = result.getIpAddress();
@@ -142,7 +142,7 @@ public class InternetStatusActivity extends BaseActivityWithBack {
             String secondaryDNS = result.getSecondaryDNS();
             tvInternetContentSecondDns.setText(TextUtils.isEmpty(ipAddress) ? defaultWan : secondaryDNS);
         });
-        helper.getWanSettings();
+        xGetWanSettingsHelper.getWanSettings();
 
     }
 }

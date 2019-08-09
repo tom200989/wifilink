@@ -105,7 +105,7 @@ public class SetDataPlanRxfragment extends Fragment implements FragmentBackHandl
     private GetUsageSettingsBean usageSettings;
     private TimerHelper timerHelper;
     private UsageHelper usageHelper;
-    private GetSystemInfoHelper systemInfoHelper;
+    private GetSystemInfoHelper xGetSystemInfoHelper;
     private PopupWindows pop_billing;
     private PopupWindows pop_alert;
     private PopupWindows pop_setTimelimit;
@@ -186,24 +186,24 @@ public class SetDataPlanRxfragment extends Fragment implements FragmentBackHandl
 
     private void initData() {
         /* 获取设备信息 */
-        systemInfoHelper = new GetSystemInfoHelper();
-        systemInfoHelper.setOnGetSystemInfoSuccessListener(systemInfo -> {
+        xGetSystemInfoHelper = new GetSystemInfoHelper();
+        xGetSystemInfoHelper.setOnGetSystemInfoSuccessListener(systemInfo -> {
             String deviceName = systemInfo.getDeviceName().toLowerCase();
             isHH71 = deviceName.contains(Cons.HH71);
             rlSetPlanRxUsageButton.setVisibility(isHH71 ? View.VISIBLE : View.GONE);
             getUsageSetting();
         });
-        systemInfoHelper.setOnAppErrorListener(() -> {
+        xGetSystemInfoHelper.setOnAppErrorListener(() -> {
             rlSetPlanRxUsageButton.setVisibility(View.GONE);
             rlSetPlanRxAllContent.setVisibility(View.VISIBLE);
             getUsageSetting();
         });
-        systemInfoHelper.setOnFwErrorListener(() -> {
+        xGetSystemInfoHelper.setOnFwErrorListener(() -> {
             rlSetPlanRxUsageButton.setVisibility(View.GONE);
             rlSetPlanRxAllContent.setVisibility(View.VISIBLE);
             getUsageSetting();
         });
-        systemInfoHelper.getSystemInfo();
+        xGetSystemInfoHelper.getSystemInfo();
     }
 
     private void getUsageSetting() {

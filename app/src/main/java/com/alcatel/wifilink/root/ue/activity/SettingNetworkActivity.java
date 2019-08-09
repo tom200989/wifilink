@@ -447,20 +447,20 @@ public class SettingNetworkActivity extends BaseActivityWithBack implements OnCl
     }
 
     private void getSystemInfo() {
-        GetSystemInfoHelper getSystemInfoHelper = new GetSystemInfoHelper();
-        getSystemInfoHelper.setOnGetSystemInfoSuccessListener(result -> {
+        GetSystemInfoHelper xGetSystemInfoHelper = new GetSystemInfoHelper();
+        xGetSystemInfoHelper.setOnGetSystemInfoSuccessListener(result -> {
             mSimNumberTextView.setText(result.getMSISDN());
             mImsiTextView.setText(result.getIMSI());
         });
-        getSystemInfoHelper.getSystemInfo();
+        xGetSystemInfoHelper.getSystemInfo();
     }
 
     private void setUsageSetting(GetUsageSettingsBean usageSetting) {
         SetUsageSettingsParam param = new SetUsageSettingsParam();
         param.copy(usageSetting);
-        SetUsageSettingsHelper helper = new SetUsageSettingsHelper();
-        helper.setOnSetUsageSettingsSuccessListener(() -> getUsageSetting());
-        helper.setUsageSettings(param);
+        SetUsageSettingsHelper xSetUsageSettingsHelper = new SetUsageSettingsHelper();
+        xSetUsageSettingsHelper.setOnSetUsageSettingsSuccessListener(() -> getUsageSetting());
+        xSetUsageSettingsHelper.setUsageSettings(param);
     }
 
     private void changePinCode(String newPin, String currentPin) {

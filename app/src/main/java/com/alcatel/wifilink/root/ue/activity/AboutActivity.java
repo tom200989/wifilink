@@ -55,8 +55,8 @@ public class AboutActivity extends BaseActivityWithBack implements View.OnClickL
     }
 
     private void getDataFromNet() {
-        GetSystemInfoHelper getSystemInfoHelper = new GetSystemInfoHelper();
-        getSystemInfoHelper.setOnGetSystemInfoSuccessListener(result -> {
+        GetSystemInfoHelper xGetSystemInfoHelper = new GetSystemInfoHelper();
+        xGetSystemInfoHelper.setOnGetSystemInfoSuccessListener(result -> {
             String swVersion = result.getSwVersion();
             String[] split = swVersion.split("_");
             // 注：项目名只取前四位
@@ -71,16 +71,16 @@ public class AboutActivity extends BaseActivityWithBack implements View.OnClickL
             mImeiTxt.setText(result.getIMEI());
             mMacAddressTxt.setText(result.getMacAddress());
         });
-        getSystemInfoHelper.setOnPrepareHelperListener(() ->  showLoadingDialog());
-        getSystemInfoHelper.setOnDoneHelperListener(() -> dismissLoadingDialog());
-        getSystemInfoHelper.getSystemInfo();
+        xGetSystemInfoHelper.setOnPrepareHelperListener(() ->  showLoadingDialog());
+        xGetSystemInfoHelper.setOnDoneHelperListener(() -> dismissLoadingDialog());
+        xGetSystemInfoHelper.getSystemInfo();
 
-        GetLanSettingsHelper getLanSettingsHelper = new GetLanSettingsHelper();
-        getLanSettingsHelper.setOnGetLanSettingsSuccessListener(result -> {
+        GetLanSettingsHelper xGetLanSettingsHelper = new GetLanSettingsHelper();
+        xGetLanSettingsHelper.setOnGetLanSettingsSuccessListener(result -> {
             mManagementIpTxt.setText(result.getIPv4IPAddress().isEmpty() ? "0.0.0.0" : result.getIPv4IPAddress());
             mSubnetMaskTxt.setText(result.getSubnetMask().isEmpty() ? "0.0.0.0" : result.getSubnetMask());
         });
-        getLanSettingsHelper.getLanSettings();
+        xGetLanSettingsHelper.getLanSettings();
 
     }
 

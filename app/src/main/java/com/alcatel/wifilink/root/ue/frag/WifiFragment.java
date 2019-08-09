@@ -155,25 +155,25 @@ public class WifiFragment extends Fragment implements View.OnClickListener, Adap
      * 获取各类初始化信息(devices name, wifi on or off)
      */
     private void getKindState() {
-        GetSystemInfoHelper getSystemInfoHelper = new GetSystemInfoHelper();
-        getSystemInfoHelper.setOnGetSystemInfoSuccessListener(systeminfo -> {
+        GetSystemInfoHelper xGetSystemInfoHelper = new GetSystemInfoHelper();
+        xGetSystemInfoHelper.setOnGetSystemInfoSuccessListener(systeminfo -> {
             // 1.得到设备名
             deviceName = systeminfo.getDeviceName().toLowerCase();
             // 2.获取systemstatus--> 得到目前正在启用的WIFI
-            GetSystemStatusHelper helper = new GetSystemStatusHelper();
-            helper.setOnGetSystemStatusSuccessListener(getSystemStatusBean -> {
+            GetSystemStatusHelper xGetSystemStatusHelper = new GetSystemStatusHelper();
+            xGetSystemStatusHelper.setOnGetSystemStatusSuccessListener(getSystemStatusBean -> {
                 wlanState_2g = getSystemStatusBean.getWlanState_2g();
                 wlanState_5g = getSystemStatusBean.getWlanState_5g();
                 requestWlanSupportMode();
             });
-            helper.setOnGetSystemStatusFailedListener(() -> {
+            xGetSystemStatusHelper.setOnGetSystemStatusFailedListener(() -> {
                 requestWlanSupportMode();
             });
-            helper.getSystemStatus();
+            xGetSystemStatusHelper.getSystemStatus();
         });
-        getSystemInfoHelper.setOnFwErrorListener(() -> requestWlanSupportMode());
-        getSystemInfoHelper.setOnAppErrorListener(() -> requestWlanSupportMode());
-        getSystemInfoHelper.getSystemInfo();
+        xGetSystemInfoHelper.setOnFwErrorListener(() -> requestWlanSupportMode());
+        xGetSystemInfoHelper.setOnAppErrorListener(() -> requestWlanSupportMode());
+        xGetSystemInfoHelper.getSystemInfo();
     }
 
     @Nullable
@@ -186,14 +186,14 @@ public class WifiFragment extends Fragment implements View.OnClickListener, Adap
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        GetSystemInfoHelper getSystemInfoHelper = new GetSystemInfoHelper();
-        getSystemInfoHelper.setOnGetSystemInfoSuccessListener(attr -> {
+        GetSystemInfoHelper xGetSystemInfoHelper = new GetSystemInfoHelper();
+        xGetSystemInfoHelper.setOnGetSystemInfoSuccessListener(attr -> {
             deviceName = attr.getDeviceName().toLowerCase();
             initUi(view, OtherUtils.isMw120(deviceName));
         });
-        getSystemInfoHelper.setOnFwErrorListener(() -> initUi(view, false));
-        getSystemInfoHelper.setOnAppErrorListener(() -> initUi(view, false));
-        getSystemInfoHelper.getSystemInfo();
+        xGetSystemInfoHelper.setOnFwErrorListener(() -> initUi(view, false));
+        xGetSystemInfoHelper.setOnAppErrorListener(() -> initUi(view, false));
+        xGetSystemInfoHelper.getSystemInfo();
     }
 
     private void initUi(View view, boolean isMw120) {

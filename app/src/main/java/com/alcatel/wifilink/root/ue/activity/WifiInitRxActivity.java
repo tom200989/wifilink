@@ -152,16 +152,16 @@ public class WifiInitRxActivity extends BaseActivityWithBack {
 
     private void initData() {
         // 获取设备类型
-        GetSystemInfoHelper getSystemInfoHelper = new GetSystemInfoHelper();
-        getSystemInfoHelper.setOnGetSystemInfoSuccessListener(systemInfo -> {
+        GetSystemInfoHelper xGetSystemInfoHelper = new GetSystemInfoHelper();
+        xGetSystemInfoHelper.setOnGetSystemInfoSuccessListener(systemInfo -> {
             String deviceName = systemInfo.getDeviceName();
             isMw120 = OtherUtils.isMw120(deviceName);
             // 获取支持的模式(2.4|5)以及当前模式的状态
             getSupportModeAndCurrentStatus(isMw120);
         });
-        getSystemInfoHelper.setOnFwErrorListener(() -> getSupportModeAndCurrentStatus(false));
-        getSystemInfoHelper.setOnAppErrorListener(() -> getSupportModeAndCurrentStatus(false));
-        getSystemInfoHelper.getSystemInfo();
+        xGetSystemInfoHelper.setOnFwErrorListener(() -> getSupportModeAndCurrentStatus(false));
+        xGetSystemInfoHelper.setOnAppErrorListener(() -> getSupportModeAndCurrentStatus(false));
+        xGetSystemInfoHelper.getSystemInfo();
     }
 
     /**

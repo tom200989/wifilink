@@ -17,8 +17,8 @@ public class SimNumImsiHelper {
      */
     public void getSimNumAndImsi() {
 
-        GetSystemInfoHelper getSystemInfoHelper = new GetSystemInfoHelper();
-        getSystemInfoHelper.setOnGetSystemInfoSuccessListener(result -> {
+        GetSystemInfoHelper xGetSystemInfoHelper = new GetSystemInfoHelper();
+        xGetSystemInfoHelper.setOnGetSystemInfoSuccessListener(result -> {
             String msisdn = result.getMSISDN();
             String imsi = result.getIMSI();
             if (!TextUtils.isEmpty(msisdn)) {
@@ -28,9 +28,9 @@ public class SimNumImsiHelper {
                 imsiNext(imsi);
             }
         });
-        getSystemInfoHelper.setOnAppErrorListener(() -> errorNext());
-        getSystemInfoHelper.setOnFwErrorListener(() -> resultErrorNext());
-        getSystemInfoHelper.getSystemInfo();
+        xGetSystemInfoHelper.setOnAppErrorListener(() -> errorNext());
+        xGetSystemInfoHelper.setOnFwErrorListener(() -> resultErrorNext());
+        xGetSystemInfoHelper.getSystemInfo();
     }
 
     private OnImsiListener onImsiListener;

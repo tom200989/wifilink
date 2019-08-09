@@ -119,14 +119,14 @@ public class BoardWanHelper {
      * @param wsp
      */
     public void sendWanRequest(SetWanSettingsParam wsp) {
-        SetWanSettingsHelper helper = new SetWanSettingsHelper();
-        helper.setOnSetWanSettingsSuccessListener(() -> {
+        SetWanSettingsHelper xSetWanSettingsHelper = new SetWanSettingsHelper();
+        xSetWanSettingsHelper.setOnSetWanSettingsSuccessListener(() -> {
             reGetWanStatus();// 重复获取WAN口状态
         });
-        helper.setOnSetWanSettingsFailedListener(() -> {
+        xSetWanSettingsHelper.setOnSetWanSettingsFailedListener(() -> {
             sendFailedNext();
         });
-        helper.setWanSettings(wsp);
+        xSetWanSettingsHelper.setWanSettings(wsp);
     }
 
     /**
@@ -154,14 +154,14 @@ public class BoardWanHelper {
      * 获取wan状态
      */
     private void obtainWanStatusRoll() {
-        GetWanSettingsHelper helper = new GetWanSettingsHelper();
-        helper.setOnFwErrorListener(() -> {
+        GetWanSettingsHelper xGetWanSettingsHelper = new GetWanSettingsHelper();
+        xGetWanSettingsHelper.setOnFwErrorListener(() -> {
             resultErrorNext(null);
         });
-        helper.setOnAppErrorListener(() -> {
+        xGetWanSettingsHelper.setOnAppErrorListener(() -> {
             errorNext(null);
         });
-        helper.setOnGetWanSettingsSuccessListener(result -> {
+        xGetWanSettingsHelper.setOnGetWanSettingsSuccessListener(result -> {
             normalNext(result);
             int status = result.getStatus();
             switch (status) {
@@ -179,7 +179,7 @@ public class BoardWanHelper {
                     break;
             }
         });
-        helper.getWanSettings();
+        xGetWanSettingsHelper.getWanSettings();
     }
 
     /**
@@ -187,20 +187,20 @@ public class BoardWanHelper {
      */
     private void obtainWanStatus() {
 
-        GetWanSettingsHelper helper = new GetWanSettingsHelper();
-        helper.setOnFwErrorListener(() -> {
+        GetWanSettingsHelper xGetWanSettingsHelper = new GetWanSettingsHelper();
+        xGetWanSettingsHelper.setOnFwErrorListener(() -> {
             OtherUtils.hideProgressPop(pgd);
             toast(R.string.check_your_wan_cabling);
             to(RefreshWifiRxActivity.class);
             Logs.t("ma_unknown").vv("boardWanhelper--> obtainWanStatus--> onResultError");
         });
-        helper.setOnAppErrorListener(() -> {
+        xGetWanSettingsHelper.setOnAppErrorListener(() -> {
             OtherUtils.hideProgressPop(pgd);
             toast(R.string.connect_failed);
             to(RefreshWifiRxActivity.class);
             Logs.t("ma_unknown").vv("boardWanhelper--> obtainWanStatus--> onError");
         });
-        helper.setOnGetWanSettingsSuccessListener(result -> {
+        xGetWanSettingsHelper.setOnGetWanSettingsSuccessListener(result -> {
             normalNext(result);
             int status = result.getStatus();
             switch (status) {
@@ -226,7 +226,7 @@ public class BoardWanHelper {
                 OtherUtils.hideProgressPop(pgd);
             }
         });
-        helper.getWanSettings();
+        xGetWanSettingsHelper.getWanSettings();
 
     }
 

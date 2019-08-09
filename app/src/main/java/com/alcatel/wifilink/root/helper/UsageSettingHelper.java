@@ -26,15 +26,15 @@ public class UsageSettingHelper {
      * 获取流量设置
      */
     public void getUsageSetting() {
-        GetUsageSettingsHelper getUsageSettingsHelper = new GetUsageSettingsHelper();
-        getUsageSettingsHelper.setOnGetUSageSettingsSuccessListener(result -> {
+        GetUsageSettingsHelper xGetUsageSettingsHelper = new GetUsageSettingsHelper();
+        xGetUsageSettingsHelper.setOnGetUSageSettingsSuccessListener(result -> {
             getSuccessNext(result);
         });
-        getUsageSettingsHelper.setOnGetUsageSettingsFailListener(() -> {
+        xGetUsageSettingsHelper.setOnGetUsageSettingsFailListener(() -> {
             toast(R.string.connect_failed);
             errorNext();
         });
-        getUsageSettingsHelper.getUsageSetting();
+        xGetUsageSettingsHelper.getUsageSetting();
 
     }
 
@@ -65,23 +65,23 @@ public class UsageSettingHelper {
     public void setUsageSetting(GetUsageSettingsBean us) {
         SetUsageSettingsParam param = new SetUsageSettingsParam();
         param.copy(us);
-        SetUsageSettingsHelper helper = new SetUsageSettingsHelper();
-        helper.setOnSetUsageSettingsSuccessListener(() -> {
-            GetUsageSettingsHelper getUsageSettingsHelper = new GetUsageSettingsHelper();
-            getUsageSettingsHelper.setOnGetUSageSettingsSuccessListener(result -> {
+        SetUsageSettingsHelper xSetUsageSettingsHelper = new SetUsageSettingsHelper();
+        xSetUsageSettingsHelper.setOnSetUsageSettingsSuccessListener(() -> {
+            GetUsageSettingsHelper xGetUsageSettingsHelper = new GetUsageSettingsHelper();
+            xGetUsageSettingsHelper.setOnGetUSageSettingsSuccessListener(result -> {
                 setSuccessNext(result);
             });
-            getUsageSettingsHelper.setOnGetUsageSettingsFailListener(() -> {
+            xGetUsageSettingsHelper.setOnGetUsageSettingsFailListener(() -> {
                 toast(R.string.connect_failed);
                 errorNext();
             });
-            getUsageSettingsHelper.getUsageSetting();
+            xGetUsageSettingsHelper.getUsageSetting();
         });
-        helper.setOnSetUsageSettingsFailListener(() -> {
+        xSetUsageSettingsHelper.setOnSetUsageSettingsFailListener(() -> {
             toast(R.string.connect_failed);
             errorNext();
         });
-        helper.setUsageSettings(param);
+        xSetUsageSettingsHelper.setUsageSettings(param);
 
     }
 

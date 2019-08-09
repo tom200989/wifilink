@@ -833,24 +833,24 @@ public class OtherUtils {
      * 是否为定制的版本
      */
     public void isCustomVersion() {
-        GetSystemInfoHelper getSystemInfoHelper = new GetSystemInfoHelper();
-        getSystemInfoHelper.setOnGetSystemInfoSuccessListener(result -> {
+        GetSystemInfoHelper xGetSystemInfoHelper = new GetSystemInfoHelper();
+        xGetSystemInfoHelper.setOnGetSystemInfoSuccessListener(result -> {
             String customId = result.getSwVersion().split("_")[1];
             if (onCustomizedVersionListener != null) {
                 onCustomizedVersionListener.getCustomizedStatus(customId.equalsIgnoreCase(Cons.SW_VERSION_E1));
             }
         });
-        getSystemInfoHelper.setOnFwErrorListener(() -> {
+        xGetSystemInfoHelper.setOnFwErrorListener(() -> {
             if (onCustomizedVersionListener != null) {
                 onCustomizedVersionListener.getCustomizedStatus(false);
             }
         });
-        getSystemInfoHelper.setOnAppErrorListener(() -> {
+        xGetSystemInfoHelper.setOnAppErrorListener(() -> {
             if (onCustomizedVersionListener != null) {
                 onCustomizedVersionListener.getCustomizedStatus(false);
             }
         });
-        getSystemInfoHelper.getSystemInfo();
+        xGetSystemInfoHelper.getSystemInfo();
     }
 
     /**
@@ -881,8 +881,8 @@ public class OtherUtils {
             /* 访问systeminfo接口 */
     private void getSystemInfoImpl(String needEncryptVersionCustomId) {
 
-        GetSystemInfoHelper getSystemInfoHelper = new GetSystemInfoHelper();
-        getSystemInfoHelper.setOnGetSystemInfoSuccessListener(result -> {
+        GetSystemInfoHelper xGetSystemInfoHelper = new GetSystemInfoHelper();
+        xGetSystemInfoHelper.setOnGetSystemInfoSuccessListener(result -> {
             // 2.获取当前版本
             String currentVersion = result.getSwVersion();
             String customId = currentVersion.split("_")[1];// customId:E1、IA、01....
@@ -895,19 +895,19 @@ public class OtherUtils {
                 }
             }
         });
-        getSystemInfoHelper.setOnAppErrorListener(() -> {
+        xGetSystemInfoHelper.setOnAppErrorListener(() -> {
             // 如获取不到则一定是需要加密的
             if (onSwVersionListener != null) {
                 onSwVersionListener.getVersion(true);
             }
         });
-        getSystemInfoHelper.setOnFwErrorListener(() -> {
+        xGetSystemInfoHelper.setOnFwErrorListener(() -> {
             // 如获取不到则一定是需要加密的
             if (onSwVersionListener != null) {
                 onSwVersionListener.getVersion(true);
             }
         });
-        getSystemInfoHelper.getSystemInfo();
+        xGetSystemInfoHelper.getSystemInfo();
     }
     //     });
     // }
@@ -921,13 +921,13 @@ public class OtherUtils {
         List<String> needEncryptVersions = new ArrayList<String>();
         needEncryptVersions.add("HH70");
         // 2.获取当前版本
-        GetSystemInfoHelper getSystemInfoHelper = new GetSystemInfoHelper();
-        getSystemInfoHelper.setOnGetSystemInfoSuccessListener(result -> {
+        GetSystemInfoHelper xGetSystemInfoHelper = new GetSystemInfoHelper();
+        xGetSystemInfoHelper.setOnGetSystemInfoSuccessListener(result -> {
             if (onHwVersionListener != null) {
                 onHwVersionListener.getVersion(result.getSwVersion());
             }
         });
-        getSystemInfoHelper.getSystemInfo();
+        xGetSystemInfoHelper.getSystemInfo();
     }
 
 

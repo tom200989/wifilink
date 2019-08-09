@@ -45,8 +45,8 @@ public class LoginHelper extends BaseHelper {
      * 判断是否为E1版本
      */
     private void is_DEV_E1() {
-        GetSystemInfoHelper systemInfoHelper = new GetSystemInfoHelper();
-        systemInfoHelper.setOnGetSystemInfoSuccessListener(getSystemInfobean -> {
+        GetSystemInfoHelper xGetSystemInfoHelper = new GetSystemInfoHelper();
+        xGetSystemInfoHelper.setOnGetSystemInfoSuccessListener(getSystemInfobean -> {
             // 0.提交本地变量
             this.getSystemInfoBean = getSystemInfobean;
             devType = SmartUtils.getDEVType(getSystemInfobean.getDeviceName());
@@ -60,18 +60,18 @@ public class LoginHelper extends BaseHelper {
             }
         });
 
-        systemInfoHelper.setOnFwErrorListener(() -> {
+        xGetSystemInfoHelper.setOnFwErrorListener(() -> {
             // 1.3.如果获取出错 -- 则一定是需要加密的版本
             encryptAccAndPsd(true);
         });
 
-        systemInfoHelper.setOnAppErrorListener(() -> {
+        xGetSystemInfoHelper.setOnAppErrorListener(() -> {
             Logg.t(XCons.TAG).ee("systemInfoHelper app error");
             loginFailedNext();
             doneHelperNext();
         });
 
-        systemInfoHelper.getSystemInfo();
+        xGetSystemInfoHelper.getSystemInfo();
     }
 
     /**

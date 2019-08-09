@@ -320,11 +320,11 @@ public class FeedbackFragment extends Fragment implements FragmentBackHandler {
      * 提交数据到服务器
      */
     private void commit() {
-        GetSystemInfoHelper getSystemInfoHelper = new GetSystemInfoHelper();
-        getSystemInfoHelper.setOnGetSystemInfoSuccessListener(result -> toCommitLoginBegin(result));
-        getSystemInfoHelper.setOnAppErrorListener(() -> connnFailed("commit", null));
-        getSystemInfoHelper.setOnFwErrorListener(() -> connnFailed("commit", null));
-        getSystemInfoHelper.getSystemInfo();
+        GetSystemInfoHelper xGetSystemInfoHelper = new GetSystemInfoHelper();
+        xGetSystemInfoHelper.setOnGetSystemInfoSuccessListener(result -> toCommitLoginBegin(result));
+        xGetSystemInfoHelper.setOnAppErrorListener(() -> connnFailed("commit", null));
+        xGetSystemInfoHelper.setOnFwErrorListener(() -> connnFailed("commit", null));
+        xGetSystemInfoHelper.getSystemInfo();
     }
 
     /**

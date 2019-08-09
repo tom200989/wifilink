@@ -144,8 +144,8 @@ public class WanModeRxActivity extends AppCompatActivity {
         if (pgd == null) {
             pgd = OtherUtils.showProgressPop(this);
         }
-        GetWanSettingsHelper helper = new GetWanSettingsHelper();
-        helper.setOnGetWanSettingsSuccessListener(result -> {
+        GetWanSettingsHelper xGetWanSettingsHelper = new GetWanSettingsHelper();
+        xGetWanSettingsHelper.setOnGetWanSettingsSuccessListener(result -> {
             WanModeRxActivity.this.result = result;
             int wanStatus = result.getStatus();
             if (wanStatus == GetWanSettingsBean.CONS_CONNECTED) {
@@ -160,17 +160,17 @@ public class WanModeRxActivity extends AppCompatActivity {
                 OtherUtils.hideProgressPop(pgd);
             }
         });
-        helper.setOnAppErrorListener(() -> {
+        xGetWanSettingsHelper.setOnAppErrorListener(() -> {
             toast(R.string.check_your_wan_cabling);
             to(RefreshWifiRxActivity.class);
             OtherUtils.hideProgressPop(pgd);
         });
-        helper.setOnFwErrorListener(() -> {
+        xGetWanSettingsHelper.setOnFwErrorListener(() -> {
             toast(R.string.check_your_wan_cabling);
             OtherUtils.hideProgressPop(pgd);
         });
 
-        helper.getWanSettings();
+        xGetWanSettingsHelper.getWanSettings();
     }
 
     /**

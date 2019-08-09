@@ -89,8 +89,8 @@ public class EthernetWanConnectionActivity extends BaseActivityWithBack implemen
     }
 
     private void getWanSettings() {
-        GetWanSettingsHelper helper = new GetWanSettingsHelper();
-        helper.setOnGetWanSettingsSuccessListener(result -> {
+        GetWanSettingsHelper xGetWanSettingsHelper = new GetWanSettingsHelper();
+        xGetWanSettingsHelper.setOnGetWanSettingsSuccessListener(result -> {
             mWanSettingsResult = result;
             if (result.getStatus() == GetWanSettingsBean.CONS_CONNECTING && mIsConnecting) {
                 getWanSettings();
@@ -115,25 +115,25 @@ public class EthernetWanConnectionActivity extends BaseActivityWithBack implemen
             mStaticIpSecondaryDns.setText(result.getSecondaryDNS());
             mStaticIpMtu.setText(String.valueOf(result.getMtu()));
         });
-        helper.setOnFwErrorListener(() -> {
+        xGetWanSettingsHelper.setOnFwErrorListener(() -> {
             Toast.makeText(EthernetWanConnectionActivity.this, getString(R.string.setting_failed), Toast.LENGTH_SHORT).show();
         });
-        helper.setOnAppErrorListener(() -> {
+        xGetWanSettingsHelper.setOnAppErrorListener(() -> {
             Toast.makeText(EthernetWanConnectionActivity.this, getString(R.string.setting_failed), Toast.LENGTH_SHORT).show();
         });
-        helper.getWanSettings();
+        xGetWanSettingsHelper.getWanSettings();
     }
 
     private void setWanSettings() {
-        SetWanSettingsHelper setWanSettingsHelper = new SetWanSettingsHelper();
-        setWanSettingsHelper.setOnSetWanSettingsSuccessListener(() -> {
+        SetWanSettingsHelper xSetWanSettingsHelper = new SetWanSettingsHelper();
+        xSetWanSettingsHelper.setOnSetWanSettingsSuccessListener(() -> {
             Toast.makeText(EthernetWanConnectionActivity.this, getString(R.string.success), Toast.LENGTH_SHORT).show();
             getWanSettings();
         });
-        setWanSettingsHelper.setOnSetWanSettingsFailedListener(() -> {
+        xSetWanSettingsHelper.setOnSetWanSettingsFailedListener(() -> {
             mIsConnecting = false;
         });
-        setWanSettingsHelper.setWanSettings(mWanSettingsParams);
+        xSetWanSettingsHelper.setWanSettings(mWanSettingsParams);
     }
 
     private String getEdContent(EditText et) {
