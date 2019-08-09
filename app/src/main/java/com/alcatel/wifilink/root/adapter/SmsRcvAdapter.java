@@ -8,25 +8,19 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.alcatel.wifilink.R;
-import com.alcatel.wifilink.root.bean.SMSContactList;
-import com.alcatel.wifilink.root.bean.SMSContentList;
-import com.alcatel.wifilink.root.bean.SMSContentParam;
-import com.alcatel.wifilink.root.bean.SmsSingle;
-import com.alcatel.wifilink.network.RX;
-import com.alcatel.wifilink.network.ResponseObject;
 import com.alcatel.wifilink.root.bean.Other_SMSContactSelf;
 import com.alcatel.wifilink.root.bean.Other_SMSContactSelfSort;
-import com.alcatel.wifilink.root.ue.activity.ActivitySmsDetail;
-import com.alcatel.wifilink.root.ue.frag.SmsFragments;
+import com.alcatel.wifilink.root.bean.SMSContactList;
 import com.alcatel.wifilink.root.helper.Cons;
 import com.alcatel.wifilink.root.helper.SmsCountHelper;
 import com.alcatel.wifilink.root.ue.activity.SmsDetailActivity;
+import com.alcatel.wifilink.root.ue.frag.SmsFragments;
 import com.alcatel.wifilink.root.utils.CA;
 import com.alcatel.wifilink.root.utils.Logs;
 import com.alcatel.wifilink.root.utils.OtherUtils;
-import com.p_xhelper_smart.p_xhelper_smart.bean.GetSMSContentListBean;
 import com.p_xhelper_smart.p_xhelper_smart.bean.GetSmsContentListParam;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetSMSContentListHelper;
+import com.p_xhelper_smart.p_xhelper_smart.helper.GetSingleSMSHelper;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -43,7 +37,7 @@ import static com.alcatel.wifilink.root.helper.Cons.UNREAD;
 
 public class SmsRcvAdapter extends RecyclerView.Adapter<SmsHolder> {
 
-    private HashMap<Long,Integer> smsUnreadMap = new HashMap<>();
+    private HashMap<Long, Integer> smsUnreadMap = new HashMap<>();
     private Context context;
     private List<Other_SMSContactSelf> smsContactList;
     private OnRcvLongClickListener onRcvLongClickListener;
@@ -246,19 +240,15 @@ public class SmsRcvAdapter extends RecyclerView.Adapter<SmsHolder> {
         GetSmsContentListParam getSmsContentListParam = new GetSmsContentListParam();
         getSmsContentListParam.setPage(0);
         getSmsContentListParam.setContactId((int) smsContact.getContactId());
-
         GetSMSContentListHelper xGetSMSContentListHelper = new GetSMSContentListHelper();
         xGetSMSContentListHelper.setOnGetSmsContentListSuccessListener(bean -> {
 
         });
         xGetSMSContentListHelper.getSMSContentList(getSmsContentListParam);
 
-        RX.getInstant().getSingleSMS(smsContact.getSMSId(), new ResponseObject<SmsSingle>() {
-            @Override
-            protected void onSuccess(SmsSingle result) {
-
-            }
-        });
+        // 触发路由器 -- 使得短信修改成［已读］状态
+        GetSingleSMSHelper xGetSingleSMSHelper = new GetSingleSMSHelper();
+        xGetSingleSMSHelper.getSingleSMS(smsContact.getSMSId());
     }
 
     private OnSelectAllOrNotListener onSelectAllOrNotListener;

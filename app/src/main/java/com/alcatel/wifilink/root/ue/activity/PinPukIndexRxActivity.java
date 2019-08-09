@@ -4,19 +4,17 @@ import android.os.Bundle;
 import android.widget.ImageView;
 
 import com.alcatel.wifilink.R;
-import com.alcatel.wifilink.network.RX;
-import com.alcatel.wifilink.network.ResponseBody;
-import com.alcatel.wifilink.network.ResponseObject;
+import com.alcatel.wifilink.root.app.SmartLinkV3App;
 import com.alcatel.wifilink.root.bean.Other_PinPukBean;
 import com.alcatel.wifilink.root.helper.CheckBoard;
-import com.alcatel.wifilink.root.ue.frag.PinPukPinFragment;
-import com.alcatel.wifilink.root.ue.frag.PinPukPukFragment;
-import com.alcatel.wifilink.root.app.SmartLinkV3App;
 import com.alcatel.wifilink.root.helper.Cons;
 import com.alcatel.wifilink.root.helper.TimerHelper;
+import com.alcatel.wifilink.root.ue.frag.PinPukPinFragment;
+import com.alcatel.wifilink.root.ue.frag.PinPukPukFragment;
 import com.alcatel.wifilink.root.utils.CA;
 import com.alcatel.wifilink.root.utils.FraHelpers;
 import com.alcatel.wifilink.root.utils.ToastUtil_m;
+import com.p_xhelper_smart.p_xhelper_smart.helper.HeartBeatHelper;
 import com.p_xhelper_smart.p_xhelper_smart.helper.LogoutHelper;
 
 import org.greenrobot.eventbus.EventBus;
@@ -62,22 +60,9 @@ public class PinPukIndexRxActivity extends BaseActivityWithBack {
         heartTimer = new TimerHelper(this) {
             @Override
             public void doSomething() {
-                RX.getInstant().heartBeat(new ResponseObject() {
-                    @Override
-                    protected void onSuccess(Object result) {
-
-                    }
-
-                    @Override
-                    protected void onResultError(ResponseBody.Error error) {
-                        to(RefreshWifiRxActivity.class);
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        to(RefreshWifiRxActivity.class);
-                    }
-                });
+                HeartBeatHelper xHeartBeatHelper = new HeartBeatHelper();
+                xHeartBeatHelper.setOnHeartbeanFailedListener(() -> to(RefreshWifiRxActivity.class));
+                xHeartBeatHelper.heartbeat();
             }
         };
         heartTimer.start(3000);

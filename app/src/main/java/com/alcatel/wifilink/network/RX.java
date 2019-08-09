@@ -7,14 +7,10 @@ import android.text.TextUtils;
 import com.alcatel.wifilink.root.app.SmartLinkV3App;
 import com.alcatel.wifilink.root.bean.BatteryState;
 import com.alcatel.wifilink.root.bean.BlockList;
-import com.alcatel.wifilink.root.bean.ConnectedDeviceBlockParam;
 import com.alcatel.wifilink.root.bean.ConnectedList;
-import com.alcatel.wifilink.root.bean.ConnectionMode;
 import com.alcatel.wifilink.root.bean.ConnectionSettings;
 import com.alcatel.wifilink.root.bean.ConnectionState;
 import com.alcatel.wifilink.root.bean.ConnectionStates;
-import com.alcatel.wifilink.root.bean.DeviceNameParam;
-import com.alcatel.wifilink.root.bean.DeviceUnblockParam;
 import com.alcatel.wifilink.root.bean.Extender_ConnectHotspotParam;
 import com.alcatel.wifilink.root.bean.Extender_GetConnectHotspotStateResult;
 import com.alcatel.wifilink.root.bean.Extender_GetHotspotListResult;
@@ -27,12 +23,7 @@ import com.alcatel.wifilink.root.bean.NetworkInfos;
 import com.alcatel.wifilink.root.bean.NetworkRegisterState;
 import com.alcatel.wifilink.root.bean.ProfileList;
 import com.alcatel.wifilink.root.bean.SMSContactList;
-import com.alcatel.wifilink.root.bean.SMSContactListParam;
 import com.alcatel.wifilink.root.bean.SMSContentList;
-import com.alcatel.wifilink.root.bean.SMSContentParam;
-import com.alcatel.wifilink.root.bean.SMSDeleteParam;
-import com.alcatel.wifilink.root.bean.SMSSaveParam;
-import com.alcatel.wifilink.root.bean.SMSSendParam;
 import com.alcatel.wifilink.root.bean.SMSSendResult;
 import com.alcatel.wifilink.root.bean.SMSStorageState;
 import com.alcatel.wifilink.root.bean.Sharing_DLNASettings;
@@ -695,7 +686,7 @@ public class RX {
     }*/
 
     public void getSingleSMS(long SMSId, ResponseObject<SmsSingle> subscriber) {
-        subscribe(subscriber, smartLinkApi.GetSingleSMS(new RequestBody(Methods.GET_SEND_SMS_RESULT, SMSId)));
+        subscribe(subscriber, smartLinkApi.GetSingleSMS(new RequestBody(Methods.GET_SINGLE_SMS, SMSId)));
     }
 
     // public void getLanSettings(ResponseObject<WlanLanSettings> subscriber) {

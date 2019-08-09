@@ -10,9 +10,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.alcatel.wifilink.R;
-import com.alcatel.wifilink.network.RX;
-import com.alcatel.wifilink.network.ResponseBody;
-import com.alcatel.wifilink.network.ResponseObject;
 import com.alcatel.wifilink.root.app.SmartLinkV3App;
 import com.alcatel.wifilink.root.bean.Other_PinPukBean;
 import com.alcatel.wifilink.root.helper.Cons;
@@ -28,6 +25,7 @@ import com.p_xhelper_smart.p_xhelper_smart.bean.GetWanSettingsBean;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetSimStatusHelper;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetSystemInfoHelper;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetWanSettingsHelper;
+import com.p_xhelper_smart.p_xhelper_smart.helper.HeartBeatHelper;
 import com.p_xhelper_smart.p_xhelper_smart.helper.LogoutHelper;
 
 import org.greenrobot.eventbus.EventBus;
@@ -169,8 +167,7 @@ public class WizardRxActivity extends BaseActivityWithBack {
                     GetSimStatusHelper xGetSimStatusHelper = new GetSimStatusHelper();
                     xGetSimStatusHelper.setOnGetSimStatusSuccessListener(result -> {
                         int simState = result.getSIMState();
-                        boolean isSimEffect =
-                                simState == GetSimStatusBean.CONS_PIN_REQUIRED | simState == GetSimStatusBean.CONS_PUK_REQUIRED | simState == GetSimStatusBean.CONS_SIM_CARD_READY;
+                        boolean isSimEffect = simState == GetSimStatusBean.CONS_PIN_REQUIRED | simState == GetSimStatusBean.CONS_PUK_REQUIRED | simState == GetSimStatusBean.CONS_SIM_CARD_READY;
                         ivSimRx.setImageDrawable(isSimEffect ? sim_checked_pic : sim_unchecked_pic);
                         tvSimRx.setText(isSimEffect ? sim_checked_str : sim_unchecked_str);
                         tvSimRx.setTextColor(isSimEffect ? blue_color : red_color);
@@ -204,29 +201,12 @@ public class WizardRxActivity extends BaseActivityWithBack {
         heartTimerHelper = new TimerHelper(this) {
             @Override
             public void doSomething() {
-                RX.getInstant().heartBeat(new ResponseObject() {
-                    @Override
-                    protected void onSuccess(Object result) {
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        Logs.t("ma_wizard").vv("code: " + e.getMessage());
-                        toast(R.string.log_out);
-                        to(LoginRxActivity.class);
-                    }
-
-                    @Override
-                    protected void onResultError(ResponseBody.Error error) {
-                        Logs.t("ma_wizard").vv("code: " + error.getCode() + "; error msg: " + error.getMessage());
-                        to(RefreshWifiRxActivity.class);
-                    }
-                });
+                HeartBeatHelper xHeartBeatHelper = new HeartBeatHelper();
+                xHeartBeatHelper.setOnHeartbeanFailedListener(() -> to(RefreshWifiRxActivity.class));
+                xHeartBeatHelper.heartbeat();
             }
         };
         heartTimerHelper.start(3000);
-        // heartTimerHelper = OtherUtils.startHeartBeat(this, LoginRxActivity.class, LoginRxActivity.class);
     }
 
     @OnClick({R.id.tv_wizardrx_banner_skip,// skip

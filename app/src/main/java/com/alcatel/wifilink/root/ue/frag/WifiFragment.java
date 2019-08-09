@@ -10,7 +10,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.AppCompatSpinner;
 import android.support.v7.widget.SwitchCompat;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,11 +21,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.alcatel.wifilink.R;
-import com.alcatel.wifilink.network.RX;
-import com.alcatel.wifilink.network.ResponseBody;
-import com.alcatel.wifilink.network.ResponseObject;
-import com.alcatel.wifilink.root.bean.AP;
-import com.alcatel.wifilink.root.bean.WlanSettings;
 import com.alcatel.wifilink.root.helper.Cons;
 import com.alcatel.wifilink.root.helper.TimerHelper;
 import com.alcatel.wifilink.root.helper.WepPsdHelper;
@@ -42,10 +36,13 @@ import com.alcatel.wifilink.root.utils.OtherUtils;
 import com.alcatel.wifilink.root.utils.ToastUtil_m;
 import com.alcatel.wifilink.root.utils.fraghandler.FragmentBackHandler;
 import com.alcatel.wifilink.root.widget.DialogOkWidget;
+import com.p_xhelper_smart.p_xhelper_smart.bean.GetWlanSettingsBean;
 import com.p_xhelper_smart.p_xhelper_smart.bean.GetWlanSupportModeBean;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetSystemInfoHelper;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetSystemStatusHelper;
+import com.p_xhelper_smart.p_xhelper_smart.helper.GetWlanSettingsHelper;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetWlanSupportModeHelper;
+import com.p_xhelper_smart.p_xhelper_smart.helper.SetWlanSettingsHelper;
 
 import static android.app.Activity.RESULT_OK;
 import static com.alcatel.wifilink.R.id.text_advanced_settings_2g;
@@ -93,8 +90,8 @@ public class WifiFragment extends Fragment implements View.OnClickListener, Adap
 
     private View mDividerView;
 
-    private WlanSettings mOriginSettings;
-    private WlanSettings mEditedSettings;
+    private GetWlanSettingsBean mOriginSettings;
+    private GetWlanSettingsBean mEditedSettings;
 
     private Context mContext;
     private int mSupportMode;
@@ -302,24 +299,17 @@ public class WifiFragment extends Fragment implements View.OnClickListener, Adap
     }
 
     private void requestWlanSettings() {
-        RX.getInstant().getWlanSettings(new ResponseObject<WlanSettings>() {
-            @Override
-            protected void onSuccess(WlanSettings result) {
-                mOriginSettings = result;
-                mEditedSettings = mOriginSettings.clone();
-                updateUIWithWlanSettings();
-            }
-
-            @Override
-            protected void onFailure() {
-
-            }
+        GetWlanSettingsHelper xGetWlanSettingsHelper = new GetWlanSettingsHelper();
+        xGetWlanSettingsHelper.setOnGetWlanSettingsSuccessListener(settingsBean -> {
+            mOriginSettings = settingsBean;
+            mEditedSettings = mOriginSettings.deepClone();
+            updateUIWithWlanSettings();
         });
+        xGetWlanSettingsHelper.getWlanSettings();
     }
 
 
     private void requestWlanSupportMode() {
-
         GetWlanSupportModeHelper xGetWlanSupportModeHelper = new GetWlanSupportModeHelper();
         xGetWlanSupportModeHelper.setOnGetWlanSupportModeSuccessListener(attr -> {
             // 获取到wlan支持模式
@@ -353,7 +343,7 @@ public class WifiFragment extends Fragment implements View.OnClickListener, Adap
 
     /* 5G */
     private void set5GData() {
-        mWifi5GSwitch.setChecked(mOriginSettings.getAP5G().isApEnabled());
+        mWifi5GSwitch.setChecked(mOriginSettings.getAP5G().getApStatus() == 1);
         mSsid5GEdit.setText(mOriginSettings.getAP5G().getSsid());
         mSecurity5GSpinner.setSelection(mOriginSettings.getAP5G().getSecurityMode());
         if (mOriginSettings.getAP5G().getSecurityMode() == C_ENUM.SecurityMode.Disable.ordinal()) {
@@ -379,7 +369,7 @@ public class WifiFragment extends Fragment implements View.OnClickListener, Adap
     /* 2G */
     private void set2GData() {
         // 先设置
-        mWifi2GSwitch.setChecked(mOriginSettings.getAP2G().isApEnabled());
+        mWifi2GSwitch.setChecked(mOriginSettings.getAP2G().getApStatus() == 1);
         mSsid2GEdit.setText(mOriginSettings.getAP2G().getSsid());
         int securityMode = mOriginSettings.getAP2G().getSecurityMode();
         mSecurity2GSpinner.setSelection(securityMode);
@@ -453,22 +443,22 @@ public class WifiFragment extends Fragment implements View.OnClickListener, Adap
         if (v.getId() == R.id.text_advanced_settings_2g) {
             Intent intent = new Intent(mContext, WlanAdvancedSettingsActivity.class);
             intent.putExtra(EXTRA_FRE, 2);
-            intent.putExtra(EXTRA_SSID_BROADCAST, mEditedSettings.getAP2G().isSsidHiden());
+            intent.putExtra(EXTRA_SSID_BROADCAST, mEditedSettings.getAP2G().getSsidHidden() == 0);
             intent.putExtra(EXTRA_CHANNEL, mEditedSettings.getAP2G().getChannel());
             intent.putExtra(EXTRA_COUNTRY, mEditedSettings.getAP2G().getCountryCode());
             intent.putExtra(EXTRA_BANDWIDTH, mEditedSettings.getAP2G().getBandwidth());
             intent.putExtra(EXTRA_MODE_80211, mEditedSettings.getAP2G().getWMode());
-            intent.putExtra(EXTRA_AP_ISOLATION, mEditedSettings.getAP2G().isApIsolated());
+            intent.putExtra(EXTRA_AP_ISOLATION, mEditedSettings.getAP2G().getApIsolation() == 1);
             startActivityForResult(intent, REQUEST_CODE_ADVANCED_SETTINGS_2_4G);
         } else if (v.getId() == R.id.text_advanced_settings_5g) {
             Intent intent = new Intent(mContext, WlanAdvancedSettingsActivity.class);
             intent.putExtra(EXTRA_FRE, 5);
-            intent.putExtra(EXTRA_SSID_BROADCAST, mEditedSettings.getAP5G().isSsidHiden());
+            intent.putExtra(EXTRA_SSID_BROADCAST, mEditedSettings.getAP5G().getSsidHidden() == 0);
             intent.putExtra(EXTRA_CHANNEL, mEditedSettings.getAP5G().getChannel());
             intent.putExtra(EXTRA_COUNTRY, mEditedSettings.getAP5G().getCountryCode());
             intent.putExtra(EXTRA_BANDWIDTH, mEditedSettings.getAP5G().getBandwidth());
             intent.putExtra(EXTRA_MODE_80211, mEditedSettings.getAP5G().getWMode());
-            intent.putExtra(EXTRA_AP_ISOLATION, mEditedSettings.getAP5G().isApIsolated());
+            intent.putExtra(EXTRA_AP_ISOLATION, mEditedSettings.getAP5G().getApIsolation() == 1);
             startActivityForResult(intent, REQUEST_CODE_ADVANCED_SETTINGS_5G);
         } else if (v.getId() == R.id.btn_apply) {
             // 检查密码规则
@@ -488,13 +478,24 @@ public class WifiFragment extends Fragment implements View.OnClickListener, Adap
             int mode80211 = data.getIntExtra(EXTRA_MODE_80211, 0);
             boolean isolation = data.getBooleanExtra(EXTRA_AP_ISOLATION, false);
 
-            AP ap = requestCode == REQUEST_CODE_ADVANCED_SETTINGS_2_4G ? mEditedSettings.getAP2G() : mEditedSettings.getAP5G();
-            ap.setSsidHidden(broadcast);
-            ap.setChannel(channel);
-            ap.setCountryCode(countryCode);
-            ap.setBandwidth(bandwidth);
-            ap.setWMode(mode80211);
-            ap.setApIsolated(isolation);
+            if (requestCode == REQUEST_CODE_ADVANCED_SETTINGS_2_4G) {
+                GetWlanSettingsBean.AP2GBean ap2G = mEditedSettings.getAP2G();
+                ap2G.setSsidHidden(broadcast ? 1 : 0);
+                ap2G.setChannel(channel);
+                ap2G.setCountryCode(countryCode);
+                ap2G.setBandwidth(bandwidth);
+                ap2G.setWMode(mode80211);
+                ap2G.setApIsolation(isolation ? 1 : 0);
+            } else {
+                GetWlanSettingsBean.AP5GBean ap5G = mEditedSettings.getAP5G();
+                ap5G.setSsidHidden(broadcast ? 1 : 0);
+                ap5G.setChannel(channel);
+                ap5G.setCountryCode(countryCode);
+                ap5G.setBandwidth(bandwidth);
+                ap5G.setWMode(mode80211);
+                ap5G.setApIsolation(isolation ? 1 : 0);
+            }
+
         }
     }
 
@@ -513,11 +514,11 @@ public class WifiFragment extends Fragment implements View.OnClickListener, Adap
 
         // check 2.4g settings
         if (mSupportMode == C_ENUM.WlanSupportMode.Mode2Point4G.ordinal() || mSupportMode == C_ENUM.WlanSupportMode.Mode2Point4GAnd5G.ordinal()) {
-            boolean isAP2GStateChanged = mWifi2GSwitch.isChecked() != mOriginSettings.getAP2G().isApEnabled();
+            boolean isAP2GStateChanged = mWifi2GSwitch.isChecked() != (mOriginSettings.getAP2G().getApStatus() == 1);
             if (isAP2GStateChanged && !mWifi2GSwitch.isChecked()) {
-                mEditedSettings.getAP2G().setApEnabled(false);
+                mEditedSettings.getAP2G().setApStatus(0);
             } else {
-                mEditedSettings.getAP2G().setApEnabled(true);
+                mEditedSettings.getAP2G().setApStatus(1);
                 String newSsid2G = mSsid2GEdit.getText().toString().trim();
                 int newSecurity2GMode = mSecurity2GSpinner.getSelectedItemPosition();
                 int newEncryption2G = mEncryption2GSpinner.getSelectedItemPosition();
@@ -564,11 +565,11 @@ public class WifiFragment extends Fragment implements View.OnClickListener, Adap
 
         // check 5g settings
         if (mSupportMode == C_ENUM.WlanSupportMode.Mode5G.ordinal() || mSupportMode == C_ENUM.WlanSupportMode.Mode2Point4GAnd5G.ordinal()) {
-            boolean isAP5GStateChanged = mWifi5GSwitch.isChecked() != mOriginSettings.getAP5G().isApEnabled();
+            boolean isAP5GStateChanged = mWifi5GSwitch.isChecked() != (mOriginSettings.getAP5G().getApStatus() == 1);
             if (isAP5GStateChanged && !mWifi5GSwitch.isChecked()) {
-                mEditedSettings.getAP5G().setApEnabled(false);
+                mEditedSettings.getAP5G().setApStatus(0);
             } else {
-                mEditedSettings.getAP5G().setApEnabled(true);
+                mEditedSettings.getAP5G().setApStatus(1);
                 String newSsid5G = mSsid5GEdit.getText().toString().trim();
                 int newSecurity5GMode = mSecurity5GSpinner.getSelectedItemPosition();
                 int newEncryption5G = mEncryption5GSpinner.getSelectedItemPosition();
@@ -632,40 +633,12 @@ public class WifiFragment extends Fragment implements View.OnClickListener, Adap
      * 真正发送请求
      */
     private void setWlanRequest() {
-        RX.getInstant().setWlanSettings(mEditedSettings, new ResponseObject() {
-            @Override
-            public void onStart() {
-                super.onStart();
-                rlWait.setVisibility(View.VISIBLE);
-            }
-
-            @Override
-            protected void onSuccess(Object result) {
-                Log.d("ma_wififragment", "wififragment success");
-                // checkLoginState();
-                new Handler().postDelayed(() -> {
-                    // TOAT: 2018/1/4 0004 此处等待测试验证在做决定是否执行以下逻辑
-                    rlWait.setVisibility(View.GONE);
-                }, 30 * 1000);
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                rlWait.setVisibility(View.GONE);
-                CA.toActivity(getActivity(), RefreshWifiActivity.class, false, true, false, 0);
-            }
-
-            @Override
-            protected void onResultError(ResponseBody.Error error) {
-                rlWait.setVisibility(View.GONE);
-                CA.toActivity(getActivity(), RefreshWifiActivity.class, false, true, false, 0);
-            }
-
-            @Override
-            protected void onFailure() {
-                rlWait.setVisibility(View.GONE);
-            }
-        });
+        SetWlanSettingsHelper xSetWlanSettingsHelper = new SetWlanSettingsHelper();
+        xSetWlanSettingsHelper.setOnPrepareHelperListener(() -> rlWait.setVisibility(View.VISIBLE));
+        xSetWlanSettingsHelper.setOnDoneHelperListener(() -> rlWait.setVisibility(View.GONE));
+        xSetWlanSettingsHelper.setOnSetWlanSettingsSuccessListener(() -> new Handler().postDelayed(() -> rlWait.setVisibility(View.GONE), 30 * 1000));
+        xSetWlanSettingsHelper.setOnSetWlanSettingsFailedListener(() -> CA.toActivity(getActivity(), RefreshWifiActivity.class, false, true, false, 0));
+        xSetWlanSettingsHelper.setWlanSettings(mEditedSettings);
     }
 
     /* 列表选项 */

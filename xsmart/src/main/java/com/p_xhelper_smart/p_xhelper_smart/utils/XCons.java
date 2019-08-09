@@ -100,6 +100,7 @@ public class XCons {
     public static String METHOD_DELETE_SMS = "DeleteSMS";
     public static String METHOD_SEND_SMS = "SendSMS";
     public static String METHOD_GET_SEND_SMS_RESULT = "GetSendSMSResult";
+    public static String METHOD_GET_SINGLE_SMS = "GetSingleSMS";
     public static String METHOD_GET_WIFI_EXTENDER_SETTINGS = "GetWIFIExtenderSettings";
     public static String METHOD_SET_WIFI_EXTENDER_SETTINGS = "SetWIFIExtenderSettings";
     public static String METHOD_GET_WIFI_EXTENDER_CURRENT_STATUS = "GetWIFIExtenderCurrentStatus";
