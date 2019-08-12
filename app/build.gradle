@@ -1,5 +1,4 @@
 apply plugin: 'com.android.application'
-apply plugin: 'com.fernandocejas.frodo'
 
 android {
     // 基本配置
@@ -45,13 +44,6 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
-
-    // 加大android studio内存开销
-    dexOptions {
-        javaMaxHeapSize "6144m"
-        preDexLibraries = false
-        jumboMode = true
-    }
 }
 
 repositories {
@@ -63,15 +55,8 @@ repositories {
 // 依赖应用
 dependencies {
     api 'com.android.support:multidex:1.0.1'
-    api 'com.squareup.retrofit2:retrofit:2.4.0'
-    api 'com.squareup.okhttp3:okhttp:3.10.0'
-    api 'com.squareup.okhttp3:logging-interceptor:3.6.0'
-    api 'com.squareup.retrofit2:converter-scalars:2.2.0'
-    api 'com.squareup.retrofit2:converter-gson:2.4.0'
-    api 'com.squareup.retrofit2:adapter-rxjava:2.2.0'
-    api 'io.reactivex:rxandroid:1.2.0'
-    api 'com.jakewharton:butterknife:8.6.0'
-    annotationProcessor 'com.jakewharton:butterknife-compiler:8.6.0'
+    api 'com.jakewharton:butterknife:9.0.0-rc3'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:9.0.0-rc3'
 
     // 新的框架会精简的部分
     api 'pub.devrel:easypermissions:0.4.3'
