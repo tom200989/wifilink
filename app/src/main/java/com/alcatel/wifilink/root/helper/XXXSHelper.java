@@ -3,13 +3,11 @@ package com.alcatel.wifilink.root.helper;
 import android.app.Activity;
 import android.app.ProgressDialog;
 
-import com.alcatel.wifilink.network.RX;
-import com.alcatel.wifilink.network.ResponseBody;
-import com.alcatel.wifilink.network.ResponseObject;
 import com.alcatel.wifilink.root.bean.SmsInitState;
 import com.p_xhelper_smart.p_xhelper_smart.bean.GetSimStatusBean;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetSMSStorageStateHelper;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetSmsInitStateHelper;
+import com.p_xhelper_smart.p_xhelper_smart.impl.FwError;
 
 /**
  * Created by qianli.ma on 2017/11/22 0022.
@@ -112,7 +110,7 @@ public class XXXSHelper {
     }
 
     public interface OnResultErrorListener {
-        void resultError(ResponseBody.Error error);
+        void resultError(FwError error);
     }
 
     public interface OnErrorListener {
@@ -163,7 +161,7 @@ public class XXXSHelper {
         onCompletListener.complete(result);
     }
 
-    private void resultErrorNext(ResponseBody.Error error) {
+    private void resultErrorNext(FwError error) {
         onResultErrorListener.resultError(error);
     }
 

@@ -2,13 +2,9 @@ package com.alcatel.wifilink.root.helper;
 
 import com.alcatel.wifilink.root.bean.Extender_GetWIFIExtenderCurrentStatusResult;
 import com.alcatel.wifilink.root.bean.Extender_GetWIFIExtenderSettingsResult;
-import com.alcatel.wifilink.network.RX;
-import com.alcatel.wifilink.network.ResponseBody;
-import com.alcatel.wifilink.network.ResponseObject;
-import com.p_xhelper_smart.p_xhelper_smart.bean.GetWIFIExtenderCurrentStatusBean;
-import com.p_xhelper_smart.p_xhelper_smart.bean.GetWIFIExtenderSettingsBean;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetWIFIExtenderCurrentStatusHelper;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetWIFIExtenderSettingsHelper;
+import com.p_xhelper_smart.p_xhelper_smart.impl.FwError;
 
 /**
  * Created by qianli.ma on 2018/5/23 0023.
@@ -190,7 +186,7 @@ public class Extender_GetWIFIExtenderSettingsHelper {
 
     // 接口OnResultErrorListener
     public interface OnResultErrorListener {
-        void resultError(ResponseBody.Error resultError);
+        void resultError(FwError resultError);
     }
 
     // 对外方式setOnResultErrorListener
@@ -199,7 +195,7 @@ public class Extender_GetWIFIExtenderSettingsHelper {
     }
 
     // 封装方法resultErrorNext
-    private void resultErrorNext(ResponseBody.Error resultError) {
+    private void resultErrorNext(FwError resultError) {
         if (onResultErrorListener != null) {
             onResultErrorListener.resultError(resultError);
         }

@@ -6,7 +6,6 @@ import android.os.Handler;
 import android.util.Log;
 
 import com.alcatel.wifilink.R;
-import com.alcatel.wifilink.network.ResponseBody;
 import com.alcatel.wifilink.root.ue.activity.LoginRxActivity;
 import com.alcatel.wifilink.root.ue.activity.RefreshWifiRxActivity;
 import com.alcatel.wifilink.root.utils.CA;
@@ -19,6 +18,7 @@ import com.p_xhelper_smart.p_xhelper_smart.bean.SetWanSettingsParam;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetLoginStateHelper;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetWanSettingsHelper;
 import com.p_xhelper_smart.p_xhelper_smart.helper.SetWanSettingsHelper;
+import com.p_xhelper_smart.p_xhelper_smart.impl.FwError;
 
 /**
  * Created by qianli.ma on 2017/11/16 0016.
@@ -250,7 +250,7 @@ public class BoardWanHelper {
     /* -------------------------------------------- INTERFACE -------------------------------------------- */
 
     public interface OnResultError {
-        void resultError(ResponseBody.Error error);
+        void resultError(FwError error);
     }
 
     public interface OnError {
@@ -325,7 +325,7 @@ public class BoardWanHelper {
 
     /* -------------------------------------------- USE -------------------------------------------- */
 
-    private void resultErrorNext(ResponseBody.Error error) {
+    private void resultErrorNext(FwError error) {
         if (onResultError != null) {
             onResultError.resultError(error);
         }

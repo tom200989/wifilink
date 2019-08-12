@@ -14,8 +14,6 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
 import com.alcatel.wifilink.R;
-import com.alcatel.wifilink.network.RX;
-import com.alcatel.wifilink.network.ResponseObject;
 import com.alcatel.wifilink.root.bean.ConnectModel;
 import com.alcatel.wifilink.root.bean.ConnectedList;
 import com.alcatel.wifilink.root.helper.MacHelper;

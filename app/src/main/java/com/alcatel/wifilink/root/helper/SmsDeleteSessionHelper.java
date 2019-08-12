@@ -1,23 +1,14 @@
 package com.alcatel.wifilink.root.helper;
 
-import com.alcatel.wifilink.R;
 import com.alcatel.wifilink.root.bean.SMSContentList;
-import com.alcatel.wifilink.root.bean.SMSContentParam;
-import com.alcatel.wifilink.root.bean.SMSDeleteParam;
-import com.alcatel.wifilink.root.bean.SmsInitState;
-import com.alcatel.wifilink.network.RX;
-import com.alcatel.wifilink.network.ResponseBody;
-import com.alcatel.wifilink.network.ResponseObject;
-import com.alcatel.wifilink.root.helper.Cons;
-import com.alcatel.wifilink.root.ue.activity.SmsDetailActivity;
 import com.alcatel.wifilink.root.utils.OtherUtils;
-import com.alcatel.wifilink.root.utils.ToastUtil_m;
 import com.p_xhelper_smart.p_xhelper_smart.bean.DeleteSmsParam;
 import com.p_xhelper_smart.p_xhelper_smart.bean.GetSMSContentListBean;
 import com.p_xhelper_smart.p_xhelper_smart.bean.GetSmsContentListParam;
 import com.p_xhelper_smart.p_xhelper_smart.helper.DeleteSMSHelper;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetSMSContentListHelper;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetSmsInitStateHelper;
+import com.p_xhelper_smart.p_xhelper_smart.impl.FwError;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -194,7 +185,7 @@ public class SmsDeleteSessionHelper {
 
     // 接口OnResultErrorListener
     public interface OnResultErrorListener {
-        void resultError(ResponseBody.Error attr);
+        void resultError(FwError attr);
     }
 
     // 对外方式setOnResultErrorListener
@@ -203,7 +194,7 @@ public class SmsDeleteSessionHelper {
     }
 
     // 封装方法resultErrorNext
-    private void resultErrorNext(ResponseBody.Error attr) {
+    private void resultErrorNext(FwError attr) {
         if (onResultErrorListener != null) {
             onResultErrorListener.resultError(attr);
         }

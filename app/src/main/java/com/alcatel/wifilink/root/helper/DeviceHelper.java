@@ -3,12 +3,9 @@ package com.alcatel.wifilink.root.helper;
 import android.content.Context;
 
 import com.alcatel.wifilink.root.bean.ConnectedList;
-import com.alcatel.wifilink.network.RX;
-import com.alcatel.wifilink.network.ResponseBody;
-import com.alcatel.wifilink.network.ResponseObject;
-import com.alcatel.wifilink.root.utils.Logs;
 import com.p_xhelper_smart.p_xhelper_smart.bean.GetConnectDeviceListBean;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetConnectedDeviceListHelper;
+import com.p_xhelper_smart.p_xhelper_smart.impl.FwError;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -78,7 +75,7 @@ public class DeviceHelper {
 
     // 接口OnGetDevicesResultErrorListener
     public interface OnGetDevicesResultErrorListener {
-        void resuletError(ResponseBody.Error error);
+        void resuletError(FwError error);
     }
 
     // 对外方式setOnGetDevicesResultErrorListener
@@ -87,7 +84,7 @@ public class DeviceHelper {
     }
 
     // 封装方法resuletErrorNext
-    private void resuletErrorNext(ResponseBody.Error error) {
+    private void resuletErrorNext(FwError error) {
         if (onGetDevicesResultErrorListener != null) {
             onGetDevicesResultErrorListener.resuletError(error);
         }

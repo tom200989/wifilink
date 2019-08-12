@@ -19,7 +19,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.alcatel.wifilink.R;
-import com.alcatel.wifilink.network.ResponseBody;
 import com.alcatel.wifilink.root.adapter.FeedbackPhotoAdapter;
 import com.alcatel.wifilink.root.adapter.FeedbackTypeAdapter;
 import com.alcatel.wifilink.root.bean.FeedbackCommitParam;
@@ -44,6 +43,7 @@ import com.alcatel.wifilink.root.widget.ExtenderWait;
 import com.alibaba.fastjson.JSONObject;
 import com.p_xhelper_smart.p_xhelper_smart.bean.GetSystemInfoBean;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetSystemInfoHelper;
+import com.p_xhelper_smart.p_xhelper_smart.impl.FwError;
 import com.zhy.android.percent.support.PercentRelativeLayout;
 
 import java.io.File;
@@ -334,7 +334,7 @@ public class FeedbackFragment extends Fragment implements FragmentBackHandler {
      * @param error      错误对象
      * @param des        附加描述
      */
-    public void connnFailed(String methodName, ResponseBody.Error error, String... des) {
+    public void connnFailed(String methodName, FwError error, String... des) {
         String err = "occur failed;";
         if (error != null) {
             err = error.getMessage();

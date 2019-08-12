@@ -15,15 +15,10 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.alcatel.wifilink.R;
-import com.alcatel.wifilink.root.ue.activity.HomeRxActivity;
-import com.alcatel.wifilink.root.widget.DisConnHotpotView;
-import com.alcatel.wifilink.root.widget.ExtenderWait;
-import com.alcatel.wifilink.root.widget.HotPotKeyView;
-import com.alcatel.wifilink.root.widget.OpenCloseExtenderView;
+import com.alcatel.wifilink.root.adapter.WifiExtenderAdapter;
 import com.alcatel.wifilink.root.bean.Extender_GetHotspotListResult;
 import com.alcatel.wifilink.root.bean.Extender_GetWIFIExtenderCurrentStatusResult;
-import com.alcatel.wifilink.network.ResponseBody;
-import com.alcatel.wifilink.root.adapter.WifiExtenderAdapter;
+import com.alcatel.wifilink.root.helper.Cons;
 import com.alcatel.wifilink.root.helper.Extender_ConnectHotspotHelper;
 import com.alcatel.wifilink.root.helper.Extender_DisConnectHotspotHelper;
 import com.alcatel.wifilink.root.helper.Extender_GetConnectHotspotStateHelper;
@@ -32,13 +27,18 @@ import com.alcatel.wifilink.root.helper.Extender_GetWIFIExtenderCurrentStatusHel
 import com.alcatel.wifilink.root.helper.Extender_GetWIFIExtenderSettingsHelper;
 import com.alcatel.wifilink.root.helper.Extender_SearchHotspotHelper;
 import com.alcatel.wifilink.root.helper.Extender_SetWIFIExtenderSettingsHelper;
-import com.alcatel.wifilink.root.helper.Cons;
 import com.alcatel.wifilink.root.helper.TimerHelper;
+import com.alcatel.wifilink.root.ue.activity.HomeRxActivity;
 import com.alcatel.wifilink.root.utils.CA;
 import com.alcatel.wifilink.root.utils.Logs;
 import com.alcatel.wifilink.root.utils.OtherUtils;
 import com.alcatel.wifilink.root.utils.ToastUtil_m;
 import com.alcatel.wifilink.root.utils.fraghandler.FragmentBackHandler;
+import com.alcatel.wifilink.root.widget.DisConnHotpotView;
+import com.alcatel.wifilink.root.widget.ExtenderWait;
+import com.alcatel.wifilink.root.widget.HotPotKeyView;
+import com.alcatel.wifilink.root.widget.OpenCloseExtenderView;
+import com.p_xhelper_smart.p_xhelper_smart.impl.FwError;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -276,7 +276,7 @@ public class WifiExtenderRxFragment extends Fragment implements FragmentBackHand
     /**
      * 连接失败处理
      */
-    private void connectFailed(String methodName, ResponseBody.Error error, String... des) {
+    private void connectFailed(String methodName, FwError error, String... des) {
         String errors = "occur failed;";
         String dess = "";
         if (error != null) {

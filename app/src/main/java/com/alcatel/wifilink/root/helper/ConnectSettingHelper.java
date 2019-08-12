@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.util.Log;
 
 import com.alcatel.wifilink.R;
-import com.alcatel.wifilink.network.ResponseBody;
 import com.alcatel.wifilink.root.utils.CA;
 import com.alcatel.wifilink.root.utils.ToastUtil_m;
 import com.p_xhelper_smart.p_xhelper_smart.bean.GetConnectionSettingsBean;
@@ -13,6 +12,7 @@ import com.p_xhelper_smart.p_xhelper_smart.helper.DisConnectHelper;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetConnectionSettingsHelper;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetConnectionStateHelper;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetNetworkRegisterStateHelper;
+import com.p_xhelper_smart.p_xhelper_smart.impl.FwError;
 
 /**
  * Created by qianli.ma on 2017/11/25 0025.
@@ -180,7 +180,7 @@ public class ConnectSettingHelper {
 
     // 接口OnRegisterResultErrorListener
     public interface OnRegisterResultErrorListener {
-        void registerResultError(ResponseBody.Error attr);
+        void registerResultError(FwError attr);
     }
 
     // 对外方式setOnRegisterResultErrorListener
@@ -189,7 +189,7 @@ public class ConnectSettingHelper {
     }
 
     // 封装方法registerResultErrorNext
-    private void registerResultErrorNext(ResponseBody.Error attr) {
+    private void registerResultErrorNext(FwError attr) {
         if (onRegisterResultErrorListener != null) {
             onRegisterResultErrorListener.registerResultError(attr);
         }
@@ -370,7 +370,7 @@ public class ConnectSettingHelper {
 
     // 接口OnResultErrorListener
     public interface OnResultErrorListener {
-        void resultError(ResponseBody.Error attr);
+        void resultError(FwError attr);
     }
 
     // 对外方式setOnResultErrorListener
@@ -379,7 +379,7 @@ public class ConnectSettingHelper {
     }
 
     // 封装方法resultErrorNext
-    private void resultErrorNext(ResponseBody.Error attr) {
+    private void resultErrorNext(FwError attr) {
         if (onResultErrorListener != null) {
             onResultErrorListener.resultError(attr);
         }

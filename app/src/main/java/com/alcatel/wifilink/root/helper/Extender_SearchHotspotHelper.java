@@ -1,9 +1,7 @@
 package com.alcatel.wifilink.root.helper;
 
-import com.alcatel.wifilink.network.RX;
-import com.alcatel.wifilink.network.ResponseBody;
-import com.alcatel.wifilink.network.ResponseObject;
 import com.p_xhelper_smart.p_xhelper_smart.helper.SearchHotspotHelper;
+import com.p_xhelper_smart.p_xhelper_smart.impl.FwError;
 
 /**
  * Created by qianli.ma on 2018/5/24 0024.
@@ -24,7 +22,7 @@ public class Extender_SearchHotspotHelper {
 
     // 接口OnResultErrorListener
     public interface OnResultErrorListener {
-        void resultError(ResponseBody.Error attr);
+        void resultError(FwError attr);
     }
 
     // 对外方式setOnResultErrorListener
@@ -33,7 +31,7 @@ public class Extender_SearchHotspotHelper {
     }
 
     // 封装方法resultErrorNext
-    private void resultErrorNext(ResponseBody.Error attr) {
+    private void resultErrorNext(FwError attr) {
         if (onResultErrorListener != null) {
             onResultErrorListener.resultError(attr);
         }

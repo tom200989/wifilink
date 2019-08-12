@@ -2,8 +2,8 @@ package com.alcatel.wifilink.root.utils;
 
 import com.p_encrypt.p_encrypt.core.aesPKCS7.AES_PCKS7;
 import com.p_encrypt.p_encrypt.core.encoder.BASE64Encoder;
+import com.p_xhelper_smart.p_xhelper_smart.core.XSmart;
 
-import static com.alcatel.wifilink.network.RX.USER_KEY;
 
 /**
  * Created by tao.j on 2017/6/22.
@@ -14,7 +14,7 @@ public class EncryptionUtil {
     public static String encrypt(String info) {
 
         // char[] key = AUTHORIZATION_KEY.toCharArray();
-        char[] key = USER_KEY.toCharArray();
+        char[] key = XSmart.KEY.toCharArray();
         char str1[] = new char[info.length() * 2];
         StringBuilder builder = new StringBuilder();
         for (int i = 0; i < info.length(); i++) {
@@ -41,7 +41,7 @@ public class EncryptionUtil {
     public static String encryptForMW120(String info, String token_key, String token_iv) {
 
         // 加密1
-        char[] key = USER_KEY.toCharArray();
+        char[] key = XSmart.KEY.toCharArray();
         char str1[] = new char[info.length() * 2];
         StringBuilder builder = new StringBuilder();
         for (int i = 0; i < info.length(); i++) {
@@ -67,7 +67,7 @@ public class EncryptionUtil {
 
     public static String encryptUser(String info) {
 
-        char[] key = USER_KEY.toCharArray();
+        char[] key = XSmart.KEY.toCharArray();
         char str1[] = new char[info.length() * 2];
         StringBuilder builder = new StringBuilder();
         for (int i = 0; i < info.length(); i++) {

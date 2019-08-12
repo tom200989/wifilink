@@ -1,8 +1,8 @@
 package com.alcatel.wifilink.root.helper;
 
-import com.alcatel.wifilink.network.ResponseBody;
 import com.p_xhelper_smart.p_xhelper_smart.bean.GetWlanSettingsBean;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetWlanSettingsHelper;
+import com.p_xhelper_smart.p_xhelper_smart.impl.FwError;
 
 /**
  * Created by qianli.ma on 2017/11/27 0027.
@@ -90,7 +90,7 @@ public class WpsHelper {
 
     // 接口OnResultErrorListener
     public interface OnResultErrorListener {
-        void resultError(ResponseBody.Error attr);
+        void resultError(FwError attr);
     }
 
     // 对外方式setOnResultErrorListener
@@ -99,7 +99,7 @@ public class WpsHelper {
     }
 
     // 封装方法resultErrorNext
-    private void resultErrorNext(ResponseBody.Error attr) {
+    private void resultErrorNext(FwError attr) {
         if (onResultErrorListener != null) {
             onResultErrorListener.resultError(attr);
         }

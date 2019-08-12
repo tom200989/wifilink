@@ -1,7 +1,7 @@
 package com.alcatel.wifilink.root.helper;
 
-import com.alcatel.wifilink.network.ResponseBody;
 import com.alcatel.wifilink.root.utils.Logs;
+import com.p_xhelper_smart.p_xhelper_smart.impl.FwError;
 
 /**
  * Created by qianli.ma on 2017/9/17.
@@ -18,7 +18,7 @@ public class ErrHelper {
      * @param e     异常实体
      * @param error 错误码
      */
-    public static void errlog(String pre, Throwable e, ResponseBody.Error error) {
+    public static void errlog(String pre, Throwable e, FwError error) {
         if (e != null) {
             Logs.v(MA, pre + " error: " + e.getMessage());
         }

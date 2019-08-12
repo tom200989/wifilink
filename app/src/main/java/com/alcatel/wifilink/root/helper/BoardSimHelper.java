@@ -6,21 +6,16 @@ import android.os.Handler;
 import android.util.Log;
 
 import com.alcatel.wifilink.R;
-import com.alcatel.wifilink.root.bean.User_LoginState;
-import com.alcatel.wifilink.root.bean.SimStatus;
-import com.alcatel.wifilink.network.RX;
-import com.alcatel.wifilink.network.ResponseBody;
-import com.alcatel.wifilink.network.ResponseObject;
 import com.alcatel.wifilink.root.ue.activity.LoginRxActivity;
 import com.alcatel.wifilink.root.ue.activity.RefreshWifiRxActivity;
 import com.alcatel.wifilink.root.utils.CA;
-import com.alcatel.wifilink.root.utils.Logs;
 import com.alcatel.wifilink.root.utils.OtherUtils;
 import com.alcatel.wifilink.root.utils.ToastUtil_m;
 import com.p_xhelper_smart.p_xhelper_smart.bean.GetLoginStateBean;
 import com.p_xhelper_smart.p_xhelper_smart.bean.GetSimStatusBean;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetLoginStateHelper;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetSimStatusHelper;
+import com.p_xhelper_smart.p_xhelper_smart.impl.FwError;
 
 /**
  * Created by qianli.ma on 2017/11/16 0016.
@@ -226,7 +221,7 @@ public class BoardSimHelper {
     /* -------------------------------------------- INTERFACE -------------------------------------------- */
 
     public interface OnRollRequestOnResultError {
-        void onResultError(ResponseBody.Error error);
+        void onResultError(FwError error);
     }
 
     public interface OnRollRequestOnError {
@@ -318,7 +313,7 @@ public class BoardSimHelper {
 
     /* -------------------------------------------- METHOD -------------------------------------------- */
 
-    private void rollRequestOnResultErrorNext(ResponseBody.Error error) {
+    private void rollRequestOnResultErrorNext(FwError error) {
         if (onRollRequestOnResultError != null) {
             onRollRequestOnResultError.onResultError(error);
         }

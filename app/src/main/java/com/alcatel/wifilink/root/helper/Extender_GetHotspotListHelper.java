@@ -1,11 +1,9 @@
 package com.alcatel.wifilink.root.helper;
 
 import com.alcatel.wifilink.root.bean.Extender_GetHotspotListResult;
-import com.alcatel.wifilink.network.RX;
-import com.alcatel.wifilink.network.ResponseBody;
-import com.alcatel.wifilink.network.ResponseObject;
 import com.p_xhelper_smart.p_xhelper_smart.bean.GetHotSpotListBean;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetHotspotListHelper;
+import com.p_xhelper_smart.p_xhelper_smart.impl.FwError;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,7 +45,7 @@ public class Extender_GetHotspotListHelper {
 
     // 接口OnResultErrorListener
     public interface OnResultErrorListener {
-        void resultError(ResponseBody.Error attr);
+        void resultError(FwError attr);
     }
 
     // 对外方式setOnResultErrorListener
@@ -56,7 +54,7 @@ public class Extender_GetHotspotListHelper {
     }
 
     // 封装方法resultErrorNext
-    private void resultErrorNext(ResponseBody.Error attr) {
+    private void resultErrorNext(FwError attr) {
         if (onResultErrorListener != null) {
             onResultErrorListener.resultError(attr);
         }

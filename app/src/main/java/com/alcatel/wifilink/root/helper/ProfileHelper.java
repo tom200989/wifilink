@@ -1,11 +1,9 @@
 package com.alcatel.wifilink.root.helper;
 
 import com.alcatel.wifilink.root.bean.ProfileList;
-import com.alcatel.wifilink.network.RX;
-import com.alcatel.wifilink.network.ResponseBody;
-import com.alcatel.wifilink.network.ResponseObject;
 import com.p_xhelper_smart.p_xhelper_smart.bean.GetProfileListBean;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetProfileListHelper;
+import com.p_xhelper_smart.p_xhelper_smart.impl.FwError;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -69,7 +67,7 @@ public class ProfileHelper {
 
     // Inteerface--> 接口OnResultErrorListener
     public interface OnResultErrorListener {
-        void resultError(ResponseBody.Error error);
+        void resultError(FwError error);
     }
 
     // 对外方式setOnResultErrorListener
@@ -78,7 +76,7 @@ public class ProfileHelper {
     }
 
     // 封装方法resultErrorNext
-    private void resultErrorNext(ResponseBody.Error error) {
+    private void resultErrorNext(FwError error) {
         if (onResultErrorListener != null) {
             onResultErrorListener.resultError(error);
         }

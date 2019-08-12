@@ -1,11 +1,9 @@
 package com.alcatel.wifilink.root.helper;
 
 import com.alcatel.wifilink.root.bean.ConnectedList;
-import com.alcatel.wifilink.network.RX;
-import com.alcatel.wifilink.network.ResponseBody;
-import com.alcatel.wifilink.network.ResponseObject;
 import com.p_xhelper_smart.p_xhelper_smart.bean.GetConnectDeviceListBean;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetConnectedDeviceListHelper;
+import com.p_xhelper_smart.p_xhelper_smart.impl.FwError;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -89,7 +87,7 @@ public class ConnectDeviceHelper {
 
     // 接口OnDevicesErrorListener
     public interface OnDevicesErrorListener {
-        void devicesError(ResponseBody.Error error);
+        void devicesError(FwError error);
     }
 
     // 对外方式setOnDevicesErrorListener
@@ -98,7 +96,7 @@ public class ConnectDeviceHelper {
     }
 
     // 封装方法devicesErrorNext
-    private void devicesErrorNext(ResponseBody.Error error) {
+    private void devicesErrorNext(FwError error) {
         if (onDevicesErrorListener != null) {
             onDevicesErrorListener.devicesError(error);
         }

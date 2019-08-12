@@ -10,19 +10,11 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.alcatel.wifilink.R;
-import com.alcatel.wifilink.root.bean.BlockList;
-import com.alcatel.wifilink.network.RX;
-import com.alcatel.wifilink.network.ResponseObject;
-import com.alcatel.wifilink.root.bean.BlockModel;
 import com.alcatel.wifilink.root.helper.FraDeviceHelper;
 import com.alcatel.wifilink.root.helper.FragmentDeviceEnum;
 import com.alcatel.wifilink.root.utils.ActionbarSetting;
 import com.alcatel.wifilink.root.utils.OtherUtils;
-import com.p_xhelper_smart.p_xhelper_smart.bean.GetBlockDeviceListBean;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetBlockDeviceListHelper;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
