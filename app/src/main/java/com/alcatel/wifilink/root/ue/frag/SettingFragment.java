@@ -4,7 +4,6 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ProgressDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
@@ -29,7 +28,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.alcatel.wifilink.R;
-import com.alcatel.wifilink.network.RX;
 import com.alcatel.wifilink.root.helper.BoardSimHelper;
 import com.alcatel.wifilink.root.helper.BoardWanHelper;
 import com.alcatel.wifilink.root.helper.CheckBoardLogin;
@@ -46,7 +44,6 @@ import com.alcatel.wifilink.root.ue.activity.SettingAccountActivity;
 import com.alcatel.wifilink.root.ue.activity.SettingLanguageActivity;
 import com.alcatel.wifilink.root.ue.activity.SettingShareActivity;
 import com.alcatel.wifilink.root.utils.CA;
-import com.alcatel.wifilink.root.utils.FileUtils;
 import com.alcatel.wifilink.root.utils.Lgg;
 import com.alcatel.wifilink.root.utils.Logs;
 import com.alcatel.wifilink.root.utils.OtherUtils;
@@ -64,15 +61,10 @@ import com.p_xhelper_smart.p_xhelper_smart.helper.LogoutHelper;
 import com.p_xhelper_smart.p_xhelper_smart.helper.SetDeviceBackupHelper;
 import com.p_xhelper_smart.p_xhelper_smart.helper.SetDeviceRebootHelper;
 import com.p_xhelper_smart.p_xhelper_smart.helper.SetDeviceResetHelper;
+import com.p_xhelper_smart.p_xhelper_smart.helper.SetDeviceRestoreHelper;
 import com.p_xhelper_smart.p_xhelper_smart.helper.SetDeviceUpdateStopHelper;
 
-import java.io.File;
-import java.net.SocketTimeoutException;
-
-import okhttp3.MediaType;
-import okhttp3.MultipartBody;
-import okhttp3.RequestBody;
-import rx.Subscriber;
+import java.util.Objects;
 
 /**
  * Created by qianli.ma on 2017/6/16.
@@ -650,22 +642,7 @@ public class SettingFragment extends Fragment implements View.OnClickListener, F
     public int requestTimes = 0;
 
     private void backupDevice() {
-        SetDeviceBackupHelper xSetDeviceBackupHelper = new SetDeviceBackupHelper();
-        xSetDeviceBackupHelper.setOnPrepareHelperListener(() -> {
-            if (mProgressDialog == null) {
-                showLoadingDialog();
-            }
-        });
-        xSetDeviceBackupHelper.setOnDoneHelperListener(() -> {
-            dismissLoadingDialog();
-        });
-        xSetDeviceBackupHelper.setOnSetDeviceBackupFailedListener(() -> {
-            showFailedDialog(R.string.couldn_t_backup_try_again);
-        });
-        xSetDeviceBackupHelper.setOnSetDeviceBackupSuccessListener(() -> {
-            showBackupSuccessDialog();
-        });
-        xSetDeviceBackupHelper.setDeviceBackup();
+        showBackupSuccessDialog();
     }
 
     private void showBackupSuccessDialog() {
@@ -683,6 +660,7 @@ public class SettingFragment extends Fragment implements View.OnClickListener, F
             String savePath = editText.getText().toString();
             SPUtils.getInstance(CONFIG_SPNAME, getActivity()).put(CONFIG_FILE_PATH, savePath);
             downLoadConfigureFile(savePath);
+            dialog.dismiss();
         });
         builder.show();
     }
@@ -699,58 +677,40 @@ public class SettingFragment extends Fragment implements View.OnClickListener, F
     }
 
     private void downLoadConfigureFile(String saveUrl) {
-        SetDeviceBackupHelper helper = new SetDeviceBackupHelper();
-        helper.setOnPrepareHelperListener(() -> showLoadingDialog());
-        helper.setOnDoneHelperListener(() -> dismissLoadingDialog());
-        helper.setOnDownSuccessListener(attr -> ToastUtil_m.show(getActivity(), R.string.succeed));
-        helper.setOnSetDeviceBackupFailedListener(() -> ToastUtil_m.show(getActivity(), R.string.fail));
-        helper.reqBackup();
+        SetDeviceBackupHelper xSetDeviceBackup = new SetDeviceBackupHelper();
+        xSetDeviceBackup.setOnPrepareHelperListener(this::showLoadingDialog);
+        xSetDeviceBackup.setOnDoneHelperListener(this::dismissLoadingDialog);
+        xSetDeviceBackup.setOnDownSuccessListener(attr -> ToastUtil_m.show(getActivity(), R.string.succeed));
+        xSetDeviceBackup.setOnSetDeviceBackupFailedListener(() -> ToastUtil_m.show(getActivity(), R.string.fail));
+        xSetDeviceBackup.setOnPathNotMatchRuleListener(path -> {
+            Lgg.t("ma_path").ee("path is empty or not match rule , it contains [\\ : * ? \" < > | .]");
+            ToastUtil_m.show(getActivity(), "path is empty or not match rule , it contains [\\ : * ? \" < > | .]");
+        });
+        xSetDeviceBackup.setDeviceBackup(saveUrl);
     }
-
 
     private void showDialogResetFactorySetting() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle(R.string.reset_router);
         builder.setMessage(R.string.This_will_reset_all_settings_on_your_router_to_factory_defaults_This_action_can_not_be_undone);
-        builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                dialogInterface.dismiss();
-            }
-        });
-        builder.setPositiveButton(R.string.reset, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                resetDevice();
-
-            }
-        });
+        builder.setNegativeButton(R.string.cancel, (dialogInterface, i) -> dialogInterface.dismiss());
+        builder.setPositiveButton(R.string.reset, (dialogInterface, i) -> resetDevice());
         builder.show();
     }
 
     private void restartDevice() {
         SetDeviceRebootHelper xSetDeviceRebootHelper = new SetDeviceRebootHelper();
-        xSetDeviceRebootHelper.setOnSetDeviceRebootSuccessListener(() -> {
-            ToastUtil_m.show(getActivity(), R.string.succeed);
-        });
-        xSetDeviceRebootHelper.setOnSetDeviceRebootFailedListener(() -> {
-            ToastUtil_m.show(getActivity(), R.string.fail);
-        });
-        xSetDeviceRebootHelper.setOnPrepareHelperListener(() -> {
-            showLoadingDialog();
-        });
-        xSetDeviceRebootHelper.setOnDoneHelperListener(() -> {
-            dismissLoadingDialog();
-        });
+        xSetDeviceRebootHelper.setOnSetDeviceRebootSuccessListener(() -> ToastUtil_m.show(getActivity(), R.string.succeed));
+        xSetDeviceRebootHelper.setOnSetDeviceRebootFailedListener(() -> ToastUtil_m.show(getActivity(), R.string.fail));
+        xSetDeviceRebootHelper.setOnPrepareHelperListener(this::showLoadingDialog);
+        xSetDeviceRebootHelper.setOnDoneHelperListener(this::dismissLoadingDialog);
         xSetDeviceRebootHelper.SetDeviceReboot();
     }
 
 
     private void resetDevice() {
         SetDeviceResetHelper xSetDeviceResetHelper = new SetDeviceResetHelper();
-        xSetDeviceResetHelper.setOnPrepareHelperListener(() -> {
-            showLoadingDialog();
-        });
+        xSetDeviceResetHelper.setOnPrepareHelperListener(this::showLoadingDialog);
         xSetDeviceResetHelper.setOnSetDeviceResetSuccessListener(() -> {
             dismissLoadingDialog();
             showSuccessDialog();
@@ -765,81 +725,35 @@ public class SettingFragment extends Fragment implements View.OnClickListener, F
     public int restoreTimes = 0;
 
     private void restore() {
-        String savePath = SPUtils.getInstance(CONFIG_SPNAME, getActivity()).getString(CONFIG_FILE_PATH);
-        if (savePath.equals("")) {
-            ToastUtil_m.show(getActivity(), "no backupFile");
-            return;
-        }
-        File file = new File(FileUtils.createFilePath(savePath), "configure.bin");
-        if (!file.exists()) {
-            ToastUtil_m.show(getActivity(), "No this file");
-            return;
-        }
-
-        RequestBody requestFile = RequestBody.create(MediaType.parse("application/octet-stream"), file);
-        // RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), file);
-
-        // TOAT: 2017/8/11 多添加一个参数 [ _TclRequestVerificationToken ]
-        MultipartBody.Part body = MultipartBody.Part.createFormData("iptUpload", file.getName(), requestFile);
-        RX.getInstant().uploadFile(new Subscriber() {
-            @Override
-            public void onStart() {
-                super.onStart();
-                if (mProgressDialog == null) {
-                    showLoadingDialog();
-                }
-            }
-
-            @Override
-            public void onCompleted() {
-                restoreTimes = 0;
-                dismissLoadingDialog();
-                ToastUtil_m.show(getActivity(), R.string.succeed);
-            }
-
-            @Override
-            public void onError(Throwable e) {
-
-                if (restoreTimes > 12) {
-                    dismissLoadingDialog();
-                    if (e instanceof SocketTimeoutException) {
-                        ToastUtil_m.show(getActivity(), R.string.succeed);
-                    } else {
-                        ToastUtil_m.show(getActivity(), R.string.couldn_t_restore_try_again);
-                    }
-                } else {
-                    restore();
-                }
-            }
-
-            @Override
-            public void onNext(Object o) {
-
-            }
-
-        }, body);
+        SetDeviceRestoreHelper xSetDeviceRestoreHelper = new SetDeviceRestoreHelper();
+        xSetDeviceRestoreHelper.setOnPrepareHelperListener(this::showLoadingDialog);
+        xSetDeviceRestoreHelper.setOnDoneHelperListener(this::dismissLoadingDialog);
+        xSetDeviceRestoreHelper.setOnRestoreSuccessListener(file -> ToastUtil_m.show(getActivity(), R.string.succeed));
+        xSetDeviceRestoreHelper.setOnRestoreFailedListener(() -> ToastUtil_m.show(getActivity(), R.string.couldn_t_restore_try_again));
+        xSetDeviceRestoreHelper.setDeviceRestore();
     }
 
-
     private void showSuccessDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        AlertDialog.Builder builder = new AlertDialog.Builder(Objects.requireNonNull(getActivity()));
         builder.setMessage(activity.getString(R.string.complete));
         builder.setCancelable(true);
         builder.show();
     }
 
     private void showFailedDialog(int stringId) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        AlertDialog.Builder builder = new AlertDialog.Builder(Objects.requireNonNull(getActivity()));
         builder.setMessage(getActivity().getString(stringId));
         builder.setCancelable(true);
         builder.show();
     }
 
     private void showLoadingDialog() {
-        mProgressDialog = new ProgressDialog(getActivity());
+        if (mProgressDialog == null) {
+            mProgressDialog = new ProgressDialog(getActivity());
+
+        }
         mProgressDialog.setMessage(activity.getString(R.string.back_up_progress));
         mProgressDialog.show();
-
     }
 
     private void dismissLoadingDialog() {

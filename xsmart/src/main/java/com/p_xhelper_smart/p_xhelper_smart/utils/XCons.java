@@ -109,7 +109,12 @@ public class XCons {
     public static String METHOD_CONNECT_HOTSPOT = "ConnectHotspot";
     public static String METHOD_GET_CONNECT_HOTSPOT_STATE = "GetConnectHotspotState";
     public static String METHOD_DISCONNECT_HOTSPOT = "DisConnectHotspot";
+
     // 固定的用户名
     public static String ACCOUNT = "admin";
+    // 备份文件2级目录
+    public static String PATH_SMARTLINK = "/smartlink";
+    // 备份文件3级文件
+    public static String PATH_CONFIGURE_BIN = "/configure.bin";
 
 }

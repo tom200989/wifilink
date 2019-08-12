@@ -13,10 +13,12 @@ import com.p_xhelper_smart.p_xhelper_smart.impl.XBackupCallback;
 import com.p_xhelper_smart.p_xhelper_smart.impl.XNormalCallback;
 import com.p_xhelper_smart.p_xhelper_smart.impl.XRequstBody;
 import com.p_xhelper_smart.p_xhelper_smart.impl.XResponceBody;
-import com.p_xhelper_smart.p_xhelper_smart.utils.XCons;
+import com.p_xhelper_smart.p_xhelper_smart.impl.XRestoreCallback;
 import com.p_xhelper_smart.p_xhelper_smart.utils.HostnameUtils;
 import com.p_xhelper_smart.p_xhelper_smart.utils.Logg;
+import com.p_xhelper_smart.p_xhelper_smart.utils.ShareUtils;
 import com.p_xhelper_smart.p_xhelper_smart.utils.SmartUtils;
+import com.p_xhelper_smart.p_xhelper_smart.utils.XCons;
 
 import org.xutils.common.Callback;
 import org.xutils.http.HttpMethod;
@@ -27,6 +29,7 @@ import org.xutils.x;
 import java.io.File;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.net.SocketTimeoutException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,8 +45,11 @@ public class XSmart<T> {
     private static final String HTTP = "http://";
     private static final String JRD = "/jrd/webapi";
     private static final String BACKUP = "/cfgbak/configure.bin";
+    private static final String RESTORE = "/goform/uploadBackupSettings";
     // token
     public static String token = "0";
+    // backup AND restore key
+    public static String BACKUP_RESTORE_KEY = "wifilink_backup_restore";
 
     // 请求方式
     private static final int GET = 0;
@@ -105,6 +111,11 @@ public class XSmart<T> {
      */
     private Callback.Cancelable backupCancelable;
 
+    /**
+     * 恢复备份请求体
+     */
+    private Callback.Cancelable restoreCancelable;
+
     private int count = 0;// 辅助递归计数器
     private int MAX_COUNT = 9;// 最大请求次数
 
@@ -120,6 +131,7 @@ public class XSmart<T> {
     public static void init(Context cts) {
         context = cts;
         HostnameUtils.setVerifyHostName(context);
+        ShareUtils.init(cts);
     }
 
     /**
@@ -148,10 +160,21 @@ public class XSmart<T> {
      * 备份
      *
      * @param savePath 备份路径
-     * @param listener 回调
+     * @param callback 回调
      */
-    public void xBackup(String savePath, XBackupCallback listener) {
-        downBackup(savePath, listener);
+    public void xBackup(String savePath, XBackupCallback callback) {
+        downBackup(savePath, callback);
+    }
+
+    /**
+     * 恢复
+     *
+     * @param callback 回调
+     */
+    public void xRestore(XRestoreCallback callback) {
+        // 取得上次保存的路径 -- sdcard/xxx/yyy/configure.bin
+        String storePath = ShareUtils.get(BACKUP_RESTORE_KEY, "");
+        restore(storePath, callback);
     }
 
     /**
@@ -294,6 +317,7 @@ public class XSmart<T> {
                 @Override
                 public void onSuccess(File file) {
                     callback.success(file);
+                    ShareUtils.set(BACKUP_RESTORE_KEY, savePath);// 保存到SP -- sdcard/xxx/yyy/configure.bin
                     printNormal("upload successfule, the [PATH] is : " + file.getAbsolutePath());
                 }
 
@@ -330,6 +354,133 @@ public class XSmart<T> {
     }
 
     /**
+     * 恢复
+     *
+     * @param storePath 从哪里取得备份文件
+     * @param callback  回调
+     */
+    private void restore(String storePath, XRestoreCallback callback) {
+        // 第一步确保WIFI连接上
+        if (SmartUtils.isWifiOn(context)) {
+            // 初始化context
+            if (context == null) {
+                Toast.makeText(context, "请先调用 XSmart.init(context) 初始context", Toast.LENGTH_LONG).show();
+                printNormal("请先调用 XSmart.init(context) 初始context");
+                return;
+            }
+
+            // 路径不存在 -- 提示先备份
+            if (TextUtils.isEmpty(storePath)) {
+                callback.noRestoreFile();
+                return;
+            }
+
+            // FILE是一个文件并且已经存在
+            File file = new File(storePath);
+            if (file.exists() && !file.isDirectory()) {
+                // 封装请求参数
+                RequestParams requstParams = getRestoreParam(storePath);
+                restoreCancelable = x.http().post(requstParams, new Callback.ProgressCallback<File>() {
+
+                    @Override
+                    public void responseBody(UriRequest uriRequest) {
+                        callback.getUriRequest(uriRequest);
+                        printUriRequest(uriRequest);
+                    }
+
+                    @Override
+                    public void onWaiting() {
+                        callback.waiting();
+                        printNormal("--> wait to restore");
+                    }
+
+                    @Override
+                    public void onStarted() {
+                        callback.start();
+                        printNormal("--> start to restore");
+                    }
+
+                    @Override
+                    public void onLoading(long total, long current, boolean isUploading) {
+                        callback.loading(total, current, isUploading);
+                        if (PRINT_PROGRESS) {
+                            printNormal(" progress--> total: " + total + ";current: " + current + ";isDownloading: " + isUploading);
+                        }
+                    }
+
+                    @Override
+                    public void onSuccess(File file) {
+                        callback.success(file);
+                        printNormal("restore successfule, the [PATH] is : " + file.getAbsolutePath());
+                    }
+
+                    @Override
+                    public void onError(Throwable ex, boolean b) {
+                        if (ex instanceof SocketTimeoutException) {// 如果出现了SocketTimeOut -- 则认为是文件上传完毕(原理参考文件对传功能, 
+                            // 文件对传解决的思路是在真正的发送文件之前, 先把文件的大小发送过去, 告知服务器何时关闭socket以及释放stream)
+                            callback.success(file);
+                            printNormal("restore successfule, the [PATH] is : " + file.getAbsolutePath());
+                        } else {
+                            callback.appError(ex);
+                            printNormal("--> restore failed: " + ex.getMessage());
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(CancelledException e) {
+                        callback.cancel(e);
+                        printNormal("--> restore cancel: " + e.getMessage());
+                    }
+
+                    @Override
+                    public void onFinished() {
+                        // 移除请求体
+                        cancelList.remove(restoreCancelable);
+                        callback.finish();
+                        printNormal("--> restore finish");
+                    }
+                });
+
+                // 添加到请求体集合 -- 统一管理
+                cancelList.add(restoreCancelable);
+            } else {
+                // 文件不存在 -- 提示先备份
+                callback.noRestoreFile();
+            }
+
+        } else {
+            // WIFI断线 -- 切断所有请求
+            xCancelAllRequest();
+            callback.wifiOff();
+            printWifiState(false);
+        }
+    }
+
+    /**
+     * 获取恢复备份的参数
+     *
+     * @param storePath 备份文件的路径
+     * @return 请求参数
+     */
+    private RequestParams getRestoreParam(String storePath) {
+        printNormal("prepare to restore params");
+        String gateWay = SmartUtils.getWIFIGateWay(context);// 获取网关
+        RequestParams params = new RequestParams(HTTP + gateWay + RESTORE);
+        params.setHostnameVerifier(HostnameUtils.getVerify(context));
+        params.setConnectTimeout(TIMEOUT);
+        params.setReadTimeout(TIMEOUT);
+        params.addHeader("_TclRequestVerificationKey", AUTHORIZATION);
+        params.addHeader("_TclRequestVerificationToken", token);
+        params.addHeader("Referer", HTTP + gateWay + "/");
+        params.setMultipart(true);
+        // 上传路径
+        File storeFile = new File(storePath);
+        params.addBodyParameter("iptUpload", storeFile, "application/octet-stream", storeFile.getName());
+        printHead();
+        return params;
+    }
+
+    /**
      * 获取下载备份的参数
      *
      * @param savePath 保存路径
@@ -338,7 +489,7 @@ public class XSmart<T> {
     private RequestParams getDownBackupParam(String savePath) {
         printNormal("prepare to backup params");
         String gateWay = SmartUtils.getWIFIGateWay(context);// 获取网关
-        RequestParams params = new RequestParams(HTTP + gateWay + JRD + BACKUP);
+        RequestParams params = new RequestParams(HTTP + gateWay + BACKUP);
         params.setHostnameVerifier(HostnameUtils.getVerify(context));
         params.setConnectTimeout(TIMEOUT);
         params.setReadTimeout(TIMEOUT);

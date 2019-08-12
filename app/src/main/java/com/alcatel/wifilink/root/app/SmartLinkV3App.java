@@ -42,6 +42,7 @@ public class SmartLinkV3App extends MultiDexApplication {
         PreferenceUtil.commitString(LANGUAGE, TextUtils.isEmpty(languageFromApp) ? languageFromPhone : languageFromApp);
         x.Ext.init(this);
         x.Ext.setDebug(true);
+        XSmart.init(this);
         // 2.初始化其他参数
         m_instance = this;
         contexts = new ArrayList<>();
@@ -50,7 +51,5 @@ public class SmartLinkV3App extends MultiDexApplication {
         // 4.清空share
         SharedPreferences sp = SmartLinkV3App.getInstance().getSharedPreferences(Constants.SP_GLOBAL_INFO, Context.MODE_PRIVATE);
         sp.edit().clear().apply();
-        //初始化 by haide at 2019-08-09 , 不加就会崩溃
-        XSmart.init(getApplicationContext());
     }
 }

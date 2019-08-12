@@ -3,10 +3,9 @@ package com.p_xhelper_smart.p_xhelper_smart.impl;
 import java.io.File;
 
 /*
- * Created by qianli.ma on 2019/8/1 0001.
+ * Created by qianli.ma on 2019/8/12 0012.
  */
-public interface XBackupListener extends XBaseListener {
-
+public interface XRestoreListener extends XBaseListener {
     /**
      * 传输等待中
      */
@@ -32,5 +31,4 @@ public interface XBackupListener extends XBaseListener {
      * @param file 成功后服务器返回File
      */
     void success(File file);
-    
 }

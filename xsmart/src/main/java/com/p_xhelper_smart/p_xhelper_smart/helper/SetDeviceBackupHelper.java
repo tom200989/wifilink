@@ -1,6 +1,7 @@
 package com.p_xhelper_smart.p_xhelper_smart.helper;
 
 import android.os.Environment;
+import android.text.TextUtils;
 
 import com.p_xhelper_smart.p_xhelper_smart.core.XSmart;
 import com.p_xhelper_smart.p_xhelper_smart.impl.FwError;
@@ -12,6 +13,8 @@ import org.xutils.common.Callback;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 /*
  * Created by qianli.ma on 2019/8/1 0001.
@@ -22,28 +25,26 @@ public class SetDeviceBackupHelper extends BaseHelper {
     /**
      * 触发备份 -- 并下载
      */
-    public void setDeviceBackup() {
+    public void setDeviceBackup(String path) {
         prepareHelperNext();
         XSmart xSetDeviceBackup = new XSmart();
         xSetDeviceBackup.xMethod(XCons.METHOD_SET_DEVICE_BACKUP);
         xSetDeviceBackup.xPost(new XNormalCallback() {
             @Override
             public void success(Object result) {
-                doneHelperNext();
-                setDeviceBackupSuccessNext();
+                reqBackup(path);
             }
 
             @Override
             public void appError(Throwable ex) {
-                doneHelperNext();
                 SetDeviceBackupFailedNext();
-
+                doneHelperNext();
             }
 
             @Override
             public void fwError(FwError fwError) {
-                doneHelperNext();
                 SetDeviceBackupFailedNext();
+                doneHelperNext();
             }
 
             @Override
@@ -55,10 +56,15 @@ public class SetDeviceBackupHelper extends BaseHelper {
     /**
      * 请求下载地址
      */
-    public void reqBackup() {
-        String savePath = getSavepath();
+    private void reqBackup(String path) {
+        // 路径中包含了［.］-- 不通过
+        if (!checkPath(path)) {
+            pathNotMatchRuleNext(path);
+            return;
+        }
+        // 整理路径
+        String savePath = getSavepath(handlePath(path));
         XSmart xBackup = new XSmart();
-        prepareHelperNext();
         xBackup.xBackup(savePath, new XBackupCallback() {
             @Override
             public void waiting() {
@@ -100,19 +106,21 @@ public class SetDeviceBackupHelper extends BaseHelper {
     /**
      * @return 获取保存路径 sdcard/smartlink/configure.bin
      */
-    private String getSavepath() {
+    private String getSavepath(String path) {
+        /* 默认路径: sdcard/smartlink/configure.bin */
         File sdDir = Environment.getExternalStorageDirectory();
         // 创建根目录
         if (!sdDir.exists() | !sdDir.isDirectory()) {
             sdDir.mkdirs();
         }
         // 创建1级目录
-        File smartDir = new File(sdDir.getAbsolutePath() + "/smartlink");
+        String defaultPath = sdDir.getAbsolutePath() + XCons.PATH_SMARTLINK;
+        File smartDir = new File(TextUtils.isEmpty(path) ? defaultPath : path);
         if (!smartDir.exists() | !smartDir.isDirectory()) {
             smartDir.mkdirs();
         }
         // 创建文件
-        File configFile = new File(smartDir.getAbsolutePath() + "/configure.bin");
+        File configFile = new File(smartDir.getAbsolutePath() + XCons.PATH_CONFIGURE_BIN);
         if (!configFile.exists() | configFile.isDirectory()) {
             try {
                 configFile.createNewFile();
@@ -121,6 +129,77 @@ public class SetDeviceBackupHelper extends BaseHelper {
             }
         }
         return configFile.getAbsolutePath();
+    }
+
+
+    /**
+     * 处理路径
+     *
+     * @param path 原路径
+     * @return T:符合规范 F:含有非法字符
+     */
+    private boolean checkPath(String path) {
+        // 空字符
+        if (TextUtils.isEmpty(path)) {
+            return false;
+        }
+        // 全部是空格
+        if (!isNotAllEmpty(path)) {
+            return false;
+        }
+        // 1.定义不能填写的字符
+        List<String> Symbols = new ArrayList<>();
+        Symbols.add("\\");
+        Symbols.add(":");
+        Symbols.add("*");
+        Symbols.add("?");
+        Symbols.add("\"");
+        Symbols.add("<");
+        Symbols.add(">");
+        Symbols.add("|");
+        Symbols.add("\\.");
+        // 2.遍历 -- 路径中是否包含了非法字符
+        for (String symbol : Symbols) {
+            if (path.contains(symbol)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * 判断是否全部非空格
+     *
+     * @param path 路径
+     * @return T:存在非空格字符 F:全部都是空格或者空串
+     */
+    private boolean isNotAllEmpty(String path) {
+        char[] chars = path.toCharArray();
+        for (char aChar : chars) {
+            String str = String.valueOf(aChar);
+            if (!TextUtils.isEmpty(str) & !str.equals(" ")) {// 当前字符不为null, 且不等于空格或者空串
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * 重新拼接 (防止出现: xxxx/////// 的情况)
+     *
+     * @param path 路径
+     * @return 新路径
+     */
+    private String handlePath(String path) {
+        String SPLIT = "/";
+        String newPath = "";
+        String[] chs = path.split(SPLIT);
+        for (String ch : chs) {
+            if (!TextUtils.isEmpty(ch)) {
+                newPath = ch + SPLIT;
+            }
+        }
+        return SPLIT + newPath.substring(0, newPath.length() - 1);
     }
 
     private OnWaitingListener onWaitingListener;
@@ -237,21 +316,22 @@ public class SetDeviceBackupHelper extends BaseHelper {
         }
     }
 
-    public interface OnSetDeviceBackupSuccessListener {
-        void setDeviceBackupSuccess();
+    private OnPathNotMatchRuleListener onPathNotMatchRuleListener;
+
+    // Inteerface--> 接口OnPathNotMatchRuleListener
+    public interface OnPathNotMatchRuleListener {
+        void pathNotMatchRule(String path);
     }
 
-    private OnSetDeviceBackupSuccessListener onSetDeviceBackupSuccessListener;
-
-    //对外方式setOnSetDeviceBackupSuccessListener
-    public void setOnSetDeviceBackupSuccessListener(OnSetDeviceBackupSuccessListener onSetDeviceBackupSuccessListener) {
-        this.onSetDeviceBackupSuccessListener = onSetDeviceBackupSuccessListener;
+    // 对外方式setOnPathNotMatchRuleListener
+    public void setOnPathNotMatchRuleListener(OnPathNotMatchRuleListener onPathNotMatchRuleListener) {
+        this.onPathNotMatchRuleListener = onPathNotMatchRuleListener;
     }
 
-    //封装方法setDeviceBackupSuccessNext
-    private void setDeviceBackupSuccessNext() {
-        if (onSetDeviceBackupSuccessListener != null) {
-            onSetDeviceBackupSuccessListener.setDeviceBackupSuccess();
+    // 封装方法pathNotMatchRuleNext
+    private void pathNotMatchRuleNext(String path) {
+        if (onPathNotMatchRuleListener != null) {
+            onPathNotMatchRuleListener.pathNotMatchRule(path);
         }
     }
 }
