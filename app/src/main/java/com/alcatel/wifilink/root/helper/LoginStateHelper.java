@@ -2,7 +2,6 @@ package com.alcatel.wifilink.root.helper;
 
 import android.app.Activity;
 
-import com.alcatel.wifilink.root.bean.User_LoginState;
 import com.alcatel.wifilink.root.utils.Logs;
 import com.alcatel.wifilink.root.utils.OtherUtils;
 import com.p_xhelper_smart.p_xhelper_smart.bean.GetLoginStateBean;
@@ -40,15 +39,15 @@ public class LoginStateHelper {
         }
     }
 
-    private CheckBoard.OnLoginstateListener onLoginstateListener;
+    private OnLoginstateListener onLoginstateListener;
 
     // 接口OnLoginstateListener
     public interface OnLoginstateListener {
-        void loginState(User_LoginState attr);
+        void loginState(GetLoginStateBean attr);
     }
 
     // 对外方式setOnLoginstateListener
-    public void setOnLoginstateListener(CheckBoard.OnLoginstateListener onLoginstateListener) {
+    public void setOnLoginstateListener(OnLoginstateListener onLoginstateListener) {
         this.onLoginstateListener = onLoginstateListener;
     }
 

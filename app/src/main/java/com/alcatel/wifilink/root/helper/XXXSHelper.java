@@ -3,7 +3,6 @@ package com.alcatel.wifilink.root.helper;
 import android.app.Activity;
 import android.app.ProgressDialog;
 
-import com.alcatel.wifilink.root.bean.SmsInitState;
 import com.p_xhelper_smart.p_xhelper_smart.bean.GetSimStatusBean;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetSMSStorageStateHelper;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetSmsInitStateHelper;
@@ -18,8 +17,6 @@ public class XXXSHelper {
     private Activity activity;
     private OnResultErrorListener onResultErrorListener;
     private OnErrorListener onErrorListener;
-    private OnInitingListener onInitingListener;
-    private OnCompletListener onCompletListener;
     private BoardSimHelper boardSimHelper;
     private CheckBoardLogin checkBoardLogin;
     private OnUnreadListener onUnreadListener;
@@ -101,14 +98,6 @@ public class XXXSHelper {
         void unread(int unreadCount);
     }
 
-    public interface OnInitingListener {
-        void initing(SmsInitState result);
-    }
-
-    public interface OnCompletListener {
-        void complete(SmsInitState result);
-    }
-
     public interface OnResultErrorListener {
         void resultError(FwError error);
     }
@@ -127,14 +116,6 @@ public class XXXSHelper {
         this.onUnreadListener = onUnreadListener;
     }
 
-    public void setOnInitingListener(OnInitingListener onInitingListener) {
-        this.onInitingListener = onInitingListener;
-    }
-
-    public void setOnCompletListener(OnCompletListener onCompletListener) {
-        this.onCompletListener = onCompletListener;
-    }
-
     public void setOnResultErrorListener(OnResultErrorListener onResultErrorListener) {
         this.onResultErrorListener = onResultErrorListener;
     }
@@ -151,14 +132,6 @@ public class XXXSHelper {
 
     private void unreadNext(int unreadCount) {
         onUnreadListener.unread(unreadCount);
-    }
-
-    private void initingNext(SmsInitState result) {
-        onInitingListener.initing(result);
-    }
-
-    private void completeNext(SmsInitState result) {
-        onCompletListener.complete(result);
     }
 
     private void resultErrorNext(FwError error) {

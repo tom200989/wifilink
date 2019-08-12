@@ -1,6 +1,5 @@
 package com.alcatel.wifilink.root.helper;
 
-import com.alcatel.wifilink.root.bean.ProfileList;
 import com.p_xhelper_smart.p_xhelper_smart.bean.GetProfileListBean;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetProfileListHelper;
 import com.p_xhelper_smart.p_xhelper_smart.impl.FwError;
@@ -16,12 +15,12 @@ public class ProfileHelper {
     public void get() {
         GetProfileListHelper xGetProfileListHelper = new GetProfileListHelper();
         xGetProfileListHelper.setOnGetProfileListListener(bean -> {
-            ProfileList result = new ProfileList();
+            GetProfileListBean result = new GetProfileListBean();
             result.setData_len(bean.getData_len());
-            List<ProfileList.ProfileListBean> tempProfileList = new ArrayList<>();
+            List<GetProfileListBean.ProfileBean> tempProfileList = new ArrayList<>();
             List<GetProfileListBean.ProfileBean> profileList =bean.getProfileList();
             for(GetProfileListBean.ProfileBean profileBean : profileList){
-                ProfileList.ProfileListBean profileListBean = new ProfileList.ProfileListBean();
+                GetProfileListBean.ProfileBean profileListBean = new GetProfileListBean.ProfileBean();
                 profileListBean.setAPN(profileBean.getAPN());
                 profileListBean.setAuthType(profileBean.getAuthType());
                 profileListBean.setDailNumber(profileBean.getDailNumber());
@@ -86,7 +85,7 @@ public class ProfileHelper {
 
     // Inteerface--> 接口OnGetProfileSuccessListener
     public interface OnGetProfileSuccessListener {
-        void getProfileSuccess(ProfileList profileList);
+        void getProfileSuccess(GetProfileListBean profileList);
     }
 
     // 对外方式setOnGetProfileSuccessListener
@@ -95,7 +94,7 @@ public class ProfileHelper {
     }
 
     // 封装方法getProfileSuccessNext
-    private void getProfileSuccessNext(ProfileList profileList) {
+    private void getProfileSuccessNext(GetProfileListBean profileList) {
         if (onGetProfileSuccessListener != null) {
             onGetProfileSuccessListener.getProfileSuccess(profileList);
         }

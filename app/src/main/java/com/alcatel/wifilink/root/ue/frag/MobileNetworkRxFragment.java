@@ -14,7 +14,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.alcatel.wifilink.R;
-import com.alcatel.wifilink.root.bean.ProfileList;
 import com.alcatel.wifilink.root.helper.ChangePinHelper;
 import com.alcatel.wifilink.root.helper.ConnModeHelper;
 import com.alcatel.wifilink.root.helper.ConnectSettingHelper;
@@ -38,6 +37,7 @@ import com.alcatel.wifilink.root.utils.ScreenSize;
 import com.alcatel.wifilink.root.utils.ToastUtil_m;
 import com.alcatel.wifilink.root.utils.fraghandler.FragmentBackHandler;
 import com.alcatel.wifilink.root.widget.PopupWindows;
+import com.p_xhelper_smart.p_xhelper_smart.bean.GetProfileListBean;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetConnectionStateHelper;
 
 import org.greenrobot.eventbus.EventBus;
@@ -187,9 +187,9 @@ public class MobileNetworkRxFragment extends Fragment implements FragmentBackHan
     private void getProfileList() {
         ProfileHelper prh = new ProfileHelper();
         prh.setOnGetProfileSuccessListener(profileList -> {
-            List<ProfileList.ProfileListBean> list = profileList.getProfileList();
+            List<GetProfileListBean.ProfileBean> list = profileList.getProfileList();
             if (list != null & list.size() > 0) {
-                ProfileList.ProfileListBean profile = list.get(0);
+                GetProfileListBean.ProfileBean profile = list.get(0);
                 tvProfileName.setText(profile.getProfileName());
             }
         });
@@ -440,11 +440,11 @@ public class MobileNetworkRxFragment extends Fragment implements FragmentBackHan
             // 提交修改
             SimPinHelper simPinHelper = new SimPinHelper(getActivity());
             simPinHelper.setOnPukLockedListener(attr -> toPukRx());
-            simPinHelper.setOnPinEnableListener(attr -> {// 开启成功
+            simPinHelper.setOnPinEnableListener(() -> {// 开启成功
                 toast(R.string.success);
                 ivSimPin.setImageDrawable(switch_on);
             });
-            simPinHelper.setOnPinDisableListener(attr -> {// 关闭成功
+            simPinHelper.setOnPinDisableListener(() -> {// 关闭成功
                 toast(R.string.success);
                 ivSimPin.setImageDrawable(switch_off);
             });

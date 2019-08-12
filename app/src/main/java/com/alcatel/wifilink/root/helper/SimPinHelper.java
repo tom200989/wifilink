@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.text.TextUtils;
 
 import com.alcatel.wifilink.R;
-import com.alcatel.wifilink.root.bean.SimStatus;
 import com.alcatel.wifilink.root.utils.CA;
 import com.alcatel.wifilink.root.utils.ToastUtil_m;
 import com.p_xhelper_smart.p_xhelper_smart.bean.ChangePinStateParam;
@@ -64,7 +63,7 @@ public class SimPinHelper {
         xUnlockPinHelper.setOnUnlockPinSuccessListener(() -> {
             // 2.再改变PIN码状态
             ChangePinStateHelper xChangePinStateHelper = new ChangePinStateHelper();
-            xChangePinStateHelper.setOnChangePinStateSuccessListener(() -> pinDisableNext(null));
+            xChangePinStateHelper.setOnChangePinStateSuccessListener(() -> pinDisableNext());
             xChangePinStateHelper.setOnChangePinStateFailedListener(() -> toast(R.string.setting_failed));
             xChangePinStateHelper.changePinState(pincode, ChangePinStateParam.CONS_DISABLED_PIN);
         });
@@ -86,7 +85,7 @@ public class SimPinHelper {
         xUnlockPinHelper.setOnUnlockPinSuccessListener(() -> {
             // 2.再改变PIN码状态
             ChangePinStateHelper xChangePinStateHelper = new ChangePinStateHelper();
-            xChangePinStateHelper.setOnChangePinStateSuccessListener(() -> pinEnableNext(null));
+            xChangePinStateHelper.setOnChangePinStateSuccessListener(() -> pinEnableNext());
             xChangePinStateHelper.setOnChangePinStateFailedListener(() -> toast(R.string.setting_failed));
             xChangePinStateHelper.changePinState(pincode, ChangePinStateParam.CONS_ENABLED_PIN);
         });
@@ -126,7 +125,7 @@ public class SimPinHelper {
      */
     private void enablePin(GetSimStatusBean attr, String pincode) {
         ChangePinStateHelper xChangePinStateHelper = new ChangePinStateHelper();
-        xChangePinStateHelper.setOnChangePinStateSuccessListener(() -> pinEnableNext(null));
+        xChangePinStateHelper.setOnChangePinStateSuccessListener(() -> pinEnableNext());
         xChangePinStateHelper.setOnChangePinStateFailedListener(() -> toast(R.string.setting_failed));
         xChangePinStateHelper.changePinState(pincode, ChangePinStateParam.CONS_ENABLED_PIN);
     }
@@ -156,7 +155,7 @@ public class SimPinHelper {
 
     // 接口OnPinDisableListener
     public interface OnPinDisableListener {
-        void pinDisable(SimStatus attr);
+        void pinDisable();
     }
 
     // 对外方式setOnPinDisableListener
@@ -165,9 +164,9 @@ public class SimPinHelper {
     }
 
     // 封装方法pinDisableNext
-    private void pinDisableNext(SimStatus attr) {
+    private void pinDisableNext() {
         if (onPinDisableListener != null) {
-            onPinDisableListener.pinDisable(attr);
+            onPinDisableListener.pinDisable();
         }
     }
 
@@ -175,7 +174,7 @@ public class SimPinHelper {
 
     // 接口OnPinEnableListener
     public interface OnPinEnableListener {
-        void pinEnable(SimStatus attr);
+        void pinEnable();
     }
 
     // 对外方式setOnPinEnableListener
@@ -184,9 +183,9 @@ public class SimPinHelper {
     }
 
     // 封装方法pinEnableNext
-    private void pinEnableNext(SimStatus attr) {
+    private void pinEnableNext() {
         if (onPinEnableListener != null) {
-            onPinEnableListener.pinEnable(attr);
+            onPinEnableListener.pinEnable();
         }
     }
 

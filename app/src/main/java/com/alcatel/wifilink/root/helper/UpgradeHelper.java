@@ -8,7 +8,6 @@ import android.os.Handler;
 import android.view.View;
 
 import com.alcatel.wifilink.R;
-import com.alcatel.wifilink.root.bean.Update_DeviceNewVersion;
 import com.alcatel.wifilink.root.utils.OtherUtils;
 import com.alcatel.wifilink.root.utils.ScreenSize;
 import com.alcatel.wifilink.root.utils.ToastUtil_m;
@@ -270,25 +269,6 @@ public class UpgradeHelper {
         if (ctv != null) {
             ctv.setCount(180);// 停止倒数
             ctv.pause();
-        }
-    }
-
-    private OnNormalGetNewVersionDoListener onNormalGetNewVersionDoListener;
-
-    // 接口OnNormalGetNewVersionDoListener
-    public interface OnNormalGetNewVersionDoListener {
-        void normalGetNewVersionDo(Update_DeviceNewVersion attr);
-    }
-
-    // 对外方式setOnNormalGetNewVersionDoListener
-    public void setOnNormalGetNewVersionDoListener(OnNormalGetNewVersionDoListener onNormalGetNewVersionDoListener) {
-        this.onNormalGetNewVersionDoListener = onNormalGetNewVersionDoListener;
-    }
-
-    // 封装方法normalGetNewVersionDoNext
-    private void normalGetNewVersionDoNext(Update_DeviceNewVersion attr) {
-        if (onNormalGetNewVersionDoListener != null) {
-            onNormalGetNewVersionDoListener.normalGetNewVersionDo(attr);
         }
     }
 
