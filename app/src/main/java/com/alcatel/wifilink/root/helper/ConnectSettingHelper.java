@@ -1,11 +1,11 @@
 package com.alcatel.wifilink.root.helper;
 
 import android.app.Activity;
-import android.util.Log;
 
 import com.alcatel.wifilink.R;
 import com.alcatel.wifilink.root.utils.CA;
 import com.alcatel.wifilink.root.utils.ToastUtil_m;
+import com.hiber.hiber.RootMAActivity;
 import com.p_xhelper_smart.p_xhelper_smart.bean.GetConnectionSettingsBean;
 import com.p_xhelper_smart.p_xhelper_smart.helper.ConnectHelper;
 import com.p_xhelper_smart.p_xhelper_smart.helper.DisConnectHelper;
@@ -407,21 +407,17 @@ public class ConnectSettingHelper {
     /**
      * 连接
      */
-    public static void toConnect(Activity activity) {
-        Log.v("ma_clickConn", "begin");
-
+    public static void toConnect(RootMAActivity activity) {
         GetConnectionStateHelper xGetConnectionStateHelper = new GetConnectionStateHelper();
         xGetConnectionStateHelper.setOnDisconnectedListener(() -> {
-
             ConnectHelper xConnectHelper = new ConnectHelper();
-            xConnectHelper.setOnConnectFailedListener(() -> ToastUtil_m.showLong(activity, activity.getString(R.string.usage_limit_over_notification_content)));
+            xConnectHelper.setOnConnectFailedListener(() -> activity.toast(R.string.usage_limit_over_notification_content, 5000));
             xConnectHelper.connect();
 
         });
         xGetConnectionStateHelper.setOnDisConnectingListener(() -> {
-
             ConnectHelper xConnectHelper = new ConnectHelper();
-            xConnectHelper.setOnConnectFailedListener(() -> ToastUtil_m.showLong(activity, activity.getString(R.string.usage_limit_over_notification_content)));
+            xConnectHelper.setOnConnectFailedListener(() -> activity.toast(R.string.usage_limit_over_notification_content, 5000));
             xConnectHelper.connect();
 
         });

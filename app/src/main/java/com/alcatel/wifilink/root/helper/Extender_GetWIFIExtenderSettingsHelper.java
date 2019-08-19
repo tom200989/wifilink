@@ -4,7 +4,6 @@ import com.alcatel.wifilink.root.bean.Extender_GetWIFIExtenderCurrentStatusResul
 import com.alcatel.wifilink.root.bean.Extender_GetWIFIExtenderSettingsResult;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetWIFIExtenderCurrentStatusHelper;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetWIFIExtenderSettingsHelper;
-import com.p_xhelper_smart.p_xhelper_smart.impl.FwError;
 
 /**
  * Created by qianli.ma on 2018/5/23 0023.
@@ -41,10 +40,7 @@ public class Extender_GetWIFIExtenderSettingsHelper {
                     break;
             }
         });
-        xGetWIFIExtenderSettingsHelper.setGetWifiExtenderSettingsFailListener(() -> {
-            failedNext(null);
-            resultErrorNext(null);
-        });
+        xGetWIFIExtenderSettingsHelper.setGetWifiExtenderSettingsFailListener(this::getExtenderFailedNext);
         xGetWIFIExtenderSettingsHelper.getWIFIExtenderSettings();
     }
 
@@ -182,44 +178,6 @@ public class Extender_GetWIFIExtenderSettingsHelper {
         }
     }
 
-    private OnResultErrorListener onResultErrorListener;
-
-    // 接口OnResultErrorListener
-    public interface OnResultErrorListener {
-        void resultError(FwError resultError);
-    }
-
-    // 对外方式setOnResultErrorListener
-    public void setOnResultErrorListener(OnResultErrorListener onResultErrorListener) {
-        this.onResultErrorListener = onResultErrorListener;
-    }
-
-    // 封装方法resultErrorNext
-    private void resultErrorNext(FwError resultError) {
-        if (onResultErrorListener != null) {
-            onResultErrorListener.resultError(resultError);
-        }
-    }
-
-    private OnFailedListener onFailedListener;
-
-    // 接口OnFailedListener
-    public interface OnFailedListener {
-        void failed(Object attr);
-    }
-
-    // 对外方式setOnFailedListener
-    public void setOnFailedListener(OnFailedListener onFailedListener) {
-        this.onFailedListener = onFailedListener;
-    }
-
-    // 封装方法failedNext
-    private void failedNext(Object attr) {
-        if (onFailedListener != null) {
-            onFailedListener.failed(attr);
-        }
-    }
-
     private OnSuccessListener onSuccessListener;
 
     // 接口OnSuccessListener
@@ -236,6 +194,25 @@ public class Extender_GetWIFIExtenderSettingsHelper {
     private void successNext(Extender_GetWIFIExtenderSettingsResult result) {
         if (onSuccessListener != null) {
             onSuccessListener.success(result);
+        }
+    }
+
+    private OnGetExtenderFailedListener onGetExtenderFailedListener;
+
+    // Inteerface--> 接口OnGetExtenderFailedListener
+    public interface OnGetExtenderFailedListener {
+        void getExtenderFailed();
+    }
+
+    // 对外方式setOnGetExtenderFailedListener
+    public void setOnGetExtenderFailedListener(OnGetExtenderFailedListener onGetExtenderFailedListener) {
+        this.onGetExtenderFailedListener = onGetExtenderFailedListener;
+    }
+
+    // 封装方法getExtenderFailedNext
+    private void getExtenderFailedNext() {
+        if (onGetExtenderFailedListener != null) {
+            onGetExtenderFailedListener.getExtenderFailed();
         }
     }
 }

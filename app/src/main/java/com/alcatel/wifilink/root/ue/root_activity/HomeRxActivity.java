@@ -289,6 +289,7 @@ public class HomeRxActivity extends BaseActivityWithBack {
         EventBus.getDefault().unregister(this);
     }
 
+    // TOGO 2019/8/19 0019 
     /**
      * 启动心跳定时器
      */
@@ -296,6 +297,7 @@ public class HomeRxActivity extends BaseActivityWithBack {
         heartTimer = OtherUtils.startHeartBeat(this, RefreshWifiRxActivity.class, LoginRxActivity.class);
     }
 
+    // TOGO 2019/8/19 0019 
     /**
      * 启动检测当前UI定时器
      */
@@ -310,6 +312,7 @@ public class HomeRxActivity extends BaseActivityWithBack {
         OtherUtils.timerList.add(curActTimer);
     }
 
+    // TOGO 2019/8/19 0019 
     /**
      * 启动自动计时定时器
      */
@@ -326,6 +329,7 @@ public class HomeRxActivity extends BaseActivityWithBack {
         OtherUtils.homeTimerList.add(autoLogoutTimer);
     }
 
+    // TOGO 2019/8/19 0019 
     /**
      * 启动后台服务,检测APP是否处于前台进程
      */
@@ -381,6 +385,7 @@ public class HomeRxActivity extends BaseActivityWithBack {
         tvSmsDot.setVisibility(isDotShow ? View.VISIBLE : View.GONE);
     }
 
+    // TOGO 2019/8/19 0019 
     @OnClick({R.id.iv_homeRx_back,// 点击回退(用于PIN|PUK界面)
             R.id.tv_homeRx_logout,// 点击退出
             R.id.iv_homeRx_smsNew,// 新建短信
@@ -419,7 +424,7 @@ public class HomeRxActivity extends BaseActivityWithBack {
         }
     }
 
-
+    // TOGO 2019/8/19 0019 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void receiverFreesharingAAR(InteractiveRequestBean requestBean) {
         if (requestBean.getRecevie() == InteractiveRequestBean.REQ) {
@@ -427,6 +432,7 @@ public class HomeRxActivity extends BaseActivityWithBack {
         }
     }
 
+    // TOGO 2019/8/19 0019 
     private void getDevicesList() {
         if (BaseActivityWithBack.isFreeSharingLock) {
             synchronized (BaseActivityWithBack.class) {
@@ -463,6 +469,7 @@ public class HomeRxActivity extends BaseActivityWithBack {
         }
     }
 
+    // TOGO 2019/8/19 0019 
     /**
      * 将本地的connectlist转换成aar接收的bean
      */
@@ -490,6 +497,7 @@ public class HomeRxActivity extends BaseActivityWithBack {
         return aarConnectList;
     }
 
+    // TOGO 2019/8/19 0019 
     /**
      * 点击了SMS TAB的逻辑
      */
@@ -500,6 +508,7 @@ public class HomeRxActivity extends BaseActivityWithBack {
         boardSimHelper.boardNormal();
     }
 
+    // TOGO 2019/8/19 0019 
     /**
      * 切换底部导航栏+fragment
      *
@@ -518,6 +527,7 @@ public class HomeRxActivity extends BaseActivityWithBack {
         transferUi(tabFlag);
     }
 
+    // TOGO 2019/8/19 0019 
     /**
      * 切换其他UI
      *
@@ -545,14 +555,15 @@ public class HomeRxActivity extends BaseActivityWithBack {
         }
     }
 
+    // TOGO 2019/8/19 0019 
     public void toast(int resId) {
         ToastUtil_m.show(this, resId);
     }
-
+    // TOGO 2019/8/19 0019 
     public void toast(String content) {
         ToastUtil_m.show(this, content);
     }
-
+    // TOGO 2019/8/19 0019 
     public void to(Class ac, boolean isFinish) {
         CA.toActivity(this, ac, false, isFinish, false, 0);
     }

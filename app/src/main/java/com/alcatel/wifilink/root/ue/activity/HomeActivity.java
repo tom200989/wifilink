@@ -6,6 +6,7 @@ import com.alcatel.wifilink.BuildConfig;
 import com.alcatel.wifilink.R;
 import com.alcatel.wifilink.root.helper.GetSMSUnreadHelper;
 import com.alcatel.wifilink.root.helper.TimerHelper;
+import com.alcatel.wifilink.root.ue.frag.InternetStatusFrag;
 import com.alcatel.wifilink.root.ue.frag.SettingFrag;
 import com.alcatel.wifilink.root.ue.frag.SmsFrag;
 import com.alcatel.wifilink.root.ue.frag.WifiFrag;
@@ -14,7 +15,9 @@ import com.alcatel.wifilink.root.widget.HH70_HomeTabWidget;
 import com.hiber.bean.RootProperty;
 import com.hiber.hiber.RootMAActivity;
 import com.p_xhelper_smart.p_xhelper_smart.bean.GetLoginStateBean;
+import com.p_xhelper_smart.p_xhelper_smart.bean.GetSimStatusBean;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetLoginStateHelper;
+import com.p_xhelper_smart.p_xhelper_smart.helper.GetSimStatusHelper;
 import com.p_xhelper_smart.p_xhelper_smart.helper.HeartBeatHelper;
 
 import java.lang.reflect.Field;
@@ -28,10 +31,10 @@ public class HomeActivity extends RootMAActivity {
             WifiFrag.class, // WIFI
             SmsFrag.class, // SMS
             SettingFrag.class, // 设置
+            InternetStatusFrag.class, // 网络连接状态页
     };
 
     private HH70_HomeTabWidget wdTab;
-    private GetSMSUnreadHelper unreadHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,13 +72,41 @@ public class HomeActivity extends RootMAActivity {
                     toFrag(getClass(), WifiFrag.class, null, false, 0);
                     break;
                 case 2:// SMS
-                    toFrag(getClass(), SmsFrag.class, null, false, 0);
+                    checkSIMCard();
                     break;
                 case 3:// SETTING
                     toFrag(getClass(), SettingFrag.class, null, false, 0);
                     break;
             }
         });
+    }
+
+    /**
+     * 检查SIM状态
+     */
+    private void checkSIMCard() {
+        GetLoginStateHelper xGetLoginStateHelper = new GetLoginStateHelper();
+        xGetLoginStateHelper.setOnGetLoginStateSuccessListener(getLoginStateBean -> {
+            if (getLoginStateBean.getState() == GetLoginStateBean.CONS_LOGIN) {
+                GetSimStatusHelper xGetSimStatusHelper = new GetSimStatusHelper();
+                xGetSimStatusHelper.setOnGetSimStatusSuccessListener(getSimStatusBean -> {
+                    switch (getSimStatusBean.getSIMState()) {
+                        case GetSimStatusBean.CONS_SIM_CARD_READY:
+                            toFrag(getClass(), SmsFrag.class, null, false, 0);
+                            break;
+                        case GetSimStatusBean.CONS_NOWN:
+                            toast(R.string.not_inserted, 5000);
+                            break;
+                    }
+                });
+                xGetSimStatusHelper.setOnGetSimStatusFailedListener(() -> toast(R.string.check_sim_normal_or_no_cost, 5000));
+                xGetSimStatusHelper.getSimStatus();
+            } else {
+                toast(R.string.login_failed, 5000);
+            }
+        });
+        xGetLoginStateHelper.setOnGetLoginStateFailedListener(() -> toast(R.string.check_sim_normal_or_no_cost, 5000));
+        xGetLoginStateHelper.getLoginState();
     }
 
     @Override
@@ -137,7 +168,7 @@ public class HomeActivity extends RootMAActivity {
      * 获取短信未读数
      */
     private void getSMSUnread() {
-        unreadHelper = new GetSMSUnreadHelper();
+        GetSMSUnreadHelper unreadHelper = new GetSMSUnreadHelper();
         unreadHelper.setOnGetSMSUnreadSuccessListener(count -> wdTab.setSMSDot(count > 0));
         unreadHelper.setOnGetSMSUnreadFailedListener(() -> wdTab.setSMSDot(false));
         unreadHelper.getSMSUnread();

@@ -63,6 +63,8 @@ import butterknife.Unbinder;
  * Created by qianli.ma on 2017/11/21 0021.
  */
 
+// TOGO 2019/8/19 0019 mainFrag
+@Deprecated
 public class mainRxFragment extends Fragment implements FragmentBackHandler {
 
     Unbinder unbinder1;
@@ -122,7 +124,7 @@ public class mainRxFragment extends Fragment implements FragmentBackHandler {
     MainMW70BatteryView rlMainrxMw70BatteryExtender;// MW70新型设备需要显示的电池面板
 
     @BindView(R.id.dg_mainrx_widget_ok)
-    NormalWidget dgMainrxWidgetOk;// 确定取消面板
+    NormalWidget wdOK;// 确定取消面板
 
     private View inflate;
     private String BLANK_TEXT = " ";
@@ -215,6 +217,7 @@ public class mainRxFragment extends Fragment implements FragmentBackHandler {
 
     }
 
+    // TOGO 2019/8/19 0019 
     /**
      * 全局等待
      */
@@ -226,6 +229,7 @@ public class mainRxFragment extends Fragment implements FragmentBackHandler {
         }
     }
 
+    // TOGO 2019/8/19 0019 
     private void initHelper() {
         wanHelper = new BoardWanHelper(getActivity());
         wanHelperClick = new BoardWanHelper(getActivity());
@@ -237,28 +241,27 @@ public class mainRxFragment extends Fragment implements FragmentBackHandler {
         xGetSystemInfoHelper = new GetSystemInfoHelper();
         extenderHelper = new Extender_GetWIFIExtenderSettingsHelper();
 
-        // 定时检测是否为MW120新型设备
+        // togo 定时检测是否为MW120新型设备
         xGetSystemInfoHelper.setOnFwErrorListener(() -> getSystemInfoError());/* 1.1.发生错误先走wan口 */
         xGetSystemInfoHelper.setOnAppErrorListener(() -> getSystemInfoError());/* 1.1.发生错误先走wan口 */
         xGetSystemInfoHelper.setOnGetSystemInfoSuccessListener(this::judgeDevices);/* 1.1.否则判断设备类型 */
 
-        // 定时检测wifi extender是否有开启
-        extenderHelper.setOnResultErrorListener(resultError -> setMainMW120NetworkAndBatteryUi(false));
-        extenderHelper.setOnFailedListener(attr -> setMainMW120NetworkAndBatteryUi(false));
-        extenderHelper.setOnstateEnableOffListener(stateEnable -> setMainMW120NetworkAndBatteryUi(false));
+        // togo 定时检测wifi extender是否有开启
+        extenderHelper.setOnGetExtenderFailedListener(() -> setMainMW120NetworkAndBatteryUi(false));
+        extenderHelper.setOnstateEnableOffListener(stateEnable -> setMainMW120NetworkAndBatteryUi(stateEnable == 1));
         extenderHelper.setOnCurrentHotpotListener(this::showExtenderStrength);
 
-        // 定时获取电池状态以及信号强度等状态
+        // togo 定时获取电池状态以及信号强度等状态
         xGetSystemStatusHelper = new GetSystemStatusHelper();
-        xGetSystemStatusHelper.setOnGetSystemStatusSuccessListener(getSystemStatusBean -> showBatteryAndSignalUi(getSystemStatusBean));
+        xGetSystemStatusHelper.setOnGetSystemStatusSuccessListener(this::showBatteryAndSignalUi);
         xGetSystemStatusHelper.setOnGetSystemStatusFailedListener(() -> showBatteryAndSignalUi(null));
 
-        // 应俄罗斯要求, 先判断当前currentconnection状态, 取消wan口优先原则
+        // togo 应俄罗斯要求, 先判断当前currentconnection状态, 取消wan口优先原则
         xsystemStatuHelper_for_russia = new GetSystemStatusHelper();
         xsystemStatuHelper_for_russia.setOnGetSystemStatusFailedListener(() -> currentConnection = 0);// 出错--> 无网络
         xsystemStatuHelper_for_russia.setOnGetSystemStatusSuccessListener(getSystemStatusBean -> currentConnection = getSystemStatusBean.getCurrentConnection());
 
-        // 定时获取WAN口状态
+        // togo 定时获取WAN口状态
         wanHelper.setOnResultError(error -> getSim());// 出错
         wanHelper.setOnError(e -> getSim());// 出错
         // wanHelper.setOnConnetedNextListener(wanResult -> getDevicesType());// 显示wan
@@ -267,7 +270,7 @@ public class mainRxFragment extends Fragment implements FragmentBackHandler {
         wanHelper.setOnDisConnetedNextListener(wanResult -> getSim());// 获取sim
         wanHelper.setOnDisconnetingNextListener(wanResult -> getSim());// 获取sim
 
-        // 定时获取sim状态
+        // togo 定时获取sim状态 
         simHelper.setOnNownListener(simStatus -> simNotReady());
         simHelper.setOnSimReadyListener(result -> simReady());
         simHelper.setOnSimLockListener(simStatus -> pinPukSimLock());
@@ -280,7 +283,7 @@ public class mainRxFragment extends Fragment implements FragmentBackHandler {
         simHelper.setOnRollRequestOnError(e -> simNotReady());
         simHelper.setOnRollRequestOnResultError(error -> simNotReady());
 
-        // 定时获取连接状态
+        // togo 定时获取连接状态
         xGetConnectionStateHelper.setOnGetConnectionStateFailedListener(() -> buttonUi(SIM_DISCONNECT_MODE));
         xGetConnectionStateHelper.setOnDisConnectingListener(() -> buttonUi(SIM_DISCONNECT_MODE));
         xGetConnectionStateHelper.setOnDisconnectedListener(() -> buttonUi(SIM_DISCONNECT_MODE));
@@ -289,7 +292,7 @@ public class mainRxFragment extends Fragment implements FragmentBackHandler {
         xGetConnectionStateHelper.getConnectionState();
     }
 
-
+    // TOGO 2019/8/19 0019 
     /**
      * 设置wifi extender开启与关闭情况下的network显示以及电池、信号面板的显示
      *
@@ -308,6 +311,7 @@ public class mainRxFragment extends Fragment implements FragmentBackHandler {
         btMainrxExtender.setVisibility(isExtenderOn ? View.VISIBLE : View.GONE);
     }
 
+    // TOGO 2019/8/19 0019 
     /**
      * 显示extender强度以及SSID
      *
@@ -325,6 +329,8 @@ public class mainRxFragment extends Fragment implements FragmentBackHandler {
             rlMainrxMw70BatteryExtender.setWifiName(ssid);// SSID
         }
     }
+
+    // TOGO 2019/8/19 0019 
 
     /**
      * 判断新型设备
@@ -348,6 +354,7 @@ public class mainRxFragment extends Fragment implements FragmentBackHandler {
 
     }
 
+    // TOGO 2019/8/19 0019 
     /**
      * 获取system status来查看电池信息
      */
@@ -355,6 +362,7 @@ public class mainRxFragment extends Fragment implements FragmentBackHandler {
         xGetSystemStatusHelper.getSystemStatus();
     }
 
+    // TOGO 2019/8/19 0019 
     /**
      * 显示电池电量以及进度
      *
@@ -374,6 +382,8 @@ public class mainRxFragment extends Fragment implements FragmentBackHandler {
         }
     }
 
+    // TOGO 2019/8/19 0019 
+
     /**
      * 获取system info失败时候的操作
      */
@@ -381,6 +391,8 @@ public class mainRxFragment extends Fragment implements FragmentBackHandler {
         getWan();
         ShowMW120Ui(false);
     }
+
+    // TOGO 2019/8/19 0019 
 
     /**
      * 显示MW120的相关面板UI
@@ -396,7 +408,7 @@ public class mainRxFragment extends Fragment implements FragmentBackHandler {
         }
     }
 
-
+    // TOGO 2019/8/19 0019 
     @Override
     public void onHiddenChanged(boolean hidden) {
         if (hidden) {
@@ -409,6 +421,7 @@ public class mainRxFragment extends Fragment implements FragmentBackHandler {
         }
     }
 
+    // TOGO 2019/8/19 0019 
     private void resetUi() {
         if (activity == null) {
             activity = (HomeRxActivity) getActivity();
@@ -418,7 +431,7 @@ public class mainRxFragment extends Fragment implements FragmentBackHandler {
         activity.rlBanner.setVisibility(View.GONE);
     }
 
-
+    // TOGO 2019/8/19 0019 
     private void initRes() {
         mb_unit = getString(R.string.mb_text);
         gb_unit = getString(R.string.gb_text);
@@ -449,6 +462,7 @@ public class mainRxFragment extends Fragment implements FragmentBackHandler {
         buttonsView = new View[]{btWanConnect, btSimUnConnected, rlSimConnected, btSimLocked, btSimNown};
     }
 
+    // TOGO 2019/8/19 0019 
     private void initView() {
         // 按钮波浪
         // waveButton = new WaveHelper(btSimConnected);
@@ -463,6 +477,7 @@ public class mainRxFragment extends Fragment implements FragmentBackHandler {
         btSimConnected.setHeightRatio(0.3f);
     }
 
+    // TOGO 2019/8/19 0019 
     /**
      * 启动定时器
      */
@@ -478,6 +493,7 @@ public class mainRxFragment extends Fragment implements FragmentBackHandler {
         OtherUtils.timerList.add(timer);
     }
 
+    // TOGO 2019/8/19 0019 
     /**
      * 停止定时器
      */
@@ -504,6 +520,7 @@ public class mainRxFragment extends Fragment implements FragmentBackHandler {
         extenderHelper.get();
     }
 
+    // TOGO 2019/8/19 0019 getwanstatus
 
     /**
      * 先获取WAN口状态
@@ -513,6 +530,7 @@ public class mainRxFragment extends Fragment implements FragmentBackHandler {
         wanHelper.boardTimer();
     }
 
+    // TOGO 2019/8/19 0019 
     /**
      * 显示wan口模式视图
      */
@@ -528,6 +546,7 @@ public class mainRxFragment extends Fragment implements FragmentBackHandler {
         getDevice();
     }
 
+    // TOGO 2019/8/19 0019 
     /**
      * 获取sim卡状态
      */
@@ -535,6 +554,7 @@ public class mainRxFragment extends Fragment implements FragmentBackHandler {
         simHelper.boardTimer();
     }
 
+    // TOGO 2019/8/19 0019 simnotready
     /**
      * SIM卡没有插入时显示
      */
@@ -549,6 +569,7 @@ public class mainRxFragment extends Fragment implements FragmentBackHandler {
         getDevice();
     }
 
+    // TOGO 2019/8/19 0019 
     /**
      * sim卡被锁定
      */
@@ -562,6 +583,8 @@ public class mainRxFragment extends Fragment implements FragmentBackHandler {
         // 3.获取设备数
         getDevice();
     }
+
+    // TOGO 2019/8/19 0019 
 
     /**
      * SIM卡已准备
@@ -578,6 +601,8 @@ public class mainRxFragment extends Fragment implements FragmentBackHandler {
         getUsage();
     }
 
+    // TOGO 2019/8/19 0019 
+
     /**
      * SIM卡未连接(但已经解锁)
      */
@@ -592,7 +617,10 @@ public class mainRxFragment extends Fragment implements FragmentBackHandler {
         getDevice();
     }
 
+    // TOGO 2019/8/19 0019 
     int temp = 0;
+
+    // TOGO 2019/8/19 0019 
 
     /**
      * 获取流量
@@ -653,6 +681,7 @@ public class mainRxFragment extends Fragment implements FragmentBackHandler {
         getUsageSettingsHelper.getUsageSetting();
     }
 
+    // TOGO 2019/8/19 0019 
     private void usageError() {
         if (tvUsedUnit != null) {
             tvUsedUnit.setText(mb_unit);
@@ -664,6 +693,8 @@ public class mainRxFragment extends Fragment implements FragmentBackHandler {
             tvUsedTotal.setText(getString(R.string.used_of) + " -");
         }
     }
+
+    // TOGO 2019/8/19 0019 
 
     /**
      * 获取注册状态
@@ -710,6 +741,8 @@ public class mainRxFragment extends Fragment implements FragmentBackHandler {
         networkHelper.get();
     }
 
+    // TOGO 2019/8/19 0019 
+
     /**
      * 获取连接设备数
      */
@@ -729,6 +762,8 @@ public class mainRxFragment extends Fragment implements FragmentBackHandler {
         xGetConnectedDeviceListHelper.getConnectDeviceList();
     }
 
+    // TOGO 2019/8/19 0019 
+
     /**
      * 状态错误 | 状态不良 使用此UI
      */
@@ -742,7 +777,7 @@ public class mainRxFragment extends Fragment implements FragmentBackHandler {
         }
     }
 
-
+    // TOGO 2019/8/19 0019 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
@@ -751,6 +786,7 @@ public class mainRxFragment extends Fragment implements FragmentBackHandler {
         dialogDismiss();
     }
 
+    // TOGO 2019/8/19 0019 
     @OnClick({R.id.bt_mainrx_simLocked,// sim卡锁定
             R.id.bt_mainrx_wanConnect,// wan口连接
             R.id.bt_mainrx_simUnConnected,// sim未连接
@@ -789,6 +825,7 @@ public class mainRxFragment extends Fragment implements FragmentBackHandler {
         }
     }
 
+    // TOGO 2019/8/19 0019 
     /**
      * extender状态下的点击--> 跳转到extender
      */
@@ -796,6 +833,7 @@ public class mainRxFragment extends Fragment implements FragmentBackHandler {
         activity.fraHelpers.transfer(fragmentClazz[Cons.TAB_WIFI_EXTENDER]);
     }
 
+    // TOGO 2019/8/19 0019 
     /**
      * SIM卡被锁定时点击了该按钮
      */
@@ -805,10 +843,11 @@ public class mainRxFragment extends Fragment implements FragmentBackHandler {
         simHelper_simLocked.setOnPinRequireListener(result -> showPinDialog());// PIN
         simHelper_simLocked.setOnpukRequireListener(result -> showPukDialog());// PUK
         simHelper_simLocked.setOnpukTimeoutListener(result -> showPukTimeoutTip());// PUK
-        simHelper_simLocked.setOnSimReadyListener(result -> ConnectSettingHelper.toConnect(getActivity()));// to connect
+        simHelper_simLocked.setOnSimReadyListener(result -> ConnectSettingHelper.toConnect(null));// to connect
         simHelper_simLocked.boardNormal();
     }
 
+    // TOGO 2019/8/19 0019 
     /**
      * WAN口连接后点击了该按钮
      */
@@ -822,6 +861,7 @@ public class mainRxFragment extends Fragment implements FragmentBackHandler {
         wanHelperClick.boardNormal();
     }
 
+    // TOGO 2019/8/19 0019 
     /**
      * SIM卡连接后点击了该按钮
      */
@@ -838,6 +878,7 @@ public class mainRxFragment extends Fragment implements FragmentBackHandler {
         simHelper_simConnect.boardNormal();
     }
 
+    // TOGO 2019/8/19 0019 
     /**
      * SIM卡未连接时,点击了该按钮的操作
      */
@@ -856,7 +897,7 @@ public class mainRxFragment extends Fragment implements FragmentBackHandler {
                 if (usedData >= monthlyPlan && monthlyPlan != 0) {// 超出--> 提示
                     toast(R.string.home_usage_over_redial_message);
                 } else {// 未超出--> 连接
-                    ConnectSettingHelper.toConnect(getActivity());
+                    ConnectSettingHelper.toConnect(null);
                 }
             });
             getUsageSettingsHelper.setOnGetUsageSettingsFailedListener(() -> toast(R.string.connect_failed));
@@ -866,6 +907,7 @@ public class mainRxFragment extends Fragment implements FragmentBackHandler {
         simHelper_simNotConnect.boardNormal();
     }
 
+    // TOGO 2019/8/19 0019 
     /**
      * 提示PUK码次数超出限制
      */
@@ -873,48 +915,54 @@ public class mainRxFragment extends Fragment implements FragmentBackHandler {
         toastLong(R.string.puk_alarm_des1);
     }
 
+    // TOGO 2019/8/19 0019 
     /**
      * 显示PUK码对话框
      */
     private void showPukDialog() {
-        dgMainrxWidgetOk.setVisibility(View.VISIBLE);
-        dgMainrxWidgetOk.setTitle(unlockSim_title);
-        dgMainrxWidgetOk.setDes(unlockSim_content);
-        dgMainrxWidgetOk.setOnBgClickListener(() -> Lgg.t("mainrx").ii("click not area"));
-        dgMainrxWidgetOk.setOnCancelClickListener(() -> dgMainrxWidgetOk.setVisibility(View.GONE));
-        dgMainrxWidgetOk.setOnOkClickListener(this::toPukFragment);
+        wdOK.setVisibility(View.VISIBLE);
+        wdOK.setTitle(unlockSim_title);
+        wdOK.setDes(unlockSim_content);
+        wdOK.setOnBgClickListener(() -> Lgg.t("mainrx").ii("click not area"));
+        wdOK.setOnCancelClickListener(() -> wdOK.setVisibility(View.GONE));
+        wdOK.setOnOkClickListener(this::toPukFragment);
     }
 
+    // TOGO 2019/8/19 0019 
     /**
      * 前往PUK界面
      */
     private void toPukFragment() {
-        dgMainrxWidgetOk.setVisibility(View.GONE);
+        wdOK.setVisibility(View.GONE);
         // 提交当前fragment标记以作为"上一次"跳转标记
         SP.getInstance(getActivity()).putInt(Cons.TAB_FRA, Cons.TAB_MAIN);
         changeFragment(fragmentClazz[5], Cons.TAB_PUK);
     }
 
+    // TOGO 2019/8/19 0019 
     /**
      * 显示PIN码对话框
      */
     private void showPinDialog() {
-        dgMainrxWidgetOk.setVisibility(View.VISIBLE);
-        dgMainrxWidgetOk.setTitle(unlockSim_title);
-        dgMainrxWidgetOk.setDes(unlockSim_content);
-        dgMainrxWidgetOk.setOnBgClickListener(() -> Lgg.t("mainrx").ii("click not area"));
-        dgMainrxWidgetOk.setOnCancelClickListener(() -> dgMainrxWidgetOk.setVisibility(View.GONE));
-        dgMainrxWidgetOk.setOnOkClickListener(this::toPinFragment);
+        wdOK.setVisibility(View.VISIBLE);
+        wdOK.setTitle(unlockSim_title);
+        wdOK.setDes(unlockSim_content);
+        wdOK.setOnBgClickListener(() -> Lgg.t("mainrx").ii("click not area"));
+        wdOK.setOnCancelClickListener(() -> wdOK.setVisibility(View.GONE));
+        wdOK.setOnOkClickListener(this::toPinFragment);
     }
 
+    // TOGO 2019/8/19 0019 
     /**
      * 前往PIN界面
      */
     private void toPinFragment() {
-        dgMainrxWidgetOk.setVisibility(View.GONE);
+        wdOK.setVisibility(View.GONE);
         SP.getInstance(getActivity()).putInt(Cons.TAB_FRA, Cons.TAB_MAIN);
         changeFragment(fragmentClazz[Cons.TAB_PIN], Cons.TAB_PIN);
     }
+
+    // TOGO 2019/8/19 0019 
 
     /**
      * 切换按钮视图
@@ -927,6 +975,7 @@ public class mainRxFragment extends Fragment implements FragmentBackHandler {
         }
     }
 
+    // TOGO 2019/8/19 0019 
     /**
      * 切换fragment
      *
@@ -936,35 +985,41 @@ public class mainRxFragment extends Fragment implements FragmentBackHandler {
         activity.transferUi(flag);
     }
 
+    // TOGO 2019/8/19 0019 
     /**
      * 对话框隐藏
      */
     private void dialogDismiss() {
-        if (dgMainrxWidgetOk != null) {
-            dgMainrxWidgetOk.setVisibility(View.GONE);
+        if (wdOK != null) {
+            wdOK.setVisibility(View.GONE);
         }
     }
 
+    // TOGO 2019/8/19 0019 
     public void toast(int resId) {
         ToastUtil_m.show(getActivity(), resId);
     }
 
+    // TOGO 2019/8/19 0019 
     public void toastLong(int resId) {
         ToastUtil_m.showLong(getActivity(), resId);
     }
 
+    // TOGO 2019/8/19 0019 
     public void toast(String content) {
         ToastUtil_m.show(getActivity(), content);
     }
 
+    // TOGO 2019/8/19 0019 
     public void to(Class ac, boolean isFinish) {
         CA.toActivity(getActivity(), ac, false, isFinish, false, 0);
     }
 
+    // TOGO 2019/8/19 0019 
     @Override
     public boolean onBackPressed() {
-        if (dgMainrxWidgetOk.getVisibility() == View.VISIBLE) {
-            dgMainrxWidgetOk.setVisibility(View.GONE);
+        if (wdOK.getVisibility() == View.VISIBLE) {
+            wdOK.setVisibility(View.GONE);
             return true;
         }
         return false;

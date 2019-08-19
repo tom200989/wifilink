@@ -52,7 +52,6 @@ public abstract class NetworkInfoHelper {
      * 获取network对象
      */
     public void get() {
-
         GetNetworkRegisterStateHelper xGetNetworkRegisterStateHelper = new GetNetworkRegisterStateHelper();
         xGetNetworkRegisterStateHelper.setOnRegisterSuccessListener(this::getNetworkInfo);
         xGetNetworkRegisterStateHelper.setOnNotRegisterListener(this::noRegister);
@@ -65,7 +64,6 @@ public abstract class NetworkInfoHelper {
      * 获取network信息
      */
     private void getNetworkInfo() {
-
         GetNetworkInfoHelper xGetNetworkInfoHelper = new GetNetworkInfoHelper();
         xGetNetworkInfoHelper.setOnGetNetworkInfoSuccessListener(this::register);
         xGetNetworkInfoHelper.setOnGetNetworkInfoFailedListener(this::noRegister);
