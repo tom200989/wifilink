@@ -65,6 +65,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+// TOGO 2019/8/19 0019 
+@Deprecated
 public class HomeRxActivity extends BaseActivityWithBack {
 
     // 顶部banner
@@ -187,6 +189,7 @@ public class HomeRxActivity extends BaseActivityWithBack {
         bindService(checkService, checkServiceConn, BIND_AUTO_CREATE);
     }
 
+    // TOGO 2019/8/19 0019 
     @Override
     protected void onResume() {
         super.onResume();
@@ -219,10 +222,12 @@ public class HomeRxActivity extends BaseActivityWithBack {
         fraHelpers = new FraHelpers(this, clazz, clazz[0], container);// fragment辅助
     }
 
+    // TOGO 2019/8/19 0019 
     private void initFragment() {
         transferTabAndFragment(Cons.TAB_MAIN);
     }
 
+    // TOGO 2019/8/19 0019 
     @Override
     public void onBackPressed() {
         // backupPlan();
@@ -261,6 +266,7 @@ public class HomeRxActivity extends BaseActivityWithBack {
         }
     }
 
+    // TOGO 2019/8/19 0019 
     /**
      * 切换语言后重新加载
      */
@@ -268,6 +274,7 @@ public class HomeRxActivity extends BaseActivityWithBack {
         fraHelpers.reload(targetClass);
     }
 
+    // TOGO 2019/8/19 0019 
     /**
      * 退出
      */
@@ -279,6 +286,7 @@ public class HomeRxActivity extends BaseActivityWithBack {
         xLogouthelper.logout();
     }
 
+    // TOGO 2019/8/19 0019 
     @Override
     protected void onDestroy() {
         super.onDestroy();
