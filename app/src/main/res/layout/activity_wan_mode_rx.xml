@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.zhy.android.percent.support.PercentRelativeLayout
+<com.hiber.tools.layout.PercentRelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#e9eaed"
-    tools:context="com.alcatel.wifilink.root.ue.activity.WanModeRxActivity">
+    tools:context="com.alcatel.wifilink.root.ue.root_activity.WanModeRxActivity">
 
     <!-- ### 标题栏 ### -->
-    <com.zhy.android.percent.support.PercentRelativeLayout
+    <com.hiber.tools.layout.PercentRelativeLayout
         android:id="@+id/rl_wanmode_rx"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -47,10 +47,10 @@
             android:textColor="@color/white"
             app:layout_textSizePercent="25%h" />
 
-    </com.zhy.android.percent.support.PercentRelativeLayout>
+    </com.hiber.tools.layout.PercentRelativeLayout>
 
     <!-- ### pppoe ### -->
-    <com.zhy.android.percent.support.PercentRelativeLayout
+    <com.hiber.tools.layout.PercentRelativeLayout
         android:id="@+id/rl_wanmode_check_pppoe"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -79,10 +79,10 @@
             android:src="@drawable/btn_radio_on_normal"
             android:visibility="gone" />
 
-    </com.zhy.android.percent.support.PercentRelativeLayout>
+    </com.hiber.tools.layout.PercentRelativeLayout>
 
     <!-- ### DHCP ### -->
-    <com.zhy.android.percent.support.PercentRelativeLayout
+    <com.hiber.tools.layout.PercentRelativeLayout
         android:id="@+id/rl_wanmode_check_dhcp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -111,10 +111,10 @@
             android:src="@drawable/btn_radio_on_normal"
             android:visibility="gone" />
 
-    </com.zhy.android.percent.support.PercentRelativeLayout>
+    </com.hiber.tools.layout.PercentRelativeLayout>
 
     <!-- ### static ### -->
-    <com.zhy.android.percent.support.PercentRelativeLayout
+    <com.hiber.tools.layout.PercentRelativeLayout
         android:id="@+id/rl_wanmode_check_static"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -143,10 +143,10 @@
             android:src="@drawable/btn_radio_on_normal"
             android:visibility="gone" />
 
-    </com.zhy.android.percent.support.PercentRelativeLayout>
+    </com.hiber.tools.layout.PercentRelativeLayout>
 
     <!-- ### PPPOE详情 ### -->
-    <com.zhy.android.percent.support.PercentRelativeLayout
+    <com.hiber.tools.layout.PercentRelativeLayout
         android:id="@+id/rl_wanmode_rx_pppoe_detail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -157,7 +157,7 @@
         app:layout_marginTopPercent="2%h">
 
         <!-- account -->
-        <com.zhy.android.percent.support.PercentRelativeLayout
+        <com.hiber.tools.layout.PercentRelativeLayout
             android:id="@+id/rl_wanmode_rx_pppoe_detail_account"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -188,10 +188,10 @@
                 app:layout_textSizePercent="30%h"
                 app:layout_widthPercent="60%w" />
 
-        </com.zhy.android.percent.support.PercentRelativeLayout>
+        </com.hiber.tools.layout.PercentRelativeLayout>
 
         <!-- password -->
-        <com.zhy.android.percent.support.PercentRelativeLayout
+        <com.hiber.tools.layout.PercentRelativeLayout
             android:id="@+id/rl_wanmode_rx_pppoe_detail_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -223,10 +223,10 @@
                 app:layout_textSizePercent="30%h"
                 app:layout_widthPercent="60%w" />
 
-        </com.zhy.android.percent.support.PercentRelativeLayout>
+        </com.hiber.tools.layout.PercentRelativeLayout>
 
         <!-- MTU -->
-        <com.zhy.android.percent.support.PercentRelativeLayout
+        <com.hiber.tools.layout.PercentRelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/rl_wanmode_rx_pppoe_detail_password"
@@ -268,12 +268,12 @@
                 app:layout_textSizePercent="30%h"
                 app:layout_widthPercent="15%w" />
 
-        </com.zhy.android.percent.support.PercentRelativeLayout>
+        </com.hiber.tools.layout.PercentRelativeLayout>
 
-    </com.zhy.android.percent.support.PercentRelativeLayout>
+    </com.hiber.tools.layout.PercentRelativeLayout>
 
     <!-- ### static 详情 ### -->
-    <com.zhy.android.percent.support.PercentRelativeLayout
+    <com.hiber.tools.layout.PercentRelativeLayout
         android:id="@+id/rl_wanmode_rx_static_detail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -283,7 +283,7 @@
         app:layout_heightPercent="18%h"
         app:layout_marginTopPercent="2%h">
 
-        <com.zhy.android.percent.support.PercentRelativeLayout
+        <com.hiber.tools.layout.PercentRelativeLayout
             android:id="@+id/rl_wanmode_rx_static_detail_ipaddress"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -316,10 +316,10 @@
                 app:layout_textSizePercent="30%h"
                 app:layout_widthPercent="40%w" />
             
-        </com.zhy.android.percent.support.PercentRelativeLayout>
+        </com.hiber.tools.layout.PercentRelativeLayout>
 
         <!-- ip address -->
-        <com.zhy.android.percent.support.PercentRelativeLayout
+        <com.hiber.tools.layout.PercentRelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/rl_wanmode_rx_static_detail_ipaddress"
@@ -352,9 +352,9 @@
                 app:layout_textSizePercent="30%h"
                 app:layout_widthPercent="40%w" />
 
-        </com.zhy.android.percent.support.PercentRelativeLayout>
+        </com.hiber.tools.layout.PercentRelativeLayout>
 
-    </com.zhy.android.percent.support.PercentRelativeLayout>
+    </com.hiber.tools.layout.PercentRelativeLayout>
 
     <!-- ### 按钮 ### -->
     <TextView
@@ -373,7 +373,7 @@
         app:layout_widthPercent="85%w" />
 
     <!-- ### success ### -->
-    <com.zhy.android.percent.support.PercentRelativeLayout
+    <com.hiber.tools.layout.PercentRelativeLayout
         android:id="@+id/rl_wanmode_rx_successful"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -408,10 +408,10 @@
             android:textColor="@color/gray"
             app:layout_marginTopPercent="2%h"
             app:layout_textSizePercent="2.5%h" />
-    </com.zhy.android.percent.support.PercentRelativeLayout>
+    </com.hiber.tools.layout.PercentRelativeLayout>
 
     <!-- ### failed ### -->
-    <com.zhy.android.percent.support.PercentRelativeLayout
+    <com.hiber.tools.layout.PercentRelativeLayout
         android:id="@+id/rl_wanmode_rx_failed"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -476,8 +476,8 @@
             app:layout_textSizePercent="2.8%h"
             app:layout_widthPercent="35%w" />
 
-    </com.zhy.android.percent.support.PercentRelativeLayout>
+    </com.hiber.tools.layout.PercentRelativeLayout>
 
-</com.zhy.android.percent.support.PercentRelativeLayout>
+</com.hiber.tools.layout.PercentRelativeLayout>
 
 

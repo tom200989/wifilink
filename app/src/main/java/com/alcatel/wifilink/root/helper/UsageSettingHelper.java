@@ -2,9 +2,6 @@ package com.alcatel.wifilink.root.helper;
 
 import android.content.Context;
 
-import com.alcatel.wifilink.R;
-import com.alcatel.wifilink.root.utils.CA;
-import com.alcatel.wifilink.root.utils.ToastUtil_m;
 import com.p_xhelper_smart.p_xhelper_smart.bean.GetUsageSettingsBean;
 import com.p_xhelper_smart.p_xhelper_smart.bean.SetUsageSettingsParam;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetUsageSettingsHelper;
@@ -27,117 +24,102 @@ public class UsageSettingHelper {
      */
     public void getUsageSetting() {
         GetUsageSettingsHelper xGetUsageSettingsHelper = new GetUsageSettingsHelper();
-        xGetUsageSettingsHelper.setOnGetUSageSettingsSuccessListener(result -> {
-            getSuccessNext(result);
-        });
-        xGetUsageSettingsHelper.setOnGetUsageSettingsFailListener(() -> {
-            toast(R.string.connect_failed);
-            errorNext();
-        });
+        xGetUsageSettingsHelper.setOnGetUSageSettingsSuccessListener(this::GetUsageSettingsSuccessNext);
+        xGetUsageSettingsHelper.setOnGetUsageSettingsFailListener(this::GetUsageSettingsFailedNext);
         xGetUsageSettingsHelper.getUsageSetting();
-
-    }
-
-    private OngetSuccessListener ongetSuccessListener;
-
-    // 接口OngetSuccessListener
-    public interface OngetSuccessListener {
-        void getSuccess(GetUsageSettingsBean attr);
-    }
-
-    // 对外方式setOngetSuccessListener
-    public void setOngetSuccessListener(OngetSuccessListener ongetSuccessListener) {
-        this.ongetSuccessListener = ongetSuccessListener;
-    }
-
-    // 封装方法getSuccessNext
-    private void getSuccessNext(GetUsageSettingsBean attr) {
-        if (ongetSuccessListener != null) {
-            ongetSuccessListener.getSuccess(attr);
-        }
     }
 
     /**
      * 提交流量设置
-     *
-     * @param us
      */
-    public void setUsageSetting(GetUsageSettingsBean us) {
+    public void setUsageSetting(GetUsageSettingsBean getUsageSettingsBean) {
         SetUsageSettingsParam param = new SetUsageSettingsParam();
-        param.copy(us);
+        param.copy(getUsageSettingsBean);
         SetUsageSettingsHelper xSetUsageSettingsHelper = new SetUsageSettingsHelper();
         xSetUsageSettingsHelper.setOnSetUsageSettingsSuccessListener(() -> {
             GetUsageSettingsHelper xGetUsageSettingsHelper = new GetUsageSettingsHelper();
-            xGetUsageSettingsHelper.setOnGetUSageSettingsSuccessListener(result -> {
-                setSuccessNext(result);
-            });
-            xGetUsageSettingsHelper.setOnGetUsageSettingsFailListener(() -> {
-                toast(R.string.connect_failed);
-                errorNext();
-            });
+            xGetUsageSettingsHelper.setOnGetUSageSettingsSuccessListener(this::setUsageSettingSuccessNext);
+            xGetUsageSettingsHelper.setOnGetUsageSettingsFailListener(this::setUsageSettingFailedNext);
             xGetUsageSettingsHelper.getUsageSetting();
         });
-        xSetUsageSettingsHelper.setOnSetUsageSettingsFailListener(() -> {
-            toast(R.string.connect_failed);
-            errorNext();
-        });
+        xSetUsageSettingsHelper.setOnSetUsageSettingsFailListener(this::setUsageSettingFailedNext);
         xSetUsageSettingsHelper.setUsageSettings(param);
-
     }
 
-    private OnSetSuccessListener onSetSuccessListener;
+    private OnGetUsageSettingsSuccessListener onGetUsageSettingsSuccessListener;
 
-    // 接口OnSetSuccessListener
-    public interface OnSetSuccessListener {
-        void setSuccess(GetUsageSettingsBean attr);
+    // Inteerface--> 接口OnGetUsageSettingsSuccessListener
+    public interface OnGetUsageSettingsSuccessListener {
+        void GetUsageSettingsSuccess(GetUsageSettingsBean getUsageSettingsBean);
     }
 
-    // 对外方式setOnSetSuccessListener
-    public void setOnSetSuccessListener(OnSetSuccessListener onSetSuccessListener) {
-        this.onSetSuccessListener = onSetSuccessListener;
+    // 对外方式setOnGetUsageSettingsSuccessListener
+    public void setOnGetUsageSettingsSuccessListener(OnGetUsageSettingsSuccessListener onGetUsageSettingsSuccessListener) {
+        this.onGetUsageSettingsSuccessListener = onGetUsageSettingsSuccessListener;
     }
 
-    // 封装方法setSuccessNext
-    private void setSuccessNext(GetUsageSettingsBean attr) {
-        if (onSetSuccessListener != null) {
-            onSetSuccessListener.setSuccess(attr);
+    // 封装方法GetUsageSettingsSuccessNext
+    private void GetUsageSettingsSuccessNext(GetUsageSettingsBean getUsageSettingsBean) {
+        if (onGetUsageSettingsSuccessListener != null) {
+            onGetUsageSettingsSuccessListener.GetUsageSettingsSuccess(getUsageSettingsBean);
         }
     }
 
+    private OnGetUsageSettingsFailedListener onGetUsageSettingsFailedListener;
 
-    private OnErrorListener onErrorListener;
-
-    // 接口OnErrorListener
-    public interface OnErrorListener {
-        void error();
+    // Inteerface--> 接口OnGetUsageSettingsFailedListener
+    public interface OnGetUsageSettingsFailedListener {
+        void GetUsageSettingsFailed();
     }
 
-    // 对外方式setOnErrorListener
-    public void setOnErrorListener(OnErrorListener onErrorListener) {
-        this.onErrorListener = onErrorListener;
+    // 对外方式setOnGetUsageSettingsFailedListener
+    public void setOnGetUsageSettingsFailedListener(OnGetUsageSettingsFailedListener onGetUsageSettingsFailedListener) {
+        this.onGetUsageSettingsFailedListener = onGetUsageSettingsFailedListener;
     }
 
-    // 封装方法errorNext
-    private void errorNext() {
-        if (onErrorListener != null) {
-            onErrorListener.error();
+    // 封装方法GetUsageSettingsFailedNext
+    private void GetUsageSettingsFailedNext() {
+        if (onGetUsageSettingsFailedListener != null) {
+            onGetUsageSettingsFailedListener.GetUsageSettingsFailed();
         }
     }
 
-    private void toast(int resId) {
-        ToastUtil_m.show(context, resId);
+    private OnSetUsageSettingSuccessListener onSetUsageSettingSuccessListener;
+
+    // Inteerface--> 接口OnSetUsageSettingSuccessListener
+    public interface OnSetUsageSettingSuccessListener {
+        void setUsageSettingSuccess(GetUsageSettingsBean getUsageSettings);
     }
 
-    private void toastLong(int resId) {
-        ToastUtil_m.showLong(context, resId);
+    // 对外方式setOnSetUsageSettingSuccessListener
+    public void setOnSetUsageSettingSuccessListener(OnSetUsageSettingSuccessListener onSetUsageSettingSuccessListener) {
+        this.onSetUsageSettingSuccessListener = onSetUsageSettingSuccessListener;
     }
 
-    private void toast(String content) {
-        ToastUtil_m.show(context, content);
+    // 封装方法setUsageSettingSuccessNext
+    private void setUsageSettingSuccessNext(GetUsageSettingsBean getUsageSettings) {
+        if (onSetUsageSettingSuccessListener != null) {
+            onSetUsageSettingSuccessListener.setUsageSettingSuccess(getUsageSettings);
+        }
     }
 
-    private void to(Class ac, boolean isFinish) {
-        CA.toActivity(context, ac, false, isFinish, false, 0);
+    private OnSetUsageSettingFailedListener onSetUsageSettingFailedListener;
+
+    // Inteerface--> 接口OnSetUsageSettingFailedListener
+    public interface OnSetUsageSettingFailedListener {
+        void setUsageSettingFailed();
+    }
+
+    // 对外方式setOnSetUsageSettingFailedListener
+    public void setOnSetUsageSettingFailedListener(OnSetUsageSettingFailedListener onSetUsageSettingFailedListener) {
+        this.onSetUsageSettingFailedListener = onSetUsageSettingFailedListener;
+    }
+
+    // 封装方法setUsageSettingFailedNext
+    private void setUsageSettingFailedNext() {
+        if (onSetUsageSettingFailedListener != null) {
+            onSetUsageSettingFailedListener.setUsageSettingFailed();
+        }
     }
 
 }

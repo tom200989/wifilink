@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.zhy.android.percent.support.PercentRelativeLayout
+<com.hiber.tools.layout.PercentRelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.zhy.android.percent.support.PercentLinearLayout
+    <com.hiber.tools.layout.PercentLinearLayout
         android:id="@+id/rl_main_mw70_all"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -16,7 +16,7 @@
         app:layout_heightPercent="38%h">
 
         <!-- part 1 -->
-        <com.zhy.android.percent.support.PercentRelativeLayout
+        <com.hiber.tools.layout.PercentRelativeLayout
             android:id="@+id/rl_main_mw70_connected"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -65,10 +65,10 @@
                 android:src="@drawable/right_arrow_small"
                 app:layout_heightPercent="25%h" />
 
-        </com.zhy.android.percent.support.PercentRelativeLayout>
+        </com.hiber.tools.layout.PercentRelativeLayout>
 
         <!-- part 2 -->
-        <com.zhy.android.percent.support.PercentRelativeLayout
+        <com.hiber.tools.layout.PercentRelativeLayout
             android:id="@+id/rl_main_mw70_freesharing"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -107,8 +107,8 @@
                 android:src="@drawable/right_arrow_small"
                 app:layout_heightPercent="25%h" />
 
-        </com.zhy.android.percent.support.PercentRelativeLayout>
+        </com.hiber.tools.layout.PercentRelativeLayout>
 
-    </com.zhy.android.percent.support.PercentLinearLayout>
+    </com.hiber.tools.layout.PercentLinearLayout>
 
-</com.zhy.android.percent.support.PercentRelativeLayout>
+</com.hiber.tools.layout.PercentRelativeLayout>

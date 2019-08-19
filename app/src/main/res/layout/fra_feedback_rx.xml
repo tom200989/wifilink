@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.zhy.android.percent.support.PercentRelativeLayout
+<com.hiber.tools.layout.PercentRelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
@@ -7,7 +7,7 @@
     android:background="@color/fffef5">
 
     <!-- 1.banner -->
-    <com.zhy.android.percent.support.PercentRelativeLayout
+    <com.hiber.tools.layout.PercentRelativeLayout
         android:id="@+id/rl_feedback_banner"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -30,7 +30,7 @@
             android:textColor="@color/white"
             app:layout_textSizePercent="30%h" />
 
-    </com.zhy.android.percent.support.PercentRelativeLayout>
+    </com.hiber.tools.layout.PercentRelativeLayout>
 
     <!-- 2.Type title -->
     <TextView
@@ -46,7 +46,7 @@
         app:layout_heightPercent="6%h"
         app:layout_textSizePercent="2.7%h" />
 
-    <com.zhy.android.percent.support.PercentRelativeLayout
+    <com.hiber.tools.layout.PercentRelativeLayout
         android:id="@+id/rl_feedback_selectType"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -80,7 +80,7 @@
             app:layout_heightPercent="30%h"
             app:layout_widthPercent="30%h" />
 
-    </com.zhy.android.percent.support.PercentRelativeLayout>
+    </com.hiber.tools.layout.PercentRelativeLayout>
 
     <!-- 4.description -->
     <TextView
@@ -107,7 +107,7 @@
         android:scrollbars="none"
         app:layout_heightPercent="40%h">
 
-        <com.zhy.android.percent.support.PercentRelativeLayout
+        <com.hiber.tools.layout.PercentRelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -123,7 +123,7 @@
                 android:textColorHint="@color/gray11"
                 app:layout_textSizePercent="6%h" />
 
-        </com.zhy.android.percent.support.PercentRelativeLayout>
+        </com.hiber.tools.layout.PercentRelativeLayout>
 
     </ScrollView>
 
@@ -142,7 +142,7 @@
         app:layout_textSizePercent="2.2%h" />
 
     <!-- 7.photo -->
-    <com.zhy.android.percent.support.PercentRelativeLayout
+    <com.hiber.tools.layout.PercentRelativeLayout
         android:id="@+id/rl_feedback_photo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -158,7 +158,7 @@
             android:background="@color/gray11" />
 
         <!-- photo logo -->
-        <com.zhy.android.percent.support.PercentRelativeLayout
+        <com.hiber.tools.layout.PercentRelativeLayout
             android:id="@+id/rl_feedback_photo_logo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -187,7 +187,7 @@
                 android:textColor="@color/gray11"
                 app:layout_textSizePercent="20%h" />
 
-        </com.zhy.android.percent.support.PercentRelativeLayout>
+        </com.hiber.tools.layout.PercentRelativeLayout>
 
         <!-- recycle view photo selecter -->
         <android.support.v7.widget.RecyclerView
@@ -198,7 +198,7 @@
             android:scrollbars="none"
             app:layout_marginPercent="10%h" />
 
-    </com.zhy.android.percent.support.PercentRelativeLayout>
+    </com.hiber.tools.layout.PercentRelativeLayout>
 
     <!-- 8.submit -->
     <TextView
@@ -217,7 +217,7 @@
         app:layout_widthPercent="85%w" />
 
     <!-- 9.select requestTypetype choice panel -->
-    <com.zhy.android.percent.support.PercentRelativeLayout
+    <com.hiber.tools.layout.PercentRelativeLayout
         android:id="@+id/rl_feedback_selectType_choice_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -239,10 +239,10 @@
             android:scrollbars="none"
             app:layout_widthPercent="80%w" />
 
-    </com.zhy.android.percent.support.PercentRelativeLayout>
+    </com.hiber.tools.layout.PercentRelativeLayout>
 
     <!-- 10.submit ok -->
-    <com.zhy.android.percent.support.PercentRelativeLayout
+    <com.hiber.tools.layout.PercentRelativeLayout
         android:id="@+id/rl_feedback_selectType_submit_ok"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -255,7 +255,7 @@
             android:alpha="0.7"
             android:background="@color/gray" />
 
-        <com.zhy.android.percent.support.PercentRelativeLayout
+        <com.hiber.tools.layout.PercentRelativeLayout
             android:id="@+id/iv_feedback_selectType_submit_ok_pop"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -294,12 +294,12 @@
                 app:layout_marginBottomPercent="6%h"
                 app:layout_textSizePercent="5.5%h" />
 
-        </com.zhy.android.percent.support.PercentRelativeLayout>
+        </com.hiber.tools.layout.PercentRelativeLayout>
 
-    </com.zhy.android.percent.support.PercentRelativeLayout>
+    </com.hiber.tools.layout.PercentRelativeLayout>
 
     <!-- 11.show pic pre-scan -->
-    <com.zhy.android.percent.support.PercentRelativeLayout
+    <com.hiber.tools.layout.PercentRelativeLayout
         android:id="@+id/rl_feedback_show_photo"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -316,7 +316,7 @@
             android:scaleType="centerInside" />
 
         <!-- 图片详情导航栏 -->
-        <com.zhy.android.percent.support.PercentRelativeLayout
+        <com.hiber.tools.layout.PercentRelativeLayout
             android:id="@+id/rl_feedback_show_photo_banner"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -359,9 +359,9 @@
                 app:layout_heightPercent="50%h"
                 app:layout_widthPercent="50%h" />
 
-        </com.zhy.android.percent.support.PercentRelativeLayout>
+        </com.hiber.tools.layout.PercentRelativeLayout>
 
-    </com.zhy.android.percent.support.PercentRelativeLayout>
+    </com.hiber.tools.layout.PercentRelativeLayout>
 
     <!-- 12.等待UI -->
     <com.alcatel.wifilink.root.widget.ExtenderWait
@@ -371,10 +371,10 @@
         android:visibility="gone" />
 
     <!-- 13.提示弹窗 -->
-    <com.alcatel.wifilink.root.widget.DialogOkWidget
+    <com.alcatel.wifilink.root.widget.NormalWidget
         android:id="@+id/dg_feedback_tip"
         android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-</com.zhy.android.percent.support.PercentRelativeLayout>
+</com.hiber.tools.layout.PercentRelativeLayout>

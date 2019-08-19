@@ -4,8 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/not_wifi_background"
-    android:padding="16dp"
-    tools:context=".root.ue.activity.RefreshWifiActivity">
+    android:padding="16dp">
 
     <ImageView
         android:id="@+id/iv_detect_logo"

@@ -1,13 +1,12 @@
-<com.zhy.android.percent.support.PercentRelativeLayout
+<com.hiber.tools.layout.PercentRelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/not_wifi_background"
-    tools:context=".root.ue.activity.RefreshWifiActivity">
+    android:background="@color/not_wifi_background">
 
-    <com.zhy.android.percent.support.PercentRelativeLayout
+    <com.hiber.tools.layout.PercentRelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -45,7 +44,7 @@
             app:layout_textSizePercent="2.5%h"
             app:layout_widthPercent="25%w" />
 
-    </com.zhy.android.percent.support.PercentRelativeLayout>
+    </com.hiber.tools.layout.PercentRelativeLayout>
 
     <!-- connectting -->
     <com.alcatel.wifilink.root.widget.RefreshWaitWidget
@@ -55,10 +54,10 @@
         android:visibility="gone" />
 
     <!-- get connect -->
-    <com.alcatel.wifilink.root.widget.RefreshGetConnWidget
+    <com.alcatel.wifilink.root.widget.HH70_CheckWifiWidget
         android:id="@+id/rw_refresh_get_conn"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="visible" />
 
-</com.zhy.android.percent.support.PercentRelativeLayout>
+</com.hiber.tools.layout.PercentRelativeLayout>

@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.hiber.tools.layout.PercentRelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.hiber.tools.layout.PercentRelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <!-- 登陆预载界面 -->
+        <com.hiber.tools.layout.PercentRelativeLayout
+            android:id="@+id/rl_login_pre"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/mg_blue"
+            android:visibility="visible">
+
+            <!-- 上半部分 -->
+            <com.hiber.tools.layout.PercentRelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_heightPercent="60%h">
+
+                <!-- 网络类型CMCC UNICOM -->
+                <TextView
+                    android:id="@+id/tv_login_pre_netName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    app:layout_marginPercent="3%w"
+                    app:layout_textSizePercent="5%h" />
+
+                <!-- 按钮 -->
+                <Button
+                    android:id="@+id/btn_login_pre_toLogin"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_centerHorizontal="true"
+                    android:background="@drawable/fg_login_pre"
+                    android:text="@string/login_login_btn"
+                    android:textColor="@color/mg_blue"
+                    app:layout_heightPercent="50%w"
+                    app:layout_textSizePercent="5.5%h"
+                    app:layout_widthPercent="50%w" />
+
+                <!-- 电池 + 信号 -->
+                <com.hiber.tools.layout.PercentRelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/btn_login_pre_toLogin"
+                    app:layout_heightPercent="8%h"
+                    app:layout_marginTopPercent="10%h">
+
+                    <!-- 分割线 -->
+                    <View
+                        android:id="@+id/v_login_pre_split"
+                        android:layout_width="1dp"
+                        android:layout_height="match_parent"
+                        android:layout_centerInParent="true"
+                        android:layout_margin="@dimen/dimen_5dip"
+                        android:alpha="0.5"
+                        android:background="@color/white" />
+
+                    <!-- 电池百分比 -->
+                    <TextView
+                        android:id="@+id/tv_login_pre_battery_percent"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="@dimen/dimen_10dip"
+                        android:layout_toStartOf="@id/v_login_pre_split"
+                        android:background="@null"
+                        android:gravity="center"
+                        android:text="0%"
+                        android:textColor="@color/white"
+                        app:layout_textSizePercent="65%h" />
+
+                    <!-- 电池进度条 -->
+                    <ProgressBar
+                        android:id="@+id/pg_login_pre_battery"
+                        style="@style/Base.Widget.AppCompat.ProgressBar.Horizontal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="@dimen/dimen_10dip"
+                        android:layout_toStartOf="@id/tv_login_pre_battery_percent"
+                        android:max="100"
+                        android:progress="0"
+                        app:layout_heightPercent="55%h"
+                        app:layout_widthPercent="94.16%h" />
+
+                    <!-- 信号强度 -->
+                    <ImageView
+                        android:id="@+id/iv_login_pre_signal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="@dimen/dimen_10dip"
+                        android:layout_toEndOf="@id/v_login_pre_split"
+                        android:src="@drawable/mw_signal_0"
+                        app:layout_heightPercent="70%h"
+                        app:layout_widthPercent="77%h" />
+
+                    <TextView
+                        android:id="@+id/tv_login_pre_mobileType"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="@dimen/dimen_10dip"
+                        android:layout_toEndOf="@id/iv_login_pre_signal"
+                        android:textColor="@color/white"
+                        app:layout_textSizePercent="65%h" />
+
+                </com.hiber.tools.layout.PercentRelativeLayout>
+
+            </com.hiber.tools.layout.PercentRelativeLayout>
+
+            <!-- 下半部分 -->
+            <com.hiber.tools.layout.PercentRelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:background="@color/white"
+                android:gravity="center"
+                app:layout_heightPercent="40%h">
+
+                <!-- 已连接数 -->
+                <com.hiber.tools.layout.PercentRelativeLayout
+                    android:id="@+id/rl_login_pre_connected"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:background="@drawable/login_pre_bg_shadow"
+                    app:layout_heightPercent="32%h"
+                    app:layout_widthPercent="94%w">
+
+                    <com.hiber.tools.layout.PercentRelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_centerInParent="true"
+                        android:background="@color/white"
+                        app:layout_heightPercent="80%h"
+                        app:layout_widthPercent="96%w" />
+
+                    <ImageView
+                        android:id="@+id/iv_login_pre_connected_logo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="@dimen/dimen_20dip"
+                        android:src="@drawable/device_more"
+                        app:layout_heightPercent="45%h"
+                        app:layout_widthPercent="45%h" />
+
+                    <TextView
+                        android:id="@+id/tv_login_pre_connected_count"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="@dimen/dimen_20dip"
+                        android:layout_toEndOf="@id/iv_login_pre_connected_logo"
+                        android:text="0"
+                        android:textColor="@color/blue_btn"
+                        app:layout_textSizePercent="25%h" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="@dimen/dimen_20dip"
+                        android:layout_toEndOf="@id/tv_login_pre_connected_count"
+                        android:text="@string/ergo_20181010_connections"
+                        android:textColor="@color/text_color"
+                        app:layout_textSizePercent="23%h" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="@dimen/dimen_10dip"
+                        android:src="@drawable/right_arrow_big"
+                        app:layout_heightPercent="25%h"
+                        app:layout_widthPercent="25%h" />
+
+                </com.hiber.tools.layout.PercentRelativeLayout>
+
+                <!-- free sharing -->
+                <com.hiber.tools.layout.PercentRelativeLayout
+                    android:id="@+id/rl_login_pre_freesharing"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/rl_login_pre_connected"
+                    android:layout_centerHorizontal="true"
+                    android:background="@drawable/login_pre_bg_shadow"
+                    app:layout_heightPercent="32%h"
+                    app:layout_marginTopPercent="5%h"
+                    app:layout_widthPercent="94%w">
+
+                    <com.hiber.tools.layout.PercentRelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_centerInParent="true"
+                        android:background="@color/white"
+                        app:layout_heightPercent="80%h"
+                        app:layout_widthPercent="96%w" />
+
+                    <ImageView
+                        android:id="@+id/iv_login_pre_freesharing_logo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="@dimen/dimen_20dip"
+                        android:src="@drawable/freesharing_logo"
+                        app:layout_heightPercent="45%h"
+                        app:layout_widthPercent="45%h" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="@dimen/dimen_20dip"
+                        android:layout_toEndOf="@id/iv_login_pre_freesharing_logo"
+                        android:text="@string/free_sharing_up"
+                        android:textColor="@color/text_color"
+                        app:layout_textSizePercent="23%h" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="@dimen/dimen_10dip"
+                        android:src="@drawable/right_arrow_big"
+                        app:layout_heightPercent="25%h"
+                        app:layout_widthPercent="25%h" />
+
+                </com.hiber.tools.layout.PercentRelativeLayout>
+
+            </com.hiber.tools.layout.PercentRelativeLayout>
+
+        </com.hiber.tools.layout.PercentRelativeLayout>
+
+    </com.hiber.tools.layout.PercentRelativeLayout>
+
+</com.hiber.tools.layout.PercentRelativeLayout>

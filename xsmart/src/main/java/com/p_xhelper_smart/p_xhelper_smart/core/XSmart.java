@@ -1,5 +1,6 @@
 package com.p_xhelper_smart.p_xhelper_smart.core;
 
+import android.app.Application;
 import android.content.Context;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
@@ -16,7 +17,7 @@ import com.p_xhelper_smart.p_xhelper_smart.impl.XResponceBody;
 import com.p_xhelper_smart.p_xhelper_smart.impl.XRestoreCallback;
 import com.p_xhelper_smart.p_xhelper_smart.utils.HostnameUtils;
 import com.p_xhelper_smart.p_xhelper_smart.utils.Logg;
-import com.p_xhelper_smart.p_xhelper_smart.utils.ShareUtils;
+import com.p_xhelper_smart.p_xhelper_smart.utils.XPerfrence;
 import com.p_xhelper_smart.p_xhelper_smart.utils.SmartUtils;
 import com.p_xhelper_smart.p_xhelper_smart.utils.XCons;
 
@@ -128,10 +129,18 @@ public class XSmart<T> {
      *
      * @param cts context
      */
-    public static void init(Context cts) {
+    public static void init(Context cts, Application... app) {
+        if (cts instanceof Application) {
+            x.Ext.init((Application) cts);
+        } else if (app != null) {
+            x.Ext.init(app[0]);
+        } else {
+            Toast.makeText(context, "必须只能在Application调用 XSmart.init(context) 初始context", Toast.LENGTH_LONG).show();
+            return;
+        }
         context = cts;
         HostnameUtils.setVerifyHostName(context);
-        ShareUtils.init(cts);
+        XPerfrence.init(cts);
     }
 
     /**
@@ -173,7 +182,7 @@ public class XSmart<T> {
      */
     public void xRestore(XRestoreCallback callback) {
         // 取得上次保存的路径 -- sdcard/xxx/yyy/configure.bin
-        String storePath = ShareUtils.get(BACKUP_RESTORE_KEY, "");
+        String storePath = XPerfrence.get(BACKUP_RESTORE_KEY, "");
         restore(storePath, callback);
     }
 
@@ -317,7 +326,7 @@ public class XSmart<T> {
                 @Override
                 public void onSuccess(File file) {
                     callback.success(file);
-                    ShareUtils.set(BACKUP_RESTORE_KEY, savePath);// 保存到SP -- sdcard/xxx/yyy/configure.bin
+                    XPerfrence.set(BACKUP_RESTORE_KEY, savePath);// 保存到SP -- sdcard/xxx/yyy/configure.bin
                     printNormal("upload successfule, the [PATH] is : " + file.getAbsolutePath());
                 }
 

@@ -6,10 +6,9 @@ import android.os.Handler;
 import android.util.Log;
 
 import com.alcatel.wifilink.R;
-import com.alcatel.wifilink.root.ue.activity.LoginRxActivity;
-import com.alcatel.wifilink.root.ue.activity.RefreshWifiRxActivity;
+import com.alcatel.wifilink.root.ue.root_activity.LoginRxActivity;
+import com.alcatel.wifilink.root.ue.root_activity.RefreshWifiRxActivity;
 import com.alcatel.wifilink.root.utils.CA;
-import com.alcatel.wifilink.root.utils.Logs;
 import com.alcatel.wifilink.root.utils.OtherUtils;
 import com.alcatel.wifilink.root.utils.ToastUtil_m;
 import com.p_xhelper_smart.p_xhelper_smart.bean.GetLoginStateBean;
@@ -145,8 +144,7 @@ public class BoardWanHelper {
                 sendFailedNext();
             }
         });
-        xGetWanSettingHelper.setOnAppErrorListener(() -> sendFailedNext());
-        xGetWanSettingHelper.setOnFwErrorListener(() -> sendFailedNext());
+        xGetWanSettingHelper.setOnGetWanSettingFailedListener(this::sendFailedNext);
         xGetWanSettingHelper.getWanSettings();
     }
 
@@ -155,12 +153,7 @@ public class BoardWanHelper {
      */
     private void obtainWanStatusRoll() {
         GetWanSettingsHelper xGetWanSettingsHelper = new GetWanSettingsHelper();
-        xGetWanSettingsHelper.setOnFwErrorListener(() -> {
-            resultErrorNext(null);
-        });
-        xGetWanSettingsHelper.setOnAppErrorListener(() -> {
-            errorNext(null);
-        });
+        xGetWanSettingsHelper.setOnGetWanSettingFailedListener(() -> resultErrorNext(null));
         xGetWanSettingsHelper.setOnGetWanSettingsSuccessListener(result -> {
             normalNext(result);
             int status = result.getStatus();
@@ -188,17 +181,10 @@ public class BoardWanHelper {
     private void obtainWanStatus() {
 
         GetWanSettingsHelper xGetWanSettingsHelper = new GetWanSettingsHelper();
-        xGetWanSettingsHelper.setOnFwErrorListener(() -> {
+        xGetWanSettingsHelper.setOnGetWanSettingFailedListener(() -> {
             OtherUtils.hideProgressPop(pgd);
             toast(R.string.check_your_wan_cabling);
             to(RefreshWifiRxActivity.class);
-            Logs.t("ma_unknown").vv("boardWanhelper--> obtainWanStatus--> onResultError");
-        });
-        xGetWanSettingsHelper.setOnAppErrorListener(() -> {
-            OtherUtils.hideProgressPop(pgd);
-            toast(R.string.connect_failed);
-            to(RefreshWifiRxActivity.class);
-            Logs.t("ma_unknown").vv("boardWanhelper--> obtainWanStatus--> onError");
         });
         xGetWanSettingsHelper.setOnGetWanSettingsSuccessListener(result -> {
             normalNext(result);

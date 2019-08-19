@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.zhy.android.percent.support.PercentRelativeLayout
+<com.hiber.tools.layout.PercentRelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
 
-    <com.zhy.android.percent.support.PercentRelativeLayout
+    <com.hiber.tools.layout.PercentRelativeLayout
         android:id="@+id/rl_widget_wifi_extender_wait"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -23,6 +23,6 @@
             app:layout_heightPercent="10%w"
             app:layout_widthPercent="10%w" />
 
-    </com.zhy.android.percent.support.PercentRelativeLayout>
+    </com.hiber.tools.layout.PercentRelativeLayout>
 
-</com.zhy.android.percent.support.PercentRelativeLayout>
+</com.hiber.tools.layout.PercentRelativeLayout>

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.zhy.android.percent.support.PercentRelativeLayout
+<com.hiber.tools.layout.PercentRelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
@@ -9,7 +9,7 @@
     android:paddingBottom="@dimen/activity_vertical_margin">
 
     <!-- banner -->
-    <com.zhy.android.percent.support.PercentRelativeLayout
+    <com.hiber.tools.layout.PercentRelativeLayout
         android:id="@+id/rl_settingNetwork_banner"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -33,7 +33,7 @@
             android:textColor="@color/white"
             app:layout_textSizePercent="30%h" />
 
-    </com.zhy.android.percent.support.PercentRelativeLayout>
+    </com.hiber.tools.layout.PercentRelativeLayout>
 
     <ScrollView
         android:layout_width="match_parent"
@@ -41,18 +41,18 @@
         android:layout_below="@id/rl_settingNetwork_banner"
         android:orientation="vertical">
 
-        <com.zhy.android.percent.support.PercentLinearLayout
+        <com.hiber.tools.layout.PercentLinearLayout
             android:id="@+id/ll_mobile_network"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <com.zhy.android.percent.support.PercentLinearLayout
+            <com.hiber.tools.layout.PercentLinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
-                <com.zhy.android.percent.support.PercentRelativeLayout
+                <com.hiber.tools.layout.PercentRelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="60dp">
 
@@ -80,9 +80,9 @@
                         android:layout_alignParentBottom="true"
                         android:background="@color/grey_line"
                         android:textDirection="locale" />
-                </com.zhy.android.percent.support.PercentRelativeLayout>
+                </com.hiber.tools.layout.PercentRelativeLayout>
 
-                <com.zhy.android.percent.support.PercentRelativeLayout
+                <com.hiber.tools.layout.PercentRelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="60dp"
                     android:background="@color/color_white">
@@ -113,9 +113,9 @@
                         android:layout_alignParentBottom="true"
                         android:background="@color/grey_line"
                         android:textDirection="locale" />
-                </com.zhy.android.percent.support.PercentRelativeLayout>
+                </com.hiber.tools.layout.PercentRelativeLayout>
 
-                <com.zhy.android.percent.support.PercentRelativeLayout
+                <com.hiber.tools.layout.PercentRelativeLayout
                     android:id="@+id/relativelayout_network_roaming"
                     android:layout_width="match_parent"
                     android:layout_height="60dp">
@@ -150,9 +150,9 @@
                         android:layout_alignParentBottom="true"
                         android:background="@color/grey_line"
                         android:textDirection="locale" />
-                </com.zhy.android.percent.support.PercentRelativeLayout>
+                </com.hiber.tools.layout.PercentRelativeLayout>
 
-                <com.zhy.android.percent.support.PercentRelativeLayout
+                <com.hiber.tools.layout.PercentRelativeLayout
                     android:id="@+id/network_set_data_plan"
                     android:layout_width="match_parent"
                     android:layout_height="60dp">
@@ -188,9 +188,9 @@
                         android:textColor="@color/color_light_gray"
                         android:textDirection="locale"
                         android:textSize="12sp" />
-                </com.zhy.android.percent.support.PercentRelativeLayout>
+                </com.hiber.tools.layout.PercentRelativeLayout>
 
-                <com.zhy.android.percent.support.PercentRelativeLayout
+                <com.hiber.tools.layout.PercentRelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="60dp"
                     android:layout_marginTop="10dp"
@@ -222,9 +222,9 @@
                         android:layout_alignParentBottom="true"
                         android:background="@color/grey_line"
                         android:textDirection="locale" />
-                </com.zhy.android.percent.support.PercentRelativeLayout>
+                </com.hiber.tools.layout.PercentRelativeLayout>
 
-                <com.zhy.android.percent.support.PercentRelativeLayout
+                <com.hiber.tools.layout.PercentRelativeLayout
                     android:id="@+id/relativelayout_network_profile"
                     android:layout_width="match_parent"
                     android:layout_height="60dp">
@@ -261,9 +261,9 @@
                         android:textColor="@color/color_light_gray"
                         android:textDirection="locale"
                         android:textSize="12sp" />
-                </com.zhy.android.percent.support.PercentRelativeLayout>
+                </com.hiber.tools.layout.PercentRelativeLayout>
 
-                <com.zhy.android.percent.support.PercentRelativeLayout
+                <com.hiber.tools.layout.PercentRelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="60dp"
                     android:layout_marginTop="10dp">
@@ -293,9 +293,9 @@
                         android:layout_alignParentBottom="true"
                         android:background="@color/grey_line"
                         android:textDirection="locale" />
-                </com.zhy.android.percent.support.PercentRelativeLayout>
+                </com.hiber.tools.layout.PercentRelativeLayout>
 
-                <com.zhy.android.percent.support.PercentRelativeLayout
+                <com.hiber.tools.layout.PercentRelativeLayout
                     android:id="@+id/network_change_pin"
                     android:layout_width="match_parent"
                     android:layout_height="60dp">
@@ -331,9 +331,9 @@
                         android:textColor="@color/color_light_gray"
                         android:textDirection="locale"
                         android:textSize="12sp" />
-                </com.zhy.android.percent.support.PercentRelativeLayout>
+                </com.hiber.tools.layout.PercentRelativeLayout>
 
-                <com.zhy.android.percent.support.PercentRelativeLayout
+                <com.hiber.tools.layout.PercentRelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="60dp"
                     android:layout_marginTop="10dp">
@@ -368,9 +368,9 @@
                         android:layout_alignParentBottom="true"
                         android:background="@color/grey_line"
                         android:textDirection="locale" />
-                </com.zhy.android.percent.support.PercentRelativeLayout>
+                </com.hiber.tools.layout.PercentRelativeLayout>
 
-                <com.zhy.android.percent.support.PercentRelativeLayout
+                <com.hiber.tools.layout.PercentRelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="60dp">
 
@@ -396,7 +396,7 @@
                         android:textColor="@color/color_light_gray"
                         android:textDirection="locale"
                         android:textSize="12sp" />
-                </com.zhy.android.percent.support.PercentRelativeLayout>
+                </com.hiber.tools.layout.PercentRelativeLayout>
 
                 <ImageView
                     android:layout_width="match_parent"
@@ -406,8 +406,8 @@
                     android:contentDescription="@string/setting_network"
                     android:textDirection="locale" />
 
-            </com.zhy.android.percent.support.PercentLinearLayout>
-        </com.zhy.android.percent.support.PercentLinearLayout>
+            </com.hiber.tools.layout.PercentLinearLayout>
+        </com.hiber.tools.layout.PercentLinearLayout>
     </ScrollView>
 
     <!-- data plan -->
@@ -799,7 +799,7 @@
     </LinearLayout>
 
     <!-- PIN 弹出 -->
-    <com.zhy.android.percent.support.PercentRelativeLayout
+    <com.hiber.tools.layout.PercentRelativeLayout
         android:id="@+id/rl_pop_setttingPin"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -813,7 +813,7 @@
             android:alpha="0.4"
             android:background="@color/gray" />
 
-        <com.zhy.android.percent.support.PercentRelativeLayout
+        <com.hiber.tools.layout.PercentRelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
@@ -864,8 +864,8 @@
                 android:textColor="@color/gray"
                 app:layout_marginTopPercent="15%h"
                 app:layout_textSizePercent="10%h" />
-        </com.zhy.android.percent.support.PercentRelativeLayout>
+        </com.hiber.tools.layout.PercentRelativeLayout>
 
-    </com.zhy.android.percent.support.PercentRelativeLayout>
+    </com.hiber.tools.layout.PercentRelativeLayout>
 
-</com.zhy.android.percent.support.PercentRelativeLayout>
+</com.hiber.tools.layout.PercentRelativeLayout>

@@ -33,7 +33,7 @@ public class GetUsageSettingsBean implements Serializable {
     public static final int CONS_UNIT_KB = 2;
 
     public static final int CONS_AUTO_DISCONNECT_DISABLE = 0;
-    public static final int CONS_AUTO_DISCONNECT_ABLE = 1;
+    public static final int CONS_AUTO_DISCONNECT_ENABLE = 1;
 
     public static final int CONS_TIME_LIMIT_DISABLE = 0;
     public static final int CONS_TIME_LIMIT_ABLE = 1;

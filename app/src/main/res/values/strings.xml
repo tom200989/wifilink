@@ -361,7 +361,7 @@
     <string name="device_not_connected_please_check_network_settings">Device not connected.Please check network settings.</string>
     <string name="connect_to_other_wifi_networks">Connect to other Wi-Fi networks</string>
     <string name="requestType">Type</string>
-    <string name="select_the_feedback_type">Select the feedback type</string>
+    <string name="select_the_feedback_type">Select the feedback DATAUNIT</string>
     <string name="description">Description</string>
     <string name="enter_feedback_and_suggestion">Enter feedback and suggestion…</string>
     <string name="submit">Submit</string>
@@ -386,7 +386,7 @@
         restarted.APP will exits.\nDo you need to continue with the current operation?</string>
     <string name="whether_to_disconnect_the_hot_spot">Whether to disconnect the hot spot of the current connection?</string>
     <string name="success_but_unencrypt">Connection success\ncurrently unencrypted mode</string>
-    <string name="you_have_not_chosen_the_problem_type">You have not chosen the problem type</string>
+    <string name="you_have_not_chosen_the_problem_type">You have not chosen the problem DATAUNIT</string>
     <string name="you_have_not_filled_out_the_suggestion">You have not filled out the suggestion</string>
     <string name="at_least_10_characters">At least 10 characters</string>
     <string name="upload_failure">Upload failure\nPlease try again later</string>

@@ -26,12 +26,12 @@ public class GetWanSettingsHelper extends BaseHelper {
 
             @Override
             public void appError(Throwable ex) {
-                appErrorNext();
+                getWanSettingFailedNext();
             }
 
             @Override
             public void fwError(FwError fwError) {
-                fwErrorNext();
+                getWanSettingFailedNext();
             }
 
             @Override
@@ -45,7 +45,7 @@ public class GetWanSettingsHelper extends BaseHelper {
 
     // Inteerface--> 接口OnGetWanSettingsSuccessListener
     public interface OnGetWanSettingsSuccessListener {
-        void GetWanSettingsSuccess(GetWanSettingsBean attr);
+        void GetWanSettingsSuccess(GetWanSettingsBean wanSettingsBean);
     }
 
     // 对外方式setOnGetWanSettingsSuccessListener
@@ -54,49 +54,29 @@ public class GetWanSettingsHelper extends BaseHelper {
     }
 
     // 封装方法GetWanSettingsSuccessNext
-    private void GetWanSettingsSuccessNext(GetWanSettingsBean attr) {
+    private void GetWanSettingsSuccessNext(GetWanSettingsBean wanSettingsBean) {
         if (onGetWanSettingsSuccessListener != null) {
-            onGetWanSettingsSuccessListener.GetWanSettingsSuccess(attr);
+            onGetWanSettingsSuccessListener.GetWanSettingsSuccess(wanSettingsBean);
         }
     }
 
-    private OnAppErrorListener onAppErrorListener;
+    private OnGetWanSettingFailedListener onGetWanSettingFailedListener;
 
-    // Inteerface--> 接口OnAppErrorListener
-    public interface OnAppErrorListener {
-        void appError();
+    // Inteerface--> 接口OnGetWanSettingFailedListener
+    public interface OnGetWanSettingFailedListener {
+        void getWanSettingFailed();
     }
 
-    // 对外方式setOnAppErrorListener
-    public void setOnAppErrorListener(OnAppErrorListener onAppErrorListener) {
-        this.onAppErrorListener = onAppErrorListener;
+    // 对外方式setOnGetWanSettingFailedListener
+    public void setOnGetWanSettingFailedListener(OnGetWanSettingFailedListener onGetWanSettingFailedListener) {
+        this.onGetWanSettingFailedListener = onGetWanSettingFailedListener;
     }
 
-    // 封装方法appErrorNext
-    private void appErrorNext() {
-        if (onAppErrorListener != null) {
-            onAppErrorListener.appError();
+    // 封装方法getWanSettingFailedNext
+    private void getWanSettingFailedNext() {
+        if (onGetWanSettingFailedListener != null) {
+            onGetWanSettingFailedListener.getWanSettingFailed();
         }
     }
-
-    private OnFwErrorListener onFwErrorListener;
-
-    // Inteerface--> 接口OnFwErrorListener
-    public interface OnFwErrorListener {
-        void fwError();
-    }
-
-    // 对外方式setOnFwErrorListener
-    public void setOnFwErrorListener(OnFwErrorListener onFwErrorListener) {
-        this.onFwErrorListener = onFwErrorListener;
-    }
-
-    // 封装方法fwErrorNext
-    private void fwErrorNext() {
-        if (onFwErrorListener != null) {
-            onFwErrorListener.fwError();
-        }
-    }
-
 
 }

@@ -61,4 +61,7 @@
     <color name="c_999999">#999999</color>
     <color name="c_666666">#666666</color>
     <color name="e1e1e1">#e1e1e1</color>
+
+    <!-- 新框架 -->
+    <color name="color_009aff">#009aff</color>
 </resources>

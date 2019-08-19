@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.zhy.android.percent.support.PercentRelativeLayout
+<com.hiber.tools.layout.PercentRelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/transparent">
 
-    <com.zhy.android.percent.support.PercentRelativeLayout
+    <com.hiber.tools.layout.PercentRelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
@@ -47,7 +47,7 @@
             app:layout_marginTopPercent="5%h"
             app:layout_widthPercent="85%w">
 
-            <com.zhy.android.percent.support.PercentRelativeLayout
+            <com.hiber.tools.layout.PercentRelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <!-- 提示 -->
@@ -59,7 +59,7 @@
                     android:text="@string/crash_tip"
                     android:textColor="@color/red"
                     app:layout_textSizePercent="2%sh" />
-            </com.zhy.android.percent.support.PercentRelativeLayout>
+            </com.hiber.tools.layout.PercentRelativeLayout>
 
         </ScrollView>
 
@@ -78,6 +78,6 @@
             app:layout_textSizePercent="2%sh"
             app:layout_widthPercent="40%w" />
 
-    </com.zhy.android.percent.support.PercentRelativeLayout>
+    </com.hiber.tools.layout.PercentRelativeLayout>
 
-</com.zhy.android.percent.support.PercentRelativeLayout>
+</com.hiber.tools.layout.PercentRelativeLayout>

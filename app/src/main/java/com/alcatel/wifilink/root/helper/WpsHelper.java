@@ -2,7 +2,6 @@ package com.alcatel.wifilink.root.helper;
 
 import com.p_xhelper_smart.p_xhelper_smart.bean.GetWlanSettingsBean;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetWlanSettingsHelper;
-import com.p_xhelper_smart.p_xhelper_smart.impl.FwError;
 
 /**
  * Created by qianli.ma on 2017/11/27 0027.
@@ -17,110 +16,81 @@ public class WpsHelper {
 
         GetWlanSettingsHelper xGetWlanSettingsHelper = new GetWlanSettingsHelper();
         xGetWlanSettingsHelper.setOnGetWlanSettingsSuccessListener(settingsBean -> {
+            
+            boolean isWPS = false;// 默认WPS不启动
+            int WPS_STATUS = GetWlanSettingsBean.CONS_AP_STATUS_WPS;// WPS状态(2)
+            
+            // 获取各个类型的WPS状态
             GetWlanSettingsBean.AP2GBean ap2G = settingsBean.getAP2G();
             GetWlanSettingsBean.AP2GGuestBean ap2G_guest = settingsBean.getAP2G_guest();
             GetWlanSettingsBean.AP5GBean ap5G = settingsBean.getAP5G();
             GetWlanSettingsBean.AP5GGuestBean ap5G_guest = settingsBean.getAP5G_guest();
-            boolean isWpsWork = false;
-
+            
             // 检测2.4G下的WPS状态
             if (ap2G != null) {
-                int apStatus = ap2G.getApStatus();
-                if (apStatus == GetWlanSettingsBean.CONS_AP_STATUS_WPS) {
-                    isWpsWork = true;
-                }
+                isWPS = ap2G.getApStatus() == WPS_STATUS;
             }
 
             // 检测2.4G-guest下的WPS状态
             if (ap2G_guest != null) {
-                int apStatus = ap2G_guest.getApStatus();
-                if (apStatus == GetWlanSettingsBean.CONS_AP_STATUS_WPS) {
-                    isWpsWork = true;
-                }
+                isWPS = ap2G_guest.getApStatus() == WPS_STATUS;
             }
 
             // 检测5G下的WPS状态
             if (ap5G != null) {
-                int apStatus = ap5G.getApStatus();
-                if (apStatus ==GetWlanSettingsBean.CONS_AP_STATUS_WPS) {
-                    isWpsWork = true;
-                }
+                isWPS = ap5G.getApStatus() == WPS_STATUS;
             }
 
             // 检测5G-guest下的WPS状态
             if (ap5G_guest != null) {
-                int apStatus = ap5G_guest.getApStatus();
-                if (apStatus == GetWlanSettingsBean.CONS_AP_STATUS_WPS) {
-                    isWpsWork = true;
-                }
+                isWPS = ap5G_guest.getApStatus() == WPS_STATUS;
             }
 
-            // 对接
-            getWpsNext(isWpsWork);
+            // 回调
+            getWPSSuccessNext(isWPS);
         });
-        xGetWlanSettingsHelper.setOnGetWlanSettingsFailedListener(() -> {
-            resultErrorNext(null);
-            errorNext(null);
-        });
+        
+        xGetWlanSettingsHelper.setOnGetWlanSettingsFailedListener(this::getWPSFailedNext);
         xGetWlanSettingsHelper.getWlanSettings();
     }
 
     /* -------------------------------------------- interface -------------------------------------------- */
 
-    private OnWpsListener onWpsListener;
+    private OnGetWPSSuccessListener onGetWPSSuccessListener;
 
     // 接口OnWlansettingListener
-    public interface OnWpsListener {
-        void getWlansetting(boolean attr);
+    public interface OnGetWPSSuccessListener {
+        void getWPSSuccess(boolean isWPS);
     }
 
     // 对外方式setOnWlansettingListener
-    public void setOnWpsListener(OnWpsListener onWpsListener) {
-        this.onWpsListener = onWpsListener;
+    public void setOnGetWPSSuccessListener(OnGetWPSSuccessListener onGetWPSSuccessListener) {
+        this.onGetWPSSuccessListener = onGetWPSSuccessListener;
     }
 
     // 封装方法getWlansettingNext
-    private void getWpsNext(boolean attr) {
-        if (onWpsListener != null) {
-            onWpsListener.getWlansetting(attr);
+    private void getWPSSuccessNext(boolean result) {
+        if (onGetWPSSuccessListener != null) {
+            onGetWPSSuccessListener.getWPSSuccess(result);
         }
     }
 
-    private OnResultErrorListener onResultErrorListener;
+    private OnGetWPSFailedListener onGetWPSFailedListener;
 
-    // 接口OnResultErrorListener
-    public interface OnResultErrorListener {
-        void resultError(FwError attr);
+    // Inteerface--> 接口OnGetWPSFailedListener
+    public interface OnGetWPSFailedListener {
+        void getWPSFailed();
     }
 
-    // 对外方式setOnResultErrorListener
-    public void setOnResultErrorListener(OnResultErrorListener onResultErrorListener) {
-        this.onResultErrorListener = onResultErrorListener;
+    // 对外方式setOnGetWPSFailedListener
+    public void setOnGetWPSFailedListener(OnGetWPSFailedListener onGetWPSFailedListener) {
+        this.onGetWPSFailedListener = onGetWPSFailedListener;
     }
 
-    // 封装方法resultErrorNext
-    private void resultErrorNext(FwError attr) {
-        if (onResultErrorListener != null) {
-            onResultErrorListener.resultError(attr);
-        }
-    }
-
-    private OnErrorListener onErrorListener;
-
-    // 接口OnErrorListener
-    public interface OnErrorListener {
-        void error(Throwable attr);
-    }
-
-    // 对外方式setOnErrorListener
-    public void setOnErrorListener(OnErrorListener onErrorListener) {
-        this.onErrorListener = onErrorListener;
-    }
-
-    // 封装方法errorNext
-    private void errorNext(Throwable attr) {
-        if (onErrorListener != null) {
-            onErrorListener.error(attr);
+    // 封装方法getWPSFailedNext
+    private void getWPSFailedNext() {
+        if (onGetWPSFailedListener != null) {
+            onGetWPSFailedListener.getWPSFailed();
         }
     }
 }

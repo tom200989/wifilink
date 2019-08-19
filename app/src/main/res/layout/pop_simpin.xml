@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.zhy.android.percent.support.PercentRelativeLayout
+<com.hiber.tools.layout.PercentRelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
@@ -32,7 +32,7 @@
         android:background="@color/mg_blue"
         app:layout_widthPercent="80%sw" />
 
-    <com.zhy.android.percent.support.PercentLinearLayout
+    <com.hiber.tools.layout.PercentLinearLayout
         android:id="@+id/ll_pop_simpin_buttons"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -62,7 +62,7 @@
             android:textColor="@color/mg_blue"
             app:layout_textSizePercent="32%h" />
 
-    </com.zhy.android.percent.support.PercentLinearLayout>
+    </com.hiber.tools.layout.PercentLinearLayout>
 
     <View
         android:layout_width="match_parent"
@@ -70,4 +70,4 @@
         android:layout_below="@id/ll_pop_simpin_buttons"
         app:layout_marginTopPercent="3%sh" />
 
-</com.zhy.android.percent.support.PercentRelativeLayout>
+</com.hiber.tools.layout.PercentRelativeLayout>

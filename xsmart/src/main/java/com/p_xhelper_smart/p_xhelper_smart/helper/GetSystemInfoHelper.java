@@ -30,7 +30,7 @@ public class GetSystemInfoHelper extends BaseHelper {
 
             @Override
             public void fwError(FwError fwError) {
-                fwErrorNext();
+                fwErrorNext();// 此处要保留FW error, 因为需要针对EE的加密做判断
             }
 
             @Override

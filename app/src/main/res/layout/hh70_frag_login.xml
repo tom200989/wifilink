@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.hiber.tools.layout.PercentRelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!-- 登陆界面 -->
+    <com.hiber.tools.layout.PercentRelativeLayout
+        android:id="@+id/rl_login"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="visible">
+
+        <!-- linkzone标题 -->
+        <TextView
+            android:id="@+id/tv_login_linkzone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/main_title_background"
+            android:gravity="center"
+            android:textColor="@color/white"
+            app:layout_heightPercent="9%h"
+            app:layout_textSizePercent="2.5%h" />
+
+        <!-- 回退按钮 -->
+        <ImageView
+            android:id="@+id/iv_login_backToPre"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dimen_10dip"
+            android:layout_marginEnd="@dimen/dimen_10dip"
+            android:src="@drawable/back"
+            app:layout_heightPercent="3%h"
+            app:layout_marginTopPercent="3%h"
+            app:layout_widthPercent="3%h" />
+
+        <!-- 回退文本 -->
+        <TextView
+            android:id="@+id/tv_login_backToPre"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@id/iv_login_backToPre"
+            android:text="@string/back"
+            android:textColor="@color/white"
+            app:layout_marginTopPercent="2.8%h"
+            app:layout_textSizePercent="2.5%h" />
+
+        <View
+            android:id="@+id/login_center_line"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_centerInParent="true" />
+
+        <!-- 登陆LOGO -->
+        <ImageView
+            android:id="@+id/iv_loginrx_logo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@id/login_center_line"
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/iclogo"
+            app:layout_heightPercent="18%w"
+            app:layout_marginBottomPercent="15%h"
+            app:layout_widthPercent="18%w" />
+
+        <!-- 编辑框 -->
+        <EditText
+            android:id="@+id/et_loginRx"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/login_center_line"
+            android:background="@drawable/login_psd_bg"
+            android:hint="@string/login_enter_password"
+            android:inputType="textPassword"
+            android:lines="1"
+            android:textColorHint="@color/gray11"
+            app:layout_heightPercent="6.5%h"
+            app:layout_marginPercent="3%w"
+            app:layout_paddingLeftPercent="3%w"
+            app:layout_textSizePercent="2.2%h" />
+
+        <!-- 提示 -->
+        <TextView
+            android:id="@+id/tv_loginRx_tip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/et_loginRx"
+            android:text="@string/login_enter_password_tip"
+            android:textColor="@color/gray11"
+            app:layout_marginLeftPercent="3%w"
+            app:layout_textSizePercent="2.2%h" />
+
+        <!-- 记住密码 -->
+        <com.hiber.tools.layout.PercentRelativeLayout
+            android:id="@+id/rl_login_remenberPsd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_loginRx_tip"
+            app:layout_marginPercent="3%w">
+
+            <!-- 勾选框 -->
+            <ImageView
+                android:id="@+id/iv_loginRx_checkbox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/edit_normal"
+                app:layout_heightPercent="6%w"
+                app:layout_widthPercent="6%w" />
+
+            <!-- 提示 -->
+            <TextView
+                android:id="@+id/tv_remember_psd"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dimen_10dip"
+                android:layout_toEndOf="@id/iv_loginRx_checkbox"
+                android:text="@string/login_remenber_psd"
+                app:layout_textSizePercent="7.5%h" />
+
+        </com.hiber.tools.layout.PercentRelativeLayout>
+
+        <!-- 登陆按钮 -->
+        <Button
+            android:id="@+id/bt_loginRx"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/rl_login_remenberPsd"
+            android:background="@drawable/bt_login_selector"
+            android:gravity="center"
+            android:text="@string/login_login_btn"
+            android:textColor="@color/color_white"
+            app:layout_heightPercent="6.5%h"
+            app:layout_marginPercent="3%w"
+            app:layout_marginTopPercent="2%h"
+            app:layout_textSizePercent="2.5%h" />
+
+        <!-- 忘记密码 -->
+        <TextView
+            android:id="@+id/tv_loginRx_forgot"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/bt_loginRx"
+            android:layout_centerHorizontal="true"
+            android:gravity="center"
+            android:text="@string/login_forgot_password"
+            app:layout_heightPercent="5%h"
+            app:layout_marginTopPercent="5%h"
+            app:layout_textSizePercent="2.5%h" />
+    </com.hiber.tools.layout.PercentRelativeLayout>
+
+    <!-- 恢复出厂设置会话框 -->
+    <com.alcatel.wifilink.root.widget.NormalWidget
+        android:id="@+id/wd_reset_factory"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone" />
+
+    <!-- 等待 -->
+    <com.alcatel.wifilink.root.widget.HH70_LoadWidget
+        android:id="@+id/wd_login_load"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+</com.hiber.tools.layout.PercentRelativeLayout>

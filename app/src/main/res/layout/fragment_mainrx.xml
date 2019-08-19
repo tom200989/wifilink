@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.zhy.android.percent.support.PercentRelativeLayout
+<com.hiber.tools.layout.PercentRelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
@@ -7,7 +7,7 @@
     android:background="#33a0f6">
 
     <!-- mw120下的网络类型 -->
-    <com.zhy.android.percent.support.PercentRelativeLayout
+    <com.hiber.tools.layout.PercentRelativeLayout
         android:id="@+id/rl_mainrx_mw120_network_panel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -35,10 +35,10 @@
             android:textColor="@color/white"
             app:layout_textSizePercent="40%h" />
 
-    </com.zhy.android.percent.support.PercentRelativeLayout>
+    </com.hiber.tools.layout.PercentRelativeLayout>
 
     <!-- ***** 中心按钮 ***** -->
-    <com.zhy.android.percent.support.PercentRelativeLayout
+    <com.hiber.tools.layout.PercentRelativeLayout
         android:id="@+id/rl_mainrx_connected_panel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -73,7 +73,7 @@
             app:layout_widthPercent="100%w" />
 
         <!-- sim卡已连接按钮 -->
-        <com.zhy.android.percent.support.PercentRelativeLayout
+        <com.hiber.tools.layout.PercentRelativeLayout
             android:id="@+id/rl_mainrx_simConnected"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -132,7 +132,7 @@
                 app:layout_marginRightPercent="9%w"
                 app:layout_textSizePercent="7%h" />
 
-        </com.zhy.android.percent.support.PercentRelativeLayout>
+        </com.hiber.tools.layout.PercentRelativeLayout>
 
         <!-- sim卡锁定状态 -->
         <Button
@@ -177,7 +177,7 @@
             app:layout_textSizePercent="12%h"
             app:layout_widthPercent="100%w" />
 
-    </com.zhy.android.percent.support.PercentRelativeLayout>
+    </com.hiber.tools.layout.PercentRelativeLayout>
 
     <!-- ***** 运营商 ***** -->
     <TextView
@@ -191,7 +191,7 @@
         app:layout_textSizePercent="3%h" />
 
     <!-- **** 最底部面板 **** -->
-    <com.zhy.android.percent.support.PercentLinearLayout
+    <com.hiber.tools.layout.PercentLinearLayout
         android:id="@+id/rl_mainrx_signalAndConnected_panel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -201,7 +201,7 @@
         app:layout_heightPercent="32%h">
 
         <!-- 信号 -->
-        <com.zhy.android.percent.support.PercentRelativeLayout
+        <com.hiber.tools.layout.PercentRelativeLayout
             android:id="@+id/rl_mainrx_signal_panel"
             android:layout_width="0dp"
             android:layout_height="match_parent"
@@ -226,10 +226,10 @@
                 android:textColor="@color/gray"
                 app:layout_textSizePercent="8%h" />
 
-        </com.zhy.android.percent.support.PercentRelativeLayout>
+        </com.hiber.tools.layout.PercentRelativeLayout>
 
         <!-- 连接数 -->
-        <com.zhy.android.percent.support.PercentRelativeLayout
+        <com.hiber.tools.layout.PercentRelativeLayout
             android:id="@+id/rl_mainrx_connectedPeople_panel"
             android:layout_width="0dp"
             android:layout_height="match_parent"
@@ -254,12 +254,12 @@
                 android:textColor="@color/gray"
                 app:layout_textSizePercent="8%h" />
 
-        </com.zhy.android.percent.support.PercentRelativeLayout>
+        </com.hiber.tools.layout.PercentRelativeLayout>
 
-    </com.zhy.android.percent.support.PercentLinearLayout>
+    </com.hiber.tools.layout.PercentLinearLayout>
 
     <!-- *** 波浪样式(无实际作用) *** -->
-    <com.zhy.android.percent.support.PercentRelativeLayout
+    <com.hiber.tools.layout.PercentRelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@id/rl_mainrx_signalAndConnected_panel"
@@ -284,7 +284,7 @@
             app:de_heightRatio="0.7"
             app:de_shape="square"
             app:de_shiftTime="5000" />
-    </com.zhy.android.percent.support.PercentRelativeLayout>
+    </com.hiber.tools.layout.PercentRelativeLayout>
 
     <!-- **** MW70机型下的UI **** -->
     <com.alcatel.wifilink.root.widget.MainMW70BottomView
@@ -304,10 +304,10 @@
         app:layout_marginTopPercent="3%h" />
 
     <!-- 确定取消按钮 -->
-    <com.alcatel.wifilink.root.widget.DialogOkWidget
+    <com.alcatel.wifilink.root.widget.NormalWidget
         android:id="@+id/dg_mainrx_widget_ok"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="gone" />
 
-</com.zhy.android.percent.support.PercentRelativeLayout>
+</com.hiber.tools.layout.PercentRelativeLayout>

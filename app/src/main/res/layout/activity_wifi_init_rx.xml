@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.zhy.android.percent.support.PercentRelativeLayout
+<com.hiber.tools.layout.PercentRelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#f5f5f5"
-    tools:context="com.alcatel.wifilink.root.ue.activity.WifiInitRxActivity">
+    tools:context="com.alcatel.wifilink.root.ue.root_activity.WifiInitRxActivity">
 
     <!-- banner -->
-    <com.zhy.android.percent.support.PercentRelativeLayout
+    <com.hiber.tools.layout.PercentRelativeLayout
         android:id="@+id/rl_wifiInit_banner"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -44,10 +44,10 @@
             android:textColor="@color/white"
             app:layout_textSizePercent="27%h" />
 
-    </com.zhy.android.percent.support.PercentRelativeLayout>
+    </com.hiber.tools.layout.PercentRelativeLayout>
 
     <!-- ##### 2.4G ##### -->
-    <com.zhy.android.percent.support.PercentRelativeLayout
+    <com.hiber.tools.layout.PercentRelativeLayout
         android:id="@+id/rl_wifiInit_2p4G"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -56,7 +56,7 @@
         android:visibility="visible">
 
         <!-- 2.4G: wlan status -->
-        <com.zhy.android.percent.support.PercentRelativeLayout
+        <com.hiber.tools.layout.PercentRelativeLayout
             android:id="@+id/rl_wifiInit_wlanStatus_2p4G"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -83,10 +83,10 @@
                 app:layout_heightPercent="5%w"
                 app:layout_widthPercent="10%w" />
 
-        </com.zhy.android.percent.support.PercentRelativeLayout>
+        </com.hiber.tools.layout.PercentRelativeLayout>
 
         <!-- 2.4G: account -->
-        <com.zhy.android.percent.support.PercentRelativeLayout
+        <com.hiber.tools.layout.PercentRelativeLayout
             android:id="@+id/rl_wifiInit_account_2p4G"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -116,10 +116,10 @@
                 app:layout_textSizePercent="30%h"
                 app:layout_widthPercent="60%w" />
 
-        </com.zhy.android.percent.support.PercentRelativeLayout>
+        </com.hiber.tools.layout.PercentRelativeLayout>
 
         <!-- 2.4G: password -->
-        <com.zhy.android.percent.support.PercentRelativeLayout
+        <com.hiber.tools.layout.PercentRelativeLayout
             android:id="@+id/rl_wifiInit_password_2p4G"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -161,12 +161,12 @@
                 app:layout_textSizePercent="30%h"
                 app:layout_widthPercent="50%w" />
 
-        </com.zhy.android.percent.support.PercentRelativeLayout>
+        </com.hiber.tools.layout.PercentRelativeLayout>
 
-    </com.zhy.android.percent.support.PercentRelativeLayout>
+    </com.hiber.tools.layout.PercentRelativeLayout>
 
     <!-- ##### 5G ##### -->
-    <com.zhy.android.percent.support.PercentRelativeLayout
+    <com.hiber.tools.layout.PercentRelativeLayout
         android:id="@+id/rl_wifiInit_5G"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -176,7 +176,7 @@
         app:layout_marginTopPercent="3%h">
 
         <!-- 5G: wlan status -->
-        <com.zhy.android.percent.support.PercentRelativeLayout
+        <com.hiber.tools.layout.PercentRelativeLayout
             android:id="@+id/rl_wifiInit_wlanStatus_5G"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -203,10 +203,10 @@
                 app:layout_heightPercent="5%w"
                 app:layout_widthPercent="10%w" />
 
-        </com.zhy.android.percent.support.PercentRelativeLayout>
+        </com.hiber.tools.layout.PercentRelativeLayout>
 
         <!-- 5G: account -->
-        <com.zhy.android.percent.support.PercentRelativeLayout
+        <com.hiber.tools.layout.PercentRelativeLayout
             android:id="@+id/rl_wifiInit_account_5G"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -236,10 +236,10 @@
                 app:layout_textSizePercent="30%h"
                 app:layout_widthPercent="60%w" />
 
-        </com.zhy.android.percent.support.PercentRelativeLayout>
+        </com.hiber.tools.layout.PercentRelativeLayout>
 
         <!-- 5G: password -->
-        <com.zhy.android.percent.support.PercentRelativeLayout
+        <com.hiber.tools.layout.PercentRelativeLayout
             android:id="@+id/rl_wifiInit_password_5G"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -281,9 +281,9 @@
                 app:layout_textSizePercent="30%h"
                 app:layout_widthPercent="50%w" />
 
-        </com.zhy.android.percent.support.PercentRelativeLayout>
+        </com.hiber.tools.layout.PercentRelativeLayout>
 
-    </com.zhy.android.percent.support.PercentRelativeLayout>
+    </com.hiber.tools.layout.PercentRelativeLayout>
 
     <!-- ##### 按钮 ##### -->
     <TextView
@@ -302,7 +302,7 @@
         app:layout_widthPercent="85%w" />
 
     <!-- 失败界面 -->
-    <com.zhy.android.percent.support.PercentRelativeLayout
+    <com.hiber.tools.layout.PercentRelativeLayout
         android:id="@+id/rl_wifiInit_rx_failed"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -367,13 +367,13 @@
             app:layout_textSizePercent="2.8%h"
             app:layout_widthPercent="35%w" />
 
-    </com.zhy.android.percent.support.PercentRelativeLayout>
+    </com.hiber.tools.layout.PercentRelativeLayout>
 
     <!-- ok & cancel -->
-    <com.alcatel.wifilink.root.widget.DialogOkWidget
+    <com.alcatel.wifilink.root.widget.NormalWidget
         android:id="@+id/dg_wifiInit_ok"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="gone" />
 
-</com.zhy.android.percent.support.PercentRelativeLayout>
+</com.hiber.tools.layout.PercentRelativeLayout>

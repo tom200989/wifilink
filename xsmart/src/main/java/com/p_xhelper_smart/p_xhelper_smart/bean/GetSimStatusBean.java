@@ -28,6 +28,13 @@ public class GetSimStatusBean implements Serializable {
     public static final int CONS_SIM_CARD_READY = 7;// 准备状态
     public static final int CONS_SIM_CARD_IS_INITING = 11;// 初始化状态
 
+    public static final int CONS_FOR_PIN_UNKNOWN = 0;// pin state - 未知
+    public static final int CONS_FOR_PIN_ENABLE_BUT_NOT_VERIFIED = 1;// pin state - 启用但未认证
+    public static final int CONS_FOR_PIN_PIN_ENABLE_VERIFIED = 2;// pin state - 启用且已认证
+    public static final int CONS_FOR_PIN_PIN_DISABLE = 3;// pin state - pin无效
+    public static final int CONS_FOR_PIN_PUK_REQUIRED = 4;// pin state - PUK生效
+    public static final int CONS_FOR_PIN_PUK_TIMES_USED_OUT = 5;// pin state - PUK超限
+
     private int SIMState;// SIM卡状态
     private int PinState;// PIN码状态
     private int PinRemainingTimes;// PIN码剩余次数

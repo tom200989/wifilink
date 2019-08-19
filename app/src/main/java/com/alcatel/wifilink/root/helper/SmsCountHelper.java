@@ -5,7 +5,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.alcatel.wifilink.R;
-import com.alcatel.wifilink.root.ue.activity.HomeRxActivity;
+import com.alcatel.wifilink.root.ue.root_activity.HomeRxActivity;
 import com.p_xhelper_smart.p_xhelper_smart.bean.GetSMSContactListBean;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetSMSContactListHelper;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetSmsInitStateHelper;

@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import com.alcatel.wifilink.R;
 import com.alcatel.wifilink.root.bean.BlockModel;
 import com.alcatel.wifilink.root.bean.BlockList;
-import com.alcatel.wifilink.root.ue.activity.ActivityDeviceManager;
+import com.alcatel.wifilink.root.ue.root_activity.ActivityDeviceManager;
 import com.alcatel.wifilink.root.helper.FragmentDeviceEnum;
 import com.p_xhelper_smart.p_xhelper_smart.helper.SetDeviceUnblockHelper;
 

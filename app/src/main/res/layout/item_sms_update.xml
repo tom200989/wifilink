@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.zhy.android.percent.support.PercentRelativeLayout
+<com.hiber.tools.layout.PercentRelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
 
     <!-- 总布局 -->
-    <com.zhy.android.percent.support.PercentRelativeLayout
+    <com.hiber.tools.layout.PercentRelativeLayout
         android:id="@+id/rl_sms"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -38,7 +38,7 @@
             app:layout_widthPercent="25%h" />
 
         <!-- **** sms info **** -->
-        <com.zhy.android.percent.support.PercentRelativeLayout
+        <com.hiber.tools.layout.PercentRelativeLayout
             android:id="@+id/rl_smsInfo"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -114,7 +114,7 @@
                 android:textColor="@color/gray"
                 app:layout_textSizePercent="23%h" />
 
-        </com.zhy.android.percent.support.PercentRelativeLayout>
+        </com.hiber.tools.layout.PercentRelativeLayout>
 
         <ImageView
             android:id="@+id/imageView2"
@@ -139,6 +139,6 @@
             android:layout_marginRight="@dimen/dimen_10dip"
             android:background="@color/gray" />
 
-    </com.zhy.android.percent.support.PercentRelativeLayout>
+    </com.hiber.tools.layout.PercentRelativeLayout>
 
-</com.zhy.android.percent.support.PercentRelativeLayout>
+</com.hiber.tools.layout.PercentRelativeLayout>

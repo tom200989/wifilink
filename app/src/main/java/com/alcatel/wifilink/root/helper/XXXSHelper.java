@@ -15,8 +15,6 @@ import com.p_xhelper_smart.p_xhelper_smart.impl.FwError;
 public class XXXSHelper {
 
     private Activity activity;
-    private OnResultErrorListener onResultErrorListener;
-    private OnErrorListener onErrorListener;
     private BoardSimHelper boardSimHelper;
     private CheckBoardLogin checkBoardLogin;
     private OnUnreadListener onUnreadListener;
@@ -42,8 +40,6 @@ public class XXXSHelper {
                     // sim卡准备好了之后进行初始化sms接口
                     boardSimHelper.setOnSimReadyListener(result -> getSmsStatus());
                     boardSimHelper.setOnNownListener(simStatus -> nownNext(simStatus));
-                    boardSimHelper.setOnRollRequestOnResultError(error -> resultErrorNext(error));
-                    boardSimHelper.setOnRollRequestOnError(e -> errorNext(e));
                     boardSimHelper.boardTimer();
                 }
             };
@@ -65,8 +61,6 @@ public class XXXSHelper {
             }
         });
         xGetSmsInitStateHelper.setOnGetSmsInitStateFailListener(() -> {
-            resultErrorNext(null);
-            errorNext(null);
         });
         xGetSmsInitStateHelper.getSmsInitState();
     }
@@ -82,8 +76,6 @@ public class XXXSHelper {
             unreadNext(unreadSMSCount);
         });
         xGetSMSStorageStateHelper.setOnGetSMSStoreStateFailedListener(() -> {
-            resultErrorNext(null);
-            errorNext(null);
         });
         xGetSMSStorageStateHelper.getSMSStorageState();
     }
@@ -116,14 +108,6 @@ public class XXXSHelper {
         this.onUnreadListener = onUnreadListener;
     }
 
-    public void setOnResultErrorListener(OnResultErrorListener onResultErrorListener) {
-        this.onResultErrorListener = onResultErrorListener;
-    }
-
-    public void setOnErrorListener(OnErrorListener onErrorListener) {
-        this.onErrorListener = onErrorListener;
-    }
-
     /* -------------------------------------------- method -------------------------------------------- */
 
     private void nownNext(GetSimStatusBean simStatus) {
@@ -134,11 +118,4 @@ public class XXXSHelper {
         onUnreadListener.unread(unreadCount);
     }
 
-    private void resultErrorNext(FwError error) {
-        onResultErrorListener.resultError(error);
-    }
-
-    private void errorNext(Throwable e) {
-        onErrorListener.error(e);
-    }
 }

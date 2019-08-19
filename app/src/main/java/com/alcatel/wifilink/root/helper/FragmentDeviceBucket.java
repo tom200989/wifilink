@@ -3,8 +3,8 @@ package com.alcatel.wifilink.root.helper;
 import android.app.Activity;
 import android.support.v4.app.Fragment;
 
-import com.alcatel.wifilink.root.ue.frag.DeviceBlockFragment;
-import com.alcatel.wifilink.root.ue.frag.DeviceConnectFragment;
+import com.alcatel.wifilink.root.ue.root_frag.DeviceBlockFragment;
+import com.alcatel.wifilink.root.ue.root_frag.DeviceConnectFragment;
 
 /**
  * @作者 qianli

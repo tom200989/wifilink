@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.zhy.android.percent.support.PercentRelativeLayout
+<com.hiber.tools.layout.PercentRelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <!-- 登陆界面 -->
-    <com.zhy.android.percent.support.PercentRelativeLayout
+    <com.hiber.tools.layout.PercentRelativeLayout
         android:id="@+id/rl_login"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -88,7 +88,7 @@
             app:layout_marginLeftPercent="3%w"
             app:layout_textSizePercent="2.2%h" />
 
-        <com.zhy.android.percent.support.PercentRelativeLayout
+        <com.hiber.tools.layout.PercentRelativeLayout
             android:id="@+id/rl_login_remenberPsd"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -112,7 +112,7 @@
                 android:text="@string/login_remenber_psd"
                 app:layout_textSizePercent="7.5%h" />
 
-        </com.zhy.android.percent.support.PercentRelativeLayout>
+        </com.hiber.tools.layout.PercentRelativeLayout>
 
         <Button
             android:id="@+id/bt_loginRx"
@@ -139,10 +139,10 @@
             app:layout_heightPercent="5%h"
             app:layout_marginTopPercent="5%h"
             app:layout_textSizePercent="2.5%h" />
-    </com.zhy.android.percent.support.PercentRelativeLayout>
+    </com.hiber.tools.layout.PercentRelativeLayout>
 
     <!-- 登陆预载界面 -->
-    <com.zhy.android.percent.support.PercentRelativeLayout
+    <com.hiber.tools.layout.PercentRelativeLayout
         android:id="@+id/rl_login_pre"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -150,7 +150,7 @@
         android:visibility="visible">
 
         <!-- @@@@@@@ top part @@@@@@@ -->
-        <com.zhy.android.percent.support.PercentRelativeLayout
+        <com.hiber.tools.layout.PercentRelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_heightPercent="60%h">
@@ -179,7 +179,7 @@
                 app:layout_widthPercent="50%w" />
 
             <!-- 电池 + 信号 -->
-            <com.zhy.android.percent.support.PercentRelativeLayout
+            <com.hiber.tools.layout.PercentRelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/btn_login_pre_toLogin"
@@ -246,12 +246,12 @@
                     android:textColor="@color/white"
                     app:layout_textSizePercent="65%h" />
 
-            </com.zhy.android.percent.support.PercentRelativeLayout>
+            </com.hiber.tools.layout.PercentRelativeLayout>
 
-        </com.zhy.android.percent.support.PercentRelativeLayout>
+        </com.hiber.tools.layout.PercentRelativeLayout>
 
         <!-- @@@@@@@ bottom part @@@@@@@ -->
-        <com.zhy.android.percent.support.PercentRelativeLayout
+        <com.hiber.tools.layout.PercentRelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
@@ -260,7 +260,7 @@
             app:layout_heightPercent="40%h">
 
             <!-- connected -->
-            <com.zhy.android.percent.support.PercentRelativeLayout
+            <com.hiber.tools.layout.PercentRelativeLayout
                 android:id="@+id/rl_login_pre_connected"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -269,7 +269,7 @@
                 app:layout_heightPercent="32%h"
                 app:layout_widthPercent="94%w">
 
-                <com.zhy.android.percent.support.PercentRelativeLayout
+                <com.hiber.tools.layout.PercentRelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_centerInParent="true"
@@ -318,10 +318,10 @@
                     app:layout_heightPercent="25%h"
                     app:layout_widthPercent="25%h" />
 
-            </com.zhy.android.percent.support.PercentRelativeLayout>
+            </com.hiber.tools.layout.PercentRelativeLayout>
 
             <!-- free sharing -->
-            <com.zhy.android.percent.support.PercentRelativeLayout
+            <com.hiber.tools.layout.PercentRelativeLayout
                 android:id="@+id/rl_login_pre_freesharing"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -332,7 +332,7 @@
                 app:layout_marginTopPercent="5%h"
                 app:layout_widthPercent="94%w">
 
-                <com.zhy.android.percent.support.PercentRelativeLayout
+                <com.hiber.tools.layout.PercentRelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_centerInParent="true"
@@ -370,14 +370,14 @@
                     app:layout_heightPercent="25%h"
                     app:layout_widthPercent="25%h" />
 
-            </com.zhy.android.percent.support.PercentRelativeLayout>
+            </com.hiber.tools.layout.PercentRelativeLayout>
 
-        </com.zhy.android.percent.support.PercentRelativeLayout>
+        </com.hiber.tools.layout.PercentRelativeLayout>
 
-    </com.zhy.android.percent.support.PercentRelativeLayout>
+    </com.hiber.tools.layout.PercentRelativeLayout>
 
     <!-- 设备连接详情界面 -->
-    <com.zhy.android.percent.support.PercentLinearLayout
+    <com.hiber.tools.layout.PercentLinearLayout
         android:id="@+id/rl_login_devices"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -385,7 +385,7 @@
         android:orientation="vertical"
         android:visibility="gone">
 
-        <com.zhy.android.percent.support.PercentRelativeLayout
+        <com.hiber.tools.layout.PercentRelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_heightPercent="9%h">
@@ -408,17 +408,17 @@
                 app:layout_heightPercent="50%h"
                 app:layout_widthPercent="10%w" />
 
-        </com.zhy.android.percent.support.PercentRelativeLayout>
+        </com.hiber.tools.layout.PercentRelativeLayout>
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rcv_pre_devices"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
-    </com.zhy.android.percent.support.PercentLinearLayout>
+    </com.hiber.tools.layout.PercentLinearLayout>
 
     <!-- 恢复出厂设置弹窗 -->
-    <!--<com.zhy.android.percent.support.PercentRelativeLayout
+    <!--<com.hiber.tools.layout.PercentRelativeLayout
         android:id="@+id/rl_loginrx_reset_factory"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -430,7 +430,7 @@
             android:alpha="0.7"
             android:background="@color/gray" />
 
-        <com.zhy.android.percent.support.PercentRelativeLayout
+        <com.hiber.tools.layout.PercentRelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
@@ -460,12 +460,12 @@
                 app:layout_heightPercent="25%h"
                 app:layout_textSizePercent="10%h" />
 
-        </com.zhy.android.percent.support.PercentRelativeLayout>
-    </com.zhy.android.percent.support.PercentRelativeLayout>-->
-    <com.alcatel.wifilink.root.widget.DialogOkWidget
-        android:id="@+id/rl_loginrx_reset_factory"
+        </com.hiber.tools.layout.PercentRelativeLayout>
+    </com.hiber.tools.layout.PercentRelativeLayout>-->
+    <com.alcatel.wifilink.root.widget.NormalWidget
+        android:id="@+id/wd_reset_factory"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="gone" />
 
-</com.zhy.android.percent.support.PercentRelativeLayout>
+</com.hiber.tools.layout.PercentRelativeLayout>

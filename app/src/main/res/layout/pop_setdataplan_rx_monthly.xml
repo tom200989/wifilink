@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.zhy.android.percent.support.PercentRelativeLayout
+<com.hiber.tools.layout.PercentRelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
 
-    <com.zhy.android.percent.support.PercentRelativeLayout
+    <com.hiber.tools.layout.PercentRelativeLayout
         android:id="@+id/rl_pop_setPlan_rx_monthly"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -28,7 +28,7 @@
             app:layout_textSizePercent="30%h"
             app:layout_widthPercent="30%w" />
 
-        <com.zhy.android.percent.support.PercentLinearLayout
+        <com.hiber.tools.layout.PercentLinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_toEndOf="@id/et_pop_setPlan_rx_monthly_num"
@@ -57,9 +57,9 @@
                 android:textColor="@color/gray"
                 app:layout_textSizePercent="30%h" />
 
-        </com.zhy.android.percent.support.PercentLinearLayout>
+        </com.hiber.tools.layout.PercentLinearLayout>
 
-    </com.zhy.android.percent.support.PercentRelativeLayout>
+    </com.hiber.tools.layout.PercentRelativeLayout>
 
     <TextView
         android:id="@+id/tv_pop_setPlan_rx_blank"
@@ -71,7 +71,7 @@
         app:layout_marginTopPercent="2%sh"
         app:layout_textSizePercent="2.7%sh" />
 
-    <com.zhy.android.percent.support.PercentLinearLayout
+    <com.hiber.tools.layout.PercentLinearLayout
         android:id="@+id/ll_pop_setPlan_monthly_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -106,11 +106,11 @@
             android:textColor="@color/mg_blue"
             app:layout_textSizePercent="40%h" />
 
-    </com.zhy.android.percent.support.PercentLinearLayout>
+    </com.hiber.tools.layout.PercentLinearLayout>
 
     <View
         android:layout_width="wrap_content"
         android:layout_height="1dp"
         android:layout_below="@id/ll_pop_setPlan_monthly_button"
         app:layout_marginTopPercent="3%sh" />
-</com.zhy.android.percent.support.PercentRelativeLayout>
+</com.hiber.tools.layout.PercentRelativeLayout>

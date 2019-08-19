@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.zhy.android.percent.support.PercentRelativeLayout
+<com.hiber.tools.layout.PercentRelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.alcatel.wifilink.root.ue.activity.HomeRxActivity">
+    tools:context="com.alcatel.wifilink.root.ue.root_activity.HomeRxActivity">
 
     <!-- banner -->
-    <com.zhy.android.percent.support.PercentRelativeLayout
+    <com.hiber.tools.layout.PercentRelativeLayout
         android:id="@+id/rl_homeRx_banner"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -61,10 +61,10 @@
             app:layout_heightPercent="65%h"
             app:layout_widthPercent="80%h" />
 
-    </com.zhy.android.percent.support.PercentRelativeLayout>
+    </com.hiber.tools.layout.PercentRelativeLayout>
 
     <!-- navigation -->
-    <com.zhy.android.percent.support.PercentLinearLayout
+    <com.hiber.tools.layout.PercentLinearLayout
         android:id="@+id/ll_homeRx_navigation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -74,7 +74,7 @@
         app:layout_heightPercent="9%h">
 
         <!-- HOME -->
-        <com.zhy.android.percent.support.PercentLinearLayout
+        <com.hiber.tools.layout.PercentLinearLayout
             android:id="@+id/ll_homeRx_home"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
@@ -98,10 +98,10 @@
                 android:textColor="@color/mg_blue"
                 app:layout_textSizePercent="20%h" />-->
 
-        </com.zhy.android.percent.support.PercentLinearLayout>
+        </com.hiber.tools.layout.PercentLinearLayout>
 
         <!-- WIFI -->
-        <com.zhy.android.percent.support.PercentLinearLayout
+        <com.hiber.tools.layout.PercentLinearLayout
             android:id="@+id/ll_homeRx_wifi"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
@@ -125,10 +125,10 @@
                 android:textColor="@color/gray"
                 app:layout_textSizePercent="20%h" />-->
 
-        </com.zhy.android.percent.support.PercentLinearLayout>
+        </com.hiber.tools.layout.PercentLinearLayout>
 
         <!-- SMS -->
-        <com.zhy.android.percent.support.PercentRelativeLayout
+        <com.hiber.tools.layout.PercentRelativeLayout
             android:id="@+id/ll_homeRx_sms"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
@@ -167,10 +167,10 @@
                 app:layout_textSizePercent="13%h"
                 app:layout_widthPercent="20%h" />
 
-        </com.zhy.android.percent.support.PercentRelativeLayout>
+        </com.hiber.tools.layout.PercentRelativeLayout>
 
         <!-- SETTING -->
-        <com.zhy.android.percent.support.PercentLinearLayout
+        <com.hiber.tools.layout.PercentLinearLayout
             android:id="@+id/ll_homeRx_setting"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
@@ -194,9 +194,9 @@
                  android:textColor="@color/gray"
                  app:layout_textSizePercent="20%h" />-->
 
-        </com.zhy.android.percent.support.PercentLinearLayout>
+        </com.hiber.tools.layout.PercentLinearLayout>
 
-    </com.zhy.android.percent.support.PercentLinearLayout>
+    </com.hiber.tools.layout.PercentLinearLayout>
 
     <!-- container -->
     <com.zhy.android.percent.support.PercentFrameLayout
@@ -208,4 +208,4 @@
 
     </com.zhy.android.percent.support.PercentFrameLayout>
 
-</com.zhy.android.percent.support.PercentRelativeLayout>
+</com.hiber.tools.layout.PercentRelativeLayout>

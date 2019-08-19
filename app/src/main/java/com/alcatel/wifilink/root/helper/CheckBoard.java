@@ -2,7 +2,7 @@ package com.alcatel.wifilink.root.helper;
 
 import android.app.Activity;
 
-import com.alcatel.wifilink.root.ue.activity.LoginRxActivity;
+import com.alcatel.wifilink.root.ue.root_activity.LoginRxActivity;
 import com.alcatel.wifilink.root.utils.AppInfo;
 import com.alcatel.wifilink.root.utils.CA;
 import com.alcatel.wifilink.root.utils.Logs;

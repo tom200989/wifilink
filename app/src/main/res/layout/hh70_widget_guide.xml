@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.hiber.tools.layout.PercentRelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!-- 轮播图 -->
+    <android.support.v4.view.ViewPager
+        android:id="@+id/vp_guide"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <!-- 点布局 -->
+    <com.hiber.tools.layout.PercentLinearLayout
+        android:id="@+id/ll_point_guide"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:gravity="center"
+        android:orientation="horizontal"
+        app:layout_heightPercent="9%h" />
+
+</com.hiber.tools.layout.PercentRelativeLayout>

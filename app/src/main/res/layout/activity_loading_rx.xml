@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.zhy.android.percent.support.PercentRelativeLayout
+<com.hiber.tools.layout.PercentRelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    tools:context="com.alcatel.wifilink.root.ue.activity.LoadingRxActivity">
+    tools:context="com.alcatel.wifilink.root.ue.root_activity.LoadingRxActivity">
 
     <ImageView
         android:layout_width="wrap_content"
@@ -18,4 +18,4 @@
         app:layout_heightPercent="58.7%w"
         app:layout_widthPercent="80%w" />
 
-</com.zhy.android.percent.support.PercentRelativeLayout>
+</com.hiber.tools.layout.PercentRelativeLayout>

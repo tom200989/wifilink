@@ -139,16 +139,14 @@ public class UsageHelper {
      */
     public void getOverUsage() {
         UsageSettingHelper getUsageSettingsHelper = new UsageSettingHelper(context);
-        getUsageSettingsHelper.setOngetSuccessListener(result -> {
+        getUsageSettingsHelper.setOnGetUsageSettingsSuccessListener(result -> {
             long monthlyPlan = result.getMonthlyPlan();
             long usedData = result.getUsedData();
             if (usedData >= monthlyPlan) {
                 overMonthlyNext();
             }
         });
-        getUsageSettingsHelper.setOnErrorListener(() -> {
-            getUsageErrorNext();
-        });
+        getUsageSettingsHelper.setOnGetUsageSettingsFailedListener(this::getUsageErrorNext);
         getUsageSettingsHelper.getUsageSetting();
     }
 

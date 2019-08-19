@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.hiber.tools.layout.PercentRelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <!-- navigation -->
+    <com.hiber.tools.layout.PercentLinearLayout
+        android:id="@+id/ll_homeRx_navigation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/homerx_navigation_bg"
+        android:orientation="horizontal"
+        app:layout_heightPercent="9%sh">
+
+        <!-- HOME -->
+        <com.hiber.tools.layout.PercentLinearLayout
+            android:id="@+id/ll_homeRx_home"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical"
+            app:layout_widthPercent="25%w">
+
+            <ImageView
+                android:id="@+id/iv_homeRx_tab_home"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/tab_home_pre"
+                app:layout_heightPercent="50%h"
+                app:layout_widthPercent="50%h"
+                tools:ignore="ContentDescription" />
+
+        </com.hiber.tools.layout.PercentLinearLayout>
+
+        <!-- WIFI -->
+        <com.hiber.tools.layout.PercentLinearLayout
+            android:id="@+id/ll_homeRx_wifi"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical"
+            app:layout_widthPercent="25%w">
+
+            <ImageView
+                android:id="@+id/iv_homeRx_tab_wifi"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/wifikey_nor"
+                app:layout_heightPercent="50%h"
+                app:layout_widthPercent="50%h"
+                tools:ignore="ContentDescription" />
+
+        </com.hiber.tools.layout.PercentLinearLayout>
+
+        <!-- SMS -->
+        <com.hiber.tools.layout.PercentRelativeLayout
+            android:id="@+id/ll_homeRx_sms"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            app:layout_widthPercent="25%w">
+
+            <ImageView
+                android:id="@+id/iv_homeRx_tab_sms"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:src="@drawable/tab_sms_nor"
+                app:layout_heightPercent="50%h"
+                app:layout_widthPercent="50%h"
+                tools:ignore="ContentDescription" />
+
+            <TextView
+                android:id="@+id/tv_homeRx_smsDot"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@id/iv_homeRx_tab_sms"
+                android:background="@drawable/bg_dot"
+                android:gravity="center"
+                android:textColor="@color/white"
+                android:visibility="gone"
+                app:layout_heightPercent="20%h"
+                app:layout_textSizePercent="13%h"
+                app:layout_widthPercent="20%h" />
+
+        </com.hiber.tools.layout.PercentRelativeLayout>
+
+        <!-- SETTING -->
+        <com.hiber.tools.layout.PercentLinearLayout
+            android:id="@+id/ll_homeRx_setting"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical"
+            app:layout_widthPercent="25%w">
+
+            <ImageView
+                android:id="@+id/iv_homeRx_tab_setting"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/tab_settings_nor"
+                app:layout_heightPercent="50%h"
+                app:layout_widthPercent="50%h"
+                tools:ignore="ContentDescription" />
+
+        </com.hiber.tools.layout.PercentLinearLayout>
+
+    </com.hiber.tools.layout.PercentLinearLayout>
+
+</com.hiber.tools.layout.PercentRelativeLayout>

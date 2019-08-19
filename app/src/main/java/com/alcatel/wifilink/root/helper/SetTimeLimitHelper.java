@@ -6,7 +6,7 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.widget.EditText;
 
-import com.alcatel.wifilink.root.utils.OtherUtils;
+import com.alcatel.wifilink.root.utils.RootUtils;
 
 /**
  * Created by qianli.ma on 2017/12/13 0013.
@@ -35,8 +35,8 @@ public class SetTimeLimitHelper {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                int hour = Integer.valueOf(TextUtils.isEmpty(OtherUtils.getEdContent(etHour)) ? "0" : OtherUtils.getEdContent(etHour));
-                int min = Integer.valueOf(TextUtils.isEmpty(OtherUtils.getEdContent(etMin)) ? "0" : OtherUtils.getEdContent(etMin));
+                int hour = Integer.valueOf(TextUtils.isEmpty(RootUtils.getEDText(etHour)) ? "0" : RootUtils.getEDText(etHour));
+                int min = Integer.valueOf(TextUtils.isEmpty(RootUtils.getEDText(etMin)) ? "0" : RootUtils.getEDText(etMin));
                 if (hour >= 12 & min > 0) {
                     etMin.setText("0");
                     etHour.setText("12");
@@ -51,8 +51,8 @@ public class SetTimeLimitHelper {
         // ethour 得到焦点后的限定
         etHour.setOnFocusChangeListener((v, hasFocus) -> {
             if (!hasFocus) {
-                int hour = Integer.valueOf(TextUtils.isEmpty(OtherUtils.getEdContent(etHour)) ? "0" : OtherUtils.getEdContent(etHour));
-                int min = Integer.valueOf(TextUtils.isEmpty(OtherUtils.getEdContent(etMin)) ? "0" : OtherUtils.getEdContent(etMin));
+                int hour = Integer.valueOf(TextUtils.isEmpty(RootUtils.getEDText(etHour)) ? "0" : RootUtils.getEDText(etHour));
+                int min = Integer.valueOf(TextUtils.isEmpty(RootUtils.getEDText(etMin)) ? "0" : RootUtils.getEDText(etMin));
                 if (hour >= 12 & min > 0) {
                     etMin.setText("0");
                     etHour.setText("12");
@@ -69,8 +69,8 @@ public class SetTimeLimitHelper {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                int hour = Integer.valueOf(TextUtils.isEmpty(OtherUtils.getEdContent(etHour)) ? "0" : OtherUtils.getEdContent(etHour));
-                int min = Integer.valueOf(TextUtils.isEmpty(OtherUtils.getEdContent(etMin)) ? "0" : OtherUtils.getEdContent(etMin));
+                int hour = Integer.valueOf(TextUtils.isEmpty(RootUtils.getEDText(etHour)) ? "0" : RootUtils.getEDText(etHour));
+                int min = Integer.valueOf(TextUtils.isEmpty(RootUtils.getEDText(etMin)) ? "0" : RootUtils.getEDText(etMin));
                 if (hour >= 12 & min != 0) {// 防止死循环必须把加入min!=0这个条件, 否则陷入onTextChanged死循环
                     etMin.setText("0");
                 } else {
@@ -88,8 +88,8 @@ public class SetTimeLimitHelper {
         // etMin 得到焦点后的限定
         etMin.setOnFocusChangeListener((v, hasFocus) -> {
             if (!hasFocus) {
-                int hour = Integer.valueOf(TextUtils.isEmpty(OtherUtils.getEdContent(etHour)) ? "0" : OtherUtils.getEdContent(etHour));
-                int min = Integer.valueOf(TextUtils.isEmpty(OtherUtils.getEdContent(etMin)) ? "0" : OtherUtils.getEdContent(etMin));
+                int hour = Integer.valueOf(TextUtils.isEmpty(RootUtils.getEDText(etHour)) ? "0" : RootUtils.getEDText(etHour));
+                int min = Integer.valueOf(TextUtils.isEmpty(RootUtils.getEDText(etMin)) ? "0" : RootUtils.getEDText(etMin));
                 if (hour >= 12 & min != 0) {
                     etMin.setText("0");
                 } else {

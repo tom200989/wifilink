@@ -1,50 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.zhy.android.percent.support.PercentRelativeLayout
+<com.hiber.tools.layout.PercentRelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:background="@color/transparent">
+    android:layout_height="wrap_content">
 
-    <com.zhy.android.percent.support.PercentRelativeLayout
+    <com.hiber.tools.layout.PercentRelativeLayout
+        android:id="@+id/rl_dataplan_bg"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/bg_pop_dataplan"
-        app:layout_heightPercent="18%sh">
+        android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/tv_dataplan_rx_pop_mb"
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:alpha="0.5"
+            android:src="@color/gray" />
+
+        <com.hiber.tools.layout.PercentRelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="start|center_vertical"
-            android:paddingEnd="@dimen/dimen_15dip"
-            android:paddingStart="@dimen/dimen_15dip"
-            android:text="@string/mb_text"
-            android:textColor="@color/gray"
-            app:layout_heightPercent="50%h"
-            app:layout_textSizePercent="15%h" />
+            android:layout_centerInParent="true"
+            android:layout_marginStart="30dp"
+            android:layout_marginEnd="30dp"
+            android:background="@color/white"
+            app:layout_heightPercent="18%h">
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="0.1dp"
-            android:layout_below="@id/tv_dataplan_rx_pop_mb"
-            android:layout_marginEnd="@dimen/dimen_10dip"
-            android:layout_marginStart="@dimen/dimen_10dip"
-            android:background="@color/gray" />
+            <TextView
+                android:id="@+id/tv_dataplan_rx_pop_mb"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="start|center_vertical"
+                android:paddingStart="@dimen/dimen_15dip"
+                android:paddingEnd="@dimen/dimen_15dip"
+                android:text="@string/mb_text"
+                android:textColor="@color/gray"
+                app:layout_heightPercent="50%h"
+                app:layout_textSizePercent="15%h" />
 
-        <TextView
-            android:id="@+id/tv_dataplan_rx_pop_gb"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/tv_dataplan_rx_pop_mb"
-            android:gravity="start|center_vertical"
-            android:paddingEnd="@dimen/dimen_15dip"
-            android:paddingStart="@dimen/dimen_15dip"
-            android:text="@string/gb_text"
-            android:textColor="@color/gray"
-            app:layout_heightPercent="50%h"
-            app:layout_textSizePercent="15%h" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.1dp"
+                android:layout_below="@id/tv_dataplan_rx_pop_mb"
+                android:layout_marginStart="@dimen/dimen_10dip"
+                android:layout_marginEnd="@dimen/dimen_10dip"
+                android:background="@color/black" />
 
-    </com.zhy.android.percent.support.PercentRelativeLayout>
+            <TextView
+                android:id="@+id/tv_dataplan_rx_pop_gb"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tv_dataplan_rx_pop_mb"
+                android:gravity="start|center_vertical"
+                android:paddingStart="@dimen/dimen_15dip"
+                android:paddingEnd="@dimen/dimen_15dip"
+                android:text="@string/gb_text"
+                android:textColor="@color/gray"
+                app:layout_heightPercent="50%h"
+                app:layout_textSizePercent="15%h" />
 
-</com.zhy.android.percent.support.PercentRelativeLayout>
+        </com.hiber.tools.layout.PercentRelativeLayout>
+
+    </com.hiber.tools.layout.PercentRelativeLayout>
+
+</com.hiber.tools.layout.PercentRelativeLayout>

@@ -6,8 +6,8 @@ import android.os.Handler;
 import android.util.Log;
 
 import com.alcatel.wifilink.R;
-import com.alcatel.wifilink.root.ue.activity.LoginRxActivity;
-import com.alcatel.wifilink.root.ue.activity.RefreshWifiRxActivity;
+import com.alcatel.wifilink.root.ue.root_activity.LoginRxActivity;
+import com.alcatel.wifilink.root.ue.root_activity.RefreshWifiRxActivity;
 import com.alcatel.wifilink.root.utils.CA;
 import com.alcatel.wifilink.root.utils.OtherUtils;
 import com.alcatel.wifilink.root.utils.ToastUtil_m;

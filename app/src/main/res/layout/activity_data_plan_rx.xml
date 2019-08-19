@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.zhy.android.percent.support.PercentRelativeLayout
+<com.hiber.tools.layout.PercentRelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#f5f5f5"
-    tools:context="com.alcatel.wifilink.root.ue.activity.DataPlanRxActivity">
+    tools:context="com.alcatel.wifilink.root.ue.root_activity.DataPlanRxActivity">
     
     <!-- 标题栏 -->
-    <com.zhy.android.percent.support.PercentRelativeLayout
+    <com.hiber.tools.layout.PercentRelativeLayout
         android:id="@+id/rl_dataplan_rx"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -44,16 +44,16 @@
             android:textColor="@color/white"
             app:layout_textSizePercent="27%h" />
 
-    </com.zhy.android.percent.support.PercentRelativeLayout>
+    </com.hiber.tools.layout.PercentRelativeLayout>
 
     <!-- 内容区 -->
-    <com.zhy.android.percent.support.PercentRelativeLayout
+    <com.hiber.tools.layout.PercentRelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/rl_dataplan_rx">
 
         <!-- monthly data limit -->
-        <com.zhy.android.percent.support.PercentRelativeLayout
+        <com.hiber.tools.layout.PercentRelativeLayout
             android:id="@+id/rl_dataplan_rx_monthly"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -121,10 +121,10 @@
                 app:layout_textSizePercent="22%h"
                 app:layout_widthPercent="12%w" />
 
-        </com.zhy.android.percent.support.PercentRelativeLayout>
+        </com.hiber.tools.layout.PercentRelativeLayout>
 
         <!-- auto disconnect -->
-        <com.zhy.android.percent.support.PercentRelativeLayout
+        <com.hiber.tools.layout.PercentRelativeLayout
             android:id="@+id/rl_dataplan_rx_auto"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -154,7 +154,7 @@
                 app:layout_heightPercent="5%w"
                 app:layout_widthPercent="10%w" />
 
-        </com.zhy.android.percent.support.PercentRelativeLayout>
+        </com.hiber.tools.layout.PercentRelativeLayout>
 
         <!-- Done -->
         <Button
@@ -171,6 +171,6 @@
             app:layout_textSizePercent="2.8%h"
             app:layout_widthPercent="85%w" />
 
-    </com.zhy.android.percent.support.PercentRelativeLayout>
+    </com.hiber.tools.layout.PercentRelativeLayout>
 
-</com.zhy.android.percent.support.PercentRelativeLayout>
+</com.hiber.tools.layout.PercentRelativeLayout>

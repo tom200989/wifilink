@@ -100,7 +100,7 @@ public class GetWlanSettingsBean extends DeepCloneBean implements Serializable {
         this.AP5G_guest = AP5G_guest;
     }
 
-    public static class AP2GBean {
+    public static class AP2GBean implements Serializable{
         /**
          * ApStatus : 1
          * WMode : 3
@@ -269,7 +269,7 @@ public class GetWlanSettingsBean extends DeepCloneBean implements Serializable {
         }
     }
 
-    public static class AP2GGuestBean {
+    public static class AP2GGuestBean implements Serializable{
         /**
          * ApStatus : 1
          * WMode : 3
@@ -438,7 +438,7 @@ public class GetWlanSettingsBean extends DeepCloneBean implements Serializable {
         }
     }
 
-    public static class AP5GBean {
+    public static class AP5GBean implements Serializable{
         /**
          * ApStatus : 1
          * WMode : 3
@@ -607,7 +607,7 @@ public class GetWlanSettingsBean extends DeepCloneBean implements Serializable {
         }
     }
 
-    public static class AP5GGuestBean {
+    public static class AP5GGuestBean implements Serializable{
         /**
          * ApStatus : 1
          * WMode : 3

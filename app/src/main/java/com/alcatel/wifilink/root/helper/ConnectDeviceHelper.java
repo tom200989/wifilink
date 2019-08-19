@@ -3,7 +3,6 @@ package com.alcatel.wifilink.root.helper;
 import com.alcatel.wifilink.root.bean.ConnectedList;
 import com.p_xhelper_smart.p_xhelper_smart.bean.GetConnectDeviceListBean;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetConnectedDeviceListHelper;
-import com.p_xhelper_smart.p_xhelper_smart.impl.FwError;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,10 +37,7 @@ public class ConnectDeviceHelper {
             }
             devicesSuccessNext(tempConnectedList);
         });
-        xGetConnectedDeviceListHelper.setOnGetDeviceListFailListener(() -> {
-            devicesFailedNext(null);
-            devicesErrorNext(null);
-        });
+        xGetConnectedDeviceListHelper.setOnGetDeviceListFailListener(this::devicesFailedNext);
         xGetConnectedDeviceListHelper.getConnectDeviceList();
     }
 
@@ -68,7 +64,7 @@ public class ConnectDeviceHelper {
 
     // 接口OnDevicesFailedListener
     public interface OnDevicesFailedListener {
-        void devicesFailed(Object o);
+        void devicesFailed();
     }
 
     // 对外方式setOnDevicesFailedListener
@@ -77,28 +73,9 @@ public class ConnectDeviceHelper {
     }
 
     // 封装方法devicesFailedNext
-    private void devicesFailedNext(Object attr) {
+    private void devicesFailedNext() {
         if (onDevicesFailedListener != null) {
-            onDevicesFailedListener.devicesFailed(attr);
-        }
-    }
-
-    private OnDevicesErrorListener onDevicesErrorListener;
-
-    // 接口OnDevicesErrorListener
-    public interface OnDevicesErrorListener {
-        void devicesError(FwError error);
-    }
-
-    // 对外方式setOnDevicesErrorListener
-    public void setOnDevicesErrorListener(OnDevicesErrorListener onDevicesErrorListener) {
-        this.onDevicesErrorListener = onDevicesErrorListener;
-    }
-
-    // 封装方法devicesErrorNext
-    private void devicesErrorNext(FwError error) {
-        if (onDevicesErrorListener != null) {
-            onDevicesErrorListener.devicesError(error);
+            onDevicesFailedListener.devicesFailed();
         }
     }
 

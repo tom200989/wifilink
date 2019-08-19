@@ -19,20 +19,16 @@ public class BillingHelper {
 
     /**
      * 设置结算日
-     *
-     * @param day
      */
     public void setBillingDay(int day) {
         // 1. 先获取当前的流量对象
         UsageSettingHelper helper = new UsageSettingHelper(activity);
-        helper.setOngetSuccessListener(attr -> {
+        helper.setOnGetUsageSettingsSuccessListener(attr -> {
             // 2.修改结算日
             attr.setBillingDay(day);
             // 3.提交最新请求
             UsageSettingHelper ush_s = new UsageSettingHelper(activity);
-            ush_s.setOnSetSuccessListener(attr1 -> {
-                toast(R.string.success);
-            });
+            ush_s.setOnSetUsageSettingSuccessListener(attr1 -> toast(R.string.success));
             ush_s.setUsageSetting(attr);
         });
         helper.getUsageSetting();

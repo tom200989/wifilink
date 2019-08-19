@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.zhy.android.percent.support.PercentRelativeLayout
+<com.hiber.tools.layout.PercentRelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
     <!-- all -->
-    <com.zhy.android.percent.support.PercentRelativeLayout
+    <com.hiber.tools.layout.PercentRelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/dimen_10dip"
@@ -24,7 +24,7 @@
             app:layout_heightPercent="40%h"
             app:layout_widthPercent="40%h" />
 
-        <com.zhy.android.percent.support.PercentLinearLayout
+        <com.hiber.tools.layout.PercentLinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginStart="@dimen/dimen_10dip"
@@ -32,7 +32,7 @@
             android:layout_toEndOf="@id/icon"
             android:orientation="vertical">
 
-            <com.zhy.android.percent.support.PercentRelativeLayout
+            <com.hiber.tools.layout.PercentRelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:layout_heightPercent="50%h">
@@ -50,7 +50,7 @@
                     app:layout_textSizePercent="30%h"
                     app:layout_widthPercent="25%w" />
 
-                <com.zhy.android.percent.support.PercentRelativeLayout
+                <com.hiber.tools.layout.PercentRelativeLayout
                     android:id="@+id/device_name_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -103,8 +103,8 @@
                         android:keepScreenOn="true"
                         app:layout_heightPercent="42.5%h"
                         app:layout_widthPercent="50%h" />
-                </com.zhy.android.percent.support.PercentRelativeLayout>
-            </com.zhy.android.percent.support.PercentRelativeLayout>
+                </com.hiber.tools.layout.PercentRelativeLayout>
+            </com.hiber.tools.layout.PercentRelativeLayout>
 
             <TextView
                 android:id="@+id/ip"
@@ -124,7 +124,7 @@
                 android:text="@string/mac_address"
                 android:textColor="@color/gray"
                 app:layout_textSizePercent="15%h" />
-        </com.zhy.android.percent.support.PercentLinearLayout>
+        </com.hiber.tools.layout.PercentLinearLayout>
 
         <TextView
             android:id="@+id/host"
@@ -137,5 +137,5 @@
             android:textColor="@color/black"
             android:visibility="gone"
             app:layout_textSizePercent="20%h" />
-    </com.zhy.android.percent.support.PercentRelativeLayout>
-</com.zhy.android.percent.support.PercentRelativeLayout>
+    </com.hiber.tools.layout.PercentRelativeLayout>
+</com.hiber.tools.layout.PercentRelativeLayout>
