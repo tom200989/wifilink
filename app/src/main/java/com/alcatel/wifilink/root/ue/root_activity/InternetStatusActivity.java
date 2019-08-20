@@ -17,7 +17,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-// TOGO 2019/8/20 0020 
+// TOGO 2019/8/20 0020 internetStatuFrag
 @Deprecated
 public class InternetStatusActivity extends BaseActivityWithBack {
 

@@ -8,7 +8,6 @@ import android.widget.TextView;
 
 import com.alcatel.wifilink.R;
 import com.hiber.cons.TimerState;
-import com.hiber.hiber.RootFrag;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetWanSettingsHelper;
 
 import butterknife.BindView;
@@ -16,7 +15,7 @@ import butterknife.BindView;
 /*
  * Created by qianli.ma on 2019/8/19 0019.
  */
-public class InternetStatusFrag extends RootFrag {
+public class InternetStatusFrag extends BaseFrag {
 
     // banner-back
     @BindView(R.id.iv_internet_status_back)
@@ -57,6 +56,7 @@ public class InternetStatusFrag extends RootFrag {
 
     @Override
     public void onNexts(Object o, View view, String s) {
+        super.onNexts(o, view, s);
         timerState = TimerState.ON_BUT_OFF_WHEN_HIDE_AND_PAUSE;
         initClick();
     }

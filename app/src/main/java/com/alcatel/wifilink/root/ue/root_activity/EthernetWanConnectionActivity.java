@@ -21,7 +21,7 @@ import com.p_xhelper_smart.p_xhelper_smart.bean.SetWanSettingsParam;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetWanSettingsHelper;
 import com.p_xhelper_smart.p_xhelper_smart.helper.SetWanSettingsHelper;
 
-// TOGO 2019/8/20 0020 
+// TOGO 2019/8/20 0020 etherWANFrag
 @Deprecated
 public class EthernetWanConnectionActivity extends BaseActivityWithBack implements OnClickListener {
     private static final String TAG = "EthernetWanConnectionActivity";

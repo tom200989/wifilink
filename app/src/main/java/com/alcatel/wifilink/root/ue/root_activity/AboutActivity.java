@@ -17,6 +17,8 @@ import com.alcatel.wifilink.root.utils.Logs;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetLanSettingsHelper;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetSystemInfoHelper;
 
+// TOGO 2019/8/20 0020 AboutFrag
+@Deprecated
 public class AboutActivity extends BaseActivityWithBack implements View.OnClickListener {
     private final static String TAG = "AboutActivity";
     private TextView mDeviceNameTxt;
@@ -37,6 +39,7 @@ public class AboutActivity extends BaseActivityWithBack implements View.OnClickL
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_about);
+        // TOGO 2019/8/20 0020 
         //control title bar
         mDeviceNameTxt = (TextView) findViewById(R.id.device_name_txt);
         mImeiTxt = (TextView) findViewById(R.id.imei_txt);
@@ -54,6 +57,7 @@ public class AboutActivity extends BaseActivityWithBack implements View.OnClickL
         displayVersion();
     }
 
+    // TOGO 2019/8/20 0020 
     private void getDataFromNet() {
         GetSystemInfoHelper xGetSystemInfoHelper = new GetSystemInfoHelper();
         xGetSystemInfoHelper.setOnGetSystemInfoSuccessListener(result -> {
@@ -84,15 +88,18 @@ public class AboutActivity extends BaseActivityWithBack implements View.OnClickL
 
     }
 
+    // TOGO 2019/8/20 0020 
     private void showLoadingDialog() {
         mProgressDialog = new ProgressDialog(this);
         mProgressDialog.show();
     }
 
+    // TOGO 2019/8/20 0020 
     private void dismissLoadingDialog() {
         mProgressDialog.dismiss();
     }
 
+    // TOGO 2019/8/20 0020 
     private void displayVersion() {
         PackageManager pm = getPackageManager();
         try {
@@ -106,6 +113,7 @@ public class AboutActivity extends BaseActivityWithBack implements View.OnClickL
         }
     }
 
+    // TOGO 2019/8/20 0020 
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
@@ -120,6 +128,7 @@ public class AboutActivity extends BaseActivityWithBack implements View.OnClickL
         }
     }
 
+    // TOGO 2019/8/20 0020 
     private void toWebUiSite() {
         Intent intent = new Intent();
         intent.setAction("android.intent.action.VIEW");
@@ -128,6 +137,7 @@ public class AboutActivity extends BaseActivityWithBack implements View.OnClickL
         startActivity(intent);
     }
 
+    // TOGO 2019/8/20 0020 
     /* **** userChrome **** */
     private void userChrome() {
         if (!TextUtils.isEmpty(mProject) && !TextUtils.isEmpty(mCustom)) {
