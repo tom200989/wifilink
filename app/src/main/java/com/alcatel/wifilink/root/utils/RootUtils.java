@@ -9,6 +9,7 @@ import android.widget.EditText;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /*
@@ -131,6 +132,7 @@ public class RootUtils {
 
     /**
      * IP是否符合规则
+     *
      * @param ip IP
      */
     private static boolean ipMatch(String ip) {
@@ -201,5 +203,15 @@ public class RootUtils {
                        (num1 >= 0 && num1 <= 255) && // num1
                        (num2 >= 0 && num2 <= 255) && // num2
                        (num3 > 0 && num3 < 255);
+    }
+
+    /**
+     * 是否符合正则
+     */
+    public static boolean isMatchRule(String content) {
+        String splChrs = "^(?=.*[A-Za-z])(?=.*[0-9])(?=.*[\\-\\+\\!\\^\\$\\@\\#\\&\\*])[A-Za-z0-9\\-\\+\\!\\^\\$\\@\\#\\&\\*]{4,16}$";
+        Pattern pattern = Pattern.compile(splChrs);
+        Matcher matcher = pattern.matcher(content);
+        return matcher.find();
     }
 }

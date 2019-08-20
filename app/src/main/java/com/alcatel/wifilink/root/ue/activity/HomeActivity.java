@@ -6,8 +6,10 @@ import com.alcatel.wifilink.BuildConfig;
 import com.alcatel.wifilink.R;
 import com.alcatel.wifilink.root.helper.GetSMSUnreadHelper;
 import com.alcatel.wifilink.root.helper.TimerHelper;
+import com.alcatel.wifilink.root.ue.frag.AboutFrag;
 import com.alcatel.wifilink.root.ue.frag.EtherWANFrag;
 import com.alcatel.wifilink.root.ue.frag.InternetStatusFrag;
+import com.alcatel.wifilink.root.ue.frag.SettingAccountFrag;
 import com.alcatel.wifilink.root.ue.frag.SettingFrag;
 import com.alcatel.wifilink.root.ue.frag.SmsFrag;
 import com.alcatel.wifilink.root.ue.frag.WifiFrag;
@@ -34,6 +36,8 @@ public class HomeActivity extends RootMAActivity {
             SettingFrag.class, // 设置
             InternetStatusFrag.class, // 网络连接状态页
             EtherWANFrag.class, // 网络类型页
+            AboutFrag.class, // 说明页
+            SettingAccountFrag.class, // 设置用户页
     };
 
     private HH70_HomeTabWidget wdTab;

@@ -26,6 +26,8 @@ import com.p_xhelper_smart.p_xhelper_smart.utils.EncryptUtils;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+// TOGO 2019/8/20 0020 
+@Deprecated
 public class SettingAccountActivity extends BaseActivityWithBack implements OnClickListener {
 
     public static final String LOGOUT_FLAG = "LogoutFlag";
@@ -44,6 +46,7 @@ public class SettingAccountActivity extends BaseActivityWithBack implements OnCl
         initUi();
     }
 
+    // TOGO 2019/8/20 0020 
     private void initUi() {
         mCurrentPassword = (EditText) findViewById(R.id.current_password);
         mNewPassword = (EditText) findViewById(R.id.new_password);
@@ -53,6 +56,7 @@ public class SettingAccountActivity extends BaseActivityWithBack implements OnCl
         dgWidgetWait = (WaitWidget) findViewById(R.id.dg_widget_wait);
     }
 
+    // TOGO 2019/8/20 0020 
     private void doneChangePassword() {
         // 1.getInstant the psd info
         String currentPwd = mCurrentPassword.getText().toString();
@@ -101,6 +105,7 @@ public class SettingAccountActivity extends BaseActivityWithBack implements OnCl
         imm.hideSoftInputFromWindow(mConfirmPassword.getWindowToken(), 0);
     }
 
+    // TOGO 2019/8/20 0020 
     private void showDialog(String str) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage(str);
@@ -109,6 +114,7 @@ public class SettingAccountActivity extends BaseActivityWithBack implements OnCl
         builder.create().show();
     }
 
+    // TOGO 2019/8/20 0020 
     @Override
     public void onClick(View v) {
         int nID = v.getId();
@@ -119,6 +125,7 @@ public class SettingAccountActivity extends BaseActivityWithBack implements OnCl
         }
     }
 
+    // TOGO 2019/8/20 0020 
     /**
      * 显示对话框
      */
@@ -132,6 +139,7 @@ public class SettingAccountActivity extends BaseActivityWithBack implements OnCl
 
     }
 
+    // TOGO 2019/8/20 0020 
     /**
      * 启用重置接口
      */
@@ -147,6 +155,7 @@ public class SettingAccountActivity extends BaseActivityWithBack implements OnCl
         xSetDeviceResetHelper.SetDeviceReset();
     }
 
+    // TOGO 2019/8/20 0020 
     @Override
     public void onBackPressed() {
         if (dgWidgetOk.getVisibility() == View.VISIBLE) {
@@ -158,12 +167,14 @@ public class SettingAccountActivity extends BaseActivityWithBack implements OnCl
         }
     }
 
+    // TOGO 2019/8/20 0020 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.save, menu);
         return true;
     }
 
+    // TOGO 2019/8/20 0020 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.action_save) {
@@ -172,6 +183,7 @@ public class SettingAccountActivity extends BaseActivityWithBack implements OnCl
         return super.onOptionsItemSelected(item);
     }
 
+    // TOGO 2019/8/20 0020 
     public void changePsd(boolean needEncrypt, String UserName, String CurrentPassword, String NewPassword) {
         
         UserName = needEncrypt ? EncryptUtils.encryptAdmin(UserName) : UserName;
@@ -189,18 +201,22 @@ public class SettingAccountActivity extends BaseActivityWithBack implements OnCl
         xChangePasswordHelper.changePassword(CurrentPassword, NewPassword);
     }
 
+    // TOGO 2019/8/20 0020 
     private void toast(int resId) {
         ToastUtil_m.show(this, resId);
     }
 
+    // TOGO 2019/8/20 0020 
     private void toastLong(int resId) {
         ToastUtil_m.showLong(this, resId);
     }
 
+    // TOGO 2019/8/20 0020 
     private void toast(String content) {
         ToastUtil_m.show(this, content);
     }
 
+    // TOGO 2019/8/20 0020 
     private void to(Class ac, boolean isFinish) {
         CA.toActivity(this, ac, false, isFinish, false, 0);
     }

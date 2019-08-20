@@ -54,6 +54,8 @@ public class LoginHelper extends BaseHelper {
             if (devType == XCons.ENCRYPT_DEV_TARGET) {
                 // 1.1.E1版本必须加密
                 encryptAccAndPsd(true);
+                // 正式发起请求
+                reqLogin();
             } else {
                 // 1.2.非E1版本, 判断是否有加密字段PwEncrypt
                 isPwEncrypt();
@@ -63,6 +65,8 @@ public class LoginHelper extends BaseHelper {
         xGetSystemInfoHelper.setOnFwErrorListener(() -> {
             // 1.3.如果获取出错 -- 则一定是需要加密的版本
             encryptAccAndPsd(true);
+            // 正式发起请求
+            reqLogin();
         });
 
         xGetSystemInfoHelper.setOnAppErrorListener(() -> {

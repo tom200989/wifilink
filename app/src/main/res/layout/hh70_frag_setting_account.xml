@@ -34,6 +34,17 @@
                 android:layout_centerInParent="true"
                 android:text="@string/ergo_20181010_login_password"
                 android:textColor="@color/white"
+                app:layout_textSizePercent="30%h" />
+
+            <TextView
+                android:id="@+id/tv_setting_account_done"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="15dp"
+                android:text="@string/done"
+                android:textColor="@color/white"
                 app:layout_textSizePercent="25%h" />
 
         </com.hiber.tools.layout.PercentRelativeLayout>
@@ -128,10 +139,10 @@
             android:visibility="gone" />
 
         <!-- 等待 -->
-        <com.alcatel.wifilink.root.widget.WaitWidget
-            android:id="@+id/dg_widget_wait"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        <com.alcatel.wifilink.root.widget.HH70_LoadWidget
+            android:id="@+id/wd_setting_account_load"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:visibility="gone" />
 
     </com.hiber.tools.layout.PercentRelativeLayout>
