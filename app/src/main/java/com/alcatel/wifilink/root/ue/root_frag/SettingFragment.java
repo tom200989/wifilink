@@ -175,8 +175,7 @@ public class SettingFragment extends Fragment implements View.OnClickListener, F
 
         extenderHelper.setOnStateEnableOnListener(stateEnable -> tvExtenderOnOff.setText(on));
         extenderHelper.setOnstateEnableOffListener(stateEnable -> tvExtenderOnOff.setText(off));
-        extenderHelper.setOnResultErrorListener(resultError -> tvExtenderOnOff.setText(off));
-        extenderHelper.setOnFailedListener(attr -> tvExtenderOnOff.setText(off));
+        extenderHelper.setOnGetExtenderFailedListener(() -> tvExtenderOnOff.setText(off));
 
         wanTimerHelper.setOnError(e -> mMobileNetworkWanSocket.setText(off));
         wanTimerHelper.setOnResultError(e -> mMobileNetworkWanSocket.setText(off));

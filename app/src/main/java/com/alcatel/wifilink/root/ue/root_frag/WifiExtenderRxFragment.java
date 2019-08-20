@@ -363,14 +363,8 @@ public class WifiExtenderRxFragment extends Fragment implements FragmentBackHand
                 }
             }
         });
-        getSettingsHelper.setOnFailedListener(attr -> {
-            Logs.t(TAG).ee("method--> Extender_GetWIFIExtenderSettingsHelper failed");
+        getSettingsHelper.setOnGetExtenderFailedListener(() -> {
             toast(R.string.connect_failed);
-            disconnUi();
-        });
-        getSettingsHelper.setOnResultErrorListener(resultError -> {
-            Logs.t(TAG).ee("method--> Extender_GetWIFIExtenderSettingsHelper: " + resultError.getMessage());
-            toast(R.string.get_wifi_extender_settings_failed);
             disconnUi();
         });
         getSettingsHelper.get();
