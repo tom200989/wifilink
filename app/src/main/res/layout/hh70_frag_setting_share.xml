@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.hiber.tools.layout.PercentLinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/setting_background_color"
+    android:orientation="vertical"
+    tools:ignore="ContentDescription">
+
+    <!-- banner -->
+    <com.hiber.tools.layout.PercentRelativeLayout
+        android:id="@+id/rl_setting_share_banner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/mg_blue"
+        app:layout_heightPercent="9%h">
+
+        <ImageView
+            android:id="@+id/iv_setting_share_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:src="@drawable/back"
+            app:layout_heightPercent="50%h"
+            app:layout_widthPercent="50%h" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="@string/setting_share"
+            android:textColor="@color/white"
+            app:layout_textSizePercent="30%h" />
+
+    </com.hiber.tools.layout.PercentRelativeLayout>
+
+    <com.hiber.tools.layout.PercentRelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:layout_marginBottom="@dimen/activity_vertical_margin"
+        android:background="@color/color_white"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentStart="true"
+            android:gravity="center"
+            android:text="@string/usb"
+            android:textColor="@color/deep_black_text"
+            android:textSize="@dimen/dimen_textsize_18sp" />
+
+        <TextView
+            android:id="@+id/tv_usb_storage"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentEnd="true"
+            android:gravity="center"
+            android:text=""
+            android:textColor="@color/grey_text"
+            android:textSize="@dimen/dimen_textsize_12sp" />
+    </com.hiber.tools.layout.PercentRelativeLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dimen_10dip"
+        android:paddingStart="@dimen/activity_horizontal_margin"
+        android:paddingEnd="@dimen/dimen_16dip"
+        android:paddingBottom="@dimen/dimen_8dip"
+        android:text="@string/setting_share"
+        android:textSize="@dimen/dimen_textsize_20sp" />
+
+    <com.hiber.tools.layout.PercentLinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/color_white"
+        android:orientation="vertical"
+        android:paddingStart="@dimen/activity_horizontal_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingEnd="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingBottom="@dimen/dimen_6dip">
+
+        <com.hiber.tools.layout.PercentRelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentStart="true"
+                android:gravity="center"
+                android:text="@string/setting_sharing_ftp"
+                android:textColor="@color/deep_black_text"
+                android:textSize="@dimen/dimen_textsize_18sp" />
+
+            <android.support.v7.widget.SwitchCompat
+                android:id="@+id/switch_ftp"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="@dimen/dimen_40dip"
+                android:layout_toStartOf="@+id/iv_ftp_access_storage"
+                android:checked="false" />
+
+            <ImageView
+                android:id="@+id/iv_ftp_access_storage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/selector_access_storage_image" />
+
+        </com.hiber.tools.layout.PercentRelativeLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="@string/share_usb_storage_content"
+            android:textColor="@color/deep_grey_text"
+            android:textSize="@dimen/dimen_textsize_12sp" />
+    </com.hiber.tools.layout.PercentLinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_1dip" />
+
+    <com.hiber.tools.layout.PercentLinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/color_white"
+        android:orientation="vertical"
+        android:paddingStart="@dimen/activity_horizontal_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingEnd="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingBottom="@dimen/dimen_6dip">
+
+        <com.hiber.tools.layout.PercentRelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentStart="true"
+                android:gravity="center"
+                android:text="@string/samba"
+                android:textColor="@color/deep_black_text"
+                android:textSize="@dimen/dimen_textsize_18sp" />
+
+            <android.support.v7.widget.SwitchCompat
+                android:id="@+id/switch_samba"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="@dimen/dimen_40dip"
+                android:layout_toStartOf="@+id/iv_samba_access_storage"
+                android:checked="false" />
+
+            <ImageView
+                android:id="@+id/iv_samba_access_storage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/selector_access_storage_image" />
+
+        </com.hiber.tools.layout.PercentRelativeLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="@string/share_usb_storage_content"
+            android:textColor="@color/deep_grey_text"
+            android:textSize="@dimen/dimen_textsize_12sp" />
+    </com.hiber.tools.layout.PercentLinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_1dip" />
+
+    <com.hiber.tools.layout.PercentLinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/color_white"
+        android:orientation="vertical"
+        android:paddingStart="@dimen/activity_horizontal_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingEnd="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingBottom="@dimen/dimen_6dip">
+
+        <com.hiber.tools.layout.PercentRelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentStart="true"
+                android:gravity="center"
+                android:text="@string/setting_sharing_dlna"
+                android:textColor="@color/deep_black_text"
+                android:textSize="@dimen/dimen_textsize_18sp" />
+
+            <android.support.v7.widget.SwitchCompat
+                android:id="@+id/switch_dlna"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="@dimen/dimen_40dip"
+                android:layout_toStartOf="@+id/iv_dlna_access_storage"
+                android:checked="false" />
+
+            <ImageView
+                android:id="@+id/iv_dlna_access_storage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/selector_access_storage_image"
+                />
+
+        </com.hiber.tools.layout.PercentRelativeLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="@string/share_service_dlna_tips"
+            android:textColor="@color/deep_grey_text"
+            android:textSize="@dimen/dimen_textsize_12sp" />
+    </com.hiber.tools.layout.PercentLinearLayout>
+</com.hiber.tools.layout.PercentLinearLayout>

@@ -2,11 +2,13 @@
 <com.hiber.tools.layout.PercentRelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/color_bg_normal"
     android:orientation="vertical"
-    android:paddingBottom="@dimen/activity_vertical_margin">
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    tools:ignore="ContentDescription,RelativeOverlap,UselessParent">
 
     <!-- banner -->
     <com.hiber.tools.layout.PercentRelativeLayout
@@ -44,7 +46,7 @@
         <com.hiber.tools.layout.PercentLinearLayout
             android:id="@+id/ll_mobile_network"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical">
 
             <com.hiber.tools.layout.PercentLinearLayout
@@ -71,7 +73,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
-                        android:layout_alignParentRight="true"
                         android:layout_centerVertical="true" />
 
                     <ImageView
@@ -101,7 +102,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
-                        android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
                         android:entries="@array/settings_connection_mode"
                         android:spinnerMode="dialog"
@@ -135,7 +135,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
-                        android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
                         android:scaleType="fitXY"
                         android:src="@drawable/pwd_switcher_off"
@@ -172,10 +171,8 @@
                         android:layout_width="@dimen/dimen_20dip"
                         android:layout_height="@dimen/dimen_20dip"
                         android:layout_alignParentEnd="true"
-                        android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
                         android:layout_marginEnd="@dimen/dimen_10dip"
-                        android:layout_marginRight="@dimen/dimen_10dip"
                         android:src="@drawable/right_arrow_big"
                         android:textDirection="locale" />
 
@@ -183,7 +180,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
-                        android:layout_toLeftOf="@id/network_set_data_plan_arrow"
                         android:layout_toStartOf="@id/network_set_data_plan_arrow"
                         android:textColor="@color/color_light_gray"
                         android:textDirection="locale"
@@ -210,7 +206,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
-                        android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
                         android:entries="@array/settings_network_mode"
                         android:spinnerMode="dialog"
@@ -244,10 +239,8 @@
                         android:layout_width="@dimen/dimen_20dip"
                         android:layout_height="@dimen/dimen_20dip"
                         android:layout_alignParentEnd="true"
-                        android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
                         android:layout_marginEnd="@dimen/dimen_10dip"
-                        android:layout_marginRight="@dimen/dimen_10dip"
                         android:src="@drawable/right_arrow_big"
                         android:textDirection="locale" />
 
@@ -256,7 +249,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
-                        android:layout_toLeftOf="@id/network_selected_profile_arrow"
                         android:layout_toStartOf="@id/network_selected_profile_arrow"
                         android:textColor="@color/color_light_gray"
                         android:textDirection="locale"
@@ -283,7 +275,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
-                        android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
                         android:textDirection="locale" />
 
@@ -315,10 +306,8 @@
                         android:layout_width="@dimen/dimen_20dip"
                         android:layout_height="@dimen/dimen_20dip"
                         android:layout_alignParentEnd="true"
-                        android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
                         android:layout_marginEnd="@dimen/dimen_10dip"
-                        android:layout_marginRight="@dimen/dimen_10dip"
                         android:src="@drawable/right_arrow_big"
                         android:textDirection="locale" />
 
@@ -326,7 +315,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
-                        android:layout_toLeftOf="@id/network_change_pin_arrow"
                         android:layout_toStartOf="@id/network_change_pin_arrow"
                         android:textColor="@color/color_light_gray"
                         android:textDirection="locale"
@@ -353,11 +341,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
-                        android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
                         android:layout_gravity="end"
                         android:layout_marginEnd="@dimen/dimen_10dip"
-                        android:layout_marginRight="@dimen/dimen_10dip"
                         android:textColor="@color/color_light_gray"
                         android:textDirection="locale"
                         android:textSize="12sp" />
@@ -389,10 +375,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
-                        android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
                         android:layout_marginEnd="@dimen/dimen_10dip"
-                        android:layout_marginRight="@dimen/dimen_10dip"
                         android:textColor="@color/color_light_gray"
                         android:textDirection="locale"
                         android:textSize="12sp" />
@@ -439,10 +423,8 @@
                 android:layout_width="@dimen/dimen_20dip"
                 android:layout_height="@dimen/dimen_20dip"
                 android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_marginEnd="@dimen/dimen_10dip"
-                android:layout_marginRight="@dimen/dimen_10dip"
                 android:src="@drawable/right_arrow_big"
                 android:textDirection="locale" />
 
@@ -451,7 +433,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_toLeftOf="@id/img_monthly_data_plan"
                 android:layout_toStartOf="@id/img_monthly_data_plan"
                 android:textColor="@color/color_light_gray"
                 android:textDirection="locale"
@@ -484,7 +465,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:entries="@array/settings_data_plan_billing_day"
                 android:spinnerMode="dialog"
@@ -517,7 +497,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:entries="@array/settings_data_plan_usage_alert"
                 android:spinnerMode="dialog"
@@ -550,7 +529,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:textDirection="locale"
                 app:showText="false" />
@@ -576,7 +554,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:checked="true"
                 android:textDirection="locale" />
@@ -615,10 +592,8 @@
                     android:layout_width="@dimen/dimen_20dip"
                     android:layout_height="@dimen/dimen_20dip"
                     android:layout_alignParentEnd="true"
-                    android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_marginEnd="@dimen/dimen_10dip"
-                    android:layout_marginRight="@dimen/dimen_10dip"
                     android:src="@drawable/right_arrow_big"
                     android:textDirection="locale" />
 
@@ -627,7 +602,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:layout_toLeftOf="@id/img_set_time_limit"
                     android:layout_toStartOf="@id/img_set_time_limit"
                     android:textColor="@color/color_light_gray"
                     android:textDirection="locale"
@@ -660,7 +634,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
-                    android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:textDirection="locale"
                     app:showText="false" />
@@ -668,6 +641,7 @@
 
         </LinearLayout>
     </LinearLayout>
+    
     <!-- network -->
     <LinearLayout
         android:id="@+id/linear_network_change_pin"
@@ -681,7 +655,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <LinearLayout
+            <com.hiber.tools.layout.PercentLinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/color_white"
@@ -697,7 +671,6 @@
                         android:id="@+id/current_sim_pin"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/dimen_12dip"
                         android:layout_marginStart="@dimen/dimen_12dip"
                         android:background="@null"
                         android:digits="1234567890"
@@ -705,17 +678,18 @@
                         android:imeOptions="flagNoExtractUi"
                         android:inputType="number"
                         android:maxLength="8"
-                        android:paddingBottom="@dimen/dimen_12dip"
                         android:paddingTop="@dimen/dimen_12dip"
+                        android:paddingBottom="@dimen/dimen_12dip"
                         android:textColor="@color/grey_text"
                         android:textDirection="locale"
-                        android:textSize="@dimen/dimen_textsize_16sp" />
+                        android:textSize="@dimen/dimen_textsize_16sp"
+                        tools:ignore="Autofill,TextFields" />
                 </LinearLayout>
 
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/dimen_0_5dip"
-                    android:layout_marginLeft="@dimen/dimen_12dip"
+                    android:layout_marginStart="@dimen/dimen_12dip"
                     android:background="@color/main_bottom_divider"
                     android:contentDescription="@string/setting_account"
                     android:textDirection="locale" />
@@ -729,7 +703,6 @@
                         android:id="@+id/new_sim_pin"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/dimen_12dip"
                         android:layout_marginStart="@dimen/dimen_12dip"
                         android:background="@null"
                         android:digits="1234567890"
@@ -737,24 +710,23 @@
                         android:imeOptions="flagNoExtractUi"
                         android:inputType="number"
                         android:maxLength="8"
-                        android:paddingBottom="15dp"
                         android:paddingTop="@dimen/dimen_15dip"
+                        android:paddingBottom="15dp"
                         android:textColor="@color/grey_text"
                         android:textDirection="locale"
                         android:textSize="@dimen/dimen_textsize_16sp"
-                        />
+                        tools:ignore="Autofill,TextFields" />
                 </LinearLayout>
 
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/dimen_0_5dip"
-                    android:layout_marginLeft="@dimen/dimen_12dip"
                     android:layout_marginStart="@dimen/dimen_12dip"
                     android:background="@color/main_bottom_divider"
                     android:contentDescription="@string/setting_account"
                     android:textDirection="locale" />
 
-                <LinearLayout
+                <com.hiber.tools.layout.PercentLinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="horizontal">
@@ -763,7 +735,6 @@
                         android:id="@+id/confirm_new_sim_pin"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/dimen_12dip"
                         android:layout_marginStart="@dimen/dimen_12dip"
                         android:layout_weight="1"
                         android:background="@null"
@@ -772,13 +743,13 @@
                         android:imeOptions="flagNoExtractUi"
                         android:inputType="number"
                         android:maxLength="8"
-                        android:paddingBottom="@dimen/dimen_15dip"
                         android:paddingTop="@dimen/dimen_15dip"
+                        android:paddingBottom="@dimen/dimen_15dip"
                         android:textColor="@color/grey_text"
                         android:textDirection="locale"
                         android:textSize="@dimen/dimen_textsize_16sp"
-                        />
-                </LinearLayout>
+                        tools:ignore="Autofill,TextFields" />
+                </com.hiber.tools.layout.PercentLinearLayout>
 
                 <ImageView
                     android:layout_width="match_parent"
@@ -794,7 +765,7 @@
                     android:text="@string/remember_sim_pin"
                     android:textDirection="locale" />
 
-            </LinearLayout>
+            </com.hiber.tools.layout.PercentLinearLayout>
         </ScrollView>
     </LinearLayout>
 
@@ -831,20 +802,21 @@
                 android:hint="@string/enter_sim_pin"
                 android:inputType="numberPassword"
                 android:maxLength="8"
-                android:paddingEnd="@dimen/dimen_15dip"
                 android:paddingStart="@dimen/dimen_15dip"
+                android:paddingEnd="@dimen/dimen_15dip"
                 android:textColor="@color/mg_blue"
                 app:layout_heightPercent="25%h"
                 app:layout_marginTopPercent="25%h"
                 app:layout_textSizePercent="7%h"
-                app:layout_widthPercent="90%w" />
+                app:layout_widthPercent="90%w"
+                tools:ignore="Autofill" />
 
             <TextView
                 android:id="@+id/tv_pop_settingpin_ok"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignEnd="@id/et_pop_setttingpin"
                 android:layout_below="@id/et_pop_setttingpin"
+                android:layout_alignEnd="@id/et_pop_setttingpin"
                 android:gravity="center"
                 android:text="@string/ok"
                 android:textColor="@color/mg_blue"

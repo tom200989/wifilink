@@ -25,6 +25,8 @@ import com.p_xhelper_smart.p_xhelper_smart.helper.SetDLNASettingsHelper;
 import com.p_xhelper_smart.p_xhelper_smart.helper.SetFtpSettingsHelper;
 import com.p_xhelper_smart.p_xhelper_smart.helper.SetSambaSettingsHelper;
 
+// TOGO 2019/8/20 0020 settingsharefrag
+@Deprecated
 public class SettingShareActivity extends BaseActivityWithBack implements OnClickListener, CompoundButton.OnCheckedChangeListener {
 
     private final String TAG = "SettingShareActivity";
@@ -46,6 +48,7 @@ public class SettingShareActivity extends BaseActivityWithBack implements OnClic
     }
 
     private void initView() {
+        // TOGO 2019/8/20 0020 
         mUSBStorageText = (TextView) findViewById(R.id.tv_usb_storage);
         mFTPSwitch = (SwitchCompat) findViewById(R.id.switch_ftp);
         mSambaSwitch = (SwitchCompat) findViewById(R.id.switch_samba);
@@ -56,11 +59,14 @@ public class SettingShareActivity extends BaseActivityWithBack implements OnClic
         mFTPSwitch.setOnCheckedChangeListener(this);
         mSambaSwitch.setOnCheckedChangeListener(this);
         mDLNASwitch.setOnCheckedChangeListener(this);
+
+        // TOGO 2019/8/20 0020 
         mFTPStorageAccessImage.setOnClickListener(this);
         mSambaStorageAccessImage.setOnClickListener(this);
         mDLNAStorageAccessImage.setOnClickListener(this);
     }
 
+    // TOGO 2019/8/20 0020 
     private void initData() {
         requestGetSystemStatus();
         requestGetFTPSettings();
@@ -68,6 +74,7 @@ public class SettingShareActivity extends BaseActivityWithBack implements OnClic
         requestGetDLNASettings();
     }
 
+    // TOGO 2019/8/20 0020 
     private void requestGetSystemStatus() {
 
         GetSystemStatusHelper xGetSystemStatusHelper = new GetSystemStatusHelper();
@@ -87,18 +94,21 @@ public class SettingShareActivity extends BaseActivityWithBack implements OnClic
         xGetSystemStatusHelper.getSystemStatus();
     }
 
+    // TOGO 2019/8/20 0020 
     private void requestGetFTPSettings() {
         GetFtpSettingsHelper xGetFtpSettingsHelper = new GetFtpSettingsHelper();
         xGetFtpSettingsHelper.setOnGetFtpSettingsSuccessListener(result -> mFTPSwitch.setChecked(result.getFtpStatus() == GetFtpSettingsBean.CONS_FTPSTATUS_ENABLE));
         xGetFtpSettingsHelper.getFtpSettings();
     }
 
+    // TOGO 2019/8/20 0020 
     private void requestGetSambaSettings() {
         GetSambaSettingsHelper xGetSambaSettingsHelper = new GetSambaSettingsHelper();
         xGetSambaSettingsHelper.setOnGetSambaSettingsSuccessListener(result -> mSambaSwitch.setChecked(result.getSambaStatus() == GetSambaSettingsBean.CONS_SAMBASTATUS_DISABLE));
         xGetSambaSettingsHelper.getSambaSettings();
     }
 
+    // TOGO 2019/8/20 0020 
     private void requestGetDLNASettings() {
         GetDLNASettingsHelper xGetDLNASettingsHelper = new GetDLNASettingsHelper();
         xGetDLNASettingsHelper.setOnGetDLNASettingsSuccessListener(result -> mDLNASwitch.setChecked(result.getDlnaStatus() == GetDLNASettingsBean.CONS_ENABLE));
@@ -131,6 +141,7 @@ public class SettingShareActivity extends BaseActivityWithBack implements OnClic
         xSetDLNASettingsHelper.setDLNASettings(param);
     }
 
+    // TOGO 2019/8/20 0020 
     @Override
     protected void onResume() {
         super.onResume();
@@ -146,6 +157,7 @@ public class SettingShareActivity extends BaseActivityWithBack implements OnClic
         }
     }
 
+    // TOGO 2019/8/20 0020 
     @Override
     protected void onPause() {
         super.onPause();
@@ -155,12 +167,14 @@ public class SettingShareActivity extends BaseActivityWithBack implements OnClic
         }
     }
 
+    // TOGO 2019/8/20 0020 
     @Override
     protected void onDestroy() {
         super.onDestroy();
     }
 
 
+    // TOGO 2019/8/20 0020 
     @Override
     public void onClick(View v) {
     }
