@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.hiber.tools.layout.PercentRelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!-- banner -->
+    <com.hiber.tools.layout.PercentRelativeLayout
+        android:id="@+id/rl_internet_status_banner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/mg_blue"
+        app:layout_heightPercent="9%h">
+
+        <ImageView
+            android:id="@+id/iv_internet_status_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:src="@drawable/back"
+            app:layout_heightPercent="50%h"
+            app:layout_widthPercent="50%h"
+            tools:ignore="ContentDescription" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="@string/internet_status"
+            android:textColor="@color/white"
+            app:layout_textSizePercent="30%h" />
+
+    </com.hiber.tools.layout.PercentRelativeLayout>
+
+    <com.hiber.tools.layout.PercentRelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/rl_internet_status_banner">
+
+        <!-- IP_ADDRESS -->
+        <com.hiber.tools.layout.PercentRelativeLayout
+            android:id="@+id/rl_internet_IPAddress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_heightPercent="8%h">
+
+            <TextView
+                android:id="@+id/tv_internet_title_IPAddress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="15dp"
+                android:text="@string/ip_address"
+                android:textColor="@color/black"
+                app:layout_textSizePercent="30%h" />
+
+            <TextView
+                android:id="@+id/tv_internet_content_IPAddress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="15dp"
+                android:text="0.0.0.0"
+                android:textColor="@color/gray"
+                app:layout_textSizePercent="30%h"
+                tools:ignore="HardcodedText" />
+
+            <View style="@style/internet_split" />
+
+        </com.hiber.tools.layout.PercentRelativeLayout>
+
+        <!-- Subnet mask  -->
+        <com.hiber.tools.layout.PercentRelativeLayout
+            android:id="@+id/rl_internet_subnet"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/rl_internet_IPAddress"
+            app:layout_heightPercent="8%h">
+
+            <TextView
+                android:id="@+id/tv_internet_title_SubnetMask"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="15dp"
+                android:text="@string/subnet_mask"
+                android:textColor="@color/black"
+                app:layout_textSizePercent="30%h" />
+
+
+            <TextView
+                android:id="@+id/tv_internet_content_subnetmask"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="15dp"
+                android:text="0.0.0.0"
+                android:textColor="@color/gray"
+                app:layout_textSizePercent="30%h"
+                tools:ignore="HardcodedText" />
+
+            <View
+                style="@style/internet_split" />
+
+        </com.hiber.tools.layout.PercentRelativeLayout>
+
+        <!-- Default gateway  -->
+        <com.hiber.tools.layout.PercentRelativeLayout
+            android:id="@+id/rl_internet_gateway"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/rl_internet_subnet"
+            app:layout_heightPercent="8%h">
+
+            <TextView
+                android:id="@+id/tv_internet_title_gateway"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="15dp"
+                android:text="@string/default_gateway"
+                android:textColor="@color/black"
+                app:layout_textSizePercent="30%h" />
+
+            <TextView
+                android:id="@+id/tv_internet_content_gateway"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="15dp"
+                android:text="0.0.0.0"
+                android:textColor="@color/gray"
+                app:layout_textSizePercent="30%h"
+                tools:ignore="HardcodedText" />
+
+            <View
+                style="@style/internet_split" />
+
+        </com.hiber.tools.layout.PercentRelativeLayout>
+
+        <!-- Preferred DNS  -->
+        <com.hiber.tools.layout.PercentRelativeLayout
+            android:id="@+id/rl_internet_dns"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/rl_internet_gateway"
+            app:layout_heightPercent="8%h">
+
+            <TextView
+                android:id="@+id/tv_internet_title_dns"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="15dp"
+                android:text="@string/preferred_dns"
+                android:textColor="@color/black"
+                app:layout_textSizePercent="30%h" />
+
+            <TextView
+                android:id="@+id/tv_internet_content_dns"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="15dp"
+                android:text="0.0.0.0"
+                android:textColor="@color/gray"
+                app:layout_textSizePercent="30%h"
+                tools:ignore="HardcodedText" />
+
+            <View
+                style="@style/internet_split" />
+
+        </com.hiber.tools.layout.PercentRelativeLayout>
+
+        <!-- Secondary DNS  -->
+        <com.hiber.tools.layout.PercentRelativeLayout
+            android:id="@+id/rl_internet_secondDns"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/rl_internet_dns"
+            app:layout_heightPercent="8%h">
+
+            <TextView
+                android:id="@+id/tv_internet_title_secondDns"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="15dp"
+                android:text="@string/secondary_dns"
+                android:textColor="@color/black"
+                app:layout_textSizePercent="30%h" />
+
+            <TextView
+                android:id="@+id/tv_internet_content_secondDns"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="15dp"
+                android:text="0.0.0.0"
+                android:textColor="@color/gray"
+                app:layout_textSizePercent="30%h"
+                tools:ignore="HardcodedText" />
+
+            <View style="@style/internet_split" />
+
+        </com.hiber.tools.layout.PercentRelativeLayout>
+
+        <!-- Renew -->
+        <Button
+            android:id="@+id/bt_internet_renew"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimen_50dip"
+            android:layout_below="@id/rl_internet_secondDns"
+            android:layout_margin="@dimen/dimen_20dip"
+            android:background="@drawable/btn_click_selector"
+            android:gravity="center"
+            android:text="@string/dhcp_renew"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            app:layout_textSizePercent="2.7%h" />
+
+        <!-- Ethernet WAN connection -->
+        <TextView
+            android:id="@+id/tv_internet_ethernetWanConnect"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/rv_internet_renew"
+            android:layout_centerHorizontal="true"
+            android:text="@string/ethernet_wan_connection"
+            app:layout_textSizePercent="2.2%h" />
+
+    </com.hiber.tools.layout.PercentRelativeLayout>
+
+</com.hiber.tools.layout.PercentRelativeLayout>

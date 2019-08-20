@@ -17,6 +17,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+// TOGO 2019/8/20 0020 
+@Deprecated
 public class InternetStatusActivity extends BaseActivityWithBack {
 
     // ip_phone address
@@ -81,7 +83,7 @@ public class InternetStatusActivity extends BaseActivityWithBack {
         initWanData();
     }
 
-
+    // TOGO 2019/8/20 0020 
     /**
      * init actionbar
      */
@@ -98,12 +100,12 @@ public class InternetStatusActivity extends BaseActivityWithBack {
     @OnClick({R.id.rv_internet_renew, R.id.tv_internet_ethernetWanConnect})
     public void onViewClicked(View view) {
         switch (view.getId()) {
-            // renew button
+            // togo renew button
             case R.id.rv_internet_renew:
                 getWanInfo();
                 break;
 
-            // to connect type ui [pppoe | static | dhcp]
+            // togo to connect type ui [pppoe | static | dhcp]
             case R.id.tv_internet_ethernetWanConnect:
                 CA.toActivity(this, EthernetWanConnectionActivity.class, false, false, false, 0);
                 break;
@@ -112,6 +114,7 @@ public class InternetStatusActivity extends BaseActivityWithBack {
 
     /* -------------------------------------------- HELPER -------------------------------------------- */
 
+    // TOGO 2019/8/20 0020 
     /**
      * A1.初始化获取WAN口数据
      */
@@ -119,6 +122,7 @@ public class InternetStatusActivity extends BaseActivityWithBack {
         getWanInfo();
     }
 
+    // TOGO 2019/8/20 0020 
     /**
      * A2.重新获取wan口信息
      */

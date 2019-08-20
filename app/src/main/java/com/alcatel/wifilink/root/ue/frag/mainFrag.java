@@ -644,8 +644,7 @@ public class mainFrag extends BaseFrag {
             if (isRussian) {
                 montyUsage = montyUsage.replace(".", ",") + " ";
             }
-            String montyUnit = planUnit;
-            tvUsedTotal.setText(plan <= 0 ? noUsagePlan : useOf + BLANK_TEXT + montyUsage + montyUnit);
+            tvUsedTotal.setText(plan <= 0 ? noUsagePlan : useOf + BLANK_TEXT + montyUsage + planUnit);
             // 计算已使用流量比率
             usageLimit = SP.getInstance(getActivity()).getInt(Cons.USAGE_LIMIT, 90);
             if (usageLimit == -1) {

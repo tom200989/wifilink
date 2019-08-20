@@ -21,6 +21,8 @@ import com.p_xhelper_smart.p_xhelper_smart.bean.SetWanSettingsParam;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetWanSettingsHelper;
 import com.p_xhelper_smart.p_xhelper_smart.helper.SetWanSettingsHelper;
 
+// TOGO 2019/8/20 0020 
+@Deprecated
 public class EthernetWanConnectionActivity extends BaseActivityWithBack implements OnClickListener {
     private static final String TAG = "EthernetWanConnectionActivity";
 
@@ -45,6 +47,8 @@ public class EthernetWanConnectionActivity extends BaseActivityWithBack implemen
     private EditText mStaticIpMtu;
 
     private Button mConnectOrDisconnect;
+
+    // TOGO 2019/8/20 0020 
     private GetWanSettingsBean mWanSettingsResult;
     private SetWanSettingsParam mWanSettingsParams;
     private boolean mIsConnecting;
@@ -55,25 +59,28 @@ public class EthernetWanConnectionActivity extends BaseActivityWithBack implemen
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ethernet_wan_connection);
+        // TOGO 2019/8/20 0020 
         setTitle(getString(R.string.ethernet_wan_connection));
+        // TOGO 2019/8/20 0020 
         mWanSettingsResult = new GetWanSettingsBean();
         mWanSettingsParams = new SetWanSettingsParam();
+        // TOGO 2019/8/20 0020 
         mSelectedPppopImg = (ImageView) findViewById(R.id.pppoe_selected_img);
         mSelectedDhcpImg = (ImageView) findViewById(R.id.dhcp_selected_img);
         mSelectedStaticIpImg = (ImageView) findViewById(R.id.static_ip_selected_img);
         mPppopLayout = (LinearLayout) findViewById(R.id.linearlayout_pppoe);
         mDhcpTextview = (TextView) findViewById(R.id.textview_dhcp);
         mStaticIpLayout = (LinearLayout) findViewById(R.id.linearlayout_static_ip);
-
+        // TOGO 2019/8/20 0020 
         findViewById(R.id.ethernet_wan_connection_pppoe).setOnClickListener(this);
         findViewById(R.id.ethernet_wan_connection_dhcp).setOnClickListener(this);
         findViewById(R.id.ethernet_wan_connection_static_ip).setOnClickListener(this);
-
+        // TOGO 2019/8/20 0020 
         //pppoe
         mPppoeAccount = (EditText) findViewById(R.id.pppoe_account);
         mPppoePassword = (EditText) findViewById(R.id.pppoe_password);
         mPppoeMtu = (EditText) findViewById(R.id.pppoe_mtu);
-
+        // TOGO 2019/8/20 0020 
         //static ip_phone
         mStaticIpAddress = (EditText) findViewById(R.id.static_ip_address);
         mStaticIpSubnetMask = (EditText) findViewById(R.id.static_ip_subnet_mask);
@@ -81,14 +88,16 @@ public class EthernetWanConnectionActivity extends BaseActivityWithBack implemen
         mStaticIpPreferredDns = (EditText) findViewById(R.id.static_ip_preferred_dns);
         mStaticIpSecondaryDns = (EditText) findViewById(R.id.static_ip_secondary_dns);
         mStaticIpMtu = (EditText) findViewById(R.id.static_ip_mtu);
-
+        // TOGO 2019/8/20 0020 
         mConnectOrDisconnect = (Button) findViewById(R.id.btn_connect);
         mConnectOrDisconnect.setOnClickListener(this);
 
+        // TOGO 2019/8/20 0020 
         mIsConnecting = false;
         getWanSettings();
     }
 
+    // TOGO 2019/8/20 0020 
     private void getWanSettings() {
         GetWanSettingsHelper xGetWanSettingsHelper = new GetWanSettingsHelper();
         xGetWanSettingsHelper.setOnGetWanSettingsSuccessListener(result -> {
@@ -122,6 +131,7 @@ public class EthernetWanConnectionActivity extends BaseActivityWithBack implemen
         xGetWanSettingsHelper.getWanSettings();
     }
 
+    // TOGO 2019/8/20 0020 
     private void setWanSettings() {
         SetWanSettingsHelper xSetWanSettingsHelper = new SetWanSettingsHelper();
         xSetWanSettingsHelper.setOnSetWanSettingsSuccessListener(() -> {
@@ -134,11 +144,13 @@ public class EthernetWanConnectionActivity extends BaseActivityWithBack implemen
         xSetWanSettingsHelper.setWanSettings(mWanSettingsParams);
     }
 
+    // TOGO 2019/8/20 0020 
     private String getEdContent(EditText et) {
         String content = et.getText().toString().trim().replace(" ", "");
         return content;
     }
 
+    // TOGO 2019/8/20 0020 
     @Override
     public void onClick(View v) {
 
@@ -165,6 +177,7 @@ public class EthernetWanConnectionActivity extends BaseActivityWithBack implemen
         }
     }
 
+    // TOGO 2019/8/20 0020 
     private void connectWan() {
 
         // 检测MTU是否符合规则
@@ -247,6 +260,7 @@ public class EthernetWanConnectionActivity extends BaseActivityWithBack implemen
         setWanSettings();
     }
 
+    // TOGO 2019/8/20 0020 
     private void showConnectStaticIp() {
         flag = Cons.FLAG_STATIC_IP;
         if (mWanSettingsResult.getConnectType() == GetWanSettingsBean.CONS_STATIC && mWanSettingsResult.getStatus() == GetWanSettingsBean.CONS_CONNECTED) {
@@ -263,6 +277,7 @@ public class EthernetWanConnectionActivity extends BaseActivityWithBack implemen
         mStaticIpLayout.setVisibility(View.VISIBLE);
     }
 
+    // TOGO 2019/8/20 0020 
     private void showConnectDhcp() {
         flag = Cons.FLAG_DHCP;
         if (mWanSettingsResult.getConnectType() == GetWanSettingsBean.CONS_DHCP && mWanSettingsResult.getStatus() == GetWanSettingsBean.CONS_CONNECTED) {
@@ -279,6 +294,7 @@ public class EthernetWanConnectionActivity extends BaseActivityWithBack implemen
         mStaticIpLayout.setVisibility(View.GONE);
     }
 
+    // TOGO 2019/8/20 0020 
     private void showConnectPppoe() {
         flag = Cons.FLAG_PPPOE;
         if (mWanSettingsResult.getConnectType() == GetWanSettingsBean.CONS_PPPOE && mWanSettingsResult.getStatus() == GetWanSettingsBean.CONS_CONNECTED) {
@@ -295,43 +311,48 @@ public class EthernetWanConnectionActivity extends BaseActivityWithBack implemen
         mStaticIpLayout.setVisibility(View.GONE);
     }
 
+    // TOGO 2019/8/20 0020 
     @Override
     public void onDestroy() {
         super.onDestroy();
     }
 
+    // TOGO 2019/8/20 0020 
     @Override
     public void onBackPressed() {
         super.onBackPressed();
     }
 
+    // TOGO 2019/8/20 0020 
     @Override
     public void onStart() {
 
         super.onStart();
     }
 
+    // TOGO 2019/8/20 0020 
     @Override
     public void onPause() {
 
         super.onPause();
     }
 
+    // TOGO 2019/8/20 0020 
     @Override
     public void onResume() {
 
         super.onResume();
     }
 
+    // TOGO 2019/8/20 0020 
     @Override
     public void onStop() {
 
         super.onStop();
     }
 
+    // TOGO 2019/8/20 0020 
     public void toast(String content) {
         ToastUtil_m.show(this, content);
     }
-
-
 }
