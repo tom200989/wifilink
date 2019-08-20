@@ -1,22 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<com.hiber.tools.layout.PercentLinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="16dp">
+    android:layout_margin="16dp"
+    android:orientation="vertical">
 
-    <RelativeLayout
+    <!-- banner -->
+    <com.zhy.android.percent.support.PercentRelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="48dp"
-        >
+        android:layout_height="wrap_content"
+        android:background="@color/mg_blue"
+        app:layout_heightPercent="9%h">
+
+        <ImageView
+            android:id="@+id/iv_wlan_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:src="@drawable/back"
+            app:layout_heightPercent="50%h"
+            app:layout_widthPercent="50%h" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
+            android:layout_centerInParent="true"
+            android:text="@string/wifi_settings"
+            android:textColor="@color/white"
+            app:layout_textSizePercent="30%h" />
+
+    </com.zhy.android.percent.support.PercentRelativeLayout>
+
+    <com.hiber.tools.layout.PercentRelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="48dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_centerVertical="true"
             android:text="@string/ssid_broadcast"
@@ -27,12 +50,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
             android:layout_centerVertical="true" />
-    </RelativeLayout>
+    </com.hiber.tools.layout.PercentRelativeLayout>
 
     <!-- country -->
-    <RelativeLayout
+    <com.hiber.tools.layout.PercentRelativeLayout
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:visibility="gone">
@@ -40,7 +62,6 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_centerVertical="true"
             android:text="@string/country_region"
@@ -51,14 +72,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:entries="@array/wlan_settings_country"
             android:spinnerMode="dialog" />
-    </RelativeLayout>
+    </com.hiber.tools.layout.PercentRelativeLayout>
 
     <!-- channel -->
-    <RelativeLayout
+    <com.hiber.tools.layout.PercentRelativeLayout
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:visibility="gone">
@@ -66,7 +86,6 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_centerVertical="true"
             android:text="@string/channel"
@@ -77,21 +96,18 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:entries="@array/wlan_settings_channel"
             android:spinnerMode="dialog" />
-    </RelativeLayout>
+    </com.hiber.tools.layout.PercentRelativeLayout>
 
-    <RelativeLayout
+    <com.hiber.tools.layout.PercentRelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="48dp"
-        >
+        android:layout_height="48dp">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_centerVertical="true"
             android:text="@string/mode_802_11"
@@ -102,21 +118,18 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:entries="@array/wlan_settings_80211_2g"
             android:spinnerMode="dialog" />
-    </RelativeLayout>
+    </com.hiber.tools.layout.PercentRelativeLayout>
 
-    <RelativeLayout
+    <com.hiber.tools.layout.PercentRelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="48dp"
-        >
+        android:layout_height="48dp">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_centerVertical="true"
             android:text="@string/ap_isolation"
@@ -127,19 +140,16 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
             android:layout_centerVertical="true" />
-    </RelativeLayout>
+    </com.hiber.tools.layout.PercentRelativeLayout>
 
-    <RelativeLayout
+    <com.zhy.android.percent.support.PercentRelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="48dp"
-        >
+        android:layout_height="48dp">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_centerVertical="true"
             android:text="@string/bandwidth"
@@ -150,16 +160,19 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:entries="@array/wlan_settings_bandwidth_2g"
             android:spinnerMode="dialog" />
-    </RelativeLayout>
+    </com.zhy.android.percent.support.PercentRelativeLayout>
 
     <Button
+        android:id="@+id/bt_wlan_ok"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/selector_conner_btn_login_blue"
-        android:onClick="OnOKClick"
-        android:text="@string/ok" />
-</LinearLayout>
+        android:text="@string/ok"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        app:layout_textSizePercent="2.5%h" />
+
+</com.hiber.tools.layout.PercentLinearLayout>

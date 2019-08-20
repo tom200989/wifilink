@@ -1,50 +1,56 @@
-package com.alcatel.wifilink.root.ue.root_activity;
+package com.alcatel.wifilink.root.ue.frag;
 
-import android.content.Intent;
-import android.os.Bundle;
 import android.support.v7.widget.AppCompatSpinner;
 import android.support.v7.widget.SwitchCompat;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.ImageView;
 
 import com.alcatel.wifilink.R;
+import com.alcatel.wifilink.root.bean.WlanBean;
 
 import java.util.Arrays;
 import java.util.List;
 
-// TOGO 2019/8/20 0020 wlanfrag
-@Deprecated
-public class WlanAdvancedSettingsActivity extends BaseActivityWithBack {
+import butterknife.BindView;
 
-    private static final String TAG = "WlanAdvancedSettingsAct";
-    public static final String EXTRA_FRE = "frequency";
-    public static final String EXTRA_SSID_BROADCAST = "ssid_broadcast";
-    public static final String EXTRA_CHANNEL = "channel";
-    public static final String EXTRA_COUNTRY = "country";
-    public static final String EXTRA_BANDWIDTH = "bandwidth";
-    public static final String EXTRA_MODE_80211 = "80211_mode";
-    public static final String EXTRA_AP_ISOLATION = "ap_isolation";
+/*
+ * Created by qianli.ma on 2019/8/20 0020.
+ */
+public class WlanFrag extends BaseFrag {
 
-    private SwitchCompat mBroadcastSwitch;
-    private AppCompatSpinner mCountrySpinner;
-    private AppCompatSpinner mChannelSpinner;
-    private AppCompatSpinner m80211Spinner;
-    private SwitchCompat mIsolationSwitch;
-    private AppCompatSpinner mBandwidthSpinner;
+    @BindView(R.id.iv_wlan_back)
+    ImageView ivWlanBack;
+    @BindView(R.id.bt_wlan_ok)
+    Button btOK;
 
-    private String[] mAllCountryNames;
+    @BindView(R.id.switch_ssid_broadcast)
+    SwitchCompat mBroadcastSwitch;
+    @BindView(R.id.spinner_country_type)
+    AppCompatSpinner mCountrySpinner;
+    @BindView(R.id.spinner_channel_type)
+    AppCompatSpinner mChannelSpinner;
+    @BindView(R.id.spinner_802_11_mode)
+    AppCompatSpinner m80211Spinner;
+    @BindView(R.id.switch_ap_isolation)
+    SwitchCompat mIsolationSwitch;
+    @BindView(R.id.spinner_bandwidth_type)
+    AppCompatSpinner mBandwidthSpinner;
 
     private boolean mSsidBroadcast;
-
+    private boolean mApIsolation;
     private String mCountry;
+    private int mChannel5g;
+    private int mFrequency;
     private int mChannel;
     private int mMode;
-    private boolean mApIsolation;
     private int mBandwidth;
+
+    private String[] mAllCountryNames;
     private String[] mMode2GStrings;
     private String[] mMode5GStrings;
-    private int mFrequency;
     private String[] mBandwidth2GStrings;
     private String[] mBandwidth5GStrings;
     private String[] mChannel5gOne;
@@ -54,18 +60,51 @@ public class WlanAdvancedSettingsActivity extends BaseActivityWithBack {
     private String[] mChannel5gfive;
     private List<String> mChannel5gOneCountryCodes;
     private List<String> mChannel5gFiveCountryCodes;
-    private int mChannel5g;
+    private WlanBean wlanBean;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_wlan_advanced_settings);
-        initArrays();
-        loadSettings();
-        initViews();
+    public int onInflateLayout() {
+        return R.layout.hh70_frag_wlan;
     }
 
-    // TOGO 2019/8/20 0020 
+    @Override
+    public void onNexts(Object o, View view, String s) {
+        super.onNexts(o, view, s);
+        if (o instanceof WlanBean) {
+            wlanBean = (WlanBean) o;
+            mSsidBroadcast = wlanBean.ismSsidBroadcast();
+            mChannel = wlanBean.getmChannel();
+            mFrequency = wlanBean.getmFrequency();
+            mCountry = wlanBean.getmCountry();
+            mBandwidth = wlanBean.getmBandwidth();
+            mMode = wlanBean.getmMode();
+            mApIsolation = wlanBean.ismApIsolation();
+        }
+        initArrays();
+        initViews();
+        initClick();
+    }
+
+    private void initClick() {
+        // 回退
+        ivWlanBack.setOnClickListener(v -> onBackPresss());
+        // 保存并返回
+        btOK.setOnClickListener(v -> {
+            saveChange();
+            toFrag(getClass(), WifiFrag.class, wlanBean, false);
+        });
+    }
+
+    private void saveChange() {
+        wlanBean = wlanBean == null ? new WlanBean() : wlanBean;
+        wlanBean.setmSsidBroadcast(mBroadcastSwitch.isChecked());
+        wlanBean.setmChannel(mChannel);
+        wlanBean.setmCountry(mCountry);
+        wlanBean.setmBandwidth(mBandwidth);
+        wlanBean.setmMode(mMode);
+        wlanBean.setmApIsolation(mApIsolation);
+    }
+
     private void initArrays() {
         mAllCountryNames = getResources().getStringArray(R.array.wlan_settings_country);
         mMode2GStrings = getResources().getStringArray(R.array.wlan_settings_80211_2g);
@@ -77,40 +116,14 @@ public class WlanAdvancedSettingsActivity extends BaseActivityWithBack {
         mChannel5gThree = getResources().getStringArray(R.array.Channel5g_three);
         mChannel5gfour = getResources().getStringArray(R.array.Channel5g_four);
         mChannel5gfive = getResources().getStringArray(R.array.Channel5g_five);
-
         String[] oneStrings = {"GB", "IT", "FR", "PT", "ES", "MX"};
         String[] fiveStrings = new String[]{"US", "HK", "CN"};
         mChannel5gFiveCountryCodes = Arrays.asList(oneStrings);
         mChannel5gOneCountryCodes = Arrays.asList(fiveStrings);
     }
 
-    // TOGO 2019/8/20 0020 onNext
-    private void loadSettings() {
-        Intent intent = getIntent();
-        if (intent != null) {
-            // TOGO 2019/8/20 0020 onnext
-            mSsidBroadcast = intent.getBooleanExtra(EXTRA_SSID_BROADCAST, true);
-            mChannel = intent.getIntExtra(EXTRA_CHANNEL, 0);
-            mFrequency = intent.getIntExtra(EXTRA_FRE, 0);
-            mCountry = intent.getStringExtra(EXTRA_COUNTRY);
-            mBandwidth = intent.getIntExtra(EXTRA_BANDWIDTH, 0);
-            mMode = intent.getIntExtra(EXTRA_MODE_80211, 0);
-            mApIsolation = intent.getBooleanExtra(EXTRA_AP_ISOLATION, false);
-        }
-    }
-
-    // TOGO 2019/8/20 0020 
     private void initViews() {
-        // TOGO 2019/8/20 0020 
-        mBroadcastSwitch = (SwitchCompat) findViewById(R.id.switch_ssid_broadcast);
-        mCountrySpinner = (AppCompatSpinner) findViewById(R.id.spinner_country_type);
-        mChannelSpinner = (AppCompatSpinner) findViewById(R.id.spinner_channel_type);
-        m80211Spinner = (AppCompatSpinner) findViewById(R.id.spinner_802_11_mode);
-        mIsolationSwitch = (SwitchCompat) findViewById(R.id.switch_ap_isolation);
-        mBandwidthSpinner = (AppCompatSpinner) findViewById(R.id.spinner_bandwidth_type);
-
-        ArrayAdapter<String> channelAdapter = null;
-
+        ArrayAdapter<String> channelAdapter;
         if (mFrequency == 5) {
             if (mChannel5gOneCountryCodes.contains(mCountry)) {
                 for (int i = 0; i < mChannel5gOne.length; i++) {
@@ -118,9 +131,8 @@ public class WlanAdvancedSettingsActivity extends BaseActivityWithBack {
                     if (channel.equals(mChannel5gOne[i])) {
                         mChannel = i;
                     }
-
                 }
-                channelAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, mChannel5gOne);
+                channelAdapter = new ArrayAdapter<>(activity, android.R.layout.simple_list_item_1, mChannel5gOne);
                 channelAdapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
                 mChannelSpinner.setAdapter(channelAdapter);
             } else if (mChannel5gFiveCountryCodes.contains(mCountry)) {
@@ -129,7 +141,7 @@ public class WlanAdvancedSettingsActivity extends BaseActivityWithBack {
                     if (channel.equals(mChannel5gfive[i])) {
                         mChannel = i;
                     }
-                    channelAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, mChannel5gfive);
+                    channelAdapter = new ArrayAdapter<>(activity, android.R.layout.simple_list_item_1, mChannel5gfive);
                     channelAdapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
                     mChannelSpinner.setAdapter(channelAdapter);
                 }
@@ -142,16 +154,16 @@ public class WlanAdvancedSettingsActivity extends BaseActivityWithBack {
         // 3: 802.11b/g/n
         // 4: 802.11a
         // 5: 802.11a/n
-        ArrayAdapter<String> modeAdapter = null;
+        ArrayAdapter<String> modeAdapter;
         if (mFrequency == 2) {
-            modeAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, mMode2GStrings);
+            modeAdapter = new ArrayAdapter<>(activity, android.R.layout.simple_list_item_1, mMode2GStrings);
             modeAdapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
             m80211Spinner.setAdapter(modeAdapter);
         } else if (mFrequency == 5) {
             if (mMode > 3) {
                 mMode = mMode - 3;
             }
-            modeAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, mMode5GStrings);
+            modeAdapter = new ArrayAdapter<>(activity, android.R.layout.simple_list_item_1, mMode5GStrings);
             modeAdapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
             m80211Spinner.setAdapter(modeAdapter);
         }
@@ -160,16 +172,16 @@ public class WlanAdvancedSettingsActivity extends BaseActivityWithBack {
         //2: 40MHz
         //3: 80MHz
         //4: 40MHz/80MHz
-        ArrayAdapter<String> bandwidthAdapter = null;
+        ArrayAdapter<String> bandwidthAdapter;
         if (mFrequency == 2) {
-            bandwidthAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, mBandwidth2GStrings);
+            bandwidthAdapter = new ArrayAdapter<>(activity, android.R.layout.simple_list_item_1, mBandwidth2GStrings);
             bandwidthAdapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
             mBandwidthSpinner.setAdapter(bandwidthAdapter);
         } else if (mFrequency == 5) {
             if (mBandwidth == 4) {
                 mBandwidth = 0;
             }
-            bandwidthAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, mBandwidth5GStrings);
+            bandwidthAdapter = new ArrayAdapter<>(activity, android.R.layout.simple_list_item_1, mBandwidth5GStrings);
             bandwidthAdapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
             mBandwidthSpinner.setAdapter(bandwidthAdapter);
         }
@@ -210,11 +222,11 @@ public class WlanAdvancedSettingsActivity extends BaseActivityWithBack {
                 public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                     String countryCode = getCountryCode(mAllCountryNames[i]);
                     if (mChannel5gFiveCountryCodes.contains(countryCode)) {
-                        ArrayAdapter<String> channelAdapter = new ArrayAdapter(WlanAdvancedSettingsActivity.this, android.R.layout.simple_list_item_1, mChannel5gfive);
+                        ArrayAdapter<String> channelAdapter = new ArrayAdapter(activity, android.R.layout.simple_list_item_1, mChannel5gfive);
                         channelAdapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
                         mChannelSpinner.setAdapter(channelAdapter);
                     } else if (mChannel5gOneCountryCodes.contains(countryCode)) {
-                        ArrayAdapter<String> channelAdapter = new ArrayAdapter(WlanAdvancedSettingsActivity.this, android.R.layout.simple_list_item_1, mChannel5gOne);
+                        ArrayAdapter<String> channelAdapter = new ArrayAdapter(activity, android.R.layout.simple_list_item_1, mChannel5gOne);
                         channelAdapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
                         mChannelSpinner.setAdapter(channelAdapter);
                     }
@@ -245,6 +257,7 @@ public class WlanAdvancedSettingsActivity extends BaseActivityWithBack {
 
             }
         });
+
         mBroadcastSwitch.setChecked(mSsidBroadcast);
         mChannelSpinner.setSelection(mChannel);
         mCountrySpinner.setSelection(getCountryPos(mCountry));
@@ -253,7 +266,6 @@ public class WlanAdvancedSettingsActivity extends BaseActivityWithBack {
         mBandwidthSpinner.setSelection(mBandwidth);
     }
 
-    // TOGO 2019/8/20 0020 
     private int getCountryPos(String countryStr) {
         String countryName = getCountryName(countryStr);
         for (int i = 0; i < mAllCountryNames.length; i++) {
@@ -264,28 +276,6 @@ public class WlanAdvancedSettingsActivity extends BaseActivityWithBack {
         return -1;
     }
 
-    // TOGO 2019/8/20 0020 
-    public void OnOKClick(View view) {
-        Intent intent = new Intent();
-        intent.putExtra(EXTRA_SSID_BROADCAST, mBroadcastSwitch.isChecked());
-        // if (mFrequency == 5) {
-        //     intent.putExtra(EXTRA_CHANNEL, mChannel5g);
-        // } else {
-        //     intent.putExtra(EXTRA_CHANNEL, mChannelSpinner.getSelectedItemPosition());
-        // }
-        intent.putExtra(EXTRA_CHANNEL, mChannel);// 现把channel一项选择框取消--> web-ui是什么就原路返回
-
-        // intent.putExtra(EXTRA_COUNTRY, getCountryCode(mAllCountryNames[mCountrySpinner.getSelectedItemPosition()]));
-        intent.putExtra(EXTRA_COUNTRY, mCountry);// 现把country一项选择框取消--> web-ui是什么就原路返回
-
-        intent.putExtra(EXTRA_BANDWIDTH, mBandwidth);
-        intent.putExtra(EXTRA_MODE_80211, mMode);
-        intent.putExtra(EXTRA_AP_ISOLATION, mIsolationSwitch.isChecked());
-        setResult(RESULT_OK, intent);
-        finish();
-    }
-
-    // TOGO 2019/8/20 0020 
     private String getCountryCode(String countryName) {
         /*
         UNITED KINGDOM
@@ -297,7 +287,7 @@ public class WlanAdvancedSettingsActivity extends BaseActivityWithBack {
         HONG KONG
         CHINA
          */
-        String countryCode = "GB";
+        String countryCode;
         switch (countryName) {
             case "UNITED KINGDOM":
                 countryCode = "GB";// Channel5g.five
@@ -326,14 +316,15 @@ public class WlanAdvancedSettingsActivity extends BaseActivityWithBack {
             case "MEXICO":
                 countryCode = "MX";
                 break;
+            default:
+                countryCode = "GB";
+                break;
         }
         return countryCode;
     }
 
-    // TOGO 2019/8/20 0020 
     private String getCountryName(String counstrCode) {
-
-        String countryName = "UNITED KINGDOM";
+        String countryName;
         switch (counstrCode) {
             case "GB":
                 countryName = "UNITED KINGDOM";// Channel5g.five
@@ -362,8 +353,16 @@ public class WlanAdvancedSettingsActivity extends BaseActivityWithBack {
             case "MX":
                 countryName = "MEXICO";
                 break;
+            default:
+                countryName = "UNITED KINGDOM";
+                break;
         }
         return countryName;
     }
 
+    @Override
+    public boolean onBackPresss() {
+        toFrag(getClass(), WifiFrag.class, null, true);
+        return true;
+    }
 }

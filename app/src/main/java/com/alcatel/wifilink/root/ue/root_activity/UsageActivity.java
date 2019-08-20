@@ -21,7 +21,8 @@ import com.p_xhelper_smart.p_xhelper_smart.helper.SetUsageRecordClearHelper;
 
 import static com.alcatel.wifilink.R.id.tv_network_settings;
 
-
+// TOGO 2019/8/20 0020 usagerxfrag
+@Deprecated
 public class UsageActivity extends BaseActivityWithBack implements View.OnClickListener {
 
     private Context mContext;
@@ -53,6 +54,7 @@ public class UsageActivity extends BaseActivityWithBack implements View.OnClickL
         updateUI();
     }
 
+    // TOGO 2019/8/20 0020 
     @Override
     protected void onResume() {
         super.onResume();
@@ -60,6 +62,7 @@ public class UsageActivity extends BaseActivityWithBack implements View.OnClickL
     }
 
 
+    // TOGO 2019/8/20 0020 
     /**
      * 接收定时器接口
      */
@@ -95,6 +98,7 @@ public class UsageActivity extends BaseActivityWithBack implements View.OnClickL
         }.settingActionbarAttr(this, getSupportActionBar(), R.layout.actionbarusage);
     }
 
+    // TOGO 2019/8/20 0020 
     protected void initView() {
         mHomeData = (TextView) findViewById(R.id.home_data);
         mTvHomeTime = (TextView) findViewById(R.id.tv_home_time);
@@ -136,7 +140,7 @@ public class UsageActivity extends BaseActivityWithBack implements View.OnClickL
         dialog.show();
     }
 
-
+    // TOGO 2019/8/20 0020 
     /* update ui */
     private void updateUI() {
         getUsageRecord();
@@ -147,6 +151,7 @@ public class UsageActivity extends BaseActivityWithBack implements View.OnClickL
         CA.toActivity(this, SettingNetworkActivity.class, false, true, false, 0);
     }
 
+    // TOGO 2019/8/20 0020 
     /* **** getUsageRecord **** */
     private void getUsageRecord() {
         GetUsageRecordHelper xGetUsageRecordHelper = new GetUsageRecordHelper();
@@ -154,6 +159,7 @@ public class UsageActivity extends BaseActivityWithBack implements View.OnClickL
         xGetUsageRecordHelper.getUsageRecord(DataUtils.getCurrent());
     }
 
+    // TOGO 2019/8/20 0020 
     /* **** updateUsageRecord **** */
     private void updateUsageRecord(GetUsageRecordBean result) {
         long useData = result.getHUseData();
