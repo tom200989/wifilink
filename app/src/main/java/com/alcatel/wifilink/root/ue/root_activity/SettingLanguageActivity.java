@@ -24,6 +24,8 @@ import java.util.Locale;
 
 import static java.lang.Character.toUpperCase;
 
+// TOGO 2019/8/21 0021 languageFrag
+@Deprecated
 public class SettingLanguageActivity extends BaseActivityWithBack {
     private static final String TAG = "SettingLanguageActivity";
     public static final String IS_SWITCH_LANGUAGE = "is_switch_language";

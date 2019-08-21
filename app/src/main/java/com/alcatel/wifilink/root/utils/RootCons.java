@@ -7,6 +7,7 @@ import java.util.List;
  * Created by qianli.ma on 2019/8/15 0015.
  */
 public class RootCons {
+
     public static String SP_GUIDE = "SP_GUIDE";// 是否进入过向导页
     public static String SP_WIZARD = "SP_WIZARD";// 是否进入过引导页
     public static String SP_DATA_PLAN_INIT = "SP_DATA_PLAN_INIT";// 是否进入过流量计划页
@@ -18,14 +19,14 @@ public class RootCons {
     public static String LOGIN_REMEM_PSD = "LOGIN_REMEM_PSD";// 登陆界面缓存的密码
     public static String PIN_INIT_IS_REMEM_PSD = "PIN_INIT_IS_REMEM_PSD";// PIN码初始化界面记住密码标记
     public static String PIN_INIT_REMEM_PSD = "PIN_INIT_REMEM_PSD";// PIN码初始化界面缓存的密码
+    public static String LOCALE_LANGUAGE_COUNTRY = "LOCALE_LANGUAGE_COUNTRY";// 当前需要显示的语言和国家, 如:es-MX
 
     public static class ACTIVITYS {// Activity
         public static final String SPLASH_AC = "com.alcatel.wifilink.root.ue.activity.SplashActivity";
         public static final String HOME_AC = "com.alcatel.wifilink.root.ue.activity.HomeActivity";
     }
 
-    public static class LANGUAGES {// 语言
-        public static final String LANGUAGE = "LANGUAGE";
+    public static class LANGUAGES {// 支持的语言
         public static final String ENGLISH = "en";
         public static final String ARABIC = "ar";
         public static final String ESPANYOL = "es";
@@ -38,6 +39,23 @@ public class RootCons {
         public static final String POLAND = "pl";
         public static final String RUSSIAN = "ru";
         public static final String CHINA = "zh";
+    }
+
+    public static List<String> LANGUAGE_COUNTRY_LIST = new ArrayList<>();// 语言集合
+
+    static {
+        LANGUAGE_COUNTRY_LIST.add(LANGUAGES.ENGLISH + "-default");
+        LANGUAGE_COUNTRY_LIST.add(LANGUAGES.ARABIC + "-default");
+        LANGUAGE_COUNTRY_LIST.add(LANGUAGES.ESPANYOL + "-MX");
+        LANGUAGE_COUNTRY_LIST.add(LANGUAGES.GERMENIC + "-default");
+        LANGUAGE_COUNTRY_LIST.add(LANGUAGES.ITALIAN + "-default");
+        LANGUAGE_COUNTRY_LIST.add(LANGUAGES.FRENCH + "-default");
+        LANGUAGE_COUNTRY_LIST.add(LANGUAGES.SERBIAN + "-default");
+        LANGUAGE_COUNTRY_LIST.add(LANGUAGES.CROATIAN + "-default");
+        LANGUAGE_COUNTRY_LIST.add(LANGUAGES.SLOVENIAN + "-default");
+        LANGUAGE_COUNTRY_LIST.add(LANGUAGES.POLAND + "-default");
+        LANGUAGE_COUNTRY_LIST.add(LANGUAGES.RUSSIAN + "-default");
+        LANGUAGE_COUNTRY_LIST.add(LANGUAGES.CHINA + "-default");
     }
 
     public static List<String> FREE_SHARING_DEVICE = new ArrayList<>();// 需要free-sharing的设备

@@ -93,7 +93,7 @@ public class DataPlanInitFrag extends BaseFrag {
      * 适配俄语
      */
     private void adapterRussia() {
-        String language = ShareUtils.get(RootCons.LANGUAGES.LANGUAGE, "");
+        String language = ShareUtils.get(RootCons.LOCALE_LANGUAGE_COUNTRY, "");
         if (language.equalsIgnoreCase(RootCons.LANGUAGES.RUSSIAN)) {
             tvDataplanRxLimitDes.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
             tvDataplanRxLimitUnlimitDes.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);

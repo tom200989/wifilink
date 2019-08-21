@@ -9,11 +9,13 @@ import com.alcatel.wifilink.root.helper.TimerHelper;
 import com.alcatel.wifilink.root.ue.frag.AboutFrag;
 import com.alcatel.wifilink.root.ue.frag.EtherWANFrag;
 import com.alcatel.wifilink.root.ue.frag.InternetStatusFrag;
+import com.alcatel.wifilink.root.ue.frag.LanguageFrag;
 import com.alcatel.wifilink.root.ue.frag.SettingAccountFrag;
 import com.alcatel.wifilink.root.ue.frag.SettingFrag;
 import com.alcatel.wifilink.root.ue.frag.SettingShareFrag;
 import com.alcatel.wifilink.root.ue.frag.SmsFrag;
 import com.alcatel.wifilink.root.ue.frag.WifiFrag;
+import com.alcatel.wifilink.root.ue.frag.WlanFrag;
 import com.alcatel.wifilink.root.ue.frag.mainFrag;
 import com.alcatel.wifilink.root.widget.HH70_HomeTabWidget;
 import com.hiber.bean.RootProperty;
@@ -40,6 +42,8 @@ public class HomeActivity extends RootMAActivity {
             AboutFrag.class, // 说明页
             SettingAccountFrag.class, // 设置用户页
             SettingShareFrag.class, // 共享设备页
+            WlanFrag.class, // 共享设备页
+            LanguageFrag.class, // 选择语言页
     };
 
     private HH70_HomeTabWidget wdTab;
