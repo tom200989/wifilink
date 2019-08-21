@@ -66,8 +66,6 @@ public class ActivityNewSms extends BaseActivityWithBack implements OnClickListe
         m_etContent.setText("");
         setEditTextChangedListener();
 
-        String text = ActivitySmsDetail.getOneSmsLenth("") + "/1";
-
         m_progressWaiting = this.findViewById(R.id.sms_new_waiting_progress);
     }
 
