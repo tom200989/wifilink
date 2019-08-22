@@ -1,8 +1,8 @@
 package com.alcatel.wifilink.root.ue.frag;
 
-import android.os.Build;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
 
@@ -56,13 +56,12 @@ public class LanguageFrag extends BaseFrag {
                 String[] lang_coun = languageBean.getLanguage_country().split("-");
                 String language = lang_coun[0];
                 String country = lang_coun[1];
+                country = TextUtils.isEmpty(country) | country.equals("default") ? "" : country;
                 LangHelper.transfer(activity, language, country);
                 // 保存到缓存
                 ShareUtils.set(RootCons.LOCALE_LANGUAGE_COUNTRY, language + "-" + country);
-                // > = 7.0 重启Activity(必须)
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                    activity.recreate();
-                }
+                // 重启Activity(必须)
+                activity.recreate();
             }
         });
     }

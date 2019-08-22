@@ -12,6 +12,7 @@ import com.alcatel.wifilink.root.ue.frag.InternetStatusFrag;
 import com.alcatel.wifilink.root.ue.frag.LanguageFrag;
 import com.alcatel.wifilink.root.ue.frag.SettingAccountFrag;
 import com.alcatel.wifilink.root.ue.frag.SettingFrag;
+import com.alcatel.wifilink.root.ue.frag.SettingNetworkFrag;
 import com.alcatel.wifilink.root.ue.frag.SettingShareFrag;
 import com.alcatel.wifilink.root.ue.frag.SmsFrag;
 import com.alcatel.wifilink.root.ue.frag.WifiFrag;
@@ -44,6 +45,7 @@ public class HomeActivity extends RootMAActivity {
             SettingShareFrag.class, // 共享设备页
             WlanFrag.class, // 共享设备页
             LanguageFrag.class, // 选择语言页
+            SettingNetworkFrag.class, // SIM设置页
     };
 
     private HH70_HomeTabWidget wdTab;

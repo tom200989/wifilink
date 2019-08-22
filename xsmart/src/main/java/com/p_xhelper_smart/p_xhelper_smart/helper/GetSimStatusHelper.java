@@ -43,7 +43,7 @@ public class GetSimStatusHelper extends BaseHelper {
 
     // Inteerface--> 接口OnGetSimStatusSuccessListener
     public interface OnGetSimStatusSuccessListener {
-        void GetSimStatusSuccess(GetSimStatusBean attr);
+        void GetSimStatusSuccess(GetSimStatusBean getSimStatusBean);
     }
 
     // 对外方式setOnGetSimStatusSuccessListener
@@ -52,9 +52,9 @@ public class GetSimStatusHelper extends BaseHelper {
     }
 
     // 封装方法GetSimStatusSuccessNext
-    private void GetSimStatusSuccessNext(GetSimStatusBean attr) {
+    private void GetSimStatusSuccessNext(GetSimStatusBean getSimStatusBean) {
         if (onGetSimStatusSuccessListener != null) {
-            onGetSimStatusSuccessListener.GetSimStatusSuccess(attr);
+            onGetSimStatusSuccessListener.GetSimStatusSuccess(getSimStatusBean);
         }
     }
 

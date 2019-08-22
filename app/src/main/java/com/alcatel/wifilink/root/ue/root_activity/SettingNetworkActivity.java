@@ -62,7 +62,10 @@ import com.p_xhelper_smart.p_xhelper_smart.helper.SetUsageSettingsHelper;
 
 import java.util.List;
 
+// TOGO 2019/8/22 0022 settingnetworkFrag
+@Deprecated
 public class SettingNetworkActivity extends BaseActivityWithBack implements OnClickListener, AdapterView.OnItemSelectedListener {
+    
     private static final String TAG = "SettingNetworkActivity";
     private LinearLayout mMobileNetwork;
     private LinearLayout mSetDataPlan;
@@ -76,12 +79,6 @@ public class SettingNetworkActivity extends BaseActivityWithBack implements OnCl
     private TextView mSimNumberTextView;
     private TextView mImsiTextView;
     private TextView mTvProfile;
-    private boolean mOldMobileDataEnable;
-
-    private GetNetworkSettingsBean mNetworkSettings;
-    private GetConnectionSettingsBean mConnectionSettings;
-    private GetUsageSettingsBean mUsageSetting;
-    private GetSimStatusBean mSimStatus;
     //set data plan
     private TextView mMonthlyDataPlanText;
     private AppCompatSpinner mBillingDaySpinner;
@@ -97,6 +94,13 @@ public class SettingNetworkActivity extends BaseActivityWithBack implements OnCl
     private EditText mNewSimPin;
     private EditText mConfirmNewSimPin;
 
+    private EditText et_settingPin;
+    private TextView ok_settingPin;
+    private TextView cancel_settingPin;
+    private View iv_settingPin;
+    private View rl_settingPin;
+    
+    private boolean mOldMobileDataEnable;
     private boolean mFirstSetConnectionMode;
     private boolean mFirstSetNetworkMode;
     private boolean mFirstSetBillingDay;
@@ -105,11 +109,10 @@ public class SettingNetworkActivity extends BaseActivityWithBack implements OnCl
     private ProgressDialog pgd;
     private boolean isRoaming;
     private PopupWindows popPin;
-    private EditText et_settingPin;
-    private TextView ok_settingPin;
-    private TextView cancel_settingPin;
-    private View iv_settingPin;
-    private View rl_settingPin;
+    private GetNetworkSettingsBean mNetworkSettings;
+    private GetConnectionSettingsBean mConnectionSettings;
+    private GetUsageSettingsBean mUsageSetting;
+    private GetSimStatusBean mSimStatus;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -117,6 +120,7 @@ public class SettingNetworkActivity extends BaseActivityWithBack implements OnCl
         initRes();
         setTitle(R.string.setting_mobile_network);
         setContentView(R.layout.activity_setting_network);
+        // TOGO 2019/8/21 0021 
         mFirstSetConnectionMode = true;
         mFirstSetNetworkMode = true;
         mFirstSetBillingDay = true;
@@ -124,7 +128,9 @@ public class SettingNetworkActivity extends BaseActivityWithBack implements OnCl
         mConnectionSettings = new GetConnectionSettingsBean();
         mUsageSetting = new GetUsageSettingsBean();
         mSimStatus = new GetSimStatusBean();
+        
         //set data plan
+        // TOGO 2019/8/21 0021 
         findViewById(R.id.rl_monthly_data_plan).setOnClickListener(this);
         findViewById(R.id.rl_set_time_limit).setOnClickListener(this);
         findViewById(R.id.relativelayout_network_profile).setOnClickListener(this);
@@ -133,6 +139,7 @@ public class SettingNetworkActivity extends BaseActivityWithBack implements OnCl
         mSetDataPlan = (LinearLayout) findViewById(R.id.sett_data_plan);
         mChangePin = (LinearLayout) findViewById(R.id.linear_network_change_pin);
         mRoamingRl = (RelativeLayout) findViewById(R.id.relativelayout_network_roaming);
+        // TOGO 2019/8/21 0021 
         mMobileDataSwitchCompat = (SwitchCompat) findViewById(R.id.network_mobile_data_switch);
         mMobileDataSwitchCompat.setOnCheckedChangeListener((compoundButton, enable) -> {
             if (!mMobileDataSwitchCompat.isPressed()) {
@@ -147,22 +154,26 @@ public class SettingNetworkActivity extends BaseActivityWithBack implements OnCl
                 }
             }
         });
+        // TOGO 2019/8/21 0021 
         mConnectionModeSpinner = (AppCompatSpinner) findViewById(R.id.spinner_connection_mode);
-        //        mConnectionModeSpinner.setSelection(0, true);
         mConnectionModeSpinner.setOnItemSelectedListener(this);
+        // TOGO 2019/8/21 0021 
         mNetworkModeSpinner = (AppCompatSpinner) findViewById(R.id.settings_network_mode);
-        //        mNetworkModeSpinner.setSelection(0, true);
         mNetworkModeSpinner.setOnItemSelectedListener(this);
+        // TOGO 2019/8/21 0021 
         mRoamingSwitchCompat = (ImageView) findViewById(R.id.network_roaming_switch);
         mRoamingSwitchCompat.setOnClickListener(this);
+        // TOGO 2019/8/21 0021 
         mSimPinCompat = (SwitchCompat) findViewById(R.id.network_sim_pin_switch);
         mSimPinCompat.setOnClickListener(this);
         mSimNumberTextView = (TextView) findViewById(R.id.textview_sim_number);
         mImsiTextView = (TextView) findViewById(R.id.textview_network_imsi);
         mTvProfile = (TextView) findViewById(R.id.textview_network_profile);
+        // TOGO 2019/8/21 0021 
         findViewById(R.id.network_set_data_plan).setOnClickListener(this);
         findViewById(R.id.network_change_pin).setOnClickListener(this);
         findViewById(R.id.iv_settingnetwork_back).setOnClickListener(this);
+        // TOGO 2019/8/21 0021 
         getConnectionState();
         getConnectionSettings();
         getNetworkModeSettings();
@@ -172,12 +183,14 @@ public class SettingNetworkActivity extends BaseActivityWithBack implements OnCl
 
         //set data plan
         mMonthlyDataPlanText = (TextView) findViewById(R.id.textview_monthly_data_plan);
+        // TOGO 2019/8/21 0021 
         mBillingDaySpinner = (AppCompatSpinner) findViewById(R.id.setdataplan_billing_day);
-        //        mBillingDaySpinner.setSelection(0, true);
         mBillingDaySpinner.setOnItemSelectedListener(this);
         mUsageAlertSpinner = (AppCompatSpinner) findViewById(R.id.setdataplan_usagealert);
+        // TOGO 2019/8/22 0022 
         int usageLimit_default = SP.getInstance(SettingNetworkActivity.this).getInt(Cons.USAGE_LIMIT, 90);
         setDefaultLimit(mUsageAlertSpinner, usageLimit_default);
+        // TOGO 2019/8/21 0021 
         mUsageAlertSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -192,6 +205,7 @@ public class SettingNetworkActivity extends BaseActivityWithBack implements OnCl
 
             }
         });
+        // TOGO 2019/8/21 0021 
         mDisconnectCompat = (SwitchCompat) findViewById(R.id.setdataplan_auto_disconnect);
         mDisconnectCompat.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -207,6 +221,7 @@ public class SettingNetworkActivity extends BaseActivityWithBack implements OnCl
             }
         });
         mTimeLimitLl = (LinearLayout) findViewById(R.id.ll_time_limit);
+        // TOGO 2019/8/21 0021 
         mTimeLimitCompat = (SwitchCompat) findViewById(R.id.setdataplan_timelimit);
         mTimeLimitCompat.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -224,6 +239,7 @@ public class SettingNetworkActivity extends BaseActivityWithBack implements OnCl
             }
         });
         mSetTimeLimitText = (TextView) findViewById(R.id.textview_set_time_limit);
+        // TOGO 2019/8/21 0021 
         mLimitAutoDisaconectCompat = (SwitchCompat) findViewById(R.id.setdataplan_limit_auto_disaconect);
         mLimitAutoDisaconectCompat.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -248,6 +264,7 @@ public class SettingNetworkActivity extends BaseActivityWithBack implements OnCl
         cancel_settingPin = (TextView) findViewById(R.id.tv_pop_settingpin_cancel);
     }
 
+    // TOGO 2019/8/21 0021 
     private void setDefaultLimit(AppCompatSpinner mUsageAlertSpinner, int usageLimit_default) {
         switch (usageLimit_default) {
             case 90:
@@ -265,11 +282,13 @@ public class SettingNetworkActivity extends BaseActivityWithBack implements OnCl
         }
     }
 
+    // TOGO 2019/8/21 0021 
     private void initRes() {
         switchOn = getResources().getDrawable(R.drawable.pwd_switcher_on);
         switchOff = getResources().getDrawable(R.drawable.pwd_switcher_off);
     }
 
+    // TOGO 2019/8/21 0021 
     private void connect() {
 
         ConnectHelper xConnectHelper = new ConnectHelper();
@@ -286,6 +305,7 @@ public class SettingNetworkActivity extends BaseActivityWithBack implements OnCl
 
     }
 
+    // TOGO 2019/8/21 0021 
     private void disConnect() {
 
         DisConnectHelper xDisConnectHelper = new DisConnectHelper();
@@ -301,6 +321,7 @@ public class SettingNetworkActivity extends BaseActivityWithBack implements OnCl
         xDisConnectHelper.disconnect();
     }
 
+    // TOGO 2019/8/21 0021 
     private void getConnectionState() {
 
         GetConnectionStateHelper xGetConnectionStateHelper = new GetConnectionStateHelper();
@@ -315,6 +336,7 @@ public class SettingNetworkActivity extends BaseActivityWithBack implements OnCl
         xGetConnectionStateHelper.getConnectionState();
     }
 
+    // TOGO 2019/8/21 0021 
     private void setConnectionSettings(int connectMode) {
         int connMode = 0;
         if (connectMode == 0) {
@@ -337,6 +359,7 @@ public class SettingNetworkActivity extends BaseActivityWithBack implements OnCl
         xSetConnectionSettingsHelper.setConnectionSettings(connMode, roamingConnect, pdpType, connOffTime);
     }
 
+    // TOGO 2019/8/21 0021 
     private void getConnectionSettings() {
 
         GetConnectionSettingsHelper xGetConnectionSettingsHelper = new GetConnectionSettingsHelper();
@@ -361,6 +384,7 @@ public class SettingNetworkActivity extends BaseActivityWithBack implements OnCl
         xGetConnectionSettingsHelper.getConnectionSettings();
     }
 
+    // TOGO 2019/8/21 0021 
     private void setNetworkSettings(int networkMode) {
         SetNetworkSettingsParam param = new SetNetworkSettingsParam();
         param.setDomesticRoam(mNetworkSettings.getDomesticRoam());
@@ -373,6 +397,7 @@ public class SettingNetworkActivity extends BaseActivityWithBack implements OnCl
         xSetNetworkSettingsHelper.setNetworkSettings(param);
     }
 
+    // TOGO 2019/8/21 0021 
     private void getNetworkModeSettings() {
 
         GetNetworkSettingsBeanHelper xGetNetworkSettingsBeanHelper = new GetNetworkSettingsBeanHelper();
@@ -397,6 +422,7 @@ public class SettingNetworkActivity extends BaseActivityWithBack implements OnCl
 
     }
 
+    // TOGO 2019/8/21 0021 
     private void getProfileList() {
         GetProfileListHelper xGetProfileListHelper = new GetProfileListHelper();
         xGetProfileListHelper.setOnGetProfileListListener(bean -> {
@@ -408,6 +434,7 @@ public class SettingNetworkActivity extends BaseActivityWithBack implements OnCl
         xGetProfileListHelper.getProfileList();
     }
 
+    // TOGO 2019/8/21 0021 
     private void changePinState(String pinCode, int enable) {
 
         ChangePinStateHelper xChangePinStateHelper = new ChangePinStateHelper();
@@ -427,6 +454,7 @@ public class SettingNetworkActivity extends BaseActivityWithBack implements OnCl
         xChangePinStateHelper.changePinState(pinCode, enable);
     }
 
+    // TOGO 2019/8/21 0021 
     private void getSimStatus() {
 
         GetSimStatusHelper xGetSimStatusHelper = new GetSimStatusHelper();
@@ -447,6 +475,7 @@ public class SettingNetworkActivity extends BaseActivityWithBack implements OnCl
         xGetSimStatusHelper.getSimStatus();
     }
 
+    // TOGO 2019/8/21 0021 
     private void getSystemInfo() {
         GetSystemInfoHelper xGetSystemInfoHelper = new GetSystemInfoHelper();
         xGetSystemInfoHelper.setOnGetSystemInfoSuccessListener(result -> {
@@ -456,6 +485,7 @@ public class SettingNetworkActivity extends BaseActivityWithBack implements OnCl
         xGetSystemInfoHelper.getSystemInfo();
     }
 
+    // TOGO 2019/8/21 0021 
     private void setUsageSetting(GetUsageSettingsBean usageSetting) {
         SetUsageSettingsParam param = new SetUsageSettingsParam();
         param.copy(usageSetting);
@@ -464,6 +494,7 @@ public class SettingNetworkActivity extends BaseActivityWithBack implements OnCl
         xSetUsageSettingsHelper.setUsageSettings(param);
     }
 
+    // TOGO 2019/8/21 0021 
     private void changePinCode(String newPin, String currentPin) {
 
         ChangePinCodeHelper xChangePinCodeHelper = new ChangePinCodeHelper();
@@ -481,6 +512,7 @@ public class SettingNetworkActivity extends BaseActivityWithBack implements OnCl
         xChangePinCodeHelper.changePinCode(newPin, currentPin);
     }
 
+    // TOGO 2019/8/21 0021 
     private void getUsageSetting() {
         UsageSettingHelper getUsageSettingsHelper = new UsageSettingHelper(this);
         getUsageSettingsHelper.setOnGetUsageSettingsSuccessListener(result -> {
@@ -519,11 +551,11 @@ public class SettingNetworkActivity extends BaseActivityWithBack implements OnCl
         int nID = v.getId();
         switch (nID) {
 
-            case R.id.network_roaming_switch:
+            case R.id.network_roaming_switch:// TOGO 2019/8/21 0021 
                 modifyRoam();
                 break;
 
-            case R.id.network_set_data_plan:
+            case R.id.network_set_data_plan:// TOGO 2019/8/21 0021 
                 mSetDataPlan.setVisibility(View.VISIBLE);
                 mMobileNetwork.setVisibility(View.GONE);
                 setTitle(getString(R.string.setting_set_data_plan));
@@ -535,7 +567,7 @@ public class SettingNetworkActivity extends BaseActivityWithBack implements OnCl
             case R.id.rl_set_time_limit:
                 showSetTimeLimitDialog();
                 break;
-            case R.id.network_change_pin:
+            case R.id.network_change_pin:// TOGO 2019/8/21 0021 
                 if (mSimPinCompat.isChecked()) {
                     mChangePin.setVisibility(View.VISIBLE);
                     mMobileNetwork.setVisibility(View.GONE);
@@ -551,7 +583,7 @@ public class SettingNetworkActivity extends BaseActivityWithBack implements OnCl
             case R.id.relativelayout_network_profile:
                 showProfileLinkDialog();
                 break;
-            case R.id.iv_settingnetwork_back:
+            case R.id.iv_settingnetwork_back:// TOGO 2019/8/21 0021 
                 finish();
                 break;
             default:
@@ -559,6 +591,7 @@ public class SettingNetworkActivity extends BaseActivityWithBack implements OnCl
         }
     }
 
+    // TOGO 2019/8/21 0021 
     /**
      * 修改PIN状态
      */
@@ -574,6 +607,7 @@ public class SettingNetworkActivity extends BaseActivityWithBack implements OnCl
         boardSimHelper.setOnpukTimeoutListener(result -> toast(R.string.Home_PukTimes_UsedOut));
     }
 
+    // TOGO 2019/8/21 0021 
     private void modifyRoam() {
         pgd = OtherUtils.showProgressPop(this);
         GetSimStatusHelper xGetSimStatusHelper = new GetSimStatusHelper();
@@ -618,12 +652,14 @@ public class SettingNetworkActivity extends BaseActivityWithBack implements OnCl
         xGetSimStatusHelper.getSimStatus();
     }
 
+    // TOGO 2019/8/21 0021 
     private void roamError() {
         isRoaming = !isRoaming;
         OtherUtils.hideProgressPop(pgd);
         ToastUtil_m.show(SettingNetworkActivity.this, R.string.connect_failed);
     }
 
+    // TOGO 2019/8/21 0021 
     private void showSetmonthlyDataPlanDialog() {
         LayoutInflater inflater = LayoutInflater.from(this);
         View v = inflater.inflate(R.layout.dialog_monthly_data_plan, null);
@@ -668,6 +704,7 @@ public class SettingNetworkActivity extends BaseActivityWithBack implements OnCl
         builder.show();
     }
 
+    // TOGO 2019/8/21 0021 
     private long getDataPlanByte(int unit) {
         long dataPlanByte = 1;
         if (unit == C_Constants.UsageSetting.UNIT_MB) {
@@ -680,6 +717,7 @@ public class SettingNetworkActivity extends BaseActivityWithBack implements OnCl
         return dataPlanByte;
     }
 
+    // TOGO 2019/8/21 0021 
     private void showSetTimeLimitDialog() {
         LayoutInflater inflater = LayoutInflater.from(this);
         View v = inflater.inflate(R.layout.dialog_set_time_limit, null);
@@ -701,6 +739,7 @@ public class SettingNetworkActivity extends BaseActivityWithBack implements OnCl
         builder.show();
     }
 
+    // TOGO 2019/8/21 0021 
     private void showSimPinEnableDialog() {
         rl_settingPin.setVisibility(View.VISIBLE);
         et_settingPin.setText("");
@@ -727,6 +766,7 @@ public class SettingNetworkActivity extends BaseActivityWithBack implements OnCl
         });
     }
 
+    // TOGO 2019/8/21 0021 
     private void showProfileLinkDialog() {
         LayoutInflater inflater = LayoutInflater.from(this);
         View v = inflater.inflate(R.layout.dialog_profile_link, null);
@@ -748,6 +788,7 @@ public class SettingNetworkActivity extends BaseActivityWithBack implements OnCl
         builder.show();
     }
 
+    // TOGO 2019/8/21 0021 
     private void doneChangePinCode() {
         if (mSimStatus.getPinRemainingTimes() == 0) {
             // CA.toActivity(this, PukUnlockActivity.class, false, true, false, 0);
@@ -780,15 +821,16 @@ public class SettingNetworkActivity extends BaseActivityWithBack implements OnCl
         changePinCode(newPin, currentPin);
     }
 
+    // TOGO 2019/8/21 0021 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        if (parent.getId() == R.id.spinner_connection_mode) {
+        if (parent.getId() == R.id.spinner_connection_mode) {// TOGO 2019/8/21 0021 
             if (mFirstSetConnectionMode) {
                 mFirstSetConnectionMode = false;
                 return;
             }
             setConnectionSettings(position);
-        } else if (parent.getId() == R.id.settings_network_mode) {
+        } else if (parent.getId() == R.id.settings_network_mode) {// TOGO 2019/8/21 0021 
             if (mFirstSetNetworkMode) {
                 mFirstSetNetworkMode = false;
                 return;
@@ -802,7 +844,7 @@ public class SettingNetworkActivity extends BaseActivityWithBack implements OnCl
             } else if (position == 3) {
                 setNetworkSettings(C_Constants.SetNetWorkSeting.NET_WORK_MODE_2G);
             }
-        } else if (parent.getId() == R.id.setdataplan_billing_day) {
+        } else if (parent.getId() == R.id.setdataplan_billing_day) {// TOGO 2019/8/21 0021 
             if (mFirstSetBillingDay) {
                 mFirstSetBillingDay = false;
                 return;
@@ -812,6 +854,7 @@ public class SettingNetworkActivity extends BaseActivityWithBack implements OnCl
         }
     }
 
+    // TOGO 2019/8/21 0021 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         if (mChangePin.getVisibility() == View.VISIBLE) {
@@ -820,6 +863,7 @@ public class SettingNetworkActivity extends BaseActivityWithBack implements OnCl
         return true;
     }
 
+    // TOGO 2019/8/21 0021 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.action_save) {
@@ -833,6 +877,7 @@ public class SettingNetworkActivity extends BaseActivityWithBack implements OnCl
 
     }
 
+    // TOGO 2019/8/21 0021 
     @Override
     public void onBackPressed() {
 
@@ -857,18 +902,22 @@ public class SettingNetworkActivity extends BaseActivityWithBack implements OnCl
         super.onBackPressed();
     }
 
+    // TOGO 2019/8/21 0021 
     public void toast(int resId) {
         ToastUtil_m.show(this, resId);
     }
 
+    // TOGO 2019/8/21 0021 
     public void toastLong(int resId) {
         ToastUtil_m.showLong(this, resId);
     }
 
+    // TOGO 2019/8/21 0021 
     public void toast(String content) {
         ToastUtil_m.show(this, content);
     }
 
+    // TOGO 2019/8/21 0021 
     public void to(Class ac, boolean isFinish) {
         CA.toActivity(this, ac, false, isFinish, false, 0);
     }

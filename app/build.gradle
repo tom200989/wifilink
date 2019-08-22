@@ -96,7 +96,7 @@ dependencies {
     //api(name: 'ma_xsmart', ext: 'aar')
     api project(':xsmart')
     // 架构包
-    api(name: 'ma_hiber5_2', ext: 'aar')
+    api(name: 'ma_hiber5_3', ext: 'aar')
     // 规范检查
     api(name: 'ma_lints3', ext: 'aar')
 }
