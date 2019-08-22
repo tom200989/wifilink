@@ -48,11 +48,11 @@ public class SmartLinkV3App extends RootApp {
         sp.edit().clear().apply();
 
         /* 新框架 */
-        XSmart.init(this);
-        ShareUtils.init(this);
+        XSmart.init(this);// 初始化网络框架
+        ShareUtils.init(this);// 初始化缓存框架
         ShareUtils.spName = "ROOT_WIFI_LINK";
-        cacheLanguage();
-        HostnameUtils.setVerifyHostName(this);
+        cacheLanguage();// 初始化语言
+        HostnameUtils.setVerifyHostName(this);// 设置google请求认证
     }
 
     /**
