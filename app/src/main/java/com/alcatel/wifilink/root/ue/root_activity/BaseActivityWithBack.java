@@ -33,6 +33,8 @@ import java.util.Locale;
 import java.util.Timer;
 import java.util.TimerTask;
 
+// TOGO 2019/8/22 0022 
+@Deprecated
 public class BaseActivityWithBack extends AppCompatActivity {
 
     public static boolean isFreeSharingLock = true;
@@ -69,6 +71,7 @@ public class BaseActivityWithBack extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        // TOGO 2019/8/22 0022 
         // 初始化PreferenceUtil
         PreferenceUtil.init(this);
         // 根据上次的语言设置，重新设置语言
@@ -85,6 +88,7 @@ public class BaseActivityWithBack extends AppCompatActivity {
      * @param language
      * @see [类、类#方法、类#成员]
      */
+    // TOGO 2019/8/22 0022 
     protected void switchLanguage(String language) {
         // 设置应用语言类型
         Resources resources = getResources();
@@ -139,6 +143,7 @@ public class BaseActivityWithBack extends AppCompatActivity {
         return super.onSupportNavigateUp();
     }
 
+    // TOGO 2019/8/22 0022 
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
         int action = ev.getAction();
@@ -163,6 +168,7 @@ public class BaseActivityWithBack extends AppCompatActivity {
         return super.dispatchTouchEvent(ev);
     }
 
+    // TOGO 2019/8/22 0022 
     /* 是否为指定的三个界面--> true: 是 */
     public boolean isSpecialAc() {
         String currentActivity = AppInfo.getCurrentActivityName(this);
@@ -176,6 +182,7 @@ public class BaseActivityWithBack extends AppCompatActivity {
         }
     }
 
+    // TOGO 2019/8/22 0022 
     class ScreenStateChangeReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -201,6 +208,7 @@ public class BaseActivityWithBack extends AppCompatActivity {
 
     /* 登出 */
 
+    // TOGO 2019/8/22 0022 
     /**
      * @param isLockScreen 是否为锁屏调用
      */
@@ -216,6 +224,7 @@ public class BaseActivityWithBack extends AppCompatActivity {
         xGetLoginStateHelper.getLoginState();
     }
 
+    // TOGO 2019/8/22 0022 
     private void requestLogout() {
         LogoutHelper xLogoutHelper = new LogoutHelper();
         xLogoutHelper.setOnLogoutSuccessListener(() -> CA.toActivity(BaseActivityWithBack.this, LoginRxActivity.class, false, true, false, 0));
@@ -223,6 +232,7 @@ public class BaseActivityWithBack extends AppCompatActivity {
         xLogoutHelper.logout();
     }
 
+    // TOGO 2019/8/22 0022 
     @Override
     protected void onDestroy() {
         super.onDestroy();

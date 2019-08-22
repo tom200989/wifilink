@@ -1,6 +1,7 @@
 package com.alcatel.wifilink.root.ue.activity;
 
 import android.os.Bundle;
+import android.view.MotionEvent;
 
 import com.alcatel.wifilink.BuildConfig;
 import com.alcatel.wifilink.R;
@@ -10,6 +11,7 @@ import com.alcatel.wifilink.root.ue.frag.AboutFrag;
 import com.alcatel.wifilink.root.ue.frag.EtherWANFrag;
 import com.alcatel.wifilink.root.ue.frag.InternetStatusFrag;
 import com.alcatel.wifilink.root.ue.frag.LanguageFrag;
+import com.alcatel.wifilink.root.ue.frag.LoginFrag;
 import com.alcatel.wifilink.root.ue.frag.SettingAccountFrag;
 import com.alcatel.wifilink.root.ue.frag.SettingFrag;
 import com.alcatel.wifilink.root.ue.frag.SettingNetworkFrag;
@@ -26,12 +28,14 @@ import com.p_xhelper_smart.p_xhelper_smart.bean.GetSimStatusBean;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetLoginStateHelper;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetSimStatusHelper;
 import com.p_xhelper_smart.p_xhelper_smart.helper.HeartBeatHelper;
+import com.p_xhelper_smart.p_xhelper_smart.helper.LogoutHelper;
 
 import java.lang.reflect.Field;
 
 public class HomeActivity extends RootMAActivity {
 
     private TimerHelper heartTimer;
+    private TimerHelper touchTimer;
 
     Class[] frags = {// fragmengs
             mainFrag.class, // 主页
@@ -54,6 +58,37 @@ public class HomeActivity extends RootMAActivity {
     protected void onCreate(Bundle savedInstanceState) {
         modifyLint();// 暂时屏蔽检查
         super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    public RootProperty initProperty() {
+        startHeartTimer();// 启动心跳检测定时器
+        return getProperty();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        startTouchTimer();// 启动触摸检测定时器(息屏, 后台回来等需要重置定时器)
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        stopHeartTimer();
+        stopTouchTimer();
+    }
+
+    private RootProperty getProperty() {
+        RootProperty rootProperty = new RootProperty();
+        rootProperty.setColorStatusBar(R.color.color_009aff);
+        rootProperty.setContainId(R.id.hh70_home_fl);
+        rootProperty.setFragmentClazzs(frags);
+        rootProperty.setFullScreen(true);
+        rootProperty.setLayoutId(R.layout.hh70_activity_home);
+        rootProperty.setSaveInstanceState(false);
+        rootProperty.setPackageName(BuildConfig.APPLICATION_ID);
+        return rootProperty;
     }
 
     /**
@@ -123,28 +158,6 @@ public class HomeActivity extends RootMAActivity {
         xGetLoginStateHelper.getLoginState();
     }
 
-    @Override
-    public RootProperty initProperty() {
-        startHeartTimer();// 启动心跳检测定时器
-        return getProperty();
-    }
-
-    @Override
-    public void initViewFinish(int layoutId) {
-        super.initViewFinish(layoutId);
-        setTab();// 设置TAB
-    }
-
-    @Override
-    public void onNexts() {
-
-    }
-
-    @Override
-    public boolean onBackClick() {
-        return false;
-    }
-
     /**
      * 启动心跳检测定时器
      */
@@ -189,6 +202,85 @@ public class HomeActivity extends RootMAActivity {
     }
 
     /**
+     * 启动触摸检测定时器
+     */
+    private void startTouchTimer() {
+        stopTouchTimer();
+        touchTimer = new TimerHelper(this) {
+            @Override
+            public void doSomething() {
+                logOut();// 如果该定时器的业务触发 -- 即说明超时, 需登出
+            }
+        };
+        touchTimer.startDelay(5 * 60 * 1000);// 延迟5分钟启动
+    }
+
+    /**
+     * 登出
+     */
+    private void logOut() {
+        GetLoginStateHelper xGetLoginStateHelper = new GetLoginStateHelper();
+        xGetLoginStateHelper.setOnGetLoginStateSuccessListener(getLoginStateBean -> {
+            if (getLoginStateBean.getState() == GetLoginStateBean.CONS_LOGIN) {
+                xGetLoginStateHelper.getLoginState();
+                LogoutHelper xLogoutHelper = new LogoutHelper();
+                xLogoutHelper.setOnLogoutSuccessListener(() -> {
+                    toFrag(getClass(), LoginFrag.class, null, true);
+                    if (touchTimer != null) {
+                        touchTimer.stop();
+                    }
+                });
+                xLogoutHelper.setOnLogOutFailedListener(() -> {
+                    toFrag(getClass(), LoginFrag.class, null, true);
+                    if (touchTimer != null) {
+                        touchTimer.stop();
+                    }
+                });
+                xLogoutHelper.logout();
+            } else {
+                toFrag(getClass(), LoginFrag.class, null, true);
+                if (touchTimer != null) {
+                    touchTimer.stop();
+                }
+            }
+        });
+
+    }
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        int action = ev.getAction();
+        switch (action) {
+            case MotionEvent.ACTION_DOWN:
+            case MotionEvent.ACTION_MOVE:
+                // 按下或者移动过程 -- 停止触摸定时器
+                stopTouchTimer();
+                break;
+            case MotionEvent.ACTION_UP:
+                // 抬起过程 -- 重启触摸定时器
+                startTouchTimer();
+                break;
+        }
+        return super.dispatchTouchEvent(ev);
+    }
+
+    @Override
+    public void initViewFinish(int layoutId) {
+        super.initViewFinish(layoutId);
+        setTab();// 设置TAB
+    }
+
+    @Override
+    public void onNexts() {
+
+    }
+
+    @Override
+    public boolean onBackClick() {
+        return false;
+    }
+
+    /**
      * 停止心跳检测定时器
      */
     private void stopHeartTimer() {
@@ -199,16 +291,15 @@ public class HomeActivity extends RootMAActivity {
         }
     }
 
-    private RootProperty getProperty() {
-        RootProperty rootProperty = new RootProperty();
-        rootProperty.setColorStatusBar(R.color.color_009aff);
-        rootProperty.setContainId(R.id.hh70_home_fl);
-        rootProperty.setFragmentClazzs(frags);
-        rootProperty.setFullScreen(true);
-        rootProperty.setLayoutId(R.layout.hh70_activity_home);
-        rootProperty.setSaveInstanceState(false);
-        rootProperty.setPackageName(BuildConfig.APPLICATION_ID);
-        return rootProperty;
+    /**
+     * 停止触摸检测定时器
+     */
+    private void stopTouchTimer() {
+        // 停止定时器
+        if (touchTimer != null) {
+            touchTimer.stop();
+            touchTimer = null;
+        }
     }
 
 }
