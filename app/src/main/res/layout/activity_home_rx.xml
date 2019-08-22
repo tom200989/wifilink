@@ -199,13 +199,13 @@
     </com.hiber.tools.layout.PercentLinearLayout>
 
     <!-- container -->
-    <com.zhy.android.percent.support.PercentFrameLayout
+    <com.hiber.tools.layout.PercentFrameLayout
         android:id="@+id/fl_homeRx_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@id/ll_homeRx_navigation"
         android:layout_below="@id/rl_homeRx_banner">
 
-    </com.zhy.android.percent.support.PercentFrameLayout>
+    </com.hiber.tools.layout.PercentFrameLayout>
 
 </com.hiber.tools.layout.PercentRelativeLayout>

@@ -56,14 +56,10 @@ repositories {
 dependencies {
     api 'com.android.support:multidex:1.0.1'
     api 'com.jakewharton:butterknife:9.0.0-rc3'
-    implementation 'com.android.support.constraint:constraint-layout:1.1.3'
     annotationProcessor 'com.jakewharton:butterknife-compiler:9.0.0-rc3'
 
     // 新的框架会精简的部分
     api 'pub.devrel:easypermissions:0.4.3'
-
-    // 还可以优化的部分
-    api 'com.zhy:percent-support-extends:1.1.1'
 
     // rootMAhiber -- 基础包
     api 'com.android.support:support-v4:28.0.0'
@@ -93,10 +89,10 @@ dependencies {
     // rootMAhiber -- 网络请求xutils(feedback用到)
     api(name: 'ma_xutils', ext: 'aar')
     // rootMAhiber -- wifilink网络helper
-    //api(name: 'ma_xsmart', ext: 'aar')
+    // api(name: 'ma_xsmart', ext: 'aar')
     api project(':xsmart')
-    // 架构包
+    // rootMAhiber -- 架构包
     api(name: 'ma_hiber5_3', ext: 'aar')
-    // 规范检查
+    // rootMAhiber -- 规范检查
     api(name: 'ma_lints3', ext: 'aar')
 }

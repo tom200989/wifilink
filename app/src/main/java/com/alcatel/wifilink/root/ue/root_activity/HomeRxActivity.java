@@ -46,7 +46,7 @@ import com.alcatel.wifilink.root.utils.fraghandler.BackHandlerHelper;
 import com.p_freesharing.p_freesharing.bean.InteractiveRequestBean;
 import com.p_freesharing.p_freesharing.bean.InteractiveResponceBean;
 import com.p_xhelper_smart.p_xhelper_smart.helper.LogoutHelper;
-import com.zhy.android.percent.support.PercentFrameLayout;
+import com.hiber.tools.layout.PercentFrameLayout;
 import com.hiber.tools.layout.PercentLinearLayout;
 import com.hiber.tools.layout.PercentRelativeLayout;
 

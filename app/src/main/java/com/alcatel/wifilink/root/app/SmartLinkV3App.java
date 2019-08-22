@@ -38,6 +38,7 @@ public class SmartLinkV3App extends RootApp {
     @Override
     public void onCreate() {
         super.onCreate();
+        // TOGO 2019/8/22 0022 
         PreferenceUtil.init(this);
         String languageFromPhone = OtherUtils.getLanguageFromPhone();
         String languageFromApp = PreferenceUtil.getString(LANGUAGE, "");

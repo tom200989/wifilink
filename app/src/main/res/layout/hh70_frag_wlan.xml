@@ -8,7 +8,7 @@
     android:orientation="vertical">
 
     <!-- banner -->
-    <com.zhy.android.percent.support.PercentRelativeLayout
+    <com.hiber.tools.layout.PercentRelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/mg_blue"
@@ -31,7 +31,7 @@
             android:textColor="@color/white"
             app:layout_textSizePercent="30%h" />
 
-    </com.zhy.android.percent.support.PercentRelativeLayout>
+    </com.hiber.tools.layout.PercentRelativeLayout>
 
     <com.hiber.tools.layout.PercentRelativeLayout
         android:layout_width="match_parent"
@@ -143,7 +143,7 @@
             android:layout_centerVertical="true" />
     </com.hiber.tools.layout.PercentRelativeLayout>
 
-    <com.zhy.android.percent.support.PercentRelativeLayout
+    <com.hiber.tools.layout.PercentRelativeLayout
         android:layout_width="match_parent"
         android:layout_height="48dp">
 
@@ -163,7 +163,7 @@
             android:layout_centerVertical="true"
             android:entries="@array/wlan_settings_bandwidth_2g"
             android:spinnerMode="dialog" />
-    </com.zhy.android.percent.support.PercentRelativeLayout>
+    </com.hiber.tools.layout.PercentRelativeLayout>
 
     <Button
         android:id="@+id/bt_wlan_ok"
