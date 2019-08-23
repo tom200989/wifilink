@@ -575,4 +575,5 @@ public class HomeRxActivity extends BaseActivityWithBack {
     public void to(Class ac, boolean isFinish) {
         CA.toActivity(this, ac, false, isFinish, false, 0);
     }
+
 }

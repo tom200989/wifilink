@@ -3,9 +3,18 @@ package com.alcatel.wifilink.root.utils;
 import android.app.Activity;
 import android.content.Context;
 import android.net.wifi.WifiManager;
+import android.support.annotation.ArrayRes;
 import android.text.TextUtils;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+
+import com.alcatel.wifilink.R;
+import com.alcatel.wifilink.root.app.SmartLinkV3App;
+import com.alcatel.wifilink.root.bean.FeedbackPhotoBean;
+import com.alcatel.wifilink.root.bean.Other_SMSContactSelf;
+import com.alcatel.wifilink.root.bean.SMSContactList;
+import com.hiber.tools.ShareUtils;
+import com.tcl.token.ndk.JniTokenUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,6 +55,24 @@ public class RootUtils {
         devName = devName.toLowerCase();
         // 再遍历判断
         for (String dev : RootCons.HH71_DEVICE) {
+            if (devName.contains(dev)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * 是否为4X设备
+     *
+     * @param devName 设备名
+     * @return T:是
+     */
+    public static boolean isHH4X(String devName) {
+        // 先转换成小写
+        devName = devName.toLowerCase();
+        // 再遍历判断
+        for (String dev : RootCons.HH4X_DEVICE) {
             if (devName.contains(dev)) {
                 return true;
             }
@@ -213,5 +240,142 @@ public class RootUtils {
         Pattern pattern = Pattern.compile(splChrs);
         Matcher matcher = pattern.matcher(content);
         return matcher.find();
+    }
+
+    /**
+     * 获取提交feedback时需要拼接的加密字符
+     *
+     * @param uid
+     * @return
+     */
+    public static String getCommitFeedbackHead(String uid) {
+        String encrypt = "";
+        try {
+            JniTokenUtils.EncryptInfo encryptInfo = JniTokenUtils.newEncryptInfo();
+            JniTokenUtils.getEncryptInfo(uid.getBytes("UTF-8"), encryptInfo);
+            // (; sign=YOUR_SIGN; timestamp=YOUR_TIMESTAMP; newtoken=YOUR_NEW_TOKEN)
+            encrypt = ";sign=" + encryptInfo.random + ";timestamp=" + encryptInfo.timestamp + ";newtoken=" + encryptInfo.encryptkey + "";
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return encrypt;
+    }
+
+    /**
+     * 转换FID集合
+     *
+     * @param fids
+     * @return
+     */
+    public static String getFidAppendString(List<String> fids) {
+        StringBuffer buffer = new StringBuffer();
+        for (int i = 0; i < fids.size(); i++) {
+            buffer.append(fids.get(i));
+            if (i > 0) {
+                buffer.append(";");
+            }
+        }
+        return buffer.toString();
+    }
+
+    /**
+     * 转换成图片连接地址
+     *
+     * @param context
+     * @param bbs     图片对象
+     * @return 地址集合
+     */
+    public static ArrayList<String> transferString(Context context, List<FeedbackPhotoBean> bbs) {
+        ArrayList<String> urls = new ArrayList<>();
+        for (FeedbackPhotoBean bb : bbs) {
+            urls.add(bb.getUrl());
+        }
+        return urls;
+    }
+
+    /**
+     * 把地址转换成bitmap
+     *
+     * @param urls 图片连接集合
+     * @return FeedbackPhotoBean
+     */
+    public static List<FeedbackPhotoBean> transferBitmap(Context context, List<String> urls) {
+        List<FeedbackPhotoBean> bbs = new ArrayList<>();
+        for (String url : urls) {
+            FeedbackPhotoBean ftb = new FeedbackPhotoBean();
+            ftb.setBitmap(FormatTools.getInstance().file2ThumboBitmap(context, url, -1));
+            ftb.setUrl(url);
+            bbs.add(ftb);
+        }
+        return bbs;
+    }
+
+
+    /**
+     * @return 当前语言
+     */
+    public static String getCurrentLanguage() {
+        return ShareUtils.get(C_Constants.Language.LANGUAGE, "");
+    }
+
+    /**
+     * 根据SP读取到的值获取数组中的字符
+     *
+     * @param arr     需要匹配的字符数组
+     * @param include 数组中可能包含的字符
+     * @return
+     */
+    public static String getAlert(String[] arr, int include) {
+        if (include == -1) {
+            return SmartLinkV3App.getInstance().getString(R.string.ergo_20181010_not_reminded);
+        }
+        String alert = "90%";
+        for (String s : arr) {
+            if (s.contains(String.valueOf(include))) {
+                alert = s;
+                break;
+            }
+        }
+        return alert;
+    }
+
+    /**
+     * 获取短信联系人列表并添加长按标记
+     *
+     * @param smsContactList
+     * @return
+     */
+    public static List<Other_SMSContactSelf> getSMSSelfList(SMSContactList smsContactList) {
+        List<Other_SMSContactSelf> smscs = new ArrayList<>();
+        for (SMSContactList.SMSContact smsContact : smsContactList.getSMSContactList()) {
+            // 新建自定义SMS Contact对象
+            Other_SMSContactSelf scs = new Other_SMSContactSelf();
+            scs.setSmscontact(smsContact);
+            scs.setLongClick(false);
+            smscs.add(scs);
+        }
+        return smscs;
+    }
+
+    /**
+     * 修改联系人列表是否进入可删除状态(islongClick==true则为可删除)
+     *
+     * @param isLongClick
+     */
+    public static List<Other_SMSContactSelf> modifySMSContactSelf(List<Other_SMSContactSelf> smsContactSelves, boolean isLongClick) {
+        for (Other_SMSContactSelf otherSmsContactSelf : smsContactSelves) {
+            otherSmsContactSelf.setLongClick(isLongClick);
+        }
+        return smsContactSelves;
+    }
+
+    /**
+     * 获取字符数组资源
+     *
+     * @param context
+     * @return
+     */
+    public static String[] getResArr(Context context, @ArrayRes int resId) {
+        return context.getResources().getStringArray(resId);
     }
 }

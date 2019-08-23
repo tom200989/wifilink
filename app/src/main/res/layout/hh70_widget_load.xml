@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.hiber.tools.layout.PercentRelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<com.hiber.tools.layout.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <com.hiber.tools.layout.PercentRelativeLayout
         android:layout_width="match_parent"
@@ -23,6 +23,24 @@
             android:src="@drawable/waiting_progress_blue"
             app:layout_heightPercent="10%w"
             app:layout_widthPercent="10%w" />
+
+        <TextView
+            android:visibility="gone"
+            android:id="@+id/tv_loading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorPrimary"
+            android:text="@string/back_up_progress"
+            android:layout_below="@+id/iv_wd_load"
+            android:layout_centerHorizontal="true"
+            app:layout_marginBottomPercent="2.8%sh"
+            app:layout_marginTopPercent="2.8%sh"
+            app:layout_marginLeftPercent="5.6%sw"
+            app:layout_marginRightPercent="5.6%sw"
+            tools:layout_marginBottomPercent="2.8%h"
+            tools:layout_marginLeftPercent="5.6%w"
+            tools:layout_marginRightPercent="5.6%w"
+            tools:layout_marginTopPercent="2.8%sh"/>
 
     </com.hiber.tools.layout.PercentRelativeLayout>
 

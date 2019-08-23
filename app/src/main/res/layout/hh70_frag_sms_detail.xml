@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.alcatel.wifilink.root.ue.root_activity.SmsDetailActivity">
+
+    <RelativeLayout
+        android:id="@+id/rl_sms_detail_title_bar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_60dip"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:background="@color/main_title_background">
+
+        <ImageButton
+            android:id="@+id/ib_smsdetail_back"
+            android:layout_width="@dimen/dimen_18dip"
+            android:layout_height="@dimen/dimen_35dip"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:background="@null"
+            android:contentDescription="@null"
+            android:scaleType="fitXY"
+            android:src="@drawable/back" />
+
+        <TextView
+            android:id="@+id/tv_smsdetail_title"
+            android:layout_width="@dimen/dimen_200dip"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:maxLength="12"
+            android:text="@string/sms_empty"
+            android:textColor="@color/color_white"
+            android:textSize="@dimen/dimen_20dip"
+            android:textStyle="normal" />
+
+        <ImageView
+            android:id="@+id/iv_smsdetail_delete"
+            android:layout_width="@dimen/dimen_30dip"
+            android:layout_height="@dimen/dimen_30dip"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/btn_delete" />
+
+    </RelativeLayout>
+
+    <!-- send layout -->
+    <RelativeLayout
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:id="@+id/rl_smsdetail_layout_send"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimen_1dip"
+            android:alpha="0.3"
+            android:background="@color/gray" />
+
+        <!-- send button -->
+        <Button
+            android:id="@+id/rv_smsdetail_send"
+            android:layout_width="@dimen/dimen_80dip"
+            android:layout_height="@dimen/dimen_40dip"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="@dimen/dimen_10dip"
+            android:layout_marginRight="@dimen/dimen_10dip"
+            android:layout_marginTop="@dimen/dimen_10dip"
+            android:background="@drawable/btn_click_selector"
+            android:gravity="center"
+            android:text="@string/SEND"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textStyle="bold"/>
+
+        <!-- text layout -->
+        <EditText
+            android:id="@+id/et_smsdetail_send"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_margin="@dimen/dimen_10dip"
+            android:layout_toLeftOf="@id/rv_smsdetail_send"
+            android:layout_toStartOf="@id/rv_smsdetail_send"
+            android:background="@drawable/smsdetail_sendtext_bg"
+            android:hint="@string/message"
+            android:maxHeight="@dimen/dimen_80dip"
+            android:maxLength="1530"
+            android:minHeight="@dimen/dimen_40dip"
+            android:paddingLeft="@dimen/dimen_8dip"
+            android:paddingStart="@dimen/dimen_8dip"
+            android:textSize="14sp" />
+
+    </RelativeLayout>
+
+    <!-- sms layout -->
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rcv_smsdetail"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/dimen_30dip"
+        android:layout_above="@id/rl_smsdetail_layout_send"
+        android:layout_marginBottom="@dimen/dimen_10dip"
+        android:layout_below="@+id/rl_sms_detail_title_bar"/>
+
+    <!-- date -->
+    <TextView
+        android:id="@+id/tv_smsdetail_date"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_30dip"
+        android:layout_centerHorizontal="true"
+        android:alpha="0.2"
+        android:background="@color/white"
+        android:gravity="center"
+        android:text=""
+        android:textColor="@color/shadowcolor"
+        android:textSize="@dimen/dimen_textsize_16sp"
+        android:layout_below="@+id/rl_sms_detail_title_bar"/>
+
+</RelativeLayout>

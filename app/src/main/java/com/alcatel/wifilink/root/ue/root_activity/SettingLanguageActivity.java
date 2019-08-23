@@ -140,6 +140,7 @@ public class SettingLanguageActivity extends BaseActivityWithBack {
                 convertView.setTag(viewHolder);
             }
             viewHolder = (ViewHolder) convertView.getTag();
+
             Resources resources = getResources();
             Configuration config = resources.getConfiguration();
             if (languages[position].equals(C_Constants.Language.ENGLISH)) {

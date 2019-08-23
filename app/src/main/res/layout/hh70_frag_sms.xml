@@ -3,11 +3,103 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/white">
 
-    <TextView
-        android:layout_width="wrap_content"
+    <!-- banner -->
+    <com.hiber.tools.layout.PercentRelativeLayout
+        android:id="@+id/rl_homeRx_banner"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="SMS" />
+        android:background="@color/mg_blue"
+        android:visibility="visible"
+        app:layout_heightPercent="9%h">
+
+        <TextView
+            android:id="@+id/tv_homeRx_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:maxLines="1"
+            android:textColor="@color/white"
+            app:layout_textSizePercent="30%h"
+            android:text="@string/sms_title"/>
+
+        <ImageView
+            android:id="@+id/iv_homeRx_smsNew"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="@dimen/dimen_8dip"
+            android:src="@drawable/actionbar_edit_icon"
+            android:textColor="@color/white"
+            android:visibility="visible"
+            app:layout_heightPercent="65%h"
+            app:layout_widthPercent="80%h" />
+
+    </com.hiber.tools.layout.PercentRelativeLayout>
+
+    <!-- 短信列表 -->
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rcv_sms"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_heightPercent="90%h"
+        android:layout_below="@+id/rl_homeRx_banner"/>
+
+    <!-- 批量删除短信按钮 -->
+    <com.hiber.tools.layout.PercentLinearLayout
+        android:id="@+id/ll_sms_batchDeteled"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/rcv_sms"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/tv_sms_batchSelectAll"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/bt_login_selector"
+            android:gravity="center"
+            android:text="@string/operation_selectall"
+            android:textColor="@color/white"
+            app:layout_heightPercent="80%h"
+            app:layout_marginLeftPercent="20%h"
+            app:layout_marginRightPercent="20%h"
+            app:layout_textSizePercent="27%h" />
+
+        <TextView
+            android:id="@+id/tv_sms_batchDeteled"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/bt_login_selector"
+            android:gravity="center"
+            android:text="@string/delete"
+            android:textColor="@color/white"
+            app:layout_heightPercent="80%h"
+            app:layout_marginLeftPercent="20%h"
+            app:layout_marginRightPercent="20%h"
+            app:layout_textSizePercent="27%h" />
+
+    </com.hiber.tools.layout.PercentLinearLayout>
+
+    <!-- no sms 提示 -->
+    <TextView
+        android:id="@+id/no_sms"
+        android:layout_width="@dimen/dimen_200dip"
+        android:layout_height="@dimen/dimen_200dip"
+        android:layout_centerInParent="true"
+        android:layout_gravity="center"
+        android:drawablePadding="10dip"
+        android:drawableTop="@drawable/sms_empty"
+        android:gravity="center"
+        android:text="@string/sms_empty"
+        android:textColor="@color/color_grey"
+        android:textSize="16sp" />
 
 </com.hiber.tools.layout.PercentRelativeLayout>

@@ -1,18 +1,12 @@
-package com.alcatel.wifilink.root.ue.root_frag;
+package com.alcatel.wifilink.root.ue.frag;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -24,82 +18,61 @@ import com.alcatel.wifilink.root.adapter.FeedbackTypeAdapter;
 import com.alcatel.wifilink.root.bean.FeedbackCommitParam;
 import com.alcatel.wifilink.root.bean.FeedbackPhotoBean;
 import com.alcatel.wifilink.root.bean.FeedbackTypeBean;
-import com.alcatel.wifilink.root.helper.Cons;
 import com.alcatel.wifilink.root.helper.FeedBackLoginHelperFeedback;
 import com.alcatel.wifilink.root.helper.FeedbackCommitHelper;
 import com.alcatel.wifilink.root.helper.FeedbackEnterWatcher;
 import com.alcatel.wifilink.root.helper.FeedbackUploadPicHelper;
-import com.alcatel.wifilink.root.ue.root_activity.HomeRxActivity;
-import com.alcatel.wifilink.root.utils.CA;
+import com.alcatel.wifilink.root.ue.root_frag.SettingFragment;
 import com.alcatel.wifilink.root.utils.FormatTools;
-import com.alcatel.wifilink.root.utils.Lgg;
-import com.alcatel.wifilink.root.utils.Logs;
-import com.alcatel.wifilink.root.utils.OtherUtils;
-import com.alcatel.wifilink.root.utils.PermissionUtils;
-import com.alcatel.wifilink.root.utils.ToastUtil_m;
-import com.alcatel.wifilink.root.utils.fraghandler.FragmentBackHandler;
-import com.alcatel.wifilink.root.widget.NormalWidget;
+import com.alcatel.wifilink.root.utils.RootUtils;
 import com.alcatel.wifilink.root.widget.ExtenderWait;
+import com.alcatel.wifilink.root.widget.NormalWidget;
 import com.alibaba.fastjson.JSONObject;
+import com.hiber.tools.layout.PercentRelativeLayout;
 import com.p_xhelper_smart.p_xhelper_smart.bean.GetSystemInfoBean;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetSystemInfoHelper;
-import com.p_xhelper_smart.p_xhelper_smart.impl.FwError;
-import com.hiber.tools.layout.PercentRelativeLayout;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
-import butterknife.Unbinder;
 import me.nereo.multi_image_selector.MultiImageSelector;
 import me.nereo.multi_image_selector.MultiImageSelectorActivity;
 
 /**
- * Created by qianli.ma on 2018/2/6 0006.
+ * Created by wzhiqiang on 2019/8/19
  */
-//被替代FeedbackFrag
-@Deprecated
-public class FeedbackFragment extends Fragment implements FragmentBackHandler {
+public class FeedbackFrag extends BaseFrag {
 
-    Unbinder unbinder;
     @BindView(R.id.iv_feedback_back)
     ImageView iv_back;// 返回键
-
     @BindView(R.id.rl_feedback_selectType)
     RelativeLayout rlSelectType;// 点击选择类型
     @BindView(R.id.et_feedback_selectType)
     EditText etSelectType;// 已选择类型
-
     @BindView(R.id.rl_feedback_selectType_choice_list)
     RelativeLayout rlSelectTypeChoiceList_pop;// 选择类型弹框
     @BindView(R.id.iv_feedback_selectType_choice_list_gray)
     ImageView ivSelectTypeChoiceListGray;// 选择类型弹框背景(点击后panel消隐)
     @BindView(R.id.rcv_feedback_selectType_choice_list)
     RecyclerView rcvSelectTypeChoiceList;// 选择类型列表
-
-
     @BindView(R.id.et_feedback_enterFeedback)
     EditText etEnterFeedback;// 输入建议
     @BindView(R.id.tv_feedback_stringNum)
     TextView tvStringNum;// 字符个数
-
     @BindView(R.id.tv_feedback_photo_count)
     TextView tvPhotoCount;// 已经添加的图片数量
     @BindView(R.id.rl_feedback_photo_logo)
     RelativeLayout rlPhotoLogo;// 添加图片按钮
     @BindView(R.id.rcv_feedback_photo)
     RecyclerView rcvPhoto;// 图片列表
-
     @BindView(R.id.rl_feedback_selectType_submit_ok)
     RelativeLayout rlSelectTypeSubmitOk_pop;// 提交成功面板
     @BindView(R.id.iv_feedback_selectType_submit_ok_gray)
     ImageView ivSelectTypeSubmitOkGray;// 提交成功后背景(点击后panel消隐)
     @BindView(R.id.iv_feedback_selectType_submit_ok_pop)
     RelativeLayout ivSelectTypeSubmitOkPop;// 提交成功后提示框(点击后panel消隐)
-
     @BindView(R.id.rl_feedback_show_photo)
     PercentRelativeLayout rlShowPhoto_pop;// 大图布局
     @BindView(R.id.iv_feedback_show_photo_bitmap)
@@ -112,18 +85,13 @@ public class FeedbackFragment extends Fragment implements FragmentBackHandler {
     TextView tvShowPhotoCount;// 大图数量: 1/n
     @BindView(R.id.iv_feedback_show_photo_del)
     ImageView ivShowPhotoDel;// 大图删除
-
     @BindView(R.id.tv_feedback_submit)
     TextView tvSubmit;// 点击提交按钮
-
     @BindView(R.id.rl_feedback_wait)
     ExtenderWait rlFeedbackWait;// 等待UI
-
     @BindView(R.id.dg_feedback_tip)
     NormalWidget dgFeedbackTip;// 确定取消面板
 
-    private HomeRxActivity activity;
-    private View inflate;
     private FeedbackPhotoAdapter feedbackPhotoAdapter;
     private LinearLayoutManager lm_photo;
     private String[] feedbackTypes;
@@ -134,24 +102,62 @@ public class FeedbackFragment extends Fragment implements FragmentBackHandler {
     private LinearLayoutManager lm_selectType;
     private boolean isPopShow = false;// 弹窗显示标记位
     private int REQUEST_IMAGE = 123;// 请求本地图片约定码
-    private int REQUEST_EXTERNAL_STORAGE = 123;// 权限约定码
     private String clickShowUrl = "";// 点击大图的url
-    private String TAG = "FeedbackFragment";// 日志
     private int count = 0;
     private int max = 5;// 最大图片数量
 
-    @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        activity = (HomeRxActivity) getActivity();
-        inflate = View.inflate(getActivity(), R.layout.hh70_frag_feedback, null);
-        unbinder = ButterKnife.bind(this, inflate);
+    public int onInflateLayout() {
+        return R.layout.hh70_frag_feedback;
+    }
+
+    @Override
+    public void initViewFinish(View inflateView) {
+        super.initViewFinish(inflateView);
         initRes();
-        resetUi();
         initAdapter();
         initListener();
         clearAndResetData();
-        return inflate;
+        initClick();
+    }
+
+    private void initClick() {
+        iv_back.setOnClickListener(v -> {
+            back();
+        });
+        rlSelectType.setOnClickListener(v -> {
+            clickSelectType(true);
+        });
+        rlPhotoLogo.setOnClickListener(v -> {
+            toPhoto();
+        });
+        tvSubmit.setOnClickListener(v -> {
+            commit();
+        });
+        ivSelectTypeChoiceListGray.setOnClickListener(v -> {
+            clickSelectType(false);
+        });
+
+        ivSelectTypeSubmitOkGray.setOnClickListener(v -> {
+            sumbitOkPop(false);
+            backAndClear();
+        });
+        ivSelectTypeSubmitOkPop.setOnClickListener(v -> {
+            sumbitOkPop(false);
+            backAndClear();
+        });
+        ivShowPhotoBitmap.setOnClickListener(v -> {
+            clickShowOrHideTopBanner(false);
+        });
+        ivShowPhotoBack.setOnClickListener(v -> {
+            clickShowPhoto(false);
+        });
+        ivShowPhotoDel.setOnClickListener(v -> {
+            clickShowPhotoDel();
+        });
+        rlFeedbackWait.setOnClickListener(v -> {
+            toast(R.string.the_data_is_being_submitted_please_wait_a_moment);
+        });
     }
 
     /**
@@ -162,7 +168,6 @@ public class FeedbackFragment extends Fragment implements FragmentBackHandler {
         fids.clear();
         feedbackTypes = getResources().getStringArray(R.array.feedbacktype);
         ftbs = setFeedbackTypeBeans(feedbackTypes);
-        tvStringNum.setOnClickListener(null);
     }
 
     /**
@@ -170,7 +175,7 @@ public class FeedbackFragment extends Fragment implements FragmentBackHandler {
      */
     private void initAdapter() {
         /* 1.初始化selectType适配器 */
-        feedbackTypeAdapter = new FeedbackTypeAdapter(getActivity(), ftbs);
+        feedbackTypeAdapter = new FeedbackTypeAdapter(activity, ftbs);
         // 设置选择监听
         feedbackTypeAdapter.setOnSelectTypeListener(attr -> {
             rlSelectTypeChoiceList_pop.setVisibility(View.GONE);// 0.列表界面隐藏
@@ -204,10 +209,10 @@ public class FeedbackFragment extends Fragment implements FragmentBackHandler {
             // 1.添加一个方法用于show visible大图预览页(参照方法clickSelectType, 留意各个标记位的切换问题) √
             // 2.进入大图预览页之后需要完成2件任务.
             // --> 2.1.点击图片, banner消隐 √
-            // --> 2.2.显示banner需要显示的信息以及对应 的返回, 删除等逻辑行为 
+            // --> 2.2.显示banner需要显示的信息以及对应 的返回, 删除等逻辑行为
             clickShowPhoto(true);
             // 显示大图
-            Bitmap bm = FormatTools.getInstance().file2FitPhoneBitmap(getActivity(), fpb.getUrl());
+            Bitmap bm = FormatTools.getInstance().file2FitPhoneBitmap(activity, fpb.getUrl());
             ivShowPhotoBitmap.setImageBitmap(bm);
         });
         lm_photo = new LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false);
@@ -232,24 +237,13 @@ public class FeedbackFragment extends Fragment implements FragmentBackHandler {
     public void onHiddenChanged(boolean hidden) {
         if (!hidden) {
             count = 0;
-            resetUi();
         } else {
             isPopShow = false;
         }
     }
 
-    private void resetUi() {
-        // 1.初始化导航栏等
-        if (activity == null) {
-            activity = (HomeRxActivity) getActivity();
-        }
-        activity.tabFlag = Cons.TAB_FEEDBACK;
-        activity.llNavigation.setVisibility(View.GONE);
-        activity.rlBanner.setVisibility(View.GONE);
-    }
-
     @Override
-    public boolean onBackPressed() {
+    public boolean onBackPresss() {
         // 如果等待界面显示--> 提示等待
         if (rlFeedbackWait.getVisibility() == View.VISIBLE) {
             toast(R.string.the_data_is_being_submitted_please_wait_a_moment);
@@ -261,90 +255,15 @@ public class FeedbackFragment extends Fragment implements FragmentBackHandler {
         return true;
     }
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        unbinder.unbind();
-    }
-
-    @OnClick({R.id.iv_feedback_back,// 返回
-            R.id.rl_feedback_selectType,// 选择类型
-            R.id.rl_feedback_photo_logo,// 选择图片
-            R.id.tv_feedback_submit,// 提交
-            R.id.iv_feedback_selectType_choice_list_gray,// 选择类型列表背景
-            R.id.iv_feedback_selectType_submit_ok_gray,// 提交成功背景
-            R.id.iv_feedback_selectType_submit_ok_pop,// 提交类型弹窗
-            R.id.iv_feedback_show_photo_bitmap,// 显示大图
-            R.id.iv_feedback_show_photo_back,// 大图返回
-            R.id.iv_feedback_show_photo_del // 大图删除
-    })
-
-    public void onViewClicked(View view) {
-        switch (view.getId()) {
-            case R.id.iv_feedback_back:// 返回
-                back();
-                break;
-            case R.id.rl_feedback_selectType:// 选择类型
-                clickSelectType(true);
-                break;
-            case R.id.rl_feedback_photo_logo:// 选择图片
-                clickSelectPhoto();
-                break;
-            case R.id.tv_feedback_submit:// 提交
-                commit();
-                break;
-            case R.id.iv_feedback_selectType_choice_list_gray:// 选择类型列表背景
-                clickSelectType(false);
-                break;
-            case R.id.iv_feedback_selectType_submit_ok_gray:// 提交成功背景
-            case R.id.iv_feedback_selectType_submit_ok_pop:// 提交类型弹窗
-                sumbitOkPop(false);
-                backAndClear();
-                break;
-            case R.id.iv_feedback_show_photo_bitmap:// 大图导航消隐
-                clickShowOrHideTopBanner(false);
-                break;
-            case R.id.iv_feedback_show_photo_back:// 大图返回
-                clickShowPhoto(false);
-                break;
-            case R.id.iv_feedback_show_photo_del:// 大图删除
-                clickShowPhotoDel();
-                break;
-            case R.id.rl_feedback_wait:// 等待
-                toast(R.string.the_data_is_being_submitted_please_wait_a_moment);
-                break;
-        }
-    }
-
     /**
      * 提交数据到服务器
      */
     private void commit() {
         GetSystemInfoHelper xGetSystemInfoHelper = new GetSystemInfoHelper();
         xGetSystemInfoHelper.setOnGetSystemInfoSuccessListener(result -> toCommitLoginBegin(result));
-        xGetSystemInfoHelper.setOnAppErrorListener(() -> connnFailed("commit", null));
-        xGetSystemInfoHelper.setOnFwErrorListener(() -> connnFailed("commit", null));
+        xGetSystemInfoHelper.setOnAppErrorListener(() -> toast(R.string.connect_failed));
+        xGetSystemInfoHelper.setOnFwErrorListener(() -> toast(R.string.connect_failed));
         xGetSystemInfoHelper.getSystemInfo();
-    }
-
-    /**
-     * 连接失败
-     *
-     * @param methodName 方法名
-     * @param error      错误对象
-     * @param des        附加描述
-     */
-    public void connnFailed(String methodName, FwError error, String... des) {
-        String err = "occur failed;";
-        if (error != null) {
-            err = error.getMessage();
-        }
-        String dess = "";
-        for (String de : des) {
-            dess = String.valueOf(dess + de);
-        }
-        Logs.t("ma_feedback_error").ee(methodName + " : " + err + "des: " + dess);
-        toast(R.string.connect_failed);
     }
 
     /**
@@ -353,8 +272,8 @@ public class FeedbackFragment extends Fragment implements FragmentBackHandler {
     private void toCommitLoginBegin(GetSystemInfoBean systemSystemInfo) {
 
         // 1.判断问题类型以及建议字符
-        String questionType = etSelectType.getText().toString();// 问题类型
-        String suggestion = etEnterFeedback.getText().toString();// 建议字符
+        String questionType = RootUtils.getEDText(etSelectType,true);// 问题类型
+        String suggestion = RootUtils.getEDText(etEnterFeedback,true);// 建议字符
         boolean isTypeEmpty = TextUtils.isEmpty(questionType);
         boolean isSuggestionEmpty = TextUtils.isEmpty(suggestion);
         if (isTypeEmpty) {
@@ -408,7 +327,6 @@ public class FeedbackFragment extends Fragment implements FragmentBackHandler {
             fids.clear();
             rlFeedbackWait.setVisibility(View.GONE);
             toast(R.string.the_connection_failed_please_try_again_extender);
-            Lgg.t(TAG).ee("");
         });
         flh.login(deviceName, imei, macId);
     }
@@ -436,7 +354,6 @@ public class FeedbackFragment extends Fragment implements FragmentBackHandler {
                 fids.clear();
                 rlFeedbackWait.setVisibility(View.GONE);
                 toast(R.string.upload_failure);
-                Logs.t(TAG).ee("toUpload error: " + error.getMessage());
             });
             fup.upload(access_token, deviceName, pic);
         } else {// 否则开始上传
@@ -455,16 +372,16 @@ public class FeedbackFragment extends Fragment implements FragmentBackHandler {
      */
     public void commitFeedback(String deviceName, String access_Token, String uid) {
         // 1.--> (; sign=YOUR_SIGN; timestamp=YOUR_TIMESTAMP; newtoken=YOUR_NEW_TOKEN)
-        String sign_timeStamp_newToken = OtherUtils.getCommitFeedbackHead(uid);
+        String sign_timeStamp_newToken = RootUtils.getCommitFeedbackHead(uid);
         // 2.--> 创建提交要素
         FeedbackCommitParam fcb = new FeedbackCommitParam();
         fcb.setUid(uid);
-        fcb.setType(etSelectType.getText().toString());
-        fcb.setIssue_type(etSelectType.getText().toString());
-        fcb.setMessage(etEnterFeedback.getText().toString());
+        fcb.setType(RootUtils.getEDText(etSelectType,true));
+        fcb.setIssue_type(RootUtils.getEDText(etSelectType,true));
+        fcb.setMessage(RootUtils.getEDText(etEnterFeedback,true));
         fcb.setDate(String.valueOf(System.currentTimeMillis() / 1000));// 以秒为单位
         if (fids.size() > 0) {
-            fcb.setAttachment(OtherUtils.getFidAppendString(fids));
+            fcb.setAttachment(RootUtils.getFidAppendString(fids));
         }
         // 3.--> 转换成json
         String json = JSONObject.toJSONString(fcb);
@@ -477,14 +394,12 @@ public class FeedbackFragment extends Fragment implements FragmentBackHandler {
             } else {
                 rlFeedbackWait.setVisibility(View.GONE);
                 toast(R.string.upload_failure);
-                Logs.t(TAG).ee("commitResult.getError_id(): " + commitResult.getError_id());
             }
         });
         fch.setOnErrorListener(error -> {
             fids.clear();
             rlFeedbackWait.setVisibility(View.GONE);
             toast(R.string.upload_failure);
-            Logs.t(TAG).ee("commitFeedback error: " + error.getMessage());
         });
         fch.commit(deviceName, access_Token, sign_timeStamp_newToken, json);
     }
@@ -529,15 +444,6 @@ public class FeedbackFragment extends Fragment implements FragmentBackHandler {
     }
 
     /**
-     * 点击选择照片
-     */
-    private void clickSelectPhoto() {
-        PermissionUtils pu = new PermissionUtils(getActivity());
-        pu.setOnWriteReadPermissonListener(attr -> toPhoto());
-        pu.getWriteReadExtenalPermisson();
-    }
-
-    /**
      * 大图显示|隐藏
      *
      * @param isShowPhoto 是否显示大图
@@ -557,7 +463,7 @@ public class FeedbackFragment extends Fragment implements FragmentBackHandler {
     private void toPhoto() {
         MultiImageSelector
                 // 1.创建图片集合对象
-                .create(getActivity())
+                .create(activity)
                 // 2.是否显示相机. 默认为显示
                 .showCamera(true)
                 // 3.最大选择图片数量, 默认为9. 只有在选择模式为多选时有效
@@ -565,17 +471,9 @@ public class FeedbackFragment extends Fragment implements FragmentBackHandler {
                 // 4.多选模式, 默认模式
                 .multi()
                 // 5.传递默认选中的图片(地址集合)
-                .origin(OtherUtils.transferString(getActivity(), bbs))
+                .origin(RootUtils.transferString(activity, bbs))
                 // 6.注意:第一个参数写this即可(是fragment就写framgent,activity就写activity)
                 .start(this, REQUEST_IMAGE);
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == PermissionUtils.REQUEST_EXTERNAL_STORAGE) {
-            toPhoto();
-        }
     }
 
     @Override
@@ -583,13 +481,11 @@ public class FeedbackFragment extends Fragment implements FragmentBackHandler {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_IMAGE) {
             if (resultCode == Activity.RESULT_OK) {
-                Logs.t("ma_pics").ii("user select more pics");
                 // 1.获取返回的「图片地址」列表
                 List<String> urls = data.getStringArrayListExtra(MultiImageSelectorActivity.EXTRA_RESULT);
                 // 2.更新图片显示
-                bbs = OtherUtils.transferBitmap(getActivity(), urls);
+                bbs = RootUtils.transferBitmap(activity, urls);
             } else if (resultCode == MultiImageSelectorActivity.NO_SELECT_CHOICE) {
-                Logs.t("ma_pics").ii("user no select any pics");
                 // 1.清空集合
                 bbs.clear();
             }
@@ -637,28 +533,28 @@ public class FeedbackFragment extends Fragment implements FragmentBackHandler {
             clickShowOrHideTopBanner(true);// 恢复大图导航
             clickShowUrl = "";// 清空临时大图地址
         } else {
-            showExitDialog();
+            showExitWidget();
         }
-
     }
 
     /**
      * 显示退出对话框
      */
-    private void showExitDialog() {
+    private void showExitWidget() {
         // 如果用户没有填任何数据, 则直接返回
-        boolean isTypeEmpty = TextUtils.isEmpty(etSelectType.getText().toString());
-        boolean isEnterEmpty = TextUtils.isEmpty(etEnterFeedback.getText().toString());
+        boolean isTypeEmpty = TextUtils.isEmpty(RootUtils.getEDText(etSelectType,true));
+        boolean isEnterEmpty = TextUtils.isEmpty(RootUtils.getEDText(etEnterFeedback,true));
         boolean isPhotoEmpty = bbs.isEmpty();
         if (isTypeEmpty & isEnterEmpty & isPhotoEmpty) {
             backAndClear();
             return;
         }
-        // 否则弹出对话框
+        //否则弹出对话框
         dgFeedbackTip.setVisibility(View.VISIBLE);
         dgFeedbackTip.setTitle(R.string.return_feedback_title);
         dgFeedbackTip.setDes(R.string.return_feedback_des);
-        dgFeedbackTip.setOnBgClickListener(() -> Lgg.t(TAG).ii("click not area"));
+        dgFeedbackTip.setOnBgClickListener(() -> {
+        });
         dgFeedbackTip.setOnCancelClickListener(() -> dgFeedbackTip.setVisibility(View.GONE));
         dgFeedbackTip.setOnOkClickListener(this::backAndClear);
     }
@@ -668,7 +564,7 @@ public class FeedbackFragment extends Fragment implements FragmentBackHandler {
      */
     private void backAndClear() {
         dgFeedbackTip.setVisibility(View.GONE);
-        activity.fraHelpers.transfer(activity.clazz[Cons.TAB_SETTING]);
+        toFrag(getClass(), SettingFragment.class, null, false);
         // 清除重置数据
         clearAndResetData();
     }
@@ -712,18 +608,7 @@ public class FeedbackFragment extends Fragment implements FragmentBackHandler {
     }
 
     private void toast(int resId) {
-        ToastUtil_m.show(getActivity(), resId);
+        toast(resId, 2000);
     }
 
-    private void toastLong(int resId) {
-        ToastUtil_m.showLong(getActivity(), resId);
-    }
-
-    private void toast(String content) {
-        ToastUtil_m.show(getActivity(), content);
-    }
-
-    private void to(Class ac, boolean isFinish) {
-        CA.toActivity(getActivity(), ac, false, isFinish, false, 0);
-    }
 }

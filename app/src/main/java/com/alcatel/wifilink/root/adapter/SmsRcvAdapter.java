@@ -13,16 +13,12 @@ import com.alcatel.wifilink.root.bean.Other_SMSContactSelfSort;
 import com.alcatel.wifilink.root.bean.SMSContactList;
 import com.alcatel.wifilink.root.helper.Cons;
 import com.alcatel.wifilink.root.helper.SmsCountHelper;
-import com.alcatel.wifilink.root.ue.root_activity.SmsDetailActivity;
 import com.alcatel.wifilink.root.ue.root_frag.SmsFragments;
-import com.alcatel.wifilink.root.utils.CA;
 import com.alcatel.wifilink.root.utils.Logs;
 import com.alcatel.wifilink.root.utils.OtherUtils;
 import com.p_xhelper_smart.p_xhelper_smart.bean.GetSmsContentListParam;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetSMSContentListHelper;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetSingleSMSHelper;
-
-import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -194,9 +190,6 @@ public class SmsRcvAdapter extends RecyclerView.Adapter<SmsHolder> {
                 smsNormalClickNext(smsContact);
                 // 1.1.设置为已读
                 setReaded(smsContact);
-                // 1.2.跳转
-                EventBus.getDefault().postSticky(smsContact);
-                CA.toActivity(context, SmsDetailActivity.class, false, false, false, 0);
             } else {/* 长按模式下 */
                 // 1.1.切换UI
                 holder.iv_smsLongClickPoint.setImageDrawable(holder.iv_smsLongClickPoint.getDrawable() == check_on ? check_off : check_on);

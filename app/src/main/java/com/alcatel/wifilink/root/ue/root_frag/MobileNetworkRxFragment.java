@@ -55,7 +55,8 @@ import butterknife.Unbinder;
 /**
  * Created by qianli.ma on 2017/12/8 0008.
  */
-
+//被替代MobileNetworkFrag
+@Deprecated
 public class MobileNetworkRxFragment extends Fragment implements FragmentBackHandler {
 
     private int PIN = 0;
@@ -121,7 +122,7 @@ public class MobileNetworkRxFragment extends Fragment implements FragmentBackHan
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         initRes();// 初始化资源
         resetUi();
-        inflate = View.inflate(getActivity(), R.layout.fragment_mobilenetwork, null);
+        inflate = View.inflate(getActivity(), R.layout.hh70_frag_mobilenetwork, null);
         unbinder = ButterKnife.bind(this, inflate);
         initTimer();// 初始化定时器
         EventBus.getDefault().register(this);

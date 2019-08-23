@@ -69,7 +69,9 @@ import java.util.Objects;
 /**
  * Created by qianli.ma on 2017/6/16.
  */
+//被替换SettingFrag
 @SuppressLint("ValidFragment")
+@Deprecated
 public class SettingFragment extends Fragment implements View.OnClickListener, FragmentBackHandler {
 
     private final static String TAG = "SettingFragment";
@@ -148,7 +150,7 @@ public class SettingFragment extends Fragment implements View.OnClickListener, F
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         activity = (HomeRxActivity) getActivity();
-        m_view = View.inflate(getActivity(), R.layout.fragment_home_setting, null);
+        m_view = View.inflate(getActivity(), R.layout.hh70_frag_home_setting, null);
         initRes();
         initSome();
         resetUi();
@@ -866,7 +868,7 @@ public class SettingFragment extends Fragment implements View.OnClickListener, F
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == SettingFragment.SET_LANGUAGE_REQUEST) {
+        if (resultCode == SET_LANGUAGE_REQUEST) {
             if (data != null && data.getBooleanExtra(SettingLanguageActivity.IS_SWITCH_LANGUAGE, false)) {
                 // 切换语言(重新加载fragment) + 跳转到setting-fragment
                 // activity.tvTabHome.setText(R.string.main_home);

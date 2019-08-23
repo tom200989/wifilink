@@ -7,7 +7,6 @@ import java.io.Serializable;
  */
 public class GetSMSStorageStateBean implements Serializable {
 
-
     /**
      * UnreadReport : 0
      * LeftCount : 98

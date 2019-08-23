@@ -54,6 +54,8 @@ import static com.alcatel.wifilink.root.ue.root_activity.WlanAdvancedSettingsAct
 import static com.alcatel.wifilink.root.ue.root_activity.WlanAdvancedSettingsActivity.EXTRA_MODE_80211;
 import static com.alcatel.wifilink.root.ue.root_activity.WlanAdvancedSettingsActivity.EXTRA_SSID_BROADCAST;
 
+//被替换  WifiFrag
+@Deprecated
 public class WifiFragment extends Fragment implements View.OnClickListener, AdapterView.OnItemSelectedListener, FragmentBackHandler {
 
     private static final String TAG = "WifiFragment";
@@ -178,7 +180,7 @@ public class WifiFragment extends Fragment implements View.OnClickListener, Adap
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         activity = (HomeRxActivity) getActivity();
         resetUi();
-        return inflater.inflate(R.layout.wifi_settings, container, false);
+        return inflater.inflate(R.layout.hh70_frag_wifi, container, false);
     }
 
     @Override

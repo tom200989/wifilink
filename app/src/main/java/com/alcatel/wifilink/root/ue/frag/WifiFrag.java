@@ -1,38 +1,628 @@
 package com.alcatel.wifilink.root.ue.frag;
 
+import android.os.Handler;
+import android.support.v7.widget.AppCompatSpinner;
+import android.support.v7.widget.SwitchCompat;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.alcatel.wifilink.R;
+import com.alcatel.wifilink.root.bean.WlanBean;
 import com.alcatel.wifilink.root.helper.ClickDoubleHelper;
+import com.alcatel.wifilink.root.helper.WepPsdHelper;
+import com.alcatel.wifilink.root.helper.WpaPsdHelper;
 import com.alcatel.wifilink.root.ue.activity.SplashActivity;
+import com.alcatel.wifilink.root.ue.root_activity.RefreshWifiRxActivity;
+import com.alcatel.wifilink.root.utils.CA;
+import com.alcatel.wifilink.root.utils.C_ENUM;
+import com.alcatel.wifilink.root.utils.Lgg;
+import com.alcatel.wifilink.root.utils.RootUtils;
+import com.alcatel.wifilink.root.widget.NormalWidget;
 import com.p_xhelper_smart.p_xhelper_smart.bean.GetLoginStateBean;
+import com.p_xhelper_smart.p_xhelper_smart.bean.GetWlanSettingsBean;
+import com.p_xhelper_smart.p_xhelper_smart.bean.GetWlanSupportModeBean;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetLoginStateHelper;
+import com.p_xhelper_smart.p_xhelper_smart.helper.GetSystemInfoHelper;
+import com.p_xhelper_smart.p_xhelper_smart.helper.GetSystemStatusHelper;
+import com.p_xhelper_smart.p_xhelper_smart.helper.GetWlanSettingsHelper;
+import com.p_xhelper_smart.p_xhelper_smart.helper.GetWlanSupportModeHelper;
 import com.p_xhelper_smart.p_xhelper_smart.helper.LogoutHelper;
+import com.p_xhelper_smart.p_xhelper_smart.helper.SetWlanSettingsHelper;
+
+import butterknife.BindView;
 
 /*
  * Created by qianli.ma on 2019/8/19 0019.
  */
+
 public class WifiFrag extends BaseFrag {
+
+    @BindView(R.id.ll_settings_2g)
+    ViewGroup m2GSettingsGroup;
+    @BindView(R.id.ll_settings_5g)
+    ViewGroup m5GSettingsGroup;
+    @BindView(R.id.switch_wifi_2g)
+    SwitchCompat mWifi2GSwitch;// 2.4G wifi开关
+    @BindView(R.id.text_advanced_settings_2g)
+    TextView m2GAdvancedText;
+    @BindView(R.id.switch_wifi_5g)
+    SwitchCompat mWifi5GSwitch;// 5G wifi开关
+    @BindView(R.id.text_advanced_settings_5g)
+    TextView m5GAdvancedText;
+    @BindView(R.id.ll_ssid_2g)
+    LinearLayout mllSsid2G;
+    @BindView(R.id.rl_security_2g)
+    RelativeLayout mrlSecurity2G;
+    @BindView(R.id.ll_ssid_5g)
+    LinearLayout mllSsid5G;
+    @BindView(R.id.rl_security_5g)
+    RelativeLayout mrlSecurity5G;
+    @BindView(R.id.rl_encryption_2g)
+    ViewGroup mEncryption2GGroup;
+    @BindView(R.id.rl_encryption_5g)
+    ViewGroup mEncryption5GGroup;
+    @BindView(R.id.ll_key_2g)
+    ViewGroup mKey2GGroup;
+    @BindView(R.id.ll_key_5g)
+    ViewGroup mKey5GGroup;
+    @BindView(R.id.spinner_security_2g)
+    AppCompatSpinner mSecurity2GSpinner;
+    @BindView(R.id.spinner_security_5g)
+    AppCompatSpinner mSecurity5GSpinner;
+    @BindView(R.id.spinner_encryption_2g)
+    AppCompatSpinner mEncryption2GSpinner;
+    @BindView(R.id.spinner_encryption_5g)
+    AppCompatSpinner mEncryption5GSpinner;
+    @BindView(R.id.edit_ssid_2g)
+    EditText mSsid2GEdit;
+    @BindView(R.id.edit_ssid_5g)
+    EditText mSsid5GEdit;
+    @BindView(R.id.edit_key_2g)
+    EditText mKey2GEdit;
+    @BindView(R.id.edit_key_5g)
+    EditText mKey5GEdit;
+    @BindView(R.id.rl_wifiSettingrx_wait)
+    RelativeLayout rlWait;
+    @BindView(R.id.dg_wifiSettingrx_ok)
+    NormalWidget dgWifiSettingrxOk;
+    @BindView(R.id.btn_apply)
+    Button btnApply;
+    @BindView(R.id.btn_cancel)
+    Button btnCancel;
+    @BindView(R.id.divider)
+    View mDividerView;
+
+    private View[] views_2p4;// 2G 视图
+    private View[] views_5G;// 5G 视图
+
+
+    private GetWlanSettingsBean mOriginSettings;
+    private GetWlanSettingsBean mEditedSettings;
+
+    private int mSupportMode;
+    private String[] mWpaEncryptionSettings;
+    private String[] mWepEncryptionSettings;
+
+    private String deviceName = "hh70";// 默认HH70
+    private int wlanState_2g;// 2G是否开启
+    private int WLAN_2G_ON = 1;// 2G是否开启
+
     @Override
     public int onInflateLayout() {
-        // TODO: 2019/8/19 0019  
         return R.layout.hh70_frag_wifi;
+    }
+
+    @Override
+    public void initViewFinish(View inflateView) {
+        super.initViewFinish(inflateView);
+        initRes();
+        //获取各类初始化信息(devices name, wifi on or off)
+        getKindState();
+        getSystemInfo();
+        initClick();
+    }
+
+    /**
+     * 初始化资源
+     */
+    private void initRes() {
+        // 2.4G kind of panel
+        views_2p4 = new View[]{mllSsid2G, mrlSecurity2G, mEncryption2GGroup, mKey2GGroup, m2GAdvancedText};
+        views_5G = new View[]{mllSsid5G, mrlSecurity5G, mEncryption5GGroup, mKey5GGroup, m5GAdvancedText};
+        mWpaEncryptionSettings = activity.getResources().getStringArray(R.array.wlan_settings_wpa_type);
+        mWepEncryptionSettings = activity.getResources().getStringArray(R.array.wlan_settings_wep_type);
+    }
+
+    /**
+     * 获取各类初始化信息(devices name, wifi on or off)
+     */
+    private void getKindState() {
+        GetSystemInfoHelper xGetSystemInfoHelper = new GetSystemInfoHelper();
+        xGetSystemInfoHelper.setOnGetSystemInfoSuccessListener(systeminfo -> {
+            // 1.得到设备名
+            deviceName = systeminfo.getDeviceName().toLowerCase();
+            // 2.获取systemstatus--> 得到目前正在启用的WIFI
+            GetSystemStatusHelper xGetSystemStatusHelper = new GetSystemStatusHelper();
+            xGetSystemStatusHelper.setOnGetSystemStatusSuccessListener(getSystemStatusBean -> {
+                wlanState_2g = getSystemStatusBean.getWlanState_2g();
+                requestWlanSupportMode();
+            });
+            xGetSystemStatusHelper.setOnGetSystemStatusFailedListener(() -> {
+                requestWlanSupportMode();
+            });
+            xGetSystemStatusHelper.getSystemStatus();
+        });
+        xGetSystemInfoHelper.setOnFwErrorListener(() -> requestWlanSupportMode());
+        xGetSystemInfoHelper.setOnAppErrorListener(() -> requestWlanSupportMode());
+        xGetSystemInfoHelper.getSystemInfo();
+    }
+
+    /**
+     * 获取系统信息
+     */
+    public void getSystemInfo() {
+        GetSystemInfoHelper xGetSystemInfoHelper = new GetSystemInfoHelper();
+        xGetSystemInfoHelper.setOnGetSystemInfoSuccessListener(attr -> {
+            deviceName = attr.getDeviceName().toLowerCase();
+            initUi(RootUtils.isMWDEV(deviceName));
+        });
+        xGetSystemInfoHelper.setOnFwErrorListener(() -> initUi(false));
+        xGetSystemInfoHelper.setOnAppErrorListener(() -> initUi(false));
+        xGetSystemInfoHelper.getSystemInfo();
+    }
+
+    /**
+     * 初始化点击事件
+     */
+    private void initClick() {
+        // other
+        rlWait.setOnClickListener(v -> toast(R.string.connecting, 2000));
+
+        m2GAdvancedText.setOnClickListener(v -> {
+            WlanBean wlanBean = new WlanBean();
+            wlanBean.setmSsidBroadcast(mEditedSettings.getAP2G().getSsidHidden() == 0);
+            wlanBean.setmChannel(mEditedSettings.getAP2G().getChannel());
+            wlanBean.setmCountry(mEditedSettings.getAP2G().getCountryCode());
+            wlanBean.setmBandwidth(mEditedSettings.getAP2G().getBandwidth());
+            wlanBean.setmMode(mEditedSettings.getAP2G().getWMode());
+            wlanBean.setmApIsolation(mEditedSettings.getAP2G().getApIsolation() == 1);
+            wlanBean.setmFrequency(2);
+            toFrag(getClass(), WlanFrag.class, wlanBean, true);
+        });
+
+        m5GAdvancedText.setOnClickListener(v -> {
+            WlanBean wlanBean = new WlanBean();
+            wlanBean.setmSsidBroadcast(mEditedSettings.getAP5G().getSsidHidden() == 0);
+            wlanBean.setmChannel(mEditedSettings.getAP5G().getChannel());
+            wlanBean.setmCountry(mEditedSettings.getAP5G().getCountryCode());
+            wlanBean.setmBandwidth(mEditedSettings.getAP5G().getBandwidth());
+            wlanBean.setmMode(mEditedSettings.getAP5G().getWMode());
+            wlanBean.setmApIsolation(mEditedSettings.getAP5G().getApIsolation() == 1);
+            wlanBean.setmFrequency(5);
+            toFrag(getClass(), WlanFrag.class, wlanBean, true);
+        });
+
+        btnApply.setOnClickListener(v -> showApplySettingsDlg());// 检查密码规则
+        btnCancel.setOnClickListener(v -> restoreSettings());
+
+        mSecurity2GSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (position == 0) {
+                    mKey2GGroup.setVisibility(View.GONE);
+                    mEncryption2GGroup.setVisibility(View.GONE);
+                    mEncryption2GSpinner.setSelection(-1);
+                } else {
+                    mKey2GGroup.setVisibility(View.VISIBLE);
+                    mEncryption2GGroup.setVisibility(View.VISIBLE);
+                    if (position == 1) {
+                        mEncryption2GSpinner.setAdapter(new ArrayAdapter(activity, android.R.layout.simple_spinner_dropdown_item, mWepEncryptionSettings));
+                        int wepType = mOriginSettings.getAP2G().getWepType();
+                        mEncryption2GSpinner.setSelection(wepType);
+
+                    } else {
+                        mEncryption2GSpinner.setAdapter(new ArrayAdapter(activity, android.R.layout.simple_spinner_dropdown_item, mWpaEncryptionSettings));
+                        int wpaType = mOriginSettings.getAP2G().getWpaType();
+                        System.out.println("2.4G wpaType: " + wpaType);
+                        mEncryption2GSpinner.setSelection(wpaType);
+                    }
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+        mSecurity5GSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (position == 0) {
+                    mKey5GGroup.setVisibility(View.GONE);
+                    mEncryption5GGroup.setVisibility(View.GONE);
+                    mEncryption5GSpinner.setSelection(-1);
+                } else {
+                    mKey5GGroup.setVisibility(View.VISIBLE);
+                    mEncryption5GGroup.setVisibility(View.VISIBLE);
+                    if (position == 1) {
+                        mEncryption5GSpinner.setAdapter(new ArrayAdapter(activity, android.R.layout.simple_spinner_dropdown_item, mWepEncryptionSettings));
+                        int wepType = mOriginSettings.getAP5G().getWepType();
+                        mEncryption5GSpinner.setSelection(wepType);
+                    } else {
+                        mEncryption5GSpinner.setAdapter(new ArrayAdapter(activity, android.R.layout.simple_spinner_dropdown_item, mWpaEncryptionSettings));
+                        int wpaType = mOriginSettings.getAP5G().getWpaType();
+                        System.out.println("5G wpaType: " + wpaType);
+                        mEncryption5GSpinner.setSelection(wpaType);
+                    }
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+    }
+
+    /**
+     * 网络请求后再初始化相关UI
+     *
+     * @param isMw120
+     */
+    private void initUi(boolean isMw120) {
+        mWifi2GSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isMw120) {
+                hideOrShow(isChecked ? views_5G : views_2p4, isChecked ? views_2p4 : views_5G);
+                mWifi5GSwitch.setChecked(!isChecked);
+            }
+        });
+
+        mWifi5GSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isMw120) {
+                hideOrShow(isChecked ? views_2p4 : views_5G, isChecked ? views_5G : views_2p4);
+                mWifi2GSwitch.setChecked(!isChecked);
+            }
+        });
     }
 
     @Override
     public void onNexts(Object o, View view, String s) {
         super.onNexts(o, view, s);
+        if (o instanceof WlanBean) {
+            WlanBean wlanBean = (WlanBean) o;
+            boolean broadcast = wlanBean.ismSsidBroadcast();
+            int channel = wlanBean.getmChannel();
+            String countryCode = wlanBean.getmCountry();
+            int bandwidth = wlanBean.getmBandwidth();
+            int mode80211 = wlanBean.getmMode();
+            boolean isolation = wlanBean.ismApIsolation();
+            if (wlanBean.getmFrequency() == 2) {
+                GetWlanSettingsBean.AP2GBean ap2G = mEditedSettings.getAP2G();
+                ap2G.setSsidHidden(broadcast ? 1 : 0);
+                ap2G.setChannel(channel);
+                ap2G.setCountryCode(countryCode);
+                ap2G.setBandwidth(bandwidth);
+                ap2G.setWMode(mode80211);
+                ap2G.setApIsolation(isolation ? 1 : 0);
+            } else {
+                GetWlanSettingsBean.AP5GBean ap5G = mEditedSettings.getAP5G();
+                ap5G.setSsidHidden(broadcast ? 1 : 0);
+                ap5G.setChannel(channel);
+                ap5G.setCountryCode(countryCode);
+                ap5G.setBandwidth(bandwidth);
+                ap5G.setWMode(mode80211);
+                ap5G.setApIsolation(isolation ? 1 : 0);
+            }
+        }
+    }
+
+    private void requestWlanSettings() {
+        GetWlanSettingsHelper xGetWlanSettingsHelper = new GetWlanSettingsHelper();
+        xGetWlanSettingsHelper.setOnGetWlanSettingsSuccessListener(settingsBean -> {
+            mOriginSettings = settingsBean;
+            mEditedSettings = mOriginSettings.deepClone();
+            updateUIWithWlanSettings();
+        });
+        xGetWlanSettingsHelper.getWlanSettings();
+    }
+
+    private void requestWlanSupportMode() {
+        GetWlanSupportModeHelper xGetWlanSupportModeHelper = new GetWlanSupportModeHelper();
+        xGetWlanSupportModeHelper.setOnGetWlanSupportModeSuccessListener(attr -> {
+            // 获取到wlan支持模式
+            // 0: 2.4G
+            // 1: 5G
+            // 2: 2.4G+2.4G
+            // 3: 5G+5G
+            int wlanSupportAPMode = attr.getWlanAPMode();
+            updateUIWithSupportMode(wlanSupportAPMode);
+            requestWlanSettings();
+        });
+        xGetWlanSupportModeHelper.getWlanSupportMode();
+    }
+
+    private void updateUIWithWlanSettings() {
+        if (mOriginSettings == null) {
+            return;
+        }
+        if (mSupportMode == GetWlanSupportModeBean.CONS_WLAN_2_4G) {
+            set2GData();
+        } else if (mSupportMode == GetWlanSupportModeBean.CONS_WLAN_5G) {
+            set5GData();
+        } else {
+            set2GData();
+            set5GData();
+        }
+
+        // 判断新设备--> 隐藏相关布局
+        isMW120();
+    }
+
+    /* 5G */
+    private void set5GData() {
+        mWifi5GSwitch.setChecked(mOriginSettings.getAP5G().getApStatus() == 1);
+        mSsid5GEdit.setText(mOriginSettings.getAP5G().getSsid());
+        mSecurity5GSpinner.setSelection(mOriginSettings.getAP5G().getSecurityMode());
+        if (mOriginSettings.getAP5G().getSecurityMode() == C_ENUM.SecurityMode.Disable.ordinal()) {
+            mEncryption5GGroup.setVisibility(View.GONE);
+            mKey5GGroup.setVisibility(View.GONE);
+            mEncryption5GSpinner.setSelection(-1);
+            mKey5GEdit.setText("");
+        } else if (mOriginSettings.getAP5G().getSecurityMode() == C_ENUM.SecurityMode.WEP.ordinal()) {
+            mEncryption5GGroup.setVisibility(View.VISIBLE);
+            mKey5GGroup.setVisibility(View.VISIBLE);
+            mEncryption5GSpinner.setAdapter(new ArrayAdapter(activity, android.R.layout.simple_spinner_dropdown_item, mWepEncryptionSettings));
+            mEncryption5GSpinner.setSelection(mOriginSettings.getAP5G().getWepType());
+            mKey5GEdit.setText(mOriginSettings.getAP5G().getWepKey());
+        } else {
+            mEncryption5GGroup.setVisibility(View.VISIBLE);
+            mKey5GGroup.setVisibility(View.VISIBLE);
+            mEncryption5GSpinner.setAdapter(new ArrayAdapter(activity, android.R.layout.simple_spinner_dropdown_item, mWpaEncryptionSettings));
+            mEncryption5GSpinner.setSelection(mOriginSettings.getAP5G().getWpaType());
+            mKey5GEdit.setText(mOriginSettings.getAP5G().getWpaKey());
+        }
+    }
+
+    /* 2G */
+    private void set2GData() {
+        // 先设置
+        mWifi2GSwitch.setChecked(mOriginSettings.getAP2G().getApStatus() == 1);
+        mSsid2GEdit.setText(mOriginSettings.getAP2G().getSsid());
+        int securityMode = mOriginSettings.getAP2G().getSecurityMode();
+        mSecurity2GSpinner.setSelection(securityMode);
+        if (securityMode == C_ENUM.SecurityMode.Disable.ordinal()) {
+            mEncryption2GGroup.setVisibility(View.GONE);
+            mKey2GGroup.setVisibility(View.GONE);
+            mEncryption2GSpinner.setSelection(-1);
+            mKey2GEdit.setText("");
+        } else if (securityMode == C_ENUM.SecurityMode.WEP.ordinal()) {
+            mEncryption2GGroup.setVisibility(View.VISIBLE);
+            mKey2GGroup.setVisibility(View.VISIBLE);
+            mEncryption2GSpinner.setAdapter(new ArrayAdapter(activity, android.R.layout.simple_spinner_dropdown_item, mWepEncryptionSettings));
+            mEncryption2GSpinner.setSelection(mOriginSettings.getAP2G().getWepType());
+            mKey2GEdit.setText(mOriginSettings.getAP2G().getWepKey());
+        } else {
+            mEncryption2GGroup.setVisibility(View.VISIBLE);
+            mKey2GGroup.setVisibility(View.VISIBLE);
+            mEncryption2GSpinner.setAdapter(new ArrayAdapter(activity, android.R.layout.simple_spinner_dropdown_item, mWpaEncryptionSettings));
+            mEncryption2GSpinner.setSelection(mOriginSettings.getAP2G().getWpaType());
+            mKey2GEdit.setText(mOriginSettings.getAP2G().getWpaKey());
+        }
+    }
+
+    private void updateUIWithSupportMode(int supportMode) {
+
+        mSupportMode = supportMode;
+        if (supportMode == C_ENUM.WlanSupportMode.Mode2Point4G.ordinal()) {
+            m2GSettingsGroup.setVisibility(View.VISIBLE);
+            m5GSettingsGroup.setVisibility(View.GONE);
+            mDividerView.setVisibility(View.GONE);
+        } else if (supportMode == C_ENUM.WlanSupportMode.Mode5G.ordinal()) {
+            m2GSettingsGroup.setVisibility(View.GONE);
+            m5GSettingsGroup.setVisibility(View.VISIBLE);
+            mDividerView.setVisibility(View.GONE);
+        } else if (supportMode == C_ENUM.WlanSupportMode.Mode2Point4GAnd5G.ordinal()) {
+            m2GSettingsGroup.setVisibility(View.VISIBLE);
+            m5GSettingsGroup.setVisibility(View.VISIBLE);
+        } else {
+            m2GSettingsGroup.setVisibility(View.GONE);
+            m5GSettingsGroup.setVisibility(View.GONE);
+            mDividerView.setVisibility(View.GONE);
+        }
+    }
+
+    /**
+     * 是否为mw120新型设备
+     */
+    private void isMW120() {
+        // 判断是否为新设备
+        boolean isMW120 = RootUtils.isMWDEV(deviceName);
+        if (isMW120) {
+            // 隐藏相关布局
+            if (wlanState_2g == WLAN_2G_ON) {
+                hideOrShow(views_5G, views_2p4);
+            } else {
+                hideOrShow(views_2p4, views_5G);
+            }
+        }
+    }
+
+    private void restoreSettings() {
+        requestWlanSettings();
+    }
+
+    private void showApplySettingsDlg() {
+        applySettings();
+    }
+
+    private void applySettings() {
+
+        // 密码标记
+        boolean isPasswordMatch = true;
+
+        // check 2.4g settings
+        if (mSupportMode == C_ENUM.WlanSupportMode.Mode2Point4G.ordinal() || mSupportMode == C_ENUM.WlanSupportMode.Mode2Point4GAnd5G.ordinal()) {
+            boolean isAP2GStateChanged = mWifi2GSwitch.isChecked() != (mOriginSettings.getAP2G().getApStatus() == 1);
+            if (isAP2GStateChanged && !mWifi2GSwitch.isChecked()) {
+                mEditedSettings.getAP2G().setApStatus(0);
+            } else {
+                mEditedSettings.getAP2G().setApStatus(1);
+                String newSsid2G = RootUtils.getEDText(mSsid2GEdit, true);
+                int newSecurity2GMode = mSecurity2GSpinner.getSelectedItemPosition();
+                int newEncryption2G = mEncryption2GSpinner.getSelectedItemPosition();
+                String newKey2G = RootUtils.getEDText(mKey2GEdit, true);
+
+                if (newSsid2G.isEmpty()) {
+                    toast(R.string.qs_wifi_ssid_prompt, 2000);
+                    return;
+                }
+
+                mEditedSettings.getAP2G().setSsid(newSsid2G);
+                mEditedSettings.getAP2G().setSecurityMode(newSecurity2GMode);
+                //disable
+                if (newSecurity2GMode == 0) {
+                    mEditedSettings.getAP2G().setWepKey("");
+                    mEditedSettings.getAP2G().setWepType(0);
+                    mEditedSettings.getAP2G().setWpaType(0);
+                    mEditedSettings.getAP2G().setWpaKey("");
+                    //wep
+                } else if (newSecurity2GMode == 1) {
+                    if (!WepPsdHelper.psdMatch(newKey2G)) {
+                        isPasswordMatch = false;
+                        toast(R.string.setting_wep_password_error_prompt, 2000);
+                        return;
+                    }
+                    mEditedSettings.getAP2G().setWepType(newEncryption2G);
+                    mEditedSettings.getAP2G().setWepKey(newKey2G);
+                    mEditedSettings.getAP2G().setWpaType(0);
+                    mEditedSettings.getAP2G().setWpaKey("");
+                    //wpa
+                } else {
+                    if (newKey2G.length() < 8 || newKey2G.length() > 63 || !WpaPsdHelper.isMatch(newKey2G)) {
+                        isPasswordMatch = false;
+                        toast(R.string.setting_wpa_password_error_prompt, 2000);
+                        return;
+                    }
+                    mEditedSettings.getAP2G().setWepType(0);
+                    mEditedSettings.getAP2G().setWepKey("");
+                    mEditedSettings.getAP2G().setWpaType(newEncryption2G);
+                    mEditedSettings.getAP2G().setWpaKey(newKey2G);
+                }
+            }
+        }
+
+        // check 5g settings
+        if (mSupportMode == C_ENUM.WlanSupportMode.Mode5G.ordinal() || mSupportMode == C_ENUM.WlanSupportMode.Mode2Point4GAnd5G.ordinal()) {
+            boolean isAP5GStateChanged = mWifi5GSwitch.isChecked() != (mOriginSettings.getAP5G().getApStatus() == 1);
+            if (isAP5GStateChanged && !mWifi5GSwitch.isChecked()) {
+                mEditedSettings.getAP5G().setApStatus(0);
+            } else {
+                mEditedSettings.getAP5G().setApStatus(1);
+                String newSsid5G = RootUtils.getEDText(mSsid5GEdit, true);
+                int newSecurity5GMode = mSecurity5GSpinner.getSelectedItemPosition();
+                int newEncryption5G = mEncryption5GSpinner.getSelectedItemPosition();
+                String newKey5G = RootUtils.getEDText(mKey5GEdit, true);
+
+                if (newSsid5G.isEmpty()) {
+                    toast(R.string.qs_wifi_ssid_prompt, 2000);
+                    return;
+                }
+
+                mEditedSettings.getAP5G().setSsid(newSsid5G);
+                mEditedSettings.getAP5G().setSecurityMode(newSecurity5GMode);
+                //disable
+                if (newSecurity5GMode == 0) {
+                    mEditedSettings.getAP5G().setWepKey("");
+                    mEditedSettings.getAP5G().setWepType(0);
+                    mEditedSettings.getAP5G().setWpaType(0);
+                    mEditedSettings.getAP5G().setWpaKey("");
+                    //wep
+                } else if (newSecurity5GMode == 1) {
+                    if (!WepPsdHelper.psdMatch(newKey5G)) {
+                        isPasswordMatch = false;
+                        toast(R.string.setting_wep_password_error_prompt, 2000);
+                        return;
+                    }
+                    mEditedSettings.getAP5G().setWepType(newEncryption5G);
+                    mEditedSettings.getAP5G().setWepKey(newKey5G);
+                    mEditedSettings.getAP5G().setWpaType(0);
+                    mEditedSettings.getAP5G().setWpaKey("");
+                    //wpa
+                } else {
+                    if (newKey5G.length() < 8 || newKey5G.length() > 63 || !WpaPsdHelper.isMatch(newKey5G)) {
+                        isPasswordMatch = false;
+                        toast(R.string.setting_wpa_password_error_prompt, 2000);
+                        return;
+                    }
+                    mEditedSettings.getAP5G().setWepType(0);
+                    mEditedSettings.getAP5G().setWepKey("");
+                    mEditedSettings.getAP5G().setWpaType(newEncryption5G);
+                    mEditedSettings.getAP5G().setWpaKey(newKey5G);
+                }
+            }
+        }
+
+        if (isPasswordMatch) {
+            String des1 = getString(R.string.setting_wifi_set_success);
+            String des2 = getString(R.string.connectedlist_will_be_restarted_to_apply_new_settings);
+            String des = des1 + "\n" + des2;
+            dgWifiSettingrxOk.setVisibility(View.VISIBLE);
+            dgWifiSettingrxOk.setTitle(R.string.restart);
+            dgWifiSettingrxOk.setDes(des);
+            dgWifiSettingrxOk.setOnBgClickListener(() -> Lgg.t("mainrx").ii("click not area"));
+            dgWifiSettingrxOk.setOnCancelClickListener(() -> dgWifiSettingrxOk.setVisibility(View.GONE));
+            dgWifiSettingrxOk.setOnOkClickListener(this::setWlanRequest);
+        }
+    }
+
+    /**
+     * 真正发送请求
+     */
+    private void setWlanRequest() {
+        SetWlanSettingsHelper xSetWlanSettingsHelper = new SetWlanSettingsHelper();
+        xSetWlanSettingsHelper.setOnPrepareHelperListener(() -> rlWait.setVisibility(View.VISIBLE));
+        xSetWlanSettingsHelper.setOnDoneHelperListener(() -> rlWait.setVisibility(View.GONE));
+        xSetWlanSettingsHelper.setOnSetWlanSettingsSuccessListener(() -> new Handler().postDelayed(() -> rlWait.setVisibility(View.GONE), 30 * 1000));
+        xSetWlanSettingsHelper.setOnSetWlanSettingsFailedListener(() -> CA.toActivity(activity, RefreshWifiRxActivity.class, false, true,
+                false, 0));
+        xSetWlanSettingsHelper.setWlanSettings(mEditedSettings);
+    }
+
+    /**
+     * 隐藏或者显示
+     *
+     * @param hideViews
+     * @param showViews
+     */
+    private void hideOrShow(View[] hideViews, View[] showViews) {
+        for (View hideView : hideViews) {
+            hideView.setVisibility(View.GONE);
+        }
+        for (View showView : showViews) {
+            showView.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
-    public boolean onBackPresss() {
-
-        // 登出
-        ClickDoubleHelper clickDouble = new ClickDoubleHelper();
-        clickDouble.setOnClickOneListener(() -> toast(R.string.home_exit_app, 3000));
-        clickDouble.setOnClickDoubleListener(this::logOut);
-        clickDouble.click();
-        return true;
+    public boolean onBackPressed() {
+        if (dgWifiSettingrxOk.getVisibility() == View.VISIBLE) {
+            dgWifiSettingrxOk.setVisibility(View.GONE);
+            return true;
+        } else {
+            // 登出
+            ClickDoubleHelper clickDouble = new ClickDoubleHelper();
+            clickDouble.setOnClickOneListener(() -> toast(R.string.home_exit_app, 3000));
+            clickDouble.setOnClickDoubleListener(this::logOut);
+            clickDouble.click();
+            return true;
+        }
     }
 
     /**

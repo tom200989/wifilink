@@ -75,4 +75,6 @@ public class WlanBean extends DeepCloneBean implements Serializable {
     public void setmMode(int mMode) {
         this.mMode = mMode;
     }
+
+
 }

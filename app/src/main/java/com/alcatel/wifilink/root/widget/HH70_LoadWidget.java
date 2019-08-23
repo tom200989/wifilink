@@ -8,6 +8,7 @@ import android.view.animation.LinearInterpolator;
 import android.view.animation.RotateAnimation;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.alcatel.wifilink.R;
 
@@ -18,6 +19,7 @@ public class HH70_LoadWidget extends RelativeLayout {
 
     private View inflate;
     private ImageView ivLoad;
+    private TextView tvLoad;
 
     public HH70_LoadWidget(Context context) {
         this(context, null, 0);
@@ -31,6 +33,7 @@ public class HH70_LoadWidget extends RelativeLayout {
         super(context, attrs, defStyle);
         inflate = inflate(context, R.layout.hh70_widget_load, this);
         ivLoad = inflate.findViewById(R.id.iv_wd_load);
+        tvLoad = inflate.findViewById(R.id.tv_loading);
     }
 
     public void setVisibles() {
@@ -55,6 +58,16 @@ public class HH70_LoadWidget extends RelativeLayout {
         ivLoad.setAnimation(ro);
         ro.startNow();
         ro.start();
+    }
+
+    public void setLoadTv(int resId) {
+        tvLoad.setText(resId);
+        tvLoad.setVisibility(VISIBLE);
+    }
+
+    public void setLoadTv(String res) {
+        tvLoad.setText(res);
+        tvLoad.setText(View.VISIBLE);
     }
 
     /**

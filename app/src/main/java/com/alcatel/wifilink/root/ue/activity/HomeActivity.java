@@ -9,14 +9,19 @@ import com.alcatel.wifilink.root.helper.GetSMSUnreadHelper;
 import com.alcatel.wifilink.root.helper.TimerHelper;
 import com.alcatel.wifilink.root.ue.frag.AboutFrag;
 import com.alcatel.wifilink.root.ue.frag.EtherWANFrag;
+import com.alcatel.wifilink.root.ue.frag.FeedbackFrag;
 import com.alcatel.wifilink.root.ue.frag.InternetStatusFrag;
 import com.alcatel.wifilink.root.ue.frag.LanguageFrag;
 import com.alcatel.wifilink.root.ue.frag.LoginFrag;
+import com.alcatel.wifilink.root.ue.frag.MobileNetworkFrag;
+import com.alcatel.wifilink.root.ue.frag.SetDataPlanFrag;
 import com.alcatel.wifilink.root.ue.frag.SettingAccountFrag;
 import com.alcatel.wifilink.root.ue.frag.SettingFrag;
 import com.alcatel.wifilink.root.ue.frag.SettingNetworkFrag;
 import com.alcatel.wifilink.root.ue.frag.SettingShareFrag;
+import com.alcatel.wifilink.root.ue.frag.SmsDetailFrag;
 import com.alcatel.wifilink.root.ue.frag.SmsFrag;
+import com.alcatel.wifilink.root.ue.frag.SmsNewFrag;
 import com.alcatel.wifilink.root.ue.frag.WifiFrag;
 import com.alcatel.wifilink.root.ue.frag.WlanFrag;
 import com.alcatel.wifilink.root.ue.frag.mainFrag;
@@ -50,6 +55,14 @@ public class HomeActivity extends RootMAActivity {
             WlanFrag.class, // 共享设备页
             LanguageFrag.class, // 选择语言页
             SettingNetworkFrag.class, // SIM设置页
+            FeedbackFrag.class,//反馈页面
+            MobileNetworkFrag.class,//网络
+            SetDataPlanFrag.class,//设置流量计划页面
+            SettingFrag.class,//主页面的设置页面
+            SmsFrag.class,//主页面的短信页面
+            WifiFrag.class,//主页面的wifi页面
+            SmsNewFrag.class,//新建短信页面
+            SmsDetailFrag.class//sms的详情页
     };
 
     private HH70_HomeTabWidget wdTab;

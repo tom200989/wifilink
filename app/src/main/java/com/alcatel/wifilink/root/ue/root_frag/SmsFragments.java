@@ -39,7 +39,9 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 
+//被替换 SmsFrag
 @SuppressLint("ValidFragment")
+@Deprecated
 public class SmsFragments extends Fragment implements FragmentBackHandler {
 
     @BindView(R.id.rcv_sms)
@@ -77,7 +79,7 @@ public class SmsFragments extends Fragment implements FragmentBackHandler {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        inflate = View.inflate(getActivity(), R.layout.fragment_sms_update, null);
+        inflate = View.inflate(getActivity(), R.layout.hh70_frag_sms, null);
         unbinder = ButterKnife.bind(this, inflate);
         initRes();
         isLongClick = false;

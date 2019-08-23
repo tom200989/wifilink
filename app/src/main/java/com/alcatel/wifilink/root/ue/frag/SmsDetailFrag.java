@@ -1,7 +1,7 @@
-package com.alcatel.wifilink.root.ue.root_activity;
+package com.alcatel.wifilink.root.ue.frag;
 
-import android.os.Bundle;
-import android.support.v7.app.ActionBar;
+
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -23,12 +23,11 @@ import com.alcatel.wifilink.root.helper.SmsDeletePop;
 import com.alcatel.wifilink.root.helper.SmsDraftHelper;
 import com.alcatel.wifilink.root.helper.SmsSendHelper;
 import com.alcatel.wifilink.root.helper.SmsWatcher;
-import com.alcatel.wifilink.root.helper.TimerHelper;
-import com.alcatel.wifilink.root.utils.ActionbarSetting;
 import com.alcatel.wifilink.root.utils.C_Constants;
-import com.alcatel.wifilink.root.utils.Logs;
 import com.alcatel.wifilink.root.utils.OtherUtils;
-import com.alcatel.wifilink.root.utils.ToastUtil_m;
+import com.alcatel.wifilink.root.utils.RootUtils;
+import com.hiber.cons.TimerState;
+import com.hiber.impl.RootEventListener;
 import com.p_xhelper_smart.p_xhelper_smart.bean.DeleteSmsParam;
 import com.p_xhelper_smart.p_xhelper_smart.bean.GetSMSContactListBean;
 import com.p_xhelper_smart.p_xhelper_smart.bean.GetSMSContentListBean;
@@ -40,21 +39,16 @@ import com.p_xhelper_smart.p_xhelper_smart.helper.GetSMSContentListHelper;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetSimStatusHelper;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetSmsInitStateHelper;
 
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
 
-//被替换 SmsDetailFrag
-@Deprecated
-public class SmsDetailActivity extends BaseActivityWithBack implements View.OnClickListener, SmsDetatilAdapter.OnSmsSelectedListener, SmsDetatilAdapter.OnSmsLongClickListener, SmsDetatilAdapter.OnSendSuccessListener {
+/**
+ * A simple {@link Fragment} subclass.
+ */
+public class SmsDetailFrag extends BaseFrag {
 
     @BindView(R.id.tv_smsdetail_date)
     TextView tvSmsdetailDate;// 路由器日期
@@ -64,59 +58,54 @@ public class SmsDetailActivity extends BaseActivityWithBack implements View.OnCl
     Button rvSmsdetailSend;// 发送按钮
     @BindView(R.id.et_smsdetail_send)
     EditText etSmsdetailSend;// 内容编辑区
+    @BindView(R.id.ib_smsdetail_back)
+    ImageButton ib_back;
+    @BindView(R.id.tv_smsdetail_title)
+    TextView tv_title;
+    @BindView(R.id.iv_smsdetail_delete)
+    ImageView iv_delete;
 
-    public Button tv_delete_cancel;
-    public Button tv_delete_confirm;
-
-    // action bar
-    private ActionBar actionbar;
-    private ImageButton ib_back;
-    private TextView tv_title;
-    private ImageView iv_delete;
-
-    private TimerHelper timerHelper;
     private SmsDetatilAdapter adapter;
     private SMSContentList smsContentList;
     private SMSContactList.SMSContact smsContact;
     private List<Long> smsIds = new ArrayList<>();
     private boolean isLongClick;// 处于长按状态
-    private String draftSms = "";// 草稿短信
-    private long draftSmsId;// 草稿短信ID
     private SmsDeletePop deletePop;
     private LinearLayoutManager linearLayoutManager;
-    private boolean toastFlag = true;
     private String dateTimebanner = "";
-    private String ActivityName = "SmsDetailActivity";
     private int current_sms_num = 0;// 最近一次获取到的短信条数
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        Logs.t("ma_sms_oncreate_ac").vv("ma_sms_oncreate_ac: " + getClass().getSimpleName());
-        ActivityName = getClass().getSimpleName();
-        setContentView(R.layout.activity_sms_detail);
-        ButterKnife.bind(this);
-        actionbar = getSupportActionBar();
-        EventBus.getDefault().register(this);
+    public int onInflateLayout() {
+        return R.layout.hh70_frag_sms_detail;
+    }
+
+    @Override
+    public void initViewFinish(View inflateView) {
+        super.initViewFinish(inflateView);
         initEvent();
         initView();
         initData();
+        initClick();
+        timerState = TimerState.ON_BUT_OFF_WHEN_HIDE_AND_PAUSE;
     }
 
+    /**
+     * 初始化监听
+     */
     private void initEvent() {
         //  添加短信字数限制监听
-        new SmsWatcher(this, etSmsdetailSend);
-    }
-
-
-    @Subscribe(sticky = true, threadMode = ThreadMode.MAIN)
-    public void getSmsContactInfo(SMSContactList.SMSContact smsContact) {
-        this.smsContact = smsContact;
+        new SmsWatcher(activity, etSmsdetailSend);
+        setEventListener(SMSContactList.SMSContact.class, new RootEventListener<SMSContactList.SMSContact>() {
+            @Override
+            public void getData(SMSContactList.SMSContact smsContact) {
+                SmsDetailFrag.this.smsContact = smsContact;
+                tv_title.setText(OtherUtils.stitchPhone(activity, smsContact.getPhoneNumber()));
+            }
+        });
     }
 
     private void initView() {
-        // set action bar
-        setActionbar();
         // set recycle view
         setRecycleView();
         // set recycle touch listener
@@ -128,103 +117,55 @@ public class SmsDetailActivity extends BaseActivityWithBack implements View.OnCl
         getDraftSms();
     }
 
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        getSmsContents(true);
-        startTimer();
+    /**
+     * 初始化点击事件
+     */
+    public void initClick() {
+        ib_back.setOnClickListener(v -> clickBack());
+        iv_delete.setVisibility(View.GONE);
+        iv_delete.setOnClickListener(v -> deleteSmsPop());
+        rvSmsdetailSend.setOnClickListener(v -> sendSms());//发送按钮
     }
 
     @Override
-    public void onBackPressed() {
+    public void onNexts(Object o, View view, String s) {
+        super.onNexts(o, view, s);
+        getSmsContents(true);
+    }
+
+    @Override
+    public boolean onBackPressed() {
         clickBack();
+        return true;
     }
 
     @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.ib_smsdetail_back:// back to sms fragment
-                clickBack();
-                break;
-            case R.id.iv_smsdetail_delete:// show the delete pop
-                deleteSmsPop();
-                break;
-            case R.id.tv_smsdetail_detele_cancel:// click cancel
-                resetLongClickFlag();// 1. reset the status ui
-                getSmsContents(false);// 2. getInstant data again
-                break;
-            case R.id.tv_smsdetail_detele_confirm:// click confirm
-                deleteSms();
-                break;
-        }
-    }
-
-    /* 发送按钮 */
-    @OnClick(R.id.rv_smsdetail_send)
-    public void onViewClicked() {
-        sendSms();
-    }
-
-    /* 短信被选中 */
-    @Override
-    public void selected(List<Long> smsIds) {
-        // 被选中的短信ID集合
-        SmsDetailActivity.this.smsIds = smsIds;
-    }
-
-    /* 短信被长按 */
-    @Override
-    public void smsLongClick() {
-        // 短信被长按
-        isLongClick = true;
-        timerHelper.stop();
-        iv_delete.setVisibility(View.VISIBLE);
-        etSmsdetailSend.setEnabled(!isLongClick);
-        rvSmsdetailSend.setClickable(!isLongClick);
-    }
-
-    /* 重新发送短信 */
-    @Override
-    public void sendAgainSuccess() {
-        // 重新获取短信
-        getSmsContents(true);
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
+    public void onDestroyView() {
+        super.onDestroyView();
         current_sms_num = 0;
-        timerHelper.stop();
-    }
-
-    /* **** setActionbar **** */
-    private void setActionbar() {
-        new ActionbarSetting() {
-            @Override
-            protected void findActionbarView(View view) {
-                // when click--> save draft
-                ib_back = (ImageButton) view.findViewById(R.id.ib_smsdetail_back);
-                ib_back.setOnClickListener(SmsDetailActivity.this);
-                // set phonenum
-                tv_title = (TextView) view.findViewById(R.id.tv_smsdetail_title);
-                tv_title.setText(OtherUtils.stitchPhone(SmsDetailActivity.this, smsContact.getPhoneNumber()));
-                // set delete show or hide
-                iv_delete = (ImageView) view.findViewById(R.id.iv_smsdetail_delete);
-                iv_delete.setOnClickListener(SmsDetailActivity.this);
-                iv_delete.setVisibility(View.GONE);
-            }
-        }.settingActionbarAttr(this, actionbar, R.layout.actionbar_smsdetail);
     }
 
     /* **** setRecycleView **** */
     private void setRecycleView() {
-        linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        linearLayoutManager = new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false);
         rcvSmsdetail.setLayoutManager(linearLayoutManager);
-        adapter = new SmsDetatilAdapter(this, linearLayoutManager, smsContentList, smsContact.getPhoneNumber());
-        adapter.setOnSmsSelectedListener(this);// 监听item被选中
-        adapter.setOnSmsLongClickListener(this);// 短信被长按
-        adapter.setOnSendSuccessListener(this);
+        adapter = new SmsDetatilAdapter(activity, linearLayoutManager, smsContentList, smsContact.getPhoneNumber());
+        adapter.setOnSmsSelectedListener(smsIds1 -> {  /* 短信被选中 */
+            // 被选中的短信ID集合
+            this.smsIds = smsIds;
+        });// 监听item被选中
+        adapter.setOnSmsLongClickListener(() -> {
+            // 短信被长按
+            isLongClick = true;
+            iv_delete.setVisibility(View.VISIBLE);
+            etSmsdetailSend.setEnabled(!isLongClick);
+            rvSmsdetailSend.setClickable(!isLongClick);
+        });
+
+        adapter.setOnSendSuccessListener(() -> {
+            // 重新获取短信
+            getSmsContents(true);
+        });
         rcvSmsdetail.setAdapter(adapter);
     }
 
@@ -257,7 +198,7 @@ public class SmsDetailActivity extends BaseActivityWithBack implements View.OnCl
 
     /* **** setPositionTextTime: 根据当前第一个可视的SMS显示对应的短信时间 **** */
     private void setPositionTextTime() {
-        runOnUiThread(() -> {
+        activity.runOnUiThread(() -> {
             List<SMSContentList.SMSContentBean> list = filterDraft(smsContentList);
             int pos = linearLayoutManager.findFirstVisibleItemPosition();
             dateTimebanner = list.get(pos).getSMSTime();
@@ -286,15 +227,12 @@ public class SmsDetailActivity extends BaseActivityWithBack implements View.OnCl
         linearLayoutManager.scrollToPositionWithOffset(position, 0);
     }
 
-    /* **** startTimer **** */
-    private void startTimer() {
-        timerHelper = new TimerHelper(this) {
-            @Override
-            public void doSomething() {
-                getSmsContents(false);
-            }
-        };
-        timerHelper.start(Cons.PERIOD);
+    @Override
+    public void setTimerTask() {
+        super.setTimerTask();
+        if (!isLongClick) {
+            getSmsContents(false);
+        }
     }
 
     /* **** timertask: getSmsContents **** */
@@ -306,7 +244,7 @@ public class SmsDetailActivity extends BaseActivityWithBack implements View.OnCl
             if (result.getSIMState() == GetSimStatusBean.CONS_SIM_CARD_READY) {// no sim
                 getContent(isSetRcvToLast);
             } else {
-                finish();
+                toFrag(getClass(), SmsFrag.class, null, false);
             }
         });
         xGetSimStatusHelper.getSimStatus();
@@ -326,7 +264,7 @@ public class SmsDetailActivity extends BaseActivityWithBack implements View.OnCl
                     // 1.1.判断最新获取的contact id集合是否包含传进来的id--> 是:回退
                     List<Long> contactIds = new ArrayList<>();
                     for (GetSMSContactListBean.SMSContacBean scc : SmsContactListBean.getSMSContactList()) {
-                        contactIds.add((long)scc.getContactId());
+                        contactIds.add((long) scc.getContactId());
                     }
                     if (!contactIds.contains(smsContact.getContactId())) {
                         clickBack();
@@ -342,14 +280,7 @@ public class SmsDetailActivity extends BaseActivityWithBack implements View.OnCl
                             int unreadCount = scc.getUnreadCount();
                             if (unreadCount > 0) {/* 如果有未读消息 */
                                 // 3.用户是否停留在短信详情页
-                                if (HomeRxActivity.CURRENT_ACTIVITY.contains(ActivityName)) {
-                                    // 4.向接口发起请求
-                                    realToGetContent();
-                                } else {
-                                    // 3.用户离开
-                                    // 4.把未读消息数量保存到MAP中
-                                    HomeRxActivity.smsUnreadMap.put(contactId, unreadCount);
-                                }
+                                realToGetContent();
                             } else {/* 没有未读消息, 直接获取内容--> 正常显示已读的消息 */
                                 realToGetContent();// 向接口发起请求
                             }
@@ -381,11 +312,11 @@ public class SmsDetailActivity extends BaseActivityWithBack implements View.OnCl
             tempSmsContentList.setPhoneNumber(bean.getPhoneNumber());
             tempSmsContentList.setTotalPageCount(bean.getTotalPageCount());
 
-            List<GetSMSContentListBean.SMSContentBean> smsContentBeans= bean.getSMSContentList();
-            if(smsContentBeans != null && smsContentBeans.size() > 0){
+            List<GetSMSContentListBean.SMSContentBean> smsContentBeans = bean.getSMSContentList();
+            if (smsContentBeans != null && smsContentBeans.size() > 0) {
                 //旧的Bean列表容器
                 List<SMSContentList.SMSContentBean> tempSmsContentBeans = new ArrayList<>();
-                for(GetSMSContentListBean.SMSContentBean smsContentBean : smsContentBeans){
+                for (GetSMSContentListBean.SMSContentBean smsContentBean : smsContentBeans) {
                     //旧的Bean容器
                     SMSContentList.SMSContentBean tempSmsContentBean = new SMSContentList.SMSContentBean();
                     tempSmsContentBean.setReportStatus(smsContentBean.getReportStatus());
@@ -421,17 +352,17 @@ public class SmsDetailActivity extends BaseActivityWithBack implements View.OnCl
             }
         });
         // when the current number have no sms, then close it
-        xGetSMSContentListHelper.setOnGetSmsContentListFailListener(this::finish);
+        xGetSMSContentListHelper.setOnGetSmsContentListFailListener(() -> toFrag(getClass(), SmsFrag.class, null, false));
         xGetSMSContentListHelper.getSMSContentList(getSmsContentListParam);
     }
 
     /* **** 获取草稿短信(只执行1次)  **** */
     private void getDraftSms() {
 
-        SmsDraftHelper sdfp = new SmsDraftHelper(this, smsContact.getContactId());
+        SmsDraftHelper sdfp = new SmsDraftHelper(activity, smsContact.getContactId());
         sdfp.setOnNoSimListener(() -> {
-            ToastUtil_m.show(SmsDetailActivity.this, getString(R.string.home_no_sim));
-            finish();
+            toast(R.string.home_no_sim, 2000);
+            toFrag(getClass(), SmsFrag.class, null, false);
         });
         sdfp.setOnGetDraftListener(draft -> {
             etSmsdetailSend.setText(draft);
@@ -444,31 +375,30 @@ public class SmsDetailActivity extends BaseActivityWithBack implements View.OnCl
     private void clickBack() {
         if (isLongClick) {// if long click status
             resetLongClickFlag();
-            startTimer();
         } else {
             // 查看编辑域是否有内容--> 保存为草稿
             draftSms();
-            finish();
+            toFrag(getClass(), SmsFrag.class, null, false);
         }
     }
 
     /* **** sendSms **** */
     private void sendSms() {
         // 1. getInstant send sms content from et
-        String content = etSmsdetailSend.getText().toString();
+        String content = RootUtils.getEDText(etSmsdetailSend, true);
         if (TextUtils.isEmpty(content)) {
-            ToastUtil_m.show(this, getString(R.string.sms_empty));
+            toast(R.string.home_no_sim, 2000);
             return;
         }
         // 2. send sms
-        new SmsSendHelper(this, smsContact.getPhoneNumber(), content) {
+        new SmsSendHelper(activity, smsContact.getPhoneNumber(), content) {
             @Override
             public void sendFinish(int status) {/* 发送完成 */
                 if (status == Cons.SUCCESS) {
                     // 注意此处, 一调用即为标记为已读
                     getSmsContents(true);
                 } else {
-                    finish();
+                    toFrag(getClass(), SmsFrag.class, null, false);
                 }
             }
         };
@@ -481,7 +411,7 @@ public class SmsDetailActivity extends BaseActivityWithBack implements View.OnCl
     private void resetLongClickFlag() {
         // the ori long click flag maybe true--> then set false
         isLongClick = false;// 1. reset this flag to set the selected logo gone
-        adapter.isLongClick = isLongClick;// 2. and deliver this to the adapter flag 
+        adapter.isLongClick = isLongClick;// 2. and deliver this to the adapter flag
         iv_delete.setVisibility(View.GONE);// 3. set deleted button gone
         etSmsdetailSend.setEnabled(!isLongClick);// 4. set et enable
         rvSmsdetailSend.setClickable(!isLongClick);// 5. set send button enable
@@ -493,7 +423,7 @@ public class SmsDetailActivity extends BaseActivityWithBack implements View.OnCl
     /* **** draftSms **** */
     private void draftSms() {
         // et have no text
-        if (TextUtils.isEmpty(etSmsdetailSend.getText().toString())) {
+        if (TextUtils.isEmpty(RootUtils.getEDText(etSmsdetailSend, true))) {
             clearDraft(false);
         } else {
             clearDraft(true);
@@ -503,10 +433,10 @@ public class SmsDetailActivity extends BaseActivityWithBack implements View.OnCl
     /* **** clearDraft **** */
     public void clearDraft(boolean isSaveDraft) {
         // 1.first deleted the draft sms in router
-        SmsDraftHelper sdfp = new SmsDraftHelper(this, smsContact.getContactId());
+        SmsDraftHelper sdfp = new SmsDraftHelper(activity, smsContact.getContactId());
         sdfp.setOnNoSimListener(() -> {
-            ToastUtil_m.show(this, getString(R.string.home_no_sim));
-            finish();
+            toast(R.string.home_no_sim, 2000);
+            toFrag(getClass(), SmsFrag.class, null, false);
         });
         sdfp.setOnClearDraftListener(() -> {
             if (isSaveDraft) {
@@ -519,12 +449,13 @@ public class SmsDetailActivity extends BaseActivityWithBack implements View.OnCl
 
     /* **** 保存草稿 **** */
     private void saveDraft() {
-        String content = etSmsdetailSend.getText().toString();
+        String content = RootUtils.getEDText(etSmsdetailSend, true);
         List<String> phoneNumber = smsContact.getPhoneNumber();
-        SmsDraftHelper sdfp = new SmsDraftHelper(this, smsContact.getContactId());
+        SmsDraftHelper sdfp = new SmsDraftHelper(activity, smsContact.getContactId());
         sdfp.setOnSaveDraftListener(() -> {
-            ToastUtil_m.show(SmsDetailActivity.this, getString(R.string.sms_save_success));
-            finish();
+            toast(R.string.home_no_sim, 2000);
+            toFrag(getClass(), SmsFrag.class, null, false);
+
         });
         sdfp.saveDraftSms(phoneNumber, content);
     }
@@ -532,13 +463,16 @@ public class SmsDetailActivity extends BaseActivityWithBack implements View.OnCl
     /* 弹出删除窗口 */
     private void deleteSmsPop() {
         // show the delete pop
-        deletePop = new SmsDeletePop(this) {
+        deletePop = new SmsDeletePop(activity) {
             @Override
             public void getView(View inflate) {
-                tv_delete_cancel = inflate.findViewById(R.id.tv_smsdetail_detele_cancel);
-                tv_delete_confirm = inflate.findViewById(R.id.tv_smsdetail_detele_confirm);
-                tv_delete_cancel.setOnClickListener(SmsDetailActivity.this);
-                tv_delete_confirm.setOnClickListener(SmsDetailActivity.this);
+                TextView tv_delete_cancel = inflate.findViewById(R.id.tv_smsdetail_detele_cancel);
+                TextView tv_delete_confirm = inflate.findViewById(R.id.tv_smsdetail_detele_confirm);
+                tv_delete_cancel.setOnClickListener(v -> {
+                    resetLongClickFlag();// 1. reset the status ui
+                    getSmsContents(false);// 2. getInstant data again
+                });
+                tv_delete_confirm.setOnClickListener(v -> deleteSms());
             }
         };
     }
@@ -555,17 +489,18 @@ public class SmsDetailActivity extends BaseActivityWithBack implements View.OnCl
         DeleteSMSHelper xDeleteSMSHelper = new DeleteSMSHelper();
         xDeleteSMSHelper.setOnDeleteSmsSuccessListener(result -> {
             if (isLongClick) {
-                ToastUtil_m.show(SmsDetailActivity.this, getString(R.string.sms_delete_success));
+                toast(R.string.home_no_sim, 2000);
             }
             resetLongClickFlag();
             getSmsContents(false);/* 删除短信后无需跳到最后一条 */
         });
         xDeleteSMSHelper.setOnDeleteSmsFailListener(() -> {
-            ToastUtil_m.show(SmsDetailActivity.this, getString(R.string.sms_delete_error));
+            toast(R.string.home_no_sim, 2000);
         });
         xDeleteSMSHelper.setOnDeleteFailListener(() -> {
-            ToastUtil_m.show(SmsDetailActivity.this, getString(R.string.sms_delete_error));
+            toast(R.string.home_no_sim, 2000);
         });
         xDeleteSMSHelper.deleteSms(xDeleteSmsParam);
     }
+
 }

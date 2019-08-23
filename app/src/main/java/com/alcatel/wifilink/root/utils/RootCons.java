@@ -60,11 +60,14 @@ public class RootCons {
 
     public static List<String> FREE_SHARING_DEVICE = new ArrayList<>();// 需要free-sharing的设备
     public static List<String> HH71_DEVICE = new ArrayList<>();// HH71设备
+    public static List<String> HH4X_DEVICE = new ArrayList<>();// HH4X设备
 
     static {
         FREE_SHARING_DEVICE.add("mw12");
         FREE_SHARING_DEVICE.add("mw70");
         HH71_DEVICE.add("hh71");
         HH71_DEVICE.add("hub71");
+        HH4X_DEVICE.add("hh4");
+        HH4X_DEVICE.add("hub4");
     }
 }

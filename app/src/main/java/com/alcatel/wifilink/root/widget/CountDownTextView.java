@@ -91,9 +91,7 @@ public class CountDownTextView extends TextView {
     }
 
     private void readAttrs(Context context, AttributeSet attrs) {
-        int[] attrsArray = new int[]{android.R.attr.text, android.R.attr.textSize, R.attr.topColor, R.attr.bottomColor,
-
-        };
+        int[] attrsArray = new int[]{android.R.attr.text, android.R.attr.textSize, R.attr.topColor, R.attr.bottomColor};
 
         TypedArray ta = getContext().obtainStyledAttributes(attrs, attrsArray);
         mText = (String) ta.getText(0);

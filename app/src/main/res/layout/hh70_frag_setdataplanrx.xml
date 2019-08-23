@@ -357,4 +357,11 @@
 
         </com.hiber.tools.layout.PercentRelativeLayout>
     </com.hiber.tools.layout.PercentRelativeLayout>
+
+    <com.alcatel.wifilink.root.widget.HH70_LoadWidget
+        android:id="@+id/load_widget"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"/>
+    
 </com.hiber.tools.layout.PercentRelativeLayout>

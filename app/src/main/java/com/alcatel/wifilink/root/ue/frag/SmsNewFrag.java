@@ -1,31 +1,24 @@
-package com.alcatel.wifilink.root.ue.root_activity;
+package com.alcatel.wifilink.root.ue.frag;
 
-import android.app.ProgressDialog;
+
 import android.content.Context;
-import android.content.res.Configuration;
-import android.os.Bundle;
-import android.support.v7.app.ActionBar;
+import android.support.v4.app.Fragment;
 import android.telephony.SmsMessage;
 import android.text.Editable;
 import android.text.Selection;
 import android.text.TextWatcher;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import com.alcatel.wifilink.R;
-import com.alcatel.wifilink.root.utils.C_ENUM.SendStatus;
 import com.alcatel.wifilink.root.helper.SmsWatcher;
-import com.alcatel.wifilink.root.helper.Cons;
-import com.alcatel.wifilink.root.utils.ActionbarSetting;
 import com.alcatel.wifilink.root.utils.DataUtils;
-import com.alcatel.wifilink.root.utils.ProgressUtils;
-import com.alcatel.wifilink.root.utils.ToastUtil_m;
+import com.alcatel.wifilink.root.utils.RootUtils;
+import com.alcatel.wifilink.root.widget.HH70_LoadWidget;
+import com.p_xhelper_smart.p_xhelper_smart.bean.GetSendSMSResultBean;
 import com.p_xhelper_smart.p_xhelper_smart.bean.SaveSmsParam;
 import com.p_xhelper_smart.p_xhelper_smart.bean.SendSmsParam;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetSendSMSResultHelper;
@@ -35,53 +28,58 @@ import com.p_xhelper_smart.p_xhelper_smart.helper.SendSMSHelper;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-//被替换  SmsNewFrag
-@Deprecated
-public class ActivityNewSms extends BaseActivityWithBack implements OnClickListener {
-    private Button m_btnSend = null;
-    private EditText m_etNumber = null;
-    private EditText m_etContent = null;
+
+import butterknife.BindView;
+
+/**
+ * A simple {@link Fragment} subclass.
+ */
+public class SmsNewFrag extends BaseFrag {
+
+    @BindView(R.id.send_btn)
+    Button m_btnSend;
+    @BindView(R.id.edit_number)
+    EditText m_etNumber;
+    @BindView(R.id.edit_content)
+    EditText m_etContent;
+    @BindView(R.id.ib_newsms_back)
+    ImageButton ivBack;
+    @BindView(R.id.sms_new_waiting_progress)
+    HH70_LoadWidget loadWidget;
+
     private static final String NUMBER_REG_Ex = "^([+*#\\d;]){1}(\\d|[;*#]){0,}$";
     private String m_preMatchNumber = "";
-    private ProgressBar m_progressWaiting = null;
-    private SendStatus m_sendStatus = SendStatus.None;
-    private boolean m_bSendEnd = false;
-    private ActionbarSetting actionbarSetting;
-    private ActionBar actionBar;
-    private ProgressDialog pd;
-    private ImageButton ib_back;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.sms_new_view);
-        getWindow().setBackgroundDrawable(null);
-        initActionbar();
-        m_btnSend = findViewById(R.id.send_btn);
+    public int onInflateLayout() {
+        return R.layout.hh70_frag_sms_new;
+    }
+
+    @Override
+    public void initViewFinish(View inflateView) {
+        super.initViewFinish(inflateView);
+        initClick();
         m_btnSend.setEnabled(false);
-        m_btnSend.setOnClickListener(this);
-        m_etNumber = findViewById(R.id.edit_number);
         m_etNumber.setText("");
-        m_etContent = findViewById(R.id.edit_content);
-        new SmsWatcher(this, m_etContent);
         m_etContent.setText("");
+        new SmsWatcher(activity, m_etContent);
         setEditTextChangedListener();
-
-        m_progressWaiting = this.findViewById(R.id.sms_new_waiting_progress);
     }
 
-    private void initActionbar() {
-        actionBar = getSupportActionBar();
-        actionbarSetting = new ActionbarSetting() {
-            @Override
-            protected void findActionbarView(View view) {
-                ib_back = view.findViewById(R.id.ib_newsms_back);
-                ib_back.setOnClickListener(ActivityNewSms.this);
-            }
-        };
-        actionbarSetting.settingActionbarAttr(this, actionBar, R.layout.actionbar_newsms);
+    /**
+     * 初始化点击事件
+     */
+    public void initClick() {
+        ivBack.setOnClickListener(v -> toFrag(getClass(), SmsFrag.class, null, false));
+        m_btnSend.setOnClickListener(v -> {
+            OnBtnSend();// 发送
+            m_etContent.setText("");// 清空编辑域
+        });
     }
 
+    /**
+     * 监听Edittext
+     */
     private void setEditTextChangedListener() {
         m_etNumber.addTextChangedListener(new TextWatcher() {
             @Override
@@ -90,7 +88,7 @@ public class ActivityNewSms extends BaseActivityWithBack implements OnClickListe
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                String editable = m_etNumber.getText().toString();
+                String editable = RootUtils.getEDText(m_etNumber,true);
                 String str = stringFilter(editable);
                 if (!editable.equals(str)) {
                     m_etNumber.setText(str);
@@ -98,7 +96,7 @@ public class ActivityNewSms extends BaseActivityWithBack implements OnClickListe
                 }
 
                 String strNumber = str;
-                String strContent = m_etContent.getText().toString();
+                String strContent = RootUtils.getEDText(m_etContent,true);
                 if (strNumber != null && strNumber.length() != 0 && strContent.length() != 0) {
                     m_btnSend.setEnabled(true);
                 } else {
@@ -118,7 +116,7 @@ public class ActivityNewSms extends BaseActivityWithBack implements OnClickListe
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                String strNumber = m_etNumber.getText() == null ? null : m_etNumber.getText().toString();
+                String strNumber = RootUtils.getEDText(m_etNumber,true) == null ? null : RootUtils.getEDText(m_etNumber,true);
                 String strContent = s == null ? null : s.toString();
                 if (strNumber != null && strContent != null && strNumber.length() != 0 && strContent.length() != 0) {
                     m_btnSend.setEnabled(true);
@@ -184,95 +182,69 @@ public class ActivityNewSms extends BaseActivityWithBack implements OnClickListe
     }
 
     @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-    }
-
-    @Override
     public void onPause() {
         super.onPause();
-        m_progressWaiting.setVisibility(View.GONE);
-        m_etNumber.getText().toString();
-        if (m_etNumber.getText().toString().length() != 0 && m_etContent.getText().toString().length() != 0) {
+        loadWidget.setVisibility(View.GONE);
+        if (RootUtils.getEDText(m_etNumber,true).length() != 0 && RootUtils.getEDText(m_etContent,true).length() != 0) {
             m_btnSend.setEnabled(true);
         }
         m_etNumber.setEnabled(true);
         m_etContent.setEnabled(true);
-        m_bSendEnd = false;
-    }
-
-    public void onClick(View arg0) {
-        switch (arg0.getId()) {
-
-            case R.id.ib_newsms_back:
-                finish();
-                break;
-            case R.id.send_btn:/* 发送短信 */
-                showSendingDialog();
-                OnBtnSend();// 发送
-                m_etContent.setText("");// 清空编辑域
-                break;
-        }
-    }
-
-    /* **** showSendingDialog **** */
-    private void showSendingDialog() {
-        pd = new ProgressUtils(this).getProgressPop(getString(R.string.sms_sending));
     }
 
     @Override
-    public void onBackPressed() {
-        OnBtnCancel();
+    public boolean onBackPresss() {
+        onBtnCancel();
+        return true;
     }
 
-    private void OnBtnCancel() {
-        String strContent = m_etContent.getText().toString();
-        String strNumber = m_etNumber.getText().toString();
+    private void onBtnCancel() {
+        String strContent = RootUtils.getEDText(m_etContent,true);
+        String strNumber = RootUtils.getEDText(m_etNumber,true);
         strContent = strContent.trim();
         if (strContent.length() > 0 && strNumber.length() > 0) {
             if (checkNumbers()) {
-                String num = m_etNumber.getText().toString();
+                String num = RootUtils.getEDText(m_etNumber,true);
                 ArrayList<String> numList = new ArrayList<>();
                 numList.add(num);
                 //用xsmart框架内部的Param代替旧的Param
                 SaveSmsParam xSaveSmsParam = new SaveSmsParam();
                 xSaveSmsParam.setSMSId(-1);
-                xSaveSmsParam.setSMSContent(m_etContent.getText().toString());
+                xSaveSmsParam.setSMSContent(RootUtils.getEDText(m_etContent,true));
                 xSaveSmsParam.setSMSTime(DataUtils.getCurrent());
                 xSaveSmsParam.setPhoneNumber(numList);
 
                 SaveSMSHelper xSaveSMSHelper = new SaveSMSHelper();
                 xSaveSMSHelper.setOnSaveSMSSuccessListener(() -> {
-                    ToastUtil_m.show(ActivityNewSms.this, getString(R.string.sms_save_success));
-                    finish();
+                    toast(R.string.sms_save_success, 2000);
+                    toFrag(getClass(), SmsFrag.class, null, false);
                 });
-                xSaveSMSHelper.setOnSaveSmsFailListener(this::finish);
-                xSaveSMSHelper.setOnSaveFailListener(() -> ToastUtil_m.show(ActivityNewSms.this, getString(R.string.sms_save_error)));
-                xSaveSMSHelper.setOnSpaceFullListener(() -> ToastUtil_m.show(ActivityNewSms.this, getString(R.string.sms_error_message_full_storage)));
+                xSaveSMSHelper.setOnSaveSmsFailListener(() -> toFrag(getClass(), SmsFrag.class, null, false));
+                xSaveSMSHelper.setOnSaveFailListener(() -> toast(R.string.sms_save_error, 2000));
+                xSaveSMSHelper.setOnSpaceFullListener(() -> toast(R.string.sms_error_message_full_storage, 2000));
                 xSaveSMSHelper.saveSms(xSaveSmsParam);
             } else {
-                String msgRes = this.getString(R.string.sms_number_invalid);
-                Toast.makeText(this, msgRes, Toast.LENGTH_SHORT).show();
+                String msgRes = activity.getString(R.string.sms_number_invalid);
+                toast(msgRes, 2000);
                 m_etNumber.requestFocus();
             }
         } else {
-            this.finish();
+            toFrag(getClass(), SmsFrag.class, null, false);
         }
     }
 
     private void OnBtnSend() {
-        InputMethodManager imm = (InputMethodManager) this.getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.hideSoftInputFromWindow(getCurrentFocus().getApplicationWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+        InputMethodManager imm = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(activity.getCurrentFocus().getApplicationWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
 
         if (checkNumbers()) {
-
-            String num = m_etNumber.getText().toString();
+            String num = RootUtils.getEDText(m_etNumber,true);
             ArrayList<String> numList = new ArrayList<>();
             numList.add(num);
 
             SendSmsParam xSendSmsParam = new SendSmsParam();
             xSendSmsParam.setSMSId(-1);
-            xSendSmsParam.setSMSContent(m_etContent.getText().toString());
+            xSendSmsParam.setSMSContent(RootUtils.getEDText(m_etContent,true));
             xSendSmsParam.setSMSTime(DataUtils.getCurrent());
             xSendSmsParam.setPhoneNumber(numList);
 
@@ -280,24 +252,24 @@ public class ActivityNewSms extends BaseActivityWithBack implements OnClickListe
             xSendSMSHelper.setOnSendSmsSuccessListener(this::getSendSMSResult);
             xSendSMSHelper.setOnSendSmsFailListener(this::resetUI);
             xSendSMSHelper.setOnSendFailListener(() -> {
-                ToastUtil_m.show(ActivityNewSms.this, getString(R.string.send_sms_failed));
+                toast(R.string.send_sms_failed, 2000);
             });
             xSendSMSHelper.setOnLastMessageListener(() -> {
-                ToastUtil_m.show(ActivityNewSms.this, getString(R.string.fail_still_sending_last_message));
+                toast(R.string.fail_still_sending_last_message, 2000);
             });
             xSendSMSHelper.setOnSpaceFullListener(() -> {
-                ToastUtil_m.show(ActivityNewSms.this, getString(R.string.fail_with_store_space_full));
+                toast(R.string.fail_with_store_space_full, 2000);
             });
             xSendSMSHelper.sendSms(xSendSmsParam);
 
-            m_progressWaiting.setVisibility(View.VISIBLE);
+            loadWidget.setVisibility(View.VISIBLE);
             m_btnSend.setEnabled(false);
             m_etNumber.setEnabled(false);
             m_etContent.setEnabled(false);
         } else {
 
             String msgRes = this.getString(R.string.sms_number_invalid);
-            Toast.makeText(this, msgRes, Toast.LENGTH_SHORT).show();
+            toast(msgRes, 2000);
             m_etNumber.requestFocus();
         }
     }
@@ -306,7 +278,7 @@ public class ActivityNewSms extends BaseActivityWithBack implements OnClickListe
      * 刷新UI
      */
     private void resetUI() {
-        m_progressWaiting.setVisibility(View.GONE);
+        loadWidget.setVisibility(View.GONE);
         m_btnSend.setEnabled(true);
         m_etNumber.setEnabled(true);
         m_etContent.setEnabled(true);
@@ -321,38 +293,31 @@ public class ActivityNewSms extends BaseActivityWithBack implements OnClickListe
             //0 : none 1 : sending 2 : sendAgainSuccess 3: fail still sending last message 4 : fail with Memory full 5: fail
             resetUI();
             int sendStatus = bean.getSendStatus();
-            if (sendStatus == Cons.NONE) {
-                m_progressWaiting.setVisibility(View.GONE);
-                pd.dismiss();
-                ToastUtil_m.show(ActivityNewSms.this, getString(R.string.none));
-                finish();
-            } else if (sendStatus == Cons.SENDING) {
+            if (sendStatus == GetSendSMSResultBean.CONS_SEND_STATUS_NONE) {
+                loadWidget.setVisibility(View.GONE);
+                toast(R.string.none, 2000);
+                toFrag(getClass(), SmsFrag.class, null, false);
+            } else if (sendStatus == GetSendSMSResultBean.CONS_SEND_STATUS_SENDING) {
                 getSendSMSResult();
-            } else if (sendStatus == Cons.SUCCESS) {
-                pd.dismiss();
-                m_progressWaiting.setVisibility(View.GONE);
-                ToastUtil_m.show(ActivityNewSms.this, getString(R.string.succeed));
-                finish();
-            } else if (sendStatus == Cons.FAIL_STILL_SENDING_LAST_MSG) {
-                m_progressWaiting.setVisibility(View.GONE);
+            } else if (sendStatus == GetSendSMSResultBean.CONS_SEND_STATUS_SUCCESS) {
+                loadWidget.setVisibility(View.GONE);
+                toast(R.string.succeed, 2000);
+                toFrag(getClass(), SmsFrag.class, null, false);
+            } else if (sendStatus == GetSendSMSResultBean.CONS_SEND_STATUS_FAIL_LAST_MSG) {
+                loadWidget.setVisibility(View.GONE);
                 getSendSMSResult();
-            } else if (sendStatus == Cons.FAIL_WITH_MEMORY_FULL) {
-                pd.dismiss();
-                m_progressWaiting.setVisibility(View.GONE);
-                ToastUtil_m.show(ActivityNewSms.this, getString(R.string.fail_with_memory_full));
-                finish();
-            } else if (sendStatus == Cons.FAIL) {
-                pd.dismiss();
-                m_progressWaiting.setVisibility(View.GONE);
-                ToastUtil_m.show(ActivityNewSms.this, getString(R.string.fail));
-                finish();
+            } else if (sendStatus == GetSendSMSResultBean.CONS_SEND_STATUS_FAIL_MEMORY_FULL) {
+                loadWidget.setVisibility(View.GONE);
+                toast(R.string.fail_with_memory_full, 2000);
+                toFrag(getClass(), SmsFrag.class, null, false);
+            } else if (sendStatus == GetSendSMSResultBean.CONS_SEND_STATUS_FAIL) {
+                loadWidget.setVisibility(View.GONE);
+                toast(R.string.fail, 2000);
+                toFrag(getClass(), SmsFrag.class, null, false);
             }
         });
         xGetSendSMSResultHelper.setOnGetSendSmsResultFailListener(() -> {
             resetUI();
-            if (pd != null) {
-                pd.dismiss();
-            }
         });
         xGetSendSMSResultHelper.getSendSmsResult();
     }
@@ -363,7 +328,7 @@ public class ActivityNewSms extends BaseActivityWithBack implements OnClickListe
      * @return T:合法
      */
     private boolean checkNumbers() {
-        String strNumber = m_etNumber.getText().toString();
+        String strNumber = RootUtils.getEDText(m_etNumber,true);
         ArrayList<String> numberLst = getNumberFromString(strNumber);
         return numberLst.size() <= 3;
     }

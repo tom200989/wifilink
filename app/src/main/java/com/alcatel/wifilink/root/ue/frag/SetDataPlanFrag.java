@@ -1,16 +1,10 @@
-package com.alcatel.wifilink.root.ue.root_frag;
+package com.alcatel.wifilink.root.ue.frag;
 
-import android.app.ProgressDialog;
 import android.graphics.drawable.Drawable;
-import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -21,20 +15,16 @@ import com.alcatel.wifilink.root.adapter.BillingAdaper;
 import com.alcatel.wifilink.root.helper.BillingHelper;
 import com.alcatel.wifilink.root.helper.Cons;
 import com.alcatel.wifilink.root.helper.SetTimeLimitHelper;
-import com.alcatel.wifilink.root.helper.TimerHelper;
 import com.alcatel.wifilink.root.helper.UsageHelper;
 import com.alcatel.wifilink.root.helper.UsageSettingHelper;
-import com.alcatel.wifilink.root.ue.root_activity.HomeRxActivity;
-import com.alcatel.wifilink.root.utils.CA;
+import com.alcatel.wifilink.root.ue.root_frag.MobileNetworkRxFragment;
 import com.alcatel.wifilink.root.utils.C_Constants;
-import com.alcatel.wifilink.root.utils.FraHelpers;
-import com.alcatel.wifilink.root.utils.OtherUtils;
 import com.alcatel.wifilink.root.utils.RootUtils;
-import com.alcatel.wifilink.root.utils.SP;
 import com.alcatel.wifilink.root.utils.ScreenSize;
-import com.alcatel.wifilink.root.utils.ToastUtil_m;
-import com.alcatel.wifilink.root.utils.fraghandler.FragmentBackHandler;
+import com.alcatel.wifilink.root.widget.HH70_LoadWidget;
 import com.alcatel.wifilink.root.widget.PopupWindows;
+import com.hiber.cons.TimerState;
+import com.hiber.tools.ShareUtils;
 import com.hiber.tools.layout.PercentRelativeLayout;
 import com.p_xhelper_smart.p_xhelper_smart.bean.GetUsageSettingsBean;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetSystemInfoHelper;
@@ -42,18 +32,11 @@ import com.p_xhelper_smart.p_xhelper_smart.helper.GetSystemInfoHelper;
 import java.util.Arrays;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
-import butterknife.Unbinder;
 
 /**
- * Created by qianli.ma on 2017/12/13 0013.
+ * Created by wzhiqiang on 2019/8/20
  */
-
-//被替换 SetDataPlanFrag
-@Deprecated
-public class SetDataPlanRxfragment extends Fragment implements FragmentBackHandler {
-
+public class SetDataPlanFrag extends BaseFrag {
 
     @BindView(R.id.iv_setPlan_rx_back)
     ImageView ivBack;
@@ -79,21 +62,15 @@ public class SetDataPlanRxfragment extends Fragment implements FragmentBackHandl
     TextView tvSetTimelimitTag;
     @BindView(R.id.rl_setPlan_rx_setTimelimit)
     PercentRelativeLayout rlSetTimelimit;
-
     @BindView(R.id.iv_setPlan_rx_usage_button)
     ImageView ivSetPlanRxUsageButton;
     @BindView(R.id.rl_setPlan_rx_usage_button)
     PercentRelativeLayout rlSetPlanRxUsageButton;
     @BindView(R.id.rl_setPlan_rx_all_content)
     PercentRelativeLayout rlSetPlanRxAllContent;
-
-    Unbinder unbinder;
-
-
-    private HomeRxActivity activity;
-    private FraHelpers fraHelpers;
-    private Class[] fraClass;
-    private View inflate;
+    @BindView(R.id.load_widget)
+    HH70_LoadWidget loadWidget;
+    
     private Drawable switch_on;
     private Drawable switch_off;
     private int blue_color;
@@ -101,13 +78,8 @@ public class SetDataPlanRxfragment extends Fragment implements FragmentBackHandl
     private int black_color;
     private String[] days;
     private String[] alerts;
-    private String gb;
-    private String mb;
     private String hour;
     private String min;
-    private GetUsageSettingsBean usageSettings;
-    private TimerHelper timerHelper;
-    private UsageHelper usageHelper;
     private GetSystemInfoHelper xGetSystemInfoHelper;
     private PopupWindows pop_billing;
     private PopupWindows pop_alert;
@@ -118,81 +90,58 @@ public class SetDataPlanRxfragment extends Fragment implements FragmentBackHandl
     private boolean isHH71 = false;
     private GetUsageSettingsBean tempSetting;
 
-    @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        inflate = View.inflate(getActivity(), R.layout.hh70_frag_setdataplanrx, null);
-        unbinder = ButterKnife.bind(this, inflate);
+    public int onInflateLayout() {
+        return R.layout.hh70_frag_setdataplanrx;
+    }
+
+    @Override
+    public void initViewFinish(View inflateView) {
+        super.initViewFinish(inflateView);
         initRes();
-        initSome();
-        resetUi();
-        initTimer();
-        return inflate;
+        initClick();
+        timer_period = 2000;
+        timerState = TimerState.ON_BUT_OFF_WHEN_HIDE_AND_PAUSE;
     }
 
-    private void initTimer() {
-        timerHelper = new TimerHelper(getActivity()) {
-            @Override
-            public void doSomething() {
-                initData();
-            }
-        };
-        timerHelper.start(2000);
+    @Override
+    public void setTimerTask() {
+        super.setTimerTask();
+        initData();
     }
-
 
     private void initRes() {
-        switch_on = getResources().getDrawable(R.drawable.switch_on);
-        switch_off = getResources().getDrawable(R.drawable.switch_off);
-        blue_color = getResources().getColor(R.color.mg_blue);
-        gray_color = getResources().getColor(R.color.gray);
-        black_color = getResources().getColor(R.color.black);
-        pop_bg = getResources().getDrawable(R.drawable.bg_pop_conner);
-        gb = getString(R.string.gb_text);
-        mb = getString(R.string.mb_text);
+        switch_on = getRootDrawable(R.drawable.switch_on);
+        switch_off = getRootDrawable(R.drawable.switch_off);
+        blue_color = getRootColor(R.color.mg_blue);
+        gray_color = getRootColor(R.color.gray);
+        black_color = getRootColor(R.color.black);
+        pop_bg = getRootDrawable(R.drawable.bg_pop_conner);
         hour = getString(R.string.hr_s);
         min = getString(R.string.min_s);
-        days = OtherUtils.getResArr(getActivity(), R.array.settings_data_plan_billing_day);
-        alerts = OtherUtils.getResArr(getActivity(), R.array.settings_data_plan_usage_alert);
+        days = RootUtils.getResArr(activity, R.array.settings_data_plan_billing_day);
+        alerts = RootUtils.getResArr(activity, R.array.settings_data_plan_usage_alert);
     }
 
-    private void initSome() {
-        activity = (HomeRxActivity) getActivity();
-        fraHelpers = activity.fraHelpers;
-        fraClass = activity.clazz;
-        usageHelper = new UsageHelper(getActivity());
-    }
-
-    private void resetUi() {
-        activity.tabFlag = Cons.TAB_SET_DATA_PLAN;
-        activity.llNavigation.setVisibility(View.GONE);
-        activity.rlBanner.setVisibility(View.GONE);
-    }
-
-    @Override
-    public void onHiddenChanged(boolean hidden) {
-        count = 0;
-        if (!hidden) {
-            activity.tabFlag = Cons.TAB_SET_DATA_PLAN;
-            activity.llNavigation.setVisibility(View.GONE);
-            activity.rlBanner.setVisibility(View.GONE);
-            initTimer();
-        } else {
-            stopTimer();
-        }
-    }
-
-    private void stopTimer() {
-        timerHelper.stop();
-        timerHelper = null;
+    /**
+     * 初始化点击事件
+     */
+    public void initClick() {
+        ivBack.setOnClickListener(v -> onBackPressed());
+        rlMonthly.setOnClickListener(v -> clickMonthly());
+        rlBilling.setOnClickListener(v -> clickBilling());
+        rlUsageAlert.setOnClickListener(v -> clickAlert());
+        ivAutoDisconnect.setOnClickListener(v -> clickAutoDisconnect());
+        ivTimelimit.setOnClickListener(v -> clickTimelimit());
+        rlSetTimelimit.setOnClickListener(v -> clickSetTimeLimit());
+        ivSetPlanRxUsageButton.setOnClickListener(v -> clickUsageEnable());
     }
 
     private void initData() {
         /* 获取设备信息 */
         xGetSystemInfoHelper = new GetSystemInfoHelper();
         xGetSystemInfoHelper.setOnGetSystemInfoSuccessListener(systemInfo -> {
-            String deviceName = systemInfo.getDeviceName().toLowerCase();
-            isHH71 = deviceName.contains(Cons.HH71);
+            isHH71 =  RootUtils.isHH71(systemInfo.getDeviceName().toLowerCase());
             rlSetPlanRxUsageButton.setVisibility(isHH71 ? View.VISIBLE : View.GONE);
             getUsageSetting();
         });
@@ -207,6 +156,10 @@ public class SetDataPlanRxfragment extends Fragment implements FragmentBackHandl
             getUsageSetting();
         });
         xGetSystemInfoHelper.getSystemInfo();
+    }
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        count = 0;
     }
 
     private void getUsageSetting() {
@@ -224,15 +177,13 @@ public class SetDataPlanRxfragment extends Fragment implements FragmentBackHandl
                 rlSetPlanRxAllContent.setVisibility(View.VISIBLE);
             }
 
-            // 存放临时对象
-            usageSettings = result;
             // monthly limit
             if (result.getMonthlyPlan() == 0) {
                 tvMonthly.setText("");
             } else {
-                UsageHelper.Usage monthly = UsageHelper.getUsageByte(getActivity(), result.getMonthlyPlan());
+                UsageHelper.Usage monthly = UsageHelper.getUsageByte(activity, result.getMonthlyPlan());
                 String monthlyUsage = monthly.usage;
-                String currentLanguage = OtherUtils.getCurrentLanguage();
+                String currentLanguage = RootUtils.getCurrentLanguage();
                 if (currentLanguage.equals(C_Constants.Language.RUSSIAN)) {
                     monthlyUsage = monthlyUsage.replace(".", ",") + " ";
                 }
@@ -241,8 +192,8 @@ public class SetDataPlanRxfragment extends Fragment implements FragmentBackHandl
             // billing day
             tvBilling.setText(days[result.getBillingDay() - 1]);
             // usage alert
-            int per = SP.getInstance(getActivity()).getInt(Cons.USAGE_LIMIT, 90);
-            tvUsageAlert.setText(OtherUtils.getAlert(alerts, per));
+            int per = ShareUtils.get(Cons.USAGE_LIMIT, 90);
+            tvUsageAlert.setText(RootUtils.getAlert(alerts, per));
             // auto disconnect
             ivAutoDisconnect.setImageDrawable(result.getAutoDisconnFlag() == GetUsageSettingsBean.CONS_AUTO_DISCONNECT_ENABLE ? switch_on : switch_off);
             // time limit
@@ -251,7 +202,7 @@ public class SetDataPlanRxfragment extends Fragment implements FragmentBackHandl
             // rlSetTimelimit.setVisibility(result.getTimeLimitFlag() == Cons.ENABLE ? View.VISIBLE : View.GONE);
             tvSetTimelimitTag.setTextColor(result.getTimeLimitFlag() == GetUsageSettingsBean.CONS_TIME_LIMIT_ABLE ? black_color : gray_color);
             // set time limit
-            UsageHelper.Times timelimit_o = UsageHelper.getUsedTimeForMin(getActivity(), result.getTimeLimitTimes());
+            UsageHelper.Times timelimit_o = UsageHelper.getUsedTimeForMin(activity, result.getTimeLimitTimes());
             if (timelimit_o.hour.equalsIgnoreCase("0") & timelimit_o.min.equalsIgnoreCase("0")) {
                 tvSetTimelimit.setText("");
             } else if (timelimit_o.hour.equalsIgnoreCase("0")) {
@@ -278,55 +229,10 @@ public class SetDataPlanRxfragment extends Fragment implements FragmentBackHandl
         }
     }
 
-
     @Override
     public boolean onBackPressed() {
-        fraHelpers.transfer(fraClass[Cons.TAB_MOBILE_NETWORK]);
+        toFrag(getClass(), MobileNetworkRxFragment.class, null, false);
         return true;
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        unbinder.unbind();
-    }
-
-    @OnClick({R.id.iv_setPlan_rx_back,// 返回
-            R.id.rl_setPlan_rx_monthly,// 设置monthly
-            R.id.rl_setPlan_rx_billing,// 设置结算日
-            R.id.rl_setPlan_rx_usageAlert,// 设置结算日
-            R.id.iv_setPlan_rx_autoDisconnect,// auto disconnect
-            R.id.iv_setPlan_rx_timelimit,// time limit
-            R.id.rl_setPlan_rx_setTimelimit,// set time limit
-            R.id.iv_setPlan_rx_usage_button// set time limit
-    })
-    public void onViewClicked(View view) {
-        switch (view.getId()) {
-            case R.id.iv_setPlan_rx_back:// 返回
-                fraHelpers.transfer(fraClass[Cons.TAB_MOBILE_NETWORK]);
-                break;
-            case R.id.rl_setPlan_rx_monthly:// 设置monthly
-                clickMonthly();
-                break;
-            case R.id.rl_setPlan_rx_billing:// 设置结算日
-                clickBilling();
-                break;
-            case R.id.rl_setPlan_rx_usageAlert:// 设置流量警告
-                clickAlert();
-                break;
-            case R.id.iv_setPlan_rx_autoDisconnect:// auto disconnect
-                clickAutoDisconnect();
-                break;
-            case R.id.iv_setPlan_rx_timelimit:// time limit
-                clickTimelimit();
-                break;
-            case R.id.rl_setPlan_rx_setTimelimit:// set time limit
-                clickSetTimeLimit();
-                break;
-            case R.id.iv_setPlan_rx_usage_button:// set usage enable
-                clickUsageEnable();
-                break;
-        }
     }
 
     /**
@@ -334,17 +240,17 @@ public class SetDataPlanRxfragment extends Fragment implements FragmentBackHandl
      */
     private void clickUsageEnable() {
         // 修改状态
-        ProgressDialog pgd = OtherUtils.showProgressPop(getActivity());
+        loadWidget.setVisibles();
         tempSetting.setStatus(tempSetting.getStatus() == GetUsageSettingsBean.CONS_STATUS_ENABLE ?
                 GetUsageSettingsBean.CONS_STATUS_DISABLE : GetUsageSettingsBean.CONS_STATUS_ENABLE);
-        UsageSettingHelper usageSettingHelper = new UsageSettingHelper(getActivity());
+        UsageSettingHelper usageSettingHelper = new UsageSettingHelper(activity);
         usageSettingHelper.setOnSetUsageSettingSuccessListener(attr -> {
-            ToastUtil_m.show(getActivity(), R.string.succeed);
-            pgd.dismiss();
+            toast(R.string.succeed);
+            loadWidget.setGone();
         });
         usageSettingHelper.setOnSetUsageSettingFailedListener(() -> {
-            ToastUtil_m.show(getActivity(), R.string.connect_failed);
-            pgd.dismiss();
+            toast(R.string.connect_failed);
+            loadWidget.setGone();
         });
         usageSettingHelper.setUsageSetting(tempSetting);
     }
@@ -353,17 +259,17 @@ public class SetDataPlanRxfragment extends Fragment implements FragmentBackHandl
      * 提交月流量计划
      */
     private void clickMonthly() {
-        View inflate = View.inflate(getActivity(), R.layout.pop_setdataplan_rx_monthly, null);
-        ScreenSize.SizeBean size = ScreenSize.getSize(getActivity());
+        View inflate = View.inflate(activity, R.layout.pop_setdataplan_rx_monthly, null);
+        ScreenSize.SizeBean size = ScreenSize.getSize(activity);
         int width = (int) (size.width * 0.85f);
         int height = (int) (size.height * 0.30f);
-        RelativeLayout rl = (RelativeLayout) inflate.findViewById(R.id.rl_pop_setPlan_rx_monthly);
+        RelativeLayout rl = inflate.findViewById(R.id.rl_pop_setPlan_rx_monthly);
         rl.setOnClickListener(null);
-        EditText etNum = (EditText) inflate.findViewById(R.id.et_pop_setPlan_rx_monthly_num);
-        TextView tvMb = (TextView) inflate.findViewById(R.id.tv_pop_setPlan_rx_monthly_mb);
-        TextView tvGb = (TextView) inflate.findViewById(R.id.tv_pop_setPlan_rx_monthly_gb);
-        TextView tvCancel = (TextView) inflate.findViewById(R.id.tv_pop_setPlan_rx_monthly_cancel);
-        TextView tvOk = (TextView) inflate.findViewById(R.id.tv_pop_setPlan_rx_monthly_ok);
+        EditText etNum = inflate.findViewById(R.id.et_pop_setPlan_rx_monthly_num);
+        TextView tvMb = inflate.findViewById(R.id.tv_pop_setPlan_rx_monthly_mb);
+        TextView tvGb = inflate.findViewById(R.id.tv_pop_setPlan_rx_monthly_gb);
+        TextView tvCancel = inflate.findViewById(R.id.tv_pop_setPlan_rx_monthly_cancel);
+        TextView tvOk = inflate.findViewById(R.id.tv_pop_setPlan_rx_monthly_ok);
         etNum.setHint("0");
         tvMb.setOnClickListener(v -> {
             tvMb.setTextColor(blue_color);
@@ -375,7 +281,7 @@ public class SetDataPlanRxfragment extends Fragment implements FragmentBackHandl
         });
         tvCancel.setOnClickListener(v -> pop_monthly.dismiss());
         tvOk.setOnClickListener(v -> setMonthly(etNum, tvMb, tvGb));
-        pop_monthly = new PopupWindows(getActivity(), inflate, width, height, true, pop_bg);
+        pop_monthly = new PopupWindows(activity, inflate, width, height, true, pop_bg);
     }
 
     /**
@@ -383,10 +289,9 @@ public class SetDataPlanRxfragment extends Fragment implements FragmentBackHandl
      */
     private void setMonthly(EditText edNum, TextView tvmb, TextView tvgb) {
         pop_monthly.dismiss();// 消隐
-        String content = RootUtils.getEDText(edNum);
+        String content = RootUtils.getEDText(edNum,true);
         // 非空判断
         if (TextUtils.isEmpty(content)) {
-            // toast(R.string.not_empty);
             content = "0";
         }
         // 范围鉴定
@@ -396,25 +301,25 @@ public class SetDataPlanRxfragment extends Fragment implements FragmentBackHandl
             return;
         }
         // 请求提交
-        ProgressDialog pgd = OtherUtils.showProgressPop(getActivity());
-        UsageSettingHelper ush = new UsageSettingHelper(getActivity());
+        loadWidget.setVisibles();
+        UsageSettingHelper ush = new UsageSettingHelper(activity);
         // 1.先获取一次usage-setting
         ush.setOnGetUsageSettingsSuccessListener(attr -> {
             attr.setUnit(tvmb.getCurrentTextColor() == blue_color ? GetUsageSettingsBean.CONS_UNIT_MB : GetUsageSettingsBean.CONS_UNIT_GB);
             attr.setMonthlyPlan(tvmb.getCurrentTextColor() == blue_color ? num * 1024l * 1024l : num * 1024l * 1024l * 1024l);
             // 2.在提交usage-setting
-            UsageSettingHelper ush1 = new UsageSettingHelper(getActivity());
+            UsageSettingHelper ush1 = new UsageSettingHelper(activity);
             ush1.setOnSetUsageSettingSuccessListener(attr1 -> {
                 toast(R.string.success);
-                pgd.dismiss();
+                loadWidget.setGone();
             });
             ush1.setOnSetUsageSettingFailedListener(() -> {
                 toast(R.string.connect_failed);
-                pgd.dismiss();
+                loadWidget.setGone();
             });
             ush1.setUsageSetting(attr);
         });
-        ush.setOnGetUsageSettingsFailedListener(() -> pgd.dismiss());
+        ush.setOnGetUsageSettingsFailedListener(() -> loadWidget.setGone());
         ush.getUsageSetting();
     }
 
@@ -422,30 +327,30 @@ public class SetDataPlanRxfragment extends Fragment implements FragmentBackHandl
      * 提交日期
      */
     private void clickBilling() {
-        View inflate = View.inflate(getActivity(), R.layout.pop_setdataplan_billing, null);
-        ScreenSize.SizeBean size = ScreenSize.getSize(getActivity());
+        View inflate = View.inflate(activity, R.layout.pop_setdataplan_billing, null);
+        ScreenSize.SizeBean size = ScreenSize.getSize(activity);
         int width = (int) (size.width * 0.85f);
         int height = (int) (size.height * 0.45f);
-        RecyclerView rcv = (RecyclerView) inflate.findViewById(R.id.rcv_pop_setPlan_rx_billing);
-        rcv.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
-        rcv.setAdapter(new BillingAdaper(getActivity(), Arrays.asList(days)) {
+        RecyclerView rcv = inflate.findViewById(R.id.rcv_pop_setPlan_rx_billing);
+        rcv.setLayoutManager(new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false));
+        rcv.setAdapter(new BillingAdaper(activity, Arrays.asList(days)) {
             @Override
             public void clickDay(int day) {
                 // 提交请求
                 pop_billing.dismiss();
-                BillingHelper billingHelper = new BillingHelper(getActivity());
+                BillingHelper billingHelper = new BillingHelper(activity);
                 billingHelper.setBillingDay(day);
             }
         });
-        pop_billing = new PopupWindows(getActivity(), inflate, width, height, true, pop_bg);
+        pop_billing = new PopupWindows(activity, inflate, width, height, true, pop_bg);
     }
 
     /**
      * 提交流量警告
      */
     private void clickAlert() {
-        View inflate = View.inflate(getActivity(), R.layout.pop_setdataplan_alert, null);
-        ScreenSize.SizeBean size = ScreenSize.getSize(getActivity());
+        View inflate = View.inflate(activity, R.layout.pop_setdataplan_alert, null);
+        ScreenSize.SizeBean size = ScreenSize.getSize(activity);
         int width = (int) (size.width * 0.85f);
         int height = (int) (size.height * 0.54f);
         inflate.findViewById(R.id.tv_pop_setPlan_alert_not_reminder).setOnClickListener(v -> saveAlertAndShowPop(-1));
@@ -454,24 +359,24 @@ public class SetDataPlanRxfragment extends Fragment implements FragmentBackHandl
         inflate.findViewById(R.id.tv_pop_setPlan_alert_70).setOnClickListener(v -> saveAlertAndShowPop(70));
         inflate.findViewById(R.id.tv_pop_setPlan_alert_60).setOnClickListener(v -> saveAlertAndShowPop(60));
         inflate.findViewById(R.id.tv_pop_setPlan_alert_cancel).setOnClickListener(v -> pop_alert.dismiss());
-        pop_alert = new PopupWindows(getActivity(), inflate, width, height, true, pop_bg);
+        pop_alert = new PopupWindows(activity, inflate, width, height, true, pop_bg);
     }
 
     /**
      * 切换自动断线
      */
     private void clickAutoDisconnect() {
-        ProgressDialog pgd = OtherUtils.showProgressPop(getActivity());
-        UsageSettingHelper ush = new UsageSettingHelper(getActivity());
+        loadWidget.setVisibles();
+        UsageSettingHelper ush = new UsageSettingHelper(activity);
         ush.setOnGetUsageSettingsSuccessListener(attr -> {
             attr.setAutoDisconnFlag(attr.getAutoDisconnFlag() == GetUsageSettingsBean.CONS_AUTO_DISCONNECT_ENABLE ?
                     GetUsageSettingsBean.CONS_AUTO_DISCONNECT_DISABLE : GetUsageSettingsBean.CONS_AUTO_DISCONNECT_ENABLE);
-            UsageSettingHelper ush1 = new UsageSettingHelper(getActivity());
-            ush1.setOnSetUsageSettingSuccessListener(attr1 -> pgd.dismiss());
-            ush1.setOnSetUsageSettingFailedListener(pgd::dismiss);
+            UsageSettingHelper ush1 = new UsageSettingHelper(activity);
+            ush1.setOnSetUsageSettingSuccessListener(attr1 ->  loadWidget.setGone());
+            ush1.setOnSetUsageSettingFailedListener(() -> loadWidget.setGone());
             ush1.setUsageSetting(attr);
         });
-        ush.setOnGetUsageSettingsFailedListener(pgd::dismiss);
+        ush.setOnGetUsageSettingsFailedListener(() -> loadWidget.setGone());
         ush.getUsageSetting();
     }
 
@@ -479,17 +384,17 @@ public class SetDataPlanRxfragment extends Fragment implements FragmentBackHandl
      * 切换时间限制按钮
      */
     private void clickTimelimit() {
-        ProgressDialog pgd = OtherUtils.showProgressPop(getActivity());
-        UsageSettingHelper ush = new UsageSettingHelper(getActivity());
+        loadWidget.setVisibles();
+        UsageSettingHelper ush = new UsageSettingHelper(activity);
         ush.setOnGetUsageSettingsSuccessListener(attr -> {
             attr.setTimeLimitFlag(attr.getTimeLimitFlag() == GetUsageSettingsBean.CONS_TIME_LIMIT_ABLE ?
                     GetUsageSettingsBean.CONS_TIME_LIMIT_DISABLE : GetUsageSettingsBean.CONS_TIME_LIMIT_ABLE);
-            UsageSettingHelper ush1 = new UsageSettingHelper(getActivity());
-            ush1.setOnSetUsageSettingFailedListener(pgd::dismiss);
-            ush1.setOnSetUsageSettingSuccessListener(attr1 -> pgd.dismiss());
+            UsageSettingHelper ush1 = new UsageSettingHelper(activity);
+            ush1.setOnSetUsageSettingFailedListener(() -> loadWidget.setGone());
+            ush1.setOnSetUsageSettingSuccessListener(getUsageSettings -> loadWidget.setGone());
             ush1.setUsageSetting(attr);
         });
-        ush.setOnGetUsageSettingsFailedListener(pgd::dismiss);
+        ush.setOnGetUsageSettingsFailedListener(() -> loadWidget.setGone());
         ush.getUsageSetting();
     }
 
@@ -497,12 +402,12 @@ public class SetDataPlanRxfragment extends Fragment implements FragmentBackHandl
      * 设置timelimit时间
      */
     private void clickSetTimeLimit() {
-        View inflate = View.inflate(getActivity(), R.layout.pop_setdataplan_settimtlimit, null);
-        ScreenSize.SizeBean size = ScreenSize.getSize(getActivity());
+        View inflate = View.inflate(activity, R.layout.pop_setdataplan_settimtlimit, null);
+        ScreenSize.SizeBean size = ScreenSize.getSize(activity);
         int width = (int) (size.width * 0.85f);
         int height = (int) (size.height * 0.29f);
-        EditText etHour = (EditText) inflate.findViewById(R.id.et_pop_setPlan_rx_settimelimit_hour);
-        EditText etMin = (EditText) inflate.findViewById(R.id.et_pop_setPlan_rx_settimelimit_min);
+        EditText etHour = inflate.findViewById(R.id.et_pop_setPlan_rx_settimelimit_hour);
+        EditText etMin = inflate.findViewById(R.id.et_pop_setPlan_rx_settimelimit_min);
         etHour.setHint("0");
         etMin.setHint("5");
         SetTimeLimitHelper.addEdwatch(etHour, etMin);// 增加监听器
@@ -513,15 +418,15 @@ public class SetDataPlanRxfragment extends Fragment implements FragmentBackHandl
             // 提交请求
             setSetTimeLimit(etHour, etMin);
         });
-        pop_setTimelimit = new PopupWindows(getActivity(), inflate, width, height, true, pop_bg);
+        pop_setTimelimit = new PopupWindows(activity, inflate, width, height, true, pop_bg);
     }
 
     /**
      * 提交set time limit请求
      */
     private void setSetTimeLimit(EditText etHour, EditText etMin) {
-        String hour_c = RootUtils.getEDText(etHour);
-        String min_c = RootUtils.getEDText(etMin);
+        String hour_c = RootUtils.getEDText(etHour,true);
+        String min_c = RootUtils.getEDText(etMin,true);
         if (TextUtils.isEmpty(hour_c)) {
             hour_c = "0";
         }
@@ -529,35 +434,35 @@ public class SetDataPlanRxfragment extends Fragment implements FragmentBackHandl
             min_c = "0";
         }
         pop_setTimelimit.dismiss();
-        ProgressDialog pgd = OtherUtils.showProgressPop(getActivity());
+        loadWidget.setVisibles();
         int hour = Integer.valueOf(hour_c);
         int min = Integer.valueOf(min_c);
         int total = hour * 60 + min;
         // 用户设定的时间如果为0--> 强制关闭time limit按钮功能
         if (total <= 0) {
-            UsageSettingHelper ush = new UsageSettingHelper(getActivity());
+            UsageSettingHelper ush = new UsageSettingHelper(activity);
             ush.setOnGetUsageSettingsSuccessListener(attr -> {
                 // 强制设定为disable
                 attr.setTimeLimitFlag(GetUsageSettingsBean.CONS_TIME_LIMIT_DISABLE);
-                UsageSettingHelper ush1 = new UsageSettingHelper(getActivity());
-                ush1.setOnSetUsageSettingFailedListener(pgd::dismiss);
-                ush1.setOnSetUsageSettingSuccessListener(attr1 -> pgd.dismiss());
+                UsageSettingHelper ush1 = new UsageSettingHelper(activity);
+                ush1.setOnSetUsageSettingFailedListener(() -> loadWidget.setGone());
+                ush1.setOnSetUsageSettingSuccessListener(getUsageSettings -> loadWidget.setGone());
                 ush1.setUsageSetting(attr);
             });
-            ush.setOnGetUsageSettingsFailedListener(pgd::dismiss);
+            ush.setOnGetUsageSettingsFailedListener(() -> loadWidget.setGone());
             ush.getUsageSetting();
             return;
         }
         // 用户设定的时间如果不为0--> 则正常提交
-        UsageSettingHelper ush = new UsageSettingHelper(getActivity());
+        UsageSettingHelper ush = new UsageSettingHelper(activity);
         ush.setOnGetUsageSettingsSuccessListener(attr -> {
             attr.setTimeLimitTimes(total);
-            UsageSettingHelper ush1 = new UsageSettingHelper(getActivity());
-            ush1.setOnSetUsageSettingSuccessListener(attr1 -> pgd.dismiss());
-            ush1.setOnSetUsageSettingFailedListener(pgd::dismiss);
+            UsageSettingHelper ush1 = new UsageSettingHelper(activity);
+            ush1.setOnSetUsageSettingSuccessListener(getUsageSettings -> loadWidget.setGone());
+            ush1.setOnSetUsageSettingFailedListener(() -> loadWidget.setGone());
             ush1.setUsageSetting(attr);
         });
-        ush.setOnGetUsageSettingsFailedListener(pgd::dismiss);
+        ush.setOnGetUsageSettingsFailedListener(() -> loadWidget.setGone());
         ush.getUsageSetting();
     }
 
@@ -569,12 +474,12 @@ public class SetDataPlanRxfragment extends Fragment implements FragmentBackHandl
     private void saveAlertAndShowPop(int value) {
         // 1.保存警告值
         pop_alert.dismiss();
-        SP.getInstance(getActivity()).putInt(Cons.USAGE_LIMIT, value);
+        ShareUtils.set(Cons.USAGE_LIMIT, value);
         if (value != -1) {
             // 2.弹出剩余流量
-            ProgressDialog pgd = OtherUtils.showProgressPop(getActivity());
-            UsageSettingHelper ush = new UsageSettingHelper(getActivity());
-            ush.setOnGetUsageSettingsFailedListener(pgd::dismiss);
+           loadWidget.setVisibles();
+            UsageSettingHelper ush = new UsageSettingHelper(activity);
+            ush.setOnGetUsageSettingsFailedListener(() -> loadWidget.setGone());
             ush.setOnGetUsageSettingsSuccessListener(attr -> {
                 if (count == 0) {// 1.首次显示
                     float usedData = attr.getUsedData() * 1f;
@@ -589,29 +494,28 @@ public class SetDataPlanRxfragment extends Fragment implements FragmentBackHandl
                     }
                     count++;
                 }
-                pgd.dismiss();
+                loadWidget.setGone();
             });
             ush.getUsageSetting();
         }
     }
 
+    /**
+     * 弹出吐司
+     *
+     * @param resId
+     */
     private void toast(int resId) {
-        ToastUtil_m.show(getActivity(), resId);
+        toast(resId, 2000);
     }
 
-    private void toastLong(int resId) {
-        ToastUtil_m.showLong(getActivity(), resId);
-    }
-
+    /**
+     * 弹出吐司
+     *
+     * @param content
+     */
     private void toastLong(String content) {
-        ToastUtil_m.showLong(getActivity(), content);
+        toast(content, 3000);
     }
 
-    private void toast(String content) {
-        ToastUtil_m.show(getActivity(), content);
-    }
-
-    private void to(Class ac, boolean isFinish) {
-        CA.toActivity(getActivity(), ac, false, isFinish, false, 0);
-    }
 }

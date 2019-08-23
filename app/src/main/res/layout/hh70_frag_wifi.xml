@@ -3,11 +3,422 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/white">
 
-    <TextView
+    <com.hiber.tools.layout.PercentRelativeLayout
+        android:id="@+id/rl_homeRx_banner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/mg_blue"
+        android:visibility="visible"
+        app:layout_heightPercent="9%h">
+
+        <TextView
+            android:id="@+id/tv_homeRx_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:maxLines="1"
+            android:textColor="@color/white"
+            app:layout_textSizePercent="30%h"
+            android:text="@string/wifi_settings"/>
+
+
+    </com.hiber.tools.layout.PercentRelativeLayout>
+
+    <!-- **** apply & cancel -->
+    <com.hiber.tools.layout.PercentLinearLayout
+        android:id="@+id/ll_apply"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="@dimen/dimen_12dip"
+        android:layout_marginTop="@dimen/dimen_5dip"
+        android:layout_marginRight="@dimen/dimen_12dip"
+        android:layout_marginBottom="@dimen/dimen_5dip"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btn_apply"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/dimen_40dip"
+            android:layout_weight="1.0"
+            android:background="@drawable/selector_conner_btn_login_blue"
+            android:text="@string/apply"
+            android:textAllCaps="false"
+            android:textColor="@color/white" />
+
+        <Button
+            android:textAllCaps="false"
+            android:id="@+id/btn_cancel"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/dimen_40dip"
+            android:layout_marginStart="@dimen/dimen_10dip"
+            android:layout_marginLeft="@dimen/dimen_10dip"
+            android:layout_weight="1.0"
+            android:background="@drawable/selector_conner_btn_login_blue"
+            android:text="@string/cancel"
+            android:textColor="@color/white" />
+    </com.hiber.tools.layout.PercentLinearLayout>
+
+    <!-- **** wifi setting -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/ll_apply"
+        android:layout_below="@+id/rl_homeRx_banner">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:paddingTop="@dimen/activity_vertical_margin"
+            android:paddingRight="@dimen/activity_horizontal_margin"
+            android:paddingBottom="@dimen/activity_vertical_margin">
+
+            <!-- *** 2.4G panel -->
+            <LinearLayout
+                android:id="@+id/ll_settings_2g"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <!-- ** 2.4G WIFI -->
+                <RelativeLayout
+                    android:id="@+id/rl_wifi_2g_switch_group"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        style="@style/WlanSettingTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:text="@string/qs_wifi_setting_2G_wifi" />
+
+                    <android.support.v7.widget.SwitchCompat
+                        android:id="@+id/switch_wifi_2g"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        app:showText="false" />
+                </RelativeLayout>
+
+                <!-- ** 2.4G name(ssid) -->
+                <LinearLayout
+                    android:id="@+id/ll_ssid_2g"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        style="@style/WlanSettingTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/setting_text_ssid" />
+
+                    <EditText
+                        android:id="@+id/edit_ssid_2g"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/dimen_24dip"
+                        android:layout_marginLeft="24dp"
+                        android:maxLength="32"
+                        android:textSize="16sp" />
+                </LinearLayout>
+
+                <!-- ** 2.4G security -->
+                <RelativeLayout
+                    android:id="@+id/rl_security_2g"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp">
+
+                    <TextView
+                        style="@style/WlanSettingTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerVertical="true"
+                        android:text="@string/security" />
+
+                    <android.support.v7.widget.AppCompatSpinner
+                        android:id="@+id/spinner_security_2g"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:entries="@array/wlan_settings_security"
+                        android:spinnerMode="dialog" />
+                </RelativeLayout>
+
+                <!-- ** 2.4G encryption -->
+                <RelativeLayout
+                    android:id="@+id/rl_encryption_2g"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:visibility="visible">
+
+                    <TextView
+                        style="@style/WlanSettingTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerVertical="true"
+                        android:text="@string/encryption" />
+
+                    <android.support.v7.widget.AppCompatSpinner
+                        android:id="@+id/spinner_encryption_2g"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:entries="@array/wlan_settings_wpa_type"
+                        android:spinnerMode="dialog" />
+                </RelativeLayout>
+
+                <!-- ** 2.4G password -->
+                <LinearLayout
+                    android:id="@+id/ll_key_2g"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:visibility="visible">
+
+                    <TextView
+                        style="@style/WlanSettingTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/password" />
+
+                    <com.alcatel.wifilink.root.widget.ShowPasswordEditText
+                        android:id="@+id/edit_key_2g"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="24dp"
+                        android:layout_marginLeft="24dp"
+                        android:drawableEnd="@drawable/password_hide"
+                        android:drawableRight="@drawable/password_hide"
+                        android:inputType="textPassword"
+                        android:textSize="16sp" />
+                </LinearLayout>
+
+                <!-- ** 2.4G advanced settings -->
+                <TextView
+                    android:id="@+id/text_advanced_settings_2g"
+                    style="@style/WlanSettingTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dimen_35dip"
+                    android:layout_marginTop="8dp"
+                    android:drawableEnd="@drawable/right_arrow_small"
+                    android:drawableRight="@drawable/right_arrow_small"
+                    android:gravity="center_vertical"
+                    android:text="@string/advanced_settings"
+                    android:textDirection="locale" />
+            </LinearLayout>
+
+            <View
+                android:id="@+id/divider"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="12dp"
+                android:background="@color/mg_blue" />
+
+            <!-- *** 5G panel -->
+            <LinearLayout
+                android:id="@+id/ll_settings_5g"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <!-- ** 5G WIFI -->
+                <RelativeLayout
+                    android:id="@+id/rl_wifi_5g_switch_group"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp">
+
+                    <TextView
+                        style="@style/WlanSettingTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:text="@string/qs_wifi_setting_5G_wifi" />
+
+                    <android.support.v7.widget.SwitchCompat
+                        android:id="@+id/switch_wifi_5g"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        app:showText="false" />
+                </RelativeLayout>
+
+                <!-- ** 5G name(ssid) -->
+                <LinearLayout
+                    android:id="@+id/ll_ssid_5g"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        style="@style/WlanSettingTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/setting_text_ssid" />
+
+                    <EditText
+                        android:id="@+id/edit_ssid_5g"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/dimen_24dip"
+                        android:layout_marginLeft="24dp"
+                        android:maxLength="32"
+                        android:textSize="16sp" />
+
+                </LinearLayout>
+
+                <!-- ** 5G security -->
+                <RelativeLayout
+                    android:id="@+id/rl_security_5g"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp">
+
+                    <TextView
+                        style="@style/WlanSettingTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerVertical="true"
+                        android:text="@string/security" />
+
+                    <android.support.v7.widget.AppCompatSpinner
+                        android:id="@+id/spinner_security_5g"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:entries="@array/wlan_settings_security"
+                        android:spinnerMode="dialog" />
+                </RelativeLayout>
+
+                <!-- ** 5G encryption -->
+                <RelativeLayout
+                    android:id="@+id/rl_encryption_5g"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp">
+
+                    <TextView
+                        style="@style/WlanSettingTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerVertical="true"
+                        android:text="@string/encryption" />
+
+                    <android.support.v7.widget.AppCompatSpinner
+                        android:id="@+id/spinner_encryption_5g"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:entries="@array/wlan_settings_wpa_type"
+                        android:spinnerMode="dialog" />
+                </RelativeLayout>
+
+                <!-- ** 5G password -->
+                <LinearLayout
+                    android:id="@+id/ll_key_5g"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        style="@style/WlanSettingTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/password" />
+
+                    <com.alcatel.wifilink.root.widget.ShowPasswordEditText
+                        android:id="@+id/edit_key_5g"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="24dp"
+                        android:drawableEnd="@drawable/password_hide"
+                        android:inputType="textPassword"
+                        android:textSize="16sp" />
+                </LinearLayout>
+
+                <!-- ** 5G advanced setting -->
+                <TextView
+                    android:id="@+id/text_advanced_settings_5g"
+                    style="@style/WlanSettingTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dimen_35dip"
+                    android:layout_marginTop="8dp"
+                    android:drawableEnd="@drawable/right_arrow_small"
+                    android:drawableRight="@drawable/right_arrow_small"
+                    android:gravity="center_vertical"
+                    android:text="@string/advanced_settings"
+                    android:textDirection="locale" />
+
+                <!-- ** 5G only phone... -->
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:text="@string/only_phones_supported_5ghz_wi_fi_can_connect_5ghz_wi_fi_network"
+                    android:textDirection="locale"
+                    android:textSize="12sp" />
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+
+    <!-- **** wait -->
+    <com.hiber.tools.layout.PercentRelativeLayout
+        android:id="@+id/rl_wifiSettingrx_wait"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:alpha="0.75"
+            android:background="@color/white" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:background="@color/white"
+            android:src="@drawable/waiting_progress_blue"
+            app:layout_heightPercent="6%h"
+            app:layout_widthPercent="6%h" />
+
+    </com.hiber.tools.layout.PercentRelativeLayout>
+
+    <!-- ok & cancel -->
+    <com.alcatel.wifilink.root.widget.NormalWidget
+        android:id="@+id/dg_wifiSettingrx_ok"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="WIFI" />
-
+        android:visibility="gone" />
+    
 </com.hiber.tools.layout.PercentRelativeLayout>
