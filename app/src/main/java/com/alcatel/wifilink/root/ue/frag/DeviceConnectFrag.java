@@ -1,23 +1,19 @@
-package com.alcatel.wifilink.root.ue.root_frag;
+package com.alcatel.wifilink.root.ue.frag;
 
-import android.annotation.SuppressLint;
-import android.app.Activity;
-import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
+import android.util.TypedValue;
 import android.view.View;
-import android.view.ViewGroup;
+import android.widget.ImageButton;
+import android.widget.TextView;
 
 import com.alcatel.wifilink.R;
-import com.alcatel.wifilink.root.adapter.ConnectAdapter;
+import com.alcatel.wifilink.root.adapter.HH70ConnectAdapter;
 import com.alcatel.wifilink.root.bean.ConnectModel;
 import com.alcatel.wifilink.root.bean.ConnectedList;
 import com.alcatel.wifilink.root.helper.ModelHelper;
-import com.alcatel.wifilink.root.helper.TimerHelper;
-import com.alcatel.wifilink.root.ue.root_activity.ActivityDeviceManager;
+import com.alcatel.wifilink.root.utils.OtherUtils;
+import com.hiber.cons.TimerState;
 import com.p_xhelper_smart.p_xhelper_smart.bean.GetConnectDeviceListBean;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetBlockDeviceListHelper;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetConnectedDeviceListHelper;
@@ -26,63 +22,74 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.Unbinder;
 
-// TOGO 2019/8/20 DeviceConnectFrag
-@Deprecated
-@SuppressLint("ValidFragment")
-public class DeviceConnectFragment extends Fragment {
+public class DeviceConnectFrag extends BaseFrag {
 
     @BindView(R.id.rcv_deviceconnect)
     RecyclerView rcv_deviceConnect;
-    Unbinder unbinder;
-    private View inflate;
-    private ConnectAdapter rvAdapter;
-    private List<ConnectModel> connectModelList = new ArrayList<>();
-    private ActivityDeviceManager activity;
-    public TimerHelper timerHelper;
+    @BindView(R.id.device_back)
+    ImageButton mbackBtn;
+    @BindView(R.id.device_title)
+    TextView mTitle;
+    @BindView(R.id.device_block)
+    TextView mblock;
 
-    public DeviceConnectFragment(Activity activity) {
-        this.activity = (ActivityDeviceManager) activity;
+    public String blockPre;
+    public String blockFix = ")";
+    public int blockSize;
+
+    private HH70ConnectAdapter rvAdapter;
+    private List<ConnectModel> connectModelList = new ArrayList<>();
+    public boolean isStopGetDeviceStatus;//是否停止刷新读取设备状态,默认false表示需要刷新状态
+
+    @Override
+    public int onInflateLayout() {
+        return R.layout.hh70_frag_deviceconnect;
     }
 
-    @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        inflate = View.inflate(getActivity(), R.layout.fragment_deviceconnect, null);
-        unbinder = ButterKnife.bind(this, inflate);
+    public void onNexts(Object o, View view, String s) {
+        super.onNexts(o,view,s);
+        initUI();
+        getDevicesStatus();// init
+        //开启定时器
+        timerState = TimerState.ON_BUT_OFF_WHEN_HIDE_AND_PAUSE;
+    }
+
+    private void initUI(){
         LinearLayoutManager lm = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         rcv_deviceConnect.setLayoutManager(lm);
-        rvAdapter = new ConnectAdapter(activity, this, connectModelList);
+        rvAdapter = new HH70ConnectAdapter(activity, this, connectModelList);
         rcv_deviceConnect.setAdapter(rvAdapter);
-        getDevicesStatus();// init
-        
-        return inflate;
+        //titlebar
+        blockPre = getString(R.string.Blocked) + " (";
+        mbackBtn.setOnClickListener(v -> {
+            onBackPresss();
+        });
+        mblock.setOnClickListener(v -> {
+            checkBlockList();
+        });
+        mblock.setText(String.valueOf(blockPre + "0" + blockFix));
+        mTitle.setText(getString(R.string.ergo_20181010_connections_low));
+        // 俄语文字大小适配
+        String currentLanguage = OtherUtils.getCurrentLanguage();
+        if (currentLanguage.equalsIgnoreCase("ru")) {
+            mblock.setTextSize(TypedValue.COMPLEX_UNIT_SP, 12);
+            mTitle.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
+        }
+    }
+
+    //提供方法给Adapter调用
+    public void setBlockText(String content){
+        mblock.setText(content);
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        // start timer
-        startTime();
-    }
-
-    /* **** startTime **** */
-    private void startTime() {
-        timerHelper = new TimerHelper(getActivity()) {
-            @Override
-            public void doSomething() {
-                getDevicesStatus();
-            }
-        };
-        timerHelper.start(3000);
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        timerHelper.stop();
+    public void setTimerTask(){
+        // refresh all
+        if(!isStopGetDeviceStatus){
+            getDevicesStatus();
+        }
     }
 
     /* **** getDevicesStatus **** */
@@ -91,6 +98,16 @@ public class DeviceConnectFragment extends Fragment {
         updateConnectedDeviceUI();
         // refresh blocked count
         updateBlockCount();
+    }
+
+    private void checkBlockList() {
+        GetBlockDeviceListHelper xGetBlockDeviceListHelper = new GetBlockDeviceListHelper();
+        xGetBlockDeviceListHelper.setonGetBlockDeviceListSuccessListener(getBlockDeviceListBean -> {
+            if (getBlockDeviceListBean.getBlockList().size() > 0) {
+                toFrag(getClass(),DeviceBlockFrag.class,null,false);
+            }
+        });
+        xGetBlockDeviceListHelper.getBlockDeviceList();
     }
 
     /* **** updateConnectedDeviceUI **** */
@@ -135,17 +152,15 @@ public class DeviceConnectFragment extends Fragment {
     private void updateBlockCount() {
         GetBlockDeviceListHelper xGetBlockDeviceListHelper = new GetBlockDeviceListHelper();
         xGetBlockDeviceListHelper.setonGetBlockDeviceListSuccessListener(getBlockDeviceListBean -> {
-            int blockSize = getBlockDeviceListBean.getBlockList().size();
-            activity.mblock.setText(activity.blockPre + blockSize + activity.blockFix);
+            blockSize = getBlockDeviceListBean.getBlockList().size();
+            mblock.setText(blockPre + blockSize + blockFix);
         });
         xGetBlockDeviceListHelper.getBlockDeviceList();
     }
 
-
     @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        unbinder.unbind();
+    public boolean onBackPresss() {
+        toFrag(getClass(),mainFrag.class,null,false);
+        return true;
     }
-
 }

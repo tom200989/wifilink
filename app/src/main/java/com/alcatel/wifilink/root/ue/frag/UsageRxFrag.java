@@ -1,49 +1,32 @@
-package com.alcatel.wifilink.root.ue.root_frag;
+package com.alcatel.wifilink.root.ue.frag;
 
-import android.app.ProgressDialog;
-import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.text.TextUtils;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.alcatel.wifilink.R;
 import com.alcatel.wifilink.root.helper.Cons;
-import com.alcatel.wifilink.root.helper.TimerHelper;
 import com.alcatel.wifilink.root.helper.UsageHelper;
 import com.alcatel.wifilink.root.helper.UsageSettingHelper;
 import com.alcatel.wifilink.root.ue.root_activity.HomeRxActivity;
-import com.alcatel.wifilink.root.utils.CA;
+import com.alcatel.wifilink.root.ue.root_frag.MobileNetworkRxFragment;
 import com.alcatel.wifilink.root.utils.C_Constants;
-import com.alcatel.wifilink.root.utils.FraHelpers;
-import com.alcatel.wifilink.root.utils.Lgg;
-import com.alcatel.wifilink.root.utils.Logs;
-import com.alcatel.wifilink.root.utils.OtherUtils;
-import com.alcatel.wifilink.root.utils.ToastUtil_m;
-import com.alcatel.wifilink.root.utils.fraghandler.FragmentBackHandler;
+import com.alcatel.wifilink.root.utils.RootUtils;
+import com.alcatel.wifilink.root.widget.HH70_LoadWidget;
 import com.alcatel.wifilink.root.widget.NormalWidget;
+import com.hiber.cons.TimerState;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetUsageRecordHelper;
 import com.p_xhelper_smart.p_xhelper_smart.helper.SetUsageRecordClearHelper;
 
-import org.greenrobot.eventbus.EventBus;
-
 import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
-import butterknife.Unbinder;
 
 /**
  * Created by qianli.ma on 2017/12/8 0008.
  */
 
-// TOGO 2019/8/20 UsageRxFrag
-@Deprecated
-public class UsageRxFragment extends Fragment implements FragmentBackHandler {
+public class UsageRxFrag extends BaseFrag {
 
     @BindView(R.id.iv_usage_rx_back)
     ImageView ivBack;
@@ -61,17 +44,12 @@ public class UsageRxFragment extends Fragment implements FragmentBackHandler {
     TextView tvMobileNetworkSetting;
     @BindView(R.id.dg_usage_rx_ok)
     NormalWidget dgUsageRxOk;
-    Unbinder unbinder;
+    @BindView(R.id.hh70_loading)
+    HH70_LoadWidget hh70LoadWidget;
 
-    private View inflate;
-    private HomeRxActivity activity;
-    private FraHelpers fraHelpers;
-    private Class[] clazz;
-    private TimerHelper timerHelper;
     private String popTitle;
     private String popCancel;
     private String popReset;
-    private ProgressDialog pgd;
     private String resetFailed;
     private String reseting;
     private String resetSuccess;
@@ -79,21 +57,27 @@ public class UsageRxFragment extends Fragment implements FragmentBackHandler {
     private long usedData_l = 0L;
     private long monthly_l = 0L;
 
-    @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        activity = (HomeRxActivity) getActivity();
-        inflate = View.inflate(getActivity(), R.layout.fragment_usagerx, null);
-        unbinder = ButterKnife.bind(this, inflate);
-        resetUi();
+    public int onInflateLayout() {
+        return R.layout.hh70_frag_usagerx;
+    }
+
+    @Override
+    public void onNexts(Object o, View view, String s) {
+        super.onNexts(o,view,s);
         initRes();
-        initData();
-        return inflate;
+        initOnClick();
+        //开启定时器
+        timerState = TimerState.ON_BUT_OFF_WHEN_HIDE_AND_PAUSE;
+    }
+
+    @Override
+    public void setTimerTask(){
+        getHomeNetworkMonthly();// 已经使用 / 月计划流量
+        getRoamingAndConnTime();// 获取漫游信息
     }
 
     private void initRes() {
-        fraHelpers = activity.fraHelpers;
-        clazz = activity.clazz;
         popTitle = getString(R.string.reset_monthly_data_usage_statistics);
         popCancel = getString(R.string.cancel);
         popReset = getString(R.string.reset);
@@ -103,37 +87,11 @@ public class UsageRxFragment extends Fragment implements FragmentBackHandler {
         usageHelper = new UsageHelper(getActivity());
     }
 
-    private void initData() {
-        timerHelper = new TimerHelper(getActivity()) {
-            @Override
-            public void doSomething() {
-                getHomeNetworkMonthly();// 已经使用 / 月计划流量
-                getRoamingAndConnTime();// 获取漫游信息
-            }
-        };
-        timerHelper.start(3000);
-    }
-
     @Override
     public void onHiddenChanged(boolean hidden) {
         if (!hidden) {
-            initData();
-            resetUi();
-        } else {
-            stopTimer();
+
         }
-    }
-
-    private void resetUi() {
-        activity.tabFlag = Cons.TAB_USAGE;
-        activity.llNavigation.setVisibility(View.GONE);
-        activity.rlBanner.setVisibility(View.GONE);
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        stopTimer();
     }
 
     /**
@@ -144,7 +102,7 @@ public class UsageRxFragment extends Fragment implements FragmentBackHandler {
             long roamUseData = result.getRoamUseData();
             UsageHelper.Usage usageByte = UsageHelper.getUsageByte(getActivity(), roamUseData);
             String roamUsage = usageByte.usage;
-            if (OtherUtils.getCurrentLanguage().equalsIgnoreCase(C_Constants.Language.RUSSIAN)) {
+            if (RootUtils.getCurrentLanguage().equalsIgnoreCase(C_Constants.Language.RUSSIAN)) {
                 roamUsage = roamUsage.replace(".", ",") + " ";
             }
             String roam_unit = usageByte.unit;
@@ -168,7 +126,7 @@ public class UsageRxFragment extends Fragment implements FragmentBackHandler {
             String nhour = usedTime.hour;
             String nmin = usedTime.min;
             boolean isNoTHour = "0".equalsIgnoreCase(nhour);
-            boolean isRussian = OtherUtils.getCurrentLanguage().equalsIgnoreCase(C_Constants.Language.RUSSIAN);
+            boolean isRussian = RootUtils.getCurrentLanguage().equalsIgnoreCase(C_Constants.Language.RUSSIAN);
             String hour = nhour + getString(R.string.hr_s);
             String min = nmin + getString(R.string.min_s);
             if (isRussian) {
@@ -179,9 +137,8 @@ public class UsageRxFragment extends Fragment implements FragmentBackHandler {
             tvNetworkTime.setText(time);
         });
         usageHelper.setOnNoRoamingListener(result -> {// 没有漫游
-            boolean isRussian = OtherUtils.getCurrentLanguage().equalsIgnoreCase(C_Constants.Language.RUSSIAN);
+            boolean isRussian = RootUtils.getCurrentLanguage().equalsIgnoreCase(C_Constants.Language.RUSSIAN);
             int tConnTimes = (int) result.getTConnTimes();
-            Logs.t("ma_usages").ii("tConnTimes: " + tConnTimes);
             String noRoamingUsage = "0.00" + getString(R.string.mb_text);
             if (isRussian) {
                 noRoamingUsage = "0.00" + " " + getString(R.string.mb_text);
@@ -221,7 +178,7 @@ public class UsageRxFragment extends Fragment implements FragmentBackHandler {
             usedData_l = result.getHUseData();
             UsageHelper.Usage hUseDataByte = UsageHelper.getUsageByte(getActivity(), usedData_l);
             String used = hUseDataByte.usage;
-            if (OtherUtils.getCurrentLanguage().equalsIgnoreCase(C_Constants.Language.RUSSIAN)) {
+            if (RootUtils.getCurrentLanguage().equalsIgnoreCase(C_Constants.Language.RUSSIAN)) {
                 used = used.replace(".", ",") + " ";
             }
             String used_unit = hUseDataByte.unit;
@@ -229,7 +186,7 @@ public class UsageRxFragment extends Fragment implements FragmentBackHandler {
             // 处理月流量
             UsageHelper.Usage monthByte = UsageHelper.getUsageByte(getActivity(), monthly_l);
             String month = monthByte.usage;
-            if (OtherUtils.getCurrentLanguage().equalsIgnoreCase(C_Constants.Language.RUSSIAN)) {
+            if (RootUtils.getCurrentLanguage().equalsIgnoreCase(C_Constants.Language.RUSSIAN)) {
                 month = month.replace(".", ",") + " ";
             }
             String month_unit = monthByte.unit;
@@ -239,8 +196,6 @@ public class UsageRxFragment extends Fragment implements FragmentBackHandler {
             tvNetworkTraffic.setText(monthly_l <= 0 ? usedData_s : normal);
         });
         xGetUsageRecordHelper.getUsageRecord(UsageHelper.getCurrentTime());
-
-
         // 获取月流量
         UsageSettingHelper helper = new UsageSettingHelper(activity);
         helper.setOnGetUsageSettingsSuccessListener(result -> {
@@ -248,7 +203,7 @@ public class UsageRxFragment extends Fragment implements FragmentBackHandler {
             monthly_l = result.getMonthlyPlan();
             UsageHelper.Usage monthByte = UsageHelper.getUsageByte(getActivity(), monthly_l);
             String month = monthByte.usage;
-            if (OtherUtils.getCurrentLanguage().equalsIgnoreCase(C_Constants.Language.RUSSIAN)) {
+            if (RootUtils.getCurrentLanguage().equalsIgnoreCase(C_Constants.Language.RUSSIAN)) {
                 month = month.replace(".", ",") + " ";
             }
             String month_unit = monthByte.unit;
@@ -256,7 +211,7 @@ public class UsageRxFragment extends Fragment implements FragmentBackHandler {
             // 处理已经使用流量
             UsageHelper.Usage hUseDataByte = UsageHelper.getUsageByte(getActivity(), usedData_l);
             String used = hUseDataByte.usage;
-            if (OtherUtils.getCurrentLanguage().equalsIgnoreCase(C_Constants.Language.RUSSIAN)) {
+            if (RootUtils.getCurrentLanguage().equalsIgnoreCase(C_Constants.Language.RUSSIAN)) {
                 used = used.replace(".", ",") + " ";
             }
             String used_unit = hUseDataByte.unit;
@@ -268,29 +223,19 @@ public class UsageRxFragment extends Fragment implements FragmentBackHandler {
         helper.getUsageSetting();
     }
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        unbinder.unbind();
-    }
-
-    @OnClick({R.id.iv_usage_rx_back,// 回退
-            R.id.bt_usage_rx_resetStatist,// 重设
-            R.id.tv_usage_rx_mobileNetworkSetting})// 跳转到设置
-    public void onViewClicked(View view) {
-        switch (view.getId()) {
-            case R.id.iv_usage_rx_back:
-                stopTimer();
-                fraHelpers.transfer(clazz[0]);
-                break;
-            case R.id.bt_usage_rx_resetStatist:
-                clickResetButton();
-                break;
-            case R.id.tv_usage_rx_mobileNetworkSetting:
-                EventBus.getDefault().postSticky(Cons.TAB_USAGE);
-                activity.fraHelpers.transfer(activity.clazz[Cons.TAB_MOBILE_NETWORK]);
-                break;
-        }
+    /**
+     * 点击事件
+     */
+    private void initOnClick(){
+        ivBack.setOnClickListener(v -> {
+            toFrag(getClass(),mainFrag.class,null,false);
+        });
+        btResetStatist.setOnClickListener(v -> clickResetButton());
+        tvMobileNetworkSetting.setOnClickListener(v -> {
+            sendEvent(Cons.TAB_USAGE,true);
+            // TODO: 2019/8/20  MobileNetworkRxFragment.class 还没转换
+            toFrag(getClass(),MobileNetworkRxFragment.class,null,false);
+        });
     }
 
     /**
@@ -300,7 +245,7 @@ public class UsageRxFragment extends Fragment implements FragmentBackHandler {
         dgUsageRxOk.setVisibility(View.VISIBLE);
         dgUsageRxOk.setTitle(popReset);
         dgUsageRxOk.setDes(popTitle);
-        dgUsageRxOk.setOnBgClickListener(() -> Lgg.t("usage").ii("click not area"));
+        dgUsageRxOk.setOnBgClickListener(() -> {});
         dgUsageRxOk.setOnCancelClickListener(() -> dgUsageRxOk.setVisibility(View.GONE));
         dgUsageRxOk.setOnOkClickListener(this::resetRecord);
     }
@@ -309,50 +254,28 @@ public class UsageRxFragment extends Fragment implements FragmentBackHandler {
      * 清空记录
      */
     private void resetRecord() {
-        pgd = OtherUtils.showProgressPop(getActivity());
+        hh70LoadWidget.setVisibles();
         String currentTime = UsageHelper.getCurrentTime();
         SetUsageRecordClearHelper xSetUsageRecordClearHelper = new SetUsageRecordClearHelper();
         xSetUsageRecordClearHelper.setOnSetUsageRecordClearSuccessListener(() -> {
-            OtherUtils.hideProgressPop(pgd);
-            toast(resetSuccess);
+            hh70LoadWidget.setGone();
+            toast(resetSuccess,2000);
         });
         xSetUsageRecordClearHelper.setOnSetUsageRecordClearFailListener(() -> {
-            OtherUtils.hideProgressPop(pgd);
-            toast(resetFailed);
+            hh70LoadWidget.setGone();
+            toast(resetFailed,2000);
         });
         xSetUsageRecordClearHelper.setUsageRecordClear(currentTime);
     }
 
-    public void toast(int resId) {
-        ToastUtil_m.show(getActivity(), resId);
-    }
-
-    public void toastLong(int resId) {
-        ToastUtil_m.showLong(getActivity(), resId);
-    }
-
-    public void toast(String content) {
-        ToastUtil_m.show(getActivity(), content);
-    }
-
-    public void to(Class ac, boolean isFinish) {
-        CA.toActivity(getActivity(), ac, false, isFinish, false, 0);
-    }
-
-    public void stopTimer() {
-        if (timerHelper != null) {
-            timerHelper.stop();
-        }
-    }
-
     @Override
-    public boolean onBackPressed() {
+    public boolean onBackPresss() {
         if (dgUsageRxOk.getVisibility() == View.VISIBLE) {
             dgUsageRxOk.setVisibility(View.GONE);
             return true;
         }
         // 返回主页
-        activity.fraHelpers.transfer(clazz[0]);
+        toFrag(getClass(),mainFrag.class,null,false);
         return true;
     }
 }

@@ -1,14 +1,9 @@
-package com.alcatel.wifilink.root.ue.root_frag;
+package com.alcatel.wifilink.root.ue.frag;
 
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
-import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.text.TextUtils;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -18,27 +13,20 @@ import com.alcatel.wifilink.R;
 import com.alcatel.wifilink.root.helper.BoardSimHelper;
 import com.alcatel.wifilink.root.helper.Cons;
 import com.alcatel.wifilink.root.ue.root_activity.HomeRxActivity;
-import com.alcatel.wifilink.root.utils.CA;
+import com.alcatel.wifilink.root.ue.root_frag.PinRxFragment;
 import com.alcatel.wifilink.root.utils.RootUtils;
-import com.alcatel.wifilink.root.utils.SP;
-import com.alcatel.wifilink.root.utils.ToastUtil_m;
-import com.alcatel.wifilink.root.utils.fraghandler.FragmentBackHandler;
+import com.hiber.tools.ShareUtils;
 import com.hiber.tools.layout.PercentRelativeLayout;
 import com.p_xhelper_smart.p_xhelper_smart.bean.GetSimStatusBean;
 import com.p_xhelper_smart.p_xhelper_smart.helper.UnlockPukHelper;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
-import butterknife.Unbinder;
 
 /**
  * Created by qianli.ma on 2017/11/21 0021.
  */
 
-// TOGO 2019/8/20 PukRxFrag
-@Deprecated
-public class PukRxFragment extends Fragment implements FragmentBackHandler {
+public class PukRxFrag extends BaseFrag {
 
     @BindView(R.id.et_puk_rx)
     EditText etPukRx;
@@ -60,42 +48,40 @@ public class PukRxFragment extends Fragment implements FragmentBackHandler {
     TextView tvPukRxAlert;
     @BindView(R.id.rl_puk_rx)
     PercentRelativeLayout rlPukRx;
-    Unbinder unbinder;
 
-
-    private View inflate;
     private int red_color;
     private int gray_color;
     private Drawable check_pic;
     private Drawable uncheck_pic;
-    private HomeRxActivity activity;
     private String pukTimeout_string;
     private BoardSimHelper boardSimHelper;
 
-    @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        activity = (HomeRxActivity) getActivity();
-        inflate = View.inflate(getActivity(), R.layout.fragment_pinpukpuk, null);
-        unbinder = ButterKnife.bind(this, inflate);
-        resetUI();
-        initRes();
-        initUi();
-        return inflate;
+    public int onInflateLayout() {
+        return R.layout.hh70_frag_pinpukpuk;
     }
 
+    @Override
+    public void onNexts(Object o, View view, String s) {
+        super.onNexts(o,view,s);
+        initRes();
+        initUi();
+        initOnClick();
+        //onResume
+        getRemainTime();
+    }
 
     private void initRes() {
-        red_color = getResources().getColor(R.color.red);
-        gray_color = getResources().getColor(R.color.gray);
-        check_pic = getResources().getDrawable(R.drawable.general_btn_remember_pre);
-        uncheck_pic = getResources().getDrawable(R.drawable.general_btn_remember_nor);
+        red_color = getRootColor(R.color.red);
+        gray_color = getRootColor(R.color.gray);
+        check_pic = getRootDrawable(R.drawable.general_btn_remember_pre);
+        uncheck_pic = getRootDrawable(R.drawable.general_btn_remember_nor);
         pukTimeout_string = getString(R.string.puk_alarm_des1);
     }
 
     private void initUi() {
-        boolean isRememPin = SP.getInstance(getActivity()).getBoolean(Cons.PIN_REMEM_FLAG_RX, false);
-        String pinCache = SP.getInstance(getActivity()).getString(Cons.PIN_REMEM_STR_RX, "");
+        boolean isRememPin = ShareUtils.get(Cons.PIN_REMEM_FLAG_RX,false);
+        String pinCache = ShareUtils.get(Cons.PIN_REMEM_STR_RX, "");
         ivPukRemempinRxCheckbox.setImageDrawable(isRememPin ? check_pic : uncheck_pic);
         etPukResetpinRx.setText(isRememPin ? pinCache : "");
         etPukResetpinRx.setSelection(RootUtils.getEDText(etPukResetpinRx).length());
@@ -108,20 +94,7 @@ public class PukRxFragment extends Fragment implements FragmentBackHandler {
         if (!hidden) {
             initUi();
             getRemainTime();
-            resetUI();
         }
-    }
-
-    private void resetUI() {
-        activity.tabFlag = Cons.TAB_PUK;
-        activity.llNavigation.setVisibility(View.GONE);
-        activity.rlBanner.setVisibility(View.VISIBLE);
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        getRemainTime();
     }
 
     /**
@@ -169,28 +142,20 @@ public class PukRxFragment extends Fragment implements FragmentBackHandler {
         }
     }
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        unbinder.unbind();
-    }
-
-    @OnClick({R.id.iv_puk_remempin_rx_checkbox, R.id.tv_puk_remempin_rx_checkbox, R.id.bt_puk_rx_unlock})
-    public void onViewClicked(View view) {
-        switch (view.getId()) {
-            case R.id.iv_puk_remempin_rx_checkbox:
-            case R.id.tv_puk_remempin_rx_checkbox:
-                boolean isCheck = ivPukRemempinRxCheckbox.getDrawable() == check_pic;
-                Drawable checkBox = isCheck ? uncheck_pic : check_pic;
-                ivPukRemempinRxCheckbox.setImageDrawable(checkBox);
-                String pin = RootUtils.getEDText(etPukResetpinRx);
-                SP.getInstance(getActivity()).putString(Cons.PIN_REMEM_STR_RX, ivPukRemempinRxCheckbox.getDrawable() == check_pic ? pin : "");
-                SP.getInstance(getActivity()).putBoolean(Cons.PIN_REMEM_FLAG_RX, ivPukRemempinRxCheckbox.getDrawable() == check_pic);
-                break;
-            case R.id.bt_puk_rx_unlock:
-                unlockPukClick();
-                break;
-        }
+    /**
+     * 点击事件
+     */
+    private void initOnClick(){
+        ivPukRemempinRxCheckbox.setOnClickListener(v -> tvPukRemempinRxCheckbox.performLongClick());
+        tvPukRemempinRxCheckbox.setOnClickListener(v -> {
+            boolean isCheck = ivPukRemempinRxCheckbox.getDrawable() == check_pic;
+            Drawable checkBox = isCheck ? uncheck_pic : check_pic;
+            ivPukRemempinRxCheckbox.setImageDrawable(checkBox);
+            String pin = RootUtils.getEDText(etPukResetpinRx);
+            ShareUtils.set(Cons.PIN_REMEM_STR_RX, ivPukRemempinRxCheckbox.getDrawable() == check_pic ? pin : "");
+            ShareUtils.set(Cons.PIN_REMEM_FLAG_RX, ivPukRemempinRxCheckbox.getDrawable() == check_pic);
+        });
+        btPukRxUnlock.setOnClickListener(v -> unlockPukClick());
     }
 
     /**
@@ -200,32 +165,32 @@ public class PukRxFragment extends Fragment implements FragmentBackHandler {
         // 空值判断
         String puk = RootUtils.getEDText(etPukRx);
         if (TextUtils.isEmpty(puk)) {
-            toast(R.string.puk_empty);
+            toast(R.string.puk_empty,2000);
             return;
         }
 
         String pin = RootUtils.getEDText(etPukResetpinRx);
         if (TextUtils.isEmpty(pin)) {
-            toast(R.string.pin_empty);
+            toast(R.string.pin_empty,2000);
             return;
         }
         String pinConfirm = RootUtils.getEDText(etPukResetpinRxConfirm);
         if (TextUtils.isEmpty(pinConfirm)) {
-            toast(R.string.pin_confirm_empty);
+            toast(R.string.pin_confirm_empty,2000);
             return;
         }
         // 位数判断
         if (pin.length() < 4 | pin.length() > 8) {
-            toast(R.string.the_pin_code_should_be_4_8_characters);
+            toast(R.string.the_pin_code_should_be_4_8_characters,2000);
             return;
         }
         if (pinConfirm.length() < 4 | pinConfirm.length() > 8) {
-            toast(R.string.the_pin_code_should_be_4_8_characters);
+            toast(R.string.the_pin_code_should_be_4_8_characters,2000);
             return;
         }
         // 匹配
         if (!pin.equalsIgnoreCase(pinConfirm)) {
-            toast(R.string.puk_pinDontMatch);
+            toast(R.string.puk_pinDontMatch,2000);
             return;
         }
         // 发起请求
@@ -255,46 +220,34 @@ public class PukRxFragment extends Fragment implements FragmentBackHandler {
             boolean isRememPin = ivPukRemempinRxCheckbox.getDrawable() == check_pic;
             if (isRememPin) {
                 String pins = RootUtils.getEDText(etPukResetpinRx);
-                SP.getInstance(getActivity()).putString(Cons.PIN_REMEM_STR_RX, pins);
-                SP.getInstance(getActivity()).putBoolean(Cons.PIN_REMEM_FLAG_RX, isRememPin);
+                ShareUtils.set(Cons.PIN_REMEM_STR_RX, pins);
+                ShareUtils.set(Cons.PIN_REMEM_FLAG_RX, isRememPin);
             }
             // 2.进入其他界面
             toOtherRx();
         });
         xUnlockPukHelper.setOnUnlockPukFailedListener(() -> {
-            toast(R.string.puk_unlock_failed);
+            toast(R.string.puk_unlock_failed,2000);
             getRemainTime();
         });
         xUnlockPukHelper.unlockPuk(puk, pin);
     }
 
     private void toOtherRx() {
-        int position = SP.getInstance(getActivity()).getInt(Cons.TAB_FRA, Cons.TAB_MAIN);
-        toFragment(activity.clazz[position]);
+        toFragment(mainFrag.class);
     }
 
     private void toPinRx() {
-        toFragment(activity.clazz[4]);
+        toFrag(getClass(),PinRxFrag.class,null,true);
     }
-
-    /* -------------------------------------------- HELPER -------------------------------------------- */
 
     public void toFragment(Class clazz) {
-        activity.fraHelpers.transfer(clazz);
-    }
-
-    public void toast(int resId) {
-        ToastUtil_m.show(getActivity(), resId);
-    }
-
-    public void to(Class ac) {
-        CA.toActivity(getActivity(), ac, false, true, false, 0);
+        toFrag(getClass(),clazz,null,false);
     }
 
     @Override
-    public boolean onBackPressed() {
-        int anInt = SP.getInstance(getActivity()).getInt(Cons.TAB_FRA, Cons.TAB_MAIN);
-        activity.fraHelpers.transfer(activity.clazz[anInt]);
+    public boolean onBackPresss() {
+        toFrag(getClass(),mainFrag.class,null,false);
         return true;
     }
 }

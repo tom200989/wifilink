@@ -2,9 +2,11 @@ package com.alcatel.wifilink.root.utils;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.net.wifi.WifiManager;
 import android.support.annotation.ArrayRes;
 import android.text.TextUtils;
+import android.support.v4.content.ContextCompat;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
@@ -16,6 +18,17 @@ import com.alcatel.wifilink.root.bean.SMSContactList;
 import com.hiber.tools.ShareUtils;
 import com.tcl.token.ndk.JniTokenUtils;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import com.alcatel.wifilink.R;
+import com.alcatel.wifilink.root.app.SmartLinkV3App;
+import com.alcatel.wifilink.root.bean.Extender_GetHotspotListResult;
+import com.hiber.tools.ShareUtils;
+
+import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -377,5 +390,101 @@ public class RootUtils {
      */
     public static String[] getResArr(Context context, @ArrayRes int resId) {
         return context.getResources().getStringArray(resId);
+    }
+
+    /**
+     * 进行url decode
+     *
+     * @param content
+     * @return
+     */
+    public static String turnUrlCode(String content) {
+        String backup = content;
+        try {
+            // 1.生成正则表达式
+            String regex = "(\\\\x\\w[0-9A-Fa-f]){3}";
+            Pattern pattern = Pattern.compile(regex);
+            Matcher match = pattern.matcher(content);
+            // 2.轮询查找匹配
+            while (match.find()) {
+                // 3.每循环得到匹配的字符串--> \xE8\xBF\x99
+                String substring = content.substring(match.start(), match.end());
+                // 4.把匹配出来的字符串进行 [ \x ] 替换 [ % ]--> %E8%BF%99
+                String replace = substring.replace("\\x", "%");
+                // 5.把转义好的字符进行URL解码--> 得到中文
+                String decode = URLDecoder.decode(replace, "UTF-8");
+                // 6. 把截取的原文「\xE8\xBF\x99」直接替换成中文 --> 中
+                backup = backup.replace(substring, decode);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return backup;
+    }
+
+    /**
+     * 获取wifi extender signal 强度
+     *
+     * @param signalStrength
+     * @return
+     */
+    public static Drawable transferWifiExtenderSignal(int signalStrength) {
+        SmartLinkV3App context = SmartLinkV3App.getInstance();
+        if (signalStrength <= 0) {
+            return  ContextCompat.getDrawable(context,R.drawable.wifi_ex_signal0);
+        } else if (signalStrength == 1) {
+            return ContextCompat.getDrawable(context,R.drawable.wifi_ex_signal1);
+        } else if (signalStrength == 2) {
+            return ContextCompat.getDrawable(context,R.drawable.wifi_ex_signal2);
+        } else if (signalStrength == 3) {
+            return ContextCompat.getDrawable(context,R.drawable.wifi_ex_signal3);
+        } else if (signalStrength >= 4) {
+            return ContextCompat.getDrawable(context,R.drawable.wifi_ex_signal4);
+        }
+        return ContextCompat.getDrawable(context,R.drawable.wifi_ex_signal0);
+    }
+
+    /**
+     * 排除当前连接的热点
+     *
+     * @param ori_hotpots 搜索到的热点集合
+     * @param currentSSID 当前连接的热点SSID
+     * @return
+     */
+    public static List<Extender_GetHotspotListResult.HotspotListBean> excludeCurrentHotpot(List<Extender_GetHotspotListResult.HotspotListBean> ori_hotpots, String currentSSID) {
+        List<Extender_GetHotspotListResult.HotspotListBean> newLists = new ArrayList<>();
+        for (Extender_GetHotspotListResult.HotspotListBean ori : ori_hotpots) {
+            if (ori.getSSID().equals(currentSSID)) {
+                if (ori.getConnectState() == 1) {
+                    continue;
+                }
+            }
+            newLists.add(ori);
+        }
+        return newLists;
+    }
+
+    /**
+     * 批量转换SSID并提出空字段的WIFI
+     *
+     * @param hotspotListBeans
+     * @return
+     */
+    public static List<Extender_GetHotspotListResult.HotspotListBean> turnSSISBatch(List<Extender_GetHotspotListResult.HotspotListBean> hotspotListBeans) {
+        List<Extender_GetHotspotListResult.HotspotListBean> rehbs = new ArrayList<>();
+        for (Extender_GetHotspotListResult.HotspotListBean hb : hotspotListBeans) {
+            if (hb.getSSID().toLowerCase().contains("\\x00\\x00\\x00")) {
+                continue;
+            } else {
+                rehbs.add(hb);
+            }
+
+        }
+        for (Extender_GetHotspotListResult.HotspotListBean hb : rehbs) {
+            Logs.t("ma_ssid").ii(hb.getSSID());
+            hb.setSSID(turnUrlCode(hb.getSSID()));
+        }
+
+        return rehbs;
     }
 }

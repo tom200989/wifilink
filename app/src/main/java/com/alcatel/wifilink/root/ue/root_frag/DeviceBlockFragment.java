@@ -27,6 +27,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
+// TOGO 2019/8/20 DeviceBlockFrag
+@Deprecated
 @SuppressLint("ValidFragment")
 public class DeviceBlockFragment extends Fragment {
 

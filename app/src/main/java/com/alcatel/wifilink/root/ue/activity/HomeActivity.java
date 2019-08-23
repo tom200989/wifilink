@@ -9,6 +9,8 @@ import com.alcatel.wifilink.root.helper.GetSMSUnreadHelper;
 import com.alcatel.wifilink.root.helper.TimerHelper;
 import com.alcatel.wifilink.root.ue.frag.AboutFrag;
 import com.alcatel.wifilink.root.ue.frag.EtherWANFrag;
+import com.alcatel.wifilink.root.ue.frag.DeviceBlockFrag;
+import com.alcatel.wifilink.root.ue.frag.DeviceConnectFrag;
 import com.alcatel.wifilink.root.ue.frag.FeedbackFrag;
 import com.alcatel.wifilink.root.ue.frag.InternetStatusFrag;
 import com.alcatel.wifilink.root.ue.frag.LanguageFrag;
@@ -16,15 +18,25 @@ import com.alcatel.wifilink.root.ue.frag.LoginFrag;
 import com.alcatel.wifilink.root.ue.frag.MobileNetworkFrag;
 import com.alcatel.wifilink.root.ue.frag.SetDataPlanFrag;
 import com.alcatel.wifilink.root.ue.frag.SettingAccountFrag;
+import com.alcatel.wifilink.root.ue.frag.PinRxFrag;
+import com.alcatel.wifilink.root.ue.frag.PukRxFrag;
 import com.alcatel.wifilink.root.ue.frag.SettingFrag;
 import com.alcatel.wifilink.root.ue.frag.SettingNetworkFrag;
 import com.alcatel.wifilink.root.ue.frag.SettingShareFrag;
 import com.alcatel.wifilink.root.ue.frag.SmsDetailFrag;
 import com.alcatel.wifilink.root.ue.frag.SmsFrag;
+import com.alcatel.wifilink.root.ue.frag.UsageRxFrag;
+import com.alcatel.wifilink.root.ue.frag.WifiExtenderRxFrag;
 import com.alcatel.wifilink.root.ue.frag.SmsNewFrag;
 import com.alcatel.wifilink.root.ue.frag.WifiFrag;
 import com.alcatel.wifilink.root.ue.frag.WlanFrag;
 import com.alcatel.wifilink.root.ue.frag.mainFrag;
+import com.alcatel.wifilink.root.ue.root_frag.DeviceBlockFragment;
+import com.alcatel.wifilink.root.ue.root_frag.DeviceConnectFragment;
+import com.alcatel.wifilink.root.ue.root_frag.PinRxFragment;
+import com.alcatel.wifilink.root.ue.root_frag.PukRxFragment;
+import com.alcatel.wifilink.root.ue.root_frag.UsageRxFragment;
+import com.alcatel.wifilink.root.ue.root_frag.WifiExtenderRxFragment;
 import com.alcatel.wifilink.root.widget.HH70_HomeTabWidget;
 import com.hiber.bean.RootProperty;
 import com.hiber.hiber.RootMAActivity;
@@ -58,11 +70,17 @@ public class HomeActivity extends RootMAActivity {
             FeedbackFrag.class,//反馈页面
             MobileNetworkFrag.class,//网络
             SetDataPlanFrag.class,//设置流量计划页面
-            SettingFrag.class,//主页面的设置页面
             SmsFrag.class,//主页面的短信页面
             WifiFrag.class,//主页面的wifi页面
             SmsNewFrag.class,//新建短信页面
-            SmsDetailFrag.class//sms的详情页
+            SmsDetailFrag.class,//sms的详情页
+            DeviceBlockFrag.class, // DeviceBlock
+            DeviceConnectFrag.class, // DeviceConnect
+            PinRxFrag.class,// Pin
+            PukRxFrag.class,// Puk
+            UsageRxFrag.class,// Usage
+            WifiExtenderRxFrag.class,// WifiExtender
+
     };
 
     private HH70_HomeTabWidget wdTab;
