@@ -27,7 +27,7 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:gravity="center"
-            android:text="@string/ergo_20181010_connections_low"
+            android:text="@string/Blocked"
             android:textColor="@color/color_white"
             android:textSize="@dimen/dimen_20dip"
             android:textStyle="bold" />

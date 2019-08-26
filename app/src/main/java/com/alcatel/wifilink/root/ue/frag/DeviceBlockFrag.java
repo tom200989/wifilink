@@ -63,7 +63,7 @@ public class DeviceBlockFrag extends BaseFrag {
         rcv_block.setAdapter(blockAdapter);
         //titlebar
         mbackBtn.setOnClickListener(v -> {
-            toFrag(getClass(),mainFrag.class,null,false);
+            onBackPresss();
         });
         mTitle.setText(getString(R.string.Blocked));
         // 俄语文字大小适配
@@ -98,7 +98,7 @@ public class DeviceBlockFrag extends BaseFrag {
 
     @Override
     public boolean onBackPresss() {
-        toFrag(getClass(),DeviceConnectFrag.class,null,true);
+        toFrag(getClass(),DeviceConnectFrag.class,null,false);
         return true;
     }
 }
