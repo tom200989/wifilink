@@ -23,11 +23,6 @@ import com.alcatel.wifilink.root.helper.UsageHelper;
 import com.alcatel.wifilink.root.helper.UsageSettingHelper;
 import com.alcatel.wifilink.root.ue.activity.SplashActivity;
 import com.alcatel.wifilink.root.ue.root_activity.BaseActivityWithBack;
-import com.alcatel.wifilink.root.ue.root_frag.DeviceConnectFragment;
-import com.alcatel.wifilink.root.ue.root_frag.PinRxFragment;
-import com.alcatel.wifilink.root.ue.root_frag.PukRxFragment;
-import com.alcatel.wifilink.root.ue.root_frag.UsageRxFragment;
-import com.alcatel.wifilink.root.ue.root_frag.WifiExtenderRxFragment;
 import com.alcatel.wifilink.root.utils.C_Constants;
 import com.alcatel.wifilink.root.utils.OtherUtils;
 import com.alcatel.wifilink.root.utils.RootUtils;
@@ -195,10 +190,13 @@ public class mainFrag extends BaseFrag {
         // 点击SIM(SIM锁定)
         btSimLocked.setOnClickListener(v -> clickWhenSimLocked());
         // 点击连接数
-        ivConnectedPeople.setOnClickListener(v -> toFrag(getClass(), DeviceConnectFragment.class, null, true));
-        tvConnectedPeople.setOnClickListener(v -> toFrag(getClass(), DeviceConnectFragment.class, null, true));
+        ivConnectedPeople.setOnClickListener(v -> toFrag(getClass(), DeviceConnectFrag.class, null, true));
+        tvConnectedPeople.setOnClickListener(v -> toFrag(getClass(), DeviceConnectFrag.class, null, true));
         // 点击wifi-extender
-        btMainrxExtender.setOnClickListener(v -> toFrag(getClass(), WifiExtenderRxFragment.class, null, true));
+        btMainrxExtender.setOnClickListener(v -> {
+            lastFrag = mainFrag.class;
+            toFrag(getClass(), WifiExtenderRxFrag.class, null, true);
+        });
     }
 
     /**
@@ -300,7 +298,7 @@ public class mainFrag extends BaseFrag {
                         toast(R.string.puk_alarm_des1, 5000);
                         break;
                     case GetSimStatusBean.CONS_SIM_CARD_READY:
-                        toFrag(getClass(), UsageRxFragment.class, null, true);
+                        toFrag(getClass(), UsageRxFrag.class, null, true);
                         break;
                 }
             });
@@ -370,7 +368,7 @@ public class mainFrag extends BaseFrag {
         wdOK.setTitle(unlockSim_title);
         wdOK.setDes(unlockSim_content);
         wdOK.setOnCancelClickListener(() -> wdOK.setVisibility(View.GONE));
-        wdOK.setOnOkClickListener(() -> toFrag(getClass(), PinRxFragment.class, null, true));
+        wdOK.setOnOkClickListener(() -> toFrag(getClass(), PinRxFrag.class, null, true));
     }
 
     /**
@@ -381,7 +379,7 @@ public class mainFrag extends BaseFrag {
         wdOK.setTitle(unlockSim_title);
         wdOK.setDes(unlockSim_content);
         wdOK.setOnCancelClickListener(() -> wdOK.setVisibility(View.GONE));
-        wdOK.setOnOkClickListener(() -> toFrag(getClass(), PukRxFragment.class, null, true));
+        wdOK.setOnOkClickListener(() -> toFrag(getClass(), PukRxFrag.class, null, true));
     }
 
     /**
@@ -497,7 +495,7 @@ public class mainFrag extends BaseFrag {
         rlMainrxMw70BatteryExtender.setVisibility(isMWDev ? View.VISIBLE : View.GONE);// extender显示
         if (isMWDev) {
             rlMainrxMw70BottomPanel.setDevicesNum(deviceSize);
-            rlMainrxMw70BottomPanel.setOnClickConnectedListener(o -> toFrag(getClass(), DeviceConnectFragment.class, null, true));
+            rlMainrxMw70BottomPanel.setOnClickConnectedListener(o -> toFrag(getClass(), DeviceConnectFrag.class, null, true));
             rlMainrxMw70BottomPanel.setOnClickFreeSharingListener(o -> {
                 Intent intent = new Intent(activity, SharingFileActivity.class);
                 startActivity(intent);

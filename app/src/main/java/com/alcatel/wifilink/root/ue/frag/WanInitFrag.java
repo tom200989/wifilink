@@ -134,7 +134,7 @@ public class WanInitFrag extends BaseFrag {
      */
     private void getLanguage() {
         String language = ShareUtils.get(RootCons.LOCALE_LANGUAGE_COUNTRY, "");
-        isRussia = language.equalsIgnoreCase(RootCons.LANGUAGES.RUSSIAN);
+        isRussia = language.contains(RootCons.LANGUAGES.RUSSIAN);
     }
 
     /**

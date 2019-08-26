@@ -5,28 +5,18 @@ import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.net.wifi.WifiManager;
 import android.support.annotation.ArrayRes;
-import android.text.TextUtils;
 import android.support.v4.content.ContextCompat;
+import android.text.TextUtils;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
 import com.alcatel.wifilink.R;
 import com.alcatel.wifilink.root.app.SmartLinkV3App;
+import com.alcatel.wifilink.root.bean.Extender_GetHotspotListResult;
 import com.alcatel.wifilink.root.bean.FeedbackPhotoBean;
 import com.alcatel.wifilink.root.bean.Other_SMSContactSelf;
 import com.alcatel.wifilink.root.bean.SMSContactList;
-import com.hiber.tools.ShareUtils;
 import com.tcl.token.ndk.JniTokenUtils;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import com.alcatel.wifilink.R;
-import com.alcatel.wifilink.root.app.SmartLinkV3App;
-import com.alcatel.wifilink.root.bean.Extender_GetHotspotListResult;
-import com.hiber.tools.ShareUtils;
 
 import java.net.URLDecoder;
 import java.util.ArrayList;
@@ -321,14 +311,6 @@ public class RootUtils {
             bbs.add(ftb);
         }
         return bbs;
-    }
-
-
-    /**
-     * @return 当前语言
-     */
-    public static String getCurrentLanguage() {
-        return ShareUtils.get(C_Constants.Language.LANGUAGE, "");
     }
 
     /**

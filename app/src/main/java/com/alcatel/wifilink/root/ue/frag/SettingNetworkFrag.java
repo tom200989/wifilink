@@ -23,7 +23,6 @@ import com.alcatel.wifilink.R;
 import com.alcatel.wifilink.root.app.SmartLinkV3App;
 import com.alcatel.wifilink.root.helper.Cons;
 import com.alcatel.wifilink.root.helper.UsageSettingHelper;
-import com.alcatel.wifilink.root.ue.root_frag.UsageRxFragment;
 import com.alcatel.wifilink.root.utils.C_Constants;
 import com.alcatel.wifilink.root.utils.OtherUtils;
 import com.alcatel.wifilink.root.utils.RootUtils;
@@ -839,7 +838,7 @@ public class SettingNetworkFrag extends BaseFrag {
             return true;
         }
 
-        toFrag(getClass(), UsageRxFragment.class, null, true);
+        toFrag(getClass(), UsageRxFrag.class, null, true);
         return true;
     }
 }

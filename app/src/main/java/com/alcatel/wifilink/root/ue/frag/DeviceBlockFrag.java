@@ -11,9 +11,9 @@ import com.alcatel.wifilink.R;
 import com.alcatel.wifilink.root.adapter.BlockAdapter;
 import com.alcatel.wifilink.root.bean.BlockList;
 import com.alcatel.wifilink.root.bean.BlockModel;
-import com.alcatel.wifilink.root.ue.root_frag.DeviceConnectFragment;
-import com.alcatel.wifilink.root.utils.RootUtils;
+import com.alcatel.wifilink.root.utils.RootCons;
 import com.hiber.cons.TimerState;
+import com.hiber.tools.ShareUtils;
 import com.p_xhelper_smart.p_xhelper_smart.bean.GetBlockDeviceListBean;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetBlockDeviceListHelper;
 
@@ -67,8 +67,8 @@ public class DeviceBlockFrag extends BaseFrag {
         });
         mTitle.setText(getString(R.string.Blocked));
         // 俄语文字大小适配
-        String currentLanguage = RootUtils.getCurrentLanguage();
-        if (currentLanguage.equalsIgnoreCase("ru")) {
+        String currentLanguage = ShareUtils.get(RootCons.LOCALE_LANGUAGE_COUNTRY,"");
+        if (currentLanguage.contains(RootCons.LANGUAGES.RUSSIAN)) {
             mTitle.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
         }
     }
@@ -98,7 +98,7 @@ public class DeviceBlockFrag extends BaseFrag {
 
     @Override
     public boolean onBackPresss() {
-        toFrag(getClass(),DeviceConnectFragment.class,null,true);
+        toFrag(getClass(),DeviceConnectFrag.class,null,true);
         return true;
     }
 }

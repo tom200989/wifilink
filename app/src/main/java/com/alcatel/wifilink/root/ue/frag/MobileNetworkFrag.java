@@ -19,10 +19,6 @@ import com.alcatel.wifilink.root.helper.PinStatuHelper;
 import com.alcatel.wifilink.root.helper.ProfileHelper;
 import com.alcatel.wifilink.root.helper.SimNumImsiHelper;
 import com.alcatel.wifilink.root.helper.SimPinHelper;
-import com.alcatel.wifilink.root.ue.root_frag.PukRxFragment;
-import com.alcatel.wifilink.root.ue.root_frag.SetDataPlanRxfragment;
-import com.alcatel.wifilink.root.ue.root_frag.SettingFragment;
-import com.alcatel.wifilink.root.ue.root_frag.UsageRxFragment;
 import com.alcatel.wifilink.root.utils.Lgg;
 import com.alcatel.wifilink.root.widget.HH70_ChangpinWidget;
 import com.alcatel.wifilink.root.widget.HH70_ConmodeWidget;
@@ -30,7 +26,6 @@ import com.alcatel.wifilink.root.widget.HH70_ModeWidget;
 import com.alcatel.wifilink.root.widget.HH70_ProfileWidget;
 import com.alcatel.wifilink.root.widget.HH70_SimpinWidget;
 import com.hiber.cons.TimerState;
-import com.hiber.impl.RootEventListener;
 import com.hiber.tools.ShareUtils;
 import com.p_xhelper_smart.p_xhelper_smart.bean.GetProfileListBean;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetConnectionStateHelper;
@@ -99,13 +94,11 @@ public class MobileNetworkFrag extends BaseFrag {
     private NetworkSettingHelper networkSettingHelper;
     private SimNumImsiHelper simNumImsiHelper;
     private ConnectSettingHelper connSettingInitHelper;
-    private int whichFragment;
 
     @Override
     public void initViewFinish(View inflateView) {
         super.initViewFinish(inflateView);
         initRes();// 初始化资源
-        setEvent();//设置eventbus监听
         initClick();
         timerState = TimerState.ON_BUT_OFF_WHEN_HIDE_AND_PAUSE;
         timer_period = 2500;
@@ -114,15 +107,6 @@ public class MobileNetworkFrag extends BaseFrag {
     @Override
     public int onInflateLayout() {
         return R.layout.hh70_frag_mobilenetwork;
-    }
-
-    private void setEvent() {
-        setEventListener(Integer.class, new RootEventListener<Integer>() {
-            @Override
-            public void getData(Integer integer) {
-                whichFragment = integer;
-            }
-        });
     }
 
     private void initRes() {
@@ -258,7 +242,7 @@ public class MobileNetworkFrag extends BaseFrag {
      * 点击了set data plan 操作
      */
     private void clickSetDataPlan() {
-        toFrag(getClass(), SetDataPlanRxfragment.class, null, true);
+        toFrag(getClass(), SetDataPlanFrag.class, null, true);
     }
 
     /**
@@ -381,7 +365,7 @@ public class MobileNetworkFrag extends BaseFrag {
      */
     private void toPukRx() {
         ShareUtils.set(Cons.TAB_FRA, Cons.TAB_MOBILE_NETWORK);
-        toFrag(getClass(), PukRxFragment.class, null, true);
+        toFrag(getClass(), PukRxFrag.class, null, true);
     }
 
     /**
@@ -410,10 +394,10 @@ public class MobileNetworkFrag extends BaseFrag {
 
     @Override
     public boolean onBackPressed() {
-        if (whichFragment == Cons.TAB_USAGE) {
-            toFrag(getClass(), UsageRxFragment.class, null, true);
+        if (lastFrag == UsageRxFrag.class) {
+            toFrag(getClass(), UsageRxFrag.class, null, true);
         } else {
-            toFrag(getClass(), SettingFragment.class, null, true);
+            toFrag(getClass(), SettingFrag.class, null, true);
         }
         return true;
     }

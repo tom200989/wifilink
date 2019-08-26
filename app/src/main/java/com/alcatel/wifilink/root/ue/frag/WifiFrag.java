@@ -19,7 +19,6 @@ import com.alcatel.wifilink.root.helper.ClickDoubleHelper;
 import com.alcatel.wifilink.root.helper.WepPsdHelper;
 import com.alcatel.wifilink.root.helper.WpaPsdHelper;
 import com.alcatel.wifilink.root.ue.activity.SplashActivity;
-import com.alcatel.wifilink.root.ue.root_activity.RefreshWifiRxActivity;
 import com.alcatel.wifilink.root.utils.CA;
 import com.alcatel.wifilink.root.utils.C_ENUM;
 import com.alcatel.wifilink.root.utils.Lgg;
@@ -590,7 +589,7 @@ public class WifiFrag extends BaseFrag {
         xSetWlanSettingsHelper.setOnPrepareHelperListener(() -> rlWait.setVisibility(View.VISIBLE));
         xSetWlanSettingsHelper.setOnDoneHelperListener(() -> rlWait.setVisibility(View.GONE));
         xSetWlanSettingsHelper.setOnSetWlanSettingsSuccessListener(() -> new Handler().postDelayed(() -> rlWait.setVisibility(View.GONE), 30 * 1000));
-        xSetWlanSettingsHelper.setOnSetWlanSettingsFailedListener(() -> CA.toActivity(activity, RefreshWifiRxActivity.class, false, true,
+        xSetWlanSettingsHelper.setOnSetWlanSettingsFailedListener(() -> CA.toActivity(activity,RefreshFrag.class, false, true,
                 false, 0));
         xSetWlanSettingsHelper.setWlanSettings(mEditedSettings);
     }

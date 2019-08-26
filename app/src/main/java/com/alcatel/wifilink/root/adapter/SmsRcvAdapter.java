@@ -13,7 +13,7 @@ import com.alcatel.wifilink.root.bean.Other_SMSContactSelfSort;
 import com.alcatel.wifilink.root.bean.SMSContactList;
 import com.alcatel.wifilink.root.helper.Cons;
 import com.alcatel.wifilink.root.helper.SmsCountHelper;
-import com.alcatel.wifilink.root.ue.root_frag.SmsFragments;
+import com.alcatel.wifilink.root.ue.frag.SmsFrag;
 import com.alcatel.wifilink.root.utils.Logs;
 import com.alcatel.wifilink.root.utils.OtherUtils;
 import com.p_xhelper_smart.p_xhelper_smart.bean.GetSmsContentListParam;
@@ -138,8 +138,8 @@ public class SmsRcvAdapter extends RecyclerView.Adapter<SmsHolder> {
     /* **** setSmsLongClickPoint **** */
     private void setSmsLongClickPoint(SmsHolder holder, int position) {
         // 初始化状态
-        Logs.t("ma_smsdetail").vv("SmsFragments.isLongClick: " + SmsFragments.isLongClick);
-        holder.iv_smsLongClickPoint.setVisibility(SmsFragments.isLongClick ? VISIBLE : GONE);
+        Logs.t("ma_smsdetail").vv("SmsFragments.isLongClick: " + SmsFrag.isLongClick);
+        holder.iv_smsLongClickPoint.setVisibility(SmsFrag.isLongClick ? VISIBLE : GONE);
         holder.iv_smsLongClickPoint.setImageDrawable(check_off);
         // 判断是否处于全选|全不选状态
         if (smsContactList.get(position).getState() == Cons.SELETE_ALL) {
@@ -186,7 +186,7 @@ public class SmsRcvAdapter extends RecyclerView.Adapter<SmsHolder> {
             for (Other_SMSContactSelf scf : smsContactList) {
                 scf.setState(Cons.CLICK);
             }
-            if (!SmsFragments.isLongClick) {/* 普通模式下 */
+            if (!SmsFrag.isLongClick) {/* 普通模式下 */
                 smsNormalClickNext(smsContact);
                 // 1.1.设置为已读
                 setReaded(smsContact);

@@ -17,8 +17,7 @@ import com.alcatel.wifilink.root.helper.Cons;
 import com.alcatel.wifilink.root.helper.SetTimeLimitHelper;
 import com.alcatel.wifilink.root.helper.UsageHelper;
 import com.alcatel.wifilink.root.helper.UsageSettingHelper;
-import com.alcatel.wifilink.root.ue.root_frag.MobileNetworkRxFragment;
-import com.alcatel.wifilink.root.utils.C_Constants;
+import com.alcatel.wifilink.root.utils.RootCons;
 import com.alcatel.wifilink.root.utils.RootUtils;
 import com.alcatel.wifilink.root.utils.ScreenSize;
 import com.alcatel.wifilink.root.widget.HH70_LoadWidget;
@@ -183,8 +182,8 @@ public class SetDataPlanFrag extends BaseFrag {
             } else {
                 UsageHelper.Usage monthly = UsageHelper.getUsageByte(activity, result.getMonthlyPlan());
                 String monthlyUsage = monthly.usage;
-                String currentLanguage = RootUtils.getCurrentLanguage();
-                if (currentLanguage.equals(C_Constants.Language.RUSSIAN)) {
+                String currentLanguage = ShareUtils.get(RootCons.LOCALE_LANGUAGE_COUNTRY,"");
+                if (currentLanguage.contains(RootCons.LANGUAGES.RUSSIAN)) {
                     monthlyUsage = monthlyUsage.replace(".", ",") + " ";
                 }
                 tvMonthly.setText(monthlyUsage + monthly.unit);
@@ -231,7 +230,7 @@ public class SetDataPlanFrag extends BaseFrag {
 
     @Override
     public boolean onBackPressed() {
-        toFrag(getClass(), MobileNetworkRxFragment.class, null, false);
+        toFrag(getClass(), MobileNetworkFrag.class, null, false);
         return true;
     }
 

@@ -118,8 +118,8 @@ public class PinInitFrag extends BaseFrag {
      */
     private void getLanguage() {
         String language = ShareUtils.get(RootCons.LOCALE_LANGUAGE_COUNTRY, "");
-        isRussia = language.equalsIgnoreCase(RootCons.LANGUAGES.RUSSIAN);
-        isTaiwan = language.equalsIgnoreCase(RootCons.LANGUAGES.CHINA);
+        isRussia = language.contains(RootCons.LANGUAGES.RUSSIAN);
+        isTaiwan = language.contains(RootCons.LANGUAGES.CHINA);
     }
 
     /**

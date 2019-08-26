@@ -31,12 +31,6 @@ import com.alcatel.wifilink.root.ue.frag.SmsNewFrag;
 import com.alcatel.wifilink.root.ue.frag.WifiFrag;
 import com.alcatel.wifilink.root.ue.frag.WlanFrag;
 import com.alcatel.wifilink.root.ue.frag.mainFrag;
-import com.alcatel.wifilink.root.ue.root_frag.DeviceBlockFragment;
-import com.alcatel.wifilink.root.ue.root_frag.DeviceConnectFragment;
-import com.alcatel.wifilink.root.ue.root_frag.PinRxFragment;
-import com.alcatel.wifilink.root.ue.root_frag.PukRxFragment;
-import com.alcatel.wifilink.root.ue.root_frag.UsageRxFragment;
-import com.alcatel.wifilink.root.ue.root_frag.WifiExtenderRxFragment;
 import com.alcatel.wifilink.root.widget.HH70_HomeTabWidget;
 import com.hiber.bean.RootProperty;
 import com.hiber.hiber.RootMAActivity;
@@ -70,8 +64,6 @@ public class HomeActivity extends RootMAActivity {
             FeedbackFrag.class,//反馈页面
             MobileNetworkFrag.class,//网络
             SetDataPlanFrag.class,//设置流量计划页面
-            SmsFrag.class,//主页面的短信页面
-            WifiFrag.class,//主页面的wifi页面
             SmsNewFrag.class,//新建短信页面
             SmsDetailFrag.class,//sms的详情页
             DeviceBlockFrag.class, // DeviceBlock

@@ -5,8 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#e9eaed"
-    tools:context="com.alcatel.wifilink.root.ue.root_activity.WanModeRxActivity">
+    android:background="#e9eaed">
 
     <!-- ### 标题栏 ### -->
     <com.hiber.tools.layout.PercentRelativeLayout

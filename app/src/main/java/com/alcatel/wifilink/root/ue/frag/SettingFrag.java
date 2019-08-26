@@ -25,9 +25,6 @@ import com.alcatel.wifilink.root.helper.FirmUpgradeHelper;
 import com.alcatel.wifilink.root.helper.TimerHelper;
 import com.alcatel.wifilink.root.helper.UpgradeHelper;
 import com.alcatel.wifilink.root.ue.activity.SplashActivity;
-import com.alcatel.wifilink.root.ue.root_frag.FeedbackFragment;
-import com.alcatel.wifilink.root.ue.root_frag.MobileNetworkRxFragment;
-import com.alcatel.wifilink.root.ue.root_frag.WifiExtenderRxFragment;
 import com.alcatel.wifilink.root.utils.RootUtils;
 import com.alcatel.wifilink.root.utils.ScreenSize;
 import com.alcatel.wifilink.root.widget.HH70_LoadWidget;
@@ -651,7 +648,7 @@ public class SettingFrag extends BaseFrag {
      * 进入Mobile network
      */
     private void goToMobileNetworkSettingPage() {
-        toFrag(getClass(), MobileNetworkRxFragment.class, null, true);
+        toFrag(getClass(), MobileNetworkFrag.class, null, true);
     }
 
     /**
@@ -665,14 +662,14 @@ public class SettingFrag extends BaseFrag {
      * 进入wifi extender
      */
     private void goToWifiExtender() {
-        toFrag(getClass(), WifiExtenderRxFragment.class, null, true);
+        toFrag(getClass(), WifiExtenderRxFrag.class, null, true);
     }
 
     /**
      * 进入feedback
      */
     private void goToFeedback() {
-        toFrag(getClass(), FeedbackFragment.class, null, true);
+        toFrag(getClass(), FeedbackFrag.class, null, true);
     }
 
     private void goToAboutSettingPage() {

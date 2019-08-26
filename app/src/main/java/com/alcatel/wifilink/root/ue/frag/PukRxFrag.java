@@ -12,8 +12,6 @@ import android.widget.TextView;
 import com.alcatel.wifilink.R;
 import com.alcatel.wifilink.root.helper.BoardSimHelper;
 import com.alcatel.wifilink.root.helper.Cons;
-import com.alcatel.wifilink.root.ue.root_activity.HomeRxActivity;
-import com.alcatel.wifilink.root.ue.root_frag.PinRxFragment;
 import com.alcatel.wifilink.root.utils.RootUtils;
 import com.hiber.tools.ShareUtils;
 import com.hiber.tools.layout.PercentRelativeLayout;

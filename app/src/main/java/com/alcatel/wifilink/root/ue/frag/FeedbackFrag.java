@@ -22,7 +22,6 @@ import com.alcatel.wifilink.root.helper.FeedBackLoginHelperFeedback;
 import com.alcatel.wifilink.root.helper.FeedbackCommitHelper;
 import com.alcatel.wifilink.root.helper.FeedbackEnterWatcher;
 import com.alcatel.wifilink.root.helper.FeedbackUploadPicHelper;
-import com.alcatel.wifilink.root.ue.root_frag.SettingFragment;
 import com.alcatel.wifilink.root.utils.FormatTools;
 import com.alcatel.wifilink.root.utils.RootUtils;
 import com.alcatel.wifilink.root.widget.ExtenderWait;
@@ -564,7 +563,7 @@ public class FeedbackFrag extends BaseFrag {
      */
     private void backAndClear() {
         dgFeedbackTip.setVisibility(View.GONE);
-        toFrag(getClass(), SettingFragment.class, null, false);
+        toFrag(getClass(), SettingFrag.class, null, false);
         // 清除重置数据
         clearAndResetData();
     }

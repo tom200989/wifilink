@@ -13,7 +13,6 @@ import com.alcatel.wifilink.R;
 import com.alcatel.wifilink.root.adapter.WifiExtenderAdapter;
 import com.alcatel.wifilink.root.bean.Extender_GetHotspotListResult;
 import com.alcatel.wifilink.root.bean.Extender_GetWIFIExtenderCurrentStatusResult;
-import com.alcatel.wifilink.root.helper.Cons;
 import com.alcatel.wifilink.root.helper.Extender_ConnectHotspotHelper;
 import com.alcatel.wifilink.root.helper.Extender_DisConnectHotspotHelper;
 import com.alcatel.wifilink.root.helper.Extender_GetConnectHotspotStateHelper;
@@ -22,15 +21,12 @@ import com.alcatel.wifilink.root.helper.Extender_GetWIFIExtenderCurrentStatusHel
 import com.alcatel.wifilink.root.helper.Extender_GetWIFIExtenderSettingsHelper;
 import com.alcatel.wifilink.root.helper.Extender_SearchHotspotHelper;
 import com.alcatel.wifilink.root.helper.Extender_SetWIFIExtenderSettingsHelper;
-import com.alcatel.wifilink.root.ue.root_activity.HomeRxActivity;
-import com.alcatel.wifilink.root.ue.root_frag.mainRxFragment;
 import com.alcatel.wifilink.root.utils.RootUtils;
 import com.alcatel.wifilink.root.widget.DisConnHotpotView;
 import com.alcatel.wifilink.root.widget.ExtenderWait;
 import com.alcatel.wifilink.root.widget.HotPotKeyView;
 import com.alcatel.wifilink.root.widget.OpenCloseExtenderView;
 import com.hiber.cons.TimerState;
-import com.hiber.impl.RootEventListener;
 import com.p_xhelper_smart.p_xhelper_smart.impl.FwError;
 
 import java.util.ArrayList;
@@ -80,7 +76,6 @@ public class WifiExtenderRxFrag extends BaseFrag {
     private Drawable button_off;
     private WifiExtenderAdapter wifiExtenderAdapter;
     private List<Extender_GetHotspotListResult.HotspotListBean> hotspotBeans = new ArrayList<>();
-    private Class eventBusClass;// 其他fragment跳转过来的标记符
     private int getConnectHotpotCount = 0;// 获取已连接热点的状态计数器
     private Handler handler;
 
@@ -97,7 +92,6 @@ public class WifiExtenderRxFrag extends BaseFrag {
         initData();
         initTimer();
         initOnClick();
-        setEeventBusListener();
     }
 
     @Override
@@ -110,20 +104,6 @@ public class WifiExtenderRxFrag extends BaseFrag {
         timer_period = 5000;
     }
 
-    private void setEeventBusListener(){
-        setEventListener(Class.class, new RootEventListener<Class>() {
-
-            @Override
-            public void getData(Class className){
-                eventBusClass = className;
-            }
-
-            @Override
-            public boolean isCurrentPageEffectOnly(){
-                return true;
-            }
-        });
-    }
 
     private void initAdapter() {
         LinearLayoutManager llm = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
@@ -557,7 +537,7 @@ public class WifiExtenderRxFrag extends BaseFrag {
         }
 
         /* 切换fragment的逻辑一律在此处处理 */
-        if (eventBusClass == mainRxFragment.class) {
+        if (lastFrag == mainFrag.class) {
             // 由mainRxFragment传送过来
             toFrag(getClass(),mainFrag.class,null,false);
         } else {

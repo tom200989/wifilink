@@ -7,16 +7,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.alcatel.wifilink.R;
-import com.alcatel.wifilink.root.helper.Cons;
 import com.alcatel.wifilink.root.helper.UsageHelper;
 import com.alcatel.wifilink.root.helper.UsageSettingHelper;
-import com.alcatel.wifilink.root.ue.root_activity.HomeRxActivity;
-import com.alcatel.wifilink.root.ue.root_frag.MobileNetworkRxFragment;
-import com.alcatel.wifilink.root.utils.C_Constants;
-import com.alcatel.wifilink.root.utils.RootUtils;
+import com.alcatel.wifilink.root.utils.RootCons;
 import com.alcatel.wifilink.root.widget.HH70_LoadWidget;
 import com.alcatel.wifilink.root.widget.NormalWidget;
 import com.hiber.cons.TimerState;
+import com.hiber.tools.ShareUtils;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetUsageRecordHelper;
 import com.p_xhelper_smart.p_xhelper_smart.helper.SetUsageRecordClearHelper;
 
@@ -102,7 +99,8 @@ public class UsageRxFrag extends BaseFrag {
             long roamUseData = result.getRoamUseData();
             UsageHelper.Usage usageByte = UsageHelper.getUsageByte(getActivity(), roamUseData);
             String roamUsage = usageByte.usage;
-            if (RootUtils.getCurrentLanguage().equalsIgnoreCase(C_Constants.Language.RUSSIAN)) {
+            String currentLanguage = ShareUtils.get(RootCons.LOCALE_LANGUAGE_COUNTRY,"");
+            if (currentLanguage.contains(RootCons.LANGUAGES.RUSSIAN)) {
                 roamUsage = roamUsage.replace(".", ",") + " ";
             }
             String roam_unit = usageByte.unit;
@@ -126,7 +124,8 @@ public class UsageRxFrag extends BaseFrag {
             String nhour = usedTime.hour;
             String nmin = usedTime.min;
             boolean isNoTHour = "0".equalsIgnoreCase(nhour);
-            boolean isRussian = RootUtils.getCurrentLanguage().equalsIgnoreCase(C_Constants.Language.RUSSIAN);
+            String currentLanguage1 = ShareUtils.get(RootCons.LOCALE_LANGUAGE_COUNTRY,"");
+            boolean isRussian = currentLanguage1.contains(RootCons.LANGUAGES.RUSSIAN);
             String hour = nhour + getString(R.string.hr_s);
             String min = nmin + getString(R.string.min_s);
             if (isRussian) {
@@ -137,7 +136,8 @@ public class UsageRxFrag extends BaseFrag {
             tvNetworkTime.setText(time);
         });
         usageHelper.setOnNoRoamingListener(result -> {// 没有漫游
-            boolean isRussian = RootUtils.getCurrentLanguage().equalsIgnoreCase(C_Constants.Language.RUSSIAN);
+            String currentLanguage1 = ShareUtils.get(RootCons.LOCALE_LANGUAGE_COUNTRY,"");
+            boolean isRussian = currentLanguage1.contains(RootCons.LANGUAGES.RUSSIAN);
             int tConnTimes = (int) result.getTConnTimes();
             String noRoamingUsage = "0.00" + getString(R.string.mb_text);
             if (isRussian) {
@@ -178,7 +178,8 @@ public class UsageRxFrag extends BaseFrag {
             usedData_l = result.getHUseData();
             UsageHelper.Usage hUseDataByte = UsageHelper.getUsageByte(getActivity(), usedData_l);
             String used = hUseDataByte.usage;
-            if (RootUtils.getCurrentLanguage().equalsIgnoreCase(C_Constants.Language.RUSSIAN)) {
+            String currentLanguage = ShareUtils.get(RootCons.LOCALE_LANGUAGE_COUNTRY,"");
+            if (currentLanguage.contains(RootCons.LANGUAGES.RUSSIAN)) {
                 used = used.replace(".", ",") + " ";
             }
             String used_unit = hUseDataByte.unit;
@@ -186,7 +187,7 @@ public class UsageRxFrag extends BaseFrag {
             // 处理月流量
             UsageHelper.Usage monthByte = UsageHelper.getUsageByte(getActivity(), monthly_l);
             String month = monthByte.usage;
-            if (RootUtils.getCurrentLanguage().equalsIgnoreCase(C_Constants.Language.RUSSIAN)) {
+            if (currentLanguage.contains(RootCons.LANGUAGES.RUSSIAN)) {
                 month = month.replace(".", ",") + " ";
             }
             String month_unit = monthByte.unit;
@@ -203,7 +204,8 @@ public class UsageRxFrag extends BaseFrag {
             monthly_l = result.getMonthlyPlan();
             UsageHelper.Usage monthByte = UsageHelper.getUsageByte(getActivity(), monthly_l);
             String month = monthByte.usage;
-            if (RootUtils.getCurrentLanguage().equalsIgnoreCase(C_Constants.Language.RUSSIAN)) {
+            String currentLanguage = ShareUtils.get(RootCons.LOCALE_LANGUAGE_COUNTRY,"");
+            if (currentLanguage.contains(RootCons.LANGUAGES.RUSSIAN)) {
                 month = month.replace(".", ",") + " ";
             }
             String month_unit = monthByte.unit;
@@ -211,7 +213,7 @@ public class UsageRxFrag extends BaseFrag {
             // 处理已经使用流量
             UsageHelper.Usage hUseDataByte = UsageHelper.getUsageByte(getActivity(), usedData_l);
             String used = hUseDataByte.usage;
-            if (RootUtils.getCurrentLanguage().equalsIgnoreCase(C_Constants.Language.RUSSIAN)) {
+            if (currentLanguage.contains(RootCons.LANGUAGES.RUSSIAN)) {
                 used = used.replace(".", ",") + " ";
             }
             String used_unit = hUseDataByte.unit;
@@ -232,9 +234,8 @@ public class UsageRxFrag extends BaseFrag {
         });
         btResetStatist.setOnClickListener(v -> clickResetButton());
         tvMobileNetworkSetting.setOnClickListener(v -> {
-            sendEvent(Cons.TAB_USAGE,true);
-            // TODO: 2019/8/20  MobileNetworkRxFragment.class 还没转换
-            toFrag(getClass(),MobileNetworkRxFragment.class,null,false);
+            lastFrag = UsageRxFrag.class;
+            toFrag(getClass(),MobileNetworkFrag.class,null,false);
         });
     }
 
