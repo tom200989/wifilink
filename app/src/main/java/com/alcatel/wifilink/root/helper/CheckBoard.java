@@ -1,12 +1,11 @@
 package com.alcatel.wifilink.root.helper;
 
 import android.app.Activity;
+import android.content.Intent;
 
-import com.alcatel.wifilink.root.ue.root_activity.LoginRxActivity;
-import com.alcatel.wifilink.root.utils.AppInfo;
-import com.alcatel.wifilink.root.utils.CA;
-import com.alcatel.wifilink.root.utils.Logs;
-import com.alcatel.wifilink.root.utils.OtherUtils;
+import com.alcatel.wifilink.root.utils.RootCons;
+import com.alcatel.wifilink.root.utils.RootUtils;
+import com.hiber.hiber.RootMAActivity;
 import com.p_xhelper_smart.p_xhelper_smart.bean.GetLoginStateBean;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetLoginStateHelper;
 import com.p_xhelper_smart.p_xhelper_smart.impl.FwError;
@@ -41,7 +40,7 @@ public abstract class CheckBoard {
      */
     public void checkBoard(Activity ori, Class... target) {
         // 检测wifi是否有连接
-        boolean wifiConnect = OtherUtils.isWifiConnect(ori);
+        boolean wifiConnect = RootUtils.isWifiConnect(ori);
         if (wifiConnect) {
             yesWifiNext(wifiConnect);
             // 请求接口前
@@ -57,31 +56,46 @@ public abstract class CheckBoard {
                 resultErrorNext(null);
                 allError();
                 onResultErrors(null);// 请求接口中途错误
-                CA.toActivity(ori, target[0], false, true, false, 0);
+                to(ori,RootCons.ACTIVITYS.SPLASH_AC, RootCons.FRAG.LOGIN_FR);
+                // CA.toActivity(ori, target[0], false, true, false, 0);
             });
             xGetLoginStateHelper.getLoginState();
             
         } else {
-            Logs.t("ma_unknown").vv("Checkboard--> wifi not Connect");
             noWifiNext(wifiConnect);
             // wifi掉线
             if (ori != null) {
                 // 获取当前顶层的activity
-                String currentActivitySimpleName = AppInfo.getCurrentActivitySimpleName(ori);
-                String simpleName = LoginRxActivity.class.getSimpleName();
+                // String currentActivitySimpleName = AppInfo.getCurrentActivitySimpleName(ori);
+                // String simpleName = LoginRxActivity.class.getSimpleName();
                 // 如果当前是处于登陆页面则不跳转
-                if (!currentActivitySimpleName.equalsIgnoreCase(simpleName) & // 相等
-                            !currentActivitySimpleName.contains(simpleName) & // 包含
-                            !simpleName.contains(currentActivitySimpleName) // 包含
-                        ) {
-                    CA.toActivity(ori, target[1] != null ? target[1] : target[0], false, true, false, 0);
-                } else {
-                    Logs.t("ma_unknown").vv("Checkboard--> checkBoard");  
-                }
-                
+                // if (!currentActivitySimpleName.equalsIgnoreCase(simpleName) & // 相等
+                //             !currentActivitySimpleName.contains(simpleName) & // 包含
+                //             !simpleName.contains(currentActivitySimpleName) // 包含
+                //         ) {
+                //
+                //     // CA.toActivity(ori, target[1] != null ? target[1] : target[0], false, true, false, 0);
+                // } else {
+                //     Logs.t("ma_unknown").vv("Checkboard--> checkBoard");
+                // }
+                to(ori, RootCons.ACTIVITYS.SPLASH_AC, RootCons.FRAG.REFRESH_FR);
             }
         }
     }
+
+    /**
+     *  跳转activity
+     * @param targetAc
+     * @param targetFr
+     */
+    private void to(Activity activity,String targetAc,String targetFr) {
+        Intent intent = new Intent();
+        intent.setAction(targetAc);
+        intent.putExtra(RootMAActivity.getPendingIntentKey(),
+                RootMAActivity.getPendingIntentValue(targetAc, targetFr, null));
+        activity.startActivity(intent);
+    }
+
 
     private OnLoginstateListener onLoginstateListener;
 

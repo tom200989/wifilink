@@ -19,8 +19,6 @@ import com.alcatel.wifilink.root.helper.ClickDoubleHelper;
 import com.alcatel.wifilink.root.helper.WepPsdHelper;
 import com.alcatel.wifilink.root.helper.WpaPsdHelper;
 import com.alcatel.wifilink.root.ue.activity.SplashActivity;
-import com.alcatel.wifilink.root.utils.CA;
-import com.alcatel.wifilink.root.utils.C_ENUM;
 import com.alcatel.wifilink.root.utils.Lgg;
 import com.alcatel.wifilink.root.utils.RootUtils;
 import com.alcatel.wifilink.root.widget.NormalWidget;
@@ -369,12 +367,12 @@ public class WifiFrag extends BaseFrag {
         mWifi5GSwitch.setChecked(mOriginSettings.getAP5G().getApStatus() == 1);
         mSsid5GEdit.setText(mOriginSettings.getAP5G().getSsid());
         mSecurity5GSpinner.setSelection(mOriginSettings.getAP5G().getSecurityMode());
-        if (mOriginSettings.getAP5G().getSecurityMode() == C_ENUM.SecurityMode.Disable.ordinal()) {
+        if (mOriginSettings.getAP5G().getSecurityMode() == GetWlanSettingsBean.CONS_SECURITY_MODE_DISABLE) {
             mEncryption5GGroup.setVisibility(View.GONE);
             mKey5GGroup.setVisibility(View.GONE);
             mEncryption5GSpinner.setSelection(-1);
             mKey5GEdit.setText("");
-        } else if (mOriginSettings.getAP5G().getSecurityMode() == C_ENUM.SecurityMode.WEP.ordinal()) {
+        } else if (mOriginSettings.getAP5G().getSecurityMode() == GetWlanSettingsBean.CONS_SECURITY_MODE_WEP) {
             mEncryption5GGroup.setVisibility(View.VISIBLE);
             mKey5GGroup.setVisibility(View.VISIBLE);
             mEncryption5GSpinner.setAdapter(new ArrayAdapter(activity, android.R.layout.simple_spinner_dropdown_item, mWepEncryptionSettings));
@@ -396,12 +394,12 @@ public class WifiFrag extends BaseFrag {
         mSsid2GEdit.setText(mOriginSettings.getAP2G().getSsid());
         int securityMode = mOriginSettings.getAP2G().getSecurityMode();
         mSecurity2GSpinner.setSelection(securityMode);
-        if (securityMode == C_ENUM.SecurityMode.Disable.ordinal()) {
+        if (securityMode == GetWlanSettingsBean.CONS_SECURITY_MODE_DISABLE) {
             mEncryption2GGroup.setVisibility(View.GONE);
             mKey2GGroup.setVisibility(View.GONE);
             mEncryption2GSpinner.setSelection(-1);
             mKey2GEdit.setText("");
-        } else if (securityMode == C_ENUM.SecurityMode.WEP.ordinal()) {
+        } else if (securityMode == GetWlanSettingsBean.CONS_SECURITY_MODE_WEP) {
             mEncryption2GGroup.setVisibility(View.VISIBLE);
             mKey2GGroup.setVisibility(View.VISIBLE);
             mEncryption2GSpinner.setAdapter(new ArrayAdapter(activity, android.R.layout.simple_spinner_dropdown_item, mWepEncryptionSettings));
@@ -419,15 +417,15 @@ public class WifiFrag extends BaseFrag {
     private void updateUIWithSupportMode(int supportMode) {
 
         mSupportMode = supportMode;
-        if (supportMode == C_ENUM.WlanSupportMode.Mode2Point4G.ordinal()) {
+        if (supportMode == GetWlanSupportModeBean.CONS_WLAN_2_4G) {
             m2GSettingsGroup.setVisibility(View.VISIBLE);
             m5GSettingsGroup.setVisibility(View.GONE);
             mDividerView.setVisibility(View.GONE);
-        } else if (supportMode == C_ENUM.WlanSupportMode.Mode5G.ordinal()) {
+        } else if (supportMode == GetWlanSupportModeBean.CONS_WLAN_5G) {
             m2GSettingsGroup.setVisibility(View.GONE);
             m5GSettingsGroup.setVisibility(View.VISIBLE);
             mDividerView.setVisibility(View.GONE);
-        } else if (supportMode == C_ENUM.WlanSupportMode.Mode2Point4GAnd5G.ordinal()) {
+        } else if (supportMode == GetWlanSupportModeBean.CONS_WLAN_2_4G_5G) {
             m2GSettingsGroup.setVisibility(View.VISIBLE);
             m5GSettingsGroup.setVisibility(View.VISIBLE);
         } else {
@@ -467,7 +465,7 @@ public class WifiFrag extends BaseFrag {
         boolean isPasswordMatch = true;
 
         // check 2.4g settings
-        if (mSupportMode == C_ENUM.WlanSupportMode.Mode2Point4G.ordinal() || mSupportMode == C_ENUM.WlanSupportMode.Mode2Point4GAnd5G.ordinal()) {
+        if (mSupportMode == GetWlanSupportModeBean.CONS_WLAN_2_4G || mSupportMode == GetWlanSupportModeBean.CONS_WLAN_2_4G_5G) {
             boolean isAP2GStateChanged = mWifi2GSwitch.isChecked() != (mOriginSettings.getAP2G().getApStatus() == 1);
             if (isAP2GStateChanged && !mWifi2GSwitch.isChecked()) {
                 mEditedSettings.getAP2G().setApStatus(0);
@@ -518,7 +516,7 @@ public class WifiFrag extends BaseFrag {
         }
 
         // check 5g settings
-        if (mSupportMode == C_ENUM.WlanSupportMode.Mode5G.ordinal() || mSupportMode == C_ENUM.WlanSupportMode.Mode2Point4GAnd5G.ordinal()) {
+        if (mSupportMode == GetWlanSupportModeBean.CONS_WLAN_5G || mSupportMode == GetWlanSupportModeBean.CONS_WLAN_2_4G_5G) {
             boolean isAP5GStateChanged = mWifi5GSwitch.isChecked() != (mOriginSettings.getAP5G().getApStatus() == 1);
             if (isAP5GStateChanged && !mWifi5GSwitch.isChecked()) {
                 mEditedSettings.getAP5G().setApStatus(0);
@@ -589,8 +587,9 @@ public class WifiFrag extends BaseFrag {
         xSetWlanSettingsHelper.setOnPrepareHelperListener(() -> rlWait.setVisibility(View.VISIBLE));
         xSetWlanSettingsHelper.setOnDoneHelperListener(() -> rlWait.setVisibility(View.GONE));
         xSetWlanSettingsHelper.setOnSetWlanSettingsSuccessListener(() -> new Handler().postDelayed(() -> rlWait.setVisibility(View.GONE), 30 * 1000));
-        xSetWlanSettingsHelper.setOnSetWlanSettingsFailedListener(() -> CA.toActivity(activity,RefreshFrag.class, false, true,
-                false, 0));
+        xSetWlanSettingsHelper.setOnSetWlanSettingsFailedListener(() -> {
+            toFragActivity(getClass(), SplashActivity.class, RefreshFrag.class, null, false,true,0);
+        });
         xSetWlanSettingsHelper.setWlanSettings(mEditedSettings);
     }
 

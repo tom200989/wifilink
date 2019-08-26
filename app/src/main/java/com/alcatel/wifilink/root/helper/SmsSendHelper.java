@@ -7,7 +7,6 @@ import android.os.Handler;
 import com.alcatel.wifilink.R;
 import com.alcatel.wifilink.root.utils.DataUtils;
 import com.alcatel.wifilink.root.utils.ProgressUtils;
-import com.alcatel.wifilink.root.utils.ToastUtil;
 import com.alcatel.wifilink.root.utils.ToastUtil_m;
 import com.p_xhelper_smart.p_xhelper_smart.bean.SendSmsParam;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetSendSMSResultHelper;
@@ -66,17 +65,17 @@ public abstract class SmsSendHelper {
         xGetSendSMSResultHelper.setOnGetSendSmsResultSuccessListener(bean -> {
             int sendStatus = bean.getSendStatus();
             if (sendStatus == Cons.NONE) {
-                ToastUtil.showMessage(context, context.getString(R.string.none));
+                ToastUtil_m.show(context, context.getString(R.string.none));
             } else if (sendStatus == Cons.SENDING) {
                 noCostCheck();// 间隔5秒,获取5次,如仍是sending则认为欠费
             } else if (sendStatus == Cons.SUCCESS) {
-                ToastUtil.showMessage(context, R.string.succeed);
+                ToastUtil_m.show(context, context.getString(R.string.succeed));
             } else if (sendStatus == Cons.FAIL_STILL_SENDING_LAST_MSG) {
                 noCostCheck();// 间隔5秒,获取5次,如仍是sending则认为欠费
             } else if (sendStatus == Cons.FAIL_WITH_MEMORY_FULL) {
-                ToastUtil.showMessage(context, R.string.fail_with_memory_full);
+                ToastUtil_m.show(context, context.getString(R.string.fail_with_memory_full));
             } else if (sendStatus == Cons.FAIL) {
-                ToastUtil.showMessage(context, R.string.fail);
+                ToastUtil_m.show(context, context.getString(R.string.fail));
             }
             sendFinish(bean.getSendStatus());
             // 临时计数清零

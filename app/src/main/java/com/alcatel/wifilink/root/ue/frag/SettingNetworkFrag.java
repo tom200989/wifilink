@@ -23,8 +23,6 @@ import com.alcatel.wifilink.R;
 import com.alcatel.wifilink.root.app.SmartLinkV3App;
 import com.alcatel.wifilink.root.helper.Cons;
 import com.alcatel.wifilink.root.helper.UsageSettingHelper;
-import com.alcatel.wifilink.root.utils.C_Constants;
-import com.alcatel.wifilink.root.utils.OtherUtils;
 import com.alcatel.wifilink.root.utils.RootUtils;
 import com.alcatel.wifilink.root.utils.WifiUtils;
 import com.alcatel.wifilink.root.widget.HH70_LoadWidget;
@@ -629,9 +627,9 @@ public class SettingNetworkFrag extends BaseFrag {
         RadioGroup radioGroup = v.findViewById(R.id.radiogroup_monthly_plan);
         RadioButton radioButtonGb = v.findViewById(R.id.radio_monthly_plan_gb);
         RadioButton radioButtonMb = v.findViewById(R.id.radio_monthly_plan_mb);
-        if (mUsageSetting.getUnit() == C_Constants.UsageSetting.UNIT_MB) {
+        if (mUsageSetting.getUnit() == GetUsageSettingsBean.CONS_UNIT_MB) {
             radioButtonMb.setChecked(true);
-        } else if (mUsageSetting.getUnit() == C_Constants.UsageSetting.UNIT_GB) {
+        } else if (mUsageSetting.getUnit() == GetUsageSettingsBean.CONS_UNIT_GB) {
             radioButtonGb.setChecked(true);
         }
 
@@ -642,9 +640,9 @@ public class SettingNetworkFrag extends BaseFrag {
             mothlyplan = TextUtils.isEmpty(mothlyplan) ? "0" : mothlyplan;
             if (Integer.parseInt(mothlyplan) >= 0 && Integer.parseInt(mothlyplan) <= 1024) {
                 if (radioButtonMb.getId() == radioGroup.getCheckedRadioButtonId()) {
-                    mUsageSetting.setUnit(C_Constants.UsageSetting.UNIT_MB);
+                    mUsageSetting.setUnit(GetUsageSettingsBean.CONS_UNIT_MB);
                 } else if (radioButtonGb.getId() == radioGroup.getCheckedRadioButtonId()) {
-                    mUsageSetting.setUnit(C_Constants.UsageSetting.UNIT_GB);
+                    mUsageSetting.setUnit(GetUsageSettingsBean.CONS_UNIT_GB);
                 }
                 long dataPlanByte1 = getDataPlanByte(mUsageSetting.getUnit());
                 mUsageSetting.setMonthlyPlan((Long.parseLong(mothlyplan) * dataPlanByte1));
@@ -660,11 +658,11 @@ public class SettingNetworkFrag extends BaseFrag {
 
     private long getDataPlanByte(int unit) {
         long dataPlanByte = 1;
-        if (unit == C_Constants.UsageSetting.UNIT_MB) {
+        if (unit == GetUsageSettingsBean.CONS_UNIT_MB) {
             dataPlanByte = dataPlanByte * 1024L * 1024L;
-        } else if (unit == C_Constants.UsageSetting.UNIT_GB) {
+        } else if (unit == GetUsageSettingsBean.CONS_UNIT_GB) {
             dataPlanByte = dataPlanByte * 1024L * 1024L * 1024L;
-        } else if (unit == C_Constants.UsageSetting.UNIT_KB) {
+        } else if (unit == GetUsageSettingsBean.CONS_UNIT_KB) {
             dataPlanByte = dataPlanByte * 1024L;
         }
         return dataPlanByte;
@@ -692,7 +690,7 @@ public class SettingNetworkFrag extends BaseFrag {
         rl_settingPin.setVisibility(View.VISIBLE);
         et_settingPin.setText("");
         iv_settingPin.setOnClickListener(v -> {
-            OtherUtils.hideKeyBoard(activity);
+            RootUtils.hideKeyBoard(activity);
             rl_settingPin.setVisibility(View.GONE);
         });
         ok_settingPin.setOnClickListener(v -> {
@@ -702,12 +700,12 @@ public class SettingNetworkFrag extends BaseFrag {
             } else if (edContent.length() < 4 || edContent.length() > 8) {
                 toast(R.string.the_pin_code_should_be_4_8_characters, 3000);
             } else {
-                OtherUtils.hideKeyBoard(activity);
+                RootUtils.hideKeyBoard(activity);
                 changePinState(edContent, mSimPinCompat.isChecked() ? 0 : 1);
             }
         });
         cancel_settingPin.setOnClickListener(v -> {
-            OtherUtils.hideKeyBoard(activity);
+            RootUtils.hideKeyBoard(activity);
             rl_settingPin.setVisibility(View.GONE);
         });
     }
@@ -820,7 +818,7 @@ public class SettingNetworkFrag extends BaseFrag {
     public boolean onBackPresss() {
 
         if (rl_settingPin.getVisibility() == View.VISIBLE) {
-            OtherUtils.hideKeyBoard(activity);
+            RootUtils.hideKeyBoard(activity);
             rl_settingPin.setVisibility(View.GONE);
             return true;
 

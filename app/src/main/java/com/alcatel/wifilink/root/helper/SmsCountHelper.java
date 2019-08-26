@@ -3,7 +3,8 @@ package com.alcatel.wifilink.root.helper;
 import android.app.Activity;
 import android.widget.TextView;
 
-import com.alcatel.wifilink.root.ue.root_activity.HomeRxActivity;
+
+import com.alcatel.wifilink.root.ue.activity.HomeActivity;
 
 import java.util.Set;
 
@@ -79,10 +80,10 @@ public class SmsCountHelper {
      */
     public static int getUnreadCache(long contactId) {
         int unreadCache = 0;
-        Set<Long> contactIds = HomeRxActivity.smsUnreadMap.keySet();
+        Set<Long> contactIds = HomeActivity.smsUnreadMap.keySet();
         for (Long id : contactIds) {
             if (id == contactId) {
-                unreadCache = HomeRxActivity.smsUnreadMap.get(id);
+                unreadCache = HomeActivity.smsUnreadMap.get(id);
             }
         }
         return unreadCache;

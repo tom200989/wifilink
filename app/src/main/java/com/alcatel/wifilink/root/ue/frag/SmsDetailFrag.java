@@ -23,11 +23,12 @@ import com.alcatel.wifilink.root.helper.SmsDeletePop;
 import com.alcatel.wifilink.root.helper.SmsDraftHelper;
 import com.alcatel.wifilink.root.helper.SmsSendHelper;
 import com.alcatel.wifilink.root.helper.SmsWatcher;
-import com.alcatel.wifilink.root.utils.C_Constants;
-import com.alcatel.wifilink.root.utils.OtherUtils;
+import com.alcatel.wifilink.root.ue.activity.HomeActivity;
+import com.alcatel.wifilink.root.utils.RootCons;
 import com.alcatel.wifilink.root.utils.RootUtils;
 import com.hiber.cons.TimerState;
 import com.hiber.impl.RootEventListener;
+import com.hiber.tools.ShareUtils;
 import com.p_xhelper_smart.p_xhelper_smart.bean.DeleteSmsParam;
 import com.p_xhelper_smart.p_xhelper_smart.bean.GetSMSContactListBean;
 import com.p_xhelper_smart.p_xhelper_smart.bean.GetSMSContentListBean;
@@ -100,7 +101,7 @@ public class SmsDetailFrag extends BaseFrag {
             @Override
             public void getData(SMSContactList.SMSContact smsContact) {
                 SmsDetailFrag.this.smsContact = smsContact;
-                tv_title.setText(OtherUtils.stitchPhone(activity, smsContact.getPhoneNumber()));
+                tv_title.setText(RootUtils.stitchPhone(activity, smsContact.getPhoneNumber()));
             }
         });
     }
@@ -202,7 +203,8 @@ public class SmsDetailFrag extends BaseFrag {
             List<SMSContentList.SMSContentBean> list = filterDraft(smsContentList);
             int pos = linearLayoutManager.findFirstVisibleItemPosition();
             dateTimebanner = list.get(pos).getSMSTime();
-            if (OtherUtils.getCurrentLanguage().equalsIgnoreCase(C_Constants.Language.RUSSIAN)) {
+            String currentLanguage = ShareUtils.get(RootCons.LOCALE_LANGUAGE_COUNTRY,"");
+            if (currentLanguage.contains(RootCons.LANGUAGES.RUSSIAN)) {
                 dateTimebanner = dateTimebanner.replace("-", ".");
             }
             tvSmsdetailDate.setText(dateTimebanner);
@@ -279,6 +281,14 @@ public class SmsDetailFrag extends BaseFrag {
                             // 2.获取当前号码的未读消息数
                             int unreadCount = scc.getUnreadCount();
                             if (unreadCount > 0) {/* 如果有未读消息 */
+                                if (!isHidden()) {
+                                    // 4.向接口发起请求
+                                    realToGetContent();
+                                } else {
+                                    // 3.用户离开
+                                    // 4.把未读消息数量保存到MAP中
+                                    HomeActivity.smsUnreadMap.put(contactId, unreadCount);
+                                }
                                 // 3.用户是否停留在短信详情页
                                 realToGetContent();
                             } else {/* 没有未读消息, 直接获取内容--> 正常显示已读的消息 */

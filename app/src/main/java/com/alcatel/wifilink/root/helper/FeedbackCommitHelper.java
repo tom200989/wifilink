@@ -1,7 +1,7 @@
 package com.alcatel.wifilink.root.helper;
 
 import com.alcatel.wifilink.root.bean.FeedbackCommitResult;
-import com.alcatel.wifilink.root.utils.Logs;
+import com.alcatel.wifilink.root.utils.Lgg;
 import com.alibaba.fastjson.JSONObject;
 
 import org.xutils.http.RequestParams;
@@ -16,13 +16,13 @@ public class FeedbackCommitHelper extends FeedbackBaseCallBack {
     private String url = BASE_URL + "/v1.0/fbs/feedback";
 
     public void commit(String deviceName, String access_token, String sign_timeStamp_newToken, String commitJson) {
-        Logs.t(TAG).ii("url--> " + url);
+        Lgg.t(TAG).ii("url--> " + url);
         RequestParams entity = getCommitEntity(deviceName, access_token, sign_timeStamp_newToken, commitJson);
         x.http().post(entity, this);
     }
 
     private RequestParams getCommitEntity(String deviceName, String access_token, String sign_timeStamp_newToken, String commitJson) {
-        Logs.t(TAG).ii("deviceName: " + deviceName);
+        Lgg.t(TAG).ii("deviceName: " + deviceName);
         RequestParams entity = new RequestParams(url);
         // 1.设置超时
         entity.setConnectTimeout(TIME_OUT);
@@ -32,12 +32,12 @@ public class FeedbackCommitHelper extends FeedbackBaseCallBack {
         String key = "key=" + ((deviceName.equalsIgnoreCase(MW70)|deviceName.contains(MW70) ? MW70_KEY : MW120_KEY));
         key = key + ";token=" + access_token;
         key = key + sign_timeStamp_newToken;
-        Logs.t(TAG).ii("Authorization:" + key);
+        Lgg.t(TAG).ii("Authorization:" + key);
         entity.addHeader(AUTHORIZATION, key);
         // 4.设置为json提交
         entity.setAsJsonContent(true);
         // 5.绑定提交要素
-        Logs.t(TAG).ii(commitJson);
+        Lgg.t(TAG).ii(commitJson);
         entity.setBodyContent(commitJson);
         // 6.返回整合实体
         return entity;
@@ -52,14 +52,14 @@ public class FeedbackCommitHelper extends FeedbackBaseCallBack {
 
     @Override
     public void onError(Throwable ex, boolean isOnCallback) {
-        Logs.t(TAG).ee(this.getClass().getSimpleName());
+        Lgg.t(TAG).ee(this.getClass().getSimpleName());
         super.onError(ex, isOnCallback);
         errorNext(ex);
     }
 
     @Override
     public void onCancelled(CancelledException cex) {
-        Logs.t(TAG).ee(this.getClass().getSimpleName());
+        Lgg.t(TAG).ee(this.getClass().getSimpleName());
         super.onCancelled(cex);
         errorNext(cex);
     }

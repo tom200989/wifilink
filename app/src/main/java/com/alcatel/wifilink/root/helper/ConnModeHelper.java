@@ -3,7 +3,6 @@ package com.alcatel.wifilink.root.helper;
 import android.app.Activity;
 
 import com.alcatel.wifilink.R;
-import com.alcatel.wifilink.root.utils.CA;
 import com.alcatel.wifilink.root.utils.ToastUtil_m;
 import com.p_xhelper_smart.p_xhelper_smart.bean.GetConnectionSettingsBean;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetConnectionSettingsHelper;
@@ -28,8 +27,6 @@ public class ConnModeHelper {
      */
     public void transferConnMode(int connMode) {
         // 1.获取当前的连接模式
-
-
         ConnectSettingHelper cshelper = new ConnectSettingHelper();
         cshelper.setOnNormalConnResultListener(result1 -> {
             GetConnectionSettingsBean cs = result1.deepClone();
@@ -77,15 +74,4 @@ public class ConnModeHelper {
         ToastUtil_m.show(activity, resId);
     }
 
-    public void toastLong(int resId) {
-        ToastUtil_m.showLong(activity, resId);
-    }
-
-    public void toast(String content) {
-        ToastUtil_m.show(activity, content);
-    }
-
-    public void to(Class ac, boolean isFinish) {
-        CA.toActivity(activity, ac, false, isFinish, false, 0);
-    }
 }

@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.alcatel.wifilink">
 
@@ -42,20 +41,11 @@
 
         <!-- ROOT-splash -->
         <activity android:name=".root.ue.activity.SplashActivity">
-            
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="com.alcatel.wifilink.root.ue.activity.SplashActivity" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
-
-        <!-- ROOT-Freesharing -->
-        <activity android:name=".root.ue.root_activity.SettingShareActivity" >
-            <intent-filter>
-                <action android:name="com.alcatel.wifilink.root.ue.root_activity.SettingShareActivity" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
@@ -71,224 +61,12 @@
         <!-- 老框架 -->
         <service android:name=".root.helper.CheckService" />
 
-        <activity
-            android:name=".root.ue.root_activity.LoadingRxActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:screenOrientation="portrait">
-            <intent-filter>
-                <action android:name="com.alcatel.wifilink.root.ue.root_activity.LoadingRxActivity" />
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-
-            <!-- <intent-filter> -->
-            <!-- <action android:name="android.intent.action.MAIN" /> -->
-
-            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
-            <!-- </intent-filter> -->
-        </activity> <!-- 新的引导界面 -->
-        <activity
-            android:name=".root.ue.root_activity.GuideRxActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:screenOrientation="portrait"> <!-- 新的刷新WIFI界面 -->
-            <intent-filter>
-                <action android:name="com.alcatel.wifilink.root.ue.root_activity.GuideRxActivity" />
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
-        <activity
-            android:name=".root.ue.root_activity.RefreshWifiRxActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:launchMode="singleTask"
-            android:screenOrientation="portrait" >
-            <intent-filter>
-                <action android:name="com.alcatel.wifilink.root.ue.root_activity.RefreshWifiRxActivity" />
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity> <!-- 新的登陆界面 -->
-        <activity
-            android:name=".root.ue.root_activity.LoginRxActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:launchMode="singleTask"
-            android:screenOrientation="portrait" >
-            <intent-filter>
-                <action android:name="com.alcatel.wifilink.root.ue.root_activity.LoginRxActivity" />
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity> <!-- 新的连接向导界面 -->
-        <activity
-            android:name=".root.ue.root_activity.WizardRxActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:launchMode="singleTask"
-            android:screenOrientation="portrait" >
-            <intent-filter>
-                <action android:name="com.alcatel.wifilink.root.ue.root_activity.WizardRxActivity" />
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity> <!-- 新的PIN|PUK设置页 -->
-        <activity
-            android:name=".root.ue.root_activity.PinPukIndexRxActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:screenOrientation="portrait" >
-            <intent-filter>
-                <action android:name="com.alcatel.wifilink.root.ue.root_activity.PinPukIndexRxActivity" />
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity> <!-- 新的流量设置向导页 -->
-        <activity
-            android:name=".root.ue.root_activity.DataPlanRxActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:screenOrientation="portrait" >
-            <intent-filter>
-                <action android:name="com.alcatel.wifilink.root.ue.root_activity.DataPlanRxActivity" />
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity> <!-- 新的WAN口连接界面 -->
-        <activity
-            android:name=".root.ue.root_activity.WanModeRxActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:screenOrientation="portrait" >
-            <intent-filter>
-                <action android:name="com.alcatel.wifilink.root.ue.root_activity.WanModeRxActivity" />
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity> <!-- 新的WIFI向导界面 -->
-        <activity
-            android:name=".root.ue.root_activity.WifiInitRxActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:screenOrientation="portrait" >
-            <intent-filter>
-                <action android:name="com.alcatel.wifilink.root.ue.root_activity.WifiInitRxActivity" />
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity> <!-- 新的主页 -->
-        <activity
-            android:name=".root.ue.root_activity.HomeRxActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan" >
-            <intent-filter>
-                <action android:name="com.alcatel.wifilink.root.ue.root_activity.HomeRxActivity" />
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity> <!-- 调用本地相册 -->
+        <!-- 调用本地相册 -->
         <activity
             android:name="me.nereo.multi_image_selector.MultiImageSelectorActivity"
-            android:configChanges="orientation|screenSize" >
+            android:configChanges="orientation|screenSize">
             <intent-filter>
                 <action android:name="me.nereo.multi_image_selector.MultiImageSelectorActivity" />
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
-        <activity
-            android:name=".root.ue.root_activity.ActivityNewSms"
-            android:configChanges="orientation|screenSize|keyboardHidden"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustResize" >
-            <intent-filter>
-                <action android:name="com.alcatel.wifilink.root.ue.root_activity.ActivityNewSms" />
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
-        <activity
-            android:name=".root.ue.root_activity.ActivitySmsDetail"
-            android:configChanges="orientation|screenSize|keyboardHidden"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustResize" >
-            <intent-filter>
-                <action android:name="com.alcatel.wifilink.root.ue.root_activity.ActivitySmsDetail" />
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
-        <activity
-            android:name=".root.ue.root_activity.UsageActivity"
-            android:configChanges="orientation|screenSize|keyboardHidden"
-            android:launchMode="singleTask"
-            android:screenOrientation="portrait" >
-            <intent-filter>
-                <action android:name="com.alcatel.wifilink.root.ue.root_activity.UsageActivity" />
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
-        <activity
-            android:name=".root.ue.root_activity.SettingAccountActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:launchMode="singleTask"
-            android:screenOrientation="portrait" >
-            <intent-filter>
-                <action android:name="com.alcatel.wifilink.root.ue.root_activity.SettingAccountActivity" />
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
-        <activity
-            android:name=".root.ue.root_activity.SettingNetworkActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:launchMode="singleTask"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan" >
-            <intent-filter>
-                <action android:name="com.alcatel.wifilink.root.ue.root_activity.SettingNetworkActivity" />
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
-        <activity
-            android:name=".root.ue.root_activity.EthernetWanConnectionActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:launchMode="singleTask"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden|adjustPan" >
-            <intent-filter>
-                <action android:name="com.alcatel.wifilink.root.ue.root_activity.EthernetWanConnectionActivity" />
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
-        <activity
-            android:name=".root.ue.root_activity.SettingLanguageActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:screenOrientation="portrait" >
-            <intent-filter>
-                <action android:name="com.alcatel.wifilink.root.ue.root_activity.SettingLanguageActivity" />
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
-        <activity
-            android:name=".root.ue.root_activity.ActivityDeviceManager"
-            android:configChanges="orientation|screenSize|keyboardHidden"
-            android:screenOrientation="portrait" >
-            <intent-filter>
-                <action android:name="com.alcatel.wifilink.root.ue.root_activity.ActivityDeviceManager" />
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
-        <activity
-            android:name=".root.ue.root_activity.WlanAdvancedSettingsActivity"
-            android:label="@string/advanced_settings"
-            android:screenOrientation="portrait" >
-            <intent-filter>
-                <action android:name="com.alcatel.wifilink.root.ue.root_activity.WlanAdvancedSettingsActivity" />
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
-        <activity
-            android:name=".root.ue.root_activity.AboutActivity"
-            android:screenOrientation="portrait" >
-            <intent-filter>
-                <action android:name="com.alcatel.wifilink.root.ue.root_activity.AboutActivity" />
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
-        <activity
-            android:name=".root.ue.root_activity.InternetStatusActivity"
-            android:screenOrientation="portrait" >
-            <intent-filter>
-                <action android:name="com.alcatel.wifilink.root.ue.root_activity.InternetStatusActivity" />
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
-        <activity
-            android:name=".root.ue.root_activity.SmsDetailActivity"
-            android:screenOrientation="portrait" >
-            <intent-filter>
-                <action android:name="com.alcatel.wifilink.root.ue.root_activity.SmsDetailActivity" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>

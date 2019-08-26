@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.text.TextUtils;
 
 import com.alcatel.wifilink.R;
-import com.alcatel.wifilink.root.utils.CA;
 import com.alcatel.wifilink.root.utils.ToastUtil_m;
 import com.p_xhelper_smart.p_xhelper_smart.bean.GetSimStatusBean;
 import com.p_xhelper_smart.p_xhelper_smart.helper.ChangePinCodeHelper;
@@ -158,7 +157,5 @@ public class ChangePinHelper {
         ToastUtil_m.show(activity, content);
     }
 
-    private void to(Class ac, boolean isFinish) {
-        CA.toActivity(activity, ac, false, isFinish, false, 0);
-    }
+
 }

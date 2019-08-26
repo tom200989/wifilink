@@ -142,7 +142,6 @@ public class FormatTools {
             btp = BitmapFactory.decodeStream(is, null, opts);
         } catch (Exception e) {
             e.printStackTrace();
-            Logs.t("ma").ee("FormatTools --> file2ThumboBitmap --> " + e.getMessage());
         }
         return btp;
     }
@@ -176,7 +175,6 @@ public class FormatTools {
             btp = BitmapFactory.decodeStream(is, null, opts);
         } catch (Exception e) {
             e.printStackTrace();
-            Logs.t("ma").ee("FormatTools --> file2ThumboBitmap --> " + e.getMessage());
         }
         return btp;
     }
@@ -210,7 +208,6 @@ public class FormatTools {
             btp = BitmapFactory.decodeStream(is, null, opts);
         } catch (Exception e) {
             e.printStackTrace();
-            Logs.t("ma").ee("FormatTools --> file2ThumboBitmap --> " + e.getMessage());
         }
         return btp;
     }
@@ -308,7 +305,6 @@ public class FormatTools {
             bos.close();
             buffer = bos.toByteArray();
         } catch (Exception e) {
-            Logs.t("FormatTools").ee("File2byte error: " + e.getMessage());
             e.printStackTrace();
         }
         return buffer;

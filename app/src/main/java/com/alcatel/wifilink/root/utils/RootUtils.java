@@ -1,8 +1,11 @@
 package com.alcatel.wifilink.root.utils;
 
 import android.app.Activity;
+import android.app.ActivityManager;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.wifi.WifiManager;
 import android.support.annotation.ArrayRes;
 import android.support.v4.content.ContextCompat;
@@ -12,14 +15,20 @@ import android.widget.EditText;
 
 import com.alcatel.wifilink.R;
 import com.alcatel.wifilink.root.app.SmartLinkV3App;
+import com.alcatel.wifilink.root.bean.ConnectedList;
 import com.alcatel.wifilink.root.bean.Extender_GetHotspotListResult;
 import com.alcatel.wifilink.root.bean.FeedbackPhotoBean;
+import com.alcatel.wifilink.root.bean.Other_DeviceBean;
 import com.alcatel.wifilink.root.bean.Other_SMSContactSelf;
 import com.alcatel.wifilink.root.bean.SMSContactList;
+import com.alcatel.wifilink.root.bean.SMSContentList;
+import com.alcatel.wifilink.root.helper.Cons;
 import com.tcl.token.ndk.JniTokenUtils;
 
 import java.net.URLDecoder;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -167,9 +176,9 @@ public class RootUtils {
      */
     private static boolean ipMatch(String ip) {
         String ipRule = "^(1\\d{2}|2[0-4]\\d|25[0-5]|[1-9]\\d|[1-9])\\."// 1
-                                + "(1\\d{2}|2[0-4]\\d|25[0-5]|[1-9]\\d|\\d)\\."// 2
-                                + "(1\\d{2}|2[0-4]\\d|25[0-5]|[1-9]\\d|\\d)\\."// 3
-                                + "(1\\d{2}|2[0-4]\\d|25[0-5]|[1-9]\\d|\\d)$";   // 4
+                + "(1\\d{2}|2[0-4]\\d|25[0-5]|[1-9]\\d|\\d)\\."// 2
+                + "(1\\d{2}|2[0-4]\\d|25[0-5]|[1-9]\\d|\\d)\\."// 3
+                + "(1\\d{2}|2[0-4]\\d|25[0-5]|[1-9]\\d|\\d)$";   // 4
         return Pattern.matches(ipRule, ip);
     }
 
@@ -183,7 +192,7 @@ public class RootUtils {
         if (!ipMatch(ipAddress)) {
             return false;
         }
-        Logs.t("ma_ip").vv("ip_phone address: " + ipAddress);
+        Lgg.t("ma_ip").vv("ip_phone address: " + ipAddress);
         if (TextUtils.isEmpty(ipAddress)) {// 空值
             return false;
         }
@@ -230,9 +239,9 @@ public class RootUtils {
         }
 
         return (num0 > 0 && num0 != 127 && num0 <= 223) && // num0
-                       (num1 >= 0 && num1 <= 255) && // num1
-                       (num2 >= 0 && num2 <= 255) && // num2
-                       (num3 > 0 && num3 < 255);
+                (num1 >= 0 && num1 <= 255) && // num1
+                (num2 >= 0 && num2 <= 255) && // num2
+                (num3 > 0 && num3 < 255);
     }
 
     /**
@@ -413,17 +422,17 @@ public class RootUtils {
     public static Drawable transferWifiExtenderSignal(int signalStrength) {
         SmartLinkV3App context = SmartLinkV3App.getInstance();
         if (signalStrength <= 0) {
-            return  ContextCompat.getDrawable(context,R.drawable.wifi_ex_signal0);
+            return ContextCompat.getDrawable(context, R.drawable.wifi_ex_signal0);
         } else if (signalStrength == 1) {
-            return ContextCompat.getDrawable(context,R.drawable.wifi_ex_signal1);
+            return ContextCompat.getDrawable(context, R.drawable.wifi_ex_signal1);
         } else if (signalStrength == 2) {
-            return ContextCompat.getDrawable(context,R.drawable.wifi_ex_signal2);
+            return ContextCompat.getDrawable(context, R.drawable.wifi_ex_signal2);
         } else if (signalStrength == 3) {
-            return ContextCompat.getDrawable(context,R.drawable.wifi_ex_signal3);
+            return ContextCompat.getDrawable(context, R.drawable.wifi_ex_signal3);
         } else if (signalStrength >= 4) {
-            return ContextCompat.getDrawable(context,R.drawable.wifi_ex_signal4);
+            return ContextCompat.getDrawable(context, R.drawable.wifi_ex_signal4);
         }
-        return ContextCompat.getDrawable(context,R.drawable.wifi_ex_signal0);
+        return ContextCompat.getDrawable(context, R.drawable.wifi_ex_signal0);
     }
 
     /**
@@ -463,10 +472,151 @@ public class RootUtils {
 
         }
         for (Extender_GetHotspotListResult.HotspotListBean hb : rehbs) {
-            Logs.t("ma_ssid").ii(hb.getSSID());
             hb.setSSID(turnUrlCode(hb.getSSID()));
         }
 
         return rehbs;
+    }
+
+    /**
+     * 判断某个服务是否正在运行的方法
+     *
+     * @param mContext
+     * @param sClass   服务的类名
+     * @return true:代表正在运行，false代表服务没有正在运行
+     */
+    public static boolean isServiceWork(Context mContext, Class sClass) {
+        String serviceName = sClass.getName();// 获取服务的全类名
+        ActivityManager myAM = (ActivityManager) mContext.getSystemService(Context.ACTIVITY_SERVICE);// 获取系统服务对象
+        List<ActivityManager.RunningServiceInfo> myList = myAM.getRunningServices(1000);// 获取正在运行中的服务集合 -->1000为可能获取到的个数
+        if (myList.size() <= 0) {// 判断集合是否有对象
+            return false;
+        }
+        for (int i = 0; i < myList.size(); i++) {// 遍历每一个服务对象
+            String mName = myList.get(i).service.getClassName().toString();// 获取服务的类名
+            if (mName.equalsIgnoreCase(serviceName) || mName.contains(serviceName)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * 检查WIFI是否有链接
+     *
+     * @param context
+     * @return
+     */
+    public static boolean isWifiConnect(Context context) {
+        SmartLinkV3App instance = SmartLinkV3App.getInstance();
+        ConnectivityManager connMgr = (ConnectivityManager) instance.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connMgr.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+        NetworkInfo.State wifiState = networkInfo.getState();
+        return NetworkInfo.State.CONNECTED == wifiState;
+    }
+
+    /**
+     * 转换日期
+     *
+     * @param oriDate
+     * @return
+     */
+    public static String transferDate(String oriDate) {
+        Date summaryDate = C_DataUti.formatDateFromString(oriDate);// sms date
+        String strTimeText = new String();
+        if (summaryDate != null) {
+            Date now = new Date();// now date
+            if (now.getYear() == summaryDate.getYear() && now.getMonth() == summaryDate.getMonth() && now.getDate() == summaryDate.getDate()) {
+                SimpleDateFormat format = new SimpleDateFormat("HH:mm");
+                strTimeText = format.format(summaryDate);
+            } else {
+                SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+                strTimeText = format.format(summaryDate);
+            }
+        }
+        return strTimeText;
+    }
+
+    /**
+     * 拼接电话号码
+     *
+     * @param context
+     * @param phoneNumber
+     * @return
+     */
+    public static String stitchPhone(Context context, List<String> phoneNumber) {
+        if (phoneNumber.size() == 0) {
+            return context.getString(R.string.error_info);
+        } else if (phoneNumber.size() == 1) {
+            return phoneNumber.get(0);
+        } else {
+            StringBuffer sb = new StringBuffer();
+            for (String s : phoneNumber) {
+                sb.append(s).append(";");
+            }
+            return sb.toString();
+        }
+    }
+
+    /**
+     * 判断编辑域是否为空
+     *
+     * @param strs
+     * @return
+     */
+    public static boolean isEmptys(String... strs) {
+        for (String str : strs) {
+            if (TextUtils.isEmpty(str)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * 获取某个contactId下所有的smsid
+     *
+     * @param scList
+     * @return
+     */
+    public static List<Long> getAllSmsIdByOneSession(SMSContentList scList) {
+        List<Long> smsIds = new ArrayList<>();
+        for (SMSContentList.SMSContentBean scb : scList.getSMSContentList()) {
+            smsIds.add(scb.getSMSId());
+        }
+        return smsIds;
+    }
+
+    /**
+     * 转换设备列表
+     *
+     * @param connectedList
+     * @return
+     */
+    public static List<Other_DeviceBean> transferDevicesbean(ConnectedList connectedList) {
+        SmartLinkV3App context = SmartLinkV3App.getInstance();
+        List<Other_DeviceBean> dbs = new ArrayList<>();
+        String ip_field = context.getString(R.string.device_manage_ip);
+        String mac_field = context.getString(R.string.device_manage_mac);
+        String localIp = NetUtils.getLocalIPAddress().getHostAddress();
+
+        List<ConnectedList.Device> ccls = connectedList.getConnectedList();
+        if (ccls != null) {
+            for (ConnectedList.Device ccl : ccls) {
+                Other_DeviceBean ddb = new Other_DeviceBean();
+                ddb.setDeviceIP(String.format(ip_field, ccl.getIPAddress()));
+                ddb.setDeviceMac(String.format(mac_field, ccl.getMacAddress()));
+                ddb.setDeviceName(ccl.getDeviceName());
+                ddb.setPhone(ccl.getConnectMode() == Cons.WIFI_CONNECT);
+                ddb.setHost(localIp.equals(ccl.getIPAddress()));
+                if (localIp.equals(ccl.getIPAddress())) {
+                    dbs.add(0, ddb);
+                } else {
+                    dbs.add(ddb);
+                }
+
+            }
+        }
+        return dbs;
     }
 }

@@ -22,11 +22,8 @@ import com.alcatel.wifilink.root.helper.NetworkInfoHelper;
 import com.alcatel.wifilink.root.helper.UsageHelper;
 import com.alcatel.wifilink.root.helper.UsageSettingHelper;
 import com.alcatel.wifilink.root.ue.activity.SplashActivity;
-import com.alcatel.wifilink.root.ue.root_activity.BaseActivityWithBack;
-import com.alcatel.wifilink.root.utils.C_Constants;
-import com.alcatel.wifilink.root.utils.OtherUtils;
+import com.alcatel.wifilink.root.utils.RootCons;
 import com.alcatel.wifilink.root.utils.RootUtils;
-import com.alcatel.wifilink.root.utils.SP;
 import com.alcatel.wifilink.root.widget.HH70_LoadWidget;
 import com.alcatel.wifilink.root.widget.MainMW70BatteryView;
 import com.alcatel.wifilink.root.widget.MainMW70BottomView;
@@ -34,6 +31,7 @@ import com.alcatel.wifilink.root.widget.NormalWidget;
 import com.de.wave.core.WaveView;
 import com.hiber.cons.TimerState;
 import com.hiber.impl.RootEventListener;
+import com.hiber.tools.ShareUtils;
 import com.p_freesharing.p_freesharing.bean.InteractiveRequestBean;
 import com.p_freesharing.p_freesharing.bean.InteractiveResponceBean;
 import com.p_freesharing.p_freesharing.ui.SharingFileActivity;
@@ -460,7 +458,7 @@ public class mainFrag extends BaseFrag {
             rlMainrxMw70BatteryExtender.setWifiStrength(result.getSignal());
             // 3.设置SSID
             String ssid = TextUtils.isEmpty(result.getHotspotSSID()) ? getString(R.string.unknown) : result.getHotspotSSID();
-            ssid = OtherUtils.turnUrlCode(ssid);
+            ssid = RootUtils.turnUrlCode(ssid);
             rlMainrxMw70BatteryExtender.setWifiName(ssid);// SSID
         }
     }
@@ -620,7 +618,8 @@ public class mainFrag extends BaseFrag {
 
             // 设置已使用流量
             UsageHelper.Usage usedUsage = UsageHelper.getUsageByte(getActivity(), result.getUsedData());
-            boolean isRussian = OtherUtils.getCurrentLanguage().equalsIgnoreCase(C_Constants.Language.RUSSIAN);
+            String currentLanguage = ShareUtils.get(RootCons.LOCALE_LANGUAGE_COUNTRY,"");
+            boolean isRussian = currentLanguage.contains(RootCons.LANGUAGES.RUSSIAN);
             tvUsedUnit.setVisibility(isRussian ? View.GONE : View.VISIBLE);
             if (isRussian) {
                 tvUsedData.setTextSize(TypedValue.COMPLEX_UNIT_SP, 24);
@@ -644,7 +643,7 @@ public class mainFrag extends BaseFrag {
             }
             tvUsedTotal.setText(plan <= 0 ? noUsagePlan : useOf + BLANK_TEXT + montyUsage + planUnit);
             // 计算已使用流量比率
-            usageLimit = SP.getInstance(getActivity()).getInt(Cons.USAGE_LIMIT, 90);
+            usageLimit = ShareUtils.get(Cons.USAGE_LIMIT, 90);;
             if (usageLimit == -1) {
                 btSimConnected.setFrontColor(Color.parseColor(frontColor_nor));
                 btSimConnected.setBehindColor(Color.parseColor(behindColor_nor));
@@ -771,7 +770,8 @@ public class mainFrag extends BaseFrag {
             deviceSize = bean.getConnectedList().size();
             ivConnectedPeople.setImageDrawable(deviceSize > 0 ? connected_more : connected_none);
             String hadConnect = deviceSize + BLANK_TEXT + connected_text;
-            if (OtherUtils.getCurrentLanguage().equalsIgnoreCase(C_Constants.Language.RUSSIAN)) {
+            String currentLanguage = ShareUtils.get(RootCons.LOCALE_LANGUAGE_COUNTRY,"");
+            if (currentLanguage.equalsIgnoreCase(RootCons.LANGUAGES.RUSSIAN)) {
                 hadConnect = connected_text + ":" + BLANK_TEXT + deviceSize;
             }
             tvConnectedPeople.setText(deviceSize > 0 ? hadConnect : connected_text);
@@ -872,7 +872,7 @@ public class mainFrag extends BaseFrag {
 
     private void getDevicesList() {
         if (SplashActivity.freeSharingLock) {
-            synchronized (BaseActivityWithBack.class) {
+            synchronized (mainFrag.class) {
                 SplashActivity.freeSharingLock = false;
                 DeviceHelper deviceHelper = new DeviceHelper(activity);
                 deviceHelper.setOnGetDevicesSuccessListener(connectedList -> {

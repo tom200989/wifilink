@@ -3,8 +3,6 @@ package com.alcatel.wifilink.root.helper;
  * Created by qianli.ma on 2018/8/9 0009.
  */
 
-import com.alcatel.wifilink.root.utils.Logs;
-
 public class WpaPsdHelper {
     public static boolean isMatch(String content) {
         return isASCIIData(content);
@@ -17,7 +15,6 @@ public class WpaPsdHelper {
         // 判断是否包含非法字符
         String[] reg = {",", "\"", ":", ";", "&", "\\"};
         for (String str : reg) {
-            Logs.t("ma_reg").ii(str);
             if (content.contains(str)) {
                 return false;
             }

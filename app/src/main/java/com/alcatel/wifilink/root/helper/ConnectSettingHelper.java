@@ -1,9 +1,6 @@
 package com.alcatel.wifilink.root.helper;
 
-import android.app.Activity;
-
 import com.alcatel.wifilink.R;
-import com.alcatel.wifilink.root.utils.CA;
 import com.alcatel.wifilink.root.utils.ToastUtil_m;
 import com.hiber.hiber.RootMAActivity;
 import com.p_xhelper_smart.p_xhelper_smart.bean.GetConnectionSettingsBean;
@@ -425,19 +422,5 @@ public class ConnectSettingHelper {
         xGetConnectionStateHelper.getConnectionState();
     }
 
-    private static void toast(Activity activity, int resId) {
-        ToastUtil_m.show(activity, resId);
-    }
 
-    private static void toastLong(Activity activity, int resId) {
-        ToastUtil_m.showLong(activity, resId);
-    }
-
-    private static void toast(Activity activity, String content) {
-        ToastUtil_m.show(activity, content);
-    }
-
-    private static void to(Activity activity, Class ac, boolean isFinish) {
-        CA.toActivity(activity, ac, false, isFinish, false, 0);
-    }
 }

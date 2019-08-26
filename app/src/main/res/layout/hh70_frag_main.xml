@@ -267,7 +267,6 @@
         app:layout_marginTopPercent="12%h">
 
         <com.de.wave.core.WaveView
-            android:id="@+id/dw_mainrx"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:de_amplitudeRatio="0.3"

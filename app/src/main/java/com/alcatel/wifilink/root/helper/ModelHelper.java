@@ -1,8 +1,6 @@
 package com.alcatel.wifilink.root.helper;
 
-import com.alcatel.wifilink.root.bean.BlockModel;
 import com.alcatel.wifilink.root.bean.ConnectModel;
-import com.alcatel.wifilink.root.bean.BlockList;
 import com.alcatel.wifilink.root.bean.ConnectedList;
 
 import java.util.ArrayList;
@@ -26,14 +24,4 @@ public class ModelHelper {
         return connectModels;
     }
 
-    public static List<BlockModel> getBlockModel(BlockList result) {
-        List<BlockModel> blockModels = new ArrayList<>();
-        List<BlockList.BlockDevice> blockList = result.getBlockList();
-        if (blockList.size() > 0) {
-            for (BlockList.BlockDevice block : blockList) {
-                blockModels.add(new BlockModel(block, false));
-            }
-        }
-        return blockModels;
-    }
 }

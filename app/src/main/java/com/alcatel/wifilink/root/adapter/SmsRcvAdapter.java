@@ -14,8 +14,7 @@ import com.alcatel.wifilink.root.bean.SMSContactList;
 import com.alcatel.wifilink.root.helper.Cons;
 import com.alcatel.wifilink.root.helper.SmsCountHelper;
 import com.alcatel.wifilink.root.ue.frag.SmsFrag;
-import com.alcatel.wifilink.root.utils.Logs;
-import com.alcatel.wifilink.root.utils.OtherUtils;
+import com.alcatel.wifilink.root.utils.RootUtils;
 import com.p_xhelper_smart.p_xhelper_smart.bean.GetSmsContentListParam;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetSMSContentListHelper;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetSingleSMSHelper;
@@ -117,10 +116,8 @@ public class SmsRcvAdapter extends RecyclerView.Adapter<SmsHolder> {
         int unreadCount = smsContact.getUnreadCount();
         /*  如果检测到未读, 但是未读的数量又为0, 则是FW未做处理, 其实是不存在未读短信, 直接设置为已读 */
         smsType = smsType == UNREAD & unreadCount == 0 ? Cons.READ : smsType;
-        Logs.t("ma_smsunread").ii("smsType: " + smsType);
         // 查看缓冲区是否有当前contactid对应的未读短信数量
         int unreadCache = SmsCountHelper.getUnreadCache(smsContact.getContactId());
-        Logs.t("ma_smsunread").ii("unreadCache: " + unreadCache);
         // 以下4种情况均需要显示对应的点
         boolean pointShow = smsType == UNREAD || smsType == SENT_FAILED || smsType == DRAFT || unreadCache > 0;
         holder.iv_smsPoint.setVisibility(pointShow ? VISIBLE : View.INVISIBLE);
@@ -138,7 +135,6 @@ public class SmsRcvAdapter extends RecyclerView.Adapter<SmsHolder> {
     /* **** setSmsLongClickPoint **** */
     private void setSmsLongClickPoint(SmsHolder holder, int position) {
         // 初始化状态
-        Logs.t("ma_smsdetail").vv("SmsFragments.isLongClick: " + SmsFrag.isLongClick);
         holder.iv_smsLongClickPoint.setVisibility(SmsFrag.isLongClick ? VISIBLE : GONE);
         holder.iv_smsLongClickPoint.setImageDrawable(check_off);
         // 判断是否处于全选|全不选状态
@@ -153,7 +149,7 @@ public class SmsRcvAdapter extends RecyclerView.Adapter<SmsHolder> {
     private void setPhoneNum(SmsHolder holder, int position) {
         SMSContactList.SMSContact smsContact = smsContactList.get(position).getSmscontact();
         List<String> phoneNumber = smsContact.getPhoneNumber();
-        String phone = OtherUtils.stitchPhone(context, phoneNumber);
+        String phone = RootUtils.stitchPhone(context, phoneNumber);
         holder.tv_smsPhone.setText(phone);
     }
 
@@ -172,7 +168,7 @@ public class SmsRcvAdapter extends RecyclerView.Adapter<SmsHolder> {
     /* **** setSmsDate **** */
     private void setSmsDate(SmsHolder holder, int position) {
         SMSContactList.SMSContact smsContact = smsContactList.get(position).getSmscontact();
-        String date = OtherUtils.transferDate(smsContact.getSMSTime());
+        String date = RootUtils.transferDate(smsContact.getSMSTime());
         holder.tv_smsDate.setText(date);
     }
 

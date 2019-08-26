@@ -2,21 +2,19 @@ package com.alcatel.wifilink.root.helper;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Handler;
 import android.util.Log;
 
 import com.alcatel.wifilink.R;
-import com.alcatel.wifilink.root.ue.root_activity.LoginRxActivity;
-import com.alcatel.wifilink.root.ue.root_activity.RefreshWifiRxActivity;
-import com.alcatel.wifilink.root.utils.CA;
 import com.alcatel.wifilink.root.utils.OtherUtils;
+import com.alcatel.wifilink.root.utils.RootCons;
 import com.alcatel.wifilink.root.utils.ToastUtil_m;
+import com.hiber.hiber.RootMAActivity;
 import com.p_xhelper_smart.p_xhelper_smart.bean.GetLoginStateBean;
 import com.p_xhelper_smart.p_xhelper_smart.bean.GetWanSettingsBean;
-import com.p_xhelper_smart.p_xhelper_smart.bean.SetWanSettingsParam;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetLoginStateHelper;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetWanSettingsHelper;
-import com.p_xhelper_smart.p_xhelper_smart.helper.SetWanSettingsHelper;
 import com.p_xhelper_smart.p_xhelper_smart.impl.FwError;
 
 /**
@@ -24,7 +22,6 @@ import com.p_xhelper_smart.p_xhelper_smart.impl.FwError;
  */
 
 public class BoardWanHelper {
-
 
     private Activity activity;
     private ProgressDialog pgd;
@@ -46,43 +43,6 @@ public class BoardWanHelper {
     }
 
     /**
-     * 点击事件调用此方法
-     */
-    public void boardNormal() {
-        if (pgd == null) {
-            pgd = OtherUtils.showProgressPop(activity);
-        }
-        if (!pgd.isShowing()) {
-            pgd.show();
-        }
-        // 1.连接硬件
-        if (checkBoardClick == null) {
-            checkBoardClick = new CheckBoard() {
-                @Override
-                public void successful() {
-                    // 2.获取状态
-                    GetLoginStateHelper xGetLoginStateHelper = new GetLoginStateHelper();
-                    xGetLoginStateHelper.setOnGetLoginStateSuccessListener(getLoginStateBean -> {
-                        if (getLoginStateBean.getState() ==  GetLoginStateBean.CONS_LOGOUT) {
-                            to(LoginRxActivity.class);
-                            return;
-                        }
-                        // 3.WAN状态
-                        obtainWanStatus();
-                    });
-                    xGetLoginStateHelper.setOnGetLoginStateFailedListener(() -> {
-                        OtherUtils.hideProgressPop(pgd);
-                        toast(R.string.connect_failed);
-                        to(RefreshWifiRxActivity.class);
-                    });
-                    xGetLoginStateHelper.getLoginState();
-                }
-            };
-        }
-        checkBoardClick.checkBoard(activity, LoginRxActivity.class, RefreshWifiRxActivity.class);
-    }
-
-    /**
      * 定时器调用此方法
      */
     public void boardTimer() {
@@ -94,8 +54,8 @@ public class BoardWanHelper {
                     // 2.登陆状态
                     GetLoginStateHelper xGetLoginStateHelper = new GetLoginStateHelper();
                     xGetLoginStateHelper.setOnGetLoginStateSuccessListener(getLoginStateBean -> {
-                        if (getLoginStateBean.getState() ==  GetLoginStateBean.CONS_LOGOUT) {
-                            to(LoginRxActivity.class);
+                        if (getLoginStateBean.getState() == GetLoginStateBean.CONS_LOGOUT) {
+                            to(RootCons.ACTIVITYS.SPLASH_AC, RootCons.FRAG.LOGIN_FR);
                             return;
                         }
                         // 3.WAN状态
@@ -109,43 +69,20 @@ public class BoardWanHelper {
                 }
             };
         }
-        checkBoardRoll.checkBoard(activity, LoginRxActivity.class, RefreshWifiRxActivity.class);
+        checkBoardRoll.checkBoard(activity);
     }
 
     /**
-     * 发送设置wan口请求
-     *
-     * @param wsp
+     *  跳转activity
+     * @param targetAc
+     * @param targetFr
      */
-    public void sendWanRequest(SetWanSettingsParam wsp) {
-        SetWanSettingsHelper xSetWanSettingsHelper = new SetWanSettingsHelper();
-        xSetWanSettingsHelper.setOnSetWanSettingsSuccessListener(() -> {
-            reGetWanStatus();// 重复获取WAN口状态
-        });
-        xSetWanSettingsHelper.setOnSetWanSettingsFailedListener(() -> {
-            sendFailedNext();
-        });
-        xSetWanSettingsHelper.setWanSettings(wsp);
-    }
-
-    /**
-     * 重复获取WAN口状态
-     */
-    private void reGetWanStatus() {
-
-        GetWanSettingsHelper xGetWanSettingHelper = new GetWanSettingsHelper();
-        xGetWanSettingHelper.setOnGetWanSettingsSuccessListener(getWanSettingsBean -> {
-            int status = getWanSettingsBean.getStatus();
-            if (status == GetWanSettingsBean.CONS_CONNECTED) {
-                sendSuccessNext();
-            } else if (status == GetWanSettingsBean.CONS_CONNECTING) {
-                reGetWanStatus();
-            } else {
-                sendFailedNext();
-            }
-        });
-        xGetWanSettingHelper.setOnGetWanSettingFailedListener(this::sendFailedNext);
-        xGetWanSettingHelper.getWanSettings();
+    private void to(String targetAc,String targetFr) {
+        Intent intent = new Intent();
+        intent.setAction(targetAc);
+        intent.putExtra(RootMAActivity.getPendingIntentKey(),
+                RootMAActivity.getPendingIntentValue(targetAc, targetFr, null));
+        activity.startActivity(intent);
     }
 
     /**
@@ -184,7 +121,7 @@ public class BoardWanHelper {
         xGetWanSettingsHelper.setOnGetWanSettingFailedListener(() -> {
             OtherUtils.hideProgressPop(pgd);
             toast(R.string.check_your_wan_cabling);
-            to(RefreshWifiRxActivity.class);
+            to(RootCons.ACTIVITYS.SPLASH_AC, RootCons.FRAG.REFRESH_FR);
         });
         xGetWanSettingsHelper.setOnGetWanSettingsSuccessListener(result -> {
             normalNext(result);
@@ -229,9 +166,7 @@ public class BoardWanHelper {
         ToastUtil_m.show(activity, resId);
     }
 
-    private void to(Class ac) {
-        CA.toActivity(activity, ac, false, true, false, 0);
-    }
+
 
     /* -------------------------------------------- INTERFACE -------------------------------------------- */
 

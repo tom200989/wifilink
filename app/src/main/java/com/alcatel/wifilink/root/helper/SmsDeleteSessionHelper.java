@@ -1,7 +1,7 @@
 package com.alcatel.wifilink.root.helper;
 
 import com.alcatel.wifilink.root.bean.SMSContentList;
-import com.alcatel.wifilink.root.utils.OtherUtils;
+import com.alcatel.wifilink.root.utils.RootUtils;
 import com.p_xhelper_smart.p_xhelper_smart.bean.DeleteSmsParam;
 import com.p_xhelper_smart.p_xhelper_smart.bean.GetSMSContentListBean;
 import com.p_xhelper_smart.p_xhelper_smart.bean.GetSmsContentListParam;
@@ -22,31 +22,6 @@ public class SmsDeleteSessionHelper {
     public SmsDeleteSessionHelper() {
         index = 0;
         smsIdsAll = new ArrayList<>();
-    }
-
-    /**
-     * 删除一个会话
-     */
-    public void deleteOneSessionSms(long contactId) {
-        List<Long> smsIds = new ArrayList<>();// 抽取所有需要删除的短信ID
-        GetSmsContentListParam getSmsContentListParam = new GetSmsContentListParam();
-        getSmsContentListParam.setPage(0);
-        getSmsContentListParam.setContactId((int) contactId);
-        GetSMSContentListHelper xGetSMSContentListHelper = new GetSMSContentListHelper();
-        xGetSMSContentListHelper.setOnGetSmsContentListSuccessListener(bean -> {
-            // getInstant all smsids
-            for (GetSMSContentListBean.SMSContentBean scb : bean.getSMSContentList()) {
-                smsIds.add((long)scb.getSMSId());
-            }
-            // deleted it
-            DeleteSmsParam xDeleteSmsParam = new DeleteSmsParam();
-            xDeleteSmsParam.setDelFlag(Cons.DELETE_MORE_SMS);
-            xDeleteSmsParam.setSMSArray(smsIds);
-            DeleteSMSHelper xDeleteSMSHelper = new DeleteSMSHelper();
-            xDeleteSMSHelper.setOnDeleteSmsSuccessListener(this::deletedOneSessionNext);
-            xDeleteSMSHelper.deleteSms(xDeleteSmsParam);
-        });
-        xGetSMSContentListHelper.getSMSContentList(getSmsContentListParam);
     }
 
     /* -------------------------------------------- method2 -------------------------------------------- */
@@ -93,7 +68,7 @@ public class SmsDeleteSessionHelper {
                     }
                 }
                 smsContentList.setSMSContentList(tempSMSContentList);
-                smsIdsAll.addAll(OtherUtils.getAllSmsIdByOneSession(smsContentList));
+                smsIdsAll.addAll(RootUtils.getAllSmsIdByOneSession(smsContentList));
                 index++;
                 getAllSmsIds(contactIds);
             });

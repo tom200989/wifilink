@@ -12,8 +12,9 @@ import com.alcatel.wifilink.root.adapter.HH70ConnectAdapter;
 import com.alcatel.wifilink.root.bean.ConnectModel;
 import com.alcatel.wifilink.root.bean.ConnectedList;
 import com.alcatel.wifilink.root.helper.ModelHelper;
-import com.alcatel.wifilink.root.utils.OtherUtils;
+import com.alcatel.wifilink.root.utils.RootCons;
 import com.hiber.cons.TimerState;
+import com.hiber.tools.ShareUtils;
 import com.p_xhelper_smart.p_xhelper_smart.bean.GetConnectDeviceListBean;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetBlockDeviceListHelper;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetConnectedDeviceListHelper;
@@ -72,8 +73,8 @@ public class DeviceConnectFrag extends BaseFrag {
         mblock.setText(String.valueOf(blockPre + "0" + blockFix));
         mTitle.setText(getString(R.string.ergo_20181010_connections_low));
         // 俄语文字大小适配
-        String currentLanguage = OtherUtils.getCurrentLanguage();
-        if (currentLanguage.equalsIgnoreCase("ru")) {
+        String currentLanguage = ShareUtils.get(RootCons.LOCALE_LANGUAGE_COUNTRY,"");
+        if (currentLanguage.contains(RootCons.LANGUAGES.RUSSIAN)) {
             mblock.setTextSize(TypedValue.COMPLEX_UNIT_SP, 12);
             mTitle.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
         }

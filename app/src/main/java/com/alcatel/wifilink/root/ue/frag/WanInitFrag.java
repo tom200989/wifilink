@@ -10,8 +10,6 @@ import com.alcatel.wifilink.R;
 import com.alcatel.wifilink.root.helper.Cons;
 import com.alcatel.wifilink.root.helper.WpsHelper;
 import com.alcatel.wifilink.root.ue.activity.HomeActivity;
-import com.alcatel.wifilink.root.utils.Logs;
-import com.alcatel.wifilink.root.utils.OtherUtils;
 import com.alcatel.wifilink.root.utils.RootCons;
 import com.alcatel.wifilink.root.utils.RootUtils;
 import com.alcatel.wifilink.root.widget.HH70_LoadWidget;
@@ -252,7 +250,7 @@ public class WanInitFrag extends BaseFrag {
         switch (connectType) {
             case Cons.PPPOE:
                 // 空值判断
-                if (OtherUtils.isEmptys(etPppoeAccount, etPppoePsd, etPppoeMtu)) {
+                if (RootUtils.isEdEmpty(etPppoeAccount, etPppoePsd, etPppoeMtu)) {
                     toast(R.string.not_empty, 5000);
                     return;
                 }
@@ -273,23 +271,21 @@ public class WanInitFrag extends BaseFrag {
                 // 空值判断
                 String ipaddress = RootUtils.getEDText(etStaticIpaddress);
                 String subnetMask = RootUtils.getEDText(etStaticSubnet);
-                if (OtherUtils.isEmptys(ipaddress, subnetMask)) {
+                if (RootUtils.isEmptys(ipaddress, subnetMask)) {
                     toast(R.string.not_empty, 5000);
                     return;
                 }
 
                 // IP高级规则匹配判断
-                boolean ip_super_match = OtherUtils.ipSuperMatch(ipaddress);
-                boolean subnet_super_match = OtherUtils.ipSuperMatch(subnetMask);
+                boolean ip_super_match = RootUtils.isAllMatch(ipaddress);
+                boolean subnet_super_match = RootUtils.isAllMatch(subnetMask);
 
                 if (!ip_super_match) {
-                    Logs.t("ma_ip").vv("ip_phone: " + ip_super_match + ";");
                     String ipValid = getString(R.string.ip_address) + "\n" + getString(R.string.connect_failed);
                     toast(ipValid, 5000);
                     return;
                 }
                 if (!subnet_super_match) {
-                    Logs.t("ma_ip").vv("subnet: " + subnet_super_match + ";");
                     String subnetValid = getString(R.string.subnet_mask) + "\n" + getString(R.string.connect_failed);
                     toast(subnetValid, 5000);
                     return;

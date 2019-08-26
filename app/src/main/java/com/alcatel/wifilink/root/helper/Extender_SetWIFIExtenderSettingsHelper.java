@@ -1,6 +1,6 @@
 package com.alcatel.wifilink.root.helper;
 
-import com.alcatel.wifilink.root.utils.Logs;
+import com.alcatel.wifilink.root.utils.Lgg;
 import com.p_xhelper_smart.p_xhelper_smart.helper.SetWIFIExtenderSettingsHelper;
 import com.p_xhelper_smart.p_xhelper_smart.impl.FwError;
 
@@ -14,11 +14,11 @@ public class Extender_SetWIFIExtenderSettingsHelper {
     public void set(int StationEnable) {
         SetWIFIExtenderSettingsHelper xSetWIFIExtenderSettingsHelper = new SetWIFIExtenderSettingsHelper();
         xSetWIFIExtenderSettingsHelper.setOnSetWifiExSettingsSuccessListener(result -> {
-            Logs.t(TAG).ii("Extender_SetWIFIExtenderSettingsHelper: set successful");
+            Lgg.t(TAG).ii("Extender_SetWIFIExtenderSettingsHelper: set successful");
             successNext(result);
         });
         xSetWIFIExtenderSettingsHelper.setOnSetWifiExSettingFailListener(() -> {
-            Logs.t(TAG).ii("Extender_SetWIFIExtenderSettingsHelper: set failed");
+            Lgg.t(TAG).ii("Extender_SetWIFIExtenderSettingsHelper: set failed");
             failedNext(null);
             resultErrorNext(null);
         });

@@ -5,7 +5,6 @@ import android.app.ProgressDialog;
 import android.graphics.drawable.Drawable;
 
 import com.alcatel.wifilink.R;
-import com.alcatel.wifilink.root.utils.CA;
 import com.alcatel.wifilink.root.utils.OtherUtils;
 import com.alcatel.wifilink.root.utils.ToastUtil_m;
 import com.p_xhelper_smart.p_xhelper_smart.bean.GetDeviceNewVersionBean;
@@ -242,15 +241,4 @@ public class FirmUpgradeHelper {
         ToastUtil_m.show(activity, resId);
     }
 
-    private void toastLong(int resId) {
-        ToastUtil_m.showLong(activity, resId);
-    }
-
-    private void toast(String content) {
-        ToastUtil_m.show(activity, content);
-    }
-
-    private void to(Class ac, boolean isFinish) {
-        CA.toActivity(activity, ac, false, isFinish, false, 0);
-    }
 }

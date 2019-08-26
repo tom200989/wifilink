@@ -7,8 +7,6 @@ import android.view.ViewGroup;
 
 import com.alcatel.wifilink.R;
 import com.alcatel.wifilink.root.bean.FeedbackPhotoBean;
-import com.alcatel.wifilink.root.utils.CA;
-import com.alcatel.wifilink.root.utils.ToastUtil_m;
 
 import java.util.List;
 
@@ -92,19 +90,4 @@ public class FeedbackPhotoAdapter extends RecyclerView.Adapter<FeedbackPhotoHold
         return bbs != null | bbs.size() > 0 ? bbs.size() : 0;
     }
 
-    public void toast(int resId) {
-        ToastUtil_m.show(context, resId);
-    }
-
-    public void toastLong(int resId) {
-        ToastUtil_m.showLong(context, resId);
-    }
-
-    public void toast(String content) {
-        ToastUtil_m.show(context, content);
-    }
-
-    public void to(Class ac, boolean isFinish) {
-        CA.toActivity(context, ac, false, isFinish, false, 0);
-    }
 }

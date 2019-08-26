@@ -11,7 +11,6 @@
 
     <!-- banner -->
     <com.hiber.tools.layout.PercentRelativeLayout
-        android:id="@+id/rl_setting_share_banner"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/mg_blue"

@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 
 import com.alcatel.wifilink.R;
 import com.alcatel.wifilink.root.bean.Extender_GetHotspotListResult;
-import com.alcatel.wifilink.root.utils.OtherUtils;
+import com.alcatel.wifilink.root.utils.RootUtils;
 
 import java.util.List;
 
@@ -50,7 +50,7 @@ public class WifiExtenderAdapter extends RecyclerView.Adapter<WifiExtenderHolder
             try {
                 holder.tv_wifiEx_ssid.setText(hb.getSSID());
                 holder.iv_wifiEx_password.setVisibility(hb.getSecurityMode() != NO_SECURITY ? View.VISIBLE : View.GONE);
-                holder.iv_wifiEx_signal.setImageDrawable(OtherUtils.transferWifiExtenderSignal(hb.getSignal()));
+                holder.iv_wifiEx_signal.setImageDrawable(RootUtils.transferWifiExtenderSignal(hb.getSignal()));
                 holder.rl_wifiEx_all.setOnClickListener(v -> clickNext(hb));
             } catch (Exception e) {
                 e.printStackTrace();

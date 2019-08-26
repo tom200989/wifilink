@@ -47,7 +47,6 @@
             app:layout_heightPercent="8%h">
 
             <TextView
-                android:id="@+id/tv_internet_title_IPAddress"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
@@ -81,7 +80,6 @@
             app:layout_heightPercent="8%h">
 
             <TextView
-                android:id="@+id/tv_internet_title_SubnetMask"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
@@ -117,7 +115,6 @@
             app:layout_heightPercent="8%h">
 
             <TextView
-                android:id="@+id/tv_internet_title_gateway"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
@@ -152,7 +149,6 @@
             app:layout_heightPercent="8%h">
 
             <TextView
-                android:id="@+id/tv_internet_title_dns"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
@@ -187,7 +183,6 @@
             app:layout_heightPercent="8%h">
 
             <TextView
-                android:id="@+id/tv_internet_title_secondDns"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
@@ -231,7 +226,7 @@
             android:id="@+id/tv_internet_ethernetWanConnect"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/rv_internet_renew"
+            android:layout_below="@id/bt_internet_renew"
             android:layout_centerHorizontal="true"
             android:text="@string/ethernet_wan_connection"
             app:layout_textSizePercent="2.2%h" />

@@ -10,14 +10,14 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.alcatel.wifilink.R;
-import com.alcatel.wifilink.root.widget.PopupWindows;
 import com.alcatel.wifilink.root.bean.SMSContentList;
 import com.alcatel.wifilink.root.helper.Cons;
 import com.alcatel.wifilink.root.helper.SmsContentSortHelper;
 import com.alcatel.wifilink.root.helper.SmsReSendHelper;
-import com.alcatel.wifilink.root.utils.Logs;
-import com.alcatel.wifilink.root.utils.OtherUtils;
+import com.alcatel.wifilink.root.utils.Lgg;
+import com.alcatel.wifilink.root.utils.RootUtils;
 import com.alcatel.wifilink.root.utils.ScreenSize;
+import com.alcatel.wifilink.root.widget.PopupWindows;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -150,7 +150,7 @@ public class SmsDetatilAdapter extends RecyclerView.Adapter<SmsDetailHolder> {
     private void setReceiverDate(SmsDetailHolder holder, int position) {
         NewSMSContentBean nscb = newScbList.get(position);// 带选中|未选中标记位
         SMSContentList.SMSContentBean scb = nscb.smsContentBean;
-        String date = OtherUtils.transferDate(scb.getSMSTime());
+        String date = RootUtils.transferDate(scb.getSMSTime());
         holder.tv_smsdetail_date_receiver.setText(date);
     }
 
@@ -172,7 +172,7 @@ public class SmsDetatilAdapter extends RecyclerView.Adapter<SmsDetailHolder> {
     private void setSendDate(SmsDetailHolder holder, int position) {
         NewSMSContentBean nscb = newScbList.get(position);// 带选中|未选中标记位
         SMSContentList.SMSContentBean scb = nscb.smsContentBean;
-        String date = OtherUtils.transferDate(scb.getSMSTime());
+        String date = RootUtils.transferDate(scb.getSMSTime());
         holder.tv_smsdetail_date_send.setText(date);
     }
 
@@ -256,7 +256,7 @@ public class SmsDetatilAdapter extends RecyclerView.Adapter<SmsDetailHolder> {
 
     /* A3-重新封装出新的内容对象 */
     private void hiberNewbean() {
-        Logs.t("ma_sms").vv("sortScbList size: " + sortScbList.size());
+        Lgg.t("ma_sms").vv("sortScbList size: " + sortScbList.size());
         for (SMSContentList.SMSContentBean scb : sortScbList) {
             NewSMSContentBean nscb = new NewSMSContentBean();
             nscb.isSelected = false;

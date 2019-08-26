@@ -2,15 +2,16 @@ package com.alcatel.wifilink.root.helper;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Handler;
 import android.util.Log;
 
 import com.alcatel.wifilink.R;
-import com.alcatel.wifilink.root.ue.root_activity.LoginRxActivity;
-import com.alcatel.wifilink.root.ue.root_activity.RefreshWifiRxActivity;
-import com.alcatel.wifilink.root.utils.CA;
 import com.alcatel.wifilink.root.utils.OtherUtils;
+import com.alcatel.wifilink.root.utils.RootCons;
 import com.alcatel.wifilink.root.utils.ToastUtil_m;
+import com.hiber.bean.SkipBean;
+import com.hiber.hiber.RootMAActivity;
 import com.p_xhelper_smart.p_xhelper_smart.bean.GetLoginStateBean;
 import com.p_xhelper_smart.p_xhelper_smart.bean.GetSimStatusBean;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetLoginStateHelper;
@@ -47,12 +48,6 @@ public class BoardSimHelper {
      * 点击事件调用此方法
      */
     public void boardNormal() {
-        // if (pgd == null) {
-        //     pgd = OtherUtils.showProgressPop(activity);
-        // }
-        // if (!pgd.isShowing()) {
-        //     pgd.show();
-        // }
         // 1.连接硬件
         new CheckBoard() {
             @Override
@@ -61,21 +56,21 @@ public class BoardSimHelper {
                 GetLoginStateHelper xGetLoginStateHelper = new GetLoginStateHelper();
                 xGetLoginStateHelper.setOnGetLoginStateSuccessListener(getLoginStateBean -> {
                     if (getLoginStateBean.getState() == GetLoginStateBean.CONS_LOGOUT) {
-                        to(LoginRxActivity.class);
+                        to(RootCons.ACTIVITYS.SPLASH_AC, RootCons.FRAG.LOGIN_FR);
                         return;
                     }
                     // 3.sim卡状态(仅一次)
                     obtainSimStatusOne();
                 });
-                
+
                 xGetLoginStateHelper.setOnGetLoginStateFailedListener(() -> {
                     OtherUtils.hideProgressPop(pgd);
                     toast(R.string.connect_failed);
-                    to(RefreshWifiRxActivity.class);
+                    to(RootCons.ACTIVITYS.SPLASH_AC, RootCons.FRAG.REFRESH_FR);
                 });
                 xGetLoginStateHelper.getLoginState();
             }
-        }.checkBoard(activity, LoginRxActivity.class, RefreshWifiRxActivity.class);
+        }.checkBoard(activity);
     }
 
     /**
@@ -90,7 +85,7 @@ public class BoardSimHelper {
                 GetLoginStateHelper xGetLoginStateHelper = new GetLoginStateHelper();
                 xGetLoginStateHelper.setOnGetLoginStateSuccessListener(getLoginStateBean -> {
                     if (getLoginStateBean.getState() == GetLoginStateBean.CONS_LOGOUT) {
-                        to(LoginRxActivity.class);
+                        to(RootCons.ACTIVITYS.SPLASH_AC, RootCons.FRAG.LOGIN_FR);
                         return;
                     }
                     // 3.sim卡状态(循环)
@@ -99,7 +94,7 @@ public class BoardSimHelper {
                 xGetLoginStateHelper.setOnGetLoginStateFailedListener(() -> rollRequestOnResultErrorNext(null));
                 xGetLoginStateHelper.getLoginState();
             }
-        }.checkBoard(activity, LoginRxActivity.class, RefreshWifiRxActivity.class);
+        }.checkBoard(activity);
     }
 
     /**
@@ -146,11 +141,11 @@ public class BoardSimHelper {
                 OtherUtils.hideProgressPop(pgd);
             }
         });
-        
+
         xGetSimStatusHelper.setOnGetSimStatusFailedListener(() -> {
             OtherUtils.hideProgressPop(pgd);
             toast(R.string.home_sim_not_accessible);
-            to(RefreshWifiRxActivity.class);
+            to(RootCons.ACTIVITYS.SPLASH_AC, RootCons.FRAG.REFRESH_FR);
         });
         xGetSimStatusHelper.getSimStatus();
     }
@@ -193,7 +188,7 @@ public class BoardSimHelper {
                     break;
             }
         });
-        
+
         xGetSimStatusHelper.setOnGetSimStatusFailedListener(() -> {
             rollRequestOnResultErrorNext(null);
             rollRequestOnErrorNext(null);
@@ -214,10 +209,24 @@ public class BoardSimHelper {
         ToastUtil_m.show(activity, resId);
     }
 
-    private void to(Class ac) {
-        CA.toActivity(activity, ac, false, true, false, 0);
+
+    /**
+     * 跳转activity
+     *
+     * @param targetAc
+     * @param targetFr
+     */
+    private void to(String targetAc, String targetFr) {
+        Intent intent = new Intent();
+        intent.setAction(targetAc);
+        SkipBean skipBean = RootMAActivity.getPendingIntentValue(targetAc, targetFr, null);
+        skipBean.setCurrentACFinish(true);
+        intent.putExtra(RootMAActivity.getPendingIntentKey(), skipBean);
+        activity.startActivity(intent);
     }
-    
+
+
+
     /* -------------------------------------------- INTERFACE -------------------------------------------- */
 
     public interface OnRollRequestOnResultError {
@@ -264,7 +273,7 @@ public class BoardSimHelper {
     public interface OnSimReadyListener {
         void simReady(GetSimStatusBean result);
     }
-    
+
     /* -------------------------------------------- LISTENER -------------------------------------------- */
 
     public void setOnRollRequestOnResultError(OnRollRequestOnResultError onRollRequestOnResultError) {

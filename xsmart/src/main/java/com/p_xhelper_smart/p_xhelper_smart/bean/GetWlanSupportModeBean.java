@@ -15,7 +15,7 @@ public class GetWlanSupportModeBean implements Serializable {
 
     public static final int CONS_WLAN_2_4G = 0;
     public static final int CONS_WLAN_5G = 1;
-    public static final int CONS_WLAN_2_4G_2_4G = 2;
+    public static final int CONS_WLAN_2_4G_5G = 2;
     public static final int CONS_WLAN_5G_5G = 3;
 
     public GetWlanSupportModeBean() {

@@ -16,7 +16,6 @@
         app:layout_heightPercent="9%h">
 
         <TextView
-            android:id="@+id/tv_homeRx_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"

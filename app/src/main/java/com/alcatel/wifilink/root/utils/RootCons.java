@@ -26,6 +26,11 @@ public class RootCons {
         public static final String HOME_AC = "com.alcatel.wifilink.root.ue.activity.HomeActivity";
     }
 
+    public static class FRAG {
+        public static final String LOGIN_FR = "com.alcatel.wifilink.root.ue.frag.LoginFrag";
+        public static final String REFRESH_FR = "com.alcatel.wifilink.root.ue.frag.RefreshFrag";
+    }
+
     public static class LANGUAGES {// 支持的语言
         public static final String ENGLISH = "en";
         public static final String ARABIC = "ar";

@@ -6,8 +6,7 @@ import android.os.IBinder;
 import android.support.annotation.Nullable;
 
 import com.alcatel.wifilink.root.app.SmartLinkV3App;
-import com.alcatel.wifilink.root.utils.Logs;
-import com.alcatel.wifilink.root.utils.OtherUtils;
+import com.alcatel.wifilink.root.utils.RootUtils;
 import com.p_xhelper_smart.p_xhelper_smart.bean.GetLoginStateBean;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetLoginStateHelper;
 import com.p_xhelper_smart.p_xhelper_smart.helper.LogoutHelper;
@@ -55,18 +54,16 @@ public class HomeService extends Service {
         if (packageTimer != null) {
             packageTimer.stop();
         }
-        Logs.t("ma_service").vv("homeservice onDestroy");
         logout();// 4.停止服务的onDestroy方法里登出
     }
 
     private boolean isCheckServiceRunning() {
-        return OtherUtils.isServiceWork(SmartLinkV3App.getInstance(), CheckService.class);
+        return RootUtils.isServiceWork(SmartLinkV3App.getInstance(), CheckService.class);
     }
 
     private void logout() {
         GetLoginStateHelper xGetLoginStateHelper = new GetLoginStateHelper();
         xGetLoginStateHelper.setOnGetLoginStateSuccessListener(getLoginStateBean -> {
-            OtherUtils.clearAllTimer();
             if (getLoginStateBean.getState() ==  GetLoginStateBean.CONS_LOGOUT) {
                 LogoutHelper xLogoutHelper = new LogoutHelper();
                 xLogoutHelper.logout();

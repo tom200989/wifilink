@@ -33,7 +33,7 @@ public class HH70_ChangpinWidget extends RelativeLayout {
 
     public HH70_ChangpinWidget(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
-        View.inflate(context, R.layout.widget_dialogok, this);
+        View.inflate(context, R.layout.hh7_widget_changpin, this);
         ivDialogokWidgetBg = findViewById(R.id.iv_dialogok_widget_bg);
         ivDialogokWidgetBg.setOnClickListener(v -> bgClickNext());
         etCurPin = findViewById(R.id.et_pop_changpin_currentPin);
