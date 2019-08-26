@@ -6,10 +6,10 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import com.alcatel.wifilink.R;
-import com.alcatel.wifilink.root.bean.BlockModel;
 import com.alcatel.wifilink.root.bean.BlockList;
-import com.alcatel.wifilink.root.ue.root_activity.ActivityDeviceManager;
-import com.alcatel.wifilink.root.helper.FragmentDeviceEnum;
+import com.alcatel.wifilink.root.bean.BlockModel;
+import com.alcatel.wifilink.root.ue.activity.HomeActivity;
+import com.alcatel.wifilink.root.ue.frag.DeviceConnectFrag;
 import com.p_xhelper_smart.p_xhelper_smart.helper.SetDeviceUnblockHelper;
 
 import java.util.List;
@@ -20,12 +20,11 @@ import java.util.List;
 
 public class BlockAdapter extends RecyclerView.Adapter<BlockHolder> {
 
-    public ActivityDeviceManager activity;
+    public HomeActivity activity;
     private List<BlockModel> blockModelList;
-    String m_strEditString = new String();
 
     public BlockAdapter(Activity activity, List<BlockModel> blockModelList) {
-        this.activity = (ActivityDeviceManager) activity;
+        this.activity = (HomeActivity) activity;
         this.blockModelList = blockModelList;
     }
 
@@ -63,7 +62,7 @@ public class BlockAdapter extends RecyclerView.Adapter<BlockHolder> {
         xSetDeviceUnblockHelper.setOnSetDeviceUnBlockSuccessListener(() -> {
             blockModelList.remove(position);
             if (blockModelList.size() <= 0) {// if block name is empty then go to connect ui
-                activity.toFragment(FragmentDeviceEnum.CONNECT);
+                activity.toFrag(getClass(), DeviceConnectFrag.class, null, false, 0);
             }
             // refresh ui
             notifys(blockModelList);
