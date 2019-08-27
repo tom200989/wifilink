@@ -93,7 +93,7 @@ public class SmsDeleteSessionHelper {
      */
     private void doDelSms(List<Long> smsIdsAll) {
         DeleteSmsParam xDeleteSmsParam = new DeleteSmsParam();
-        xDeleteSmsParam.setDelFlag(Cons.DELETE_MORE_SMS);
+        xDeleteSmsParam.setDelFlag(DeleteSmsParam.CONS_DELETE_MORE);
         xDeleteSmsParam.setSMSArray(smsIdsAll);
         DeleteSMSHelper xDeleteSMSHelper = new DeleteSMSHelper();
         xDeleteSMSHelper.setOnDeleteSmsSuccessListener(this::DelMoreSessionSuccessNext);
@@ -136,7 +136,7 @@ public class SmsDeleteSessionHelper {
             if (bean.getState() == GetSmsInitStateHelper.SMS_COMPLETE) {
                 // 2.完成状态下进行删除操作
                 DeleteSmsParam xDeleteSmsParam = new DeleteSmsParam();
-                xDeleteSmsParam.setDelFlag(Cons.DELETE_MORE_SMS);
+                xDeleteSmsParam.setDelFlag(DeleteSmsParam.CONS_DELETE_MORE);
                 xDeleteSmsParam.setSMSArray(contactIds);
 
                 DeleteSMSHelper xDeleteSMSHelper = new DeleteSMSHelper();

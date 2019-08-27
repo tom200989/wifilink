@@ -3,6 +3,7 @@ package com.alcatel.wifilink.root.helper;
 import android.content.Context;
 
 import com.alcatel.wifilink.R;
+import com.p_xhelper_smart.p_xhelper_smart.bean.GetNetworkInfoBean;
 import com.p_xhelper_smart.p_xhelper_smart.bean.GetUsageRecordBean;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetNetworkInfoHelper;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetNetworkRegisterStateHelper;
@@ -203,7 +204,7 @@ public class UsageHelper {
 
                             GetUsageRecordHelper xGetUsageRecordHelper = new GetUsageRecordHelper();
                             xGetUsageRecordHelper.setOnGetUsageRecordSuccess(result -> {
-                                if (networkInfoBean.getRoaming() == Cons.ROAMING) {
+                                if (networkInfoBean.getRoaming() == GetNetworkInfoBean.CONS_ROAMING) {
                                     roamingNext(result);
                                 } else {
                                     noRoamingNext(result);

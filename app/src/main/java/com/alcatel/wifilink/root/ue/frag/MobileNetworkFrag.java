@@ -25,6 +25,8 @@ import com.alcatel.wifilink.root.widget.HH70_ModeWidget;
 import com.alcatel.wifilink.root.widget.HH70_ProfileWidget;
 import com.alcatel.wifilink.root.widget.HH70_SimpinWidget;
 import com.hiber.cons.TimerState;
+import com.p_xhelper_smart.p_xhelper_smart.bean.GetConnectionSettingsBean;
+import com.p_xhelper_smart.p_xhelper_smart.bean.GetNetworkSettingsBean;
 import com.p_xhelper_smart.p_xhelper_smart.bean.GetProfileListBean;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetConnectionStateHelper;
 
@@ -255,16 +257,14 @@ public class MobileNetworkFrag extends BaseFrag {
      * 点击connectionMode
      */
     private void clickConnectionMode() {
-        conmodeWidget.setOnAutoClickListener(() -> setConnMode(Cons.AUTO));
-        conmodeWidget.setOnManualClickListener(() -> setConnMode(Cons.MANUAL));
+        conmodeWidget.setOnAutoClickListener(() -> setConnMode(GetConnectionSettingsBean.CONS_AUTO_CONNECT));
+        conmodeWidget.setOnManualClickListener(() -> setConnMode(GetConnectionSettingsBean.CONS_MANUAL_CONNECT));
         conmodeWidget.setVisibility(View.VISIBLE);
     }
 
     private void setConnMode(int connMode) {
         ConnModeHelper connModeHelper = new ConnModeHelper(activity);
-        connModeHelper.setOnConnModeSuccessListener(result -> {
-            tvConnModeMode.setText(result.getConnectMode() == Cons.AUTO_MODE ? text_auto : text_manual);
-        });
+        connModeHelper.setOnConnModeSuccessListener(result -> tvConnModeMode.setText(result.getConnectMode() == GetNetworkSettingsBean.CONS_AUTO_MODE ? text_auto : text_manual));
         connModeHelper.transferConnMode(connMode);
     }
 
@@ -274,7 +274,7 @@ public class MobileNetworkFrag extends BaseFrag {
     private void clickRoaming() {
         DataRoamHelper dataRoamHelper = new DataRoamHelper(activity);
         dataRoamHelper.setOnRoamConnSuccessListener(result -> {
-            ivDataRoaming.setImageDrawable(result.getRoamingConnect() == Cons.WHEN_ROAM_CAN_CONNECT ? switch_on : switch_off);
+            ivDataRoaming.setImageDrawable(result.getRoamingConnect() == GetConnectionSettingsBean.CONS_WHEN_ROAMING_CAN_CONNECT ? switch_on : switch_off);
         });
         dataRoamHelper.transfer();
     }
@@ -283,15 +283,16 @@ public class MobileNetworkFrag extends BaseFrag {
      * 点击了mode
      */
     private void clickMode() {
-        modeWidget.setOnAutoClickListener(() -> changeMode(Cons.AUTO_MODE));
-        modeWidget.setOn4gModeClickListener(() -> changeMode(Cons.ONLY_LTE));
-        modeWidget.setOn3gModeClickListener(() -> changeMode(Cons.ONLY_3G));
-        modeWidget.setOn2gModeClickListener(() -> changeMode(Cons.ONLY_2G));
+        modeWidget.setOnAutoClickListener(() -> changeMode(GetNetworkSettingsBean.CONS_AUTO_MODE));
+        modeWidget.setOn4gModeClickListener(() -> changeMode(GetNetworkSettingsBean.CONS_ONLY_LTE));
+        modeWidget.setOn3gModeClickListener(() -> changeMode(GetNetworkSettingsBean.CONS_ONLY_3G));
+        modeWidget.setOn2gModeClickListener(() -> changeMode(GetNetworkSettingsBean.CONS_ONLY_2G));
         modeWidget.setVisibility(View.VISIBLE);
     }
 
     /**
      * 修改模式
+     *
      * @param mode
      */
     private void changeMode(int mode) {
@@ -341,13 +342,14 @@ public class MobileNetworkFrag extends BaseFrag {
                 toast(R.string.please_enable_sim_pin);
             } else {
                 changpinWidget.setOnOkClickListener(() -> {
-                    String currentPin =changpinWidget.getCurrentPin();
+                    String currentPin = changpinWidget.getCurrentPin();
                     String newPin = changpinWidget.getNewPin();
                     String confirmPin = changpinWidget.getConfirmPin();
 
                     ChangePinHelper changePinHelper = new ChangePinHelper(activity);
                     changePinHelper.setOnPinTimeoutListener(attr -> toPukRx());
-                    changePinHelper.setOnChangePinSuccessListener(attr -> {});
+                    changePinHelper.setOnChangePinSuccessListener(attr -> {
+                    });
                     changePinHelper.change(currentPin, newPin, confirmPin);
                 });
                 changpinWidget.setVisibility(View.VISIBLE);

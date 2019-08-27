@@ -2,6 +2,7 @@ package com.alcatel.wifilink.root.helper;
 
 import com.alcatel.wifilink.root.bean.SMSContentList;
 import com.alcatel.wifilink.root.utils.RootUtils;
+import com.p_xhelper_smart.p_xhelper_smart.bean.GetSendSMSResultBean;
 import com.p_xhelper_smart.p_xhelper_smart.bean.SendSmsParam;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetSendSMSResultHelper;
 import com.p_xhelper_smart.p_xhelper_smart.helper.SendSMSHelper;
@@ -41,9 +42,9 @@ public abstract class SmsReSendHelper {
         GetSendSMSResultHelper xGetSendSMSResultHelper = new GetSendSMSResultHelper();
         xGetSendSMSResultHelper.setOnGetSendSmsResultSuccessListener(bean -> {
             int sendStatus = bean.getSendStatus();
-            if (sendStatus == Cons.SENDING) {
+            if (sendStatus == GetSendSMSResultBean.CONS_SEND_STATUS_SENDING) {
                 getSmsSendStatus();
-            } else if (sendStatus == Cons.SUCCESS) {
+            } else if (sendStatus == GetSendSMSResultBean.CONS_SEND_STATUS_SUCCESS) {
                 success();
             } else {
                 failed();

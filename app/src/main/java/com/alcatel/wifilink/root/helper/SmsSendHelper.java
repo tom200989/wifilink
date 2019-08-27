@@ -8,6 +8,7 @@ import com.alcatel.wifilink.R;
 import com.alcatel.wifilink.root.utils.ProgressUtils;
 import com.alcatel.wifilink.root.utils.RootUtils;
 import com.alcatel.wifilink.root.utils.ToastTool;
+import com.p_xhelper_smart.p_xhelper_smart.bean.GetSendSMSResultBean;
 import com.p_xhelper_smart.p_xhelper_smart.bean.SendSmsParam;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetSendSMSResultHelper;
 import com.p_xhelper_smart.p_xhelper_smart.helper.SendSMSHelper;
@@ -64,22 +65,22 @@ public abstract class SmsSendHelper {
         GetSendSMSResultHelper xGetSendSMSResultHelper = new GetSendSMSResultHelper();
         xGetSendSMSResultHelper.setOnGetSendSmsResultSuccessListener(bean -> {
             int sendStatus = bean.getSendStatus();
-            if (sendStatus == Cons.NONE) {
+            if (sendStatus == GetSendSMSResultBean.CONS_SEND_STATUS_NONE) {
                 ToastTool.show(context, context.getString(R.string.none));
-            } else if (sendStatus == Cons.SENDING) {
+            } else if (sendStatus == GetSendSMSResultBean.CONS_SEND_STATUS_SENDING) {
                 noCostCheck();// 间隔5秒,获取5次,如仍是sending则认为欠费
-            } else if (sendStatus == Cons.SUCCESS) {
+            } else if (sendStatus == GetSendSMSResultBean.CONS_SEND_STATUS_SUCCESS) {
                 ToastTool.show(context, context.getString(R.string.succeed));
-            } else if (sendStatus == Cons.FAIL_STILL_SENDING_LAST_MSG) {
+            } else if (sendStatus == GetSendSMSResultBean.CONS_SEND_STATUS_FAIL_LAST_MSG) {
                 noCostCheck();// 间隔5秒,获取5次,如仍是sending则认为欠费
-            } else if (sendStatus == Cons.FAIL_WITH_MEMORY_FULL) {
+            } else if (sendStatus == GetSendSMSResultBean.CONS_SEND_STATUS_FAIL_MEMORY_FULL) {
                 ToastTool.show(context, context.getString(R.string.fail_with_memory_full));
-            } else if (sendStatus == Cons.FAIL) {
+            } else if (sendStatus == GetSendSMSResultBean.CONS_SEND_STATUS_FAIL) {
                 ToastTool.show(context, context.getString(R.string.fail));
             }
             sendFinish(bean.getSendStatus());
             // 临时计数清零
-            if (sendStatus != Cons.SENDING & sendStatus != Cons.FAIL_STILL_SENDING_LAST_MSG) {
+            if (sendStatus != GetSendSMSResultBean.CONS_SEND_STATUS_SENDING & sendStatus != GetSendSMSResultBean.CONS_SEND_STATUS_FAIL_LAST_MSG) {
                 popDismiss();
             }
         });

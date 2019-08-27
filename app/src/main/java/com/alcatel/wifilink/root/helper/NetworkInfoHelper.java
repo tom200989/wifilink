@@ -29,19 +29,19 @@ public abstract class NetworkInfoHelper {
     public String getSignalType(Context context, int type) {
         if (type == GetNetworkInfoBean.CONS_NO_SERVER) {
             return "- -";
-        } else if (type >= Cons.GPRS && type <= Cons.EDGE) {
+        } else if (type >= GetNetworkInfoBean.CONS_GPRS && type <= GetNetworkInfoBean.CONS_EDGE) {
             return context.getString(R.string.home_network_type_2g);
-        } else if (type >= Cons.HSPA && type <= Cons.DC_HSPA_PLUS) {
+        } else if (type >= GetNetworkInfoBean.CONS_HSPA && type <= GetNetworkInfoBean.CONS_HSPA_PLUS) {
             return context.getString(R.string.home_network_type_3g);
-        } else if (type >= Cons.LTE && type <= Cons.LTE_PLUS) {
+        } else if (type >= GetNetworkInfoBean.CONS_LTE && type <= GetNetworkInfoBean.CONS_LTE_PLUS) {
             return context.getString(R.string.home_network_type_4g);
-        } else if (type >= Cons.CDMA && type <= Cons.GSM) {
+        } else if (type >= GetNetworkInfoBean.CONS_CDMA && type <= GetNetworkInfoBean.CONS_GSM) {
             return context.getString(R.string.home_network_type_2g);
-        } else if (type == Cons.EVDO) {
+        } else if (type == GetNetworkInfoBean.CONS_EVDO) {
             return context.getString(R.string.home_network_type_3g);
-        } else if (type >= Cons.LTE_FDD && type <= Cons.LTE_TDD) {
+        } else if (type >= GetNetworkInfoBean.CONS_LTE_TDD && type <= GetNetworkInfoBean.CONS_LTE_FDD) {
             return context.getString(R.string.home_network_type_4g);
-        } else if (type == Cons.CDMA_Ehrpd) {
+        } else if (type == GetNetworkInfoBean.CONS_CDMA_EHRPD) {
             return context.getString(R.string.home_network_type_3g_plus);
         } else {
             return "- -";

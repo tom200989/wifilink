@@ -10,7 +10,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.alcatel.wifilink.R;
-import com.alcatel.wifilink.root.helper.Cons;
 import com.alcatel.wifilink.root.ue.activity.HomeActivity;
 import com.alcatel.wifilink.root.utils.RootCons;
 import com.alcatel.wifilink.root.utils.RootUtils;
@@ -299,24 +298,24 @@ public class WifiInitFrag extends BaseFrag {
         // 3.封装
         if (result.getAP2G() != null) {
             if (is2P4GEnable) {
-                result.getAP2G().setApStatus(Cons.ENABLE);
+                result.getAP2G().setApStatus(GetWlanSettingsBean.CONS_AP_STATUS_ON);
                 result.getAP2G().setSecurityMode(GetWlanSettingsBean.CONS_SECURITY_MODE_WPA_WPA2);// 强制为WPA\WPA2模式
                 result.getAP2G().setSsid(RootUtils.getEDText(etAccount2p4G, true));
                 result.getAP2G().setWpaKey(RootUtils.getEDText(etPassword2p4G, true));
             } else {
-                result.getAP2G().setApStatus(Cons.DISABLE);
+                result.getAP2G().setApStatus(GetWlanSettingsBean.CONS_AP_STATUS_OFF);
             }
         }
 
 
         if (result.getAP5G() != null) {
             if (is5GEnable) {
-                result.getAP5G().setApStatus(Cons.ENABLE);
+                result.getAP5G().setApStatus(GetWlanSettingsBean.CONS_AP_STATUS_ON);
                 result.getAP5G().setSecurityMode(GetWlanSettingsBean.CONS_SECURITY_MODE_WPA_WPA2);// 强制为WPA\WPA2模式
                 result.getAP5G().setSsid(RootUtils.getEDText(etAccount5G, true));
                 result.getAP5G().setWpaKey(RootUtils.getEDText(etPassword5G, true));
             } else {
-                result.getAP5G().setApStatus(Cons.DISABLE);
+                result.getAP5G().setApStatus(GetWlanSettingsBean.CONS_AP_STATUS_OFF);
             }
         }
 

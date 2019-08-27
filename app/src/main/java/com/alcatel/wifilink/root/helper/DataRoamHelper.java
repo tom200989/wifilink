@@ -25,7 +25,8 @@ public class DataRoamHelper {
         ConnectSettingHelper cshelper = new ConnectSettingHelper();
         cshelper.setOnNormalConnResultListener(result -> {
             int roamingConnect = result.getRoamingConnect();
-            int needRoam = roamingConnect == Cons.WHEN_ROAM_CAN_CONNECT ? Cons.WHEN_ROAM_NOT_CONNECT : Cons.WHEN_ROAM_CAN_CONNECT;
+            int needRoam = roamingConnect == GetConnectionSettingsBean.CONS_WHEN_ROAMING_CAN_CONNECT ?
+                                   GetConnectionSettingsBean.CONS_WHEN_ROAMING_CAN_NOT_CONNECT : GetConnectionSettingsBean.CONS_WHEN_ROAMING_CAN_CONNECT;
             result.setRoamingConnect(needRoam);// 2.切换连接状态
             // 3.提交请求
             int connectMode = result.getConnectMode();
@@ -69,7 +70,6 @@ public class DataRoamHelper {
     public void toast(int resId) {
         ToastTool.show(activity, resId);
     }
-
 
 
 }

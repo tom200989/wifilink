@@ -16,15 +16,14 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
 import com.alcatel.wifilink.R;
-import com.alcatel.wifilink.root.app.SmartLinkV3App;
+import com.alcatel.wifilink.root.app.wifiApp;
 import com.alcatel.wifilink.root.bean.ConnectedList;
+import com.alcatel.wifilink.root.bean.DeviceBean;
 import com.alcatel.wifilink.root.bean.Extender_GetHotspotListResult;
 import com.alcatel.wifilink.root.bean.FeedbackPhotoBean;
-import com.alcatel.wifilink.root.bean.DeviceBean;
-import com.alcatel.wifilink.root.bean.SMSContactSelf;
 import com.alcatel.wifilink.root.bean.SMSContactList;
+import com.alcatel.wifilink.root.bean.SMSContactSelf;
 import com.alcatel.wifilink.root.bean.SMSContentList;
-import com.alcatel.wifilink.root.helper.Cons;
 import com.tcl.token.ndk.JniTokenUtils;
 
 import java.net.URLDecoder;
@@ -328,7 +327,7 @@ public class RootUtils {
      */
     public static String getAlert(String[] arr, int include) {
         if (include == -1) {
-            return SmartLinkV3App.getInstance().getString(R.string.ergo_20181010_not_reminded);
+            return wifiApp.getInstance().getString(R.string.ergo_20181010_not_reminded);
         }
         String alert = "90%";
         for (String s : arr) {
@@ -403,7 +402,7 @@ public class RootUtils {
      * 获取wifi extender signal 强度
      */
     public static Drawable transferWifiExtenderSignal(int signalStrength) {
-        SmartLinkV3App context = SmartLinkV3App.getInstance();
+        wifiApp context = wifiApp.getInstance();
         if (signalStrength <= 0) {
             return ContextCompat.getDrawable(context, R.drawable.wifi_ex_signal0);
         } else if (signalStrength == 1) {
@@ -479,7 +478,7 @@ public class RootUtils {
      * 检查WIFI是否有链接
      */
     public static boolean isWifiConnect() {
-        SmartLinkV3App instance = SmartLinkV3App.getInstance();
+        wifiApp instance = wifiApp.getInstance();
         ConnectivityManager connMgr = (ConnectivityManager) instance.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connMgr.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
         NetworkInfo.State wifiState = networkInfo.getState();
@@ -549,7 +548,7 @@ public class RootUtils {
      * 转换设备列表
      */
     public static List<DeviceBean> transferDevicesbean(ConnectedList connectedList) {
-        SmartLinkV3App context = SmartLinkV3App.getInstance();
+        wifiApp context = wifiApp.getInstance();
         List<DeviceBean> dbs = new ArrayList<>();
         String ip_field = context.getString(R.string.device_manage_ip);
         String mac_field = context.getString(R.string.device_manage_mac);
@@ -562,7 +561,7 @@ public class RootUtils {
                 ddb.setDeviceIP(String.format(ip_field, ccl.getIPAddress()));
                 ddb.setDeviceMac(String.format(mac_field, ccl.getMacAddress()));
                 ddb.setDeviceName(ccl.getDeviceName());
-                ddb.setPhone(ccl.getConnectMode() == Cons.WIFI_CONNECT);
+                ddb.setPhone(ccl.getConnectMode() == DeviceBean.CONS_WIFI_CONNECT);
                 ddb.setHost(localIp.equals(ccl.getIPAddress()));
                 if (localIp.equals(ccl.getIPAddress())) {
                     dbs.add(0, ddb);

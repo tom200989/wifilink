@@ -1,5 +1,6 @@
 package com.alcatel.wifilink.root.adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
@@ -8,13 +9,13 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.alcatel.wifilink.R;
+import com.alcatel.wifilink.root.bean.SMSContactList;
 import com.alcatel.wifilink.root.bean.SMSContactSelf;
 import com.alcatel.wifilink.root.bean.SMSContactSelfSort;
-import com.alcatel.wifilink.root.bean.SMSContactList;
-import com.alcatel.wifilink.root.helper.Cons;
 import com.alcatel.wifilink.root.helper.SmsCountHelper;
 import com.alcatel.wifilink.root.ue.frag.SmsFrag;
 import com.alcatel.wifilink.root.utils.RootUtils;
+import com.p_xhelper_smart.p_xhelper_smart.bean.GetSMSContactListBean;
 import com.p_xhelper_smart.p_xhelper_smart.bean.GetSmsContentListParam;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetSMSContentListHelper;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetSingleSMSHelper;
@@ -26,12 +27,12 @@ import java.util.List;
 
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
-import static com.alcatel.wifilink.root.helper.Cons.DRAFT;
-import static com.alcatel.wifilink.root.helper.Cons.SENT_FAILED;
-import static com.alcatel.wifilink.root.helper.Cons.UNREAD;
-
+@SuppressLint("UseSparseArrays")
 public class SmsRcvAdapter extends RecyclerView.Adapter<SmsHolder> {
 
+    public static final int SELETE_ALL = 1;
+    public static final int DESELETE_ALL = -1;
+    
     private HashMap<Long, Integer> smsUnreadMap = new HashMap<>();
     private Context context;
     private List<SMSContactSelf> smsContactList;
@@ -68,12 +69,12 @@ public class SmsRcvAdapter extends RecyclerView.Adapter<SmsHolder> {
         contactIdClickList.clear();// 1.清空
         if (isSelectAll) {
             for (SMSContactSelf scf : smsContactList) {
-                scf.setState(Cons.SELETE_ALL);// 2.修改全选标记位
+                scf.setState(SELETE_ALL);// 2.修改全选标记位
                 contactIdClickList.add(scf.getSmscontact().getContactId());
             }
         } else {
             for (SMSContactSelf scf : smsContactList) {
-                scf.setState(Cons.DESELETE_ALL);
+                scf.setState(DESELETE_ALL);
             }
         }
         //Collections.sort(smsContactList, new SMSContactSelfSort());
@@ -115,17 +116,20 @@ public class SmsRcvAdapter extends RecyclerView.Adapter<SmsHolder> {
         int smsType = smsContact.getSMSType();
         int unreadCount = smsContact.getUnreadCount();
         /*  如果检测到未读, 但是未读的数量又为0, 则是FW未做处理, 其实是不存在未读短信, 直接设置为已读 */
-        smsType = smsType == UNREAD & unreadCount == 0 ? Cons.READ : smsType;
+        smsType = smsType == GetSMSContactListBean.SMSContacBean.CONS_SMS_TYPE_UNREAD & unreadCount == 0 ? GetSMSContactListBean.SMSContacBean.CONS_SMS_TYPE_READ : smsType;
         // 查看缓冲区是否有当前contactid对应的未读短信数量
         int unreadCache = SmsCountHelper.getUnreadCache(smsContact.getContactId());
         // 以下4种情况均需要显示对应的点
-        boolean pointShow = smsType == UNREAD || smsType == SENT_FAILED || smsType == DRAFT || unreadCache > 0;
+        boolean pointShow = smsType == GetSMSContactListBean.SMSContacBean.CONS_SMS_TYPE_UNREAD //
+                                    || smsType == GetSMSContactListBean.SMSContacBean.CONS_SMS_TYPE_SENT_FAIL //
+                                    || smsType == GetSMSContactListBean.SMSContacBean.CONS_SMS_TYPE_DRAFT //
+                                    || unreadCache > 0;//
         holder.iv_smsPoint.setVisibility(pointShow ? VISIBLE : View.INVISIBLE);
-        if (smsType == UNREAD) {
+        if (smsType == GetSMSContactListBean.SMSContacBean.CONS_SMS_TYPE_UNREAD) {
             holder.iv_smsPoint.setImageResource(R.drawable.sms_point_unread);
-        } else if (smsType == DRAFT) {
+        } else if (smsType == GetSMSContactListBean.SMSContacBean.CONS_SMS_TYPE_DRAFT) {
             holder.iv_smsPoint.setImageResource(R.drawable.sms_edit);
-        } else if (smsType == SENT_FAILED) {
+        } else if (smsType == GetSMSContactListBean.SMSContacBean.CONS_SMS_TYPE_SENT_FAIL) {
             holder.iv_smsPoint.setImageResource(R.drawable.sms_prompt);
         } else if (unreadCache > 0) {
             holder.iv_smsPoint.setImageResource(R.drawable.sms_point_unread);
@@ -138,7 +142,7 @@ public class SmsRcvAdapter extends RecyclerView.Adapter<SmsHolder> {
         holder.iv_smsLongClickPoint.setVisibility(SmsFrag.isLongClick ? VISIBLE : GONE);
         holder.iv_smsLongClickPoint.setImageDrawable(check_off);
         // 判断是否处于全选|全不选状态
-        if (smsContactList.get(position).getState() == Cons.SELETE_ALL) {
+        if (smsContactList.get(position).getState() == SELETE_ALL) {
             holder.iv_smsLongClickPoint.setImageDrawable(check_on);
         } else {
             holder.iv_smsLongClickPoint.setImageDrawable(check_off);
@@ -180,7 +184,7 @@ public class SmsRcvAdapter extends RecyclerView.Adapter<SmsHolder> {
         holder.rl_sms.setOnClickListener(v -> {
             // 2.把所有的全选标记位复位为CLICK
             for (SMSContactSelf scf : smsContactList) {
-                scf.setState(Cons.CLICK);
+                scf.setState(SMSContactSelf.CLICK);
             }
             if (!SmsFrag.isLongClick) {/* 普通模式下 */
                 smsNormalClickNext(smsContact);
@@ -214,7 +218,7 @@ public class SmsRcvAdapter extends RecyclerView.Adapter<SmsHolder> {
     /* **** setSmsSendFailed **** */
     private void setSmsSendFailed(SmsHolder holder, int position) {
         SMSContactList.SMSContact smsContact = smsContactList.get(position).getSmscontact();
-        holder.iv_smsSendFailed.setVisibility(smsContact.getSMSType() == Cons.SENT_FAILED ? VISIBLE : GONE);
+        holder.iv_smsSendFailed.setVisibility(smsContact.getSMSType() == GetSMSContactListBean.SMSContacBean.CONS_SMS_TYPE_SENT_FAIL ? VISIBLE : GONE);
     }
 
 

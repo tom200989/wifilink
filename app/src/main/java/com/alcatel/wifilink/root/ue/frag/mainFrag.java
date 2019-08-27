@@ -15,7 +15,6 @@ import com.alcatel.wifilink.R;
 import com.alcatel.wifilink.root.bean.ConnectedList;
 import com.alcatel.wifilink.root.bean.Extender_GetWIFIExtenderCurrentStatusResult;
 import com.alcatel.wifilink.root.helper.ClickDoubleHelper;
-import com.alcatel.wifilink.root.helper.Cons;
 import com.alcatel.wifilink.root.helper.DeviceHelper;
 import com.alcatel.wifilink.root.helper.Extender_GetWIFIExtenderSettingsHelper;
 import com.alcatel.wifilink.root.helper.NetworkInfoHelper;
@@ -424,7 +423,7 @@ public class mainFrag extends BaseFrag {
      */
     private void showBatteryAndSignalUi(GetSystemStatusBean systemSystemStates) {
         if (systemSystemStates != null) {
-            boolean isCharing = systemSystemStates.getChg_state() == Cons.BATTERY_CHARING;// 电池状态
+            boolean isCharing = systemSystemStates.getChg_state() == GetSystemStatusBean.CONS_CHARGE_CHARGING;// 电池状态
             int cap = systemSystemStates.getBat_cap();// 电池电量
             rlMainrxMw70BatteryExtender.setBattery(isCharing, cap);
             rlMainrxMw70BatteryExtender.setSignal(systemSystemStates.getSignalStrength());
@@ -720,9 +719,9 @@ public class mainFrag extends BaseFrag {
             public void register(GetNetworkInfoBean result) {
                 rlSignalPanel.setVisibility(View.VISIBLE);
                 // 设置漫游+信号强度
-                boolean isRoam = result.getRoaming() == Cons.ROAMING;
+                boolean isRoam = result.getRoaming() == GetNetworkInfoBean.CONS_ROAMING;
                 int signalStrength = result.getSignalStrength();
-                isNoService = signalStrength == Cons.NOSERVICE;
+                isNoService = signalStrength == GetNetworkInfoBean.CONS_NO_SERVICE;
                 ivSignal.setImageDrawable(isRoam ? signalR : isNoService ? signal0 : signals[signalStrength]);
                 // 设置网络类型
                 tvNetworkType.setVisibility(isMWDev ? View.GONE : View.VISIBLE);

@@ -1,12 +1,12 @@
 package com.alcatel.wifilink.root.bean;
 
-import com.alcatel.wifilink.root.bean.SMSContactList;
-
 /**
  * Created by qianli.ma on 2017/12/17 0017.
  */
 
 public class SMSContactSelf {
+
+    public static final int CLICK = 0;
 
     private SMSContactList.SMSContact smscontact;
     private boolean isLongClick;

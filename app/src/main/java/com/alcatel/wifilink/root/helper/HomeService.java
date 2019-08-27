@@ -5,7 +5,7 @@ import android.content.Intent;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 
-import com.alcatel.wifilink.root.app.SmartLinkV3App;
+import com.alcatel.wifilink.root.app.wifiApp;
 import com.alcatel.wifilink.root.utils.RootUtils;
 import com.p_xhelper_smart.p_xhelper_smart.bean.GetLoginStateBean;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetLoginStateHelper;
@@ -58,7 +58,7 @@ public class HomeService extends Service {
     }
 
     private boolean isCheckServiceRunning() {
-        return RootUtils.isServiceWork(SmartLinkV3App.getInstance(), CheckService.class);
+        return RootUtils.isServiceWork(wifiApp.getInstance(), CheckService.class);
     }
 
     private void logout() {

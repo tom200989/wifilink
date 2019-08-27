@@ -17,7 +17,6 @@ import com.alcatel.wifilink.R;
 import com.alcatel.wifilink.root.adapter.SmsDetatilAdapter;
 import com.alcatel.wifilink.root.bean.SMSContactList;
 import com.alcatel.wifilink.root.bean.SMSContentList;
-import com.alcatel.wifilink.root.helper.Cons;
 import com.alcatel.wifilink.root.helper.SmsContentSortHelper;
 import com.alcatel.wifilink.root.helper.SmsDeletePop;
 import com.alcatel.wifilink.root.helper.SmsDraftHelper;
@@ -32,6 +31,7 @@ import com.hiber.tools.ShareUtils;
 import com.p_xhelper_smart.p_xhelper_smart.bean.DeleteSmsParam;
 import com.p_xhelper_smart.p_xhelper_smart.bean.GetSMSContactListBean;
 import com.p_xhelper_smart.p_xhelper_smart.bean.GetSMSContentListBean;
+import com.p_xhelper_smart.p_xhelper_smart.bean.GetSendSMSResultBean;
 import com.p_xhelper_smart.p_xhelper_smart.bean.GetSimStatusBean;
 import com.p_xhelper_smart.p_xhelper_smart.bean.GetSmsContentListParam;
 import com.p_xhelper_smart.p_xhelper_smart.helper.DeleteSMSHelper;
@@ -215,7 +215,7 @@ public class SmsDetailFrag extends BaseFrag {
     public List<SMSContentList.SMSContentBean> filterDraft(SMSContentList smsContentList) {
         List<SMSContentList.SMSContentBean> list = new ArrayList();
         for (SMSContentList.SMSContentBean scb : smsContentList.getSMSContentList()) {
-            if (scb.getSMSType() == Cons.DRAFT) {
+            if (scb.getSMSType() == GetSMSContactListBean.SMSContacBean.CONS_SMS_TYPE_DRAFT) {
                 continue;
             }
             list.add(scb);
@@ -404,7 +404,7 @@ public class SmsDetailFrag extends BaseFrag {
         new SmsSendHelper(activity, smsContact.getPhoneNumber(), content) {
             @Override
             public void sendFinish(int status) {/* 发送完成 */
-                if (status == Cons.SUCCESS) {
+                if (status == GetSendSMSResultBean.CONS_SEND_STATUS_SUCCESS) {
                     // 注意此处, 一调用即为标记为已读
                     getSmsContents(true);
                 } else {
@@ -493,7 +493,7 @@ public class SmsDetailFrag extends BaseFrag {
         resetLongClickFlag();
         //用新的Param替换旧的Param
         DeleteSmsParam xDeleteSmsParam = new DeleteSmsParam();
-        xDeleteSmsParam.setDelFlag(Cons.DELETE_MORE_SMS);
+        xDeleteSmsParam.setDelFlag(DeleteSmsParam.CONS_DELETE_MORE);
         xDeleteSmsParam.setSMSArray(smsIds);
 
         DeleteSMSHelper xDeleteSMSHelper = new DeleteSMSHelper();

@@ -7,7 +7,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.alcatel.wifilink.R;
-import com.alcatel.wifilink.root.helper.Cons;
 import com.alcatel.wifilink.root.helper.WpsHelper;
 import com.alcatel.wifilink.root.ue.activity.HomeActivity;
 import com.alcatel.wifilink.root.utils.RootCons;
@@ -328,7 +327,7 @@ public class WanInitFrag extends BaseFrag {
                 wsp.setPassword(password);
                 wsp.setPppoeMtu(Integer.valueOf(mtu));
                 break;
-            case Cons.STATIC:
+            case GetWanSettingsBean.CONS_STATIC:
                 String ipAddress = RootUtils.getEDText(etStaticIpaddress);
                 String subnet = RootUtils.getEDText(etStaticSubnet);
                 wsp.setIpAddress(ipAddress);

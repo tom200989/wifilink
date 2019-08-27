@@ -6,6 +6,8 @@ package com.alcatel.wifilink.root.bean;
 
 public class DeviceBean {
     
+    public static final int CONS_WIFI_CONNECT = 1;
+    
     private boolean isPhone;// 手机或电脑
     private String deviceName;// 设备名
     private String deviceIP;// 设备IP

@@ -5,6 +5,7 @@ import android.app.Activity;
 import com.alcatel.wifilink.root.bean.SMSContentList;
 import com.alcatel.wifilink.root.utils.RootUtils;
 import com.p_xhelper_smart.p_xhelper_smart.bean.DeleteSmsParam;
+import com.p_xhelper_smart.p_xhelper_smart.bean.GetSMSContactListBean;
 import com.p_xhelper_smart.p_xhelper_smart.bean.GetSMSContentListBean;
 import com.p_xhelper_smart.p_xhelper_smart.bean.GetSimStatusBean;
 import com.p_xhelper_smart.p_xhelper_smart.bean.GetSmsContentListParam;
@@ -93,7 +94,7 @@ public class SmsDraftHelper {
         xGetSMSContentListHelper.setOnGetSmsContentListSuccessListener(bean -> {
             List<SMSContentList.SMSContentBean> scbs = new ArrayList<>();
             for (GetSMSContentListBean.SMSContentBean scb : bean.getSMSContentList()) {
-                if (scb.getSMSType() == Cons.DRAFT) {// add draft sms
+                if (scb.getSMSType() == GetSMSContactListBean.SMSContacBean.CONS_SMS_TYPE_DRAFT) {// add draft sms
                     SMSContentList.SMSContentBean tempSmsContentBean = new SMSContentList.SMSContentBean();
                     tempSmsContentBean.setReportStatus(scb.getReportStatus());
                     tempSmsContentBean.setSMSContent(scb.getSMSContent());
@@ -173,13 +174,13 @@ public class SmsDraftHelper {
             }
 
             for (SMSContentList.SMSContentBean scb : smsContentList.getSMSContentList()) {
-                if (scb.getSMSType() == Cons.DRAFT) {
+                if (scb.getSMSType() == GetSMSContactListBean.SMSContacBean.CONS_SMS_TYPE_DRAFT) {
                     draftList.add(scb.getSMSId());
                 }
             }
             // 删除全部草稿短信
             DeleteSmsParam xDeleteSmsParam = new DeleteSmsParam();
-            xDeleteSmsParam.setDelFlag(Cons.DELETE_MORE_SMS);
+            xDeleteSmsParam.setDelFlag(DeleteSmsParam.CONS_DELETE_MORE);
             xDeleteSmsParam.setSMSArray(draftList);
             DeleteSMSHelper xDeleteSMSHelper = new DeleteSMSHelper();
             xDeleteSMSHelper.setOnDeleteSmsSuccessListener(object -> {

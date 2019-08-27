@@ -49,7 +49,7 @@ public class GetSMSContactListBean implements Serializable {
         this.SMSContactList = SMSContactList;
     }
 
-    public static class SMSContacBean implements Serializable{
+    public static class SMSContacBean implements Serializable {
         /**
          * ContactId : 1
          * PhoneNumber : ["18617092862"]
@@ -65,7 +65,7 @@ public class GetSMSContactListBean implements Serializable {
         private int ContactId;//The list ID
         private int SMSId;//最新的短信id
         private int SMSType;//短信类型 0: read   1: unread   2: sent
-                            // 3: sent failed   4: report  5: flash 6: draft
+        // 3: sent failed   4: report  5: flash 6: draft
         private int ReportStatus;
         private String SMSContent;//最新短信信息
         private String SMSTime;//最新一条短信的时间，格式YYYY-MM-DD hh:mm: ss

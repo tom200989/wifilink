@@ -13,7 +13,7 @@ import android.widget.TextView;
 
 import com.alcatel.wifilink.R;
 import com.alcatel.wifilink.root.bean.Extender_GetHotspotListResult;
-import com.alcatel.wifilink.root.app.SmartLinkV3App;
+import com.alcatel.wifilink.root.app.wifiApp;
 import com.alcatel.wifilink.root.utils.ToastTool;
 
 /**
@@ -85,7 +85,7 @@ public class HotPotKeyView extends RelativeLayout implements View.OnClickListene
     private void clickOk() {
         String password = etPassword.getText().toString();
         if (TextUtils.isEmpty(password)) {
-            ToastTool.show(SmartLinkV3App.getInstance(), R.string.password_is_not_allowed_to_be_empty);
+            ToastTool.show(wifiApp.getInstance(), R.string.password_is_not_allowed_to_be_empty);
         } else {
             clickNext(hb, password);
         }
@@ -126,7 +126,7 @@ public class HotPotKeyView extends RelativeLayout implements View.OnClickListene
      * 隐藏软键盘
      */
     private void hideKeyBoard() {
-        InputMethodManager imm = (InputMethodManager) SmartLinkV3App.getInstance().getSystemService(Context.INPUT_METHOD_SERVICE);
+        InputMethodManager imm = (InputMethodManager) wifiApp.getInstance().getSystemService(Context.INPUT_METHOD_SERVICE);
         if (imm != null) {
             imm.hideSoftInputFromWindow(this.getWindowToken(), 0);
         }

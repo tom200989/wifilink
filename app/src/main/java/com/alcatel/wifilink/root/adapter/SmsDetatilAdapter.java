@@ -11,12 +11,12 @@ import android.widget.Button;
 
 import com.alcatel.wifilink.R;
 import com.alcatel.wifilink.root.bean.SMSContentList;
-import com.alcatel.wifilink.root.helper.Cons;
 import com.alcatel.wifilink.root.helper.SmsContentSortHelper;
 import com.alcatel.wifilink.root.helper.SmsReSendHelper;
 import com.alcatel.wifilink.root.utils.RootUtils;
 import com.alcatel.wifilink.root.widget.PopupWindows;
 import com.hiber.tools.ScreenSize;
+import com.p_xhelper_smart.p_xhelper_smart.bean.GetSMSContactListBean;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -27,7 +27,6 @@ import static android.view.View.INVISIBLE;
 import static android.view.View.VISIBLE;
 import static com.alcatel.wifilink.R.drawable.checkbox_android_off;
 import static com.alcatel.wifilink.R.drawable.checkbox_android_on;
-import static com.alcatel.wifilink.root.helper.Cons.SENT_FAILED;
 
 public class SmsDetatilAdapter extends RecyclerView.Adapter<SmsDetailHolder> {
 
@@ -125,7 +124,8 @@ public class SmsDetatilAdapter extends RecyclerView.Adapter<SmsDetailHolder> {
         NewSMSContentBean nscb = newScbList.get(position);// 带选中|未选中标记位
         SMSContentList.SMSContentBean scb = nscb.smsContentBean;
         int smsType = scb.getSMSType();
-        boolean receiver = smsType == Cons.READ || smsType == Cons.UNREAD;
+        boolean receiver = smsType == GetSMSContactListBean.SMSContacBean.CONS_SMS_TYPE_READ // 
+                                   || smsType == GetSMSContactListBean.SMSContacBean.CONS_SMS_TYPE_UNREAD;//
         holder.rl_smsdetail_receiver.setVisibility(receiver ? VISIBLE : INVISIBLE);
     }
 
@@ -134,7 +134,7 @@ public class SmsDetatilAdapter extends RecyclerView.Adapter<SmsDetailHolder> {
         NewSMSContentBean nscb = newScbList.get(position);// 带选中|未选中标记位
         SMSContentList.SMSContentBean scb = nscb.smsContentBean;
         int smsType = scb.getSMSType();
-        boolean receiver = smsType == Cons.SENT || smsType == SENT_FAILED;
+        boolean receiver = smsType == GetSMSContactListBean.SMSContacBean.CONS_SMS_TYPE_SENT || smsType == GetSMSContactListBean.SMSContacBean.CONS_SMS_TYPE_SENT_FAIL;
         holder.rl_smsdetail_send.setVisibility(receiver ? VISIBLE : INVISIBLE);
     }
 
@@ -157,7 +157,7 @@ public class SmsDetatilAdapter extends RecyclerView.Adapter<SmsDetailHolder> {
     private void setSendFailLogo(SmsDetailHolder holder, int position) {
         NewSMSContentBean nscb = newScbList.get(position);// 带选中|未选中标记位
         SMSContentList.SMSContentBean scb = nscb.smsContentBean;
-        holder.iv_smsdetail_failed_send.setVisibility(scb.getSMSType() == SENT_FAILED ? VISIBLE : GONE);
+        holder.iv_smsdetail_failed_send.setVisibility(scb.getSMSType() == GetSMSContactListBean.SMSContacBean.CONS_SMS_TYPE_SENT_FAIL ? VISIBLE : GONE);
     }
 
     /* **** setSendText **** */
@@ -224,8 +224,8 @@ public class SmsDetatilAdapter extends RecyclerView.Adapter<SmsDetailHolder> {
             showTryAgainPop(scb);
         });
     }
-    
-    
+
+
     /* -------------------------------------------- HELPER -------------------------------------------- */
 
     /* **** A.重新整理短信对象 **** */
@@ -240,7 +240,7 @@ public class SmsDetatilAdapter extends RecyclerView.Adapter<SmsDetailHolder> {
         if (smsContentList != null) {
             for (SMSContentList.SMSContentBean scb : smsContentList.getSMSContentList()) {
                 int smsType = scb.getSMSType();
-                if (smsType == Cons.DRAFT || smsType == Cons.REPORT) {
+                if (smsType == GetSMSContactListBean.SMSContacBean.CONS_SMS_TYPE_DRAFT || smsType == GetSMSContactListBean.SMSContacBean.CONS_SMS_TYPE_REPORT) {
                     continue;
                 }
                 sortScbList.add(scb);
@@ -289,8 +289,8 @@ public class SmsDetatilAdapter extends RecyclerView.Adapter<SmsDetailHolder> {
         View inflate = View.inflate(context, R.layout.pop_smsdetail_tryagain, null);
         int width = (int) (ScreenSize.getSize(context).width * 0.75f);
         int height = (int) (ScreenSize.getSize(context).height * 0.215f);
-        tv_cancel =  inflate.findViewById(R.id.tv_smsdetail_tryagain_cancel);
-        tv_confirm =  inflate.findViewById(R.id.tv_smsdetail_tryagain_confirm);
+        tv_cancel = inflate.findViewById(R.id.tv_smsdetail_tryagain_cancel);
+        tv_confirm = inflate.findViewById(R.id.tv_smsdetail_tryagain_confirm);
         tv_cancel.setOnClickListener(v -> failedPop.dismiss());
         tv_confirm.setOnClickListener(v -> {
             failedPop.dismiss();

@@ -15,12 +15,12 @@ import java.util.List;
 import java.util.Locale;
 
 
-public class SmartLinkV3App extends RootApp {
+public class wifiApp extends RootApp {
 
-    private static SmartLinkV3App m_instance = null;
+    private static wifiApp m_instance = null;
     private static List<Activity> contexts;
 
-    public static SmartLinkV3App getInstance() {
+    public static wifiApp getInstance() {
         return m_instance;
     }
 
