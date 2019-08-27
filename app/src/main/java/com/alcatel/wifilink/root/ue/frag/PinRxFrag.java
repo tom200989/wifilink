@@ -10,8 +10,8 @@ import android.widget.TextView;
 
 import com.alcatel.wifilink.R;
 import com.alcatel.wifilink.root.helper.BoardSimHelper;
-import com.alcatel.wifilink.root.helper.Cons;
 import com.alcatel.wifilink.root.ue.activity.SplashActivity;
+import com.alcatel.wifilink.root.utils.RootCons;
 import com.alcatel.wifilink.root.utils.RootUtils;
 import com.hiber.tools.ShareUtils;
 import com.p_xhelper_smart.p_xhelper_smart.bean.GetLoginStateBean;
@@ -83,8 +83,8 @@ public class PinRxFrag extends BaseFrag {
      * 初始化UI
      */
     private void initUi() {
-        boolean isRememPin = ShareUtils.get(Cons.PIN_REMEM_FLAG_RX, false);
-        String pinCache = ShareUtils.get(Cons.PIN_REMEM_STR_RX, "");
+        boolean isRememPin = ShareUtils.get(RootCons.PIN_RX_IS_REMEM_PSD, false);
+        String pinCache = ShareUtils.get(RootCons.PIN_RX_REMEM_PSD, "");
         ivPinRxCheckbox.setImageDrawable(isRememPin ? check_pic : uncheck_pic);
         etPinRx.setText(isRememPin ? pinCache : "");
         etPinRx.setSelection(RootUtils.getEDText(etPinRx).length());
@@ -104,8 +104,8 @@ public class PinRxFrag extends BaseFrag {
             boolean isCheck = ivPinRxCheckbox.getDrawable() == check_pic;// current is check
             ivPinRxCheckbox.setImageDrawable(isCheck ? uncheck_pic : check_pic);// modify to uncheck
             String pin = RootUtils.getEDText(etPinRx);
-            ShareUtils.set(Cons.PIN_REMEM_STR_RX, ivPinRxCheckbox.getDrawable() == check_pic ? pin : "");
-            ShareUtils.set(Cons.PIN_REMEM_FLAG_RX, ivPinRxCheckbox.getDrawable() == check_pic);
+            ShareUtils.set(RootCons.PIN_RX_REMEM_PSD, ivPinRxCheckbox.getDrawable() == check_pic ? pin : "");
+            ShareUtils.set(RootCons.PIN_RX_IS_REMEM_PSD, ivPinRxCheckbox.getDrawable() == check_pic);
         });
     }
 
@@ -226,8 +226,8 @@ public class PinRxFrag extends BaseFrag {
             boolean isRememPin = ivPinRxCheckbox.getDrawable() == check_pic;
             if (isRememPin) {
                 String pins = RootUtils.getEDText(etPinRx);
-                ShareUtils.set(Cons.PIN_REMEM_STR_RX, pins);
-                ShareUtils.set(Cons.PIN_REMEM_FLAG_RX, isRememPin);
+                ShareUtils.set(RootCons.PIN_RX_REMEM_PSD, pins);
+                ShareUtils.set(RootCons.PIN_RX_IS_REMEM_PSD, isRememPin);
             }
             // 进入其他界面
             toOtherRx();

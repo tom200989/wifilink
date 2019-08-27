@@ -10,7 +10,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.alcatel.wifilink.R;
-import com.alcatel.wifilink.root.helper.Cons;
 import com.alcatel.wifilink.root.utils.RootUtils;
 import com.p_xhelper_smart.p_xhelper_smart.bean.GetWanSettingsBean;
 import com.p_xhelper_smart.p_xhelper_smart.bean.SetWanSettingsParam;
@@ -76,10 +75,7 @@ public class EtherWANFrag extends BaseFrag {
     private GetWanSettingsBean mWanSettingsResult = new GetWanSettingsBean();
     private SetWanSettingsParam mWanSettingsParams = new SetWanSettingsParam();
     private boolean mIsConnecting;
-    public static int FLAG_PPPOE = 0;
-    public static int FLAG_DHCP = 1;
-    public static int FLAG_STATIC_IP = 2;
-    private int flag = FLAG_PPPOE;
+    private int flag = GetWanSettingsBean.CONS_PPPOE;
 
     @Override
     public int onInflateLayout() {
@@ -118,7 +114,7 @@ public class EtherWANFrag extends BaseFrag {
         // 检测MTU是否符合规则
         int pppoeMtu = Integer.valueOf(TextUtils.isEmpty(RootUtils.getEDText(mPppoeMtu)) ? "1492" : RootUtils.getEDText(mPppoeMtu));
         int staticMtu = Integer.valueOf(TextUtils.isEmpty(RootUtils.getEDText(mStaticIpMtu)) ? "1500" : RootUtils.getEDText(mStaticIpMtu));
-        if (flag == Cons.FLAG_PPPOE) {
+        if (flag == GetWanSettingsBean.CONS_PPPOE) {
             if (pppoeMtu < 576 || pppoeMtu > 1492) {
                 String content = getString(R.string.mtu_not_match).replace("1500", "1492");
                 toast(content, 3000);
@@ -126,7 +122,7 @@ public class EtherWANFrag extends BaseFrag {
             }
             mWanSettingsParams.setPppoeMtu(pppoeMtu);
 
-        } else if (flag == Cons.FLAG_STATIC_IP) {
+        } else if (flag == GetWanSettingsBean.CONS_STATIC) {
             String str_staticIp = RootUtils.getEDText(mStaticIpAddress);
             String str_subnetMask = RootUtils.getEDText(mStaticIpSubnetMask);
             String str_defaultGateway = RootUtils.getEDText(mStaticIpDefaultGateway);
@@ -238,7 +234,7 @@ public class EtherWANFrag extends BaseFrag {
     }
 
     private void showConnectStaticIp() {
-        flag = FLAG_STATIC_IP;
+        flag = GetWanSettingsBean.CONS_STATIC;
         if (mWanSettingsResult.getConnectType() == GetWanSettingsBean.CONS_STATIC && mWanSettingsResult.getStatus() == GetWanSettingsBean.CONS_CONNECTED) {
             mConnectOrDisconnect.setTextColor(getRootColor(R.color.gray));
         } else {
@@ -254,7 +250,7 @@ public class EtherWANFrag extends BaseFrag {
     }
 
     private void showConnectDhcp() {
-        flag = FLAG_DHCP;
+        flag = GetWanSettingsBean.CONS_DHCP;
         if (mWanSettingsResult.getConnectType() == GetWanSettingsBean.CONS_DHCP && mWanSettingsResult.getStatus() == GetWanSettingsBean.CONS_CONNECTED) {
             mConnectOrDisconnect.setTextColor(getRootColor(R.color.gray));
         } else {
@@ -270,7 +266,7 @@ public class EtherWANFrag extends BaseFrag {
     }
 
     private void showConnectPppoe() {
-        flag = FLAG_PPPOE;
+        flag = GetWanSettingsBean.CONS_PPPOE;
         if (mWanSettingsResult.getConnectType() == GetWanSettingsBean.CONS_PPPOE && mWanSettingsResult.getStatus() == GetWanSettingsBean.CONS_CONNECTED) {
             mConnectOrDisconnect.setTextColor(getRootColor(R.color.gray));
         } else {

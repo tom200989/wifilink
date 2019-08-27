@@ -40,7 +40,7 @@ public abstract class CheckBoard {
      */
     public void checkBoard(Activity ori, Class... target) {
         // 检测wifi是否有连接
-        boolean wifiConnect = RootUtils.isWifiConnect(ori);
+        boolean wifiConnect = RootUtils.isWifiConnect();
         if (wifiConnect) {
             yesWifiNext(wifiConnect);
             // 请求接口前

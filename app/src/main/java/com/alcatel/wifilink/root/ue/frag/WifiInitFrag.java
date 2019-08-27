@@ -300,7 +300,7 @@ public class WifiInitFrag extends BaseFrag {
         if (result.getAP2G() != null) {
             if (is2P4GEnable) {
                 result.getAP2G().setApStatus(Cons.ENABLE);
-                result.getAP2G().setSecurityMode(Cons.SECURITY_WPA_WPA2);// 强制为WPA\WPA2模式
+                result.getAP2G().setSecurityMode(GetWlanSettingsBean.CONS_SECURITY_MODE_WPA_WPA2);// 强制为WPA\WPA2模式
                 result.getAP2G().setSsid(RootUtils.getEDText(etAccount2p4G, true));
                 result.getAP2G().setWpaKey(RootUtils.getEDText(etPassword2p4G, true));
             } else {
@@ -312,7 +312,7 @@ public class WifiInitFrag extends BaseFrag {
         if (result.getAP5G() != null) {
             if (is5GEnable) {
                 result.getAP5G().setApStatus(Cons.ENABLE);
-                result.getAP5G().setSecurityMode(Cons.SECURITY_WPA_WPA2);// 强制为WPA\WPA2模式
+                result.getAP5G().setSecurityMode(GetWlanSettingsBean.CONS_SECURITY_MODE_WPA_WPA2);// 强制为WPA\WPA2模式
                 result.getAP5G().setSsid(RootUtils.getEDText(etAccount5G, true));
                 result.getAP5G().setWpaKey(RootUtils.getEDText(etPassword5G, true));
             } else {

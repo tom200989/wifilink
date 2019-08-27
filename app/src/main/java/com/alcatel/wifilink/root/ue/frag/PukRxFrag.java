@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import com.alcatel.wifilink.R;
 import com.alcatel.wifilink.root.helper.BoardSimHelper;
-import com.alcatel.wifilink.root.helper.Cons;
+import com.alcatel.wifilink.root.utils.RootCons;
 import com.alcatel.wifilink.root.utils.RootUtils;
 import com.hiber.tools.ShareUtils;
 import com.hiber.tools.layout.PercentRelativeLayout;
@@ -61,7 +61,7 @@ public class PukRxFrag extends BaseFrag {
 
     @Override
     public void onNexts(Object o, View view, String s) {
-        super.onNexts(o,view,s);
+        super.onNexts(o, view, s);
         initRes();
         initUi();
         initOnClick();
@@ -78,8 +78,8 @@ public class PukRxFrag extends BaseFrag {
     }
 
     private void initUi() {
-        boolean isRememPin = ShareUtils.get(Cons.PIN_REMEM_FLAG_RX,false);
-        String pinCache = ShareUtils.get(Cons.PIN_REMEM_STR_RX, "");
+        boolean isRememPin = ShareUtils.get(RootCons.PIN_RX_IS_REMEM_PSD, false);
+        String pinCache = ShareUtils.get(RootCons.PIN_RX_REMEM_PSD, "");
         ivPukRemempinRxCheckbox.setImageDrawable(isRememPin ? check_pic : uncheck_pic);
         etPukResetpinRx.setText(isRememPin ? pinCache : "");
         etPukResetpinRx.setSelection(RootUtils.getEDText(etPukResetpinRx).length());
@@ -143,15 +143,15 @@ public class PukRxFrag extends BaseFrag {
     /**
      * 点击事件
      */
-    private void initOnClick(){
+    private void initOnClick() {
         ivPukRemempinRxCheckbox.setOnClickListener(v -> tvPukRemempinRxCheckbox.performLongClick());
         tvPukRemempinRxCheckbox.setOnClickListener(v -> {
             boolean isCheck = ivPukRemempinRxCheckbox.getDrawable() == check_pic;
             Drawable checkBox = isCheck ? uncheck_pic : check_pic;
             ivPukRemempinRxCheckbox.setImageDrawable(checkBox);
             String pin = RootUtils.getEDText(etPukResetpinRx);
-            ShareUtils.set(Cons.PIN_REMEM_STR_RX, ivPukRemempinRxCheckbox.getDrawable() == check_pic ? pin : "");
-            ShareUtils.set(Cons.PIN_REMEM_FLAG_RX, ivPukRemempinRxCheckbox.getDrawable() == check_pic);
+            ShareUtils.set(RootCons.PIN_RX_REMEM_PSD, ivPukRemempinRxCheckbox.getDrawable() == check_pic ? pin : "");
+            ShareUtils.set(RootCons.PIN_RX_IS_REMEM_PSD, ivPukRemempinRxCheckbox.getDrawable() == check_pic);
         });
         btPukRxUnlock.setOnClickListener(v -> unlockPukClick());
     }
@@ -163,32 +163,32 @@ public class PukRxFrag extends BaseFrag {
         // 空值判断
         String puk = RootUtils.getEDText(etPukRx);
         if (TextUtils.isEmpty(puk)) {
-            toast(R.string.puk_empty,2000);
+            toast(R.string.puk_empty, 2000);
             return;
         }
 
         String pin = RootUtils.getEDText(etPukResetpinRx);
         if (TextUtils.isEmpty(pin)) {
-            toast(R.string.pin_empty,2000);
+            toast(R.string.pin_empty, 2000);
             return;
         }
         String pinConfirm = RootUtils.getEDText(etPukResetpinRxConfirm);
         if (TextUtils.isEmpty(pinConfirm)) {
-            toast(R.string.pin_confirm_empty,2000);
+            toast(R.string.pin_confirm_empty, 2000);
             return;
         }
         // 位数判断
         if (pin.length() < 4 | pin.length() > 8) {
-            toast(R.string.the_pin_code_should_be_4_8_characters,2000);
+            toast(R.string.the_pin_code_should_be_4_8_characters, 2000);
             return;
         }
         if (pinConfirm.length() < 4 | pinConfirm.length() > 8) {
-            toast(R.string.the_pin_code_should_be_4_8_characters,2000);
+            toast(R.string.the_pin_code_should_be_4_8_characters, 2000);
             return;
         }
         // 匹配
         if (!pin.equalsIgnoreCase(pinConfirm)) {
-            toast(R.string.puk_pinDontMatch,2000);
+            toast(R.string.puk_pinDontMatch, 2000);
             return;
         }
         // 发起请求
@@ -218,14 +218,14 @@ public class PukRxFrag extends BaseFrag {
             boolean isRememPin = ivPukRemempinRxCheckbox.getDrawable() == check_pic;
             if (isRememPin) {
                 String pins = RootUtils.getEDText(etPukResetpinRx);
-                ShareUtils.set(Cons.PIN_REMEM_STR_RX, pins);
-                ShareUtils.set(Cons.PIN_REMEM_FLAG_RX, isRememPin);
+                ShareUtils.set(RootCons.PIN_RX_REMEM_PSD, pins);
+                ShareUtils.set(RootCons.PIN_RX_IS_REMEM_PSD, isRememPin);
             }
             // 2.进入其他界面
             toOtherRx();
         });
         xUnlockPukHelper.setOnUnlockPukFailedListener(() -> {
-            toast(R.string.puk_unlock_failed,2000);
+            toast(R.string.puk_unlock_failed, 2000);
             getRemainTime();
         });
         xUnlockPukHelper.unlockPuk(puk, pin);
@@ -236,16 +236,16 @@ public class PukRxFrag extends BaseFrag {
     }
 
     private void toPinRx() {
-        toFrag(getClass(),PinRxFrag.class,null,true);
+        toFrag(getClass(), PinRxFrag.class, null, true);
     }
 
     public void toFragment(Class clazz) {
-        toFrag(getClass(),clazz,null,false);
+        toFrag(getClass(), clazz, null, false);
     }
 
     @Override
     public boolean onBackPresss() {
-        toFrag(getClass(),mainFrag.class,null,false);
+        toFrag(getClass(), mainFrag.class, null, false);
         return true;
     }
 }

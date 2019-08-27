@@ -25,7 +25,6 @@ import com.alcatel.wifilink.root.widget.HH70_ModeWidget;
 import com.alcatel.wifilink.root.widget.HH70_ProfileWidget;
 import com.alcatel.wifilink.root.widget.HH70_SimpinWidget;
 import com.hiber.cons.TimerState;
-import com.hiber.tools.ShareUtils;
 import com.p_xhelper_smart.p_xhelper_smart.bean.GetProfileListBean;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetConnectionStateHelper;
 
@@ -361,7 +360,6 @@ public class MobileNetworkFrag extends BaseFrag {
      * 前往PUK界面
      */
     private void toPukRx() {
-        ShareUtils.set(Cons.TAB_FRA, Cons.TAB_MOBILE_NETWORK);
         toFrag(getClass(), PukRxFrag.class, null, true);
     }
 

@@ -20,8 +20,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.alcatel.wifilink.R;
-import com.alcatel.wifilink.root.helper.Cons;
 import com.alcatel.wifilink.root.helper.UsageSettingHelper;
+import com.alcatel.wifilink.root.utils.RootCons;
 import com.alcatel.wifilink.root.utils.RootUtils;
 import com.alcatel.wifilink.root.widget.HH70_LoadWidget;
 import com.hiber.cons.TimerState;
@@ -164,7 +164,7 @@ public class SettingNetworkFrag extends BaseFrag {
     }
 
     private void initData() {
-        int usageLimit_default = ShareUtils.get(Cons.USAGE_LIMIT, 90);
+        int usageLimit_default = ShareUtils.get(RootCons.USAGE_LIMIT_DEFAULT, 90);
         setDefaultLimit(mUsageAlertSpinner, usageLimit_default);
     }
 
@@ -252,7 +252,7 @@ public class SettingNetworkFrag extends BaseFrag {
                 String[] usageAlertStringArr = getResources().getStringArray(R.array.settings_data_plan_usage_alert);
                 String usageAlertPercent = usageAlertStringArr[position];
                 int usageLimit = Integer.valueOf(usageAlertPercent.replace("%", ""));
-                ShareUtils.set(Cons.USAGE_LIMIT, usageLimit);
+                ShareUtils.set(RootCons.USAGE_LIMIT_DEFAULT, usageLimit);
             }
 
             @Override

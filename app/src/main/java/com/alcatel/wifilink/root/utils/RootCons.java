@@ -19,6 +19,9 @@ public class RootCons {
     public static String LOGIN_REMEM_PSD = "LOGIN_REMEM_PSD";// 登陆界面缓存的密码
     public static String PIN_INIT_IS_REMEM_PSD = "PIN_INIT_IS_REMEM_PSD";// PIN码初始化界面记住密码标记
     public static String PIN_INIT_REMEM_PSD = "PIN_INIT_REMEM_PSD";// PIN码初始化界面缓存的密码
+    public static String PIN_RX_IS_REMEM_PSD = "PIN_RX_IS_REMEM_PSD";// PIN码设置界面记住密码标记
+    public static String PIN_RX_REMEM_PSD = "PIN_RX_REMEM_PSD";// PIN码设置界面缓存的密码
+    public static String USAGE_LIMIT_DEFAULT = "USAGE_LIMIT";// 流量默认
     public static String LOCALE_LANGUAGE_COUNTRY = "LOCALE_LANGUAGE_COUNTRY";// 当前需要显示的语言和国家, 如:es-MX
 
     public static class ACTIVITYS {// Activity

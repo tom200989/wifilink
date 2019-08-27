@@ -13,7 +13,6 @@ import android.widget.TextView;
 import com.alcatel.wifilink.R;
 import com.alcatel.wifilink.root.adapter.BillingAdaper;
 import com.alcatel.wifilink.root.helper.BillingHelper;
-import com.alcatel.wifilink.root.helper.Cons;
 import com.alcatel.wifilink.root.helper.SetTimeLimitHelper;
 import com.alcatel.wifilink.root.helper.UsageHelper;
 import com.alcatel.wifilink.root.helper.UsageSettingHelper;
@@ -192,7 +191,7 @@ public class SetDataPlanFrag extends BaseFrag {
             // billing day
             tvBilling.setText(days[result.getBillingDay() - 1]);
             // usage alert
-            int per = ShareUtils.get(Cons.USAGE_LIMIT, 90);
+            int per = ShareUtils.get(RootCons.USAGE_LIMIT_DEFAULT, 90);
             tvUsageAlert.setText(RootUtils.getAlert(alerts, per));
             // auto disconnect
             ivAutoDisconnect.setImageDrawable(result.getAutoDisconnFlag() == GetUsageSettingsBean.CONS_AUTO_DISCONNECT_ENABLE ? switch_on : switch_off);
@@ -472,7 +471,7 @@ public class SetDataPlanFrag extends BaseFrag {
     private void saveAlertAndShowPop(int value) {
         // 1.保存警告值
         pop_alert.dismiss();
-        ShareUtils.set(Cons.USAGE_LIMIT, value);
+        ShareUtils.set(RootCons.USAGE_LIMIT_DEFAULT, value);
         if (value != -1) {
             // 2.弹出剩余流量
             loadWidget.setVisibles();

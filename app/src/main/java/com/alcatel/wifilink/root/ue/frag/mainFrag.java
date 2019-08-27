@@ -643,7 +643,7 @@ public class mainFrag extends BaseFrag {
             }
             tvUsedTotal.setText(plan <= 0 ? noUsagePlan : useOf + BLANK_TEXT + montyUsage + planUnit);
             // 计算已使用流量比率
-            usageLimit = ShareUtils.get(Cons.USAGE_LIMIT, 90);;
+            usageLimit = ShareUtils.get(RootCons.USAGE_LIMIT_DEFAULT, 90);;
             if (usageLimit == -1) {
                 btSimConnected.setFrontColor(Color.parseColor(frontColor_nor));
                 btSimConnected.setBehindColor(Color.parseColor(behindColor_nor));
