@@ -11,9 +11,13 @@ import android.widget.TextView;
 import com.alcatel.wifilink.R;
 import com.alcatel.wifilink.root.helper.BoardSimHelper;
 import com.alcatel.wifilink.root.helper.Cons;
+import com.alcatel.wifilink.root.ue.activity.SplashActivity;
 import com.alcatel.wifilink.root.utils.RootUtils;
 import com.hiber.tools.ShareUtils;
+import com.p_xhelper_smart.p_xhelper_smart.bean.GetLoginStateBean;
 import com.p_xhelper_smart.p_xhelper_smart.bean.GetSimStatusBean;
+import com.p_xhelper_smart.p_xhelper_smart.helper.GetLoginStateHelper;
+import com.p_xhelper_smart.p_xhelper_smart.helper.GetSimStatusHelper;
 import com.p_xhelper_smart.p_xhelper_smart.helper.UnlockPinHelper;
 
 import butterknife.BindView;
@@ -49,7 +53,7 @@ public class PinRxFrag extends BaseFrag {
 
     @Override
     public void onNexts(Object o, View view, String s) {
-        super.onNexts(o,view,s);
+        super.onNexts(o, view, s);
         initRes();
         initUi();
         initOnClick();
@@ -79,8 +83,8 @@ public class PinRxFrag extends BaseFrag {
      * 初始化UI
      */
     private void initUi() {
-        boolean isRememPin = ShareUtils.get(Cons.PIN_REMEM_FLAG_RX,false);
-        String pinCache = ShareUtils.get(Cons.PIN_REMEM_STR_RX,"");
+        boolean isRememPin = ShareUtils.get(Cons.PIN_REMEM_FLAG_RX, false);
+        String pinCache = ShareUtils.get(Cons.PIN_REMEM_STR_RX, "");
         ivPinRxCheckbox.setImageDrawable(isRememPin ? check_pic : uncheck_pic);
         etPinRx.setText(isRememPin ? pinCache : "");
         etPinRx.setSelection(RootUtils.getEDText(etPinRx).length());
@@ -89,7 +93,7 @@ public class PinRxFrag extends BaseFrag {
     /**
      * 点击事件
      */
-    private void initOnClick(){
+    private void initOnClick() {
         ivPinRxDeleted.setOnClickListener(v -> etPinRx.setText(""));
         btPinRxUnlock.setOnClickListener(v -> {
             RootUtils.hideKeyBoard(getActivity());
@@ -100,8 +104,8 @@ public class PinRxFrag extends BaseFrag {
             boolean isCheck = ivPinRxCheckbox.getDrawable() == check_pic;// current is check
             ivPinRxCheckbox.setImageDrawable(isCheck ? uncheck_pic : check_pic);// modify to uncheck
             String pin = RootUtils.getEDText(etPinRx);
-            ShareUtils.set(Cons.PIN_REMEM_STR_RX,ivPinRxCheckbox.getDrawable() == check_pic ? pin : "");
-            ShareUtils.set(Cons.PIN_REMEM_FLAG_RX,ivPinRxCheckbox.getDrawable() == check_pic);
+            ShareUtils.set(Cons.PIN_REMEM_STR_RX, ivPinRxCheckbox.getDrawable() == check_pic ? pin : "");
+            ShareUtils.set(Cons.PIN_REMEM_FLAG_RX, ivPinRxCheckbox.getDrawable() == check_pic);
         });
     }
 
@@ -109,9 +113,21 @@ public class PinRxFrag extends BaseFrag {
      * 获取PIN码剩余次数
      */
     private void getRemainTime() {
-        boardSimHelper = new BoardSimHelper(getActivity());
-        boardSimHelper.setOnNormalSimstatusListener(this::toRemain);
-        boardSimHelper.boardNormal();
+        GetLoginStateHelper xGetLoginStateHelper = new GetLoginStateHelper();
+        xGetLoginStateHelper.setOnGetLoginStateSuccessListener(getLoginStateBean -> {
+            if (getLoginStateBean.getState() == GetLoginStateBean.CONS_LOGIN) {
+                GetSimStatusHelper xGetSimStatusHelper = new GetSimStatusHelper();
+                xGetSimStatusHelper.setOnGetSimStatusSuccessListener(this::toRemain);
+                xGetSimStatusHelper.setOnGetSimStatusFailedListener(() -> {
+                    toast(R.string.home_sim_not_accessible, 3000);
+                    toFragActivity(getClass(), SplashActivity.class, RefreshFrag.class, null, true);
+                });
+                xGetSimStatusHelper.getSimStatus();
+            } else {
+                toFragActivity(getClass(), SplashActivity.class, LoginFrag.class, null, true);
+            }
+        });
+        xGetLoginStateHelper.getLoginState();
     }
 
     /**
@@ -129,7 +145,6 @@ public class PinRxFrag extends BaseFrag {
             if (pinTime <= 0) {
                 toPukRx();
             }
-            return;
         }
 
     }
@@ -141,12 +156,12 @@ public class PinRxFrag extends BaseFrag {
         // 空值判断
         String pin = RootUtils.getEDText(etPinRx);
         if (TextUtils.isEmpty(pin)) {
-            toast(R.string.pin_empty,2000);
+            toast(R.string.pin_empty, 2000);
             return;
         }
         // 位数判断
         if (pin.length() < 4 | pin.length() > 8) {
-            toast(R.string.the_pin_code_should_be_4_8_characters,2000);
+            toast(R.string.the_pin_code_should_be_4_8_characters, 2000);
             return;
         }
         // 请求
@@ -154,26 +169,49 @@ public class PinRxFrag extends BaseFrag {
     }
 
     private void getBoardAndSimStauts() {
-        boardSimHelper = new BoardSimHelper(getActivity());
-        boardSimHelper.setOnPinRequireListener(this::unlockPinRequest);
-        boardSimHelper.setOnpukRequireListener(result -> toPukRx());
-        boardSimHelper.setOnpukTimeoutListener(result -> toPukRx());
-        boardSimHelper.setOnSimReadyListener(result -> toOtherRx());
-        boardSimHelper.boardNormal();
+        GetLoginStateHelper xGetLoginStateHelper = new GetLoginStateHelper();
+        xGetLoginStateHelper.setOnGetLoginStateSuccessListener(getLoginStateBean -> {
+            if (getLoginStateBean.getState() == GetLoginStateBean.CONS_LOGIN) {
+                GetSimStatusHelper xGetSimStatusHelper = new GetSimStatusHelper();
+                xGetSimStatusHelper.setOnGetSimStatusSuccessListener(getSimStatusBean -> {
+                    int simState = getSimStatusBean.getSIMState();
+                    switch (simState) {
+                        case GetSimStatusBean.CONS_PUK_REQUIRED:
+                        case GetSimStatusBean.CONS_PUK_TIMES_USED_OUT:
+                            toPukRx();
+                            break;
+                        case GetSimStatusBean.CONS_PIN_REQUIRED:
+                            unlockPinRequest(getSimStatusBean);
+                            break;
+                        case GetSimStatusBean.CONS_SIM_CARD_READY:
+                            toOtherRx();
+                            break;
+                    }
+                });
+                xGetSimStatusHelper.setOnGetSimStatusFailedListener(() -> {
+                    toast(R.string.home_sim_not_accessible, 3000);
+                    toFragActivity(getClass(), SplashActivity.class, RefreshFrag.class, null, true);
+                });
+                xGetSimStatusHelper.getSimStatus();
+            } else {
+                toFragActivity(getClass(), SplashActivity.class, LoginFrag.class, null, true);
+            }
+        });
+        xGetLoginStateHelper.getLoginState();
     }
 
     /**
      * 跳转
      */
     private void toOtherRx() {
-        toFrag(getClass(),mainFrag.class,null,false);
+        toFrag(getClass(), mainFrag.class, null, false);
     }
 
     /**
      * 前往puk fragment
      */
     private void toPukRx() {
-        toFrag(getClass(),PukRxFrag.class,null,false);
+        toFrag(getClass(), PukRxFrag.class, null, false);
     }
 
     /**
@@ -190,14 +228,14 @@ public class PinRxFrag extends BaseFrag {
             boolean isRememPin = ivPinRxCheckbox.getDrawable() == check_pic;
             if (isRememPin) {
                 String pins = RootUtils.getEDText(etPinRx);
-                ShareUtils.set(Cons.PIN_REMEM_STR_RX,pins);
-                ShareUtils.set(Cons.PIN_REMEM_FLAG_RX,isRememPin);
+                ShareUtils.set(Cons.PIN_REMEM_STR_RX, pins);
+                ShareUtils.set(Cons.PIN_REMEM_FLAG_RX, isRememPin);
             }
             // 进入其他界面
             toOtherRx();
         });
         xUnlockPinHelper.setOnUnlockPinFailedListener(() -> {
-            toast(R.string.pin_error_waring_title,2000);
+            toast(R.string.pin_error_waring_title, 2000);
             getRemainTime();
         });
         xUnlockPinHelper.unlockPin(pin);
@@ -205,7 +243,7 @@ public class PinRxFrag extends BaseFrag {
 
     @Override
     public boolean onBackPresss() {
-        toFrag(getClass(),mainFrag.class,null,false);
+        toFrag(getClass(), mainFrag.class, null, false);
         return true;
     }
 }
