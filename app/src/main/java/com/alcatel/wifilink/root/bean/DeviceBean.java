@@ -4,7 +4,7 @@ package com.alcatel.wifilink.root.bean;
  * Created by qianli.ma on 2018/5/21 0021.
  */
 
-public class Other_DeviceBean {
+public class DeviceBean {
     
     private boolean isPhone;// 手机或电脑
     private String deviceName;// 设备名
@@ -12,7 +12,7 @@ public class Other_DeviceBean {
     private String deviceMac;// 设备MAC
     private boolean isHost;// 是否为管理者
 
-    public Other_DeviceBean() {
+    public DeviceBean() {
     }
 
     public boolean isPhone() {

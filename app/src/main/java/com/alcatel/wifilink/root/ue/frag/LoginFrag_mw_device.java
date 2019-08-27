@@ -8,7 +8,7 @@ import android.widget.LinearLayout;
 
 import com.alcatel.wifilink.R;
 import com.alcatel.wifilink.root.adapter.LoginMWDevAdapter;
-import com.alcatel.wifilink.root.bean.Other_DeviceBean;
+import com.alcatel.wifilink.root.bean.DeviceBean;
 import com.alcatel.wifilink.root.helper.ConnectDeviceHelper;
 import com.alcatel.wifilink.root.utils.RootUtils;
 import com.hiber.cons.TimerState;
@@ -78,7 +78,7 @@ public class LoginFrag_mw_device extends RootFrag {
                 ConnectDeviceHelper connDevHelper = new ConnectDeviceHelper();
                 connDevHelper.setOnDevicesSuccessListener(connectedList -> {
                     // 4.更新适配器
-                    List<Other_DeviceBean> ddbs = RootUtils.transferDevicesbean(connectedList);
+                    List<DeviceBean> ddbs = RootUtils.transferDevicesbean(connectedList);
                     devAdapter.notifys(ddbs);
                 });
                 connDevHelper.get();

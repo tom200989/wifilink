@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import com.alcatel.wifilink.R;
 import com.alcatel.wifilink.root.adapter.SmsRcvAdapter;
-import com.alcatel.wifilink.root.bean.Other_SMSContactSelf;
+import com.alcatel.wifilink.root.bean.SMSContactSelf;
 import com.alcatel.wifilink.root.bean.SMSContactList;
 import com.alcatel.wifilink.root.helper.ClickDoubleHelper;
 import com.alcatel.wifilink.root.helper.SmsDeleteSessionHelper;
@@ -51,7 +51,7 @@ public class SmsFrag extends BaseFrag {
 
     private SmsRcvAdapter smsRcvAdapter;
     private SMSContactList smsContactList;// 不带有长按标记的联系人集合
-    private List<Other_SMSContactSelf> otherSmsContactSelfList = new ArrayList<>();// 带有长按标记的联系人集合
+    private List<SMSContactSelf> otherSmsContactSelfList = new ArrayList<>();// 带有长按标记的联系人集合
     private List<Long> contactIdList;// 长按模式下存放被点击的短信条目的联系人ID
     private PopupWindows pop_deleted_sms;
     public static boolean isLongClick = false;

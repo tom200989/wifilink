@@ -8,7 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.alcatel.wifilink.R;
-import com.alcatel.wifilink.root.bean.Other_DeviceBean;
+import com.alcatel.wifilink.root.bean.DeviceBean;
 
 import java.util.List;
 
@@ -19,14 +19,14 @@ import java.util.List;
 public class LoginMWDevAdapter extends RecyclerView.Adapter<LoginDevicesHolder> {
 
     private Context context;
-    private List<Other_DeviceBean> dbs;
+    private List<DeviceBean> dbs;
 
-    public LoginMWDevAdapter(Context context, List<Other_DeviceBean> dbs) {
+    public LoginMWDevAdapter(Context context, List<DeviceBean> dbs) {
         this.context = context;
         this.dbs = dbs;
     }
 
-    public void notifys(List<Other_DeviceBean> dbs) {
+    public void notifys(List<DeviceBean> dbs) {
         this.dbs = dbs;
         notifyDataSetChanged();
     }
@@ -42,7 +42,7 @@ public class LoginMWDevAdapter extends RecyclerView.Adapter<LoginDevicesHolder> 
         Drawable computerLogo = context.getResources().getDrawable(R.drawable.item_pre_computer);
 
         if (dbs != null) {
-            Other_DeviceBean db = dbs.get(position);
+            DeviceBean db = dbs.get(position);
             holder.ivLogo.setImageDrawable(db.isPhone() ? phoneLogo : computerLogo);
             holder.tvTitle.setText(db.getDeviceName());
             holder.tvIp.setText(db.getDeviceIP());

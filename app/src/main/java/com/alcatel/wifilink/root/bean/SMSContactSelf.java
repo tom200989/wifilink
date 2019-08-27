@@ -6,7 +6,7 @@ import com.alcatel.wifilink.root.bean.SMSContactList;
  * Created by qianli.ma on 2017/12/17 0017.
  */
 
-public class Other_SMSContactSelf {
+public class SMSContactSelf {
 
     private SMSContactList.SMSContact smscontact;
     private boolean isLongClick;

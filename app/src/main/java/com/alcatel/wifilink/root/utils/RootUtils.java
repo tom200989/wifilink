@@ -20,8 +20,8 @@ import com.alcatel.wifilink.root.app.SmartLinkV3App;
 import com.alcatel.wifilink.root.bean.ConnectedList;
 import com.alcatel.wifilink.root.bean.Extender_GetHotspotListResult;
 import com.alcatel.wifilink.root.bean.FeedbackPhotoBean;
-import com.alcatel.wifilink.root.bean.Other_DeviceBean;
-import com.alcatel.wifilink.root.bean.Other_SMSContactSelf;
+import com.alcatel.wifilink.root.bean.DeviceBean;
+import com.alcatel.wifilink.root.bean.SMSContactSelf;
 import com.alcatel.wifilink.root.bean.SMSContactList;
 import com.alcatel.wifilink.root.bean.SMSContentList;
 import com.alcatel.wifilink.root.helper.Cons;
@@ -343,11 +343,11 @@ public class RootUtils {
     /**
      * 获取短信联系人列表并添加长按标记
      */
-    public static List<Other_SMSContactSelf> getSMSSelfList(SMSContactList smsContactList) {
-        List<Other_SMSContactSelf> smscs = new ArrayList<>();
+    public static List<SMSContactSelf> getSMSSelfList(SMSContactList smsContactList) {
+        List<SMSContactSelf> smscs = new ArrayList<>();
         for (SMSContactList.SMSContact smsContact : smsContactList.getSMSContactList()) {
             // 新建自定义SMS Contact对象
-            Other_SMSContactSelf scs = new Other_SMSContactSelf();
+            SMSContactSelf scs = new SMSContactSelf();
             scs.setSmscontact(smsContact);
             scs.setLongClick(false);
             smscs.add(scs);
@@ -358,8 +358,8 @@ public class RootUtils {
     /**
      * 修改联系人列表是否进入可删除状态(islongClick==true则为可删除)
      */
-    public static List<Other_SMSContactSelf> modifySMSContactSelf(List<Other_SMSContactSelf> smsContactSelves, boolean isLongClick) {
-        for (Other_SMSContactSelf otherSmsContactSelf : smsContactSelves) {
+    public static List<SMSContactSelf> modifySMSContactSelf(List<SMSContactSelf> smsContactSelves, boolean isLongClick) {
+        for (SMSContactSelf otherSmsContactSelf : smsContactSelves) {
             otherSmsContactSelf.setLongClick(isLongClick);
         }
         return smsContactSelves;
@@ -548,9 +548,9 @@ public class RootUtils {
     /**
      * 转换设备列表
      */
-    public static List<Other_DeviceBean> transferDevicesbean(ConnectedList connectedList) {
+    public static List<DeviceBean> transferDevicesbean(ConnectedList connectedList) {
         SmartLinkV3App context = SmartLinkV3App.getInstance();
-        List<Other_DeviceBean> dbs = new ArrayList<>();
+        List<DeviceBean> dbs = new ArrayList<>();
         String ip_field = context.getString(R.string.device_manage_ip);
         String mac_field = context.getString(R.string.device_manage_mac);
         String localIp = Objects.requireNonNull(NetUtils.getLocalIPAddress()).getHostAddress();
@@ -558,7 +558,7 @@ public class RootUtils {
         List<ConnectedList.Device> ccls = connectedList.getConnectedList();
         if (ccls != null) {
             for (ConnectedList.Device ccl : ccls) {
-                Other_DeviceBean ddb = new Other_DeviceBean();
+                DeviceBean ddb = new DeviceBean();
                 ddb.setDeviceIP(String.format(ip_field, ccl.getIPAddress()));
                 ddb.setDeviceMac(String.format(mac_field, ccl.getMacAddress()));
                 ddb.setDeviceName(ccl.getDeviceName());

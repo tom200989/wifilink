@@ -8,8 +8,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.alcatel.wifilink.R;
-import com.alcatel.wifilink.root.bean.Other_SMSContactSelf;
-import com.alcatel.wifilink.root.bean.Other_SMSContactSelfSort;
+import com.alcatel.wifilink.root.bean.SMSContactSelf;
+import com.alcatel.wifilink.root.bean.SMSContactSelfSort;
 import com.alcatel.wifilink.root.bean.SMSContactList;
 import com.alcatel.wifilink.root.helper.Cons;
 import com.alcatel.wifilink.root.helper.SmsCountHelper;
@@ -34,16 +34,16 @@ public class SmsRcvAdapter extends RecyclerView.Adapter<SmsHolder> {
 
     private HashMap<Long, Integer> smsUnreadMap = new HashMap<>();
     private Context context;
-    private List<Other_SMSContactSelf> smsContactList;
+    private List<SMSContactSelf> smsContactList;
     private OnRcvLongClickListener onRcvLongClickListener;
     private Drawable check_on;
     private Drawable check_off;
     private List<Long> contactIdClickList;
 
-    public SmsRcvAdapter(Context context, List<Other_SMSContactSelf> smsContactList) {
+    public SmsRcvAdapter(Context context, List<SMSContactSelf> smsContactList) {
         this.context = context;
         this.smsContactList = smsContactList;
-        Collections.sort(smsContactList, new Other_SMSContactSelfSort());
+        Collections.sort(smsContactList, new SMSContactSelfSort());
         check_on = context.getResources().getDrawable(R.drawable.checkbox_android_on);
         check_off = context.getResources().getDrawable(R.drawable.checkbox_android_off);
         contactIdClickList = new ArrayList<>();
@@ -51,13 +51,13 @@ public class SmsRcvAdapter extends RecyclerView.Adapter<SmsHolder> {
         check_off = context.getResources().getDrawable(R.drawable.checkbox_android_off);
     }
 
-    public void notifys(List<Other_SMSContactSelf> smsContactList) {
+    public void notifys(List<SMSContactSelf> smsContactList) {
         this.smsContactList = smsContactList;
         if (contactIdClickList != null & contactIdClickList.size() > 0) {
             contactIdClickList.clear();
         }
         // sort by date
-        Collections.sort(this.smsContactList, new Other_SMSContactSelfSort());
+        Collections.sort(this.smsContactList, new SMSContactSelfSort());
         notifyDataSetChanged();
     }
 
@@ -67,16 +67,16 @@ public class SmsRcvAdapter extends RecyclerView.Adapter<SmsHolder> {
     public void selectOrDeSelectAll(boolean isSelectAll) {
         contactIdClickList.clear();// 1.清空
         if (isSelectAll) {
-            for (Other_SMSContactSelf scf : smsContactList) {
+            for (SMSContactSelf scf : smsContactList) {
                 scf.setState(Cons.SELETE_ALL);// 2.修改全选标记位
                 contactIdClickList.add(scf.getSmscontact().getContactId());
             }
         } else {
-            for (Other_SMSContactSelf scf : smsContactList) {
+            for (SMSContactSelf scf : smsContactList) {
                 scf.setState(Cons.DESELETE_ALL);
             }
         }
-        //Collections.sort(smsContactList, new Other_SMSContactSelfSort());
+        //Collections.sort(smsContactList, new SMSContactSelfSort());
         //notifys(smsContactList);// 3.刷新
         notifyDataSetChanged();
         selectAllOrNotNext(contactIdClickList);// 4.接口
@@ -179,7 +179,7 @@ public class SmsRcvAdapter extends RecyclerView.Adapter<SmsHolder> {
         SMSContactList.SMSContact smsContact = smsContactList.get(position).getSmscontact();
         holder.rl_sms.setOnClickListener(v -> {
             // 2.把所有的全选标记位复位为CLICK
-            for (Other_SMSContactSelf scf : smsContactList) {
+            for (SMSContactSelf scf : smsContactList) {
                 scf.setState(Cons.CLICK);
             }
             if (!SmsFrag.isLongClick) {/* 普通模式下 */
