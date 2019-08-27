@@ -18,7 +18,7 @@ import com.alcatel.wifilink.root.bean.ConnectModel;
 import com.alcatel.wifilink.root.bean.ConnectedList;
 import com.alcatel.wifilink.root.helper.MacHelper;
 import com.alcatel.wifilink.root.ue.frag.DeviceConnectFrag;
-import com.alcatel.wifilink.root.utils.ToastUtil_m;
+import com.alcatel.wifilink.root.utils.ToastTool;
 import com.p_xhelper_smart.p_xhelper_smart.bean.SetDeviceNameParam;
 import com.p_xhelper_smart.p_xhelper_smart.helper.SetConnectedDeviceBlockHelper;
 import com.p_xhelper_smart.p_xhelper_smart.helper.SetDeviceNameHelper;
@@ -190,7 +190,7 @@ public class HH70ConnectAdapter extends RecyclerView.Adapter<ConnectHolder> {
             notifys(connectModelList);
         });
         xSetConnectedDeviceBlockHelper.setOnSetConnectDeviceBlockFailListener(() -> {
-            ToastUtil_m.show(activity, activity.getString(R.string.Set_connected_device_black_failed));
+            ToastTool.show(activity, activity.getString(R.string.Set_connected_device_black_failed));
         });
         xSetConnectedDeviceBlockHelper.setConnectedDeviceBlock(strDeviceName, strMac);
     }

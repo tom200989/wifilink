@@ -20,11 +20,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.alcatel.wifilink.R;
-import com.alcatel.wifilink.root.app.SmartLinkV3App;
 import com.alcatel.wifilink.root.helper.Cons;
 import com.alcatel.wifilink.root.helper.UsageSettingHelper;
 import com.alcatel.wifilink.root.utils.RootUtils;
-import com.alcatel.wifilink.root.utils.WifiUtils;
 import com.alcatel.wifilink.root.widget.HH70_LoadWidget;
 import com.hiber.cons.TimerState;
 import com.hiber.tools.ShareUtils;
@@ -50,6 +48,7 @@ import com.p_xhelper_smart.p_xhelper_smart.helper.GetSystemInfoHelper;
 import com.p_xhelper_smart.p_xhelper_smart.helper.SetConnectionSettingsHelper;
 import com.p_xhelper_smart.p_xhelper_smart.helper.SetNetworkSettingsHelper;
 import com.p_xhelper_smart.p_xhelper_smart.helper.SetUsageSettingsHelper;
+import com.p_xhelper_smart.p_xhelper_smart.utils.SmartUtils;
 
 import java.util.List;
 
@@ -716,12 +715,11 @@ public class SettingNetworkFrag extends BaseFrag {
         v.findViewById(R.id.tv_web_edit_profile).setOnClickListener(view -> {
             Intent intent = new Intent();
             intent.setAction("android.intent.action.VIEW");
-            String wifiGateWay = WifiUtils.getWifiGateWay(SmartLinkV3App.getInstance());
+            String wifiGateWay = SmartUtils.getWIFIGateWay(activity);
             Uri content_url = Uri.parse("http://" + wifiGateWay);
             intent.setData(content_url);
             startActivity(intent);
-        });
-        AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+        }); AlertDialog.Builder builder = new AlertDialog.Builder(activity);
         builder.setView(v);
         builder.setNegativeButton(R.string.cancel, null);
         builder.create();

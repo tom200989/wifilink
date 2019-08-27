@@ -2,7 +2,6 @@ package com.alcatel.wifilink.root.helper;
 
 import com.alcatel.wifilink.root.bean.FeedbackLoginParam;
 import com.alcatel.wifilink.root.bean.FeedbackLoginResult;
-import com.alcatel.wifilink.root.utils.Lgg;
 import com.alibaba.fastjson.JSONObject;
 
 import org.xutils.http.RequestParams;
@@ -32,14 +31,12 @@ public class FeedBackLoginHelperFeedback extends FeedbackBaseCallBack {
 
     @Override
     public void onError(Throwable ex, boolean isOnCallback) {
-        Lgg.t(TAG).ee(this.getClass().getSimpleName());
         super.onError(ex, isOnCallback);
         errorNext(ex);
     }
 
     @Override
     public void onCancelled(CancelledException cex) {
-        Lgg.t(TAG).ee(this.getClass().getSimpleName());
         super.onCancelled(cex);
         errorNext(cex);
     }
@@ -67,7 +64,6 @@ public class FeedBackLoginHelperFeedback extends FeedbackBaseCallBack {
         param.setImei(imei);
         param.setMac_addr(macAddr);
         String json = JSONObject.toJSONString(param).replace("\\n", "");
-        Lgg.t(TAG).ii("login request json: " + json);
         // 6.绑定要素
         entity.setBodyContent(json);
         // 7.返回整合实体

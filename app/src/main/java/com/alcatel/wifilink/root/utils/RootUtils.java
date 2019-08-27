@@ -1,11 +1,13 @@
 package com.alcatel.wifilink.root.utils;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.ParseException;
 import android.net.wifi.WifiManager;
 import android.support.annotation.ArrayRes;
 import android.support.v4.content.ContextCompat;
@@ -26,16 +28,20 @@ import com.alcatel.wifilink.root.helper.Cons;
 import com.tcl.token.ndk.JniTokenUtils;
 
 import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
+import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /*
  * Created by qianli.ma on 2019/8/15 0015.
  */
+@SuppressLint("SimpleDateFormat")
 public class RootUtils {
 
     /**
@@ -152,9 +158,9 @@ public class RootUtils {
      * @param open    T:开
      * @return 是否已经开启
      */
-    public static boolean setWifiOn(Context context, boolean open) {
+    public static void setWifiOn(Context context, boolean open) {
         WifiManager wifi = (WifiManager) context.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
-        return wifi.setWifiEnabled(open);
+        wifi.setWifiEnabled(open);
     }
 
     /**
@@ -176,9 +182,9 @@ public class RootUtils {
      */
     private static boolean ipMatch(String ip) {
         String ipRule = "^(1\\d{2}|2[0-4]\\d|25[0-5]|[1-9]\\d|[1-9])\\."// 1
-                + "(1\\d{2}|2[0-4]\\d|25[0-5]|[1-9]\\d|\\d)\\."// 2
-                + "(1\\d{2}|2[0-4]\\d|25[0-5]|[1-9]\\d|\\d)\\."// 3
-                + "(1\\d{2}|2[0-4]\\d|25[0-5]|[1-9]\\d|\\d)$";   // 4
+                                + "(1\\d{2}|2[0-4]\\d|25[0-5]|[1-9]\\d|\\d)\\."// 2
+                                + "(1\\d{2}|2[0-4]\\d|25[0-5]|[1-9]\\d|\\d)\\."// 3
+                                + "(1\\d{2}|2[0-4]\\d|25[0-5]|[1-9]\\d|\\d)$";   // 4
         return Pattern.matches(ipRule, ip);
     }
 
@@ -192,7 +198,6 @@ public class RootUtils {
         if (!ipMatch(ipAddress)) {
             return false;
         }
-        Lgg.t("ma_ip").vv("ip_phone address: " + ipAddress);
         if (TextUtils.isEmpty(ipAddress)) {// 空值
             return false;
         }
@@ -239,9 +244,9 @@ public class RootUtils {
         }
 
         return (num0 > 0 && num0 != 127 && num0 <= 223) && // num0
-                (num1 >= 0 && num1 <= 255) && // num1
-                (num2 >= 0 && num2 <= 255) && // num2
-                (num3 > 0 && num3 < 255);
+                       (num1 >= 0 && num1 <= 255) && // num1
+                       (num2 >= 0 && num2 <= 255) && // num2
+                       (num3 > 0 && num3 < 255);
     }
 
     /**
@@ -256,15 +261,12 @@ public class RootUtils {
 
     /**
      * 获取提交feedback时需要拼接的加密字符
-     *
-     * @param uid
-     * @return
      */
     public static String getCommitFeedbackHead(String uid) {
         String encrypt = "";
         try {
             JniTokenUtils.EncryptInfo encryptInfo = JniTokenUtils.newEncryptInfo();
-            JniTokenUtils.getEncryptInfo(uid.getBytes("UTF-8"), encryptInfo);
+            JniTokenUtils.getEncryptInfo(uid.getBytes(StandardCharsets.UTF_8), encryptInfo);
             // (; sign=YOUR_SIGN; timestamp=YOUR_TIMESTAMP; newtoken=YOUR_NEW_TOKEN)
             encrypt = ";sign=" + encryptInfo.random + ";timestamp=" + encryptInfo.timestamp + ";newtoken=" + encryptInfo.encryptkey + "";
         } catch (Exception e) {
@@ -275,12 +277,9 @@ public class RootUtils {
 
     /**
      * 转换FID集合
-     *
-     * @param fids
-     * @return
      */
     public static String getFidAppendString(List<String> fids) {
-        StringBuffer buffer = new StringBuffer();
+        StringBuilder buffer = new StringBuilder();
         for (int i = 0; i < fids.size(); i++) {
             buffer.append(fids.get(i));
             if (i > 0) {
@@ -293,8 +292,7 @@ public class RootUtils {
     /**
      * 转换成图片连接地址
      *
-     * @param context
-     * @param bbs     图片对象
+     * @param bbs 图片对象
      * @return 地址集合
      */
     public static ArrayList<String> transferString(Context context, List<FeedbackPhotoBean> bbs) {
@@ -327,7 +325,6 @@ public class RootUtils {
      *
      * @param arr     需要匹配的字符数组
      * @param include 数组中可能包含的字符
-     * @return
      */
     public static String getAlert(String[] arr, int include) {
         if (include == -1) {
@@ -345,9 +342,6 @@ public class RootUtils {
 
     /**
      * 获取短信联系人列表并添加长按标记
-     *
-     * @param smsContactList
-     * @return
      */
     public static List<Other_SMSContactSelf> getSMSSelfList(SMSContactList smsContactList) {
         List<Other_SMSContactSelf> smscs = new ArrayList<>();
@@ -363,8 +357,6 @@ public class RootUtils {
 
     /**
      * 修改联系人列表是否进入可删除状态(islongClick==true则为可删除)
-     *
-     * @param isLongClick
      */
     public static List<Other_SMSContactSelf> modifySMSContactSelf(List<Other_SMSContactSelf> smsContactSelves, boolean isLongClick) {
         for (Other_SMSContactSelf otherSmsContactSelf : smsContactSelves) {
@@ -375,9 +367,6 @@ public class RootUtils {
 
     /**
      * 获取字符数组资源
-     *
-     * @param context
-     * @return
      */
     public static String[] getResArr(Context context, @ArrayRes int resId) {
         return context.getResources().getStringArray(resId);
@@ -385,9 +374,6 @@ public class RootUtils {
 
     /**
      * 进行url decode
-     *
-     * @param content
-     * @return
      */
     public static String turnUrlCode(String content) {
         String backup = content;
@@ -415,9 +401,6 @@ public class RootUtils {
 
     /**
      * 获取wifi extender signal 强度
-     *
-     * @param signalStrength
-     * @return
      */
     public static Drawable transferWifiExtenderSignal(int signalStrength) {
         SmartLinkV3App context = SmartLinkV3App.getInstance();
@@ -429,10 +412,9 @@ public class RootUtils {
             return ContextCompat.getDrawable(context, R.drawable.wifi_ex_signal2);
         } else if (signalStrength == 3) {
             return ContextCompat.getDrawable(context, R.drawable.wifi_ex_signal3);
-        } else if (signalStrength >= 4) {
+        } else {
             return ContextCompat.getDrawable(context, R.drawable.wifi_ex_signal4);
         }
-        return ContextCompat.getDrawable(context, R.drawable.wifi_ex_signal0);
     }
 
     /**
@@ -440,7 +422,6 @@ public class RootUtils {
      *
      * @param ori_hotpots 搜索到的热点集合
      * @param currentSSID 当前连接的热点SSID
-     * @return
      */
     public static List<Extender_GetHotspotListResult.HotspotListBean> excludeCurrentHotpot(List<Extender_GetHotspotListResult.HotspotListBean> ori_hotpots, String currentSSID) {
         List<Extender_GetHotspotListResult.HotspotListBean> newLists = new ArrayList<>();
@@ -457,19 +438,13 @@ public class RootUtils {
 
     /**
      * 批量转换SSID并提出空字段的WIFI
-     *
-     * @param hotspotListBeans
-     * @return
      */
     public static List<Extender_GetHotspotListResult.HotspotListBean> turnSSISBatch(List<Extender_GetHotspotListResult.HotspotListBean> hotspotListBeans) {
         List<Extender_GetHotspotListResult.HotspotListBean> rehbs = new ArrayList<>();
         for (Extender_GetHotspotListResult.HotspotListBean hb : hotspotListBeans) {
-            if (hb.getSSID().toLowerCase().contains("\\x00\\x00\\x00")) {
-                continue;
-            } else {
+            if (!hb.getSSID().toLowerCase().contains("\\x00\\x00\\x00")) {
                 rehbs.add(hb);
             }
-
         }
         for (Extender_GetHotspotListResult.HotspotListBean hb : rehbs) {
             hb.setSSID(turnUrlCode(hb.getSSID()));
@@ -481,8 +456,7 @@ public class RootUtils {
     /**
      * 判断某个服务是否正在运行的方法
      *
-     * @param mContext
-     * @param sClass   服务的类名
+     * @param sClass 服务的类名
      * @return true:代表正在运行，false代表服务没有正在运行
      */
     public static boolean isServiceWork(Context mContext, Class sClass) {
@@ -493,7 +467,7 @@ public class RootUtils {
             return false;
         }
         for (int i = 0; i < myList.size(); i++) {// 遍历每一个服务对象
-            String mName = myList.get(i).service.getClassName().toString();// 获取服务的类名
+            String mName = myList.get(i).service.getClassName();// 获取服务的类名
             if (mName.equalsIgnoreCase(serviceName) || mName.contains(serviceName)) {
                 return true;
             }
@@ -503,11 +477,8 @@ public class RootUtils {
 
     /**
      * 检查WIFI是否有链接
-     *
-     * @param context
-     * @return
      */
-    public static boolean isWifiConnect(Context context) {
+    public static boolean isWifiConnect() {
         SmartLinkV3App instance = SmartLinkV3App.getInstance();
         ConnectivityManager connMgr = (ConnectivityManager) instance.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connMgr.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
@@ -517,13 +488,10 @@ public class RootUtils {
 
     /**
      * 转换日期
-     *
-     * @param oriDate
-     * @return
      */
     public static String transferDate(String oriDate) {
-        Date summaryDate = C_DataUti.formatDateFromString(oriDate);// sms date
-        String strTimeText = new String();
+        Date summaryDate = RootUtils.transferDateForText(oriDate);// sms date
+        String strTimeText = "";
         if (summaryDate != null) {
             Date now = new Date();// now date
             if (now.getYear() == summaryDate.getYear() && now.getMonth() == summaryDate.getMonth() && now.getDate() == summaryDate.getDate()) {
@@ -539,10 +507,6 @@ public class RootUtils {
 
     /**
      * 拼接电话号码
-     *
-     * @param context
-     * @param phoneNumber
-     * @return
      */
     public static String stitchPhone(Context context, List<String> phoneNumber) {
         if (phoneNumber.size() == 0) {
@@ -550,7 +514,7 @@ public class RootUtils {
         } else if (phoneNumber.size() == 1) {
             return phoneNumber.get(0);
         } else {
-            StringBuffer sb = new StringBuffer();
+            StringBuilder sb = new StringBuilder();
             for (String s : phoneNumber) {
                 sb.append(s).append(";");
             }
@@ -560,9 +524,6 @@ public class RootUtils {
 
     /**
      * 判断编辑域是否为空
-     *
-     * @param strs
-     * @return
      */
     public static boolean isEmptys(String... strs) {
         for (String str : strs) {
@@ -575,9 +536,6 @@ public class RootUtils {
 
     /**
      * 获取某个contactId下所有的smsid
-     *
-     * @param scList
-     * @return
      */
     public static List<Long> getAllSmsIdByOneSession(SMSContentList scList) {
         List<Long> smsIds = new ArrayList<>();
@@ -589,16 +547,13 @@ public class RootUtils {
 
     /**
      * 转换设备列表
-     *
-     * @param connectedList
-     * @return
      */
     public static List<Other_DeviceBean> transferDevicesbean(ConnectedList connectedList) {
         SmartLinkV3App context = SmartLinkV3App.getInstance();
         List<Other_DeviceBean> dbs = new ArrayList<>();
         String ip_field = context.getString(R.string.device_manage_ip);
         String mac_field = context.getString(R.string.device_manage_mac);
-        String localIp = NetUtils.getLocalIPAddress().getHostAddress();
+        String localIp = Objects.requireNonNull(NetUtils.getLocalIPAddress()).getHostAddress();
 
         List<ConnectedList.Device> ccls = connectedList.getConnectedList();
         if (ccls != null) {
@@ -618,5 +573,48 @@ public class RootUtils {
             }
         }
         return dbs;
+    }
+
+    /**
+     * 转换日期为字符
+     */
+    public static Date transferDateForText(String time) {
+        String pattern;
+        if (time.matches("\\d{2}-\\d{2}-\\d{4} \\d{2}:\\d{2}:\\d{2}")) {
+            pattern = "dd-MM-yyyy HH:mm:ss";
+        } else if (time.matches("\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2}")) {
+            pattern = "yyyy-MM-dd HH:mm:ss";
+        } else if (time.matches("\\d{2}/\\d{2}/\\d{4} \\d{2}:\\d{2}:\\d{2}")) {
+            pattern = "dd/MM/yyyy HH:mm:ss";
+        } else if (time.matches("\\d{4}/\\d{2}/\\d{2} \\d{2}:\\d{2}:\\d{2}")) {
+            pattern = "yyyy/MM/dd HH:mm:ss";
+        } else if (time.matches("\\d{2}\\.\\d{2}\\.\\d{4} \\d{2}:\\d{2}:\\d{2}")) {
+            pattern = "dd.MM.yyyy HH:mm:ss";
+        } else if (time.matches("\\d{4}\\.\\d{2}\\.\\d{2} \\d{2}:\\d{2}:\\d{2}")) {
+            pattern = "yyyy.MM.dd HH:mm:ss";
+        } else {
+            return null;
+        }
+        SimpleDateFormat sDate = new SimpleDateFormat(pattern);
+
+        Date smsDate = null;
+        try {
+            smsDate = sDate.parse(time);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return smsDate;
+    }
+
+    /**
+     * @return 获取当前日期
+     */
+    public static String getCurrentDate() {
+        SimpleDateFormat sDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+        Date now = new Date();
+        return sDate.format(now);
     }
 }

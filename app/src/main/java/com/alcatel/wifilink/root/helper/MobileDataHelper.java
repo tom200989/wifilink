@@ -3,7 +3,7 @@ package com.alcatel.wifilink.root.helper;
 import android.app.Activity;
 
 import com.alcatel.wifilink.R;
-import com.alcatel.wifilink.root.utils.ToastUtil_m;
+import com.alcatel.wifilink.root.utils.ToastTool;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetConnectionStateHelper;
 
 /**
@@ -130,6 +130,6 @@ public class MobileDataHelper {
     }
 
     public void toast(int resId) {
-        ToastUtil_m.show(context, resId);
+        ToastTool.show(context, resId);
     }
 }

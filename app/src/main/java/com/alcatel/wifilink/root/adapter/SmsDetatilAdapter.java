@@ -14,7 +14,6 @@ import com.alcatel.wifilink.root.bean.SMSContentList;
 import com.alcatel.wifilink.root.helper.Cons;
 import com.alcatel.wifilink.root.helper.SmsContentSortHelper;
 import com.alcatel.wifilink.root.helper.SmsReSendHelper;
-import com.alcatel.wifilink.root.utils.Lgg;
 import com.alcatel.wifilink.root.utils.RootUtils;
 import com.alcatel.wifilink.root.widget.PopupWindows;
 import com.hiber.tools.ScreenSize;
@@ -256,7 +255,6 @@ public class SmsDetatilAdapter extends RecyclerView.Adapter<SmsDetailHolder> {
 
     /* A3-重新封装出新的内容对象 */
     private void hiberNewbean() {
-        Lgg.t("ma_sms").vv("sortScbList size: " + sortScbList.size());
         for (SMSContentList.SMSContentBean scb : sortScbList) {
             NewSMSContentBean nscb = new NewSMSContentBean();
             nscb.isSelected = false;

@@ -6,7 +6,7 @@ import android.text.TextWatcher;
 import android.widget.EditText;
 
 import com.alcatel.wifilink.R;
-import com.alcatel.wifilink.root.utils.ToastUtil_m;
+import com.alcatel.wifilink.root.utils.ToastTool;
 
 /**
  * Created by qianli.ma on 2018/1/5 0005.
@@ -39,7 +39,7 @@ public class SmsWatcher implements TextWatcher {
         if (s.toString().length() >= maxLength) {
             String smsLength = context.getString(R.string.sms_max_length);
             String content = String.format(smsLength, maxLength);
-            ToastUtil_m.show(context, content);
+            ToastTool.show(context, content);
         }
     }
 }

@@ -4,7 +4,7 @@ import android.app.Activity;
 import android.text.TextUtils;
 
 import com.alcatel.wifilink.R;
-import com.alcatel.wifilink.root.utils.ToastUtil_m;
+import com.alcatel.wifilink.root.utils.ToastTool;
 import com.p_xhelper_smart.p_xhelper_smart.bean.GetSimStatusBean;
 import com.p_xhelper_smart.p_xhelper_smart.helper.ChangePinCodeHelper;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetSimStatusHelper;
@@ -33,7 +33,6 @@ public class ChangePinHelper {
         pinStatuHelper.setOnNormalPinStatesListener(attr -> {
             if (attr.getPinState() != Cons.PINSTATES_PIN_ENABLE_VERIFIED) {// PIN码没有开启状态下
                 toast(R.string.please_enable_sim_pin);
-                return;
             } else {// PIN码已经开启且有效
                 changePin(currentCode, refreshCode, confirmCode);
             }
@@ -146,15 +145,15 @@ public class ChangePinHelper {
     }
 
     private void toast(int resId) {
-        ToastUtil_m.show(activity, resId);
+        ToastTool.show(activity, resId);
     }
 
     private void toastLong(int resId) {
-        ToastUtil_m.showLong(activity, resId);
+        ToastTool.showLong(activity, resId);
     }
 
     private void toast(String content) {
-        ToastUtil_m.show(activity, content);
+        ToastTool.show(activity, content);
     }
 
 

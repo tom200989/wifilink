@@ -6,7 +6,7 @@ import android.graphics.drawable.Drawable;
 
 import com.alcatel.wifilink.R;
 import com.alcatel.wifilink.root.utils.OtherUtils;
-import com.alcatel.wifilink.root.utils.ToastUtil_m;
+import com.alcatel.wifilink.root.utils.ToastTool;
 import com.p_xhelper_smart.p_xhelper_smart.bean.GetDeviceNewVersionBean;
 import com.p_xhelper_smart.p_xhelper_smart.bean.GetLoginStateBean;
 import com.p_xhelper_smart.p_xhelper_smart.bean.GetSystemInfoBean;
@@ -277,7 +277,7 @@ public class FirmUpgradeHelper {
     }
 
     private void toast(int resId) {
-        ToastUtil_m.show(activity, resId);
+        ToastTool.show(activity, resId);
     }
 
 }

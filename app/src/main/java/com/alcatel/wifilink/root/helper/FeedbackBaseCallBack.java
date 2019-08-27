@@ -1,7 +1,5 @@
 package com.alcatel.wifilink.root.helper;
 
-import com.alcatel.wifilink.root.utils.Lgg;
-
 import org.xutils.common.Callback;
 import org.xutils.http.request.UriRequest;
 
@@ -30,22 +28,22 @@ public class FeedbackBaseCallBack implements Callback.CommonCallback<String>,Cal
 
     @Override
     public void onSuccess(String result) {
-        Lgg.t(TAG).ii("Successful : " + result);
+        
     }
 
     @Override
     public void onError(Throwable ex, boolean isOnCallback) {
-        Lgg.t(TAG).ee("errors : " + ex.getMessage());
+        
     }
 
     @Override
     public void onCancelled(CancelledException cex) {
-        Lgg.t(TAG).ee("cancel : " + cex.getMessage());
+        
     }
 
     @Override
     public void onFinished() {
-        Lgg.t(TAG).vv("Finish");
+        
     }
 
     @Override

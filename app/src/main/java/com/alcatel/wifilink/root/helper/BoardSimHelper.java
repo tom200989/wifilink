@@ -9,7 +9,7 @@ import android.util.Log;
 import com.alcatel.wifilink.R;
 import com.alcatel.wifilink.root.utils.OtherUtils;
 import com.alcatel.wifilink.root.utils.RootCons;
-import com.alcatel.wifilink.root.utils.ToastUtil_m;
+import com.alcatel.wifilink.root.utils.ToastTool;
 import com.hiber.bean.SkipBean;
 import com.hiber.hiber.RootMAActivity;
 import com.p_xhelper_smart.p_xhelper_smart.bean.GetLoginStateBean;
@@ -206,7 +206,7 @@ public class BoardSimHelper {
 
     private void toast(int resId) {
         Log.v("ma_counld", getClass().getSimpleName());
-        ToastUtil_m.show(activity, resId);
+        ToastTool.show(activity, resId);
     }
 
 

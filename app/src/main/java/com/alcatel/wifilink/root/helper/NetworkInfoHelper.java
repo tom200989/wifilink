@@ -27,7 +27,7 @@ public abstract class NetworkInfoHelper {
      * @return
      */
     public String getSignalType(Context context, int type) {
-        if (type == Cons.NOSERVER) {
+        if (type == GetNetworkInfoBean.CONS_NO_SERVER) {
             return "- -";
         } else if (type >= Cons.GPRS && type <= Cons.EDGE) {
             return context.getString(R.string.home_network_type_2g);

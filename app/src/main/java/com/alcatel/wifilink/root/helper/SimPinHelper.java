@@ -4,7 +4,7 @@ import android.app.Activity;
 import android.text.TextUtils;
 
 import com.alcatel.wifilink.R;
-import com.alcatel.wifilink.root.utils.ToastUtil_m;
+import com.alcatel.wifilink.root.utils.ToastTool;
 import com.p_xhelper_smart.p_xhelper_smart.bean.ChangePinStateParam;
 import com.p_xhelper_smart.p_xhelper_smart.bean.GetSimStatusBean;
 import com.p_xhelper_smart.p_xhelper_smart.helper.ChangePinStateHelper;
@@ -209,11 +209,11 @@ public class SimPinHelper {
 
     /* -------------------------------------------- helper -------------------------------------------- */
     private void toast(int resId) {
-        ToastUtil_m.show(activity, resId);
+        ToastTool.show(activity, resId);
     }
 
     private void toast(String resId) {
-        ToastUtil_m.show(activity, resId);
+        ToastTool.show(activity, resId);
     }
 
 }

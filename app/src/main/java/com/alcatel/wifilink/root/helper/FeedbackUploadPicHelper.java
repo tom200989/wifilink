@@ -1,7 +1,6 @@
 package com.alcatel.wifilink.root.helper;
 
 import com.alcatel.wifilink.root.bean.FeedbackPicFidResult;
-import com.alcatel.wifilink.root.utils.Lgg;
 import com.alibaba.fastjson.JSONObject;
 
 import org.xutils.http.RequestParams;
@@ -33,14 +32,12 @@ public class FeedbackUploadPicHelper extends FeedbackBaseCallBack {
 
     @Override
     public void onError(Throwable ex, boolean isOnCallback) {
-        Lgg.t(TAG).ee(this.getClass().getSimpleName());
         super.onError(ex, isOnCallback);
         errorNext(ex);
     }
 
     @Override
     public void onCancelled(CancelledException cex) {
-        Lgg.t(TAG).ee(this.getClass().getSimpleName());
         super.onCancelled(cex);
         errorNext(cex);
     }

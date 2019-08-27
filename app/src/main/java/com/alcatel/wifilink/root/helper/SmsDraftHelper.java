@@ -3,7 +3,7 @@ package com.alcatel.wifilink.root.helper;
 import android.app.Activity;
 
 import com.alcatel.wifilink.root.bean.SMSContentList;
-import com.alcatel.wifilink.root.utils.DataUtils;
+import com.alcatel.wifilink.root.utils.RootUtils;
 import com.p_xhelper_smart.p_xhelper_smart.bean.DeleteSmsParam;
 import com.p_xhelper_smart.p_xhelper_smart.bean.GetSMSContentListBean;
 import com.p_xhelper_smart.p_xhelper_smart.bean.GetSimStatusBean;
@@ -208,7 +208,7 @@ public class SmsDraftHelper {
         SaveSmsParam xSaveSmsParam = new SaveSmsParam();
         xSaveSmsParam.setSMSId(-1);
         xSaveSmsParam.setSMSContent(content);
-        xSaveSmsParam.setSMSTime(DataUtils.getCurrent());
+        xSaveSmsParam.setSMSTime(RootUtils.getCurrentDate());
         xSaveSmsParam.setPhoneNumber(phoneNum);
         SaveSMSHelper xSaveSMSHelper = new SaveSMSHelper();
         xSaveSMSHelper.setOnSaveSMSSuccessListener(() -> {

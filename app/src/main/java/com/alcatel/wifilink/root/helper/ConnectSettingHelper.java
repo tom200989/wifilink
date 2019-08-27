@@ -1,7 +1,7 @@
 package com.alcatel.wifilink.root.helper;
 
 import com.alcatel.wifilink.R;
-import com.alcatel.wifilink.root.utils.ToastUtil_m;
+import com.alcatel.wifilink.root.utils.ToastTool;
 import com.hiber.hiber.RootMAActivity;
 import com.p_xhelper_smart.p_xhelper_smart.bean.GetConnectionSettingsBean;
 import com.p_xhelper_smart.p_xhelper_smart.helper.ConnectHelper;
@@ -418,7 +418,7 @@ public class ConnectSettingHelper {
             xConnectHelper.connect();
 
         });
-        xGetConnectionStateHelper.setOnGetConnectionStateFailedListener(() -> ToastUtil_m.showLong(activity, activity.getString(R.string.usage_limit_over_notification_content)));
+        xGetConnectionStateHelper.setOnGetConnectionStateFailedListener(() -> ToastTool.showLong(activity, activity.getString(R.string.usage_limit_over_notification_content)));
         xGetConnectionStateHelper.getConnectionState();
     }
 

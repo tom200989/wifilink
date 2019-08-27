@@ -248,7 +248,7 @@ public class WanInitFrag extends BaseFrag {
      */
     private void connectClick(int connectType) {
         switch (connectType) {
-            case Cons.PPPOE:
+            case GetWanSettingsBean.CONS_PPPOE:
                 // 空值判断
                 if (RootUtils.isEdEmpty(etPppoeAccount, etPppoePsd, etPppoeMtu)) {
                     toast(R.string.not_empty, 5000);
@@ -267,7 +267,7 @@ public class WanInitFrag extends BaseFrag {
                     return;
                 }
                 break;
-            case Cons.STATIC:
+            case GetWanSettingsBean.CONS_STATIC:
                 // 空值判断
                 String ipaddress = RootUtils.getEDText(etStaticIpaddress);
                 String subnetMask = RootUtils.getEDText(etStaticSubnet);
@@ -320,7 +320,7 @@ public class WanInitFrag extends BaseFrag {
 
         // 根据类型重新给对应的字段赋值
         switch (connectType) {
-            case Cons.PPPOE:
+            case GetWanSettingsBean.CONS_PPPOE:
                 String account = RootUtils.getEDText(etPppoeAccount);
                 String password = RootUtils.getEDText(etPppoePsd);
                 String mtu = RootUtils.getEDText(etPppoeMtu);

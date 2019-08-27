@@ -15,7 +15,6 @@ import android.widget.ImageButton;
 
 import com.alcatel.wifilink.R;
 import com.alcatel.wifilink.root.helper.SmsWatcher;
-import com.alcatel.wifilink.root.utils.DataUtils;
 import com.alcatel.wifilink.root.utils.RootUtils;
 import com.alcatel.wifilink.root.widget.HH70_LoadWidget;
 import com.p_xhelper_smart.p_xhelper_smart.bean.GetSendSMSResultBean;
@@ -211,7 +210,7 @@ public class SmsNewFrag extends BaseFrag {
                 SaveSmsParam xSaveSmsParam = new SaveSmsParam();
                 xSaveSmsParam.setSMSId(-1);
                 xSaveSmsParam.setSMSContent(RootUtils.getEDText(m_etContent,true));
-                xSaveSmsParam.setSMSTime(DataUtils.getCurrent());
+                xSaveSmsParam.setSMSTime(RootUtils.getCurrentDate());
                 xSaveSmsParam.setPhoneNumber(numList);
 
                 SaveSMSHelper xSaveSMSHelper = new SaveSMSHelper();
@@ -245,7 +244,7 @@ public class SmsNewFrag extends BaseFrag {
             SendSmsParam xSendSmsParam = new SendSmsParam();
             xSendSmsParam.setSMSId(-1);
             xSendSmsParam.setSMSContent(RootUtils.getEDText(m_etContent,true));
-            xSendSmsParam.setSMSTime(DataUtils.getCurrent());
+            xSendSmsParam.setSMSTime(RootUtils.getCurrentDate());
             xSendSmsParam.setPhoneNumber(numList);
 
             SendSMSHelper xSendSMSHelper = new SendSMSHelper();

@@ -14,7 +14,7 @@ import android.widget.TextView;
 import com.alcatel.wifilink.R;
 import com.alcatel.wifilink.root.bean.Extender_GetHotspotListResult;
 import com.alcatel.wifilink.root.app.SmartLinkV3App;
-import com.alcatel.wifilink.root.utils.ToastUtil_m;
+import com.alcatel.wifilink.root.utils.ToastTool;
 
 /**
  * Created by qianli.ma on 2018/5/28 0028.
@@ -85,7 +85,7 @@ public class HotPotKeyView extends RelativeLayout implements View.OnClickListene
     private void clickOk() {
         String password = etPassword.getText().toString();
         if (TextUtils.isEmpty(password)) {
-            ToastUtil_m.show(SmartLinkV3App.getInstance(), R.string.password_is_not_allowed_to_be_empty);
+            ToastTool.show(SmartLinkV3App.getInstance(), R.string.password_is_not_allowed_to_be_empty);
         } else {
             clickNext(hb, password);
         }

@@ -9,7 +9,7 @@ import android.view.View;
 
 import com.alcatel.wifilink.R;
 import com.alcatel.wifilink.root.utils.OtherUtils;
-import com.alcatel.wifilink.root.utils.ToastUtil_m;
+import com.alcatel.wifilink.root.utils.ToastTool;
 import com.alcatel.wifilink.root.widget.CountDownTextView;
 import com.alcatel.wifilink.root.widget.PopupWindows;
 import com.hiber.tools.ScreenSize;
@@ -173,7 +173,7 @@ public class UpgradeHelper {
                     hideDialog();
                     isContinueChecking = false;
                     countDownTimer.stop();
-                    ToastUtil_m.show(activity, R.string.could_not_update_try_again);
+                    ToastTool.show(activity, R.string.could_not_update_try_again);
                 });
 
             }
@@ -251,7 +251,7 @@ public class UpgradeHelper {
             xGetDeviceNewVersionHelper.getDeviceNewVersion();
         } else {
             hideDialog();
-            ToastUtil_m.show(activity, R.string.could_not_update_try_again);
+            ToastTool.show(activity, R.string.could_not_update_try_again);
         }
 
     }

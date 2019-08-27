@@ -1,7 +1,7 @@
 package com.alcatel.wifilink.root.helper;
 
 import com.alcatel.wifilink.root.bean.SMSContentList;
-import com.alcatel.wifilink.root.utils.DataUtils;
+import com.alcatel.wifilink.root.utils.RootUtils;
 import com.p_xhelper_smart.p_xhelper_smart.bean.SendSmsParam;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetSendSMSResultHelper;
 import com.p_xhelper_smart.p_xhelper_smart.helper.SendSMSHelper;
@@ -30,7 +30,7 @@ public abstract class SmsReSendHelper {
         SendSmsParam xSendSmsParam = new SendSmsParam();
         xSendSmsParam.setSMSId(-1);
         xSendSmsParam.setSMSContent(scb.getSMSContent());
-        xSendSmsParam.setSMSTime(DataUtils.getCurrent());
+        xSendSmsParam.setSMSTime(RootUtils.getCurrentDate());
         xSendSmsParam.setPhoneNumber(phoneNums);
         SendSMSHelper xSendSMSHelper = new SendSMSHelper();
         xSendSMSHelper.setOnSendSmsSuccessListener(this::getSmsSendStatus);

@@ -19,7 +19,6 @@ import com.alcatel.wifilink.root.helper.PinStatuHelper;
 import com.alcatel.wifilink.root.helper.ProfileHelper;
 import com.alcatel.wifilink.root.helper.SimNumImsiHelper;
 import com.alcatel.wifilink.root.helper.SimPinHelper;
-import com.alcatel.wifilink.root.utils.Lgg;
 import com.alcatel.wifilink.root.widget.HH70_ChangpinWidget;
 import com.alcatel.wifilink.root.widget.HH70_ConmodeWidget;
 import com.alcatel.wifilink.root.widget.HH70_ModeWidget;
@@ -158,8 +157,6 @@ public class MobileNetworkFrag extends BaseFrag {
                 tvProfileName.setText(profile.getProfileName());
             }
         });
-        prh.setOnFailedListener(() -> Lgg.t(TAG).ee("Method--> " + getClass().getSimpleName() + ":getProfileList() failed"));
-        prh.setOnResultErrorListener(error -> Lgg.t(TAG).ee("Method--> " + getClass().getSimpleName() + ":getProfileList(): " + "" + error.getMessage()));
         prh.get();
     }
 

@@ -2,9 +2,6 @@ package com.alcatel.wifilink.root.helper;
 
 import android.app.Activity;
 
-import com.alcatel.wifilink.R;
-import com.alcatel.wifilink.root.utils.ToastUtil_m;
-
 /**
  * Created by qianli.ma on 2017/12/13 0013.
  */
@@ -27,14 +24,29 @@ public class BillingHelper {
             attr.setBillingDay(day);
             // 3.提交最新请求
             UsageSettingHelper ush_s = new UsageSettingHelper(activity);
-            ush_s.setOnSetUsageSettingSuccessListener(attr1 -> toast(R.string.success));
+            ush_s.setOnSetUsageSettingSuccessListener(attr1 -> setBillSuccessNext());
             ush_s.setUsageSetting(attr);
         });
         helper.getUsageSetting();
     }
 
-    private void toast(int resId) {
-        ToastUtil_m.show(activity, resId);
+    private OnSetBillSuccessListener onSetBillSuccessListener;
+
+    // Inteerface--> 接口OnSetBillSuccessListener
+    public interface OnSetBillSuccessListener {
+        void setBillSuccess();
+    }
+
+    // 对外方式setOnSetBillSuccessListener
+    public void setOnSetBillSuccessListener(OnSetBillSuccessListener onSetBillSuccessListener) {
+        this.onSetBillSuccessListener = onSetBillSuccessListener;
+    }
+
+    // 封装方法setBillSuccessNext
+    private void setBillSuccessNext() {
+        if (onSetBillSuccessListener != null) {
+            onSetBillSuccessListener.setBillSuccess();
+        }
     }
 
 

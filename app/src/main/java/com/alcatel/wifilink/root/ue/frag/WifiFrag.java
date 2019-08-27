@@ -19,7 +19,6 @@ import com.alcatel.wifilink.root.helper.ClickDoubleHelper;
 import com.alcatel.wifilink.root.helper.WepPsdHelper;
 import com.alcatel.wifilink.root.helper.WpaPsdHelper;
 import com.alcatel.wifilink.root.ue.activity.SplashActivity;
-import com.alcatel.wifilink.root.utils.Lgg;
 import com.alcatel.wifilink.root.utils.RootUtils;
 import com.alcatel.wifilink.root.widget.NormalWidget;
 import com.p_xhelper_smart.p_xhelper_smart.bean.GetLoginStateBean;
@@ -151,13 +150,11 @@ public class WifiFrag extends BaseFrag {
                 wlanState_2g = getSystemStatusBean.getWlanState_2g();
                 requestWlanSupportMode();
             });
-            xGetSystemStatusHelper.setOnGetSystemStatusFailedListener(() -> {
-                requestWlanSupportMode();
-            });
+            xGetSystemStatusHelper.setOnGetSystemStatusFailedListener(this::requestWlanSupportMode);
             xGetSystemStatusHelper.getSystemStatus();
         });
-        xGetSystemInfoHelper.setOnFwErrorListener(() -> requestWlanSupportMode());
-        xGetSystemInfoHelper.setOnAppErrorListener(() -> requestWlanSupportMode());
+        xGetSystemInfoHelper.setOnFwErrorListener(this::requestWlanSupportMode);
+        xGetSystemInfoHelper.setOnAppErrorListener(this::requestWlanSupportMode);
         xGetSystemInfoHelper.getSystemInfo();
     }
 
@@ -270,19 +267,17 @@ public class WifiFrag extends BaseFrag {
 
     /**
      * 网络请求后再初始化相关UI
-     *
-     * @param isMw120
      */
-    private void initUi(boolean isMw120) {
+    private void initUi(boolean isMWDev) {
         mWifi2GSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            if (isMw120) {
+            if (isMWDev) {
                 hideOrShow(isChecked ? views_5G : views_2p4, isChecked ? views_2p4 : views_5G);
                 mWifi5GSwitch.setChecked(!isChecked);
             }
         });
 
         mWifi5GSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            if (isMw120) {
+            if (isMWDev) {
                 hideOrShow(isChecked ? views_2p4 : views_5G, isChecked ? views_5G : views_2p4);
                 mWifi2GSwitch.setChecked(!isChecked);
             }
@@ -573,7 +568,6 @@ public class WifiFrag extends BaseFrag {
             dgWifiSettingrxOk.setVisibility(View.VISIBLE);
             dgWifiSettingrxOk.setTitle(R.string.restart);
             dgWifiSettingrxOk.setDes(des);
-            dgWifiSettingrxOk.setOnBgClickListener(() -> Lgg.t("mainrx").ii("click not area"));
             dgWifiSettingrxOk.setOnCancelClickListener(() -> dgWifiSettingrxOk.setVisibility(View.GONE));
             dgWifiSettingrxOk.setOnOkClickListener(this::setWlanRequest);
         }
@@ -587,17 +581,12 @@ public class WifiFrag extends BaseFrag {
         xSetWlanSettingsHelper.setOnPrepareHelperListener(() -> rlWait.setVisibility(View.VISIBLE));
         xSetWlanSettingsHelper.setOnDoneHelperListener(() -> rlWait.setVisibility(View.GONE));
         xSetWlanSettingsHelper.setOnSetWlanSettingsSuccessListener(() -> new Handler().postDelayed(() -> rlWait.setVisibility(View.GONE), 30 * 1000));
-        xSetWlanSettingsHelper.setOnSetWlanSettingsFailedListener(() -> {
-            toFragActivity(getClass(), SplashActivity.class, RefreshFrag.class, null, false,true,0);
-        });
+        xSetWlanSettingsHelper.setOnSetWlanSettingsFailedListener(() -> toFragActivity(getClass(), SplashActivity.class, RefreshFrag.class, null, false,true,0));
         xSetWlanSettingsHelper.setWlanSettings(mEditedSettings);
     }
 
     /**
      * 隐藏或者显示
-     *
-     * @param hideViews
-     * @param showViews
      */
     private void hideOrShow(View[] hideViews, View[] showViews) {
         for (View hideView : hideViews) {

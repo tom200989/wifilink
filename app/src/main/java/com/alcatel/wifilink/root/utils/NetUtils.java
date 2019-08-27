@@ -24,7 +24,7 @@ public class NetUtils {
      * @param input the address string to check for validity.
      * @return True if the input parameter is a valid IPv4 address.
      */
-    public static boolean isIPv4Address(String input) {
+    private static boolean isIPv4Address(String input) {
         return IPV4_PATTERN.matcher(input).matches();
     }
 

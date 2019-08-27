@@ -4,7 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.widget.Toast;
 
-public class ToastUtil_m {
+public class ToastTool {
     public static void show(Context context, final String tip) {
         String threadName = Thread.currentThread().getName();
         if (threadName.equalsIgnoreCase("main")) {

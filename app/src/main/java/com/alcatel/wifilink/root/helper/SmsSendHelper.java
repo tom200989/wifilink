@@ -5,9 +5,9 @@ import android.content.Context;
 import android.os.Handler;
 
 import com.alcatel.wifilink.R;
-import com.alcatel.wifilink.root.utils.DataUtils;
 import com.alcatel.wifilink.root.utils.ProgressUtils;
-import com.alcatel.wifilink.root.utils.ToastUtil_m;
+import com.alcatel.wifilink.root.utils.RootUtils;
+import com.alcatel.wifilink.root.utils.ToastTool;
 import com.p_xhelper_smart.p_xhelper_smart.bean.SendSmsParam;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetSendSMSResultHelper;
 import com.p_xhelper_smart.p_xhelper_smart.helper.SendSMSHelper;
@@ -43,11 +43,11 @@ public abstract class SmsSendHelper {
         SendSmsParam xSendSmsParam = new SendSmsParam();
         xSendSmsParam.setSMSId(-1);
         xSendSmsParam.setSMSContent(content);
-        xSendSmsParam.setSMSTime(DataUtils.getCurrent());
+        xSendSmsParam.setSMSTime(RootUtils.getCurrentDate());
         xSendSmsParam.setPhoneNumber(phoneNums);
         SendSMSHelper xSendSMSHelper = new SendSMSHelper();
         xSendSMSHelper.setOnSendSmsSuccessListener(() -> {
-            handler.postDelayed(() -> getSendStatus(),3000);/* 发送完毕获取短信状态(延迟3秒) */
+            handler.postDelayed(this::getSendStatus,3000);/* 发送完毕获取短信状态(延迟3秒) */
             // getSendStatus();/* 发送完毕获取短信状态 */
         });
         xSendSMSHelper.setOnSendFailListener(this::popDismiss);
@@ -65,17 +65,17 @@ public abstract class SmsSendHelper {
         xGetSendSMSResultHelper.setOnGetSendSmsResultSuccessListener(bean -> {
             int sendStatus = bean.getSendStatus();
             if (sendStatus == Cons.NONE) {
-                ToastUtil_m.show(context, context.getString(R.string.none));
+                ToastTool.show(context, context.getString(R.string.none));
             } else if (sendStatus == Cons.SENDING) {
                 noCostCheck();// 间隔5秒,获取5次,如仍是sending则认为欠费
             } else if (sendStatus == Cons.SUCCESS) {
-                ToastUtil_m.show(context, context.getString(R.string.succeed));
+                ToastTool.show(context, context.getString(R.string.succeed));
             } else if (sendStatus == Cons.FAIL_STILL_SENDING_LAST_MSG) {
                 noCostCheck();// 间隔5秒,获取5次,如仍是sending则认为欠费
             } else if (sendStatus == Cons.FAIL_WITH_MEMORY_FULL) {
-                ToastUtil_m.show(context, context.getString(R.string.fail_with_memory_full));
+                ToastTool.show(context, context.getString(R.string.fail_with_memory_full));
             } else if (sendStatus == Cons.FAIL) {
-                ToastUtil_m.show(context, context.getString(R.string.fail));
+                ToastTool.show(context, context.getString(R.string.fail));
             }
             sendFinish(bean.getSendStatus());
             // 临时计数清零
@@ -99,7 +99,7 @@ public abstract class SmsSendHelper {
                 getSendStatus();
             }, 5000);
         } else {
-            ToastUtil_m.show(context, context.getString(R.string.check_sim_normal_or_no_cost));
+            ToastTool.show(context, context.getString(R.string.check_sim_normal_or_no_cost));
             popDismiss();
         }
     }

@@ -69,7 +69,7 @@ public class SetDataPlanFrag extends BaseFrag {
     PercentRelativeLayout rlSetPlanRxAllContent;
     @BindView(R.id.load_widget)
     HH70_LoadWidget loadWidget;
-    
+
     private Drawable switch_on;
     private Drawable switch_off;
     private int blue_color;
@@ -140,7 +140,7 @@ public class SetDataPlanFrag extends BaseFrag {
         /* 获取设备信息 */
         xGetSystemInfoHelper = new GetSystemInfoHelper();
         xGetSystemInfoHelper.setOnGetSystemInfoSuccessListener(systemInfo -> {
-            isHH71 =  RootUtils.isHH71(systemInfo.getDeviceName().toLowerCase());
+            isHH71 = RootUtils.isHH71(systemInfo.getDeviceName().toLowerCase());
             rlSetPlanRxUsageButton.setVisibility(isHH71 ? View.VISIBLE : View.GONE);
             getUsageSetting();
         });
@@ -156,6 +156,7 @@ public class SetDataPlanFrag extends BaseFrag {
         });
         xGetSystemInfoHelper.getSystemInfo();
     }
+
     @Override
     public void onHiddenChanged(boolean hidden) {
         count = 0;
@@ -182,7 +183,7 @@ public class SetDataPlanFrag extends BaseFrag {
             } else {
                 UsageHelper.Usage monthly = UsageHelper.getUsageByte(activity, result.getMonthlyPlan());
                 String monthlyUsage = monthly.usage;
-                String currentLanguage = ShareUtils.get(RootCons.LOCALE_LANGUAGE_COUNTRY,"");
+                String currentLanguage = ShareUtils.get(RootCons.LOCALE_LANGUAGE_COUNTRY, "");
                 if (currentLanguage.contains(RootCons.LANGUAGES.RUSSIAN)) {
                     monthlyUsage = monthlyUsage.replace(".", ",") + " ";
                 }
@@ -240,8 +241,7 @@ public class SetDataPlanFrag extends BaseFrag {
     private void clickUsageEnable() {
         // 修改状态
         loadWidget.setVisibles();
-        tempSetting.setStatus(tempSetting.getStatus() == GetUsageSettingsBean.CONS_STATUS_ENABLE ?
-                GetUsageSettingsBean.CONS_STATUS_DISABLE : GetUsageSettingsBean.CONS_STATUS_ENABLE);
+        tempSetting.setStatus(tempSetting.getStatus() == GetUsageSettingsBean.CONS_STATUS_ENABLE ? GetUsageSettingsBean.CONS_STATUS_DISABLE : GetUsageSettingsBean.CONS_STATUS_ENABLE);
         UsageSettingHelper usageSettingHelper = new UsageSettingHelper(activity);
         usageSettingHelper.setOnSetUsageSettingSuccessListener(attr -> {
             toast(R.string.succeed);
@@ -288,7 +288,7 @@ public class SetDataPlanFrag extends BaseFrag {
      */
     private void setMonthly(EditText edNum, TextView tvmb, TextView tvgb) {
         pop_monthly.dismiss();// 消隐
-        String content = RootUtils.getEDText(edNum,true);
+        String content = RootUtils.getEDText(edNum, true);
         // 非空判断
         if (TextUtils.isEmpty(content)) {
             content = "0";
@@ -338,6 +338,7 @@ public class SetDataPlanFrag extends BaseFrag {
                 // 提交请求
                 pop_billing.dismiss();
                 BillingHelper billingHelper = new BillingHelper(activity);
+                billingHelper.setOnSetBillSuccessListener(() -> toast(R.string.success, 3000));
                 billingHelper.setBillingDay(day);
             }
         });
@@ -368,10 +369,9 @@ public class SetDataPlanFrag extends BaseFrag {
         loadWidget.setVisibles();
         UsageSettingHelper ush = new UsageSettingHelper(activity);
         ush.setOnGetUsageSettingsSuccessListener(attr -> {
-            attr.setAutoDisconnFlag(attr.getAutoDisconnFlag() == GetUsageSettingsBean.CONS_AUTO_DISCONNECT_ENABLE ?
-                    GetUsageSettingsBean.CONS_AUTO_DISCONNECT_DISABLE : GetUsageSettingsBean.CONS_AUTO_DISCONNECT_ENABLE);
+            attr.setAutoDisconnFlag(attr.getAutoDisconnFlag() == GetUsageSettingsBean.CONS_AUTO_DISCONNECT_ENABLE ? GetUsageSettingsBean.CONS_AUTO_DISCONNECT_DISABLE : GetUsageSettingsBean.CONS_AUTO_DISCONNECT_ENABLE);
             UsageSettingHelper ush1 = new UsageSettingHelper(activity);
-            ush1.setOnSetUsageSettingSuccessListener(attr1 ->  loadWidget.setGone());
+            ush1.setOnSetUsageSettingSuccessListener(attr1 -> loadWidget.setGone());
             ush1.setOnSetUsageSettingFailedListener(() -> loadWidget.setGone());
             ush1.setUsageSetting(attr);
         });
@@ -386,8 +386,7 @@ public class SetDataPlanFrag extends BaseFrag {
         loadWidget.setVisibles();
         UsageSettingHelper ush = new UsageSettingHelper(activity);
         ush.setOnGetUsageSettingsSuccessListener(attr -> {
-            attr.setTimeLimitFlag(attr.getTimeLimitFlag() == GetUsageSettingsBean.CONS_TIME_LIMIT_ABLE ?
-                    GetUsageSettingsBean.CONS_TIME_LIMIT_DISABLE : GetUsageSettingsBean.CONS_TIME_LIMIT_ABLE);
+            attr.setTimeLimitFlag(attr.getTimeLimitFlag() == GetUsageSettingsBean.CONS_TIME_LIMIT_ABLE ? GetUsageSettingsBean.CONS_TIME_LIMIT_DISABLE : GetUsageSettingsBean.CONS_TIME_LIMIT_ABLE);
             UsageSettingHelper ush1 = new UsageSettingHelper(activity);
             ush1.setOnSetUsageSettingFailedListener(() -> loadWidget.setGone());
             ush1.setOnSetUsageSettingSuccessListener(getUsageSettings -> loadWidget.setGone());
@@ -424,8 +423,8 @@ public class SetDataPlanFrag extends BaseFrag {
      * 提交set time limit请求
      */
     private void setSetTimeLimit(EditText etHour, EditText etMin) {
-        String hour_c = RootUtils.getEDText(etHour,true);
-        String min_c = RootUtils.getEDText(etMin,true);
+        String hour_c = RootUtils.getEDText(etHour, true);
+        String min_c = RootUtils.getEDText(etMin, true);
         if (TextUtils.isEmpty(hour_c)) {
             hour_c = "0";
         }
@@ -476,7 +475,7 @@ public class SetDataPlanFrag extends BaseFrag {
         ShareUtils.set(Cons.USAGE_LIMIT, value);
         if (value != -1) {
             // 2.弹出剩余流量
-           loadWidget.setVisibles();
+            loadWidget.setVisibles();
             UsageSettingHelper ush = new UsageSettingHelper(activity);
             ush.setOnGetUsageSettingsFailedListener(() -> loadWidget.setGone());
             ush.setOnGetUsageSettingsSuccessListener(attr -> {
