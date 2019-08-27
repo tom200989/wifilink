@@ -58,9 +58,6 @@
             </intent-filter>
         </activity>
 
-        <!-- 老框架 -->
-        <service android:name=".root.helper.CheckService" />
-
         <!-- 调用本地相册 -->
         <activity
             android:name="me.nereo.multi_image_selector.MultiImageSelectorActivity"
@@ -71,9 +68,6 @@
             </intent-filter>
         </activity>
 
-        <service
-            android:name=".root.helper.HomeService"
-            android:stopWithTask="true" />
     </application>
 
 </manifest>

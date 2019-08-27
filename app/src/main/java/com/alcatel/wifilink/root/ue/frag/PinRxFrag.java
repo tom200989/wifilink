@@ -9,7 +9,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.alcatel.wifilink.R;
-import com.alcatel.wifilink.root.helper.BoardSimHelper;
 import com.alcatel.wifilink.root.ue.activity.SplashActivity;
 import com.alcatel.wifilink.root.utils.RootCons;
 import com.alcatel.wifilink.root.utils.RootUtils;
@@ -44,7 +43,6 @@ public class PinRxFrag extends BaseFrag {
     private int gray_color;
     private Drawable check_pic;
     private Drawable uncheck_pic;
-    private BoardSimHelper boardSimHelper;
 
     @Override
     public int onInflateLayout() {

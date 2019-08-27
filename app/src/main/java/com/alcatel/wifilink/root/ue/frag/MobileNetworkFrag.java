@@ -10,7 +10,6 @@ import com.alcatel.wifilink.R;
 import com.alcatel.wifilink.root.helper.ChangePinHelper;
 import com.alcatel.wifilink.root.helper.ConnModeHelper;
 import com.alcatel.wifilink.root.helper.ConnectSettingHelper;
-import com.alcatel.wifilink.root.helper.Cons;
 import com.alcatel.wifilink.root.helper.DataRoamHelper;
 import com.alcatel.wifilink.root.helper.MobileDataHelper;
 import com.alcatel.wifilink.root.helper.ModeHelper;
@@ -28,6 +27,7 @@ import com.hiber.cons.TimerState;
 import com.p_xhelper_smart.p_xhelper_smart.bean.GetConnectionSettingsBean;
 import com.p_xhelper_smart.p_xhelper_smart.bean.GetNetworkSettingsBean;
 import com.p_xhelper_smart.p_xhelper_smart.bean.GetProfileListBean;
+import com.p_xhelper_smart.p_xhelper_smart.bean.GetSimStatusBean;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetConnectionStateHelper;
 
 import java.util.List;
@@ -181,7 +181,7 @@ public class MobileNetworkFrag extends BaseFrag {
     private void getSimPin() {
         PinStatuHelper pinStatuHelper = new PinStatuHelper(activity);
         pinStatuHelper.setOnNormalPinStatesListener(result -> {
-            boolean isPinEnable = result.getPinState() == Cons.PINSTATES_PIN_ENABLE_VERIFIED;
+            boolean isPinEnable = result.getPinState() == GetSimStatusBean.CONS_FOR_PIN_PIN_ENABLE_VERIFIED;
             ivSimPin.setImageDrawable(isPinEnable ? switch_on : switch_off);
         });
         pinStatuHelper.getRoll();
@@ -338,7 +338,7 @@ public class MobileNetworkFrag extends BaseFrag {
     private void clickChangePin() {
         PinStatuHelper pinStatuHelper = new PinStatuHelper(activity);
         pinStatuHelper.setOnNormalPinStatesListener(attr1 -> {
-            if (attr1.getPinState() != Cons.PINSTATES_PIN_ENABLE_VERIFIED) {
+            if (attr1.getPinState() != GetSimStatusBean.CONS_FOR_PIN_PIN_ENABLE_VERIFIED) {
                 toast(R.string.please_enable_sim_pin);
             } else {
                 changpinWidget.setOnOkClickListener(() -> {

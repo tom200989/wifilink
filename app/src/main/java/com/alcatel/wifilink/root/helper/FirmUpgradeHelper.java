@@ -2,17 +2,23 @@ package com.alcatel.wifilink.root.helper;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 
 import com.alcatel.wifilink.R;
 import com.alcatel.wifilink.root.utils.OtherUtils;
+import com.alcatel.wifilink.root.utils.RootCons;
 import com.alcatel.wifilink.root.utils.ToastTool;
+import com.hiber.bean.SkipBean;
+import com.hiber.hiber.RootMAActivity;
 import com.p_xhelper_smart.p_xhelper_smart.bean.GetDeviceNewVersionBean;
 import com.p_xhelper_smart.p_xhelper_smart.bean.GetLoginStateBean;
+import com.p_xhelper_smart.p_xhelper_smart.bean.GetSimStatusBean;
 import com.p_xhelper_smart.p_xhelper_smart.bean.GetSystemInfoBean;
 import com.p_xhelper_smart.p_xhelper_smart.bean.GetWanSettingsBean;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetConnectionStateHelper;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetLoginStateHelper;
+import com.p_xhelper_smart.p_xhelper_smart.helper.GetSimStatusHelper;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetSystemInfoHelper;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetWanSettingsHelper;
 import com.p_xhelper_smart.p_xhelper_smart.helper.SetDeviceStartUpdateHelper;
@@ -142,25 +148,48 @@ public class FirmUpgradeHelper {
      */
     private void checkSim() {
         hideDialog();
-        BoardSimHelper bsh = new BoardSimHelper(activity);
-        bsh.setOnRollRequestOnError(e -> toast(R.string.qs_pin_unlock_can_not_connect_des));
-        bsh.setOnRollRequestOnResultError(e -> toast(R.string.qs_pin_unlock_can_not_connect_des));
-        bsh.setOnNormalSimstatusListener(simStatus -> {
-            int simState = simStatus.getSIMState();
-            if (simState != Cons.READY) {
-                toast(R.string.qs_pin_unlock_can_not_connect_des);
-            } else {
-                // 加入拨号连接的判断, 如果没有拨号连接则提示没有拨号
-                GetConnectionStateHelper xGetConnectionStateHelper = new GetConnectionStateHelper();
-                xGetConnectionStateHelper.setOnGetConnectionStateFailedListener(() -> toast(R.string.qs_pin_unlock_can_not_connect_des));
-                xGetConnectionStateHelper.setOnDisConnectingListener(() -> toast(R.string.setting_upgrade_no_connection));
-                xGetConnectionStateHelper.setOnDisconnectedListener(() -> toast(R.string.setting_upgrade_no_connection));
-                xGetConnectionStateHelper.setOnConnectingListener(() -> toast(R.string.setting_upgrade_no_connection));
-                xGetConnectionStateHelper.setOnConnectedListener(this::checkNw);
-                xGetConnectionStateHelper.getConnectionState();
+        GetLoginStateHelper xGetLoginStateHelper = new GetLoginStateHelper();
+        xGetLoginStateHelper.setOnGetLoginStateSuccessListener(getLoginStateBean -> {
+            if (getLoginStateBean.getState() == GetLoginStateBean.CONS_LOGOUT) {
+                to(RootCons.ACTIVITYS.SPLASH_AC,RootCons.FRAG.LOGIN_FR);
+                return;
             }
+            GetSimStatusHelper xGetSimStatusHelper = new GetSimStatusHelper();
+            xGetSimStatusHelper.setOnGetSimStatusSuccessListener(result -> {
+                int simState = result.getSIMState();
+                if (simState != GetSimStatusBean.CONS_SIM_CARD_READY) {
+                    toast(R.string.qs_pin_unlock_can_not_connect_des);
+                } else {
+                    // 加入拨号连接的判断, 如果没有拨号连接则提示没有拨号
+                    GetConnectionStateHelper xGetConnectionStateHelper = new GetConnectionStateHelper();
+                    xGetConnectionStateHelper.setOnGetConnectionStateFailedListener(() -> toast(R.string.qs_pin_unlock_can_not_connect_des));
+                    xGetConnectionStateHelper.setOnDisConnectingListener(() -> toast(R.string.setting_upgrade_no_connection));
+                    xGetConnectionStateHelper.setOnDisconnectedListener(() -> toast(R.string.setting_upgrade_no_connection));
+                    xGetConnectionStateHelper.setOnConnectingListener(() -> toast(R.string.setting_upgrade_no_connection));
+                    xGetConnectionStateHelper.setOnConnectedListener(this::checkNw);
+                    xGetConnectionStateHelper.getConnectionState();
+                }
+            });
+            xGetSimStatusHelper.setOnGetSimStatusFailedListener(() -> toast(R.string.qs_pin_unlock_can_not_connect_des));
+            xGetSimStatusHelper.getSimStatus();
         });
-        bsh.boardTimer();
+        xGetLoginStateHelper.setOnGetLoginStateFailedListener(() -> toast(R.string.qs_pin_unlock_can_not_connect_des));
+        xGetLoginStateHelper.getLoginState();
+    }
+
+    /**
+     * 跳转activity
+     *
+     * @param targetAc
+     * @param targetFr
+     */
+    private void to(String targetAc, String targetFr) {
+        Intent intent = new Intent();
+        intent.setAction(targetAc);
+        SkipBean skipBean = RootMAActivity.getPendingIntentValue(targetAc, targetFr, null);
+        skipBean.setCurrentACFinish(true);
+        intent.putExtra(RootMAActivity.getPendingIntentKey(), skipBean);
+        activity.startActivity(intent);
     }
 
     /**

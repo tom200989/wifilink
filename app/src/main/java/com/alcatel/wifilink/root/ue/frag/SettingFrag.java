@@ -16,9 +16,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.alcatel.wifilink.R;
-import com.alcatel.wifilink.root.helper.BoardSimHelper;
 import com.alcatel.wifilink.root.helper.ClickDoubleHelper;
-import com.alcatel.wifilink.root.helper.Cons;
 import com.alcatel.wifilink.root.helper.Extender_GetWIFIExtenderSettingsHelper;
 import com.alcatel.wifilink.root.helper.FirmUpgradeHelper;
 import com.alcatel.wifilink.root.helper.UpgradeHelper;
@@ -34,9 +32,11 @@ import com.hiber.tools.TimerHelper;
 import com.p_numberbar.p_numberbar.core.NumberProgressBar;
 import com.p_xhelper_smart.p_xhelper_smart.bean.GetDeviceNewVersionBean;
 import com.p_xhelper_smart.p_xhelper_smart.bean.GetLoginStateBean;
+import com.p_xhelper_smart.p_xhelper_smart.bean.GetSimStatusBean;
 import com.p_xhelper_smart.p_xhelper_smart.bean.GetSystemInfoBean;
 import com.p_xhelper_smart.p_xhelper_smart.bean.GetWanSettingsBean;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetLoginStateHelper;
+import com.p_xhelper_smart.p_xhelper_smart.helper.GetSimStatusHelper;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetSystemInfoHelper;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetWanSettingsHelper;
 import com.p_xhelper_smart.p_xhelper_smart.helper.LogoutHelper;
@@ -67,7 +67,6 @@ public class SettingFrag extends BaseFrag {
     private PopupWindows pop_downloading;
     boolean isDownloading = false;
     private TimerHelper downTimer;
-    private BoardSimHelper simTimerHelper;
     private GetSystemInfoHelper xGetSystemInfoHelper;
     private Extender_GetWIFIExtenderSettingsHelper extenderHelper;
     private String off;
@@ -149,23 +148,11 @@ public class SettingFrag extends BaseFrag {
     }
 
     private void initSome() {
-        simTimerHelper = new BoardSimHelper(activity);
         extenderHelper = new Extender_GetWIFIExtenderSettingsHelper();
 
         extenderHelper.setOnStateEnableOnListener(stateEnable -> tvExtenderOnOff.setText(on));
         extenderHelper.setOnstateEnableOffListener(stateEnable -> tvExtenderOnOff.setText(off));
         extenderHelper.setOnGetExtenderFailedListener(() -> tvExtenderOnOff.setText(off));
-
-        simTimerHelper.setOnRollRequestOnResultError(error -> mMobileNetworkSimSocket.setText(noSimcard));
-        simTimerHelper.setOnRollRequestOnError(error -> mMobileNetworkSimSocket.setText(noSimcard));
-        simTimerHelper.setOnNownListener(simStatus -> mMobileNetworkSimSocket.setText(noSimcard));
-        simTimerHelper.setOnDetectedListener(simStatus -> mMobileNetworkSimSocket.setText(detected));
-        simTimerHelper.setOnInitingListener(simStatus -> mMobileNetworkSimSocket.setText(initing));
-        simTimerHelper.setOnPinRequireListener(result -> mMobileNetworkSimSocket.setText(off));
-        simTimerHelper.setOnpukRequireListener(result -> mMobileNetworkSimSocket.setText(off));
-        simTimerHelper.setOnpukTimeoutListener(result -> mMobileNetworkSimSocket.setText(off));
-        simTimerHelper.setOnSimLockListener(result -> mMobileNetworkSimSocket.setText(off));
-        simTimerHelper.setOnSimReadyListener(result -> mMobileNetworkSimSocket.setText(on));
 
         // 加入MW120设备类型判断
         xGetSystemInfoHelper = new GetSystemInfoHelper();
@@ -219,8 +206,58 @@ public class SettingFrag extends BaseFrag {
     public void setTimerTask() {
         super.setTimerTask();
         // 检测WAN口 | SIM是否连接 | 是否为新设备
-        simTimerHelper.boardTimer();
+        checkSimStatus();
         xGetSystemInfoHelper.getSystemInfo();
+    }
+
+
+    private void checkSimStatus() {
+        GetLoginStateHelper xGetLoginStateHelper = new GetLoginStateHelper();
+        xGetLoginStateHelper.setOnGetLoginStateSuccessListener(getLoginStateBean -> {
+            if (getLoginStateBean.getState() == GetLoginStateBean.CONS_LOGOUT) {
+                to(SplashActivity.class, LoginFrag.class);
+                return;
+            }
+            GetSimStatusHelper xGetSimStatusHelper = new GetSimStatusHelper();
+            xGetSimStatusHelper.setOnGetSimStatusSuccessListener(result -> {
+                int simState = result.getSIMState();
+                switch (simState) {
+                    case GetSimStatusBean.CONS_PIN_REQUIRED:
+                    case GetSimStatusBean.CONS_PUK_REQUIRED:
+                    case GetSimStatusBean.CONS_PUK_TIMES_USED_OUT:
+                        mMobileNetworkSimSocket.setText(off);
+                        break;
+                    case GetSimStatusBean.CONS_NOWN:
+                        mMobileNetworkSimSocket.setText(noSimcard);
+                        break;
+                    case GetSimStatusBean.CONS_SIM_CARD_DETECTED:
+                        mMobileNetworkSimSocket.setText(detected);
+                    case GetSimStatusBean.CONS_SIM_CARD_IS_INITING:
+                        mMobileNetworkSimSocket.setText(initing);
+                    case GetSimStatusBean.CONS_SIM_LOCK_REQUIRED:
+                        mMobileNetworkSimSocket.setText(off);
+                        break;
+                    case GetSimStatusBean.CONS_SIM_CARD_READY:
+                        mMobileNetworkSimSocket.setText(on);
+                        break;
+                }
+            });
+            xGetSimStatusHelper.setOnGetSimStatusFailedListener(() -> mMobileNetworkSimSocket.setText(noSimcard));
+            xGetSimStatusHelper.getSimStatus();
+        });
+
+        xGetLoginStateHelper.setOnGetLoginStateFailedListener(() -> mMobileNetworkSimSocket.setText(noSimcard));
+        xGetLoginStateHelper.getLoginState();
+    }
+
+    /**
+     * 跳转activity
+     *
+     * @param targetAc
+     * @param targetFr
+     */
+    private void to(Class targetAc, Class targetFr) {
+        toFragActivity(getClass(), targetAc, targetFr, null, false, true, 0);
     }
 
     private void initClick() {
@@ -412,21 +449,8 @@ public class SettingFrag extends BaseFrag {
             });
 
             /* -------------------------------------------- 定时器获取WAN以及SIM的连接状态 -------------------------------------------- */
-            // SIM状态
-            BoardSimHelper bsh = new BoardSimHelper(activity);
-            bsh.setOnRollRequestOnError(e -> downError(-1));
-            bsh.setOnRollRequestOnResultError(error -> downError(-1));
-            bsh.setOnNormalSimstatusListener(simStatus -> {
-                int simState = simStatus.getSIMState();
-                if (simState == Cons.READY) {
-                    // 获取下载进度
-                    uh.getDownState();
-                } else {
-                    // 弹出提示并隐藏弹窗
-                    downError(R.string.qs_pin_unlock_can_not_connect_des);
-                }
-            });
-            
+
+
             /* -------------------------------------------- 定时器获取WAN以及SIM的连接状态 -------------------------------------------- */
 
             // 创建定时器
@@ -460,25 +484,47 @@ public class SettingFrag extends BaseFrag {
                         case GetWanSettingsBean.CONS_DISCONNECTED:
                         case GetWanSettingsBean.CONS_DISCONNECTING:
                         case GetWanSettingsBean.CONS_CONNECTING:
-                            getSIM();
+                            getSIM(uh);
                             break;
                     }
                 });
-                xGetWanSettingsHelper.setOnGetWanSettingFailedListener(this::getSIM);
+                xGetWanSettingsHelper.setOnGetWanSettingFailedListener(() -> getSIM(uh));
                 xGetWanSettingsHelper.getWanSettings();
             } else {
                 toFragActivity(getClass(), SplashActivity.class, LoginFrag.class, null, true);
             }
         });
-        xGetLoginStateHelper.setOnGetLoginStateFailedListener(this::getSIM);
+        xGetLoginStateHelper.setOnGetLoginStateFailedListener(() -> getSIM(uh));
         xGetLoginStateHelper.getLoginState();
     }
 
     /**
      * 获取SIM状态
      */
-    private void getSIM() {
-        // TODO: 2019/8/27 0027  志强
+    private void getSIM(UpgradeHelper uh) {
+        // SIM状态
+        GetLoginStateHelper xGetLoginStateHelper = new GetLoginStateHelper();
+        xGetLoginStateHelper.setOnGetLoginStateSuccessListener(getLoginStateBean -> {
+            if (getLoginStateBean.getState() == GetLoginStateBean.CONS_LOGOUT) {
+                toFragActivity(getClass(), SplashActivity.class,LoginFrag.class, null,false,true,0);
+                return;
+            }
+            GetSimStatusHelper xGetSimStatusHelper = new GetSimStatusHelper();
+            xGetSimStatusHelper.setOnGetSimStatusSuccessListener(result -> {
+                int simState = result.getSIMState();
+                if (simState != GetSimStatusBean.CONS_SIM_CARD_READY) {
+                    // 获取下载进度
+                    uh.getDownState();
+                } else {
+                    // 弹出提示并隐藏弹窗
+                    downError(R.string.qs_pin_unlock_can_not_connect_des);
+                }
+            });
+            xGetSimStatusHelper.setOnGetSimStatusFailedListener(() -> downError(-1));
+            xGetSimStatusHelper.getSimStatus();
+        });
+        xGetLoginStateHelper.setOnGetLoginStateFailedListener(() -> downError(-1));
+        xGetLoginStateHelper.getLoginState();
     }
 
     /**

@@ -287,7 +287,7 @@ public class SetDataPlanFrag extends BaseFrag {
      */
     private void setMonthly(EditText edNum, TextView tvmb, TextView tvgb) {
         pop_monthly.dismiss();// 消隐
-        String content = RootUtils.getEDText(edNum, true);
+        String content = RootUtils.getEDText(edNum);
         // 非空判断
         if (TextUtils.isEmpty(content)) {
             content = "0";
@@ -422,8 +422,8 @@ public class SetDataPlanFrag extends BaseFrag {
      * 提交set time limit请求
      */
     private void setSetTimeLimit(EditText etHour, EditText etMin) {
-        String hour_c = RootUtils.getEDText(etHour, true);
-        String min_c = RootUtils.getEDText(etMin, true);
+        String hour_c = RootUtils.getEDText(etHour);
+        String min_c = RootUtils.getEDText(etMin);
         if (TextUtils.isEmpty(hour_c)) {
             hour_c = "0";
         }

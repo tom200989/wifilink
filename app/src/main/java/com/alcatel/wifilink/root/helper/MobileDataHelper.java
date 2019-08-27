@@ -1,10 +1,18 @@
 package com.alcatel.wifilink.root.helper;
 
 import android.app.Activity;
+import android.content.Intent;
 
 import com.alcatel.wifilink.R;
+import com.alcatel.wifilink.root.utils.RootCons;
 import com.alcatel.wifilink.root.utils.ToastTool;
+import com.hiber.bean.SkipBean;
+import com.hiber.hiber.RootMAActivity;
+import com.p_xhelper_smart.p_xhelper_smart.bean.GetLoginStateBean;
+import com.p_xhelper_smart.p_xhelper_smart.bean.GetSimStatusBean;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetConnectionStateHelper;
+import com.p_xhelper_smart.p_xhelper_smart.helper.GetLoginStateHelper;
+import com.p_xhelper_smart.p_xhelper_smart.helper.GetSimStatusHelper;
 
 /**
  * Created by qianli.ma on 2017/12/11 0011.
@@ -22,25 +30,82 @@ public class MobileDataHelper {
      * 连接或者断连
      */
     public void toConnOrNot() {
-        // 1.检查sim卡状态
-        BoardSimHelper boardSimHelper = new BoardSimHelper(context);
-        boardSimHelper.setOnSimReadyListener(result -> {
-            // 2.获取连接状态(断连--> 连接,连接--> 断连)
-            GetConnectionStateHelper xGetConnectionStateHelper = new GetConnectionStateHelper();
-            xGetConnectionStateHelper.setOnGetConnectionStateFailedListener(() -> toast(R.string.connect_failed));
-            xGetConnectionStateHelper.setOnDisConnectingListener(() -> toast(R.string.setting_network_try_again));
-            xGetConnectionStateHelper.setOnDisconnectedListener(this::toConn);
-            xGetConnectionStateHelper.setOnConnectingListener(() -> toast(R.string.connecting));
-            xGetConnectionStateHelper.setOnConnectedListener(this::toDisConn);
-            xGetConnectionStateHelper.getConnectionState();
+        GetLoginStateHelper xGetLoginStateHelper = new GetLoginStateHelper();
+        xGetLoginStateHelper.setOnGetLoginStateSuccessListener(getLoginStateBean -> {
+            if (getLoginStateBean.getState() == GetLoginStateBean.CONS_LOGOUT) {
+                to(RootCons.ACTIVITYS.SPLASH_AC,RootCons.FRAG.LOGIN_FR);
+                return;
+            }
+            GetSimStatusHelper xGetSimStatusHelper = new GetSimStatusHelper();
+            xGetSimStatusHelper.setOnGetSimStatusSuccessListener(result -> {
+                int simState = result.getSIMState();
+                switch (simState) {
+                    case GetSimStatusBean.CONS_PIN_REQUIRED:
+                    case GetSimStatusBean.CONS_PUK_REQUIRED:
+                    case GetSimStatusBean.CONS_SIM_LOCK_REQUIRED:
+                        toast(R.string.home_pin_locked_notice);
+                        break;
+                    case  GetSimStatusBean.CONS_SIM_CARD_IS_INITING:
+                        toast(R.string.home_initializing);
+                        break;
+                    case GetSimStatusBean.CONS_PUK_TIMES_USED_OUT:
+                        toast(R.string.Home_PukTimes_UsedOut);
+                        break;
+                    case GetSimStatusBean.CONS_SIM_CARD_DETECTED:
+                        toast(R.string.Home_SimCard_Detected);
+                        break;
+                    case GetSimStatusBean.CONS_SIM_CARD_READY:
+                        getConnectState();
+                        break;
+                    case GetSimStatusBean.CONS_NOWN:
+                        toast(R.string.Home_no_sim);
+                        break;
+                    case GetSimStatusBean.CONS_SIM_CARD_ILLEGAL:
+                        toast(R.string.Home_sim_invalid);
+                        break;
+                }
+            });
+            xGetSimStatusHelper.setOnGetSimStatusFailedListener(() -> {
+                toast(R.string.home_sim_not_accessible);
+                to(RootCons.ACTIVITYS.SPLASH_AC,RootCons.FRAG.REFRESH_FR);
+            });
+            xGetSimStatusHelper.getSimStatus();
         });
-        boardSimHelper.setOnInitingListener(simStatus -> toast(R.string.home_initializing));
-        boardSimHelper.setOnDetectedListener(simStatus -> toast(R.string.Home_SimCard_Detected));
-        boardSimHelper.setOnpukTimeoutListener(result -> toast(R.string.Home_PukTimes_UsedOut));
-        boardSimHelper.setOnPinRequireListener(result -> toast(R.string.home_pin_locked_notice));
-        boardSimHelper.setOnpukRequireListener(result -> toast(R.string.home_pin_locked_notice));
-        boardSimHelper.setOnSimLockListener(simStatus -> toast(R.string.home_pin_locked_notice));
-        boardSimHelper.boardNormal();
+
+        xGetLoginStateHelper.setOnGetLoginStateFailedListener(() -> {
+            toast(R.string.connect_failed);
+            to(RootCons.ACTIVITYS.SPLASH_AC,RootCons.FRAG.REFRESH_FR);
+        });
+        xGetLoginStateHelper.getLoginState();
+    }
+
+    /**
+     * 获取连接状态
+     */
+    private void getConnectState() {
+        // 2.获取连接状态(断连--> 连接,连接--> 断连)
+        GetConnectionStateHelper xGetConnectionStateHelper = new GetConnectionStateHelper();
+        xGetConnectionStateHelper.setOnGetConnectionStateFailedListener(() -> toast(R.string.connect_failed));
+        xGetConnectionStateHelper.setOnDisConnectingListener(() -> toast(R.string.setting_network_try_again));
+        xGetConnectionStateHelper.setOnDisconnectedListener(this::toConn);
+        xGetConnectionStateHelper.setOnConnectingListener(() -> toast(R.string.connecting));
+        xGetConnectionStateHelper.setOnConnectedListener(this::toDisConn);
+        xGetConnectionStateHelper.getConnectionState();
+    }
+
+    /**
+     * 跳转activity
+     *
+     * @param targetAc
+     * @param targetFr
+     */
+    private void to(String targetAc, String targetFr) {
+        Intent intent = new Intent();
+        intent.setAction(targetAc);
+        SkipBean skipBean = RootMAActivity.getPendingIntentValue(targetAc, targetFr, null);
+        skipBean.setCurrentACFinish(true);
+        intent.putExtra(RootMAActivity.getPendingIntentKey(), skipBean);
+        context.startActivity(intent);
     }
 
     /**
@@ -131,5 +196,9 @@ public class MobileDataHelper {
 
     public void toast(int resId) {
         ToastTool.show(context, resId);
+    }
+
+    public void toast(String toastString) {
+        ToastTool.show(context, toastString);
     }
 }

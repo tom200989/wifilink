@@ -31,7 +31,7 @@ public class ChangePinHelper {
     public void change(String currentCode, String refreshCode, String confirmCode) {
         PinStatuHelper pinStatuHelper = new PinStatuHelper(activity);
         pinStatuHelper.setOnNormalPinStatesListener(attr -> {
-            if (attr.getPinState() != Cons.PINSTATES_PIN_ENABLE_VERIFIED) {// PIN码没有开启状态下
+            if (attr.getPinState() != GetSimStatusBean.CONS_FOR_PIN_PIN_ENABLE_VERIFIED) {// PIN码没有开启状态下
                 toast(R.string.please_enable_sim_pin);
             } else {// PIN码已经开启且有效
                 changePin(currentCode, refreshCode, confirmCode);

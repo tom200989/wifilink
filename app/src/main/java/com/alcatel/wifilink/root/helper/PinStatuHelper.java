@@ -1,10 +1,17 @@
 package com.alcatel.wifilink.root.helper;
 
 import android.app.Activity;
+import android.content.Intent;
 
 import com.alcatel.wifilink.R;
+import com.alcatel.wifilink.root.utils.RootCons;
 import com.alcatel.wifilink.root.utils.ToastTool;
+import com.hiber.bean.SkipBean;
+import com.hiber.hiber.RootMAActivity;
+import com.p_xhelper_smart.p_xhelper_smart.bean.GetLoginStateBean;
 import com.p_xhelper_smart.p_xhelper_smart.bean.GetSimStatusBean;
+import com.p_xhelper_smart.p_xhelper_smart.helper.GetLoginStateHelper;
+import com.p_xhelper_smart.p_xhelper_smart.helper.GetSimStatusHelper;
 
 /**
  * Created by qianli.ma on 2017/12/12 0012.
@@ -21,65 +28,108 @@ public class PinStatuHelper {
      * 定时器使用该方法请求pins state
      */
     public void getRoll() {
-        BoardSimHelper boardSimHelper = new BoardSimHelper(activity);
-        boardSimHelper.setOnNormalSimstatusListener(result -> {
-            normalPinStatesNext(result);
-            int pinState = result.getPinState();
-            switch (pinState) {
-                case Cons.PINSTATES_UNKNOWN:
-                    unknownNext(result);
-                    break;
-                case Cons.PINSTATES_ENABLE_BUT_NOT_VERIFIED:
-                    pinEnableButNotVerifyNext(result);
-                    break;
-                case Cons.PINSTATES_PIN_ENABLE_VERIFIED:
-                    pinEnableVerifyNext(result);
-                    break;
-                case Cons.PINSTATES_PIN_DISABLE:
-                    pinDisableNext(result);
-                    break;
-                case Cons.PINSTATES_PUK_REQUIRED:
-                    pukRequiredNext(result);
-                    break;
-                case Cons.PINSTATES_PUK_TIMES_USED_OUT:
-                    pukTimeoutNext(result);
-                    break;
+        GetLoginStateHelper xGetLoginStateHelper = new GetLoginStateHelper();
+        xGetLoginStateHelper.setOnGetLoginStateSuccessListener(getLoginStateBean -> {
+            if (getLoginStateBean.getState() == GetLoginStateBean.CONS_LOGOUT) {
+                to(RootCons.ACTIVITYS.SPLASH_AC,RootCons.FRAG.LOGIN_FR);
+                return;
             }
+            GetSimStatusHelper xGetSimStatusHelper = new GetSimStatusHelper();
+            xGetSimStatusHelper.setOnGetSimStatusSuccessListener(result -> {
+                int pinState = result.getPinState();
+                switch (pinState) {
+                    case GetSimStatusBean.CONS_FOR_PIN_UNKNOWN:
+                        unknownNext(result);
+                        break;
+                    case GetSimStatusBean.CONS_FOR_PIN_ENABLE_BUT_NOT_VERIFIED:
+                        pinEnableButNotVerifyNext(result);
+                        break;
+                    case GetSimStatusBean.CONS_FOR_PIN_PIN_ENABLE_VERIFIED:
+                        pinEnableVerifyNext(result);
+                        break;
+                    case GetSimStatusBean.CONS_FOR_PIN_PIN_DISABLE:
+                        pinDisableNext(result);
+                        break;
+                    case GetSimStatusBean.CONS_FOR_PIN_PUK_REQUIRED:
+                        pukRequiredNext(result);
+                        break;
+                    case GetSimStatusBean.CONS_FOR_PIN_PUK_TIMES_USED_OUT:
+                        pukTimeoutNext(result);
+                        break;
+                }
+            });
+            xGetSimStatusHelper.getSimStatus();
         });
-        boardSimHelper.boardTimer();
+        xGetLoginStateHelper.getLoginState();
     }
+
 
     /**
      * 点击事件使用该方法请求pins state
      */
     public void getOne() {
         // 1.先获取SIM卡的状态
-        BoardSimHelper boardSimHelper = new BoardSimHelper(activity);
-        boardSimHelper.setOnNormalSimstatusListener(result -> {
-            int simState = result.getSIMState();
-            switch (simState) {
-                case Cons.NOWN:
-                    toast(R.string.not_inserted);
-                    break;
-                case Cons.INITING:
-                    toast(R.string.home_initializing);
-                    break;
-                case Cons.DETECTED:
-                    toast(R.string.Home_SimCard_Detected);
-                    break;
-                case Cons.ILLEGAL:
-                    toast(R.string.Home_sim_invalid);
-                    break;
-                case Cons.PUK_TIMESOUT:
-                    toast(R.string.Home_PukTimes_UsedOut);
-                    break;
-                default:
-                    // 2.获取PIN status
-                    getPinStatus(result);
-                    break;
+        GetLoginStateHelper xGetLoginStateHelper = new GetLoginStateHelper();
+        xGetLoginStateHelper.setOnGetLoginStateSuccessListener(getLoginStateBean -> {
+            if (getLoginStateBean.getState() == GetLoginStateBean.CONS_LOGOUT) {
+                to(RootCons.ACTIVITYS.SPLASH_AC, RootCons.FRAG.LOGIN_FR);
+                return;
             }
+            GetSimStatusHelper xGetSimStatusHelper = new GetSimStatusHelper();
+            xGetSimStatusHelper.setOnGetSimStatusSuccessListener(result -> {
+                int simState = result.getSIMState();
+                switch (simState) {
+                    case GetSimStatusBean.CONS_SIM_CARD_IS_INITING:
+                        toast(R.string.home_initializing);
+                        break;
+                    case GetSimStatusBean.CONS_PUK_TIMES_USED_OUT:
+                        toast(R.string.Home_PukTimes_UsedOut);
+                        break;
+                    case GetSimStatusBean.CONS_SIM_CARD_DETECTED:
+                        toast(R.string.Home_SimCard_Detected);
+                        break;
+                    case GetSimStatusBean.CONS_NOWN:
+                        toast(R.string.not_inserted);
+                        break;
+                    case GetSimStatusBean.CONS_SIM_CARD_ILLEGAL:
+                        toast(R.string.Home_sim_invalid);
+                        break;
+                    case GetSimStatusBean.CONS_SIM_LOCK_REQUIRED:
+                        toast(R.string.home_sim_loched);
+                        break;
+                    default:
+                        // 2.获取PIN status
+                        getPinStatus(result);
+                        break;
+                }
+            });
+            xGetSimStatusHelper.setOnGetSimStatusFailedListener(() -> {
+                toast(R.string.home_sim_not_accessible);
+                to(RootCons.ACTIVITYS.SPLASH_AC, RootCons.FRAG.REFRESH_FR);
+            });
+            xGetSimStatusHelper.getSimStatus();
         });
-        boardSimHelper.boardNormal();
+
+        xGetLoginStateHelper.setOnGetLoginStateFailedListener(() -> {
+            toast(R.string.connect_failed);
+            to(RootCons.ACTIVITYS.SPLASH_AC, RootCons.FRAG.REFRESH_FR);
+        });
+        xGetLoginStateHelper.getLoginState();
+    }
+
+    /**
+     * 跳转activity
+     *
+     * @param targetAc
+     * @param targetFr
+     */
+    private void to(String targetAc, String targetFr) {
+        Intent intent = new Intent();
+        intent.setAction(targetAc);
+        SkipBean skipBean = RootMAActivity.getPendingIntentValue(targetAc, targetFr, null);
+        skipBean.setCurrentACFinish(true);
+        intent.putExtra(RootMAActivity.getPendingIntentKey(), skipBean);
+        activity.startActivity(intent);
     }
 
     /**
@@ -91,22 +141,22 @@ public class PinStatuHelper {
         normalPinStatesNext(result);
         int pinState = result.getPinState();
         switch (pinState) {
-            case Cons.PINSTATES_UNKNOWN:
+            case GetSimStatusBean.CONS_FOR_PIN_UNKNOWN:
                 unknownNext(result);
                 break;
-            case Cons.PINSTATES_ENABLE_BUT_NOT_VERIFIED:
+            case GetSimStatusBean.CONS_FOR_PIN_ENABLE_BUT_NOT_VERIFIED:
                 pinEnableButNotVerifyNext(result);
                 break;
-            case Cons.PINSTATES_PIN_ENABLE_VERIFIED:
+            case GetSimStatusBean.CONS_FOR_PIN_PIN_ENABLE_VERIFIED:
                 pinEnableVerifyNext(result);
                 break;
-            case Cons.PINSTATES_PIN_DISABLE:
+            case GetSimStatusBean.CONS_FOR_PIN_PIN_DISABLE:
                 pinDisableNext(result);
                 break;
-            case Cons.PINSTATES_PUK_REQUIRED:
+            case GetSimStatusBean.CONS_FOR_PIN_PUK_REQUIRED:
                 pukRequiredNext(result);
                 break;
-            case Cons.PINSTATES_PUK_TIMES_USED_OUT:
+            case GetSimStatusBean.CONS_FOR_PIN_PUK_TIMES_USED_OUT:
                 pukTimeoutNext(result);
                 break;
         }
@@ -251,9 +301,6 @@ public class PinStatuHelper {
     public void toast(int resId) {
         ToastTool.show(activity, resId);
     }
-
-
-
 
 
 }

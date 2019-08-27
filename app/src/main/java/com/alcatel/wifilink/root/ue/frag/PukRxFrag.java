@@ -10,12 +10,15 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.alcatel.wifilink.R;
-import com.alcatel.wifilink.root.helper.BoardSimHelper;
+import com.alcatel.wifilink.root.ue.activity.SplashActivity;
 import com.alcatel.wifilink.root.utils.RootCons;
 import com.alcatel.wifilink.root.utils.RootUtils;
 import com.hiber.tools.ShareUtils;
 import com.hiber.tools.layout.PercentRelativeLayout;
+import com.p_xhelper_smart.p_xhelper_smart.bean.GetLoginStateBean;
 import com.p_xhelper_smart.p_xhelper_smart.bean.GetSimStatusBean;
+import com.p_xhelper_smart.p_xhelper_smart.helper.GetLoginStateHelper;
+import com.p_xhelper_smart.p_xhelper_smart.helper.GetSimStatusHelper;
 import com.p_xhelper_smart.p_xhelper_smart.helper.UnlockPukHelper;
 
 import butterknife.BindView;
@@ -52,7 +55,6 @@ public class PukRxFrag extends BaseFrag {
     private Drawable check_pic;
     private Drawable uncheck_pic;
     private String pukTimeout_string;
-    private BoardSimHelper boardSimHelper;
 
     @Override
     public int onInflateLayout() {
@@ -99,9 +101,37 @@ public class PukRxFrag extends BaseFrag {
      * 获取PUK码剩余次数
      */
     private void getRemainTime() {
-        boardSimHelper = new BoardSimHelper(getActivity());
-        boardSimHelper.setOnNormalSimstatusListener(this::toShowRemain);
-        boardSimHelper.boardNormal();
+        GetLoginStateHelper xGetLoginStateHelper = new GetLoginStateHelper();
+        xGetLoginStateHelper.setOnGetLoginStateSuccessListener(getLoginStateBean -> {
+            if (getLoginStateBean.getState() == GetLoginStateBean.CONS_LOGOUT) {
+                to(SplashActivity.class, LoginFrag.class);
+                return;
+            }
+            GetSimStatusHelper xGetSimStatusHelper = new GetSimStatusHelper();
+            xGetSimStatusHelper.setOnGetSimStatusSuccessListener(result -> toShowRemain(result));
+            xGetSimStatusHelper.setOnGetSimStatusFailedListener(() -> {
+                toast(R.string.home_sim_not_accessible, 2000);
+                to(SplashActivity.class, RefreshFrag.class);
+            });
+            xGetSimStatusHelper.getSimStatus();
+        });
+
+        xGetLoginStateHelper.setOnGetLoginStateFailedListener(() -> {
+            toast(R.string.connect_failed, 2000);
+            to(SplashActivity.class, RefreshFrag.class);
+        });
+        xGetLoginStateHelper.getLoginState();
+    }
+
+    /**
+     * 跳转activity
+     *
+     * @param targetAc
+     * @param targetFr
+     */
+    private void to(Class targetAc, Class targetFr) {
+        toFragActivity(getClass(), targetAc, targetFr, null, false, true, 0);
+
     }
 
     /**
@@ -196,12 +226,51 @@ public class PukRxFrag extends BaseFrag {
     }
 
     private void getBoardAndSimStauts() {
-        boardSimHelper = new BoardSimHelper(getActivity());
-        boardSimHelper.setOnPinRequireListener(result -> toPinRx());
-        boardSimHelper.setOnpukRequireListener(result -> unlockPukRequest());
-        boardSimHelper.setOnpukTimeoutListener(this::pukTimeout);
-        boardSimHelper.setOnSimReadyListener(result -> toOtherRx());
-        boardSimHelper.boardNormal();
+        GetLoginStateHelper xGetLoginStateHelper = new GetLoginStateHelper();
+        xGetLoginStateHelper.setOnGetLoginStateSuccessListener(getLoginStateBean -> {
+            if (getLoginStateBean.getState() == GetLoginStateBean.CONS_LOGOUT) {
+                to(SplashActivity.class, LoginFrag.class);
+                return;
+            }
+            GetSimStatusHelper xGetSimStatusHelper = new GetSimStatusHelper();
+            xGetSimStatusHelper.setOnGetSimStatusSuccessListener(result -> {
+                int simState = result.getSIMState();
+                switch (simState) {
+                    case GetSimStatusBean.CONS_PIN_REQUIRED:
+                        toPinRx();
+                        break;
+                    case GetSimStatusBean.CONS_PUK_REQUIRED:
+                        unlockPukRequest();
+                        break;
+                    case GetSimStatusBean.CONS_PUK_TIMES_USED_OUT:
+                        pukTimeout(result);
+                        break;
+                    case GetSimStatusBean.CONS_SIM_CARD_READY:
+                        toOtherRx();
+                        break;
+                    case GetSimStatusBean.CONS_NOWN:
+                        toast(R.string.Home_no_sim,2000);
+                        break;
+                    case GetSimStatusBean.CONS_SIM_LOCK_REQUIRED:
+                        toast(R.string.home_sim_loched,2000);
+                        break;
+                    case GetSimStatusBean.CONS_SIM_CARD_ILLEGAL:
+                        toast(R.string.Home_sim_invalid,2000);
+                        break;
+                }
+            });
+            xGetSimStatusHelper.setOnGetSimStatusFailedListener(() -> {
+                toast(R.string.home_sim_not_accessible, 2000);
+                to(SplashActivity.class, RefreshFrag.class);
+            });
+            xGetSimStatusHelper.getSimStatus();
+        });
+
+        xGetLoginStateHelper.setOnGetLoginStateFailedListener(() -> {
+            toast(R.string.connect_failed, 2000);
+            to(SplashActivity.class, RefreshFrag.class);
+        });
+        xGetLoginStateHelper.getLoginState();
     }
 
     private void pukTimeout(GetSimStatusBean result) {
