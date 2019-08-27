@@ -216,8 +216,6 @@ public class PinRxFrag extends BaseFrag {
 
     /**
      * 发送解PIN请求
-     *
-     * @param result
      */
     private void unlockPinRequest(GetSimStatusBean result) {
         String pin = RootUtils.getEDText(etPinRx);

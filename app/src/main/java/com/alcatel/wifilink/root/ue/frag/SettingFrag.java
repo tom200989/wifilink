@@ -17,7 +17,6 @@ import android.widget.TextView;
 
 import com.alcatel.wifilink.R;
 import com.alcatel.wifilink.root.helper.BoardSimHelper;
-import com.alcatel.wifilink.root.helper.BoardWanHelper;
 import com.alcatel.wifilink.root.helper.ClickDoubleHelper;
 import com.alcatel.wifilink.root.helper.Cons;
 import com.alcatel.wifilink.root.helper.Extender_GetWIFIExtenderSettingsHelper;
@@ -36,8 +35,10 @@ import com.p_numberbar.p_numberbar.core.NumberProgressBar;
 import com.p_xhelper_smart.p_xhelper_smart.bean.GetDeviceNewVersionBean;
 import com.p_xhelper_smart.p_xhelper_smart.bean.GetLoginStateBean;
 import com.p_xhelper_smart.p_xhelper_smart.bean.GetSystemInfoBean;
+import com.p_xhelper_smart.p_xhelper_smart.bean.GetWanSettingsBean;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetLoginStateHelper;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetSystemInfoHelper;
+import com.p_xhelper_smart.p_xhelper_smart.helper.GetWanSettingsHelper;
 import com.p_xhelper_smart.p_xhelper_smart.helper.LogoutHelper;
 import com.p_xhelper_smart.p_xhelper_smart.helper.SetDeviceBackupHelper;
 import com.p_xhelper_smart.p_xhelper_smart.helper.SetDeviceRebootHelper;
@@ -67,7 +68,6 @@ public class SettingFrag extends BaseFrag {
     boolean isDownloading = false;
     private TimerHelper downTimer;
     private BoardSimHelper simTimerHelper;
-    private BoardWanHelper wanTimerHelper;
     private GetSystemInfoHelper xGetSystemInfoHelper;
     private Extender_GetWIFIExtenderSettingsHelper extenderHelper;
     private String off;
@@ -150,19 +150,11 @@ public class SettingFrag extends BaseFrag {
 
     private void initSome() {
         simTimerHelper = new BoardSimHelper(activity);
-        wanTimerHelper = new BoardWanHelper(activity);
         extenderHelper = new Extender_GetWIFIExtenderSettingsHelper();
 
         extenderHelper.setOnStateEnableOnListener(stateEnable -> tvExtenderOnOff.setText(on));
         extenderHelper.setOnstateEnableOffListener(stateEnable -> tvExtenderOnOff.setText(off));
         extenderHelper.setOnGetExtenderFailedListener(() -> tvExtenderOnOff.setText(off));
-
-        wanTimerHelper.setOnError(e -> mMobileNetworkWanSocket.setText(off));
-        wanTimerHelper.setOnResultError(e -> mMobileNetworkWanSocket.setText(off));
-        wanTimerHelper.setOnDisconnetingNextListener(wanResult -> mMobileNetworkWanSocket.setText(off));
-        wanTimerHelper.setOnDisConnetedNextListener(wanResult -> mMobileNetworkWanSocket.setText(off));
-        wanTimerHelper.setOnConnetingNextListener(wanResult -> mMobileNetworkWanSocket.setText(off));
-        wanTimerHelper.setOnConnetedNextListener(wanResult -> mMobileNetworkWanSocket.setText(on));
 
         simTimerHelper.setOnRollRequestOnResultError(error -> mMobileNetworkSimSocket.setText(noSimcard));
         simTimerHelper.setOnRollRequestOnError(error -> mMobileNetworkSimSocket.setText(noSimcard));
@@ -185,11 +177,42 @@ public class SettingFrag extends BaseFrag {
             rl_wifiExtender.setVisibility(isMW120 | isHH71 ? View.VISIBLE : View.GONE);
             rl_feedback.setVisibility(isMW120 ? View.VISIBLE : View.GONE);
             if (!isMW120) {// 不是MW120机型--> 请求wan口
-                wanTimerHelper.boardTimer();
+                requestWAN();
             } else {// 如果是MW120机型--> 请求extender接口
                 extenderHelper.get();
             }
         });
+    }
+
+    /**
+     * 请求wan口
+     */
+    private void requestWAN() {
+        GetLoginStateHelper xGetLoginStateHelper = new GetLoginStateHelper();
+        xGetLoginStateHelper.setOnGetLoginStateSuccessListener(getLoginStateBean -> {
+            if (getLoginStateBean.getState() == GetLoginStateBean.CONS_LOGIN) {
+                GetWanSettingsHelper xGetWanSettingsHelper = new GetWanSettingsHelper();
+                xGetWanSettingsHelper.setOnGetWanSettingsSuccessListener(wanSettingsBean -> {
+                    switch (wanSettingsBean.getStatus()) {
+                        case GetWanSettingsBean.CONS_CONNECTED:
+                            mMobileNetworkWanSocket.setText(on);
+                            break;
+                        case GetWanSettingsBean.CONS_DISCONNECTED:
+                        case GetWanSettingsBean.CONS_DISCONNECTING:
+                        case GetWanSettingsBean.CONS_CONNECTING:
+                            mMobileNetworkWanSocket.setText(off);
+                            break;
+                    }
+                });
+                xGetWanSettingsHelper.setOnGetWanSettingFailedListener(() -> mMobileNetworkWanSocket.setText(off));
+                xGetWanSettingsHelper.getWanSettings();
+            } else {
+                toFragActivity(getClass(), SplashActivity.class, LoginFrag.class, null, true);
+            }
+        });
+        xGetLoginStateHelper.setOnGetLoginStateFailedListener(() -> mMobileNetworkWanSocket.setText(off));
+        xGetLoginStateHelper.getLoginState();
+
     }
 
     @Override
@@ -263,6 +286,7 @@ public class SettingFrag extends BaseFrag {
     private void clickUpgrade() {
         FirmUpgradeHelper fh = new FirmUpgradeHelper(activity, true);
         fh.setOnNoNewVersionListener(this::popversion);
+        fh.setOnLoginOutListener(() -> toFragActivity(getClass(), SplashActivity.class, LoginFrag.class, null, true));
         fh.setOnNewVersionListener(attr -> popversion(attr, null));// 有新版本
         fh.checkNewVersion();
     }
@@ -315,6 +339,7 @@ public class SettingFrag extends BaseFrag {
         count = 0;
         isDownloading = true;
         FirmUpgradeHelper fuh = new FirmUpgradeHelper(activity, false);
+        fuh.setOnLoginOutListener(() -> toFragActivity(getClass(), SplashActivity.class, LoginFrag.class, null, true));
         fuh.setOnErrorListener(() -> {
             count = 0;
             toast(R.string.connect_failed);
@@ -402,15 +427,6 @@ public class SettingFrag extends BaseFrag {
                 }
             });
 
-            // WAN状态
-            BoardWanHelper bwh = new BoardWanHelper(activity);
-            bwh.setOnError(e -> bsh.boardTimer());
-            bwh.setOnResultError(error -> bsh.boardTimer());
-            bwh.setOnDisConnetedNextListener(wanResult -> bsh.boardTimer());
-            bwh.setOnDisconnetingNextListener(wanResult -> bsh.boardTimer());
-            bwh.setOnConnetingNextListener(wanResult -> bsh.boardTimer());
-            bwh.setOnConnetedNextListener(wanResult -> uh.getDownState());// 请求下载进度
-
             /* -------------------------------------------- 定时器获取WAN以及SIM的连接状态 -------------------------------------------- */
 
             // 创建定时器
@@ -418,7 +434,7 @@ public class SettingFrag extends BaseFrag {
                 @Override
                 public void doSomething() {
                     // 轮训WAN口--> 成功:获取进度 + 失败: 获取SIM卡--> 成功:获取进度 + 失败:提示
-                    bwh.boardTimer();
+                    getWAN(uh);
                 }
             };
             downTimer.start(3000);
@@ -426,6 +442,43 @@ public class SettingFrag extends BaseFrag {
             pop_downloading = new PopupWindows(activity, v, width, height, false, pop_bg);
         });
         fuh.triggerFOTA();// 触发FOTA下载
+    }
+
+    /**
+     * 获取WAN状态
+     */
+    private void getWAN(UpgradeHelper uh) {
+        GetLoginStateHelper xGetLoginStateHelper = new GetLoginStateHelper();
+        xGetLoginStateHelper.setOnGetLoginStateSuccessListener(getLoginStateBean -> {
+            if (getLoginStateBean.getState() == GetLoginStateBean.CONS_LOGIN) {
+                GetWanSettingsHelper xGetWanSettingsHelper = new GetWanSettingsHelper();
+                xGetWanSettingsHelper.setOnGetWanSettingsSuccessListener(wanSettingsBean -> {
+                    switch (wanSettingsBean.getStatus()) {
+                        case GetWanSettingsBean.CONS_CONNECTED:
+                            uh.getDownState();
+                            break;
+                        case GetWanSettingsBean.CONS_DISCONNECTED:
+                        case GetWanSettingsBean.CONS_DISCONNECTING:
+                        case GetWanSettingsBean.CONS_CONNECTING:
+                            getSIM();
+                            break;
+                    }
+                });
+                xGetWanSettingsHelper.setOnGetWanSettingFailedListener(this::getSIM);
+                xGetWanSettingsHelper.getWanSettings();
+            } else {
+                toFragActivity(getClass(), SplashActivity.class, LoginFrag.class, null, true);
+            }
+        });
+        xGetLoginStateHelper.setOnGetLoginStateFailedListener(this::getSIM);
+        xGetLoginStateHelper.getLoginState();
+    }
+
+    /**
+     * 获取SIM状态
+     */
+    private void getSIM() {
+        // TODO: 2019/8/27 0027  志强
     }
 
     /**
@@ -450,6 +503,7 @@ public class SettingFrag extends BaseFrag {
     private void startDeviceUpgrade() {
         isDownloading = true;
         FirmUpgradeHelper fuh = new FirmUpgradeHelper(activity, false);
+        fuh.setOnLoginOutListener(() -> toFragActivity(getClass(), SplashActivity.class, LoginFrag.class, null, true));
         fuh.setOnErrorListener(() -> downError(R.string.setting_upgrade_start_update_failed));
         fuh.setOnStartUpgradeListener(() -> {
             toast(R.string.device_will_restart_later);

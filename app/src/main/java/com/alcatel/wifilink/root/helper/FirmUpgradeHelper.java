@@ -8,9 +8,13 @@ import com.alcatel.wifilink.R;
 import com.alcatel.wifilink.root.utils.OtherUtils;
 import com.alcatel.wifilink.root.utils.ToastUtil_m;
 import com.p_xhelper_smart.p_xhelper_smart.bean.GetDeviceNewVersionBean;
+import com.p_xhelper_smart.p_xhelper_smart.bean.GetLoginStateBean;
 import com.p_xhelper_smart.p_xhelper_smart.bean.GetSystemInfoBean;
+import com.p_xhelper_smart.p_xhelper_smart.bean.GetWanSettingsBean;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetConnectionStateHelper;
+import com.p_xhelper_smart.p_xhelper_smart.helper.GetLoginStateHelper;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetSystemInfoHelper;
+import com.p_xhelper_smart.p_xhelper_smart.helper.GetWanSettingsHelper;
 import com.p_xhelper_smart.p_xhelper_smart.helper.SetDeviceStartUpdateHelper;
 import com.p_xhelper_smart.p_xhelper_smart.helper.SetFOTAStartDownloadHelper;
 
@@ -107,14 +111,30 @@ public class FirmUpgradeHelper {
      * 检查wan口
      */
     private void checkWan() {
-        BoardWanHelper wh = new BoardWanHelper(activity);
-        wh.setOnError(e -> checkSim());
-        wh.setOnResultError(error -> checkSim());
-        wh.setOnConnetedNextListener(wanResult -> checkNw());// 检查新版本
-        wh.setOnConnetingNextListener(wanResult -> checkSim());
-        wh.setOnDisConnetedNextListener(wanResult -> checkSim());
-        wh.setOnDisconnetingNextListener(wanResult -> checkSim());
-        wh.boardTimer();
+        GetLoginStateHelper xGetLoginStateHelper = new GetLoginStateHelper();
+        xGetLoginStateHelper.setOnGetLoginStateSuccessListener(getLoginStateBean -> {
+            if (getLoginStateBean.getState() == GetLoginStateBean.CONS_LOGIN) {
+                GetWanSettingsHelper xGetWanSettingsHelper = new GetWanSettingsHelper();
+                xGetWanSettingsHelper.setOnGetWanSettingsSuccessListener(wanSettingsBean -> {
+                    switch (wanSettingsBean.getStatus()) {
+                        case GetWanSettingsBean.CONS_CONNECTED:
+                            checkNw();
+                            break;
+                        case GetWanSettingsBean.CONS_CONNECTING:
+                        case GetWanSettingsBean.CONS_DISCONNECTED:
+                        case GetWanSettingsBean.CONS_DISCONNECTING:
+                            checkSim();
+                            break;
+                    }
+                });
+                xGetWanSettingsHelper.setOnGetWanSettingFailedListener(this::checkSim);
+                xGetWanSettingsHelper.getWanSettings();
+            } else {
+                loginOutNext();
+            }
+        });
+        xGetLoginStateHelper.setOnGetLoginStateFailedListener(this::checkSim);
+        xGetLoginStateHelper.getLoginState();
     }
 
     /**
@@ -135,7 +155,7 @@ public class FirmUpgradeHelper {
                 xGetConnectionStateHelper.setOnGetConnectionStateFailedListener(() -> toast(R.string.qs_pin_unlock_can_not_connect_des));
                 xGetConnectionStateHelper.setOnDisConnectingListener(() -> toast(R.string.setting_upgrade_no_connection));
                 xGetConnectionStateHelper.setOnDisconnectedListener(() -> toast(R.string.setting_upgrade_no_connection));
-                xGetConnectionStateHelper.setOnConnectingListener(() ->toast(R.string.setting_upgrade_no_connection) );
+                xGetConnectionStateHelper.setOnConnectingListener(() -> toast(R.string.setting_upgrade_no_connection));
                 xGetConnectionStateHelper.setOnConnectedListener(this::checkNw);
                 xGetConnectionStateHelper.getConnectionState();
             }
@@ -234,6 +254,25 @@ public class FirmUpgradeHelper {
     private void hideDialog() {
         if (pgd != null) {
             pgd.dismiss();
+        }
+    }
+
+    private OnLoginOutListener onLoginOutListener;
+
+    // Inteerface--> 接口OnLoginOutListener
+    public interface OnLoginOutListener {
+        void loginOut();
+    }
+
+    // 对外方式setOnLoginOutListener
+    public void setOnLoginOutListener(OnLoginOutListener onLoginOutListener) {
+        this.onLoginOutListener = onLoginOutListener;
+    }
+
+    // 封装方法loginOutNext
+    private void loginOutNext() {
+        if (onLoginOutListener != null) {
+            onLoginOutListener.loginOut();
         }
     }
 
