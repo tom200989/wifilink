@@ -5,12 +5,12 @@
     android:layout_height="match_parent"
     android:background="@color/color_white">
 
-    <RelativeLayout
+    <com.hiber.tools.layout.PercentRelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/white">
 
-        <RelativeLayout
+        <com.hiber.tools.layout.PercentRelativeLayout
             android:id="@+id/rl_sms_new_title_bar"
             android:layout_width="match_parent"
             android:layout_height="@dimen/dimen_60dip"
@@ -21,7 +21,7 @@
                 android:layout_width="@dimen/dimen_18dip"
                 android:layout_height="@dimen/dimen_35dip"
                 android:layout_alignParentStart="true"
-                android:layout_alignParentLeft="true"
+                
                 android:layout_centerVertical="true"
                 android:background="@null"
                 android:contentDescription="@null"
@@ -39,7 +39,7 @@
                 android:textSize="@dimen/dimen_20dip"
                 android:textStyle="normal" />
 
-        </RelativeLayout>
+        </com.hiber.tools.layout.PercentRelativeLayout>
 
 
         <!-- 等待条 -->
@@ -49,7 +49,7 @@
             android:layout_height="match_parent"
             android:visibility="gone"/>
 
-        <RelativeLayout
+        <com.hiber.tools.layout.PercentRelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@+id/rl_sms_new_title_bar">
@@ -60,7 +60,7 @@
                 android:background="@color/main_tabbar_background"
                 android:orientation="vertical">
 
-                <RelativeLayout
+                <com.hiber.tools.layout.PercentRelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="20dip"
@@ -92,7 +92,7 @@
                         android:scrollbars="vertical"
                         android:textSize="20sp"
                         tools:ignore="TextFields" />
-                </RelativeLayout>
+                </com.hiber.tools.layout.PercentRelativeLayout>
 
                 <View
                     android:layout_width="match_parent"
@@ -112,7 +112,7 @@
                     android:layout_height="1dip"
                     android:background="@color/main_bottom_divider" />
 
-                <RelativeLayout
+                <com.hiber.tools.layout.PercentRelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dip"
@@ -149,8 +149,8 @@
                         android:scrollbarStyle="outsideOverlay"
                         android:scrollbars="vertical"
                         android:textSize="20sp" />
-                </RelativeLayout>
+                </com.hiber.tools.layout.PercentRelativeLayout>
             </LinearLayout>
-        </RelativeLayout>
-    </RelativeLayout>
+        </com.hiber.tools.layout.PercentRelativeLayout>
+    </com.hiber.tools.layout.PercentRelativeLayout>
 </com.hiber.tools.layout.PercentRelativeLayout>

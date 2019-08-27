@@ -85,7 +85,7 @@
                 android:orientation="vertical">
 
                 <!-- ** 2.4G WIFI -->
-                <RelativeLayout
+                <com.hiber.tools.layout.PercentRelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
@@ -101,10 +101,10 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
-                        android:layout_alignParentRight="true"
+                        
                         android:layout_centerVertical="true"
                         app:showText="false" />
-                </RelativeLayout>
+                </com.hiber.tools.layout.PercentRelativeLayout>
 
                 <!-- ** 2.4G name(ssid) -->
                 <LinearLayout
@@ -131,7 +131,7 @@
                 </LinearLayout>
 
                 <!-- ** 2.4G security -->
-                <RelativeLayout
+                <com.hiber.tools.layout.PercentRelativeLayout
                     android:id="@+id/rl_security_2g"
                     android:layout_width="match_parent"
                     android:layout_height="48dp">
@@ -141,7 +141,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentStart="true"
-                        android:layout_alignParentLeft="true"
+                        
                         android:layout_centerVertical="true"
                         android:text="@string/security" />
 
@@ -150,14 +150,14 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
-                        android:layout_alignParentRight="true"
+                        
                         android:layout_centerVertical="true"
                         android:entries="@array/wlan_settings_security"
                         android:spinnerMode="dialog" />
-                </RelativeLayout>
+                </com.hiber.tools.layout.PercentRelativeLayout>
 
                 <!-- ** 2.4G encryption -->
-                <RelativeLayout
+                <com.hiber.tools.layout.PercentRelativeLayout
                     android:id="@+id/rl_encryption_2g"
                     android:layout_width="match_parent"
                     android:layout_height="48dp"
@@ -168,7 +168,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentStart="true"
-                        android:layout_alignParentLeft="true"
+                        
                         android:layout_centerVertical="true"
                         android:text="@string/encryption" />
 
@@ -177,11 +177,11 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
-                        android:layout_alignParentRight="true"
+                        
                         android:layout_centerVertical="true"
                         android:entries="@array/wlan_settings_wpa_type"
                         android:spinnerMode="dialog" />
-                </RelativeLayout>
+                </com.hiber.tools.layout.PercentRelativeLayout>
 
                 <!-- ** 2.4G password -->
                 <LinearLayout
@@ -239,7 +239,7 @@
                 android:orientation="vertical">
 
                 <!-- ** 5G WIFI -->
-                <RelativeLayout
+                <com.hiber.tools.layout.PercentRelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp">
@@ -256,10 +256,10 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
-                        android:layout_alignParentRight="true"
+                        
                         android:layout_centerVertical="true"
                         app:showText="false" />
-                </RelativeLayout>
+                </com.hiber.tools.layout.PercentRelativeLayout>
 
                 <!-- ** 5G name(ssid) -->
                 <LinearLayout
@@ -287,7 +287,7 @@
                 </LinearLayout>
 
                 <!-- ** 5G security -->
-                <RelativeLayout
+                <com.hiber.tools.layout.PercentRelativeLayout
                     android:id="@+id/rl_security_5g"
                     android:layout_width="match_parent"
                     android:layout_height="48dp">
@@ -297,7 +297,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentStart="true"
-                        android:layout_alignParentLeft="true"
+                        
                         android:layout_centerVertical="true"
                         android:text="@string/security" />
 
@@ -306,14 +306,14 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
-                        android:layout_alignParentRight="true"
+                        
                         android:layout_centerVertical="true"
                         android:entries="@array/wlan_settings_security"
                         android:spinnerMode="dialog" />
-                </RelativeLayout>
+                </com.hiber.tools.layout.PercentRelativeLayout>
 
                 <!-- ** 5G encryption -->
-                <RelativeLayout
+                <com.hiber.tools.layout.PercentRelativeLayout
                     android:id="@+id/rl_encryption_5g"
                     android:layout_width="match_parent"
                     android:layout_height="48dp">
@@ -323,7 +323,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentStart="true"
-                        android:layout_alignParentLeft="true"
+                        
                         android:layout_centerVertical="true"
                         android:text="@string/encryption" />
 
@@ -332,11 +332,11 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
-                        android:layout_alignParentRight="true"
+                        
                         android:layout_centerVertical="true"
                         android:entries="@array/wlan_settings_wpa_type"
                         android:spinnerMode="dialog" />
-                </RelativeLayout>
+                </com.hiber.tools.layout.PercentRelativeLayout>
 
                 <!-- ** 5G password -->
                 <LinearLayout

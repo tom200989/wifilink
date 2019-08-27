@@ -53,7 +53,7 @@
                 android:id="@+id/tv_smsPhone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
+                
                 android:layout_alignParentStart="true"
                 android:singleLine="true"
                 android:text="PhoneNum"
@@ -93,7 +93,7 @@
                 android:id="@+id/tv_smsContent"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
+                
                 android:layout_alignParentStart="true"
                 android:layout_below="@id/tv_smsPhone"
                 android:lines="1"
@@ -109,7 +109,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignBottom="@id/tv_smsPhone"
                 android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
+                
                 android:text="6/6/2017"
                 android:textColor="@color/gray"
                 app:layout_textSizePercent="23%h" />
@@ -121,7 +121,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
+            
             android:layout_centerVertical="true"
             android:layout_marginEnd="@dimen/dimen_5dip"
             android:layout_marginRight="@dimen/dimen_5dip"
@@ -136,7 +136,7 @@
             android:layout_height="@dimen/dimen_1dip"
             android:layout_alignParentBottom="true"
             android:layout_marginLeft="@dimen/dimen_10dip"
-            android:layout_marginRight="@dimen/dimen_10dip"
+            
             android:background="@color/gray" />
 
     </com.hiber.tools.layout.PercentRelativeLayout>

@@ -1,9 +1,9 @@
 package com.alcatel.wifilink.root.ue.frag;
 
 import android.app.Activity;
-import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,14 +22,14 @@ import com.alcatel.wifilink.root.helper.FirmUpgradeHelper;
 import com.alcatel.wifilink.root.helper.UpgradeHelper;
 import com.alcatel.wifilink.root.ue.activity.SplashActivity;
 import com.alcatel.wifilink.root.utils.RootUtils;
+import com.alcatel.wifilink.root.widget.HH70_CheckVersionWidget;
+import com.alcatel.wifilink.root.widget.HH70_CountDownWidget;
+import com.alcatel.wifilink.root.widget.HH70_DownWidget;
 import com.alcatel.wifilink.root.widget.HH70_LoadWidget;
 import com.alcatel.wifilink.root.widget.NormalWidget;
-import com.alcatel.wifilink.root.widget.PopupWindows;
 import com.hiber.cons.TimerState;
-import com.hiber.tools.ScreenSize;
 import com.hiber.tools.ShareUtils;
 import com.hiber.tools.TimerHelper;
-import com.p_numberbar.p_numberbar.core.NumberProgressBar;
 import com.p_xhelper_smart.p_xhelper_smart.bean.GetDeviceNewVersionBean;
 import com.p_xhelper_smart.p_xhelper_smart.bean.GetLoginStateBean;
 import com.p_xhelper_smart.p_xhelper_smart.bean.GetSimStatusBean;
@@ -63,8 +63,6 @@ public class SettingFrag extends BaseFrag {
     private final static String mdefaultSaveUrl = "/com/tcl/linkhub/backup";
     private final static String mdefaultSaveUrl2 = "/com/tcl/linkzone/backup";
 
-    private PopupWindows pop_noNewVersion;
-    private PopupWindows pop_downloading;
     boolean isDownloading = false;
     private TimerHelper downTimer;
     private GetSystemInfoHelper xGetSystemInfoHelper;
@@ -115,10 +113,17 @@ public class SettingFrag extends BaseFrag {
     View rl_feedback;
     @BindView(R.id.tv_wifi_extender_socket)
     TextView tvExtenderOnOff;
+
     @BindView(R.id.dg_settingRx_widget_ok)
     NormalWidget dgSettingRxWidgetOk;
     @BindView(R.id.dg_settingRx_widget_confirm)
     NormalWidget dgSettingRxWidgetConfirm;
+    @BindView(R.id.wd_upgrade_checkversion)
+    HH70_CheckVersionWidget wd_checkVersion;
+    @BindView(R.id.wd_setting_down)
+    HH70_DownWidget wd_down;
+    @BindView(R.id.wd_countdown)
+    HH70_CountDownWidget wd_countdown;
     @BindView(R.id.lw_loading)
     HH70_LoadWidget loadWidget;
 
@@ -252,9 +257,6 @@ public class SettingFrag extends BaseFrag {
 
     /**
      * 跳转activity
-     *
-     * @param targetAc
-     * @param targetFr
      */
     private void to(Class targetAc, Class targetFr) {
         toFragActivity(getClass(), targetAc, targetFr, null, false, true, 0);
@@ -302,7 +304,7 @@ public class SettingFrag extends BaseFrag {
         // 2.检测新版本
         UpgradeHelper uh = new UpgradeHelper(activity, false);
         uh.setOnNewVersionListener(attr -> mFirmwareUpgrade_dot.setVisibility(View.VISIBLE));
-        uh.checkVersion();
+        uh.checkVersion(wd_countdown);
     }
 
     private void showSharingService() {
@@ -325,7 +327,7 @@ public class SettingFrag extends BaseFrag {
         fh.setOnNoNewVersionListener(this::popversion);
         fh.setOnLoginOutListener(() -> toFragActivity(getClass(), SplashActivity.class, LoginFrag.class, null, true));
         fh.setOnNewVersionListener(attr -> popversion(attr, null));// 有新版本
-        fh.checkNewVersion();
+        fh.checkNewVersion(wd_countdown);
     }
 
     /**
@@ -338,23 +340,11 @@ public class SettingFrag extends BaseFrag {
         int state = updateDeviceNewVersion.getState();
         boolean noNewVersion = state == GetDeviceNewVersionBean.CONS_NO_NEW_VERSION || state == GetDeviceNewVersionBean.CONS_CHECK_ERROR;
         // 2.显示弹窗
-        Drawable pop_bg = getRootDrawable(R.drawable.bg_pop_conner);
-        View inflate = View.inflate(activity, R.layout.pop_setting_upgrade_checkversion, null);
-        ScreenSize.SizeBean size = ScreenSize.getSize(activity);
-        int width = (int) (size.width * 0.85f);
-        int height = (int) (size.height * 0.21f);
-        // 3.修改弹窗属性信息
-        TextView versionName = (TextView) inflate.findViewById(R.id.tv_pop_setting_rx_upgrade_noNewVersion_version);
-        TextView ok = (TextView) inflate.findViewById(R.id.tv_pop_setting_rx_upgrade_ok);
-        TextView tip = (TextView) inflate.findViewById(R.id.tv_pop_setting_rx_upgrade_noNewVersion_tip);
-        // 3.1.同上
-        versionName.setText(noNewVersion ? systemSystemInfo.getSwVersionMain() : updateDeviceNewVersion.getVersion() + " " + getString(R.string.available));
-        tip.setVisibility(noNewVersion ? View.VISIBLE : View.GONE);
-        ok.setText(noNewVersion ? getString(R.string.ok) : getString(R.string.setting_upgrade));
-        ok.setOnClickListener(v -> {
-            // 版本弹窗消隐
-            pop_noNewVersion.dismiss();
-            // 需要升级的话则弹出新的确认升级的弹窗
+        wd_checkVersion.setVisibility(View.VISIBLE);
+        wd_checkVersion.setVersionName(noNewVersion ? systemSystemInfo.getSwVersionMain() : updateDeviceNewVersion.getVersion() + " " + getString(R.string.available));
+        wd_checkVersion.setTipVisible(noNewVersion);
+        wd_checkVersion.setOkText(noNewVersion ? getString(R.string.ok) : getString(R.string.setting_upgrade));
+        wd_checkVersion.setOnClickOKListener(() -> {
             if (!noNewVersion) {
                 dgSettingRxWidgetOk.setVisibility(View.VISIBLE);
                 dgSettingRxWidgetOk.setTitle(R.string.setting_upgrade);
@@ -365,8 +355,6 @@ public class SettingFrag extends BaseFrag {
                 dgSettingRxWidgetOk.setOnOkClickListener(this::beginDownLoadFOTA);
             }
         });
-        pop_noNewVersion = null;
-        pop_noNewVersion = new PopupWindows(activity, inflate, width, height, true, pop_bg);
     }
 
     /**
@@ -385,19 +373,7 @@ public class SettingFrag extends BaseFrag {
         // 触发成功
         fuh.setOnSetFOTADownSuccessListener(() -> {
             /* 1.显示进度弹窗 */
-            Drawable pop_bg = getRootDrawable(R.drawable.bg_pop_conner);
-            View v = View.inflate(activity, R.layout.pop_setting_dowing, null);
-            ScreenSize.SizeBean size = ScreenSize.getSize(activity);
-            int width = (int) (size.width * 0.85f);
-            int height = (int) (size.height * 0.24f);
-            RelativeLayout rl = (RelativeLayout) v.findViewById(R.id.rl_pop_setting_download_all);
-            rl.setOnClickListener(null);
-            TextView per = (TextView) v.findViewById(R.id.tv_pop_setting_download_per);
-            NumberProgressBar progressBar = (NumberProgressBar) v.findViewById(R.id.pg_pop_setting_download);
-            TextView cancel = (TextView) v.findViewById(R.id.tv_pop_setting_download_cancel);
-            cancel.setOnClickListener(v1 -> {
-                // 1.1.消隐
-                pop_downloading.dismiss();
+            wd_down.setOnClickCancelListener(() -> {
                 // 1.2.停止定时器
                 stopDownTimerAndPop();
                 // 1.3.请求停止
@@ -407,18 +383,17 @@ public class SettingFrag extends BaseFrag {
                     toast(R.string.setting_upgrade_stop_error);
                     isDownloading = false;
                 });
-                xSetDeviceUpdateStopHelper.setOnSetDeviceUpdateStopFailedListener(() -> {
-                    downError(-1);
-                });
+                xSetDeviceUpdateStopHelper.setOnSetDeviceUpdateStopFailedListener(() -> downError(-1));
                 xSetDeviceUpdateStopHelper.setDeviceUpdateStop();
             });
+            wd_down.setVisibility(View.VISIBLE);
 
             /* 2.启动定时器 */
             UpgradeHelper uh = new UpgradeHelper(activity, false);
             uh.setOnErrorListener(() -> downError(R.string.setting_upgrade_get_update_state_failed));
             uh.setOnResultErrorListener(() -> downError(R.string.setting_upgrade_get_update_state_failed));
             uh.setOnNoStartUpdateListener(attr1 -> {
-                per.setText(String.valueOf(attr1.getProcess() + perText));
+                wd_down.getPercent().setText(String.valueOf(attr1.getProcess() + perText));
                 upgrade_Temp++;
                 if (upgrade_Temp > 20) {// 如果断连次数已经达到了1分钟(20次)
                     upgrade_Temp = 0;
@@ -429,14 +404,14 @@ public class SettingFrag extends BaseFrag {
             uh.setOnUpgradeStateNormalListener(attr1 -> {
             });
             uh.setOnUpdatingListener(attr1 -> {
-                per.setText(String.valueOf(attr1.getProcess() + perText));// 显示百分比
-                progressBar.setProgress(attr1.getProcess());// 进度条显示进度
+                wd_down.getPercent().setText(String.valueOf(attr1.getProcess() + perText));// 显示百分比
+                wd_down.getProgressbar().setProgress(attr1.getProcess());// 进度条显示进度
             });
             uh.setOnCompleteListener(attr1 -> {
                 if (count == 0) {
                     // 2.1.显示进度
-                    per.setText(String.valueOf("100%"));
-                    progressBar.setProgress(100);// 进度条显示进度
+                    wd_down.getPercent().setText(String.valueOf("100%"));
+                    wd_down.getProgressbar().setProgress(100);// 进度条显示进度
                     // 2.2.停止定时器 + 进度条消隐
                     stopDownTimerAndPop();
                     // 2.3.修改标记位
@@ -450,9 +425,6 @@ public class SettingFrag extends BaseFrag {
 
             /* -------------------------------------------- 定时器获取WAN以及SIM的连接状态 -------------------------------------------- */
 
-
-            /* -------------------------------------------- 定时器获取WAN以及SIM的连接状态 -------------------------------------------- */
-
             // 创建定时器
             downTimer = new TimerHelper(activity) {
                 @Override
@@ -462,8 +434,6 @@ public class SettingFrag extends BaseFrag {
                 }
             };
             downTimer.start(3000);
-            pop_downloading = null;
-            pop_downloading = new PopupWindows(activity, v, width, height, false, pop_bg);
         });
         fuh.triggerFOTA();// 触发FOTA下载
     }
@@ -506,7 +476,7 @@ public class SettingFrag extends BaseFrag {
         GetLoginStateHelper xGetLoginStateHelper = new GetLoginStateHelper();
         xGetLoginStateHelper.setOnGetLoginStateSuccessListener(getLoginStateBean -> {
             if (getLoginStateBean.getState() == GetLoginStateBean.CONS_LOGOUT) {
-                toFragActivity(getClass(), SplashActivity.class,LoginFrag.class, null,false,true,0);
+                toFragActivity(getClass(), SplashActivity.class, LoginFrag.class, null, false, true, 0);
                 return;
             }
             GetSimStatusHelper xGetSimStatusHelper = new GetSimStatusHelper();
@@ -628,7 +598,6 @@ public class SettingFrag extends BaseFrag {
     }
 
     private void showBackupSuccessDialog() {
-
         AlertDialog.Builder builder = new AlertDialog.Builder(activity);
         builder.setTitle(R.string.back_up_settings);
         EditText editText = new EditText(activity);
@@ -785,8 +754,8 @@ public class SettingFrag extends BaseFrag {
      */
     public void stopDownTimerAndPop() {
         count = 0;
-        if (pop_downloading != null) {
-            pop_downloading.dismiss();
+        if (wd_down.getVisibility() == View.VISIBLE) {
+            wd_down.setVisibility(View.GONE);
         }
         if (downTimer != null) {
             downTimer.stop();
@@ -795,7 +764,13 @@ public class SettingFrag extends BaseFrag {
 
     @Override
     public boolean onBackPressed() {
-        if (dgSettingRxWidgetOk.getVisibility() == View.VISIBLE) {
+        if (wd_checkVersion.getVisibility() == View.VISIBLE) {
+            wd_checkVersion.setVisibility(View.GONE);
+            return true;
+        } else if (wd_down.getVisibility() == View.VISIBLE) {
+            Log.i("ma", "onBackPressed: ");
+            return true;
+        } else if (dgSettingRxWidgetOk.getVisibility() == View.VISIBLE) {
             dgSettingRxWidgetOk.setVisibility(View.GONE);
             return true;
         } else if (dgSettingRxWidgetConfirm.getVisibility() == View.VISIBLE) {
@@ -812,6 +787,7 @@ public class SettingFrag extends BaseFrag {
             return true;
         }
     }
+
 
     /**
      * 退出

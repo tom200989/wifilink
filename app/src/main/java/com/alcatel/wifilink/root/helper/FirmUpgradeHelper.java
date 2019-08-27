@@ -3,12 +3,12 @@ package com.alcatel.wifilink.root.helper;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 
 import com.alcatel.wifilink.R;
 import com.alcatel.wifilink.root.utils.OtherUtils;
 import com.alcatel.wifilink.root.utils.RootCons;
 import com.alcatel.wifilink.root.utils.ToastTool;
+import com.alcatel.wifilink.root.widget.HH70_CountDownWidget;
 import com.hiber.bean.SkipBean;
 import com.hiber.hiber.RootMAActivity;
 import com.p_xhelper_smart.p_xhelper_smart.bean.GetDeviceNewVersionBean;
@@ -109,14 +109,14 @@ public class FirmUpgradeHelper {
     /**
      * 检查新版本
      */
-    public void checkNewVersion() {
-        checkWan();// 检测是否连接了WAN口或者SIM卡(WAN口优先)
+    public void checkNewVersion(HH70_CountDownWidget wd_countdown) {
+        checkWan(wd_countdown);// 检测是否连接了WAN口或者SIM卡(WAN口优先)
     }
 
     /**
      * 检查wan口
      */
-    private void checkWan() {
+    private void checkWan(HH70_CountDownWidget wd_countdown) {
         GetLoginStateHelper xGetLoginStateHelper = new GetLoginStateHelper();
         xGetLoginStateHelper.setOnGetLoginStateSuccessListener(getLoginStateBean -> {
             if (getLoginStateBean.getState() == GetLoginStateBean.CONS_LOGIN) {
@@ -124,29 +124,29 @@ public class FirmUpgradeHelper {
                 xGetWanSettingsHelper.setOnGetWanSettingsSuccessListener(wanSettingsBean -> {
                     switch (wanSettingsBean.getStatus()) {
                         case GetWanSettingsBean.CONS_CONNECTED:
-                            checkNw();
+                            checkNw(wd_countdown);
                             break;
                         case GetWanSettingsBean.CONS_CONNECTING:
                         case GetWanSettingsBean.CONS_DISCONNECTED:
                         case GetWanSettingsBean.CONS_DISCONNECTING:
-                            checkSim();
+                            checkSim(wd_countdown);
                             break;
                     }
                 });
-                xGetWanSettingsHelper.setOnGetWanSettingFailedListener(this::checkSim);
+                xGetWanSettingsHelper.setOnGetWanSettingFailedListener(() -> checkSim(wd_countdown));
                 xGetWanSettingsHelper.getWanSettings();
             } else {
                 loginOutNext();
             }
         });
-        xGetLoginStateHelper.setOnGetLoginStateFailedListener(this::checkSim);
+        xGetLoginStateHelper.setOnGetLoginStateFailedListener(() -> checkSim(wd_countdown));
         xGetLoginStateHelper.getLoginState();
     }
 
     /**
      * 检查sim card
      */
-    private void checkSim() {
+    private void checkSim(HH70_CountDownWidget wd_countdown) {
         hideDialog();
         GetLoginStateHelper xGetLoginStateHelper = new GetLoginStateHelper();
         xGetLoginStateHelper.setOnGetLoginStateSuccessListener(getLoginStateBean -> {
@@ -166,7 +166,7 @@ public class FirmUpgradeHelper {
                     xGetConnectionStateHelper.setOnDisConnectingListener(() -> toast(R.string.setting_upgrade_no_connection));
                     xGetConnectionStateHelper.setOnDisconnectedListener(() -> toast(R.string.setting_upgrade_no_connection));
                     xGetConnectionStateHelper.setOnConnectingListener(() -> toast(R.string.setting_upgrade_no_connection));
-                    xGetConnectionStateHelper.setOnConnectedListener(this::checkNw);
+                    xGetConnectionStateHelper.setOnConnectedListener(() -> checkNw(wd_countdown));
                     xGetConnectionStateHelper.getConnectionState();
                 }
             });
@@ -195,19 +195,17 @@ public class FirmUpgradeHelper {
     /**
      * 检查新版本
      */
-    private void checkNw() {
+    private void checkNw(HH70_CountDownWidget wd_countdown) {
         hideDialog();// 停止先前的等待条
-        Drawable pop_bg = activity.getResources().getDrawable(R.drawable.bg_pop_conner);
         UpgradeHelper uh = new UpgradeHelper(activity, true);
         uh.setOnResultErrorListener(() -> toast(R.string.setting_upgrade_check_firmware_failed));
         uh.setOnErrorListener(() -> toast(R.string.setting_upgrade_check_firmware_failed));
         uh.setOnCheckErrorListener(this::getCurrentVersion);
-
         uh.setOnServiceNotAvailableListener(attr -> toast(R.string.setting_upgrade_not_available));
         uh.setOnNoConnectListener(attr -> toast(R.string.setting_upgrade_no_connection));
         uh.setOnNoNewVersionListener(this::getCurrentVersion);
         uh.setOnNewVersionListener(this::newVersionNext);
-        uh.checkVersion();
+        uh.checkVersion(wd_countdown);
     }
 
     /**

@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<com.hiber.tools.layout.PercentRelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <RelativeLayout
+    <com.hiber.tools.layout.PercentRelativeLayout
         android:id="@+id/rl_titlebar"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dimen_60dip"
@@ -37,13 +37,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
+            
             android:layout_centerVertical="true"
             android:text="@string/Blocked"
             android:textColor="@color/white"
             android:textSize="@dimen/dimen_textsize_14sp" />
 
-    </RelativeLayout>
+    </com.hiber.tools.layout.PercentRelativeLayout>
 
     <android.support.v7.widget.RecyclerView
         android:layout_below="@+id/rl_titlebar"
@@ -51,4 +51,4 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-</RelativeLayout>
+</com.hiber.tools.layout.PercentRelativeLayout>

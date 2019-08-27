@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.hiber.tools.layout.PercentLinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <com.hiber.tools.layout.PercentRelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/iv_timelimit_bg"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:alpha="0.5"
+            android:background="@color/gray" />
+
+        <com.hiber.tools.layout.PercentLinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:background="@color/white"
+            android:gravity="center"
+            android:orientation="vertical"
+            app:layout_heightPercent="29%h"
+            app:layout_widthPercent="85%w">
+
+            <!-- input content -->
+            <com.hiber.tools.layout.PercentLinearLayout
+                android:id="@+id/ll_pop_setPlan_rx_input"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:gravity="center"
+                android:orientation="horizontal"
+                app:layout_heightPercent="30%h">
+
+                <EditText
+                    android:id="@+id/et_pop_setPlan_rx_settimelimit_hour"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/et_underline_settimelimit"
+                    android:gravity="center"
+                    android:hint="0"
+                    android:inputType="number"
+                    android:maxLength="2"
+                    app:layout_heightPercent="80%h"
+                    app:layout_textSizePercent="27%h"
+                    app:layout_widthPercent="20%w" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dimen_10dip"
+                    android:text="@string/hr_s"
+                    app:layout_textSizePercent="27%h" />
+
+                <EditText
+                    android:id="@+id/et_pop_setPlan_rx_settimelimit_min"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dimen_10dip"
+                    android:background="@drawable/et_underline_settimelimit"
+                    android:gravity="center"
+                    android:hint="5"
+                    android:inputType="number"
+                    android:maxLength="2"
+                    app:layout_heightPercent="80%h"
+                    app:layout_textSizePercent="27%h"
+                    app:layout_widthPercent="20%w" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dimen_10dip"
+                    android:text="@string/min_s"
+                    app:layout_textSizePercent="27%h" />
+            </com.hiber.tools.layout.PercentLinearLayout>
+
+            <!-- tip -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="@string/if_blank_data_unlimited"
+                android:textColor="@color/gray"
+                app:layout_marginTopPercent="2%h"
+                app:layout_textSizePercent="8%h" />
+
+            <!-- split -->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_below="@id/ll_pop_setPlan_rx_input"
+                android:layout_marginStart="@dimen/dimen_15dip"
+                android:layout_marginEnd="@dimen/dimen_15dip"
+                android:alpha="0.5"
+                android:background="@color/gray"
+                app:layout_marginTopPercent="5%h" />
+
+            <!-- button -->
+            <com.hiber.tools.layout.PercentLinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dimen_15dip"
+                android:layout_marginEnd="@dimen/dimen_15dip"
+                android:gravity="center"
+                android:orientation="horizontal"
+                app:layout_heightPercent="30%h"
+                app:layout_marginTopPercent="3%h">
+
+                <TextView
+                    android:id="@+id/tv_pop_setPlan_rx_settimelimit_cancel"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="@string/cancel"
+                    app:layout_textSizePercent="30%h" />
+
+                <TextView
+                    android:id="@+id/tv_pop_setPlan_rx_settimelimit_ok"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="@string/ok"
+                    android:textColor="@color/mg_blue"
+                    app:layout_textSizePercent="30%h" />
+
+            </com.hiber.tools.layout.PercentLinearLayout>
+
+        </com.hiber.tools.layout.PercentLinearLayout>
+
+    </com.hiber.tools.layout.PercentRelativeLayout>
+
+</com.hiber.tools.layout.PercentLinearLayout>

@@ -65,8 +65,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:layout_marginLeft="@dimen/dimen_20dip"
                     android:layout_marginStart="@dimen/dimen_20dip"
+                    android:layout_marginLeft="@dimen/dimen_20dip"
                     android:src="@drawable/settings_ic_account"
                     app:layout_heightPercent="40%h"
                     app:layout_widthPercent="40%h" />
@@ -75,8 +75,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:layout_marginLeft="@dimen/dimen_10dip"
                     android:layout_marginStart="@dimen/dimen_10dip"
+                    android:layout_marginLeft="@dimen/dimen_10dip"
                     android:layout_toEndOf="@id/setting_login_password_pic"
                     android:layout_toRightOf="@id/setting_login_password_pic"
                     android:text="@string/setting_account"
@@ -87,7 +87,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
-                    android:layout_alignParentRight="true"
+
                     android:layout_centerVertical="true"
                     android:layout_marginEnd="@dimen/common_margin"
                     android:layout_marginRight="@dimen/common_margin"
@@ -111,8 +111,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:layout_marginLeft="@dimen/dimen_20dip"
                     android:layout_marginStart="@dimen/dimen_20dip"
+                    android:layout_marginLeft="@dimen/dimen_20dip"
                     android:src="@drawable/settings_ic_mobile"
                     app:layout_heightPercent="40%h"
                     app:layout_widthPercent="40%h" />
@@ -121,8 +121,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:layout_marginLeft="@dimen/dimen_10dip"
                     android:layout_marginStart="@dimen/dimen_10dip"
+                    android:layout_marginLeft="@dimen/dimen_10dip"
                     android:layout_toEndOf="@id/setting_mobile_network_pic"
                     android:layout_toRightOf="@id/setting_mobile_network_pic"
                     android:text="@string/setting_mobile_network"
@@ -134,7 +134,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
-                    android:layout_alignParentRight="true"
+
                     android:layout_centerVertical="true"
                     android:layout_marginEnd="@dimen/common_margin"
                     android:layout_marginRight="@dimen/common_margin"
@@ -149,9 +149,9 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginEnd="@dimen/dimen_10dip"
-                    android:layout_marginRight="@dimen/dimen_10dip"
-                    android:layout_toLeftOf="@id/setting_mobile_network_arrow"
+
                     android:layout_toStartOf="@id/setting_mobile_network_arrow"
+                    android:layout_toLeftOf="@id/setting_mobile_network_arrow"
                     android:text="@string/setting_off_state"
                     android:textColor="@color/grey_text"
                     app:layout_textSizePercent="25%h" />
@@ -172,8 +172,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:layout_marginLeft="@dimen/dimen_20dip"
                     android:layout_marginStart="@dimen/dimen_20dip"
+                    android:layout_marginLeft="@dimen/dimen_20dip"
                     android:src="@drawable/settings_ic_wan"
                     app:layout_heightPercent="40%h"
                     app:layout_widthPercent="40%h" />
@@ -182,8 +182,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:layout_marginLeft="@dimen/dimen_10dip"
                     android:layout_marginStart="@dimen/dimen_10dip"
+                    android:layout_marginLeft="@dimen/dimen_10dip"
                     android:layout_toEndOf="@id/setting_ethernet_wan_pic"
                     android:layout_toRightOf="@id/setting_ethernet_wan_pic"
                     android:text="@string/ethernet_wan_connection"
@@ -196,7 +196,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
-                    android:layout_alignParentRight="true"
+
                     android:layout_centerVertical="true"
                     android:layout_marginEnd="@dimen/common_margin"
                     android:layout_marginRight="@dimen/common_margin"
@@ -211,9 +211,9 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginEnd="@dimen/dimen_10dip"
-                    android:layout_marginRight="@dimen/dimen_10dip"
-                    android:layout_toLeftOf="@id/setting_ethernet_wan_arrow"
+
                     android:layout_toStartOf="@id/setting_ethernet_wan_arrow"
+                    android:layout_toLeftOf="@id/setting_ethernet_wan_arrow"
                     android:text="@string/setting_off_state"
                     app:layout_textSizePercent="25%h" />
 
@@ -234,8 +234,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:layout_marginLeft="@dimen/dimen_20dip"
                     android:layout_marginStart="@dimen/dimen_20dip"
+                    android:layout_marginLeft="@dimen/dimen_20dip"
                     android:src="@drawable/settings_ic_sharing"
                     app:layout_heightPercent="40%h"
                     app:layout_widthPercent="40%h" />
@@ -244,8 +244,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:layout_marginLeft="@dimen/dimen_10dip"
                     android:layout_marginStart="@dimen/dimen_10dip"
+                    android:layout_marginLeft="@dimen/dimen_10dip"
                     android:layout_toEndOf="@id/setting_sharing_service_pic"
                     android:layout_toRightOf="@id/setting_sharing_service_pic"
                     android:text="@string/setting_share"
@@ -256,7 +256,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
-                    android:layout_alignParentRight="true"
+
                     android:layout_centerVertical="true"
                     android:layout_marginEnd="@dimen/common_margin"
                     android:layout_marginRight="@dimen/common_margin"
@@ -281,8 +281,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:layout_marginLeft="@dimen/dimen_20dip"
                     android:layout_marginStart="@dimen/dimen_20dip"
+                    android:layout_marginLeft="@dimen/dimen_20dip"
                     android:src="@drawable/wifi_ex"
                     app:layout_heightPercent="40%h"
                     app:layout_widthPercent="40%h" />
@@ -291,8 +291,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:layout_marginLeft="@dimen/dimen_10dip"
                     android:layout_marginStart="@dimen/dimen_10dip"
+                    android:layout_marginLeft="@dimen/dimen_10dip"
                     android:layout_toEndOf="@id/setting_wifi_extender_pic"
                     android:layout_toRightOf="@id/setting_wifi_extender_pic"
                     android:text="@string/setting_wifi_extender"
@@ -304,7 +304,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
-                    android:layout_alignParentRight="true"
+
                     android:layout_centerVertical="true"
                     android:layout_marginEnd="@dimen/common_margin"
                     android:layout_marginRight="@dimen/common_margin"
@@ -319,9 +319,9 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginEnd="@dimen/dimen_10dip"
-                    android:layout_marginRight="@dimen/dimen_10dip"
-                    android:layout_toLeftOf="@id/iv_wifi_extender_arrow"
+
                     android:layout_toStartOf="@id/iv_wifi_extender_arrow"
+                    android:layout_toLeftOf="@id/iv_wifi_extender_arrow"
                     android:text=""
                     app:layout_textSizePercent="25%h" />
 
@@ -341,8 +341,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:layout_marginLeft="@dimen/dimen_20dip"
                     android:layout_marginStart="@dimen/dimen_20dip"
+                    android:layout_marginLeft="@dimen/dimen_20dip"
                     android:src="@drawable/setting_language"
                     app:layout_heightPercent="40%h"
                     app:layout_widthPercent="40%h" />
@@ -351,8 +351,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:layout_marginLeft="@dimen/dimen_10dip"
                     android:layout_marginStart="@dimen/dimen_10dip"
+                    android:layout_marginLeft="@dimen/dimen_10dip"
                     android:layout_toEndOf="@id/setting_language_pic"
                     android:layout_toRightOf="@id/setting_language_pic"
                     android:text="@string/language"
@@ -363,7 +363,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
-                    android:layout_alignParentRight="true"
+
                     android:layout_centerVertical="true"
                     android:layout_marginEnd="@dimen/common_margin"
                     android:layout_marginRight="@dimen/common_margin"
@@ -387,8 +387,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:layout_marginLeft="@dimen/dimen_20dip"
                     android:layout_marginStart="@dimen/dimen_20dip"
+                    android:layout_marginLeft="@dimen/dimen_20dip"
                     android:src="@drawable/settings_ic_upgrade"
                     app:layout_heightPercent="40%h"
                     app:layout_widthPercent="40%h" />
@@ -404,8 +404,8 @@
                         android:id="@+id/tv_firmware_update"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/dimen_10dip"
                         android:layout_marginStart="@dimen/dimen_10dip"
+                        android:layout_marginLeft="@dimen/dimen_10dip"
                         android:maxLines="1"
                         android:text="@string/setting_firmware_upgrade"
                         android:textColor="@color/black_text"
@@ -415,9 +415,9 @@
                         android:id="@+id/setting_firmware_upgrade_version"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignLeft="@id/tv_firmware_update"
-                        android:layout_alignStart="@id/tv_firmware_update"
                         android:layout_below="@id/tv_firmware_update"
+                        android:layout_alignStart="@id/tv_firmware_update"
+                        android:layout_alignLeft="@id/tv_firmware_update"
                         android:text="@string/setting_upgrade_no_new_version"
                         android:textColor="@color/grey_text"
                         app:layout_textSizePercent="20%h" />
@@ -438,7 +438,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
-                    android:layout_alignParentRight="true"
+
                     android:layout_centerVertical="true"
                     android:layout_marginEnd="@dimen/common_margin"
                     android:layout_marginRight="@dimen/common_margin"
@@ -469,8 +469,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:layout_marginLeft="@dimen/dimen_20dip"
                     android:layout_marginStart="@dimen/dimen_20dip"
+                    android:layout_marginLeft="@dimen/dimen_20dip"
                     android:src="@drawable/settings_ic_restart"
                     app:layout_heightPercent="40%h"
                     app:layout_widthPercent="40%h" />
@@ -479,8 +479,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:layout_marginLeft="@dimen/dimen_10dip"
                     android:layout_marginStart="@dimen/dimen_10dip"
+                    android:layout_marginLeft="@dimen/dimen_10dip"
                     android:layout_toEndOf="@id/setting_restart_pic"
                     android:layout_toRightOf="@id/setting_restart_pic"
                     android:text="@string/setting_restart_reset"
@@ -491,7 +491,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
-                    android:layout_alignParentRight="true"
+
                     android:layout_centerVertical="true"
                     android:layout_marginEnd="@dimen/common_margin"
                     android:layout_marginRight="@dimen/common_margin"
@@ -522,8 +522,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:layout_marginLeft="@dimen/dimen_20dip"
                     android:layout_marginStart="@dimen/dimen_20dip"
+                    android:layout_marginLeft="@dimen/dimen_20dip"
                     android:src="@drawable/settings_ic_backup"
                     app:layout_heightPercent="40%h"
                     app:layout_widthPercent="40%h" />
@@ -532,8 +532,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:layout_marginLeft="@dimen/dimen_10dip"
                     android:layout_marginStart="@dimen/dimen_10dip"
+                    android:layout_marginLeft="@dimen/dimen_10dip"
                     android:layout_toEndOf="@id/setting_backup_pic"
                     android:layout_toRightOf="@id/setting_backup_pic"
                     android:text="@string/setting_backup_restore"
@@ -544,7 +544,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
-                    android:layout_alignParentRight="true"
+
                     android:layout_centerVertical="true"
                     android:layout_marginEnd="@dimen/common_margin"
                     android:layout_marginRight="@dimen/common_margin"
@@ -570,8 +570,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:layout_marginLeft="@dimen/dimen_20dip"
                     android:layout_marginStart="@dimen/dimen_20dip"
+                    android:layout_marginLeft="@dimen/dimen_20dip"
                     android:src="@drawable/feedback"
                     app:layout_heightPercent="40%h"
                     app:layout_widthPercent="40%h" />
@@ -580,8 +580,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:layout_marginLeft="@dimen/dimen_10dip"
                     android:layout_marginStart="@dimen/dimen_10dip"
+                    android:layout_marginLeft="@dimen/dimen_10dip"
                     android:layout_toEndOf="@id/setting_feedback_pic"
                     android:layout_toRightOf="@id/setting_feedback_pic"
                     android:text="@string/setting_feedback"
@@ -592,7 +592,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
-                    android:layout_alignParentRight="true"
+
                     android:layout_centerVertical="true"
                     android:layout_marginEnd="@dimen/common_margin"
                     android:layout_marginRight="@dimen/common_margin"
@@ -617,8 +617,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:layout_marginLeft="@dimen/dimen_20dip"
                     android:layout_marginStart="@dimen/dimen_20dip"
+                    android:layout_marginLeft="@dimen/dimen_20dip"
                     android:src="@drawable/settings_ic_about"
                     app:layout_heightPercent="40%h"
                     app:layout_widthPercent="40%h" />
@@ -627,8 +627,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:layout_marginLeft="@dimen/dimen_10dip"
                     android:layout_marginStart="@dimen/dimen_10dip"
+                    android:layout_marginLeft="@dimen/dimen_10dip"
                     android:layout_toEndOf="@id/setting_about_pic"
                     android:layout_toRightOf="@id/setting_about_pic"
                     android:text="@string/setting_about"
@@ -639,7 +639,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
-                    android:layout_alignParentRight="true"
+
                     android:layout_centerVertical="true"
                     android:layout_marginEnd="@dimen/common_margin"
                     android:layout_marginRight="@dimen/common_margin"
@@ -649,30 +649,54 @@
                     app:layout_widthPercent="35%h" />
 
             </com.hiber.tools.layout.PercentRelativeLayout>
-            
+
         </com.hiber.tools.layout.PercentLinearLayout>
 
     </ScrollView>
-    
+
     <!-- 升级弹窗提示1 -->
     <com.alcatel.wifilink.root.widget.NormalWidget
         android:id="@+id/dg_settingRx_widget_ok"
-        android:visibility="gone"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
-    
+        android:layout_height="wrap_content"
+        android:visibility="gone" />
+
     <!-- 升级弹窗提示2 -->
     <com.alcatel.wifilink.root.widget.NormalWidget
         android:id="@+id/dg_settingRx_widget_confirm"
-        android:visibility="gone"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:visibility="gone" />
 
-    <!--加载框-->
+    <!-- 版本号 -->
+    <com.alcatel.wifilink.root.widget.HH70_CheckVersionWidget
+        android:id="@+id/wd_upgrade_checkversion"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/rl_settingRx_banner"
+        android:visibility="gone" />
+
+    <!-- 进度条 -->
+    <com.alcatel.wifilink.root.widget.HH70_DownWidget
+        android:id="@+id/wd_setting_down"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/rl_settingRx_banner"
+        android:visibility="gone" />
+
+    <!-- 检测倒计时 -->
+    <com.alcatel.wifilink.root.widget.HH70_CountDownWidget
+        android:id="@+id/wd_countdown"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/rl_settingRx_banner"
+        android:visibility="gone"/>
+
+    <!-- 等待 -->
     <com.alcatel.wifilink.root.widget.HH70_LoadWidget
         android:id="@+id/lw_loading"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="gone"/>
+        android:visibility="gone" />
 
 </com.hiber.tools.layout.PercentRelativeLayout>

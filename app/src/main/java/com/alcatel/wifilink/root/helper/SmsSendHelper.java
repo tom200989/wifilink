@@ -1,11 +1,9 @@
 package com.alcatel.wifilink.root.helper;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Handler;
 
 import com.alcatel.wifilink.R;
-import com.alcatel.wifilink.root.utils.ProgressUtils;
 import com.alcatel.wifilink.root.utils.RootUtils;
 import com.alcatel.wifilink.root.utils.ToastTool;
 import com.p_xhelper_smart.p_xhelper_smart.bean.GetSendSMSResultBean;
@@ -20,7 +18,6 @@ public abstract class SmsSendHelper {
     private Context context;
     private List<String> phoneNums;
     private String content;
-    private ProgressDialog pop;
     private Handler handler;
     private int count = 0;
 
@@ -38,9 +35,7 @@ public abstract class SmsSendHelper {
     public abstract void sendFinish(int status);
 
     public void send() {
-        popDismiss();
-        pop = new ProgressUtils(context).getProgressPop(context.getString(R.string.sms_sending));
-
+        prepare();
         SendSmsParam xSendSmsParam = new SendSmsParam();
         xSendSmsParam.setSMSId(-1);
         xSendSmsParam.setSMSContent(content);
@@ -48,13 +43,13 @@ public abstract class SmsSendHelper {
         xSendSmsParam.setPhoneNumber(phoneNums);
         SendSMSHelper xSendSMSHelper = new SendSMSHelper();
         xSendSMSHelper.setOnSendSmsSuccessListener(() -> {
-            handler.postDelayed(this::getSendStatus,3000);/* 发送完毕获取短信状态(延迟3秒) */
+            handler.postDelayed(this::getSendStatus, 3000);/* 发送完毕获取短信状态(延迟3秒) */
             // getSendStatus();/* 发送完毕获取短信状态 */
         });
-        xSendSMSHelper.setOnSendFailListener(this::popDismiss);
-        xSendSMSHelper.setOnSendSmsFailListener(this::popDismiss);
-        xSendSMSHelper.setOnLastMessageListener(this::popDismiss);
-        xSendSMSHelper.setOnSpaceFullListener(this::popDismiss);
+        xSendSMSHelper.setOnSendFailListener(this::done);
+        xSendSMSHelper.setOnSendSmsFailListener(this::done);
+        xSendSMSHelper.setOnLastMessageListener(this::done);
+        xSendSMSHelper.setOnSpaceFullListener(this::done);
         xSendSMSHelper.sendSms(xSendSmsParam);
     }
 
@@ -81,11 +76,11 @@ public abstract class SmsSendHelper {
             sendFinish(bean.getSendStatus());
             // 临时计数清零
             if (sendStatus != GetSendSMSResultBean.CONS_SEND_STATUS_SENDING & sendStatus != GetSendSMSResultBean.CONS_SEND_STATUS_FAIL_LAST_MSG) {
-                popDismiss();
+                done();
             }
         });
-        xGetSendSMSResultHelper.setOnGetSendFailListener(this::popDismiss);
-        xGetSendSMSResultHelper.setOnGetSendSmsResultFailListener(this::popDismiss);
+        xGetSendSMSResultHelper.setOnGetSendFailListener(this::done);
+        xGetSendSMSResultHelper.setOnGetSendSmsResultFailListener(this::done);
         xGetSendSMSResultHelper.getSendSmsResult();
     }
 
@@ -101,18 +96,18 @@ public abstract class SmsSendHelper {
             }, 5000);
         } else {
             ToastTool.show(context, context.getString(R.string.check_sim_normal_or_no_cost));
-            popDismiss();
+            done();
         }
     }
 
-    /* -------------------------------------------- helper -------------------------------------------- */
-    public void popDismiss() {
-        // 计数器清零
-        count = 0;
-        if (pop != null) {
-            pop.dismiss();
-            pop = null;
-        }
-    }
+    /**
+     * 发送前
+     */
+    public abstract void prepare();
+
+    /**
+     * 发送后
+     */
+    public abstract void done();
 
 }

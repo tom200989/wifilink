@@ -2,8 +2,6 @@ package com.alcatel.wifilink.root.helper;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Handler;
 import android.view.View;
 
@@ -11,8 +9,7 @@ import com.alcatel.wifilink.R;
 import com.alcatel.wifilink.root.utils.OtherUtils;
 import com.alcatel.wifilink.root.utils.ToastTool;
 import com.alcatel.wifilink.root.widget.CountDownTextView;
-import com.alcatel.wifilink.root.widget.PopupWindows;
-import com.hiber.tools.ScreenSize;
+import com.alcatel.wifilink.root.widget.HH70_CountDownWidget;
 import com.hiber.tools.TimerHelper;
 import com.p_xhelper_smart.p_xhelper_smart.bean.GetDeviceNewVersionBean;
 import com.p_xhelper_smart.p_xhelper_smart.bean.GetDeviceUpgradeStateBean;
@@ -30,10 +27,10 @@ public class UpgradeHelper {
     private ProgressDialog pgd;
     private Handler handler;
     private TimerHelper countDownHelper;
-    private PopupWindows countDown_pop;// 倒计时弹框
     private CountDownTextView ctv;// 倒计时文本
     private TimerHelper countDownTimer;
     private boolean isContinueChecking = true;// 是否允许在checking状态下继续获取状态
+    private HH70_CountDownWidget wd_countdown;
 
     public UpgradeHelper(Activity activity, boolean isShowWaiting) {
         isContinueChecking = true;
@@ -62,9 +59,7 @@ public class UpgradeHelper {
                     break;
             }
         });
-        xGetDeviceUpgradeStateHelper.setOnGetDeviceUpgradeStateFailedListener(() -> {
-            errorNext();
-        });
+        xGetDeviceUpgradeStateHelper.setOnGetDeviceUpgradeStateFailedListener(this::errorNext);
         xGetDeviceUpgradeStateHelper.getDeviceUpgradeState();
     }
 
@@ -149,12 +144,12 @@ public class UpgradeHelper {
     /**
      * 检查版本
      */
-    public void checkVersion() {
+    public void checkVersion(HH70_CountDownWidget wd_countdown) {
         if (isShowWaiting) {
             try {
                 isContinueChecking = true;
-                startCountDownView();// 1.启动倒计时view
-                startCountDownTimer();// 2.启动延时器(延迟180秒)
+                startCountDownView(wd_countdown);// 1.启动倒计时view
+                startCountDownTimer();// 2.启动倒计时(延迟180秒)
             } catch (Exception e) {
                 pgd = OtherUtils.showProgressPop(activity);
             }
@@ -171,7 +166,7 @@ public class UpgradeHelper {
             public void doSomething() {
                 isContinueChecking = false;
                 activity.runOnUiThread(() -> {
-                    hideDialog();
+                    hideAllWidget();
                     isContinueChecking = false;
                     countDownTimer.stop();
                     ToastTool.show(activity, R.string.could_not_update_try_again);
@@ -185,16 +180,9 @@ public class UpgradeHelper {
     /**
      * 启动倒计时view
      */
-    private void startCountDownView() {
-        View inflate = View.inflate(activity, R.layout.pop_countdown_upgrade, null);
-        ctv = inflate.findViewById(R.id.ctv_pop_upgrade);
-        ctv.setCount(180);
-        ctv.setTopColor(Color.parseColor("#009AFF"));
-        ctv.setBottomColor(Color.parseColor("#009AFF"));
-        ctv.run();
-        int width = (int) (ScreenSize.getSize(activity).width * 0.85f);
-        int height = (int) (ScreenSize.getSize(activity).height * 0.12f);
-        countDown_pop = new PopupWindows(activity, inflate, width, height, false, new ColorDrawable(Color.TRANSPARENT));
+    private void startCountDownView(HH70_CountDownWidget wd_countdown) {
+        this.wd_countdown = wd_countdown;
+        this.wd_countdown.setVisibility(View.VISIBLE);
     }
 
     private void setCheck() {
@@ -205,7 +193,7 @@ public class UpgradeHelper {
             getNewVersionDo();
         });
         xSetCheckNewVersionHelper.setOnSetCheckNewVersionFailedListener(() -> {
-            hideDialog();
+            hideAllWidget();
             errorNext();
         });
         xSetCheckNewVersionHelper.setCheckNewVersion();
@@ -224,48 +212,48 @@ public class UpgradeHelper {
                         getNewVersionDo();
                         break;
                     case GetDeviceNewVersionBean.CONS_NEW_VERSION:
-                        hideDialog();
+                        hideAllWidget();
                         newVersionNext(result);
                         break;
                     case GetDeviceNewVersionBean.CONS_NO_NEW_VERSION:
-                        hideDialog();
+                        hideAllWidget();
                         noNewVersionNext(result);
                         break;
                     case GetDeviceNewVersionBean.CONS_NO_CONNECT:
-                        hideDialog();
+                        hideAllWidget();
                         noConnectNext(result);
                         break;
                     case GetDeviceNewVersionBean.CONS_SERVICE_NOT_AVAILABLE:
-                        hideDialog();
+                        hideAllWidget();
                         serviceNotAvailableNext(result);
                         break;
                     case GetDeviceNewVersionBean.CONS_CHECK_ERROR:
-                        hideDialog();
+                        hideAllWidget();
                         checkErrorNext(result);
                         break;
                 }
             });
             xGetDeviceNewVersionHelper.setOnGetDeviceNewVersionFailedListener(() -> {
-                hideDialog();
+                hideAllWidget();
                 errorNext();
             });
             xGetDeviceNewVersionHelper.getDeviceNewVersion();
         } else {
-            hideDialog();
+            hideAllWidget();
             ToastTool.show(activity, R.string.could_not_update_try_again);
         }
 
     }
 
-    private void hideDialog() {
+    private void hideAllWidget() {
         if (countDownTimer != null) {
             countDownTimer.stop();// 停止倒数计时器
         }
         if (pgd != null) {
             pgd.dismiss();// 隐藏等待条
         }
-        if (countDown_pop != null) {
-            countDown_pop.dismiss();// 隐藏倒数条
+        if (wd_countdown.getVisibility() == View.VISIBLE) {
+            wd_countdown.setVisibility(View.GONE);// 隐藏倒数条
         }
         if (ctv != null) {
             ctv.setCount(180);// 停止倒数

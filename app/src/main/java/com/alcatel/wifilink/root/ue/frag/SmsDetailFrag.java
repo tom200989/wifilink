@@ -25,6 +25,7 @@ import com.alcatel.wifilink.root.helper.SmsWatcher;
 import com.alcatel.wifilink.root.ue.activity.HomeActivity;
 import com.alcatel.wifilink.root.utils.RootCons;
 import com.alcatel.wifilink.root.utils.RootUtils;
+import com.alcatel.wifilink.root.widget.HH70_LoadWidget;
 import com.hiber.cons.TimerState;
 import com.hiber.impl.RootEventListener;
 import com.hiber.tools.ShareUtils;
@@ -65,6 +66,9 @@ public class SmsDetailFrag extends BaseFrag {
     TextView tv_title;
     @BindView(R.id.iv_smsdetail_delete)
     ImageView iv_delete;
+
+    @BindView(R.id.wd_smsdetail_load)
+    HH70_LoadWidget wdLoad;
 
     private SmsDetatilAdapter adapter;
     private SMSContentList smsContentList;
@@ -203,7 +207,7 @@ public class SmsDetailFrag extends BaseFrag {
             List<SMSContentList.SMSContentBean> list = filterDraft(smsContentList);
             int pos = linearLayoutManager.findFirstVisibleItemPosition();
             dateTimebanner = list.get(pos).getSMSTime();
-            String currentLanguage = ShareUtils.get(RootCons.LOCALE_LANGUAGE_COUNTRY,"");
+            String currentLanguage = ShareUtils.get(RootCons.LOCALE_LANGUAGE_COUNTRY, "");
             if (currentLanguage.contains(RootCons.LANGUAGES.RUSSIAN)) {
                 dateTimebanner = dateTimebanner.replace("-", ".");
             }
@@ -402,6 +406,12 @@ public class SmsDetailFrag extends BaseFrag {
         }
         // 2. send sms
         new SmsSendHelper(activity, smsContact.getPhoneNumber(), content) {
+
+            @Override
+            public void prepare() {
+                wdLoad.setVisibles();
+            }
+
             @Override
             public void sendFinish(int status) {/* 发送完成 */
                 if (status == GetSendSMSResultBean.CONS_SEND_STATUS_SUCCESS) {
@@ -410,6 +420,11 @@ public class SmsDetailFrag extends BaseFrag {
                 } else {
                     toFrag(getClass(), SmsFrag.class, null, false);
                 }
+            }
+
+            @Override
+            public void done() {
+                wdLoad.setGone();
             }
         };
         // 3. clear the et

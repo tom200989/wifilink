@@ -1,33 +1,28 @@
 package com.alcatel.wifilink.root.ue.frag;
 
 import android.graphics.drawable.Drawable;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.alcatel.wifilink.R;
-import com.alcatel.wifilink.root.adapter.BillingAdaper;
 import com.alcatel.wifilink.root.helper.BillingHelper;
-import com.alcatel.wifilink.root.helper.SetTimeLimitHelper;
 import com.alcatel.wifilink.root.helper.UsageHelper;
 import com.alcatel.wifilink.root.helper.UsageSettingHelper;
 import com.alcatel.wifilink.root.utils.RootCons;
 import com.alcatel.wifilink.root.utils.RootUtils;
+import com.alcatel.wifilink.root.widget.HH70_AlertWidget;
+import com.alcatel.wifilink.root.widget.HH70_BillWidget;
 import com.alcatel.wifilink.root.widget.HH70_LoadWidget;
-import com.alcatel.wifilink.root.widget.PopupWindows;
+import com.alcatel.wifilink.root.widget.HH70_MonthlyWidget;
+import com.alcatel.wifilink.root.widget.HH70_TimelimitWidget;
 import com.hiber.cons.TimerState;
-import com.hiber.tools.ScreenSize;
 import com.hiber.tools.ShareUtils;
 import com.hiber.tools.layout.PercentRelativeLayout;
 import com.p_xhelper_smart.p_xhelper_smart.bean.GetUsageSettingsBean;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetSystemInfoHelper;
-
-import java.util.Arrays;
 
 import butterknife.BindView;
 
@@ -66,6 +61,15 @@ public class SetDataPlanFrag extends BaseFrag {
     PercentRelativeLayout rlSetPlanRxUsageButton;
     @BindView(R.id.rl_setPlan_rx_all_content)
     PercentRelativeLayout rlSetPlanRxAllContent;
+
+    @BindView(R.id.wd_setplan_alert)
+    HH70_AlertWidget wd_alert;
+    @BindView(R.id.wd_setplan_monthly)
+    HH70_MonthlyWidget wd_monthly;
+    @BindView(R.id.wd_setplan_bill)
+    HH70_BillWidget wd_bill;
+    @BindView(R.id.wd_setplan_timelimit)
+    HH70_TimelimitWidget wd_timeLimit;
     @BindView(R.id.load_widget)
     HH70_LoadWidget loadWidget;
 
@@ -79,10 +83,6 @@ public class SetDataPlanFrag extends BaseFrag {
     private String hour;
     private String min;
     private GetSystemInfoHelper xGetSystemInfoHelper;
-    private PopupWindows pop_billing;
-    private PopupWindows pop_alert;
-    private PopupWindows pop_setTimelimit;
-    private PopupWindows pop_monthly;
     private Drawable pop_bg;
     private int count = 0;
     private boolean isHH71 = false;
@@ -164,7 +164,7 @@ public class SetDataPlanFrag extends BaseFrag {
     private void getUsageSetting() {
         /* 获取流量信息 */
         UsageSettingHelper getUsageSettingsHelper = new UsageSettingHelper(activity);
-        getUsageSettingsHelper.setOnGetUsageSettingsFailedListener(() -> toErrorUi());
+        getUsageSettingsHelper.setOnGetUsageSettingsFailedListener(this::toErrorUi);
         getUsageSettingsHelper.setOnGetUsageSettingsSuccessListener(result -> {
             tempSetting = result;
             // 判断是否为71
@@ -230,7 +230,17 @@ public class SetDataPlanFrag extends BaseFrag {
 
     @Override
     public boolean onBackPressed() {
-        toFrag(getClass(), MobileNetworkFrag.class, null, false);
+        if (wd_alert.getVisibility() == View.VISIBLE) {
+            wd_alert.setVisibility(View.GONE);
+        } else if (wd_monthly.getVisibility() == View.VISIBLE) {
+            wd_monthly.setVisibility(View.GONE);
+        } else if (wd_bill.getVisibility() == View.VISIBLE) {
+            wd_bill.setVisibility(View.GONE);
+        } else if (wd_timeLimit.getVisibility() == View.VISIBLE) {
+            wd_timeLimit.setVisibility(View.GONE);
+        } else {
+            toFrag(getClass(), MobileNetworkFrag.class, null, false, SetDataPlanFrag.class);
+        }
         return true;
     }
 
@@ -257,37 +267,15 @@ public class SetDataPlanFrag extends BaseFrag {
      * 提交月流量计划
      */
     private void clickMonthly() {
-        View inflate = View.inflate(activity, R.layout.pop_setdataplan_rx_monthly, null);
-        ScreenSize.SizeBean size = ScreenSize.getSize(activity);
-        int width = (int) (size.width * 0.85f);
-        int height = (int) (size.height * 0.30f);
-        RelativeLayout rl = inflate.findViewById(R.id.rl_pop_setPlan_rx_monthly);
-        rl.setOnClickListener(null);
-        EditText etNum = inflate.findViewById(R.id.et_pop_setPlan_rx_monthly_num);
-        TextView tvMb = inflate.findViewById(R.id.tv_pop_setPlan_rx_monthly_mb);
-        TextView tvGb = inflate.findViewById(R.id.tv_pop_setPlan_rx_monthly_gb);
-        TextView tvCancel = inflate.findViewById(R.id.tv_pop_setPlan_rx_monthly_cancel);
-        TextView tvOk = inflate.findViewById(R.id.tv_pop_setPlan_rx_monthly_ok);
-        etNum.setHint("0");
-        tvMb.setOnClickListener(v -> {
-            tvMb.setTextColor(blue_color);
-            tvGb.setTextColor(gray_color);
-        });
-        tvGb.setOnClickListener(v -> {
-            tvMb.setTextColor(gray_color);
-            tvGb.setTextColor(blue_color);
-        });
-        tvCancel.setOnClickListener(v -> pop_monthly.dismiss());
-        tvOk.setOnClickListener(v -> setMonthly(etNum, tvMb, tvGb));
-        pop_monthly = new PopupWindows(activity, inflate, width, height, true, pop_bg);
+        wd_monthly.setVisibility(View.VISIBLE);
+        wd_monthly.setOnClickMonthlyOKListener(this::setMonthly);
     }
 
     /**
      * 请求设置月流量计划
      */
     private void setMonthly(EditText edNum, TextView tvmb, TextView tvgb) {
-        pop_monthly.dismiss();// 消隐
-        String content = RootUtils.getEDText(edNum);
+        String content = RootUtils.getEDText(edNum, true);
         // 非空判断
         if (TextUtils.isEmpty(content)) {
             content = "0";
@@ -304,7 +292,7 @@ public class SetDataPlanFrag extends BaseFrag {
         // 1.先获取一次usage-setting
         ush.setOnGetUsageSettingsSuccessListener(attr -> {
             attr.setUnit(tvmb.getCurrentTextColor() == blue_color ? GetUsageSettingsBean.CONS_UNIT_MB : GetUsageSettingsBean.CONS_UNIT_GB);
-            attr.setMonthlyPlan(tvmb.getCurrentTextColor() == blue_color ? num * 1024l * 1024l : num * 1024l * 1024l * 1024l);
+            attr.setMonthlyPlan(tvmb.getCurrentTextColor() == blue_color ? num * 1024L * 1024L : num * 1024L * 1024L * 1024L);
             // 2.在提交usage-setting
             UsageSettingHelper ush1 = new UsageSettingHelper(activity);
             ush1.setOnSetUsageSettingSuccessListener(attr1 -> {
@@ -325,40 +313,20 @@ public class SetDataPlanFrag extends BaseFrag {
      * 提交日期
      */
     private void clickBilling() {
-        View inflate = View.inflate(activity, R.layout.pop_setdataplan_billing, null);
-        ScreenSize.SizeBean size = ScreenSize.getSize(activity);
-        int width = (int) (size.width * 0.85f);
-        int height = (int) (size.height * 0.45f);
-        RecyclerView rcv = inflate.findViewById(R.id.rcv_pop_setPlan_rx_billing);
-        rcv.setLayoutManager(new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false));
-        rcv.setAdapter(new BillingAdaper(activity, Arrays.asList(days)) {
-            @Override
-            public void clickDay(int day) {
-                // 提交请求
-                pop_billing.dismiss();
-                BillingHelper billingHelper = new BillingHelper(activity);
-                billingHelper.setOnSetBillSuccessListener(() -> toast(R.string.success, 3000));
-                billingHelper.setBillingDay(day);
-            }
+        wd_bill.setOnClickBillItemListener(day -> {
+            BillingHelper billingHelper = new BillingHelper(activity);
+            billingHelper.setOnSetBillSuccessListener(() -> toast(R.string.success, 3000));
+            billingHelper.setBillingDay(day);
         });
-        pop_billing = new PopupWindows(activity, inflate, width, height, true, pop_bg);
+        wd_bill.setVisibles(days);
     }
 
     /**
      * 提交流量警告
      */
     private void clickAlert() {
-        View inflate = View.inflate(activity, R.layout.pop_setdataplan_alert, null);
-        ScreenSize.SizeBean size = ScreenSize.getSize(activity);
-        int width = (int) (size.width * 0.85f);
-        int height = (int) (size.height * 0.54f);
-        inflate.findViewById(R.id.tv_pop_setPlan_alert_not_reminder).setOnClickListener(v -> saveAlertAndShowPop(-1));
-        inflate.findViewById(R.id.tv_pop_setPlan_alert_90).setOnClickListener(v -> saveAlertAndShowPop(90));
-        inflate.findViewById(R.id.tv_pop_setPlan_alert_80).setOnClickListener(v -> saveAlertAndShowPop(80));
-        inflate.findViewById(R.id.tv_pop_setPlan_alert_70).setOnClickListener(v -> saveAlertAndShowPop(70));
-        inflate.findViewById(R.id.tv_pop_setPlan_alert_60).setOnClickListener(v -> saveAlertAndShowPop(60));
-        inflate.findViewById(R.id.tv_pop_setPlan_alert_cancel).setOnClickListener(v -> pop_alert.dismiss());
-        pop_alert = new PopupWindows(activity, inflate, width, height, true, pop_bg);
+        wd_alert.setOnClickAlertItemListener(this::saveAlertAndShowPop);
+        wd_alert.setVisibility(View.VISIBLE);
     }
 
     /**
@@ -399,23 +367,8 @@ public class SetDataPlanFrag extends BaseFrag {
      * 设置timelimit时间
      */
     private void clickSetTimeLimit() {
-        View inflate = View.inflate(activity, R.layout.pop_setdataplan_settimtlimit, null);
-        ScreenSize.SizeBean size = ScreenSize.getSize(activity);
-        int width = (int) (size.width * 0.85f);
-        int height = (int) (size.height * 0.29f);
-        EditText etHour = inflate.findViewById(R.id.et_pop_setPlan_rx_settimelimit_hour);
-        EditText etMin = inflate.findViewById(R.id.et_pop_setPlan_rx_settimelimit_min);
-        etHour.setHint("0");
-        etMin.setHint("5");
-        SetTimeLimitHelper.addEdwatch(etHour, etMin);// 增加监听器
-        View cancel = inflate.findViewById(R.id.tv_pop_setPlan_rx_settimelimit_cancel);
-        View ok = inflate.findViewById(R.id.tv_pop_setPlan_rx_settimelimit_ok);
-        cancel.setOnClickListener(v -> pop_setTimelimit.dismiss());
-        ok.setOnClickListener(v -> {
-            // 提交请求
-            setSetTimeLimit(etHour, etMin);
-        });
-        pop_setTimelimit = new PopupWindows(activity, inflate, width, height, true, pop_bg);
+        wd_timeLimit.setOnClickOkListener(this::setSetTimeLimit);
+        wd_timeLimit.setVisibility(View.VISIBLE);
     }
 
     /**
@@ -430,7 +383,6 @@ public class SetDataPlanFrag extends BaseFrag {
         if (TextUtils.isEmpty(min_c)) {
             min_c = "0";
         }
-        pop_setTimelimit.dismiss();
         loadWidget.setVisibles();
         int hour = Integer.valueOf(hour_c);
         int min = Integer.valueOf(min_c);
@@ -470,7 +422,6 @@ public class SetDataPlanFrag extends BaseFrag {
      */
     private void saveAlertAndShowPop(int value) {
         // 1.保存警告值
-        pop_alert.dismiss();
         ShareUtils.set(RootCons.USAGE_LIMIT_DEFAULT, value);
         if (value != -1) {
             // 2.弹出剩余流量
