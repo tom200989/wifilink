@@ -2,13 +2,11 @@ package com.alcatel.wifilink.root.helper;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
-import android.os.Handler;
 import android.view.View;
 
 import com.alcatel.wifilink.R;
 import com.alcatel.wifilink.root.utils.OtherUtils;
 import com.alcatel.wifilink.root.utils.ToastTool;
-import com.alcatel.wifilink.root.widget.CountDownTextView;
 import com.alcatel.wifilink.root.widget.HH70_CountDownWidget;
 import com.hiber.tools.TimerHelper;
 import com.p_xhelper_smart.p_xhelper_smart.bean.GetDeviceNewVersionBean;
@@ -25,9 +23,6 @@ public class UpgradeHelper {
     private Activity activity;
     private boolean isShowWaiting;
     private ProgressDialog pgd;
-    private Handler handler;
-    private TimerHelper countDownHelper;
-    private CountDownTextView ctv;// 倒计时文本
     private TimerHelper countDownTimer;
     private boolean isContinueChecking = true;// 是否允许在checking状态下继续获取状态
     private HH70_CountDownWidget wd_countdown;
@@ -36,7 +31,6 @@ public class UpgradeHelper {
         isContinueChecking = true;
         this.activity = activity;
         this.isShowWaiting = isShowWaiting;
-        handler = new Handler();
     }
 
     /**
@@ -188,10 +182,8 @@ public class UpgradeHelper {
     private void setCheck() {
         // 1.先触发检查new version
         SetCheckNewVersionHelper xSetCheckNewVersionHelper = new SetCheckNewVersionHelper();
-        xSetCheckNewVersionHelper.setOnSetCheckNewVersionSuccessListener(() -> {
-            // 2.在获取查询new version
-            getNewVersionDo();
-        });
+        // 2.在获取查询new version
+        xSetCheckNewVersionHelper.setOnSetCheckNewVersionSuccessListener(this::getNewVersionDo);
         xSetCheckNewVersionHelper.setOnSetCheckNewVersionFailedListener(() -> {
             hideAllWidget();
             errorNext();
@@ -255,9 +247,9 @@ public class UpgradeHelper {
         if (wd_countdown.getVisibility() == View.VISIBLE) {
             wd_countdown.setVisibility(View.GONE);// 隐藏倒数条
         }
-        if (ctv != null) {
-            ctv.setCount(180);// 停止倒数
-            ctv.pause();
+        if (wd_countdown.getCountDownText() != null) {
+            wd_countdown.getCountDownText().setCount(180);// 停止倒数
+            wd_countdown.getCountDownText().pause();
         }
     }
 
