@@ -9,10 +9,10 @@ import android.view.View;
 
 import com.alcatel.wifilink.R;
 import com.alcatel.wifilink.root.utils.OtherUtils;
-import com.alcatel.wifilink.root.utils.ScreenSize;
 import com.alcatel.wifilink.root.utils.ToastUtil_m;
 import com.alcatel.wifilink.root.widget.CountDownTextView;
 import com.alcatel.wifilink.root.widget.PopupWindows;
+import com.hiber.tools.ScreenSize;
 import com.p_xhelper_smart.p_xhelper_smart.bean.GetDeviceNewVersionBean;
 import com.p_xhelper_smart.p_xhelper_smart.bean.GetDeviceUpgradeStateBean;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetDeviceNewVersionHelper;

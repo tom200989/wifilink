@@ -6,7 +6,7 @@ import android.view.View;
 
 import com.alcatel.wifilink.R;
 import com.alcatel.wifilink.root.widget.PopupWindows;
-import com.alcatel.wifilink.root.utils.ScreenSize;
+import com.hiber.tools.ScreenSize;
 
 /**
  * Created by qianli.ma on 2017/7/12.

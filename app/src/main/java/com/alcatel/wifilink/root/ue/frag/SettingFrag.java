@@ -26,11 +26,11 @@ import com.alcatel.wifilink.root.helper.TimerHelper;
 import com.alcatel.wifilink.root.helper.UpgradeHelper;
 import com.alcatel.wifilink.root.ue.activity.SplashActivity;
 import com.alcatel.wifilink.root.utils.RootUtils;
-import com.alcatel.wifilink.root.utils.ScreenSize;
 import com.alcatel.wifilink.root.widget.HH70_LoadWidget;
 import com.alcatel.wifilink.root.widget.NormalWidget;
 import com.alcatel.wifilink.root.widget.PopupWindows;
 import com.hiber.cons.TimerState;
+import com.hiber.tools.ScreenSize;
 import com.hiber.tools.ShareUtils;
 import com.p_numberbar.p_numberbar.core.NumberProgressBar;
 import com.p_xhelper_smart.p_xhelper_smart.bean.GetDeviceNewVersionBean;
@@ -539,7 +539,7 @@ public class SettingFrag extends BaseFrag {
         builder.setView(editText);
         builder.setNegativeButton(R.string.cancel, (dialog, which) -> dialog.dismiss());
         builder.setPositiveButton(R.string.backup, (dialog, which) -> {
-            String savePath = RootUtils.getEDText(editText,true);
+            String savePath = RootUtils.getEDText(editText, true);
             ShareUtils.set(CONFIG_FILE_PATH, savePath);
             downLoadConfigureFile(savePath);
             dialog.dismiss();

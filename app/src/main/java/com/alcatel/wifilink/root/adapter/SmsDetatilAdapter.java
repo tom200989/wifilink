@@ -16,8 +16,8 @@ import com.alcatel.wifilink.root.helper.SmsContentSortHelper;
 import com.alcatel.wifilink.root.helper.SmsReSendHelper;
 import com.alcatel.wifilink.root.utils.Lgg;
 import com.alcatel.wifilink.root.utils.RootUtils;
-import com.alcatel.wifilink.root.utils.ScreenSize;
 import com.alcatel.wifilink.root.widget.PopupWindows;
+import com.hiber.tools.ScreenSize;
 
 import java.util.ArrayList;
 import java.util.Collections;
