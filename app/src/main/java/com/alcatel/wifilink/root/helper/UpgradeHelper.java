@@ -13,6 +13,7 @@ import com.alcatel.wifilink.root.utils.ToastTool;
 import com.alcatel.wifilink.root.widget.CountDownTextView;
 import com.alcatel.wifilink.root.widget.PopupWindows;
 import com.hiber.tools.ScreenSize;
+import com.hiber.tools.TimerHelper;
 import com.p_xhelper_smart.p_xhelper_smart.bean.GetDeviceNewVersionBean;
 import com.p_xhelper_smart.p_xhelper_smart.bean.GetDeviceUpgradeStateBean;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetDeviceNewVersionHelper;

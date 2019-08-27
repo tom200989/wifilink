@@ -4,7 +4,6 @@ import android.os.Bundle;
 
 import com.alcatel.wifilink.BuildConfig;
 import com.alcatel.wifilink.R;
-import com.alcatel.wifilink.root.helper.TimerHelper;
 import com.alcatel.wifilink.root.ue.frag.DataPlanInitFrag;
 import com.alcatel.wifilink.root.ue.frag.GuideFrag;
 import com.alcatel.wifilink.root.ue.frag.LoginFrag;
@@ -19,6 +18,7 @@ import com.alcatel.wifilink.root.ue.frag.WifiInitFrag;
 import com.alcatel.wifilink.root.ue.frag.WizardFrag;
 import com.hiber.bean.RootProperty;
 import com.hiber.hiber.RootMAActivity;
+import com.hiber.tools.TimerHelper;
 import com.p_xhelper_smart.p_xhelper_smart.bean.GetLoginStateBean;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetLoginStateHelper;
 import com.p_xhelper_smart.p_xhelper_smart.helper.HeartBeatHelper;

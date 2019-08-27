@@ -21,7 +21,6 @@ import com.alcatel.wifilink.root.helper.ClickDoubleHelper;
 import com.alcatel.wifilink.root.helper.Cons;
 import com.alcatel.wifilink.root.helper.Extender_GetWIFIExtenderSettingsHelper;
 import com.alcatel.wifilink.root.helper.FirmUpgradeHelper;
-import com.alcatel.wifilink.root.helper.TimerHelper;
 import com.alcatel.wifilink.root.helper.UpgradeHelper;
 import com.alcatel.wifilink.root.ue.activity.SplashActivity;
 import com.alcatel.wifilink.root.utils.RootUtils;
@@ -31,6 +30,7 @@ import com.alcatel.wifilink.root.widget.PopupWindows;
 import com.hiber.cons.TimerState;
 import com.hiber.tools.ScreenSize;
 import com.hiber.tools.ShareUtils;
+import com.hiber.tools.TimerHelper;
 import com.p_numberbar.p_numberbar.core.NumberProgressBar;
 import com.p_xhelper_smart.p_xhelper_smart.bean.GetDeviceNewVersionBean;
 import com.p_xhelper_smart.p_xhelper_smart.bean.GetLoginStateBean;
@@ -426,7 +426,7 @@ public class SettingFrag extends BaseFrag {
                     downError(R.string.qs_pin_unlock_can_not_connect_des);
                 }
             });
-
+            
             /* -------------------------------------------- 定时器获取WAN以及SIM的连接状态 -------------------------------------------- */
 
             // 创建定时器
