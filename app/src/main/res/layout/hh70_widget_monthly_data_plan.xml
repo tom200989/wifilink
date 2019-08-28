@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.hiber.tools.layout.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <com.hiber.tools.layout.PercentRelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <!-- 灰色背景 -->
+        <ImageView
+            android:id="@+id/iv_dialogok_widget_bg"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:alpha="0.5"
+            android:background="@color/gray" />
+
+        <!-- 白色底框 -->
+        <com.hiber.tools.layout.PercentRelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:background="@drawable/bg_pop_conner"
+            app:layout_widthPercent="80%w"
+            app:layout_heightPercent="25%h">
+
+            <com.hiber.tools.layout.PercentLinearLayout
+                android:id="@+id/content_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:weightSum="5"
+                app:layout_marginTopPercent="15%h"
+                android:paddingLeft="12dp"
+                android:paddingRight="12dp">
+
+                <EditText
+                    android:id="@+id/monthly_number"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:digits="1234567890"
+                    android:gravity="center_vertical"
+                    android:hint="number"
+                    android:inputType="number" />
+
+                <RadioGroup
+                    android:id="@+id/radiogroup_monthly_plan"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="5dp"
+                    android:layout_weight="3"
+                    android:fadingEdge="none"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:id="@+id/radio_monthly_plan_mb"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="@drawable/radio_group_selector"
+                        android:button="@color/transparent"
+                        android:checked="true"
+                        android:gravity="center"
+                        android:text="MB"
+                        android:textColor="@color/color_radiobutton" />
+
+                    <RadioButton
+                        android:id="@+id/radio_monthly_plan_gb"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="@drawable/radio_group_selector"
+                        android:button="@color/transparent"
+                        android:gravity="center"
+                        android:text="GB"
+                        android:textColor="@color/color_radiobutton" />
+                </RadioGroup>
+
+            </com.hiber.tools.layout.PercentLinearLayout>
+
+            <View
+                android:id="@+id/v_smsdetail_tryagain_split"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dimen_1dip"
+                android:layout_below="@id/content_view"
+                android:layout_marginLeft="@dimen/dimen_15dip"
+                android:layout_marginRight="@dimen/dimen_15dip"
+                android:alpha="0.5"
+                android:background="@color/gray"
+                app:layout_marginTopPercent="10%h" />
+
+            <com.hiber.tools.layout.PercentLinearLayout
+                android:id="@+id/ll_smsdetail_buttons"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dimen_50dip"
+                android:layout_below="@id/v_smsdetail_tryagain_split"
+                android:orientation="horizontal"
+                app:layout_heightPercent="33%h"
+                app:layout_marginTopPercent="9.10%h">
+
+                <Button
+                    android:id="@+id/tv_smsdetail_detele_cancel"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="@dimen/dimen_10dip"
+                    android:layout_marginEnd="@dimen/dimen_10dip"
+                    android:layout_weight="1"
+                    android:background="@drawable/btn_click_selector"
+                    android:gravity="center"
+                    android:text="@string/cancel"
+                    android:textAllCaps="false"
+                    android:textColor="@color/white"
+                    app:layout_textSizePercent="30%h" />
+
+                <Button
+                    android:id="@+id/tv_smsdetail_detele_ok"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="@dimen/dimen_10dip"
+                    android:layout_marginEnd="@dimen/dimen_10dip"
+                    android:layout_weight="1"
+                    android:background="@drawable/pop_sim_bg"
+                    android:gravity="center"
+                    android:text="@string/ok"
+                    android:textAllCaps="false"
+                    android:textColor="@color/sms_detail_tryagain"
+                    app:layout_textSizePercent="30%h" />
+
+            </com.hiber.tools.layout.PercentLinearLayout>
+
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/dimen_1dip"
+                android:layout_below="@id/ll_smsdetail_buttons"
+                app:layout_marginTopPercent="9.10%h" />
+
+        </com.hiber.tools.layout.PercentRelativeLayout>
+
+
+    </com.hiber.tools.layout.PercentRelativeLayout>
+
+
+</com.hiber.tools.layout.PercentRelativeLayout>

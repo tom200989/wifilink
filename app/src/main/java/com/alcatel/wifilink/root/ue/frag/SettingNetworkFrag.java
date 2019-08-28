@@ -1,21 +1,17 @@
 package com.alcatel.wifilink.root.ue.frag;
 
 import android.annotation.SuppressLint;
-import android.app.AlertDialog;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.support.v7.widget.AppCompatSpinner;
 import android.support.v7.widget.SwitchCompat;
 import android.text.TextUtils;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -24,6 +20,9 @@ import com.alcatel.wifilink.root.helper.UsageSettingHelper;
 import com.alcatel.wifilink.root.utils.RootCons;
 import com.alcatel.wifilink.root.utils.RootUtils;
 import com.alcatel.wifilink.root.widget.HH70_LoadWidget;
+import com.alcatel.wifilink.root.widget.HH70_MonthlyDataPlanWidget;
+import com.alcatel.wifilink.root.widget.HH70_ProfileLinkWidget;
+import com.alcatel.wifilink.root.widget.HH70_SetTimeLimitWidget;
 import com.hiber.cons.TimerState;
 import com.hiber.tools.ShareUtils;
 import com.p_xhelper_smart.p_xhelper_smart.bean.GetConnectionSettingsBean;
@@ -135,6 +134,12 @@ public class SettingNetworkFrag extends BaseFrag {
 
     @BindView(R.id.wd_setting_network_load)
     HH70_LoadWidget wdLoad;
+    @BindView(R.id.wd_monthly_plan)
+    HH70_MonthlyDataPlanWidget monthlyDataPlanWidget;
+    @BindView(R.id.wd_set_time_limit)
+    HH70_SetTimeLimitWidget setTimeLimitWidget;
+    @BindView(R.id.wd_profile_link)
+    HH70_ProfileLinkWidget profileLinkWidget;
 
     private boolean mOldMobileDataEnable;
     private boolean mFirstSetConnectionMode;
@@ -147,6 +152,7 @@ public class SettingNetworkFrag extends BaseFrag {
     private GetConnectionSettingsBean mConnectionSettings;
     private GetUsageSettingsBean mUsageSetting;
     private GetSimStatusBean mSimStatus;
+
 
     @Override
     public int onInflateLayout() {
@@ -617,30 +623,13 @@ public class SettingNetworkFrag extends BaseFrag {
     }
 
     private void showSetmonthlyDataPlanDialog() {
-        LayoutInflater inflater = LayoutInflater.from(activity);
-        View v = inflater.inflate(R.layout.dialog_monthly_data_plan, null);
-        final EditText monthlyNumber = v.findViewById(R.id.monthly_number);
-        long dataPlanByte = getDataPlanByte(mUsageSetting.getUnit());
-        long monthPlan = mUsageSetting.getMonthlyPlan() / dataPlanByte;
-        monthlyNumber.setText(String.valueOf(monthPlan + ""));
-        RadioGroup radioGroup = v.findViewById(R.id.radiogroup_monthly_plan);
-        RadioButton radioButtonGb = v.findViewById(R.id.radio_monthly_plan_gb);
-        RadioButton radioButtonMb = v.findViewById(R.id.radio_monthly_plan_mb);
-        if (mUsageSetting.getUnit() == GetUsageSettingsBean.CONS_UNIT_MB) {
-            radioButtonMb.setChecked(true);
-        } else if (mUsageSetting.getUnit() == GetUsageSettingsBean.CONS_UNIT_GB) {
-            radioButtonGb.setChecked(true);
-        }
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(activity);
-        builder.setView(v);
-        builder.setPositiveButton(R.string.ok, (dialog, which) -> {
-            String mothlyplan = monthlyNumber.getText().toString();
+        monthlyDataPlanWidget.setOnClickOkListener(() -> {
+            String mothlyplan = monthlyDataPlanWidget.getMonthLyPLanEd();
             mothlyplan = TextUtils.isEmpty(mothlyplan) ? "0" : mothlyplan;
             if (Integer.parseInt(mothlyplan) >= 0 && Integer.parseInt(mothlyplan) <= 1024) {
-                if (radioButtonMb.getId() == radioGroup.getCheckedRadioButtonId()) {
+                if (monthlyDataPlanWidget.isRadioMbChecked()) {
                     mUsageSetting.setUnit(GetUsageSettingsBean.CONS_UNIT_MB);
-                } else if (radioButtonGb.getId() == radioGroup.getCheckedRadioButtonId()) {
+                } else if (monthlyDataPlanWidget.isRadioGbChecked()) {
                     mUsageSetting.setUnit(GetUsageSettingsBean.CONS_UNIT_GB);
                 }
                 long dataPlanByte1 = getDataPlanByte(mUsageSetting.getUnit());
@@ -650,9 +639,16 @@ public class SettingNetworkFrag extends BaseFrag {
                 toast(R.string.input_a_data_value_between_0_1024, 3000);
             }
         });
-        builder.setNegativeButton(R.string.cancel, null);
-        builder.create();
-        builder.show();
+        long dataPlanByte = getDataPlanByte(mUsageSetting.getUnit());
+        long monthPlan = mUsageSetting.getMonthlyPlan() / dataPlanByte;
+        monthlyDataPlanWidget.setMonthlyNumberString(String.valueOf(monthPlan + ""));
+        if (mUsageSetting.getUnit() == GetUsageSettingsBean.CONS_UNIT_MB) {
+            monthlyDataPlanWidget.setRadioMbCheck();
+        } else if (mUsageSetting.getUnit() == GetUsageSettingsBean.CONS_UNIT_GB) {
+            monthlyDataPlanWidget.setRadioGbCheck();
+        }
+
+        monthlyDataPlanWidget.setVisibility(View.VISIBLE);
     }
 
     private long getDataPlanByte(int unit) {
@@ -668,21 +664,13 @@ public class SettingNetworkFrag extends BaseFrag {
     }
 
     private void showSetTimeLimitDialog() {
-        LayoutInflater inflater = LayoutInflater.from(activity);
-        View v = inflater.inflate(R.layout.dialog_set_time_limit, null);
-        final EditText hrEt = v.findViewById(R.id.dialog_time_limit_hr);
-        final EditText minEt = v.findViewById(R.id.dialog_time_limit_min);
-        hrEt.setText(String.valueOf(mUsageSetting.getTimeLimitTimes() / 60 + ""));
-        minEt.setText(String.valueOf(mUsageSetting.getTimeLimitTimes() % 60 + ""));
-        AlertDialog.Builder builder = new AlertDialog.Builder(activity);
-        builder.setView(v);
-        builder.setPositiveButton(R.string.ok, (dialog, which) -> {
-            mUsageSetting.setTimeLimitTimes(Integer.parseInt(hrEt.getText().toString()) * 60 + Integer.parseInt(minEt.getText().toString()));
+        setTimeLimitWidget.setHrString(String.valueOf(mUsageSetting.getTimeLimitTimes() / 60 + ""));
+        setTimeLimitWidget.setMinString(String.valueOf(mUsageSetting.getTimeLimitTimes() % 60 + ""));
+        setTimeLimitWidget.setOnClickOkListener(() -> {
+            mUsageSetting.setTimeLimitTimes(Integer.parseInt(setTimeLimitWidget.getHrEd()) * 60 + Integer.parseInt(setTimeLimitWidget.getMinEd()));
             setUsageSetting(mUsageSetting);
         });
-        builder.setNegativeButton(R.string.cancel, null);
-        builder.create();
-        builder.show();
+        setTimeLimitWidget.setVisibility(View.VISIBLE);
     }
 
     private void showSimPinEnableDialog() {
@@ -710,9 +698,7 @@ public class SettingNetworkFrag extends BaseFrag {
     }
 
     private void showProfileLinkDialog() {
-        LayoutInflater inflater = LayoutInflater.from(activity);
-        View v = inflater.inflate(R.layout.dialog_profile_link, null);
-        v.findViewById(R.id.tv_web_edit_profile).setOnClickListener(view -> {
+        profileLinkWidget.setOnClickContentListener(() -> {
             Intent intent = new Intent();
             intent.setAction("android.intent.action.VIEW");
             String wifiGateWay = SmartUtils.getWIFIGateWay(activity);
@@ -720,11 +706,7 @@ public class SettingNetworkFrag extends BaseFrag {
             intent.setData(content_url);
             startActivity(intent);
         });
-        AlertDialog.Builder builder = new AlertDialog.Builder(activity);
-        builder.setView(v);
-        builder.setNegativeButton(R.string.cancel, null);
-        builder.create();
-        builder.show();
+        profileLinkWidget.setVisibility(View.VISIBLE);
     }
 
     private void doneChangePinCode() {
@@ -833,6 +815,13 @@ public class SettingNetworkFrag extends BaseFrag {
             mMobileNetwork.setVisibility(View.VISIBLE);
             tvTitle.setText(R.string.setting_mobile_network);
             return true;
+        } else if (monthlyDataPlanWidget.getVisibility() == View.VISIBLE) {
+            monthlyDataPlanWidget.setVisibility(View.GONE);
+            return true;
+        } else if (setTimeLimitWidget.getVisibility() == View.VISIBLE) {
+            setTimeLimitWidget.setVisibility(View.GONE);
+        } else if (profileLinkWidget.getVisibility() == View.VISIBLE) {
+            profileLinkWidget.setVisibility(View.GONE);
         }
 
         toFrag(getClass(), UsageRxFrag.class, null, true);

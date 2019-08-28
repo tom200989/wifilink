@@ -32,6 +32,7 @@ public class HH70_ProfileWidget extends RelativeLayout {
         View.inflate(context, R.layout.hh70_widget_profile, this);
         ivWidgetBg = findViewById(R.id.iv_dialogok_widget_bg);
         ivWidgetBg.setOnClickListener(v -> bgClickNext());
+
         tvWidgetDes = findViewById(R.id.tv_dialogok_widget_des);
         tvWidgetCancel = findViewById(R.id.tv_dialogok_widget_cancel);
         tvWidgetCancel.setOnClickListener(v -> {

@@ -24,8 +24,8 @@ public class HH70_SmsDeleteWidget extends RelativeLayout {
     public HH70_SmsDeleteWidget(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         View.inflate(context, R.layout.hh70_widget_smsdetail_deleted, this);
-        ImageView ivDialogokWidgetBg = findViewById(R.id.iv_dialogok_widget_bg);
-        ivDialogokWidgetBg.setOnClickListener(v -> {});
+        ImageView ivWidgetBg = findViewById(R.id.iv_dialogok_widget_bg);
+        ivWidgetBg.setOnClickListener(v -> {});
         Button tv_delete_cancel = findViewById(R.id.tv_smsdetail_detele_cancel);
         Button tv_delete_confirm = findViewById(R.id.tv_smsdetail_detele_confirm);
         tv_delete_cancel.setOnClickListener(v -> cancelNext());
