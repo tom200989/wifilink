@@ -302,7 +302,7 @@ public class SettingFrag extends BaseFrag {
         // 2.检测新版本
         UpgradeHelper uh = new UpgradeHelper(activity, false);
         uh.setOnNewVersionListener(attr -> mFirmwareUpgrade_dot.setVisibility(View.VISIBLE));
-        uh.checkVersion(wd_countdown);
+        uh.checkVersion(wd_countdown, loadWidget);
     }
 
     private void showSharingService() {
@@ -325,7 +325,7 @@ public class SettingFrag extends BaseFrag {
         fh.setOnNoNewVersionListener(this::popversion);
         fh.setOnLoginOutListener(() -> toFragActivity(getClass(), SplashActivity.class, LoginFrag.class, null, true));
         fh.setOnNewVersionListener(attr -> popversion(attr, null));// 有新版本
-        fh.checkNewVersion(wd_countdown);
+        fh.checkNewVersion(wd_countdown, loadWidget);
     }
 
     /**
@@ -388,8 +388,7 @@ public class SettingFrag extends BaseFrag {
 
             /* 2.启动定时器 */
             UpgradeHelper uh = new UpgradeHelper(activity, false);
-            uh.setOnErrorListener(() -> downError(R.string.setting_upgrade_get_update_state_failed));
-            uh.setOnResultErrorListener(() -> downError(R.string.setting_upgrade_get_update_state_failed));
+            uh.setOnUpgradeFailedListener(() -> downError(R.string.setting_upgrade_get_update_state_failed));
             uh.setOnNoStartUpdateListener(attr1 -> {
                 wd_down.getPercent().setText(String.valueOf(attr1.getProcess() + perText));
                 upgrade_Temp++;

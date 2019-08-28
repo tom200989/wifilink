@@ -167,8 +167,7 @@ public class MobileNetworkFrag extends BaseFrag {
     private void getSimAndImsi() {
         if (simNumImsiHelper == null) {
             simNumImsiHelper = new SimNumImsiHelper();
-            simNumImsiHelper.setOnErrorListener(() -> simNumImsiEmpty());
-            simNumImsiHelper.setOnResultErrorListener(() -> simNumImsiEmpty());
+            simNumImsiHelper.setOnSimNumImsiFailedListener(this::simNumImsiEmpty);
             simNumImsiHelper.setOnSimNumberListener(simNum -> tvSimNum.setText(simNum));
             simNumImsiHelper.setOnImsiListener(imsi -> tvImsi.setText(imsi));
         }

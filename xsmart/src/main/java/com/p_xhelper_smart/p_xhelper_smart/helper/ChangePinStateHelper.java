@@ -36,7 +36,7 @@ public class ChangePinStateHelper extends BaseHelper {
 
             @Override
             public void fwError(FwError fwError) {
-
+                ChangePinStateFailedNext();
             }
 
             @Override

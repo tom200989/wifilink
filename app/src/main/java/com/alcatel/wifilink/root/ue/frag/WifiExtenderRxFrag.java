@@ -27,7 +27,6 @@ import com.alcatel.wifilink.root.widget.ExtenderWait;
 import com.alcatel.wifilink.root.widget.HotPotKeyView;
 import com.alcatel.wifilink.root.widget.OpenCloseExtenderView;
 import com.hiber.cons.TimerState;
-import com.p_xhelper_smart.p_xhelper_smart.impl.FwError;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -86,7 +85,7 @@ public class WifiExtenderRxFrag extends BaseFrag {
 
     @Override
     public void onNexts(Object o, View view, String s) {
-        super.onNexts(o,view,s);
+        super.onNexts(o, view, s);
         initRes();
         initAdapter();
         initData();
@@ -95,7 +94,7 @@ public class WifiExtenderRxFrag extends BaseFrag {
     }
 
     @Override
-    public void setTimerTask(){
+    public void setTimerTask() {
         getWIFISettings();
     }
 
@@ -154,8 +153,8 @@ public class WifiExtenderRxFrag extends BaseFrag {
         // 开始连接
         Extender_ConnectHotspotHelper extenderConnectHotspotHelper = new Extender_ConnectHotspotHelper();
         extenderConnectHotspotHelper.setOnSuccessListener(attr -> getConnectHotpotState());
-        extenderConnectHotspotHelper.setOnFailedListener(attr -> connectFailed("connhotpot", null));
-        extenderConnectHotspotHelper.setOnResultErrorListener(attr -> connectFailed("connhotpot", attr));
+        extenderConnectHotspotHelper.setOnFailedListener(attr -> connectFailed());
+        extenderConnectHotspotHelper.setOnResultErrorListener(attr -> connectFailed());
         extenderConnectHotspotHelper.connect(hotspotId, ssid, password, SecurityMode, Hidden);
     }
 
@@ -186,7 +185,7 @@ public class WifiExtenderRxFrag extends BaseFrag {
                         }, 1000);
                     } else {
                         getConnectHotpotCount = 0;
-                        connectFailed("getConnectHotpotState", null, "Extender_GetConnectHotspotStateHelper state NONE");
+                        connectFailed();
                     }
 
                     break;
@@ -195,18 +194,18 @@ public class WifiExtenderRxFrag extends BaseFrag {
                     break;
                 case SUCCESS:// 2
                     getConnectHotpotCount = 0;
-                    toast(R.string.success,2000);
+                    toast(R.string.success, 2000);
                     getHotpotInfo();// 重新获取
                     break;
                 case PASSWORD_ERROR:// 3
                     getConnectHotpotCount = 0;
-                    toast(R.string.please_enter_the_correct_password,2000);
+                    toast(R.string.please_enter_the_correct_password, 2000);
                     widgetWifiExtenderWait.setVisibility(View.GONE);
                     tvScan.setVisibility(View.VISIBLE);
                     break;
                 case NEED_PASSWORD:// 4
                     getConnectHotpotCount = 0;
-                    toast(R.string.please_enter_the_correct_password,2000);
+                    toast(R.string.please_enter_the_correct_password, 2000);
                     widgetWifiExtenderWait.setVisibility(View.GONE);
                     tvScan.setVisibility(View.VISIBLE);
                     break;
@@ -219,36 +218,28 @@ public class WifiExtenderRxFrag extends BaseFrag {
                         }, 1000);
                     } else {
                         getConnectHotpotCount = 0;
-                        connectFailed("getConnectHotpotState", null, "Extender_GetConnectHotspotStateHelper state FAIL");
+                        connectFailed();
                     }
                     break;
                 case OPEN:// 6
                     getConnectHotpotCount = 0;
-                    toast(R.string.success_but_unencrypt,2000);
+                    toast(R.string.success_but_unencrypt, 2000);
                     getHotpotInfo();// 重新获取
                     break;
             }
         });
-        helper.setOnFailedListener(attr1 -> connectFailed("getConnectHotpotState", null));
-        helper.setOnResultErrorListener(error -> connectFailed("getConnectHotpotState", error));
+        helper.setOnFailedListener(attr1 -> connectFailed());
+        helper.setOnResultErrorListener(error -> connectFailed());
         helper.get();
     }
 
     /**
      * 连接失败处理
      */
-    private void connectFailed(String methodName, FwError error, String... des) {
-        String errors = "occur failed;";
-        String dess = "";
-        if (error != null) {
-            errors = error.getMessage();
-        }
-        for (String de : des) {
-            dess = String.valueOf(dess + de);
-        }
+    private void connectFailed() {
         widgetWifiExtenderWait.setVisibility(View.GONE);
         tvScan.setVisibility(View.VISIBLE);
-        toast(R.string.the_connection_failed_please_try_again_extender,2000);
+        toast(R.string.the_connection_failed_please_try_again_extender, 2000);
         getHotpotInfo();// 重新获取
     }
 
@@ -316,7 +307,7 @@ public class WifiExtenderRxFrag extends BaseFrag {
             }
         });
         getSettingsHelper.setOnGetExtenderFailedListener(() -> {
-            toast(R.string.connect_failed,2000);
+            toast(R.string.connect_failed, 2000);
             disconnUi();
         });
         getSettingsHelper.get();
@@ -344,11 +335,11 @@ public class WifiExtenderRxFrag extends BaseFrag {
             }
         });
         getCurrentStatusHelper.setOnFailedListener(attr -> {
-            toast(R.string.connect_failed,2000);
+            toast(R.string.connect_failed, 2000);
             disconnUi();
         });
         getCurrentStatusHelper.setOnResultErrorListener(error -> {
-            toast(R.string.get_wifi_extender_current_status_failed,2000);
+            toast(R.string.get_wifi_extender_current_status_failed, 2000);
             disconnUi();
         });
         getCurrentStatusHelper.get();
@@ -391,8 +382,6 @@ public class WifiExtenderRxFrag extends BaseFrag {
                     List<Extender_GetHotspotListResult.HotspotListBean> ori_hotpots = hotpotInfo.getHotspotList();
                     // 排除掉当前连接的wifi
                     ori_hotpots = RootUtils.excludeCurrentHotpot(ori_hotpots, currentResult.getHotspotSSID());
-                    // 测试打印校验获取到的WIFI
-                    printSSidTest(ori_hotpots);
                     hotspotBeans = RootUtils.turnSSISBatch(ori_hotpots);
                     // 刷新适配器
                     wifiExtenderAdapter.notifys(hotspotBeans);
@@ -403,17 +392,11 @@ public class WifiExtenderRxFrag extends BaseFrag {
                 }
 
             });
-            extenderGetHotspotListHelper.setOnFailedListener(attr -> {
+            extenderGetHotspotListHelper.setOnGetHotpotFailedListener(() -> {
                 widgetWifiExtenderWait.setVisibility(View.GONE);
                 tvScan.setVisibility(View.VISIBLE);
                 rcvWifiExtenderAvailableNetwork.setVisibility(View.GONE);
-                toast(R.string.connect_failed,2000);
-            });
-            extenderGetHotspotListHelper.setOnResultErrorListener(error -> {
-                widgetWifiExtenderWait.setVisibility(View.GONE);
-                tvScan.setVisibility(View.VISIBLE);
-                rcvWifiExtenderAvailableNetwork.setVisibility(View.GONE);
-                toast(R.string.get_current_time_and_timezone_failed,2000);
+                toast(R.string.get_current_time_and_timezone_failed, 2000);
             });
             extenderGetHotspotListHelper.get();
         });
@@ -421,25 +404,15 @@ public class WifiExtenderRxFrag extends BaseFrag {
             widgetWifiExtenderWait.setVisibility(View.GONE);
             tvScan.setVisibility(View.VISIBLE);
             rcvWifiExtenderAvailableNetwork.setVisibility(View.GONE);
-            toast(R.string.connect_failed,2000);
+            toast(R.string.connect_failed, 2000);
         });
         extenderSearchHotspotHelper.setOnResultErrorListener(error -> {
             widgetWifiExtenderWait.setVisibility(View.GONE);
             tvScan.setVisibility(View.VISIBLE);
             rcvWifiExtenderAvailableNetwork.setVisibility(View.GONE);
-            toast(R.string.get_current_time_and_timezone_failed,2000);
+            toast(R.string.get_current_time_and_timezone_failed, 2000);
         });
         extenderSearchHotspotHelper.search();
-    }
-
-    /**
-     * 测试打印获取到的WIFI
-     *
-     * @param ori_hotpots
-     */
-    private void printSSidTest(List<Extender_GetHotspotListResult.HotspotListBean> ori_hotpots) {
-        for (Extender_GetHotspotListResult.HotspotListBean hhp : ori_hotpots) {
-        }
     }
 
     /**
@@ -465,11 +438,11 @@ public class WifiExtenderRxFrag extends BaseFrag {
     /**
      * 点击事件
      */
-    private void initOnClick(){
+    private void initOnClick() {
         ivBack.setOnClickListener(v -> onBackPressed());
         tvScan.setOnClickListener(v -> getHotpotInfo());
         ivPanelSocket.setOnClickListener(v -> openOrCloseWifiExtender());
-        widgetWifiExtenderWait.setOnClickListener(v -> toast(R.string.please_wait_a_moment_to_scan,2000));
+        widgetWifiExtenderWait.setOnClickListener(v -> toast(R.string.please_wait_a_moment_to_scan, 2000));
         rlHadConnected.setOnClickListener(v -> disconnectCurrentHotpot());
     }
 
@@ -483,8 +456,8 @@ public class WifiExtenderRxFrag extends BaseFrag {
             widgetWifiExtenderWait.setVisibility(View.VISIBLE);
             Extender_DisConnectHotspotHelper disp = new Extender_DisConnectHotspotHelper();
             disp.setOnSuccessListener(object -> getHotpotInfo());
-            disp.setOnFailedListener(attr1 -> connectFailed("disconnectCurrentHotpot", null));
-            disp.setOnResultErrorListener(attr1 -> connectFailed("disconnectCurrentHotpot", attr1));
+            disp.setOnDisconnectFailedListener(this::connectFailed);
+            disp.setOnDisconnectFailedListener(this::connectFailed);
             disp.disconnect();
         });
     }
@@ -502,8 +475,8 @@ public class WifiExtenderRxFrag extends BaseFrag {
             widgetWifiExtenderWait.setVisibility(View.VISIBLE);
             Extender_SetWIFIExtenderSettingsHelper sseh = new Extender_SetWIFIExtenderSettingsHelper();
             sseh.setOnSuccessListener(o -> getHotpotInfo());
-            sseh.setOnFailedListener(nulls -> connectFailed("openOrCloseWifiExtender", null));
-            sseh.setOnResultErrorListener(error -> connectFailed("openOrCloseWifiExtender", error));
+            sseh.setOnFailedListener(nulls -> connectFailed());
+            sseh.setOnResultErrorListener(error -> connectFailed());
             int settingState = (ivPanelSocket.getDrawable() == button_off ? ENABLE : DISABLE);
             sseh.set(settingState);
         });
@@ -514,7 +487,7 @@ public class WifiExtenderRxFrag extends BaseFrag {
 
         // 等待界面显示时--> 提示用户不可回退
         if (widgetWifiExtenderWait.getVisibility() == View.VISIBLE) {
-            toast(R.string.please_wait_a_moment_to_scan,2000);
+            toast(R.string.please_wait_a_moment_to_scan, 2000);
             return true;
         }
 
@@ -539,10 +512,10 @@ public class WifiExtenderRxFrag extends BaseFrag {
         /* 切换fragment的逻辑一律在此处处理 */
         if (lastFrag == mainFrag.class) {
             // 由mainRxFragment传送过来
-            toFrag(getClass(),mainFrag.class,null,false);
+            toFrag(getClass(), mainFrag.class, null, false);
         } else {
             // 默认: 返回setting界面
-            toFrag(getClass(),SettingFrag.class,null,false);
+            toFrag(getClass(), SettingFrag.class, null, false);
         }
 
         return true;

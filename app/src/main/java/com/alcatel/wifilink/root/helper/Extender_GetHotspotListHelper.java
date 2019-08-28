@@ -3,7 +3,6 @@ package com.alcatel.wifilink.root.helper;
 import com.alcatel.wifilink.root.bean.Extender_GetHotspotListResult;
 import com.p_xhelper_smart.p_xhelper_smart.bean.GetHotSpotListBean;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetHotspotListHelper;
-import com.p_xhelper_smart.p_xhelper_smart.impl.FwError;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,47 +34,26 @@ public class Extender_GetHotspotListHelper {
             extenderGetHotspotListResult.setStatus(bean.getStatus());
             successNext(extenderGetHotspotListResult);
         });
-        xGetHotspotListHelper.setOnGetHotSpotListFailListener(() -> {
-
-        });
+        xGetHotspotListHelper.setOnGetHotSpotListFailListener(this::getHotpotFailedNext);
         xGetHotspotListHelper.getHotSpotList();
     }
 
-    private OnResultErrorListener onResultErrorListener;
+    private OnGetHotpotFailedListener onGetHotpotFailedListener;
 
-    // 接口OnResultErrorListener
-    public interface OnResultErrorListener {
-        void resultError(FwError attr);
+    // Inteerface--> 接口OnGetHotpotFailedListener
+    public interface OnGetHotpotFailedListener {
+        void getHotpotFailed();
     }
 
-    // 对外方式setOnResultErrorListener
-    public void setOnResultErrorListener(OnResultErrorListener onResultErrorListener) {
-        this.onResultErrorListener = onResultErrorListener;
+    // 对外方式setOnGetHotpotFailedListener
+    public void setOnGetHotpotFailedListener(OnGetHotpotFailedListener onGetHotpotFailedListener) {
+        this.onGetHotpotFailedListener = onGetHotpotFailedListener;
     }
 
-    // 封装方法resultErrorNext
-    private void resultErrorNext(FwError attr) {
-        if (onResultErrorListener != null) {
-            onResultErrorListener.resultError(attr);
-        }
-    }
-
-    private OnFailedListener onFailedListener;
-
-    // 接口OnFailedListener
-    public interface OnFailedListener {
-        void failed(Object attr);
-    }
-
-    // 对外方式setOnFailedListener
-    public void setOnFailedListener(OnFailedListener onFailedListener) {
-        this.onFailedListener = onFailedListener;
-    }
-
-    // 封装方法failedNext
-    private void failedNext(Object attr) {
-        if (onFailedListener != null) {
-            onFailedListener.failed(attr);
+    // 封装方法getHotpotFailedNext
+    private void getHotpotFailedNext() {
+        if (onGetHotpotFailedListener != null) {
+            onGetHotpotFailedListener.getHotpotFailed();
         }
     }
 

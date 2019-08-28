@@ -9,7 +9,9 @@ import com.p_xhelper_smart.p_xhelper_smart.helper.GetSystemInfoHelper;
  */
 
 public class SimNumImsiHelper {
+    
     public SimNumImsiHelper() {
+        
     }
 
     /**
@@ -28,8 +30,8 @@ public class SimNumImsiHelper {
                 imsiNext(imsi);
             }
         });
-        xGetSystemInfoHelper.setOnAppErrorListener(() -> errorNext());
-        xGetSystemInfoHelper.setOnFwErrorListener(() -> resultErrorNext());
+        xGetSystemInfoHelper.setOnAppErrorListener(() -> SimNumImsiFailedNext());
+        xGetSystemInfoHelper.setOnFwErrorListener(() -> SimNumImsiFailedNext());
         xGetSystemInfoHelper.getSystemInfo();
     }
 
@@ -71,41 +73,22 @@ public class SimNumImsiHelper {
         this.onSimNumberListener = onSimNumberListener;
     }
 
-    private OnResultErrorListener onResultErrorListener;
+    private OnSimNumImsiFailedListener onSimNumImsiFailedListener;
 
-    // 接口OnResultErrorListener
-    public interface OnResultErrorListener {
-        void resultError();
+    // Inteerface--> 接口OnSimNumImsiFailedListener
+    public interface OnSimNumImsiFailedListener {
+        void SimNumImsiFailed();
     }
 
-    // 对外方式setOnResultErrorListener
-    public void setOnResultErrorListener(OnResultErrorListener onResultErrorListener) {
-        this.onResultErrorListener = onResultErrorListener;
+    // 对外方式setOnSimNumImsiFailedListener
+    public void setOnSimNumImsiFailedListener(OnSimNumImsiFailedListener onSimNumImsiFailedListener) {
+        this.onSimNumImsiFailedListener = onSimNumImsiFailedListener;
     }
 
-    // 封装方法resultErrorNext
-    private void resultErrorNext() {
-        if (onResultErrorListener != null) {
-            onResultErrorListener.resultError();
-        }
-    }
-
-    private OnErrorListener onErrorListener;
-
-    // 接口OnErrorListener
-    public interface OnErrorListener {
-        void error();
-    }
-
-    // 对外方式setOnErrorListener
-    public void setOnErrorListener(OnErrorListener onErrorListener) {
-        this.onErrorListener = onErrorListener;
-    }
-
-    // 封装方法errorNext
-    private void errorNext() {
-        if (onErrorListener != null) {
-            onErrorListener.error();
+    // 封装方法SimNumImsiFailedNext
+    private void SimNumImsiFailedNext() {
+        if (onSimNumImsiFailedListener != null) {
+            onSimNumImsiFailedListener.SimNumImsiFailed();
         }
     }
 }

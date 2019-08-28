@@ -1,14 +1,14 @@
 package com.alcatel.wifilink.root.helper;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.Intent;
+import android.view.View;
 
 import com.alcatel.wifilink.R;
-import com.alcatel.wifilink.root.utils.OtherUtils;
 import com.alcatel.wifilink.root.utils.RootCons;
 import com.alcatel.wifilink.root.utils.ToastTool;
 import com.alcatel.wifilink.root.widget.HH70_CountDownWidget;
+import com.alcatel.wifilink.root.widget.HH70_LoadWidget;
 import com.hiber.bean.SkipBean;
 import com.hiber.hiber.RootMAActivity;
 import com.p_xhelper_smart.p_xhelper_smart.bean.GetDeviceNewVersionBean;
@@ -30,13 +30,10 @@ import com.p_xhelper_smart.p_xhelper_smart.helper.SetFOTAStartDownloadHelper;
 
 public class FirmUpgradeHelper {
     private Activity activity;
-    private ProgressDialog pgd;
 
-    public FirmUpgradeHelper(Activity activity, boolean isDialog) {
+    public FirmUpgradeHelper(Activity activity, HH70_LoadWidget wdLoad, boolean isDialog) {
         this.activity = activity;
-        if (isDialog) {
-            pgd = OtherUtils.showProgressPop(activity);
-        }
+        wdLoad.setVisibility(isDialog? View.VISIBLE:View.GONE);
     }
 
     /**
@@ -44,12 +41,8 @@ public class FirmUpgradeHelper {
      */
     public void startUpgrade() {
         SetDeviceStartUpdateHelper xSetDeviceStartUpdateHelper = new SetDeviceStartUpdateHelper();
-        xSetDeviceStartUpdateHelper.setOnSetDeviceStartUpdateSuccessListener(() -> {
-            startUpgradeNext();
-        });
-        xSetDeviceStartUpdateHelper.setOnSetDeviceStartUpdateFailedListener(() -> {
-            errorNext();
-        });
+        xSetDeviceStartUpdateHelper.setOnSetDeviceStartUpdateSuccessListener(this::startUpgradeNext);
+        xSetDeviceStartUpdateHelper.setOnSetDeviceStartUpdateFailedListener(this::errorNext);
         xSetDeviceStartUpdateHelper.setDeviceStartUpdate();
     }
 
@@ -80,8 +73,8 @@ public class FirmUpgradeHelper {
      */
     public void triggerFOTA() {
         SetFOTAStartDownloadHelper xSetFOTAStartDownloadHelper = new SetFOTAStartDownloadHelper();
-        xSetFOTAStartDownloadHelper.setOnSetFOTAStartDownloadSuccessListener(() -> setFOTADownSuccessNext());
-        xSetFOTAStartDownloadHelper.setOnSetFOTAStartDownloadFailedListener(() -> errorNext());
+        xSetFOTAStartDownloadHelper.setOnSetFOTAStartDownloadSuccessListener(this::setFOTADownSuccessNext);
+        xSetFOTAStartDownloadHelper.setOnSetFOTAStartDownloadFailedListener(this::errorNext);
         xSetFOTAStartDownloadHelper.setFOTAStartDownload();
     }
 
@@ -109,14 +102,14 @@ public class FirmUpgradeHelper {
     /**
      * 检查新版本
      */
-    public void checkNewVersion(HH70_CountDownWidget wd_countdown) {
-        checkWan(wd_countdown);// 检测是否连接了WAN口或者SIM卡(WAN口优先)
+    public void checkNewVersion(HH70_CountDownWidget wd_countdown, HH70_LoadWidget wdLoad) {
+        checkWan(wd_countdown, wdLoad);// 检测是否连接了WAN口或者SIM卡(WAN口优先)
     }
 
     /**
      * 检查wan口
      */
-    private void checkWan(HH70_CountDownWidget wd_countdown) {
+    private void checkWan(HH70_CountDownWidget wd_countdown, HH70_LoadWidget wdLoad) {
         GetLoginStateHelper xGetLoginStateHelper = new GetLoginStateHelper();
         xGetLoginStateHelper.setOnGetLoginStateSuccessListener(getLoginStateBean -> {
             if (getLoginStateBean.getState() == GetLoginStateBean.CONS_LOGIN) {
@@ -124,34 +117,34 @@ public class FirmUpgradeHelper {
                 xGetWanSettingsHelper.setOnGetWanSettingsSuccessListener(wanSettingsBean -> {
                     switch (wanSettingsBean.getStatus()) {
                         case GetWanSettingsBean.CONS_CONNECTED:
-                            checkNw(wd_countdown);
+                            checkNw(wd_countdown, wdLoad);
                             break;
                         case GetWanSettingsBean.CONS_CONNECTING:
                         case GetWanSettingsBean.CONS_DISCONNECTED:
                         case GetWanSettingsBean.CONS_DISCONNECTING:
-                            checkSim(wd_countdown);
+                            checkSim(wd_countdown, wdLoad);
                             break;
                     }
                 });
-                xGetWanSettingsHelper.setOnGetWanSettingFailedListener(() -> checkSim(wd_countdown));
+                xGetWanSettingsHelper.setOnGetWanSettingFailedListener(() -> checkSim(wd_countdown, wdLoad));
                 xGetWanSettingsHelper.getWanSettings();
             } else {
                 loginOutNext();
             }
         });
-        xGetLoginStateHelper.setOnGetLoginStateFailedListener(() -> checkSim(wd_countdown));
+        xGetLoginStateHelper.setOnGetLoginStateFailedListener(() -> checkSim(wd_countdown, wdLoad));
         xGetLoginStateHelper.getLoginState();
     }
 
     /**
      * 检查sim card
      */
-    private void checkSim(HH70_CountDownWidget wd_countdown) {
-        hideDialog();
+    private void checkSim(HH70_CountDownWidget wd_countdown, HH70_LoadWidget wdload) {
+        wdload.setGone();
         GetLoginStateHelper xGetLoginStateHelper = new GetLoginStateHelper();
         xGetLoginStateHelper.setOnGetLoginStateSuccessListener(getLoginStateBean -> {
             if (getLoginStateBean.getState() == GetLoginStateBean.CONS_LOGOUT) {
-                to(RootCons.ACTIVITYS.SPLASH_AC,RootCons.FRAG.LOGIN_FR);
+                to(RootCons.ACTIVITYS.SPLASH_AC, RootCons.FRAG.LOGIN_FR);
                 return;
             }
             GetSimStatusHelper xGetSimStatusHelper = new GetSimStatusHelper();
@@ -166,7 +159,7 @@ public class FirmUpgradeHelper {
                     xGetConnectionStateHelper.setOnDisConnectingListener(() -> toast(R.string.setting_upgrade_no_connection));
                     xGetConnectionStateHelper.setOnDisconnectedListener(() -> toast(R.string.setting_upgrade_no_connection));
                     xGetConnectionStateHelper.setOnConnectingListener(() -> toast(R.string.setting_upgrade_no_connection));
-                    xGetConnectionStateHelper.setOnConnectedListener(() -> checkNw(wd_countdown));
+                    xGetConnectionStateHelper.setOnConnectedListener(() -> checkNw(wd_countdown, wdload));
                     xGetConnectionStateHelper.getConnectionState();
                 }
             });
@@ -179,9 +172,6 @@ public class FirmUpgradeHelper {
 
     /**
      * 跳转activity
-     *
-     * @param targetAc
-     * @param targetFr
      */
     private void to(String targetAc, String targetFr) {
         Intent intent = new Intent();
@@ -195,17 +185,16 @@ public class FirmUpgradeHelper {
     /**
      * 检查新版本
      */
-    private void checkNw(HH70_CountDownWidget wd_countdown) {
-        hideDialog();// 停止先前的等待条
+    private void checkNw(HH70_CountDownWidget wd_countdown, HH70_LoadWidget wdLoad) {
+        wdLoad.setGone();
         UpgradeHelper uh = new UpgradeHelper(activity, true);
-        uh.setOnResultErrorListener(() -> toast(R.string.setting_upgrade_check_firmware_failed));
-        uh.setOnErrorListener(() -> toast(R.string.setting_upgrade_check_firmware_failed));
+        uh.setOnUpgradeFailedListener(() -> toast(R.string.setting_upgrade_check_firmware_failed));
         uh.setOnCheckErrorListener(this::getCurrentVersion);
         uh.setOnServiceNotAvailableListener(attr -> toast(R.string.setting_upgrade_not_available));
         uh.setOnNoConnectListener(attr -> toast(R.string.setting_upgrade_no_connection));
         uh.setOnNoNewVersionListener(this::getCurrentVersion);
         uh.setOnNewVersionListener(this::newVersionNext);
-        uh.checkVersion(wd_countdown);
+        uh.checkVersion(wd_countdown, wdLoad);
     }
 
     /**
@@ -213,9 +202,7 @@ public class FirmUpgradeHelper {
      */
     private void getCurrentVersion(GetDeviceNewVersionBean updateDeviceNewVersion) {
         GetSystemInfoHelper xGetSystemInfoHelper = new GetSystemInfoHelper();
-        xGetSystemInfoHelper.setOnGetSystemInfoSuccessListener(result -> {
-            noNewVersionNext(updateDeviceNewVersion, result);
-        });
+        xGetSystemInfoHelper.setOnGetSystemInfoSuccessListener(result -> noNewVersionNext(updateDeviceNewVersion, result));
         xGetSystemInfoHelper.setOnAppErrorListener(() -> toast(R.string.setting_upgrade_check_firmware_failed));
         xGetSystemInfoHelper.setOnFwErrorListener(() -> toast(R.string.setting_upgrade_check_firmware_failed));
         xGetSystemInfoHelper.getSystemInfo();
@@ -275,12 +262,6 @@ public class FirmUpgradeHelper {
     private void noNewVersionNext(GetDeviceNewVersionBean updateDeviceNewVersion, GetSystemInfoBean attr) {
         if (onNoNewVersionListener != null) {
             onNoNewVersionListener.noNewVersion(updateDeviceNewVersion, attr);
-        }
-    }
-
-    private void hideDialog() {
-        if (pgd != null) {
-            pgd.dismiss();
         }
     }
 

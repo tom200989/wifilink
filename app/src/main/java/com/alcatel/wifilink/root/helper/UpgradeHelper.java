@@ -1,13 +1,12 @@
 package com.alcatel.wifilink.root.helper;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.view.View;
 
 import com.alcatel.wifilink.R;
-import com.alcatel.wifilink.root.utils.OtherUtils;
 import com.alcatel.wifilink.root.utils.ToastTool;
 import com.alcatel.wifilink.root.widget.HH70_CountDownWidget;
+import com.alcatel.wifilink.root.widget.HH70_LoadWidget;
 import com.hiber.tools.TimerHelper;
 import com.p_xhelper_smart.p_xhelper_smart.bean.GetDeviceNewVersionBean;
 import com.p_xhelper_smart.p_xhelper_smart.bean.GetDeviceUpgradeStateBean;
@@ -22,10 +21,10 @@ import com.p_xhelper_smart.p_xhelper_smart.helper.SetCheckNewVersionHelper;
 public class UpgradeHelper {
     private Activity activity;
     private boolean isShowWaiting;
-    private ProgressDialog pgd;
     private TimerHelper countDownTimer;
     private boolean isContinueChecking = true;// 是否允许在checking状态下继续获取状态
     private HH70_CountDownWidget wd_countdown;
+    private HH70_LoadWidget wdLoad;
 
     public UpgradeHelper(Activity activity, boolean isShowWaiting) {
         isContinueChecking = true;
@@ -53,7 +52,7 @@ public class UpgradeHelper {
                     break;
             }
         });
-        xGetDeviceUpgradeStateHelper.setOnGetDeviceUpgradeStateFailedListener(this::errorNext);
+        xGetDeviceUpgradeStateHelper.setOnGetDeviceUpgradeStateFailedListener(this::upgradeFailedNext);
         xGetDeviceUpgradeStateHelper.getDeviceUpgradeState();
     }
 
@@ -138,14 +137,15 @@ public class UpgradeHelper {
     /**
      * 检查版本
      */
-    public void checkVersion(HH70_CountDownWidget wd_countdown) {
+    public void checkVersion(HH70_CountDownWidget wd_countdown, HH70_LoadWidget wdLoad) {
+        this.wdLoad = wdLoad;
         if (isShowWaiting) {
             try {
                 isContinueChecking = true;
                 startCountDownView(wd_countdown);// 1.启动倒计时view
                 startCountDownTimer();// 2.启动倒计时(延迟180秒)
             } catch (Exception e) {
-                pgd = OtherUtils.showProgressPop(activity);
+                wdLoad.setVisibles();
             }
         }
         setCheck();
@@ -186,7 +186,7 @@ public class UpgradeHelper {
         xSetCheckNewVersionHelper.setOnSetCheckNewVersionSuccessListener(this::getNewVersionDo);
         xSetCheckNewVersionHelper.setOnSetCheckNewVersionFailedListener(() -> {
             hideAllWidget();
-            errorNext();
+            upgradeFailedNext();
         });
         xSetCheckNewVersionHelper.setCheckNewVersion();
     }
@@ -227,7 +227,7 @@ public class UpgradeHelper {
             });
             xGetDeviceNewVersionHelper.setOnGetDeviceNewVersionFailedListener(() -> {
                 hideAllWidget();
-                errorNext();
+                upgradeFailedNext();
             });
             xGetDeviceNewVersionHelper.getDeviceNewVersion();
         } else {
@@ -241,8 +241,8 @@ public class UpgradeHelper {
         if (countDownTimer != null) {
             countDownTimer.stop();// 停止倒数计时器
         }
-        if (pgd != null) {
-            pgd.dismiss();// 隐藏等待条
+        if (wdLoad.getVisibility()==View.VISIBLE) {
+            wdLoad.setGone();
         }
         if (wd_countdown.getVisibility() == View.VISIBLE) {
             wd_countdown.setVisibility(View.GONE);// 隐藏倒数条
@@ -367,41 +367,23 @@ public class UpgradeHelper {
         }
     }
 
-    private OnResultErrorListener onResultErrorListener;
+    private OnUpgradeFailedListener onUpgradeFailedListener;
 
-    // 接口OnResultErrorListener
-    public interface OnResultErrorListener {
-        void resultError();
+    // Inteerface--> 接口OnUpgradeFailedListener
+    public interface OnUpgradeFailedListener {
+        void upgradeFailed();
     }
 
-    // 对外方式setOnResultErrorListener
-    public void setOnResultErrorListener(OnResultErrorListener onResultErrorListener) {
-        this.onResultErrorListener = onResultErrorListener;
+    // 对外方式setOnUpgradeFailedListener
+    public void setOnUpgradeFailedListener(OnUpgradeFailedListener onUpgradeFailedListener) {
+        this.onUpgradeFailedListener = onUpgradeFailedListener;
     }
 
-    // 封装方法resultErrorNext
-    private void resultErrorNext() {
-        if (onResultErrorListener != null) {
-            onResultErrorListener.resultError();
+    // 封装方法upgradeFailedNext
+    private void upgradeFailedNext() {
+        if (onUpgradeFailedListener != null) {
+            onUpgradeFailedListener.upgradeFailed();
         }
     }
 
-    private OnErrorListener onErrorListener;
-
-    // 接口OnErrorListener
-    public interface OnErrorListener {
-        void error();
-    }
-
-    // 对外方式setOnErrorListener
-    public void setOnErrorListener(OnErrorListener onErrorListener) {
-        this.onErrorListener = onErrorListener;
-    }
-
-    // 封装方法errorNext
-    private void errorNext() {
-        if (onErrorListener != null) {
-            onErrorListener.error();
-        }
-    }
 }
