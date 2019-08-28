@@ -321,7 +321,7 @@ public class SettingFrag extends BaseFrag {
      * U1.点击了升级
      */
     private void clickUpgrade() {
-        FirmUpgradeHelper fh = new FirmUpgradeHelper(activity, true);
+        FirmUpgradeHelper fh = new FirmUpgradeHelper(activity, loadWidget, true);
         fh.setOnNoNewVersionListener(this::popversion);
         fh.setOnLoginOutListener(() -> toFragActivity(getClass(), SplashActivity.class, LoginFrag.class, null, true));
         fh.setOnNewVersionListener(attr -> popversion(attr, null));// 有新版本
@@ -361,7 +361,7 @@ public class SettingFrag extends BaseFrag {
     private void beginDownLoadFOTA() {
         count = 0;
         isDownloading = true;
-        FirmUpgradeHelper fuh = new FirmUpgradeHelper(activity, false);
+        FirmUpgradeHelper fuh = new FirmUpgradeHelper(activity, loadWidget, false);
         fuh.setOnLoginOutListener(() -> toFragActivity(getClass(), SplashActivity.class, LoginFrag.class, null, true));
         fuh.setOnErrorListener(() -> {
             count = 0;
@@ -515,7 +515,7 @@ public class SettingFrag extends BaseFrag {
      */
     private void startDeviceUpgrade() {
         isDownloading = true;
-        FirmUpgradeHelper fuh = new FirmUpgradeHelper(activity, false);
+        FirmUpgradeHelper fuh = new FirmUpgradeHelper(activity, loadWidget, false);
         fuh.setOnLoginOutListener(() -> toFragActivity(getClass(), SplashActivity.class, LoginFrag.class, null, true));
         fuh.setOnErrorListener(() -> downError(R.string.setting_upgrade_start_update_failed));
         fuh.setOnStartUpgradeListener(() -> {

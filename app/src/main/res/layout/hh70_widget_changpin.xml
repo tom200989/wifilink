@@ -130,12 +130,6 @@
             app:layout_textSizePercent="6.59%h"
             app:layout_widthPercent="47.06%w" />
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_below="@id/tv_pop_changpin_ok"
-            app:layout_marginTopPercent="3%sh" />
-
     </com.hiber.tools.layout.PercentRelativeLayout>
 
 

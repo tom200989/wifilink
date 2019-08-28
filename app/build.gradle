@@ -58,9 +58,6 @@ dependencies {
     api 'com.jakewharton:butterknife:9.0.0-rc3'
     annotationProcessor 'com.jakewharton:butterknife-compiler:9.0.0-rc3'
 
-    // 新的框架会精简的部分
-    api 'pub.devrel:easypermissions:0.4.3'
-
     // rootMAhiber -- 基础包
     api 'com.android.support:support-v4:28.0.0'
     api 'com.android.support:appcompat-v7:28.0.0'
