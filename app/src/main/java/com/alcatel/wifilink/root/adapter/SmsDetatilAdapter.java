@@ -5,14 +5,12 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
-import android.widget.Button;
 
 import com.alcatel.wifilink.R;
 import com.alcatel.wifilink.root.bean.SMSContentList;
 import com.alcatel.wifilink.root.helper.SmsContentSortHelper;
 import com.alcatel.wifilink.root.helper.SmsReSendHelper;
 import com.alcatel.wifilink.root.utils.RootUtils;
-import com.alcatel.wifilink.root.widget.PopupWindows;
 import com.p_xhelper_smart.p_xhelper_smart.bean.GetSMSContactListBean;
 
 import java.util.ArrayList;
@@ -39,10 +37,6 @@ public class SmsDetatilAdapter extends RecyclerView.Adapter<SmsDetailHolder> {
 
     private OnSmsSelectedListener onSmsSelectedListener;
     private OnSmsLongClickListener onSmsLongClickListener;
-
-    public Button tv_cancel;
-    public Button tv_confirm;
-    private PopupWindows failedPop;
     private OnSendSuccessListener onSendSuccessListener;
 
     public SmsDetatilAdapter(Context context, LinearLayoutManager lm, SMSContentList smsContentList, List<String> phoneNums) {

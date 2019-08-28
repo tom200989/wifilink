@@ -21,6 +21,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 public class FormatTools {
+    
     private static FormatTools tools = new FormatTools();
 
     public static FormatTools getInstance() {
