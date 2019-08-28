@@ -131,3 +131,15 @@
         android:visibility="gone" />
 
 </com.hiber.tools.layout.PercentRelativeLayout>
+    <com.alcatel.wifilink.root.widget.HH70_SmsTryAgainWidget
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        android:id="@+id/wd_try_again"/>
+
+    <com.alcatel.wifilink.root.widget.HH70_SmsDeleteWidget
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        android:id="@+id/wd_sms_delete"/>
+</RelativeLayout>

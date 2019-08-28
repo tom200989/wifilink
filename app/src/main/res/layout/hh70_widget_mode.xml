@@ -23,7 +23,7 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:background="@drawable/bg_pop_conner"
-            app:layout_widthPercent="80%w">
+            app:layout_widthPercent="75%w">
 
             <!-- 标题 -->
             <TextView

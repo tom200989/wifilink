@@ -16,9 +16,9 @@ import com.alcatel.wifilink.root.utils.RootUtils;
  */
 public class HH70_SimpinWidget extends RelativeLayout {
 
-    private ImageView ivDialogokWidgetBg;
-    private TextView tvDialogokWidgetCancel;
-    private TextView tvDialogokWidgetOk;
+    private ImageView ivWidgetBg;
+    private TextView tvWidgetCancel;
+    private TextView tvWidgetOk;
     private EditText etSimPin;
     
     public HH70_SimpinWidget(Context context) {
@@ -32,16 +32,16 @@ public class HH70_SimpinWidget extends RelativeLayout {
     public HH70_SimpinWidget(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         View.inflate(context, R.layout.hh70_widget_simpin, this);
-        ivDialogokWidgetBg = findViewById(R.id.iv_dialogok_widget_bg);
-        ivDialogokWidgetBg.setOnClickListener(v -> bgClickNext());
+        ivWidgetBg = findViewById(R.id.iv_dialogok_widget_bg);
+        ivWidgetBg.setOnClickListener(v -> bgClickNext());
         etSimPin = findViewById(R.id.et_pop_simpin);
-        tvDialogokWidgetCancel = findViewById(R.id.tv_dialogok_widget_cancel);
-        tvDialogokWidgetCancel.setOnClickListener(v -> {
+        tvWidgetCancel = findViewById(R.id.tv_dialogok_widget_cancel);
+        tvWidgetCancel.setOnClickListener(v -> {
             setVisibility(GONE);
             cancelClickNext();
         });
-        tvDialogokWidgetOk = findViewById(R.id.tv_dialogok_widget_ok);
-        tvDialogokWidgetOk.setOnClickListener(v -> {
+        tvWidgetOk = findViewById(R.id.tv_dialogok_widget_ok);
+        tvWidgetOk.setOnClickListener(v -> {
             setVisibility(GONE);
             okClickNext();
         });
@@ -61,7 +61,7 @@ public class HH70_SimpinWidget extends RelativeLayout {
      * @param isVisible true:可显
      */
     public void setCancelVisible(boolean isVisible) {
-        tvDialogokWidgetCancel.setVisibility(isVisible ? VISIBLE : GONE);
+        tvWidgetCancel.setVisibility(isVisible ? VISIBLE : GONE);
     }
 
     /**
@@ -70,7 +70,7 @@ public class HH70_SimpinWidget extends RelativeLayout {
      * @param isVisible true:可显
      */
     public void setOkVisible(boolean isVisible) {
-        tvDialogokWidgetOk.setVisibility(isVisible ? VISIBLE : GONE);
+        tvWidgetOk.setVisibility(isVisible ? VISIBLE : GONE);
     }
 
     /* -------------------------------------------- impl -------------------------------------------- */

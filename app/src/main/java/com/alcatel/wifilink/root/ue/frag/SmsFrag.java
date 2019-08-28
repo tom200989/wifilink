@@ -1,25 +1,22 @@
 package com.alcatel.wifilink.root.ue.frag;
 
-import android.graphics.drawable.Drawable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.alcatel.wifilink.R;
 import com.alcatel.wifilink.root.adapter.SmsRcvAdapter;
-import com.alcatel.wifilink.root.bean.SMSContactSelf;
 import com.alcatel.wifilink.root.bean.SMSContactList;
+import com.alcatel.wifilink.root.bean.SMSContactSelf;
 import com.alcatel.wifilink.root.helper.ClickDoubleHelper;
 import com.alcatel.wifilink.root.helper.SmsDeleteSessionHelper;
 import com.alcatel.wifilink.root.ue.activity.SplashActivity;
 import com.alcatel.wifilink.root.utils.RootUtils;
-import com.alcatel.wifilink.root.widget.PopupWindows;
+import com.alcatel.wifilink.root.widget.HH70_SmsDeleteWidget;
 import com.hiber.cons.TimerState;
-import com.hiber.tools.ScreenSize;
 import com.p_xhelper_smart.p_xhelper_smart.bean.GetLoginStateBean;
 import com.p_xhelper_smart.p_xhelper_smart.bean.GetSMSContactListBean;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetLoginStateHelper;
@@ -48,12 +45,13 @@ public class SmsFrag extends BaseFrag {
     TextView tvSmsBatchSelectAll;
     @BindView(R.id.iv_homeRx_smsNew)
     ImageView ivSmsNew;
+    @BindView(R.id.wd_sms_delete)
+    HH70_SmsDeleteWidget smsDeleteWidget;
 
     private SmsRcvAdapter smsRcvAdapter;
     private SMSContactList smsContactList;// 不带有长按标记的联系人集合
     private List<SMSContactSelf> otherSmsContactSelfList = new ArrayList<>();// 带有长按标记的联系人集合
     private List<Long> contactIdList;// 长按模式下存放被点击的短信条目的联系人ID
-    private PopupWindows pop_deleted_sms;
     public static boolean isLongClick = false;
     private String select_all;
     private String deselect_all;
@@ -174,18 +172,12 @@ public class SmsFrag extends BaseFrag {
      * 显示删除弹窗
      */
     private void showDelPop() {
-        Drawable pop_bg = getRootDrawable(R.drawable.bg_pop_conner);
-        View inflate = View.inflate(activity, R.layout.pop_smsdetail_deleted, null);
-        int width = (int) (ScreenSize.getSize(activity).width * 0.75f);
-        int height = (int) (ScreenSize.getSize(activity).height * 0.22f);
-        Button tv_delete_cancel = inflate.findViewById(R.id.tv_smsdetail_detele_cancel);
-        Button tv_delete_confirm = inflate.findViewById(R.id.tv_smsdetail_detele_confirm);
-        tv_delete_cancel.setOnClickListener(v -> pop_deleted_sms.dismiss());
-        tv_delete_confirm.setOnClickListener(v -> {
-            pop_deleted_sms.dismiss();
+        smsDeleteWidget.setOnConfirmClickListener(() -> {
             deleteSessionSms(contactIdList);
+            smsDeleteWidget.setVisibility(View.GONE);
         });
-        pop_deleted_sms = new PopupWindows(activity, inflate, width, height, true, pop_bg);
+        smsDeleteWidget.setOnCancelClickListener(() -> smsDeleteWidget.setVisibility(View.GONE));
+        smsDeleteWidget.setVisibility(View.VISIBLE);
     }
 
     /* -------------------------------------------- HELPER -------------------------------------------- */
@@ -272,6 +264,9 @@ public class SmsFrag extends BaseFrag {
             ivSmsNew.setVisibility(View.VISIBLE);
             llSmsBatchDeteled.setVisibility(isLongClick ? View.VISIBLE : View.GONE);
             return isLongClick;
+        } else if (smsDeleteWidget.getVisibility() == View.VISIBLE) {
+            smsDeleteWidget.setVisibility(View.GONE);
+            return true;
         } else {
             // 登出
             ClickDoubleHelper clickDouble = new ClickDoubleHelper();

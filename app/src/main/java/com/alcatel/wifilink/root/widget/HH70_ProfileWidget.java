@@ -15,9 +15,9 @@ import com.alcatel.wifilink.R;
  */
 public class HH70_ProfileWidget extends RelativeLayout {
 
-    private ImageView ivDialogokWidgetBg;
-    private TextView tvDialogokWidgetDes;
-    private TextView tvDialogokWidgetCancel;
+    private ImageView ivWidgetBg;
+    private TextView tvWidgetDes;
+    private TextView tvWidgetCancel;
 
     public HH70_ProfileWidget(Context context) {
         this(context, null, 0);
@@ -30,13 +30,13 @@ public class HH70_ProfileWidget extends RelativeLayout {
     public HH70_ProfileWidget(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         View.inflate(context, R.layout.hh70_widget_profile, this);
-        ivDialogokWidgetBg = findViewById(R.id.iv_dialogok_widget_bg);
-        ivDialogokWidgetBg.setOnClickListener(v -> bgClickNext());
-        tvDialogokWidgetDes = findViewById(R.id.tv_dialogok_widget_des);
-        tvDialogokWidgetCancel = findViewById(R.id.tv_dialogok_widget_cancel);
-        tvDialogokWidgetCancel.setOnClickListener(v -> {
+        ivWidgetBg = findViewById(R.id.iv_dialogok_widget_bg);
+        ivWidgetBg.setOnClickListener(v -> bgClickNext());
+        tvWidgetDes = findViewById(R.id.tv_dialogok_widget_des);
+        tvWidgetCancel = findViewById(R.id.tv_dialogok_widget_cancel);
+        tvWidgetCancel.setOnClickListener(v -> {
             setVisibility(GONE);
-            cancelClickNext();
+            okClickNext();
         });
     }
 
@@ -46,7 +46,7 @@ public class HH70_ProfileWidget extends RelativeLayout {
      * @param content 内容字符串
      */
     public void setDes(String content) {
-        tvDialogokWidgetDes.setText(content);
+        tvWidgetDes.setText(content);
     }
 
     /**
@@ -55,7 +55,7 @@ public class HH70_ProfileWidget extends RelativeLayout {
      * @param desRef 内容字符串资源应用
      */
     public void setDes(@StringRes int desRef) {
-        tvDialogokWidgetDes.setText(desRef);
+        tvWidgetDes.setText(desRef);
     }
 
     /**
@@ -64,7 +64,7 @@ public class HH70_ProfileWidget extends RelativeLayout {
      * @param isVisible true:可显
      */
     public void setCancelVisible(boolean isVisible) {
-        tvDialogokWidgetCancel.setVisibility(isVisible ? VISIBLE : GONE);
+        tvWidgetCancel.setVisibility(isVisible ? VISIBLE : GONE);
     }
 
     /* -------------------------------------------- impl -------------------------------------------- */
@@ -88,22 +88,22 @@ public class HH70_ProfileWidget extends RelativeLayout {
     }
 
 
-    private OnCancelClickListener onCancelClickListener;
+    private OnOkClickListener onOkClickListener;
 
     // Inteerface--> 接口OnCancelClickListener
-    public interface OnCancelClickListener {
-        void cancelClick();
+    public interface OnOkClickListener {
+        void okClick();
     }
 
     // 对外方式setOnCancelClickListener
-    public void setOnCancelClickListener(OnCancelClickListener onCancelClickListener) {
-        this.onCancelClickListener = onCancelClickListener;
+    public void setOnOkClickListener(OnOkClickListener onOkClickListener) {
+        this.onOkClickListener = onOkClickListener;
     }
 
     // 封装方法cancelClickNext
-    private void cancelClickNext() {
-        if (onCancelClickListener != null) {
-            onCancelClickListener.cancelClick();
+    private void okClickNext() {
+        if (onOkClickListener != null) {
+            onOkClickListener.okClick();
         }
     }
 }

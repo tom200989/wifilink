@@ -391,6 +391,17 @@ public class MobileNetworkFrag extends BaseFrag {
 
     @Override
     public boolean onBackPressed() {
+        if (profileWidget.getVisibility() == View.VISIBLE) {
+            profileWidget.setVisibility(View.GONE);
+        } else if (simpinWidget.getVisibility() == View.VISIBLE) {
+            simpinWidget.setVisibility(View.GONE);
+        } else if (conmodeWidget.getVisibility() == View.VISIBLE) {
+            conmodeWidget.setVisibility(View.GONE);
+        } else if (changpinWidget.getVisibility() == View.VISIBLE) {
+            changpinWidget.setVisibility(View.GONE);
+        } else if (modeWidget.getVisibility() == View.VISIBLE) {
+            modeWidget.setVisibility(View.GONE);
+        }
         if (lastFrag == UsageRxFrag.class) {
             toFrag(getClass(), UsageRxFrag.class, null, true);
         } else {

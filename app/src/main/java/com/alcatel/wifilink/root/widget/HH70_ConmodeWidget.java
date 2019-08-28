@@ -14,7 +14,7 @@ import com.alcatel.wifilink.R;
  */
 public class HH70_ConmodeWidget extends RelativeLayout {
 
-    private ImageView ivDialogokWidgetBg;
+    private ImageView ivWidgetBg;
 
     public HH70_ConmodeWidget(Context context) {
         this(context, null, 0);
@@ -27,8 +27,8 @@ public class HH70_ConmodeWidget extends RelativeLayout {
     public HH70_ConmodeWidget(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         View.inflate(context, R.layout.hh70_widget_connmode, this);
-        ivDialogokWidgetBg = findViewById(R.id.iv_dialogok_widget_bg);
-        ivDialogokWidgetBg.setOnClickListener(v -> bgClickNext());
+        ivWidgetBg = findViewById(R.id.iv_dialogok_widget_bg);
+        ivWidgetBg.setOnClickListener(v -> bgClickNext());
         TextView tvAuto = findViewById(R.id.tv_pop_connMode_auto);
         TextView tvManual = findViewById(R.id.tv_pop_connMode_manual);
         tvAuto.setOnClickListener(v -> {

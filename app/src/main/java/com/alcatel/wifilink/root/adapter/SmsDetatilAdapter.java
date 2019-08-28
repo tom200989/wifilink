@@ -1,11 +1,9 @@
 package com.alcatel.wifilink.root.adapter;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
@@ -15,7 +13,6 @@ import com.alcatel.wifilink.root.helper.SmsContentSortHelper;
 import com.alcatel.wifilink.root.helper.SmsReSendHelper;
 import com.alcatel.wifilink.root.utils.RootUtils;
 import com.alcatel.wifilink.root.widget.PopupWindows;
-import com.hiber.tools.ScreenSize;
 import com.p_xhelper_smart.p_xhelper_smart.bean.GetSMSContactListBean;
 
 import java.util.ArrayList;
@@ -221,7 +218,7 @@ public class SmsDetatilAdapter extends RecyclerView.Adapter<SmsDetailHolder> {
         NewSMSContentBean nscb = newScbList.get(position);// 带选中|未选中标记位
         SMSContentList.SMSContentBean scb = nscb.smsContentBean;
         holder.iv_smsdetail_failed_send.setOnClickListener(v -> {
-            showTryAgainPop(scb);
+            tryAgainNext(scb);
         });
     }
 
@@ -283,24 +280,8 @@ public class SmsDetatilAdapter extends RecyclerView.Adapter<SmsDetailHolder> {
         smsIds.clear();
     }
 
-    /* 弹出窗口提示重新发送 */
-    private void showTryAgainPop(SMSContentList.SMSContentBean scb) {
-        Drawable pop_bg = context.getResources().getDrawable(R.drawable.bg_pop_conner);
-        View inflate = View.inflate(context, R.layout.pop_smsdetail_tryagain, null);
-        int width = (int) (ScreenSize.getSize(context).width * 0.75f);
-        int height = (int) (ScreenSize.getSize(context).height * 0.215f);
-        tv_cancel = inflate.findViewById(R.id.tv_smsdetail_tryagain_cancel);
-        tv_confirm = inflate.findViewById(R.id.tv_smsdetail_tryagain_confirm);
-        tv_cancel.setOnClickListener(v -> failedPop.dismiss());
-        tv_confirm.setOnClickListener(v -> {
-            failedPop.dismiss();
-            sendAgain(scb);
-        });
-        failedPop = new PopupWindows(context, inflate, width, height, true, pop_bg);
-    }
-
     /* 点击确定后重新发送 */
-    private void sendAgain(SMSContentList.SMSContentBean scb) {
+    public void sendAgain(SMSContentList.SMSContentBean scb) {
         new SmsReSendHelper(scb, phoneNums) {
             @Override
             public void success() {
@@ -342,4 +323,23 @@ public class SmsDetatilAdapter extends RecyclerView.Adapter<SmsDetailHolder> {
     public void setOnSendSuccessListener(OnSendSuccessListener onSendSuccessListener) {
         this.onSendSuccessListener = onSendSuccessListener;
     }
+
+    public interface OnShowTrayAgainListener {
+        void tryAgain(SMSContentList.SMSContentBean bean);
+    }
+
+    private OnShowTrayAgainListener onShowTrayAgainListener;
+
+    //对外方式setOnShowTrayAgainListener
+    public void setOnShowTrayAgainListener(OnShowTrayAgainListener onShowTrayAgainListener) {
+        this.onShowTrayAgainListener = onShowTrayAgainListener;
+    }
+
+    //封装方法
+    private void tryAgainNext(SMSContentList.SMSContentBean bean) {
+        if (onShowTrayAgainListener != null) {
+            onShowTrayAgainListener.tryAgain(bean);
+        }
+    }
+
 }

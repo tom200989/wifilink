@@ -18,7 +18,6 @@ import com.alcatel.wifilink.root.adapter.SmsDetatilAdapter;
 import com.alcatel.wifilink.root.bean.SMSContactList;
 import com.alcatel.wifilink.root.bean.SMSContentList;
 import com.alcatel.wifilink.root.helper.SmsContentSortHelper;
-import com.alcatel.wifilink.root.helper.SmsDeletePop;
 import com.alcatel.wifilink.root.helper.SmsDraftHelper;
 import com.alcatel.wifilink.root.helper.SmsSendHelper;
 import com.alcatel.wifilink.root.helper.SmsWatcher;
@@ -26,6 +25,8 @@ import com.alcatel.wifilink.root.ue.activity.HomeActivity;
 import com.alcatel.wifilink.root.utils.RootCons;
 import com.alcatel.wifilink.root.utils.RootUtils;
 import com.alcatel.wifilink.root.widget.HH70_LoadWidget;
+import com.alcatel.wifilink.root.widget.HH70_SmsDeleteWidget;
+import com.alcatel.wifilink.root.widget.HH70_SmsTryAgainWidget;
 import com.hiber.cons.TimerState;
 import com.hiber.impl.RootEventListener;
 import com.hiber.tools.ShareUtils;
@@ -66,7 +67,10 @@ public class SmsDetailFrag extends BaseFrag {
     TextView tv_title;
     @BindView(R.id.iv_smsdetail_delete)
     ImageView iv_delete;
-
+    @BindView(R.id.wd_try_again)
+    HH70_SmsTryAgainWidget tryAgainWidget;
+    @BindView(R.id.wd_sms_delete)
+    HH70_SmsDeleteWidget smsDeleteWidget;
     @BindView(R.id.wd_smsdetail_load)
     HH70_LoadWidget wdLoad;
 
@@ -75,7 +79,6 @@ public class SmsDetailFrag extends BaseFrag {
     private SMSContactList.SMSContact smsContact;
     private List<Long> smsIds = new ArrayList<>();
     private boolean isLongClick;// 处于长按状态
-    private SmsDeletePop deletePop;
     private LinearLayoutManager linearLayoutManager;
     private String dateTimebanner = "";
     private int current_sms_num = 0;// 最近一次获取到的短信条数
@@ -166,7 +169,11 @@ public class SmsDetailFrag extends BaseFrag {
             etSmsdetailSend.setEnabled(!isLongClick);
             rvSmsdetailSend.setClickable(!isLongClick);
         });
-
+        adapter.setOnShowTrayAgainListener(bean -> {
+            /* 弹出窗口提示重新发送 */
+            tryAgainWidget.setVisibility(View.VISIBLE);
+            tryAgainWidget.setOnConfirmClickListener(() -> adapter.sendAgain(bean));
+        });
         adapter.setOnSendSuccessListener(() -> {
             // 重新获取短信
             getSmsContents(true);
@@ -389,6 +396,10 @@ public class SmsDetailFrag extends BaseFrag {
     private void clickBack() {
         if (isLongClick) {// if long click status
             resetLongClickFlag();
+        } else if (tryAgainWidget.getVisibility() == View.VISIBLE) {
+            tryAgainWidget.setVisibility(View.GONE);
+        } else if (smsDeleteWidget.getVisibility() == View.VISIBLE) {
+            smsDeleteWidget.setVisibility(View.GONE);
         } else {
             // 查看编辑域是否有内容--> 保存为草稿
             draftSms();
@@ -440,8 +451,8 @@ public class SmsDetailFrag extends BaseFrag {
         iv_delete.setVisibility(View.GONE);// 3. set deleted button gone
         etSmsdetailSend.setEnabled(!isLongClick);// 4. set et enable
         rvSmsdetailSend.setClickable(!isLongClick);// 5. set send button enable
-        if (deletePop != null) {// 6.pop dismiss if had
-            deletePop.getPop().dismiss();
+        if (smsDeleteWidget != null) {// 6.pop dismiss if had
+            smsDeleteWidget.setVisibility(View.GONE);
         }
     }
 
@@ -487,19 +498,12 @@ public class SmsDetailFrag extends BaseFrag {
 
     /* 弹出删除窗口 */
     private void deleteSmsPop() {
-        // show the delete pop
-        deletePop = new SmsDeletePop(activity) {
-            @Override
-            public void getView(View inflate) {
-                TextView tv_delete_cancel = inflate.findViewById(R.id.tv_smsdetail_detele_cancel);
-                TextView tv_delete_confirm = inflate.findViewById(R.id.tv_smsdetail_detele_confirm);
-                tv_delete_cancel.setOnClickListener(v -> {
-                    resetLongClickFlag();// 1. reset the status ui
-                    getSmsContents(false);// 2. getInstant data again
-                });
-                tv_delete_confirm.setOnClickListener(v -> deleteSms());
-            }
-        };
+        smsDeleteWidget.setOnConfirmClickListener(() -> {
+            resetLongClickFlag();// 1. reset the status ui
+            getSmsContents(false);// 2. getInstant data again
+        });
+        smsDeleteWidget.setOnCancelClickListener(() -> deleteSms());
+        smsDeleteWidget.setVisibility(View.VISIBLE);
     }
 
     /* 真正删除短信 */

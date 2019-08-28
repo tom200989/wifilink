@@ -16,9 +16,9 @@ import com.alcatel.wifilink.root.utils.RootUtils;
  */
 public class HH70_ChangpinWidget extends RelativeLayout {
 
-    private ImageView ivDialogokWidgetBg;
-    private TextView tvDialogokWidgetCancel;
-    private TextView tvDialogokWidgetOk;
+    private ImageView ivWidgetBg;
+    private TextView tvWidgetCancel;
+    private TextView tvWidgetOk;
     private EditText etCurPin;
     private EditText etNewPin;
     private EditText etConfirmPin;
@@ -34,18 +34,18 @@ public class HH70_ChangpinWidget extends RelativeLayout {
     public HH70_ChangpinWidget(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         View.inflate(context, R.layout.hh70_widget_changpin, this);
-        ivDialogokWidgetBg = findViewById(R.id.iv_dialogok_widget_bg);
-        ivDialogokWidgetBg.setOnClickListener(v -> bgClickNext());
+        ivWidgetBg = findViewById(R.id.iv_dialogok_widget_bg);
+        ivWidgetBg.setOnClickListener(v -> bgClickNext());
         etCurPin = findViewById(R.id.et_pop_changpin_currentPin);
         etNewPin = findViewById(R.id.et_pop_changpin_newPin);
         etConfirmPin = findViewById(R.id.et_pop_changpin_confirmPin);
-        tvDialogokWidgetCancel = findViewById(R.id.tv_dialogok_widget_cancel);
-        tvDialogokWidgetCancel.setOnClickListener(v -> {
+        tvWidgetCancel = findViewById(R.id.tv_dialogok_widget_cancel);
+        tvWidgetCancel.setOnClickListener(v -> {
             setVisibility(GONE);
             cancelClickNext();
         });
-        tvDialogokWidgetOk = findViewById(R.id.tv_dialogok_widget_ok);
-        tvDialogokWidgetOk.setOnClickListener(v -> {
+        tvWidgetOk = findViewById(R.id.tv_dialogok_widget_ok);
+        tvWidgetOk.setOnClickListener(v -> {
             setVisibility(GONE);
             okClickNext();
         });
@@ -69,7 +69,7 @@ public class HH70_ChangpinWidget extends RelativeLayout {
      * @param isVisible true:可显
      */
     public void setCancelVisible(boolean isVisible) {
-        tvDialogokWidgetCancel.setVisibility(isVisible ? VISIBLE : GONE);
+        tvWidgetCancel.setVisibility(isVisible ? VISIBLE : GONE);
     }
 
     /**
@@ -78,7 +78,7 @@ public class HH70_ChangpinWidget extends RelativeLayout {
      * @param isVisible true:可显
      */
     public void setOkVisible(boolean isVisible) {
-        tvDialogokWidgetOk.setVisibility(isVisible ? VISIBLE : GONE);
+        tvWidgetOk.setVisibility(isVisible ? VISIBLE : GONE);
     }
 
     /* -------------------------------------------- impl -------------------------------------------- */
@@ -101,7 +101,7 @@ public class HH70_ChangpinWidget extends RelativeLayout {
         }
     }
 
-    private NormalWidget.OnOkClickListener onOkClickListener;
+    private OnOkClickListener onOkClickListener;
 
     // Inteerface--> 接口OnOkClickListener
     public interface OnOkClickListener {
@@ -109,7 +109,7 @@ public class HH70_ChangpinWidget extends RelativeLayout {
     }
 
     // 对外方式setOnOkClickListener
-    public void setOnOkClickListener(NormalWidget.OnOkClickListener onOkClickListener) {
+    public void setOnOkClickListener(OnOkClickListener onOkClickListener) {
         this.onOkClickListener = onOkClickListener;
     }
 
@@ -121,7 +121,7 @@ public class HH70_ChangpinWidget extends RelativeLayout {
     }
 
 
-    private NormalWidget.OnCancelClickListener onCancelClickListener;
+    private OnCancelClickListener onCancelClickListener;
 
     // Inteerface--> 接口OnCancelClickListener
     public interface OnCancelClickListener {
@@ -129,7 +129,7 @@ public class HH70_ChangpinWidget extends RelativeLayout {
     }
 
     // 对外方式setOnCancelClickListener
-    public void setOnCancelClickListener(NormalWidget.OnCancelClickListener onCancelClickListener) {
+    public void setOnCancelClickListener(OnCancelClickListener onCancelClickListener) {
         this.onCancelClickListener = onCancelClickListener;
     }
 
