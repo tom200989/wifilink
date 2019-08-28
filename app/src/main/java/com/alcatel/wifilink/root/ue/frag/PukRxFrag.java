@@ -110,7 +110,7 @@ public class PukRxFrag extends BaseFrag {
             GetSimStatusHelper xGetSimStatusHelper = new GetSimStatusHelper();
             xGetSimStatusHelper.setOnGetSimStatusSuccessListener(result -> toShowRemain(result));
             xGetSimStatusHelper.setOnGetSimStatusFailedListener(() -> {
-                toast(R.string.home_sim_not_accessible, 2000);
+                toast(R.string.hh70_sim_not_accessible, 2000);
                 to(SplashActivity.class, RefreshFrag.class);
             });
             xGetSimStatusHelper.getSimStatus();
@@ -249,18 +249,18 @@ public class PukRxFrag extends BaseFrag {
                         toOtherRx();
                         break;
                     case GetSimStatusBean.CONS_NOWN:
-                        toast(R.string.Home_no_sim,2000);
+                        toast(R.string.hh70_no_sim_insert,2000);
                         break;
                     case GetSimStatusBean.CONS_SIM_LOCK_REQUIRED:
-                        toast(R.string.home_sim_loched,2000);
+                        toast(R.string.hh70_sim_locked,2000);
                         break;
                     case GetSimStatusBean.CONS_SIM_CARD_ILLEGAL:
-                        toast(R.string.Home_sim_invalid,2000);
+                        toast(R.string.hh70_invalid_sim,2000);
                         break;
                 }
             });
             xGetSimStatusHelper.setOnGetSimStatusFailedListener(() -> {
-                toast(R.string.home_sim_not_accessible, 2000);
+                toast(R.string.hh70_sim_not_accessible, 2000);
                 to(SplashActivity.class, RefreshFrag.class);
             });
             xGetSimStatusHelper.getSimStatus();

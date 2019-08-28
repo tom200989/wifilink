@@ -20,7 +20,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/white"
-            android:hint="@string/puk_code_label"
+            android:hint="@string/hh70_puk_code"
             android:maxLength="8"
             android:paddingEnd="@dimen/dimen_10dip"
             android:paddingStart="@dimen/dimen_10dip"
@@ -119,7 +119,7 @@
             android:layout_marginStart="@dimen/dimen_10dip"
             android:layout_marginTop="@dimen/dimen_15dip"
             android:layout_toEndOf="@+id/iv_puk_remempin_rx_checkbox"
-            android:text="@string/remember_sim_pin"
+            android:text="@string/hh70_remember_sim"
             android:textColor="@color/black"
             app:layout_textSizePercent="2.3%h" />
 

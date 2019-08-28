@@ -235,15 +235,15 @@ public class mainFrag extends BaseFrag {
         GetConnectionStateHelper xGetConnectionStateHelper = new GetConnectionStateHelper();
         xGetConnectionStateHelper.setOnDisconnectedListener(() -> {
             ConnectHelper xConnectHelper = new ConnectHelper();
-            xConnectHelper.setOnConnectFailedListener(() -> toast(R.string.usage_limit_over_notification_content, 5000));
+            xConnectHelper.setOnConnectFailedListener(() -> toast(R.string.hh70_month_data_limit, 5000));
             xConnectHelper.connect();
         });
         xGetConnectionStateHelper.setOnDisConnectingListener(() -> {
             ConnectHelper xConnectHelper = new ConnectHelper();
-            xConnectHelper.setOnConnectFailedListener(() -> toast(R.string.usage_limit_over_notification_content, 5000));
+            xConnectHelper.setOnConnectFailedListener(() -> toast(R.string.hh70_month_data_limit, 5000));
             xConnectHelper.connect();
         });
-        xGetConnectionStateHelper.setOnGetConnectionStateFailedListener(() -> toast(R.string.usage_limit_over_notification_content, 5000));
+        xGetConnectionStateHelper.setOnGetConnectionStateFailedListener(() -> toast(R.string.hh70_month_data_limit, 5000));
         xGetConnectionStateHelper.getConnectionState();
     }
 
@@ -348,7 +348,7 @@ public class mainFrag extends BaseFrag {
             long monthlyPlan = attr.getMonthlyPlan();
             long usedData = attr.getUsedData();
             if (usedData >= monthlyPlan && monthlyPlan != 0) {// 超出--> 提示
-                toast(R.string.home_usage_over_redial_message, 5000);
+                toast(R.string.hh70_monthly_data_plan_used, 5000);
             } else {// 未超出--> 连接
                 toConnect();
             }
@@ -726,7 +726,7 @@ public class mainFrag extends BaseFrag {
                 // 设置网络类型
                 tvNetworkType.setVisibility(isMWDev ? View.GONE : View.VISIBLE);
                 tvNetworkType.setText(result.getNetworkName());// CMCC\UNICOM\..
-                tvMainrxMw120NetworkType.setText(isRoam ? getString(R.string.usage_setting_roaming) : result.getNetworkName());
+                tvMainrxMw120NetworkType.setText(isRoam ? getString(R.string.hh70_data_roaming) : result.getNetworkName());
                 // CMCC\UNICOM\..
                 String signalType = getSignalType(getActivity(), result.getNetworkType());
                 tvSignal.setText(signalType);// 2G\3G..
@@ -798,9 +798,9 @@ public class mainFrag extends BaseFrag {
         gb_unit = getString(R.string.gb_text);
         noUsagePlan = getString(R.string.ergo_20181010_no_set_plan);
         useOf = getString(R.string.used_of);
-        connected_text = getString(R.string.access_lable);
+        connected_text = getString(R.string.hh70_connected);
         unlockSim_title = getString(R.string.sim_unlocked);
-        unlockSim_content = getString(R.string.home_pin_locked_notice);
+        unlockSim_content = getString(R.string.hh70_verify_your_pin);
         blue_color = getRootColor(R.color.mg_blue);
         gray_color = getRootColor(R.color.gray);
         signal0 = getRootDrawable(R.drawable.home_4g_none);
@@ -831,7 +831,7 @@ public class mainFrag extends BaseFrag {
         }
         // 登出
         ClickDoubleHelper clickDouble = new ClickDoubleHelper();
-        clickDouble.setOnClickOneListener(() -> toast(R.string.home_exit_app, 3000));
+        clickDouble.setOnClickOneListener(() -> toast(R.string.hh70_touch_again, 3000));
         clickDouble.setOnClickDoubleListener(this::logOut);
         clickDouble.click();
         return true;

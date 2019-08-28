@@ -35,7 +35,7 @@ public class SplashFrag extends BaseFrag {
         // 创建自定义权限视图对象
         PermissBean permissBean = new PermissBean();
         StringBean stringBean = new StringBean();
-        stringBean.setCancel(String.valueOf(R.string.cancel));
+        stringBean.setCancel(String.valueOf(R.string.hh70_cancel));
         stringBean.setOk(String.valueOf(R.string.ok));
         stringBean.setTitle(String.valueOf(R.string.warning));
         permissBean.setStringBean(stringBean);

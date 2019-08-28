@@ -61,7 +61,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="@string/cancel"
+                android:text="@string/hh70_cancel"
                 android:layout_marginEnd="@dimen/dimen_10dip"
                 android:layout_marginStart="@dimen/dimen_10dip"
                 android:textAllCaps="false"

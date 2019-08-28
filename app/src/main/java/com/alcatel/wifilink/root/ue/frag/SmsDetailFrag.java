@@ -382,7 +382,7 @@ public class SmsDetailFrag extends BaseFrag {
 
         SmsDraftHelper sdfp = new SmsDraftHelper(activity, smsContact.getContactId());
         sdfp.setOnNoSimListener(() -> {
-            toast(R.string.home_no_sim, 2000);
+            toast(R.string.hh70_no_sim, 2000);
             toFrag(getClass(), SmsFrag.class, null, false);
         });
         sdfp.setOnGetDraftListener(draft -> {
@@ -412,7 +412,7 @@ public class SmsDetailFrag extends BaseFrag {
         // 1. getInstant send sms content from et
         String content = RootUtils.getEDText(etSmsdetailSend, true);
         if (TextUtils.isEmpty(content)) {
-            toast(R.string.home_no_sim, 2000);
+            toast(R.string.hh70_no_sim, 2000);
             return;
         }
         // 2. send sms
@@ -471,7 +471,7 @@ public class SmsDetailFrag extends BaseFrag {
         // 1.first deleted the draft sms in router
         SmsDraftHelper sdfp = new SmsDraftHelper(activity, smsContact.getContactId());
         sdfp.setOnNoSimListener(() -> {
-            toast(R.string.home_no_sim, 2000);
+            toast(R.string.hh70_no_sim, 2000);
             toFrag(getClass(), SmsFrag.class, null, false);
         });
         sdfp.setOnClearDraftListener(() -> {
@@ -489,7 +489,7 @@ public class SmsDetailFrag extends BaseFrag {
         List<String> phoneNumber = smsContact.getPhoneNumber();
         SmsDraftHelper sdfp = new SmsDraftHelper(activity, smsContact.getContactId());
         sdfp.setOnSaveDraftListener(() -> {
-            toast(R.string.home_no_sim, 2000);
+            toast(R.string.hh70_no_sim, 2000);
             toFrag(getClass(), SmsFrag.class, null, false);
 
         });
@@ -518,16 +518,16 @@ public class SmsDetailFrag extends BaseFrag {
         DeleteSMSHelper xDeleteSMSHelper = new DeleteSMSHelper();
         xDeleteSMSHelper.setOnDeleteSmsSuccessListener(result -> {
             if (isLongClick) {
-                toast(R.string.home_no_sim, 2000);
+                toast(R.string.hh70_no_sim, 2000);
             }
             resetLongClickFlag();
             getSmsContents(false);/* 删除短信后无需跳到最后一条 */
         });
         xDeleteSMSHelper.setOnDeleteSmsFailListener(() -> {
-            toast(R.string.home_no_sim, 2000);
+            toast(R.string.hh70_no_sim, 2000);
         });
         xDeleteSMSHelper.setOnDeleteFailListener(() -> {
-            toast(R.string.home_no_sim, 2000);
+            toast(R.string.hh70_no_sim, 2000);
         });
         xDeleteSMSHelper.deleteSms(xDeleteSmsParam);
     }

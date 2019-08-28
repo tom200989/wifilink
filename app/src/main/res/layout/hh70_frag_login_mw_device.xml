@@ -27,7 +27,7 @@
                 android:layout_height="match_parent"
                 android:background="@color/mg_blue"
                 android:gravity="center"
-                android:text="@string/device_manage_title"
+                android:text="@string/hh70_devices"
                 android:textColor="@color/white"
                 app:layout_textSizePercent="30%h" />
 

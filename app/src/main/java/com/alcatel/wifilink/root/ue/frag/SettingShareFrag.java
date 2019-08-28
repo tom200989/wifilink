@@ -104,7 +104,7 @@ public class SettingShareFrag extends BaseFrag {
                     mUSBStorageText.setText(R.string.not_inserted);
                     break;
                 case GetSystemStatusBean.CONS_USB_STORAGE:
-                    mUSBStorageText.setText(R.string.setting_usb_storage);
+                    mUSBStorageText.setText(R.string.hh70_usb_storage);
                     break;
                 case GetSystemStatusBean.CONS_USB_PRINT:
                     mUSBStorageText.setText(R.string.usb_printer);

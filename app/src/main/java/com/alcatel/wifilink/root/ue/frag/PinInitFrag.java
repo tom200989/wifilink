@@ -242,7 +242,7 @@ public class PinInitFrag extends BaseFrag {
         });
         xUnlockPinHelper.setOnUnlockPinRemainTimeFailedListener(() -> {
             etPinRx.setText("");
-            toast(R.string.pin_error_waring_title, 5000);
+            toast(R.string.hh70_pin_code_wrong, 5000);
             getRemainTime();
         });
         xUnlockPinHelper.unlockPin(pin);

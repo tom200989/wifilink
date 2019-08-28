@@ -31,7 +31,7 @@
                 android:textColor="@color/white"
                 app:layout_textSizePercent="25%h"
                 android:layout_centerInParent="true"
-                android:text="@string/ethernet_wan_connection"
+                android:text="@string/hh70_ethernet_wan_connect"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
@@ -188,7 +188,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="20dp"
-                        android:text="@string/need_ip_address_and_related_info_given_by_network_operator"
+                        android:text="@string/hh70_need_ip"
                         android:textColor="@color/deep_grey_text"
                         android:textSize="@dimen/dimen_textsize_12sp"
                         android:visibility="gone" />
@@ -271,7 +271,7 @@
                         android:layout_gravity="center_vertical"
                         android:layout_marginStart="20dp"
                         android:gravity="center"
-                        android:text="@string/password"
+                        android:text="@string/hh70_password"
                         android:textColor="@color/black"
                         android:textSize="@dimen/dimen_textsize_16sp" />
 
@@ -282,7 +282,7 @@
                         android:layout_gravity="center_vertical"
                         android:layout_marginStart="12dp"
                         android:background="@null"
-                        android:hint="@string/password"
+                        android:hint="@string/hh70_password"
                         android:textColor="@color/grey_text"
                         android:textSize="@dimen/dimen_textsize_14sp" />
                 </com.hiber.tools.layout.PercentLinearLayout>
@@ -610,7 +610,7 @@
             android:layout_marginEnd="30dp"
             android:layout_marginBottom="10dp"
             android:background="@drawable/selector_conner_btn_blue"
-            android:text="@string/apply"
+            android:text="@string/hh70_apply"
             android:textAllCaps="false"
             android:textColor="@color/white"
             app:layout_heightPercent="6%h"

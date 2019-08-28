@@ -29,7 +29,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="@string/setting_share"
+            android:text="@string/hh70_sharing_service"
             android:textColor="@color/white"
             app:layout_textSizePercent="30%h" />
 
@@ -71,7 +71,7 @@
         android:paddingStart="@dimen/activity_horizontal_margin"
         android:paddingEnd="@dimen/dimen_16dip"
         android:paddingBottom="@dimen/dimen_8dip"
-        android:text="@string/setting_share"
+        android:text="@string/hh70_sharing_service"
         android:textSize="@dimen/dimen_textsize_20sp" />
 
     <com.hiber.tools.layout.PercentLinearLayout
@@ -95,7 +95,7 @@
                 android:layout_height="match_parent"
                 android:layout_alignParentStart="true"
                 android:gravity="center"
-                android:text="@string/setting_sharing_ftp"
+                android:text="@string/hh70_ftp"
                 android:textColor="@color/deep_black_text"
                 android:textSize="@dimen/dimen_textsize_18sp" />
 
@@ -205,7 +205,7 @@
                 android:layout_height="match_parent"
                 android:layout_alignParentStart="true"
                 android:gravity="center"
-                android:text="@string/setting_sharing_dlna"
+                android:text="@string/hh70_dlna"
                 android:textColor="@color/deep_black_text"
                 android:textSize="@dimen/dimen_textsize_18sp" />
 

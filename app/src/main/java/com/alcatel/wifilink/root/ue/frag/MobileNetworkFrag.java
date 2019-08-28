@@ -110,11 +110,11 @@ public class MobileNetworkFrag extends BaseFrag {
     }
 
     private void initRes() {
-        text_auto = activity.getString(R.string.setting_network_mode_auto);
+        text_auto = activity.getString(R.string.hh70_auto);
         text_manual = activity.getString(R.string.maunal);
-        text_4G = activity.getString(R.string.home_network_type_4g);
-        text_3G = activity.getString(R.string.home_network_type_3g);
-        text_2G = activity.getString(R.string.home_network_type_2g);
+        text_4G = activity.getString(R.string.hh70_4g);
+        text_3G = activity.getString(R.string.hh70_3g);
+        text_2G = activity.getString(R.string.hh70_2g);
         modes = new String[]{text_auto, text_4G, text_3G, text_2G};
         switch_on = getRootDrawable(R.drawable.switch_on);
         switch_off = getRootDrawable(R.drawable.switch_off);

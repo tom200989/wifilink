@@ -36,11 +36,11 @@ public class SimPinHelper {
         }
 
         PinStatuHelper pinStatuHelper = new PinStatuHelper(activity);
-        pinStatuHelper.setOnPukTimeoutListener(attr -> toast(R.string.Home_PukTimes_UsedOut));
+        pinStatuHelper.setOnPukTimeoutListener(attr -> toast(R.string.hh70_puk_timeout));
         pinStatuHelper.setOnUnkonwnListener(attr -> toast(R.string.not_inserted));
-        pinStatuHelper.setOnPukTimeoutListener(attr -> toast(R.string.Home_PukTimes_UsedOut));
+        pinStatuHelper.setOnPukTimeoutListener(attr -> toast(R.string.hh70_puk_timeout));
         pinStatuHelper.setOnPukRequiredListener(attr -> {
-            toast(R.string.IDS_PUK_LOCKED);
+            toast(R.string.hh70_puk_locked);
             pukLockNext(attr);
         });
         pinStatuHelper.setOnPinDisableListener(attr -> enablePin(attr, pincode));// 原先为disable状态--> 设置为有效
@@ -63,11 +63,11 @@ public class SimPinHelper {
             // 2.再改变PIN码状态
             ChangePinStateHelper xChangePinStateHelper = new ChangePinStateHelper();
             xChangePinStateHelper.setOnChangePinStateSuccessListener(() -> pinDisableNext());
-            xChangePinStateHelper.setOnChangePinStateFailedListener(() -> toast(R.string.setting_failed));
+            xChangePinStateHelper.setOnChangePinStateFailedListener(() -> toast(R.string.hh70_failed));
             xChangePinStateHelper.changePinState(pincode, ChangePinStateParam.CONS_DISABLED_PIN);
         });
         xUnlockPinHelper.setOnUnlockPinRemainTimeFailedListener(this::getPinRemaingTime);
-        xUnlockPinHelper.setOnUnlockPinFailedListener(() -> toast(R.string.setting_failed));
+        xUnlockPinHelper.setOnUnlockPinFailedListener(() -> toast(R.string.hh70_failed));
         xUnlockPinHelper.unlockPin(pincode);
     }
 
@@ -85,11 +85,11 @@ public class SimPinHelper {
             // 2.再改变PIN码状态
             ChangePinStateHelper xChangePinStateHelper = new ChangePinStateHelper();
             xChangePinStateHelper.setOnChangePinStateSuccessListener(() -> pinEnableNext());
-            xChangePinStateHelper.setOnChangePinStateFailedListener(() -> toast(R.string.setting_failed));
+            xChangePinStateHelper.setOnChangePinStateFailedListener(() -> toast(R.string.hh70_failed));
             xChangePinStateHelper.changePinState(pincode, ChangePinStateParam.CONS_ENABLED_PIN);
         });
         xUnlockPinHelper.setOnUnlockPinRemainTimeFailedListener(this::getPinRemaingTime);
-        xUnlockPinHelper.setOnUnlockPinFailedListener(() -> toast(R.string.setting_failed));
+        xUnlockPinHelper.setOnUnlockPinFailedListener(() -> toast(R.string.hh70_failed));
         xUnlockPinHelper.unlockPin(pincode);
     }
 
@@ -106,13 +106,13 @@ public class SimPinHelper {
                     String tip = pinRemainingTimes + " " + activity.getString(R.string.sim_unlocked_attempts);
                     toast(tip);
                 } else {
-                    toast(R.string.Home_PinTimes_UsedOut);
+                    toast(R.string.hh70_pin_timeout);
                 }
             } else if (result.getSIMState() == GetSimStatusBean.CONS_PUK_REQUIRED) {
                 pinTimeoutNext(result);
             }
         });
-        xGetSimStatusHelper.setOnGetSimStatusFailedListener(() -> toast(R.string.setting_failed));
+        xGetSimStatusHelper.setOnGetSimStatusFailedListener(() -> toast(R.string.hh70_failed));
         xGetSimStatusHelper.getSimStatus();
     }
 
@@ -125,7 +125,7 @@ public class SimPinHelper {
     private void enablePin(GetSimStatusBean attr, String pincode) {
         ChangePinStateHelper xChangePinStateHelper = new ChangePinStateHelper();
         xChangePinStateHelper.setOnChangePinStateSuccessListener(() -> pinEnableNext());
-        xChangePinStateHelper.setOnChangePinStateFailedListener(() -> toast(R.string.setting_failed));
+        xChangePinStateHelper.setOnChangePinStateFailedListener(() -> toast(R.string.hh70_failed));
         xChangePinStateHelper.changePinState(pincode, ChangePinStateParam.CONS_ENABLED_PIN);
     }
 

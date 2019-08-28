@@ -75,9 +75,9 @@ public class ChangePinHelper {
             xChangePinCodeHelper.setOnChangePinCodeFailedListener(() -> toast(R.string.sim_unlocked_failed));
             xChangePinCodeHelper.changePinCode(refreshCode, currentCode);
         });
-        xUnlockPinHelper.setOnUnlockPinFailedListener(() -> toast(R.string.fail));
+        xUnlockPinHelper.setOnUnlockPinFailedListener(() -> toast(R.string.hh70_fail));
         xUnlockPinHelper.setOnUnlockPinRemainTimeFailedListener(() -> {
-            toast(R.string.pin_error_waring_title);
+            toast(R.string.hh70_pin_code_wrong);
             getPinRemaingTime();
         });
         xUnlockPinHelper.unlockPin(currentCode);
@@ -96,13 +96,13 @@ public class ChangePinHelper {
                     String tip = pinRemainingTimes + " " + activity.getString(R.string.sim_unlocked_attempts);
                     toast(tip);
                 } else {
-                    toast(R.string.Home_PinTimes_UsedOut);
+                    toast(R.string.hh70_pin_timeout);
                 }
             } else if (result.getSIMState() == GetSimStatusBean.CONS_PUK_REQUIRED) {
                 pinTimeoutNext(result);
             }
         });
-        xGetSimStatusHelper.setOnGetSimStatusFailedListener(() -> toast(R.string.setting_failed));
+        xGetSimStatusHelper.setOnGetSimStatusFailedListener(() -> toast(R.string.hh70_failed));
         xGetSimStatusHelper.getSimStatus();
     }
 

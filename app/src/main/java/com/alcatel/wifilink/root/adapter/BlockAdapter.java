@@ -51,7 +51,7 @@ public class BlockAdapter extends RecyclerView.Adapter<BlockHolder> {
         final String displayName = block.DeviceName;
         holder.deviceName.setText(displayName);
         String mac = block.MacAddress;
-        holder.mac.setText(String.format(activity.getString(R.string.device_manage_mac), mac));
+        holder.mac.setText(String.format(activity.getString(R.string.hh70_mac), mac));
         // Click the unblock button
         holder.unblockBtn.setOnClickListener(v -> setDeviceUnlock(displayName, mac, position));
     }

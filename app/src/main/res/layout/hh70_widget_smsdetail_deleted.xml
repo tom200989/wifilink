@@ -31,7 +31,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
-                android:text="@string/dialog_delete_multi_sms_content"
+                android:text="@string/hh70_delete_message"
                 android:textColor="@color/mg_blue"
                 app:layout_marginTopPercent="18.18%h"
                 app:layout_textSizePercent="2.7%sh"
@@ -66,7 +66,7 @@
                     android:layout_weight="1"
                     android:background="@drawable/btn_click_selector"
                     android:gravity="center"
-                    android:text="@string/cancel"
+                    android:text="@string/hh70_cancel"
                     android:textAllCaps="false"
                     android:textColor="@color/white"
                     app:layout_textSizePercent="36%h" />
@@ -80,7 +80,7 @@
                     android:layout_weight="1"
                     android:background="@drawable/pop_sim_bg"
                     android:gravity="center"
-                    android:text="@string/delete"
+                    android:text="@string/hh70_delete"
                     android:textAllCaps="false"
                     android:textColor="@color/sms_detail_tryagain"
                     app:layout_textSizePercent="36%h" />

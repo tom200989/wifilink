@@ -43,30 +43,30 @@ public class MobileDataHelper {
                     case GetSimStatusBean.CONS_PIN_REQUIRED:
                     case GetSimStatusBean.CONS_PUK_REQUIRED:
                     case GetSimStatusBean.CONS_SIM_LOCK_REQUIRED:
-                        toast(R.string.home_pin_locked_notice);
+                        toast(R.string.hh70_verify_your_pin);
                         break;
                     case  GetSimStatusBean.CONS_SIM_CARD_IS_INITING:
-                        toast(R.string.home_initializing);
+                        toast(R.string.hh70_initializing);
                         break;
                     case GetSimStatusBean.CONS_PUK_TIMES_USED_OUT:
-                        toast(R.string.Home_PukTimes_UsedOut);
+                        toast(R.string.hh70_puk_timeout);
                         break;
                     case GetSimStatusBean.CONS_SIM_CARD_DETECTED:
-                        toast(R.string.Home_SimCard_Detected);
+                        toast(R.string.hh70_sim_card_deleted);
                         break;
                     case GetSimStatusBean.CONS_SIM_CARD_READY:
                         getConnectState();
                         break;
                     case GetSimStatusBean.CONS_NOWN:
-                        toast(R.string.Home_no_sim);
+                        toast(R.string.hh70_no_sim_insert);
                         break;
                     case GetSimStatusBean.CONS_SIM_CARD_ILLEGAL:
-                        toast(R.string.Home_sim_invalid);
+                        toast(R.string.hh70_invalid_sim);
                         break;
                 }
             });
             xGetSimStatusHelper.setOnGetSimStatusFailedListener(() -> {
-                toast(R.string.home_sim_not_accessible);
+                toast(R.string.hh70_sim_not_accessible);
                 to(RootCons.ACTIVITYS.SPLASH_AC,RootCons.FRAG.REFRESH_FR);
             });
             xGetSimStatusHelper.getSimStatus();
@@ -86,7 +86,7 @@ public class MobileDataHelper {
         // 2.获取连接状态(断连--> 连接,连接--> 断连)
         GetConnectionStateHelper xGetConnectionStateHelper = new GetConnectionStateHelper();
         xGetConnectionStateHelper.setOnGetConnectionStateFailedListener(() -> toast(R.string.connect_failed));
-        xGetConnectionStateHelper.setOnDisConnectingListener(() -> toast(R.string.setting_network_try_again));
+        xGetConnectionStateHelper.setOnDisConnectingListener(() -> toast(R.string.hh70_disconn_try_again));
         xGetConnectionStateHelper.setOnDisconnectedListener(this::toConn);
         xGetConnectionStateHelper.setOnConnectingListener(() -> toast(R.string.connecting));
         xGetConnectionStateHelper.setOnConnectedListener(this::toDisConn);
@@ -150,7 +150,7 @@ public class MobileDataHelper {
     private void checkMonthly() {
         UsageHelper usageHelper = new UsageHelper(context);
         usageHelper.setOnGetUsageErrorListener(() -> toast(R.string.connect_failed));
-        usageHelper.setOnOverMonthlyListener(() -> toast(R.string.usage_limit_over_notification_content));// 超出流量
+        usageHelper.setOnOverMonthlyListener(() -> toast(R.string.hh70_month_data_limit));// 超出流量
         usageHelper.getOverUsage();
     }
 

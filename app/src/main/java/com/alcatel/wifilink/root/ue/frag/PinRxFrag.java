@@ -117,7 +117,7 @@ public class PinRxFrag extends BaseFrag {
                 GetSimStatusHelper xGetSimStatusHelper = new GetSimStatusHelper();
                 xGetSimStatusHelper.setOnGetSimStatusSuccessListener(this::toRemain);
                 xGetSimStatusHelper.setOnGetSimStatusFailedListener(() -> {
-                    toast(R.string.home_sim_not_accessible, 3000);
+                    toast(R.string.hh70_sim_not_accessible, 3000);
                     toFragActivity(getClass(), SplashActivity.class, RefreshFrag.class, null, true);
                 });
                 xGetSimStatusHelper.getSimStatus();
@@ -187,7 +187,7 @@ public class PinRxFrag extends BaseFrag {
                     }
                 });
                 xGetSimStatusHelper.setOnGetSimStatusFailedListener(() -> {
-                    toast(R.string.home_sim_not_accessible, 3000);
+                    toast(R.string.hh70_sim_not_accessible, 3000);
                     toFragActivity(getClass(), SplashActivity.class, RefreshFrag.class, null, true);
                 });
                 xGetSimStatusHelper.getSimStatus();
@@ -231,7 +231,7 @@ public class PinRxFrag extends BaseFrag {
             toOtherRx();
         });
         xUnlockPinHelper.setOnUnlockPinFailedListener(() -> {
-            toast(R.string.pin_error_waring_title, 2000);
+            toast(R.string.hh70_pin_code_wrong, 2000);
             getRemainTime();
         });
         xUnlockPinHelper.unlockPin(pin);

@@ -240,7 +240,7 @@ public class SmsFrag extends BaseFrag {
         isLongClick = false;// 恢复标记位
         ivSmsNew.setVisibility(View.VISIBLE);
         llSmsBatchDeteled.setVisibility(isLongClick ? View.VISIBLE : View.GONE);
-        toast(R.string.sms_delete_success, 2000);
+        toast(R.string.hh70_deleted_sms_success, 2000);
     }
 
     /**
@@ -253,7 +253,7 @@ public class SmsFrag extends BaseFrag {
             if (llSmsBatchDeteled != null) {
                 llSmsBatchDeteled.setVisibility(isLongClick ? View.VISIBLE : View.GONE);
             }
-            toast(R.string.sms_delete_error, 2000);
+            toast(R.string.hh70_cant_delete_sms, 2000);
         }
     }
 
@@ -270,7 +270,7 @@ public class SmsFrag extends BaseFrag {
         } else {
             // 登出
             ClickDoubleHelper clickDouble = new ClickDoubleHelper();
-            clickDouble.setOnClickOneListener(() -> toast(R.string.home_exit_app, 3000));
+            clickDouble.setOnClickOneListener(() -> toast(R.string.hh70_touch_again, 3000));
             clickDouble.setOnClickDoubleListener(this::logOut);
             clickDouble.click();
             return true;

@@ -192,12 +192,12 @@ public class WizardFrag extends RootFrag {
 
                 case GetSimStatusBean.CONS_SIM_LOCK_REQUIRED:
                     wdLoad.setGone();
-                    toast(R.string.Home_SimLock_Required, 5000);
+                    toast(R.string.hh70_sim_lock, 5000);
                     break;
 
                 case GetSimStatusBean.CONS_SIM_CARD_ILLEGAL:
                     wdLoad.setGone();
-                    toast(R.string.Home_sim_invalid, 5000);
+                    toast(R.string.hh70_invalid_sim, 5000);
                     break;
 
                 case GetSimStatusBean.CONS_PIN_REQUIRED:

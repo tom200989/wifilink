@@ -472,7 +472,7 @@ public class WifiFrag extends BaseFrag {
                 String newKey2G = RootUtils.getEDText(mKey2GEdit, true);
 
                 if (newSsid2G.isEmpty()) {
-                    toast(R.string.qs_wifi_ssid_prompt, 2000);
+                    toast(R.string.hh70_the_ssid, 2000);
                     return;
                 }
 
@@ -488,7 +488,7 @@ public class WifiFrag extends BaseFrag {
                 } else if (newSecurity2GMode == 1) {
                     if (!WepPsdHelper.psdMatch(newKey2G)) {
                         isPasswordMatch = false;
-                        toast(R.string.setting_wep_password_error_prompt, 2000);
+                        toast(R.string.hh70_wep_key_is_5, 2000);
                         return;
                     }
                     mEditedSettings.getAP2G().setWepType(newEncryption2G);
@@ -499,7 +499,7 @@ public class WifiFrag extends BaseFrag {
                 } else {
                     if (newKey2G.length() < 8 || newKey2G.length() > 63 || !WpaPsdHelper.isMatch(newKey2G)) {
                         isPasswordMatch = false;
-                        toast(R.string.setting_wpa_password_error_prompt, 2000);
+                        toast(R.string.hh70_the_wpa_pre, 2000);
                         return;
                     }
                     mEditedSettings.getAP2G().setWepType(0);
@@ -523,7 +523,7 @@ public class WifiFrag extends BaseFrag {
                 String newKey5G = RootUtils.getEDText(mKey5GEdit, true);
 
                 if (newSsid5G.isEmpty()) {
-                    toast(R.string.qs_wifi_ssid_prompt, 2000);
+                    toast(R.string.hh70_the_ssid, 2000);
                     return;
                 }
 
@@ -539,7 +539,7 @@ public class WifiFrag extends BaseFrag {
                 } else if (newSecurity5GMode == 1) {
                     if (!WepPsdHelper.psdMatch(newKey5G)) {
                         isPasswordMatch = false;
-                        toast(R.string.setting_wep_password_error_prompt, 2000);
+                        toast(R.string.hh70_wep_key_is_5, 2000);
                         return;
                     }
                     mEditedSettings.getAP5G().setWepType(newEncryption5G);
@@ -550,7 +550,7 @@ public class WifiFrag extends BaseFrag {
                 } else {
                     if (newKey5G.length() < 8 || newKey5G.length() > 63 || !WpaPsdHelper.isMatch(newKey5G)) {
                         isPasswordMatch = false;
-                        toast(R.string.setting_wpa_password_error_prompt, 2000);
+                        toast(R.string.hh70_the_wpa_pre, 2000);
                         return;
                     }
                     mEditedSettings.getAP5G().setWepType(0);
@@ -562,11 +562,11 @@ public class WifiFrag extends BaseFrag {
         }
 
         if (isPasswordMatch) {
-            String des1 = getString(R.string.setting_wifi_set_success);
+            String des1 = getString(R.string.hh70_change_wifi);
             String des2 = getString(R.string.connectedlist_will_be_restarted_to_apply_new_settings);
             String des = des1 + "\n" + des2;
             dgWifiSettingrxOk.setVisibility(View.VISIBLE);
-            dgWifiSettingrxOk.setTitle(R.string.restart);
+            dgWifiSettingrxOk.setTitle(R.string.hh70_restart);
             dgWifiSettingrxOk.setDes(des);
             dgWifiSettingrxOk.setOnCancelClickListener(() -> dgWifiSettingrxOk.setVisibility(View.GONE));
             dgWifiSettingrxOk.setOnOkClickListener(this::setWlanRequest);
@@ -605,7 +605,7 @@ public class WifiFrag extends BaseFrag {
         } else {
             // 登出
             ClickDoubleHelper clickDouble = new ClickDoubleHelper();
-            clickDouble.setOnClickOneListener(() -> toast(R.string.home_exit_app, 3000));
+            clickDouble.setOnClickOneListener(() -> toast(R.string.hh70_touch_again, 3000));
             clickDouble.setOnClickDoubleListener(this::logOut);
             clickDouble.click();
             return true;

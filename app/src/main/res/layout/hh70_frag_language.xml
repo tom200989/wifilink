@@ -38,7 +38,7 @@
             android:layout_centerVertical="true"
             android:layout_marginEnd="15dp"
             android:gravity="center"
-            android:text="@string/done"
+            android:text="@string/hh70_done"
             android:textColor="@color/white"
             app:layout_textSizePercent="25%h" />
 

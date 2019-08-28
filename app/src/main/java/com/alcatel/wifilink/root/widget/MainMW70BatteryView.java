@@ -72,10 +72,10 @@ public class MainMW70BatteryView extends RelativeLayout {
         signals.add(context.getResources().getDrawable(R.drawable.mw_signal_4));
 
         networks = new ArrayList<>();
-        networks.add(context.getString(R.string.home_no_service));
-        networks.add(context.getString(R.string.home_network_type_2g));
-        networks.add(context.getString(R.string.home_network_type_3g_plus));
-        networks.add(context.getString(R.string.home_network_type_4g));
+        networks.add(context.getString(R.string.hh70_no_service));
+        networks.add(context.getString(R.string.hh70_2g));
+        networks.add(context.getString(R.string.hh70_3g_plus));
+        networks.add(context.getString(R.string.hh70_4g));
 
         wifiStrength = new ArrayList<>();
         wifiStrength.add(context.getResources().getDrawable(R.drawable.main_wifi_ex_signal0));

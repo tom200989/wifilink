@@ -51,7 +51,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:gravity="center"
-                    android:text="@string/cancel"
+                    android:text="@string/hh70_cancel"
                     android:textColor="@color/gray"
                     app:layout_widthPercent="50%w" />
 

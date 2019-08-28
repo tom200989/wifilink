@@ -509,7 +509,7 @@ public class RootUtils {
      */
     public static String stitchPhone(Context context, List<String> phoneNumber) {
         if (phoneNumber.size() == 0) {
-            return context.getString(R.string.error_info);
+            return context.getString(R.string.hh70_error);
         } else if (phoneNumber.size() == 1) {
             return phoneNumber.get(0);
         } else {
@@ -550,8 +550,8 @@ public class RootUtils {
     public static List<DeviceBean> transferDevicesbean(ConnectedList connectedList) {
         wifiApp context = wifiApp.getInstance();
         List<DeviceBean> dbs = new ArrayList<>();
-        String ip_field = context.getString(R.string.device_manage_ip);
-        String mac_field = context.getString(R.string.device_manage_mac);
+        String ip_field = context.getString(R.string.hh70_ip);
+        String mac_field = context.getString(R.string.hh70_mac);
         String localIp = Objects.requireNonNull(NetUtils.getLocalIPAddress()).getHostAddress();
 
         List<ConnectedList.Device> ccls = connectedList.getConnectedList();

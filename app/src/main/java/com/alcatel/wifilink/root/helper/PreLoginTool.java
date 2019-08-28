@@ -35,17 +35,17 @@ public class PreLoginTool {
      * 获取网络类型
      */
     public String getMobileType(int level) {
-        String text = context.getString(R.string.home_no_service);
+        String text = context.getString(R.string.hh70_no_service);
         if (level <= 0) {
             return text;
         } else if (level <= 2) {
-            return context.getString(R.string.home_network_type_2g);
+            return context.getString(R.string.hh70_2g);
         } else if (level <= 7) {
-            return context.getString(R.string.home_network_type_3g_plus);
+            return context.getString(R.string.hh70_3g_plus);
         } else if (level <= 9) {
-            return context.getString(R.string.home_network_type_4g);
+            return context.getString(R.string.hh70_4g);
         } else if (level <= 12) {
-            return context.getString(R.string.home_network_type_2g);
+            return context.getString(R.string.hh70_2g);
         }
         return text;
     }

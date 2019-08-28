@@ -66,7 +66,7 @@
             android:layout_centerInParent="true"
             android:layout_marginStart="@dimen/dimen_10dip"
             android:layout_toEndOf="@id/iv_main_mw70_signal"
-            android:text="@string/home_no_service"
+            android:text="@string/hh70_no_service"
             android:textColor="@color/white"
             app:layout_textSizePercent="40%h"
             app:layout_widthPercent="30%w" />

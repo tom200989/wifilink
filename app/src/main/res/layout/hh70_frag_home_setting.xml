@@ -19,7 +19,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="@string/main_setting"
+            android:text="@string/hh70_main_setting"
             android:textColor="@color/white"
             app:layout_textSizePercent="30%h" />
 
@@ -91,7 +91,7 @@
                     android:layout_centerVertical="true"
                     android:layout_marginEnd="@dimen/common_margin"
                     android:layout_marginRight="@dimen/common_margin"
-                    android:contentDescription="@string/setting_wifi"
+                    android:contentDescription="@string/hh70_wifi"
                     android:src="@drawable/right_arrow_big"
                     app:layout_heightPercent="35%h"
                     app:layout_widthPercent="35%h" />
@@ -125,7 +125,7 @@
                     android:layout_marginLeft="@dimen/dimen_10dip"
                     android:layout_toEndOf="@id/setting_mobile_network_pic"
                     android:layout_toRightOf="@id/setting_mobile_network_pic"
-                    android:text="@string/setting_mobile_network"
+                    android:text="@string/hh70_mobile_network"
                     android:textColor="@color/black_text"
                     app:layout_textSizePercent="25%h" />
 
@@ -138,7 +138,7 @@
                     android:layout_centerVertical="true"
                     android:layout_marginEnd="@dimen/common_margin"
                     android:layout_marginRight="@dimen/common_margin"
-                    android:contentDescription="@string/setting_wifi"
+                    android:contentDescription="@string/hh70_wifi"
                     android:src="@drawable/right_arrow_big"
                     app:layout_heightPercent="35%h"
                     app:layout_widthPercent="35%h" />
@@ -152,7 +152,7 @@
 
                     android:layout_toStartOf="@id/setting_mobile_network_arrow"
                     android:layout_toLeftOf="@id/setting_mobile_network_arrow"
-                    android:text="@string/setting_off_state"
+                    android:text="@string/hh70_off"
                     android:textColor="@color/grey_text"
                     app:layout_textSizePercent="25%h" />
 
@@ -186,7 +186,7 @@
                     android:layout_marginLeft="@dimen/dimen_10dip"
                     android:layout_toEndOf="@id/setting_ethernet_wan_pic"
                     android:layout_toRightOf="@id/setting_ethernet_wan_pic"
-                    android:text="@string/ethernet_wan_connection"
+                    android:text="@string/hh70_ethernet_wan_connect"
                     android:textColor="@color/black_text"
                     app:layout_textSizePercent="25%h"
                     app:layout_widthPercent="45%w" />
@@ -200,7 +200,7 @@
                     android:layout_centerVertical="true"
                     android:layout_marginEnd="@dimen/common_margin"
                     android:layout_marginRight="@dimen/common_margin"
-                    android:contentDescription="@string/setting_wifi"
+                    android:contentDescription="@string/hh70_wifi"
                     android:src="@drawable/right_arrow_big"
                     app:layout_heightPercent="35%h"
                     app:layout_widthPercent="35%h" />
@@ -214,7 +214,7 @@
 
                     android:layout_toStartOf="@id/setting_ethernet_wan_arrow"
                     android:layout_toLeftOf="@id/setting_ethernet_wan_arrow"
-                    android:text="@string/setting_off_state"
+                    android:text="@string/hh70_off"
                     app:layout_textSizePercent="25%h" />
 
             </com.hiber.tools.layout.PercentRelativeLayout>
@@ -248,7 +248,7 @@
                     android:layout_marginLeft="@dimen/dimen_10dip"
                     android:layout_toEndOf="@id/setting_sharing_service_pic"
                     android:layout_toRightOf="@id/setting_sharing_service_pic"
-                    android:text="@string/setting_share"
+                    android:text="@string/hh70_sharing_service"
                     android:textColor="@color/black_text"
                     app:layout_textSizePercent="25%h" />
 
@@ -260,7 +260,7 @@
                     android:layout_centerVertical="true"
                     android:layout_marginEnd="@dimen/common_margin"
                     android:layout_marginRight="@dimen/common_margin"
-                    android:contentDescription="@string/setting_wifi"
+                    android:contentDescription="@string/hh70_wifi"
                     android:src="@drawable/right_arrow_big"
                     app:layout_heightPercent="35%h"
                     app:layout_widthPercent="35%h" />
@@ -308,7 +308,7 @@
                     android:layout_centerVertical="true"
                     android:layout_marginEnd="@dimen/common_margin"
                     android:layout_marginRight="@dimen/common_margin"
-                    android:contentDescription="@string/setting_wifi"
+                    android:contentDescription="@string/hh70_wifi"
                     android:src="@drawable/right_arrow_big"
                     app:layout_heightPercent="35%h"
                     app:layout_widthPercent="35%h" />
@@ -367,7 +367,7 @@
                     android:layout_centerVertical="true"
                     android:layout_marginEnd="@dimen/common_margin"
                     android:layout_marginRight="@dimen/common_margin"
-                    android:contentDescription="@string/setting_wifi"
+                    android:contentDescription="@string/hh70_wifi"
                     android:src="@drawable/right_arrow_big"
                     app:layout_heightPercent="35%h"
                     app:layout_widthPercent="35%h" />
@@ -407,7 +407,7 @@
                         android:layout_marginStart="@dimen/dimen_10dip"
                         android:layout_marginLeft="@dimen/dimen_10dip"
                         android:maxLines="1"
-                        android:text="@string/setting_firmware_upgrade"
+                        android:text="@string/hh70_firmware_update"
                         android:textColor="@color/black_text"
                         app:layout_textSizePercent="25%h" />
 
@@ -418,7 +418,7 @@
                         android:layout_below="@id/tv_firmware_update"
                         android:layout_alignStart="@id/tv_firmware_update"
                         android:layout_alignLeft="@id/tv_firmware_update"
-                        android:text="@string/setting_upgrade_no_new_version"
+                        android:text="@string/hh70_no_new_version"
                         android:textColor="@color/grey_text"
                         app:layout_textSizePercent="20%h" />
 
@@ -442,7 +442,7 @@
                     android:layout_centerVertical="true"
                     android:layout_marginEnd="@dimen/common_margin"
                     android:layout_marginRight="@dimen/common_margin"
-                    android:contentDescription="@string/setting_wifi"
+                    android:contentDescription="@string/hh70_wifi"
                     android:src="@drawable/right_arrow_big"
                     app:layout_heightPercent="35%h"
                     app:layout_widthPercent="35%h" />
@@ -483,7 +483,7 @@
                     android:layout_marginLeft="@dimen/dimen_10dip"
                     android:layout_toEndOf="@id/setting_restart_pic"
                     android:layout_toRightOf="@id/setting_restart_pic"
-                    android:text="@string/setting_restart_reset"
+                    android:text="@string/hh70_restart_reset"
                     android:textColor="@color/black_text"
                     app:layout_textSizePercent="25%h" />
 
@@ -495,7 +495,7 @@
                     android:layout_centerVertical="true"
                     android:layout_marginEnd="@dimen/common_margin"
                     android:layout_marginRight="@dimen/common_margin"
-                    android:contentDescription="@string/setting_wifi"
+                    android:contentDescription="@string/hh70_wifi"
                     android:src="@drawable/right_arrow_big"
                     app:layout_heightPercent="35%h"
                     app:layout_widthPercent="35%h" />
@@ -536,7 +536,7 @@
                     android:layout_marginLeft="@dimen/dimen_10dip"
                     android:layout_toEndOf="@id/setting_backup_pic"
                     android:layout_toRightOf="@id/setting_backup_pic"
-                    android:text="@string/setting_backup_restore"
+                    android:text="@string/hh70_backup_restore"
                     android:textColor="@color/black_text"
                     app:layout_textSizePercent="25%h" />
 
@@ -548,7 +548,7 @@
                     android:layout_centerVertical="true"
                     android:layout_marginEnd="@dimen/common_margin"
                     android:layout_marginRight="@dimen/common_margin"
-                    android:contentDescription="@string/setting_wifi"
+                    android:contentDescription="@string/hh70_wifi"
                     android:src="@drawable/right_arrow_big"
                     app:layout_heightPercent="35%h"
                     app:layout_widthPercent="35%h" />
@@ -596,7 +596,7 @@
                     android:layout_centerVertical="true"
                     android:layout_marginEnd="@dimen/common_margin"
                     android:layout_marginRight="@dimen/common_margin"
-                    android:contentDescription="@string/setting_wifi"
+                    android:contentDescription="@string/hh70_wifi"
                     android:src="@drawable/right_arrow_big"
                     app:layout_heightPercent="35%h"
                     app:layout_widthPercent="35%h" />
@@ -631,7 +631,7 @@
                     android:layout_marginLeft="@dimen/dimen_10dip"
                     android:layout_toEndOf="@id/setting_about_pic"
                     android:layout_toRightOf="@id/setting_about_pic"
-                    android:text="@string/setting_about"
+                    android:text="@string/hh70_about"
                     android:textColor="@color/black_text"
                     app:layout_textSizePercent="25%h" />
 
@@ -643,7 +643,7 @@
                     android:layout_centerVertical="true"
                     android:layout_marginEnd="@dimen/common_margin"
                     android:layout_marginRight="@dimen/common_margin"
-                    android:contentDescription="@string/setting_wifi"
+                    android:contentDescription="@string/hh70_wifi"
                     android:src="@drawable/right_arrow_big"
                     app:layout_heightPercent="35%h"
                     app:layout_widthPercent="35%h" />

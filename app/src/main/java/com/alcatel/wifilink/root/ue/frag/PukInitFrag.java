@@ -285,7 +285,7 @@ public class PukInitFrag extends BaseFrag {
         });
         xUnlockPukHelper.setOnUnlockPukFailedListener(() -> {
             etPukRx.setText("");
-            toast(R.string.puk_error_waring_title, 5000);
+            toast(R.string.hh70_puk_wrong, 5000);
             getRemainTime();
         });
         xUnlockPukHelper.unlockPuk(puk, pin);

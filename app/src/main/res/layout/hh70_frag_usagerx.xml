@@ -120,7 +120,7 @@
                 android:id="@+id/tv_usage_rx_roaming_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/usage_setting_roaming"
+                android:text="@string/hh70_data_roaming"
                 android:textColor="@color/black"
                 app:layout_textSizePercent="25%h" />
 

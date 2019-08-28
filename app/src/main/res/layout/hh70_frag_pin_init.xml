@@ -88,7 +88,7 @@
             android:layout_marginStart="@dimen/dimen_10dip"
             android:layout_marginTop="@dimen/dimen_15dip"
             android:layout_toEndOf="@+id/iv_pin_rx_checkbox"
-            android:text="@string/remember_sim_pin"
+            android:text="@string/hh70_remember_sim"
             android:textColor="@color/black"
             app:layout_textSizePercent="2.5%h" />
 

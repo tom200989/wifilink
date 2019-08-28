@@ -408,7 +408,7 @@ public class FeedbackFrag extends BaseFrag {
      */
     private void clickShowPhotoDel() {
         if (TextUtils.isEmpty(clickShowUrl)) {
-            toast(R.string.error_info);
+            toast(R.string.hh70_error);
             return;
         }
         // 找到匹配大图对象

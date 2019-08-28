@@ -48,7 +48,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:text="@string/cancel"
+                    android:text="@string/hh70_cancel"
                     app:layout_textSizePercent="26%h"
                     app:layout_widthPercent="50%w" />
 

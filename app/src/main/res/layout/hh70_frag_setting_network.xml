@@ -31,7 +31,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="@string/setting_mobile_network"
+            android:text="@string/hh70_mobile_network"
             android:textColor="@color/white"
             app:layout_textSizePercent="30%h" />
 
@@ -43,7 +43,7 @@
             android:layout_centerVertical="true"
             android:layout_marginEnd="15dp"
             android:gravity="center"
-            android:text="@string/done"
+            android:text="@string/hh70_done"
             android:textColor="@color/white"
             android:visibility="gone"
             app:layout_textSizePercent="25%h" />
@@ -78,7 +78,7 @@
                         android:background="@color/color_white"
                         android:gravity="center_vertical"
                         android:padding="@dimen/setting_padding_10_dp"
-                        android:text="@string/usage_setting_mobile_data"
+                        android:text="@string/hh70_mobile_data"
                         android:textDirection="locale" />
 
                     <android.support.v7.widget.SwitchCompat
@@ -107,7 +107,7 @@
                         android:layout_height="match_parent"
                         android:gravity="center_vertical"
                         android:padding="@dimen/setting_padding_10_dp"
-                        android:text="@string/setting_network_connect_mode"
+                        android:text="@string/hh70_connnect_mode"
                         android:textDirection="locale" />
 
                     <android.support.v7.widget.AppCompatSpinner
@@ -140,7 +140,7 @@
                         android:background="@color/color_white"
                         android:gravity="center_vertical"
                         android:padding="@dimen/setting_padding_10_dp"
-                        android:text="@string/usage_setting_roaming"
+                        android:text="@string/hh70_data_roaming"
                         android:textDirection="locale" />
 
                     <ImageView
@@ -176,7 +176,7 @@
                         android:background="@color/color_white"
                         android:gravity="center_vertical"
                         android:padding="@dimen/setting_padding_10_dp"
-                        android:text="@string/setting_set_data_plan"
+                        android:text="@string/hh70_set_data_plan"
                         android:textDirection="locale" />
 
                     <ImageView
@@ -211,7 +211,7 @@
                         android:layout_height="match_parent"
                         android:gravity="center_vertical"
                         android:padding="@dimen/setting_padding_10_dp"
-                        android:text="@string/setting_network_mode"
+                        android:text="@string/hh70_mode"
                         android:textDirection="locale" />
 
                     <android.support.v7.widget.AppCompatSpinner
@@ -280,7 +280,7 @@
                         android:background="@color/color_white"
                         android:gravity="center_vertical"
                         android:padding="@dimen/setting_padding_10_dp"
-                        android:text="@string/qs_hint_sim_pin"
+                        android:text="@string/hh70_sim_pin"
                         android:textDirection="locale" />
 
                     <android.support.v7.widget.SwitchCompat
@@ -311,7 +311,7 @@
                         android:background="@color/color_white"
                         android:gravity="center_vertical"
                         android:padding="@dimen/setting_padding_10_dp"
-                        android:text="@string/change_pin"
+                        android:text="@string/hh70_change_pin"
                         android:textDirection="locale" />
 
                     <ImageView
@@ -346,7 +346,7 @@
                         android:background="@color/color_white"
                         android:gravity="center_vertical"
                         android:padding="@dimen/setting_padding_10_dp"
-                        android:text="@string/setting_sim_number"
+                        android:text="@string/hh70_sim_num"
                         android:textDirection="locale" />
 
                     <TextView
@@ -380,7 +380,7 @@
                         android:background="@color/color_white"
                         android:gravity="center_vertical"
                         android:padding="@dimen/setting_padding_10_dp"
-                        android:text="@string/setting_imsi"
+                        android:text="@string/hh70_imsi"
                         android:textDirection="locale" />
 
                     <TextView
@@ -400,7 +400,7 @@
                     android:layout_height="@dimen/dimen_0_5dip"
                     android:layout_marginTop="@dimen/dimen_1dip"
                     android:background="@color/main_bottom_divider"
-                    android:contentDescription="@string/setting_network"
+                    android:contentDescription="@string/hh70_network"
                     android:textDirection="locale" />
 
             </com.hiber.tools.layout.PercentLinearLayout>
@@ -429,7 +429,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:padding="@dimen/setting_padding_10_dp"
-                android:text="@string/usage_setting_monthlysataplan"
+                android:text="@string/hh70_monthly_data_limit"
                 android:textDirection="locale" />
 
             <ImageView
@@ -471,7 +471,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:padding="@dimen/setting_padding_10_dp"
-                android:text="@string/usage_setting_billingday"
+                android:text="@string/hh70_bill_cycle"
                 android:textDirection="locale" />
 
             <android.support.v7.widget.AppCompatSpinner
@@ -503,7 +503,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:padding="@dimen/setting_padding_10_dp"
-                android:text="@string/usage_setting_usagealert"
+                android:text="@string/hh70_usage_alert"
                 android:textDirection="locale" />
 
             <android.support.v7.widget.AppCompatSpinner
@@ -535,7 +535,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:padding="@dimen/setting_padding_10_dp"
-                android:text="@string/auto_disconnect"
+                android:text="@string/hh70_auto_disconnect"
                 android:textDirection="locale" />
 
             <android.support.v7.widget.SwitchCompat
@@ -560,7 +560,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:padding="@dimen/setting_padding_10_dp"
-                android:text="@string/usage_setting_timelimit"
+                android:text="@string/hh70_limit"
                 android:textDirection="locale" />
 
             <android.support.v7.widget.SwitchCompat
@@ -598,7 +598,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:padding="@dimen/setting_padding_10_dp"
-                    android:text="@string/usage_setting_settimelimit"
+                    android:text="@string/hh70_set_time_limit"
                     android:textDirection="locale" />
 
                 <ImageView
@@ -640,7 +640,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:padding="@dimen/setting_padding_10_dp"
-                    android:text="@string/auto_disconnect"
+                    android:text="@string/hh70_auto_disconnect"
                     android:textDirection="locale" />
 
                 <android.support.v7.widget.SwitchCompat
@@ -777,7 +777,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
-                    android:text="@string/remember_sim_pin"
+                    android:text="@string/hh70_remember_sim"
                     android:textDirection="locale" />
 
             </com.hiber.tools.layout.PercentLinearLayout>
@@ -848,7 +848,7 @@
                 android:layout_marginEnd="@dimen/dimen_30dip"
                 android:layout_toStartOf="@id/tv_pop_settingpin_ok"
                 android:gravity="center"
-                android:text="@string/cancel"
+                android:text="@string/hh70_cancel"
                 android:textColor="@color/gray"
                 app:layout_marginTopPercent="15%h"
                 app:layout_textSizePercent="10%h" />

@@ -71,7 +71,7 @@ public abstract class SmsSendHelper {
             } else if (sendStatus == GetSendSMSResultBean.CONS_SEND_STATUS_FAIL_MEMORY_FULL) {
                 ToastTool.show(context, context.getString(R.string.fail_with_memory_full));
             } else if (sendStatus == GetSendSMSResultBean.CONS_SEND_STATUS_FAIL) {
-                ToastTool.show(context, context.getString(R.string.fail));
+                ToastTool.show(context, context.getString(R.string.hh70_fail));
             }
             sendFinish(bean.getSendStatus());
             // 临时计数清零

@@ -269,30 +269,30 @@ public class WifiInitFrag extends BaseFrag {
         boolean is5GEnable = ivSocket5G.getDrawable() == switch_on;
         // 1.空值判断
         if (is2P4GEnable && TextUtils.isEmpty(RootUtils.getEDText(etAccount2p4G, true))) {
-            toast(R.string.setting_ssid_invalid, 5000);
+            toast(R.string.hh70_ssid_can_contain, 5000);
             return;
         }
         if (is2P4GEnable && TextUtils.isEmpty(RootUtils.getEDText(etPassword2p4G, true))) {
-            toast(R.string.qs_wifi_passwd_prompt, 5000);
+            toast(R.string.hh70_the_password, 5000);
             return;
         }
         if (is5GEnable && TextUtils.isEmpty(RootUtils.getEDText(etAccount5G, true))) {
-            toast(R.string.setting_ssid_invalid, 5000);
+            toast(R.string.hh70_ssid_can_contain, 5000);
             return;
         }
         if (is5GEnable && TextUtils.isEmpty(RootUtils.getEDText(etPassword5G, true))) {
-            toast(R.string.qs_wifi_passwd_prompt, 5000);
+            toast(R.string.hh70_the_password, 5000);
             return;
         }
         // 2.位数判断
         int digits_2P4G = RootUtils.getEDText(etPassword2p4G, true).length();
         int digits_5G = RootUtils.getEDText(etPassword5G, true).length();
         if (is2P4GEnable && (digits_2P4G < 8 | digits_2P4G > 63)) {
-            toast(R.string.qs_wifi_passwd_prompt, 5000);
+            toast(R.string.hh70_the_password, 5000);
             return;
         }
         if (is5GEnable && (digits_5G < 8 | digits_5G > 63)) {
-            toast(R.string.qs_wifi_passwd_prompt, 5000);
+            toast(R.string.hh70_the_password, 5000);
             return;
         }
         // 3.封装
@@ -393,11 +393,11 @@ public class WifiInitFrag extends BaseFrag {
      * 显示重启提示对话框
      */
     private void showResetUi() {
-        String des1 = getString(R.string.setting_wifi_set_success);
+        String des1 = getString(R.string.hh70_change_wifi);
         String des2 = getString(R.string.connectedlist_will_be_restarted_to_apply_new_settings);
         String des = des1 + "\n" + des2;
         wdOk.setVisibility(View.VISIBLE);
-        wdOk.setTitle(R.string.restart);
+        wdOk.setTitle(R.string.hh70_restart);
         wdOk.setDes(des);
         wdOk.setOnCancelClickListener(() -> wdOk.setVisibility(View.GONE));
         wdOk.setOnOkClickListener(this::pullSetting);
@@ -419,7 +419,7 @@ public class WifiInitFrag extends BaseFrag {
             wdLoad.setGone();
         });
         xSetWlanSettingsHelper.setOnSetWlanSettingsFailedListener(() -> {
-            toast(R.string.setting_wifi_set_failed, 5000);
+            toast(R.string.hh70_cant_change_wifi, 5000);
             wdLoad.setGone();
         });
         xSetWlanSettingsHelper.setWlanSettings(result);

@@ -385,17 +385,17 @@ public class ConnectSettingHelper {
         GetConnectionStateHelper xGetConnectionStateHelper = new GetConnectionStateHelper();
         xGetConnectionStateHelper.setOnDisconnectedListener(() -> {
             ConnectHelper xConnectHelper = new ConnectHelper();
-            xConnectHelper.setOnConnectFailedListener(() -> activity.toast(R.string.usage_limit_over_notification_content, 5000));
+            xConnectHelper.setOnConnectFailedListener(() -> activity.toast(R.string.hh70_month_data_limit, 5000));
             xConnectHelper.connect();
 
         });
         xGetConnectionStateHelper.setOnDisConnectingListener(() -> {
             ConnectHelper xConnectHelper = new ConnectHelper();
-            xConnectHelper.setOnConnectFailedListener(() -> activity.toast(R.string.usage_limit_over_notification_content, 5000));
+            xConnectHelper.setOnConnectFailedListener(() -> activity.toast(R.string.hh70_month_data_limit, 5000));
             xConnectHelper.connect();
 
         });
-        xGetConnectionStateHelper.setOnGetConnectionStateFailedListener(() -> ToastTool.showLong(activity, activity.getString(R.string.usage_limit_over_notification_content)));
+        xGetConnectionStateHelper.setOnGetConnectionStateFailedListener(() -> ToastTool.showLong(activity, activity.getString(R.string.hh70_month_data_limit)));
         xGetConnectionStateHelper.getConnectionState();
     }
 

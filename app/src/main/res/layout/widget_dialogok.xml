@@ -71,7 +71,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:text="@string/cancel"
+                    android:text="@string/hh70_cancel"
                     android:textColor="@color/gray"
                     app:layout_textSizePercent="30%h" />
 

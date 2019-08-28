@@ -10,21 +10,21 @@
     </string-array>
 
     <string-array name="wlan_settings_80211_2g">
-        <item>@string/setting_network_mode_auto</item>
+        <item>@string/hh70_auto</item>
         <item>802.11b</item>
         <item>802.11b/g</item>
         <item>802.11b/g/n</item>
     </string-array>
 
     <string-array name="wlan_settings_80211_5g">
-        <item>@string/setting_network_mode_auto</item>
+        <item>@string/hh70_auto</item>
         <item>802.11a</item>
         <item>802.11a/n</item>
         <item>802.11a/c</item>
     </string-array>
 
     <string-array name="wlan_settings_channel">
-        <item>@string/setting_network_mode_auto</item>
+        <item>@string/hh70_auto</item>
         <item>1</item>
         <item>2</item>
         <item>3</item>
@@ -43,7 +43,7 @@
     <string-array name="wlan_settings_wpa_type">
         <item>TKIP</item>
         <item>AES</item>
-        <item>@string/setting_network_mode_auto</item>
+        <item>@string/hh70_auto</item>
     </string-array>
 
     <string-array name="wlan_settings_wep_type">
@@ -52,13 +52,13 @@
     </string-array>
 
     <string-array name="wlan_settings_bandwidth_2g">
-        <item>@string/setting_network_mode_auto</item>
+        <item>@string/hh70_auto</item>
         <item>20MHz</item>
         <item>40MHz</item>
     </string-array>
     
     <string-array name="wlan_settings_bandwidth_5g">
-        <item>@string/setting_network_mode_auto</item>
+        <item>@string/hh70_auto</item>
         <item>20MHz</item>
         <item>40MHz</item>
         <item>80MHz</item>
@@ -77,12 +77,12 @@
     </string-array>
 
     <string-array name="settings_connection_mode">
-        <item>@string/setting_network_mode_auto</item>
+        <item>@string/hh70_auto</item>
         <item>@string/maunal</item>
     </string-array>
 
     <string-array name="settings_network_mode">
-        <item>@string/setting_network_mode_auto</item>
+        <item>@string/hh70_auto</item>
         <item>4G</item>
         <item>3G</item>
         <item>2G</item>
@@ -170,16 +170,16 @@
         <item>80%</item>
         <item>70%</item>
         <item>60%</item>
-        <item>@string/cancel</item>
+        <item>@string/hh70_cancel</item>
     </string-array>
 
     <string-array name="feedbacktype">
         <item>@string/wifi_connection</item>
-        <item>@string/main_sms</item>
+        <item>@string/hh70_main_sms</item>
         <item>@string/signal_for_feedback</item>
         <item>@string/battery_life</item>
-        <item>@string/usage_setting_mobile_data</item>
-        <item>@string/setting_network</item>
+        <item>@string/hh70_mobile_data</item>
+        <item>@string/hh70_network</item>
         <item>@string/others</item>
     </string-array>
 

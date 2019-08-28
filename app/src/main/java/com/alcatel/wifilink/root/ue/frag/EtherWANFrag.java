@@ -229,7 +229,7 @@ public class EtherWANFrag extends BaseFrag {
             mStaticIpSecondaryDns.setText(result.getSecondaryDNS());
             mStaticIpMtu.setText(String.valueOf(result.getMtu()));
         });
-        xGetWanSettingsHelper.setOnGetWanSettingFailedListener(() -> toast(R.string.setting_failed, 3000));
+        xGetWanSettingsHelper.setOnGetWanSettingFailedListener(() -> toast(R.string.hh70_failed, 3000));
         xGetWanSettingsHelper.getWanSettings();
     }
 

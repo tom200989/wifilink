@@ -151,22 +151,22 @@ public class FirmUpgradeHelper {
             xGetSimStatusHelper.setOnGetSimStatusSuccessListener(result -> {
                 int simState = result.getSIMState();
                 if (simState != GetSimStatusBean.CONS_SIM_CARD_READY) {
-                    toast(R.string.qs_pin_unlock_can_not_connect_des);
+                    toast(R.string.hh70_check_your_wan);
                 } else {
                     // 加入拨号连接的判断, 如果没有拨号连接则提示没有拨号
                     GetConnectionStateHelper xGetConnectionStateHelper = new GetConnectionStateHelper();
-                    xGetConnectionStateHelper.setOnGetConnectionStateFailedListener(() -> toast(R.string.qs_pin_unlock_can_not_connect_des));
-                    xGetConnectionStateHelper.setOnDisConnectingListener(() -> toast(R.string.setting_upgrade_no_connection));
-                    xGetConnectionStateHelper.setOnDisconnectedListener(() -> toast(R.string.setting_upgrade_no_connection));
-                    xGetConnectionStateHelper.setOnConnectingListener(() -> toast(R.string.setting_upgrade_no_connection));
+                    xGetConnectionStateHelper.setOnGetConnectionStateFailedListener(() -> toast(R.string.hh70_check_your_wan));
+                    xGetConnectionStateHelper.setOnDisConnectingListener(() -> toast(R.string.hh70_no_connect));
+                    xGetConnectionStateHelper.setOnDisconnectedListener(() -> toast(R.string.hh70_no_connect));
+                    xGetConnectionStateHelper.setOnConnectingListener(() -> toast(R.string.hh70_no_connect));
                     xGetConnectionStateHelper.setOnConnectedListener(() -> checkNw(wd_countdown, wdload));
                     xGetConnectionStateHelper.getConnectionState();
                 }
             });
-            xGetSimStatusHelper.setOnGetSimStatusFailedListener(() -> toast(R.string.qs_pin_unlock_can_not_connect_des));
+            xGetSimStatusHelper.setOnGetSimStatusFailedListener(() -> toast(R.string.hh70_check_your_wan));
             xGetSimStatusHelper.getSimStatus();
         });
-        xGetLoginStateHelper.setOnGetLoginStateFailedListener(() -> toast(R.string.qs_pin_unlock_can_not_connect_des));
+        xGetLoginStateHelper.setOnGetLoginStateFailedListener(() -> toast(R.string.hh70_check_your_wan));
         xGetLoginStateHelper.getLoginState();
     }
 
@@ -188,10 +188,10 @@ public class FirmUpgradeHelper {
     private void checkNw(HH70_CountDownWidget wd_countdown, HH70_LoadWidget wdLoad) {
         wdLoad.setGone();
         UpgradeHelper uh = new UpgradeHelper(activity, true);
-        uh.setOnUpgradeFailedListener(() -> toast(R.string.setting_upgrade_check_firmware_failed));
+        uh.setOnUpgradeFailedListener(() -> toast(R.string.hh70_cant_get_new_version));
         uh.setOnCheckErrorListener(this::getCurrentVersion);
-        uh.setOnServiceNotAvailableListener(attr -> toast(R.string.setting_upgrade_not_available));
-        uh.setOnNoConnectListener(attr -> toast(R.string.setting_upgrade_no_connection));
+        uh.setOnServiceNotAvailableListener(attr -> toast(R.string.hh70_service_not_available));
+        uh.setOnNoConnectListener(attr -> toast(R.string.hh70_no_connect));
         uh.setOnNoNewVersionListener(this::getCurrentVersion);
         uh.setOnNewVersionListener(this::newVersionNext);
         uh.checkVersion(wd_countdown, wdLoad);
@@ -203,8 +203,8 @@ public class FirmUpgradeHelper {
     private void getCurrentVersion(GetDeviceNewVersionBean updateDeviceNewVersion) {
         GetSystemInfoHelper xGetSystemInfoHelper = new GetSystemInfoHelper();
         xGetSystemInfoHelper.setOnGetSystemInfoSuccessListener(result -> noNewVersionNext(updateDeviceNewVersion, result));
-        xGetSystemInfoHelper.setOnAppErrorListener(() -> toast(R.string.setting_upgrade_check_firmware_failed));
-        xGetSystemInfoHelper.setOnFwErrorListener(() -> toast(R.string.setting_upgrade_check_firmware_failed));
+        xGetSystemInfoHelper.setOnAppErrorListener(() -> toast(R.string.hh70_cant_get_new_version));
+        xGetSystemInfoHelper.setOnFwErrorListener(() -> toast(R.string.hh70_cant_get_new_version));
         xGetSystemInfoHelper.getSystemInfo();
     }
 

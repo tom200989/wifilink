@@ -27,7 +27,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="@string/setting_set_data_plan"
+            android:text="@string/hh70_set_data_plan"
             android:textColor="@color/white"
             app:layout_textSizePercent="30%h" />
 
@@ -94,7 +94,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginStart="@dimen/dimen_15dip"
-                android:text="@string/usage_setting_monthlysataplan"
+                android:text="@string/hh70_monthly_data_limit"
                 android:textColor="@color/black"
                 app:layout_textSizePercent="27%h" />
 
@@ -143,7 +143,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginStart="@dimen/dimen_15dip"
-                android:text="@string/usage_setting_billingday"
+                android:text="@string/hh70_bill_cycle"
                 android:textColor="@color/black"
                 app:layout_textSizePercent="27%h" />
 
@@ -193,7 +193,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginStart="@dimen/dimen_15dip"
-                android:text="@string/usage_setting_usagealert"
+                android:text="@string/hh70_usage_alert"
                 android:textColor="@color/black"
                 app:layout_textSizePercent="27%h" />
 
@@ -243,7 +243,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginStart="@dimen/dimen_15dip"
-                android:text="@string/auto_disconnect"
+                android:text="@string/hh70_auto_disconnect"
                 android:textColor="@color/black"
                 app:layout_textSizePercent="27%h" />
 
@@ -283,7 +283,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginStart="@dimen/dimen_15dip"
-                android:text="@string/usage_setting_timelimit"
+                android:text="@string/hh70_limit"
                 android:textColor="@color/black"
                 app:layout_textSizePercent="27%h" />
 
@@ -322,7 +322,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginStart="@dimen/dimen_15dip"
-                android:text="@string/usage_setting_settimelimit"
+                android:text="@string/hh70_set_time_limit"
                 android:textColor="@color/black"
                 app:layout_textSizePercent="27%h" />
 

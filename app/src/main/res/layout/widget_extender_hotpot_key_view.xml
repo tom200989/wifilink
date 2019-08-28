@@ -47,7 +47,7 @@
                 android:layout_marginEnd="@dimen/dimen_10dip"
                 android:layout_marginStart="@dimen/dimen_10dip"
                 android:background="@color/white"
-                android:hint="@string/password"
+                android:hint="@string/hh70_password"
                 android:inputType="textPassword"
                 android:paddingEnd="@dimen/dimen_5dip"
                 android:paddingStart="@dimen/dimen_5dip"
@@ -93,7 +93,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:gravity="center"
-                    android:text="@string/cancel"
+                    android:text="@string/hh70_cancel"
                     android:textColor="@color/gray"
                     app:layout_textSizePercent="23%h"
                     app:layout_widthPercent="50%w" />

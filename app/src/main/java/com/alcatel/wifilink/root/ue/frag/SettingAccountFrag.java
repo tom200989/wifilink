@@ -103,7 +103,7 @@ public class SettingAccountFrag extends BaseFrag {
             // 去加密
             toEncrypts();
         } else {
-            toast(R.string.login_invalid_password, 3000);
+            toast(R.string.hh70_invalid_psd, 3000);
         }
 
         // 隐藏键盘

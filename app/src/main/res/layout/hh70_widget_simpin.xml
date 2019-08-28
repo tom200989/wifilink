@@ -29,7 +29,7 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:background="@null"
-            android:hint="@string/qs_item_pin_code"
+            android:hint="@string/hh70_pin_code"
             android:inputType="numberPassword"
             android:maxLength="8"
             android:paddingEnd="@dimen/dimen_10dip"
@@ -66,7 +66,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="@string/cancel"
+                android:text="@string/hh70_cancel"
                 app:layout_textSizePercent="32%h" />
 
             <TextView

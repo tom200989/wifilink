@@ -41,7 +41,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toEndOf="@id/iv_login_backToPre"
-            android:text="@string/back"
+            android:text="@string/hh70_back"
             android:textColor="@color/white"
             app:layout_marginTopPercent="2.8%h"
             app:layout_textSizePercent="2.5%h" />

@@ -142,12 +142,12 @@ public class SettingFrag extends BaseFrag {
     }
 
     private void initRes() {
-        on = getString(R.string.setting_on_state);
-        off = getString(R.string.setting_off_state);
-        noSimcard = getString(R.string.home_no_sim);
-        detected = getString(R.string.Home_SimCard_Detected);
-        initing = getString(R.string.home_initializing);
-        perText = getString(R.string.usage_setting_usagealertunit);
+        on = getString(R.string.hh70_on);
+        off = getString(R.string.hh70_off);
+        noSimcard = getString(R.string.hh70_no_sim);
+        detected = getString(R.string.hh70_sim_card_deleted);
+        initing = getString(R.string.hh70_initializing);
+        perText = getString(R.string.hh70_usage_alert_unit);
     }
 
     private void initSome() {
@@ -269,7 +269,7 @@ public class SettingFrag extends BaseFrag {
             if (isSharingSupported) {
                 goToShareSettingPage();
             } else {
-                toast(R.string.setting_not_support_sharing_service);
+                toast(R.string.hh70_not_support_sharing);
             }
         });
         mLanguage.setOnClickListener(v -> goSettingLanguagePage());// 进入语言设置
@@ -341,12 +341,12 @@ public class SettingFrag extends BaseFrag {
         wd_checkVersion.setVisibility(View.VISIBLE);
         wd_checkVersion.setVersionName(noNewVersion ? systemSystemInfo.getSwVersionMain() : updateDeviceNewVersion.getVersion() + " " + getString(R.string.available));
         wd_checkVersion.setTipVisible(noNewVersion);
-        wd_checkVersion.setOkText(noNewVersion ? getString(R.string.ok) : getString(R.string.setting_upgrade));
+        wd_checkVersion.setOkText(noNewVersion ? getString(R.string.ok) : getString(R.string.hh70_upgrade));
         wd_checkVersion.setOnClickOKListener(() -> {
             if (!noNewVersion) {
                 dgSettingRxWidgetOk.setVisibility(View.VISIBLE);
-                dgSettingRxWidgetOk.setTitle(R.string.setting_upgrade);
-                dgSettingRxWidgetOk.setDes(R.string.setting_upgrade_firmware_warning);
+                dgSettingRxWidgetOk.setTitle(R.string.hh70_upgrade);
+                dgSettingRxWidgetOk.setDes(R.string.hh70_the_update_process);
                 dgSettingRxWidgetOk.setOnBgClickListener(() -> {
                 });
                 dgSettingRxWidgetOk.setOnCancelClickListener(() -> dgSettingRxWidgetOk.setVisibility(View.GONE));
@@ -378,7 +378,7 @@ public class SettingFrag extends BaseFrag {
                 SetDeviceUpdateStopHelper xSetDeviceUpdateStopHelper = new SetDeviceUpdateStopHelper();
                 xSetDeviceUpdateStopHelper.setOnSetDeviceUpdateStopSuccessListener(() -> {
                     stopDownTimerAndPop();
-                    toast(R.string.setting_upgrade_stop_error);
+                    toast(R.string.hh70_cant_update);
                     isDownloading = false;
                 });
                 xSetDeviceUpdateStopHelper.setOnSetDeviceUpdateStopFailedListener(() -> downError(-1));
@@ -388,14 +388,14 @@ public class SettingFrag extends BaseFrag {
 
             /* 2.启动定时器 */
             UpgradeHelper uh = new UpgradeHelper(activity, false);
-            uh.setOnUpgradeFailedListener(() -> downError(R.string.setting_upgrade_get_update_state_failed));
+            uh.setOnUpgradeFailedListener(() -> downError(R.string.hh70_cant_get_device));
             uh.setOnNoStartUpdateListener(attr1 -> {
                 wd_down.getPercent().setText(String.valueOf(attr1.getProcess() + perText));
                 upgrade_Temp++;
                 if (upgrade_Temp > 20) {// 如果断连次数已经达到了1分钟(20次)
                     upgrade_Temp = 0;
                     stopDownTimerAndPop();// 停止定时器
-                    downError(R.string.setting_upgrade_get_update_state_failed);// 提示
+                    downError(R.string.hh70_cant_get_device);// 提示
                 }
             });
             uh.setOnUpgradeStateNormalListener(attr1 -> {
@@ -484,7 +484,7 @@ public class SettingFrag extends BaseFrag {
                     uh.getDownState();
                 } else {
                     // 弹出提示并隐藏弹窗
-                    downError(R.string.qs_pin_unlock_can_not_connect_des);
+                    downError(R.string.hh70_check_your_wan);
                 }
             });
             xGetSimStatusHelper.setOnGetSimStatusFailedListener(() -> downError(-1));
@@ -499,8 +499,8 @@ public class SettingFrag extends BaseFrag {
      */
     private void triggerFOTAUpgrade() {
         dgSettingRxWidgetConfirm.setVisibility(View.VISIBLE);
-        dgSettingRxWidgetConfirm.setTitle(R.string.setting_upgrade);
-        dgSettingRxWidgetConfirm.setDes(R.string.setting_upgrade_firmware_warning);
+        dgSettingRxWidgetConfirm.setTitle(R.string.hh70_upgrade);
+        dgSettingRxWidgetConfirm.setDes(R.string.hh70_the_update_process);
         dgSettingRxWidgetConfirm.setOnBgClickListener(() -> {
         });
         dgSettingRxWidgetConfirm.setOnCancelClickListener(() -> dgSettingRxWidgetConfirm.setVisibility(View.GONE));
@@ -517,7 +517,7 @@ public class SettingFrag extends BaseFrag {
         isDownloading = true;
         FirmUpgradeHelper fuh = new FirmUpgradeHelper(activity, loadWidget, false);
         fuh.setOnLoginOutListener(() -> toFragActivity(getClass(), SplashActivity.class, LoginFrag.class, null, true));
-        fuh.setOnErrorListener(() -> downError(R.string.setting_upgrade_start_update_failed));
+        fuh.setOnErrorListener(() -> downError(R.string.hh70_device_cant_start));
         fuh.setOnStartUpgradeListener(() -> {
             toast(R.string.device_will_restart_later);
             loadWidget.setLoadTv(R.string.updating);
@@ -544,8 +544,8 @@ public class SettingFrag extends BaseFrag {
 
     private void popDialogFromBottom(int itemType) {
         wd_backup.setVisibility(View.VISIBLE);
-        wd_backup.setFirstText(itemType == RESTART_RESET ? R.string.restart : R.string.backup);
-        wd_backup.setSecondText(itemType == RESTART_RESET ? R.string.reset_to_factory_settings : R.string.restore);
+        wd_backup.setFirstText(itemType == RESTART_RESET ? R.string.hh70_restart : R.string.hh70_backup);
+        wd_backup.setSecondText(itemType == RESTART_RESET ? R.string.hh70_reset_factory : R.string.restore);
         wd_backup.setOnClickFirstTextListener(() -> {
             if (itemType == RESTART_RESET) {
                 restartDevice();
@@ -576,7 +576,7 @@ public class SettingFrag extends BaseFrag {
         xSetDeviceBackup.setOnPrepareHelperListener(this::showLoadingDialog);
         xSetDeviceBackup.setOnDoneHelperListener(this::dismissLoadingDialog);
         xSetDeviceBackup.setOnDownSuccessListener(attr -> toast(R.string.succeed));
-        xSetDeviceBackup.setOnSetDeviceBackupFailedListener(() -> toast(R.string.fail));
+        xSetDeviceBackup.setOnSetDeviceBackupFailedListener(() -> toast(R.string.hh70_fail));
         xSetDeviceBackup.setOnPathNotMatchRuleListener(path -> toast("path is empty or not match rule , it contains [\\ : * ? \" < > | .]", 2000));
         xSetDeviceBackup.setDeviceBackup(saveUrl);
     }
@@ -584,7 +584,7 @@ public class SettingFrag extends BaseFrag {
     private void showDialogResetFactorySetting() {
         wd_reset.setVisibility(View.VISIBLE);
         wd_reset.setTitle(R.string.reset_router);
-        wd_reset.setDes(R.string.This_will_reset_all_settings_on_your_router_to_factory_defaults_This_action_can_not_be_undone);
+        wd_reset.setDes(R.string.hh70_will_reset_route);
         wd_reset.setOnBgClickListener(() -> wd_reset.setVisibility(View.GONE));
         wd_reset.setOnCancelClickListener(() -> wd_reset.setVisibility(View.GONE));
         wd_reset.setOnOkClickListener(() -> {
@@ -596,7 +596,7 @@ public class SettingFrag extends BaseFrag {
     private void restartDevice() {
         SetDeviceRebootHelper xSetDeviceRebootHelper = new SetDeviceRebootHelper();
         xSetDeviceRebootHelper.setOnSetDeviceRebootSuccessListener(() -> toast(R.string.succeed));
-        xSetDeviceRebootHelper.setOnSetDeviceRebootFailedListener(() -> toast(R.string.fail));
+        xSetDeviceRebootHelper.setOnSetDeviceRebootFailedListener(() -> toast(R.string.hh70_fail));
         xSetDeviceRebootHelper.setOnPrepareHelperListener(this::showLoadingDialog);
         xSetDeviceRebootHelper.setOnDoneHelperListener(this::dismissLoadingDialog);
         xSetDeviceRebootHelper.SetDeviceReboot();
@@ -737,7 +737,7 @@ public class SettingFrag extends BaseFrag {
         } else {
             // 登出
             ClickDoubleHelper clickDouble = new ClickDoubleHelper();
-            clickDouble.setOnClickOneListener(() -> toast(R.string.home_exit_app, 3000));
+            clickDouble.setOnClickOneListener(() -> toast(R.string.hh70_touch_again, 3000));
             clickDouble.setOnClickDoubleListener(this::logout);
             clickDouble.click();
             return true;

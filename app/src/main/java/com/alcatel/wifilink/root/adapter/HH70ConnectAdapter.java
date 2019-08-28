@@ -60,9 +60,9 @@ public class HH70ConnectAdapter extends RecyclerView.Adapter<ConnectHolder> {
 
         final String displayName = device.DeviceName;
         holder.deviceNameTextView.setText(displayName);
-        holder.ip.setText(String.format(activity.getString(R.string.device_manage_ip), device.IPAddress));
+        holder.ip.setText(String.format(activity.getString(R.string.hh70_ip), device.IPAddress));
         String mac = device.MacAddress;
-        holder.mac.setText(String.format(activity.getString(R.string.device_manage_mac), mac));
+        holder.mac.setText(String.format(activity.getString(R.string.hh70_mac), mac));
         final int type = device.DeviceType;
 
         // if (mac.equalsIgnoreCase(MacHelper.getLocalMacAddress(activity))) {
@@ -128,7 +128,7 @@ public class HH70ConnectAdapter extends RecyclerView.Adapter<ConnectHolder> {
                 connectModelList.get(position).isEdit = false;
                 String strName = m_strEditString.trim();
                 if (strName.length() == 0 || strName.length() > 31) {
-                    String msgRes = activity.getString(R.string.device_manage_name_empty);
+                    String msgRes = activity.getString(R.string.hh70_device_name_invalid);
                     Toast.makeText(activity, msgRes, Toast.LENGTH_SHORT).show();
                 }
                 if (strName.length() != 0 && !strName.equals(displayName)) {

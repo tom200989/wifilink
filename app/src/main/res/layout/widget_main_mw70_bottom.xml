@@ -51,7 +51,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginStart="@dimen/dimen_10dip"
                 android:layout_toEndOf="@id/tv_main_mw70_connected_deviceNum"
-                android:text="@string/access_lable"
+                android:text="@string/hh70_connected"
                 android:textColor="@color/text_color"
                 app:layout_textSizePercent="25%h"
                 app:layout_widthPercent="50%w" />

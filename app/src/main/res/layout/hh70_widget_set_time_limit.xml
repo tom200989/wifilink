@@ -98,7 +98,7 @@
                     android:layout_weight="1"
                     android:background="@drawable/btn_click_selector"
                     android:gravity="center"
-                    android:text="@string/cancel"
+                    android:text="@string/hh70_cancel"
                     android:textAllCaps="false"
                     android:textColor="@color/white"
                     app:layout_textSizePercent="32%h" />

@@ -433,7 +433,7 @@ public class SetDataPlanFrag extends BaseFrag {
                     float usedData = attr.getUsedData() * 1f;
                     float monthlyPlan = attr.getMonthlyPlan() * 1f;
                     if (monthlyPlan > 0) {// 2.非无限流量的情况下
-                        String des = getString(R.string.home_usage_over_redial_message);// 3.超出月流量--> 显示警告
+                        String des = getString(R.string.hh70_monthly_data_plan_used);// 3.超出月流量--> 显示警告
                         if (usedData < monthlyPlan) {// 3.没有超出--> 显示剩余百分比
                             String per_s = (int) (((monthlyPlan - usedData) / monthlyPlan) * 100) + "%";
                             des = String.format(getString(R.string.about_x_data_remain), per_s);

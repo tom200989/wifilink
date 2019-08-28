@@ -22,7 +22,7 @@
             android:maxLines="1"
             android:textColor="@color/white"
             app:layout_textSizePercent="30%h"
-            android:text="@string/sms_title"/>
+            android:text="@string/hh70_sms_title"/>
 
         <ImageView
             android:id="@+id/iv_homeRx_smsNew"
@@ -78,7 +78,7 @@
             android:layout_weight="1"
             android:background="@drawable/bt_login_selector"
             android:gravity="center"
-            android:text="@string/delete"
+            android:text="@string/hh70_delete"
             android:textColor="@color/white"
             app:layout_heightPercent="80%h"
             app:layout_marginLeftPercent="20%h"
@@ -97,7 +97,7 @@
         android:drawablePadding="10dip"
         android:drawableTop="@drawable/sms_empty"
         android:gravity="center"
-        android:text="@string/sms_empty"
+        android:text="@string/hh70_no_sms"
         android:textColor="@color/color_grey"
         android:textSize="16sp" />
 

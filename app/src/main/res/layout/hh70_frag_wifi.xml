@@ -21,7 +21,7 @@
             android:maxLines="1"
             android:textColor="@color/white"
             app:layout_textSizePercent="30%h"
-            android:text="@string/wifi_settings"/>
+            android:text="@string/hh70_wifi_settings"/>
 
 
     </com.hiber.tools.layout.PercentRelativeLayout>
@@ -44,7 +44,7 @@
             android:layout_height="@dimen/dimen_40dip"
             android:layout_weight="1.0"
             android:background="@drawable/selector_conner_btn_login_blue"
-            android:text="@string/apply"
+            android:text="@string/hh70_apply"
             android:textAllCaps="false"
             android:textColor="@color/white" />
 
@@ -57,7 +57,7 @@
             android:layout_marginLeft="@dimen/dimen_10dip"
             android:layout_weight="1.0"
             android:background="@drawable/selector_conner_btn_login_blue"
-            android:text="@string/cancel"
+            android:text="@string/hh70_cancel"
             android:textColor="@color/white" />
     </com.hiber.tools.layout.PercentLinearLayout>
 
@@ -94,7 +94,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
-                        android:text="@string/qs_wifi_setting_2G_wifi" />
+                        android:text="@string/hh70_2p4_wifi" />
 
                     <android.support.v7.widget.SwitchCompat
                         android:id="@+id/switch_wifi_2g"
@@ -118,7 +118,7 @@
                         style="@style/WlanSettingTitle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/setting_text_ssid" />
+                        android:text="@string/hh70_ssid" />
 
                     <EditText
                         android:id="@+id/edit_ssid_2g"
@@ -196,7 +196,7 @@
                         style="@style/WlanSettingTitle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/password" />
+                        android:text="@string/hh70_password" />
 
                     <com.alcatel.wifilink.root.widget.ShowPasswordEditText
                         android:id="@+id/edit_key_2g"
@@ -249,7 +249,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
-                        android:text="@string/qs_wifi_setting_5G_wifi" />
+                        android:text="@string/hh70_5g_wifi" />
 
                     <android.support.v7.widget.SwitchCompat
                         android:id="@+id/switch_wifi_5g"
@@ -273,7 +273,7 @@
                         style="@style/WlanSettingTitle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/setting_text_ssid" />
+                        android:text="@string/hh70_ssid" />
 
                     <EditText
                         android:id="@+id/edit_ssid_5g"
@@ -350,7 +350,7 @@
                         style="@style/WlanSettingTitle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/password" />
+                        android:text="@string/hh70_password" />
 
                     <com.alcatel.wifilink.root.widget.ShowPasswordEditText
                         android:id="@+id/edit_key_5g"

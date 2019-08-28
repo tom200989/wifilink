@@ -80,22 +80,22 @@ public class PinStatuHelper {
                 int simState = result.getSIMState();
                 switch (simState) {
                     case GetSimStatusBean.CONS_SIM_CARD_IS_INITING:
-                        toast(R.string.home_initializing);
+                        toast(R.string.hh70_initializing);
                         break;
                     case GetSimStatusBean.CONS_PUK_TIMES_USED_OUT:
-                        toast(R.string.Home_PukTimes_UsedOut);
+                        toast(R.string.hh70_puk_timeout);
                         break;
                     case GetSimStatusBean.CONS_SIM_CARD_DETECTED:
-                        toast(R.string.Home_SimCard_Detected);
+                        toast(R.string.hh70_sim_card_deleted);
                         break;
                     case GetSimStatusBean.CONS_NOWN:
                         toast(R.string.not_inserted);
                         break;
                     case GetSimStatusBean.CONS_SIM_CARD_ILLEGAL:
-                        toast(R.string.Home_sim_invalid);
+                        toast(R.string.hh70_invalid_sim);
                         break;
                     case GetSimStatusBean.CONS_SIM_LOCK_REQUIRED:
-                        toast(R.string.home_sim_loched);
+                        toast(R.string.hh70_sim_locked);
                         break;
                     default:
                         // 2.获取PIN status
@@ -104,7 +104,7 @@ public class PinStatuHelper {
                 }
             });
             xGetSimStatusHelper.setOnGetSimStatusFailedListener(() -> {
-                toast(R.string.home_sim_not_accessible);
+                toast(R.string.hh70_sim_not_accessible);
                 to(RootCons.ACTIVITYS.SPLASH_AC, RootCons.FRAG.REFRESH_FR);
             });
             xGetSimStatusHelper.getSimStatus();

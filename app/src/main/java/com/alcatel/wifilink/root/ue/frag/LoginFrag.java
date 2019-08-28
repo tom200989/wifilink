@@ -161,13 +161,13 @@ public class LoginFrag extends RootFrag {
         // 1. 检测空值
         String loginText = RootUtils.getEDText(etLoginRx);
         if (TextUtils.isEmpty(loginText)) {
-            toast(R.string.setting_password_note, 5000);
+            toast(R.string.hh70_the_psd_should, 5000);
             return;
         }
         // 2.检测密码位数
         int length = loginText.length();
         if (length < 4 | length > 16) {
-            toast(R.string.setting_password_note, 5000);
+            toast(R.string.hh70_the_psd_should, 5000);
             return;
         }
         // 3.启动登陆
@@ -206,7 +206,7 @@ public class LoginFrag extends RootFrag {
         // 其他用户登陆
         loginHelper.setOnOtherUserLoginListener(() -> {
             wdLoginLoad.setGone();
-            toast(R.string.login_other_user_logined_error_msg, 5000);
+            toast(R.string.hh70_other_use_login, 5000);
         });
         // 登陆出错超限
         loginHelper.setOnLoginOutTimeListener(() -> {

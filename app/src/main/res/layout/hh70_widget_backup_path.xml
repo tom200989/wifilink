@@ -45,7 +45,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:text="@string/cancel"
+                    android:text="@string/hh70_cancel"
                     app:layout_heightPercent="30%h"
                     app:layout_textSizePercent="13%h"
                     app:layout_widthPercent="50%w" />
@@ -56,7 +56,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
                     android:gravity="center"
-                    android:text="@string/backup"
+                    android:text="@string/hh70_backup"
                     android:textAllCaps="false"
                     android:textColor="@color/mg_blue"
                     app:layout_heightPercent="30%h"

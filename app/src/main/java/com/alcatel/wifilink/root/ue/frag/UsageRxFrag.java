@@ -76,7 +76,7 @@ public class UsageRxFrag extends BaseFrag {
 
     private void initRes() {
         popTitle = getString(R.string.reset_monthly_data_usage_statistics);
-        popCancel = getString(R.string.cancel);
+        popCancel = getString(R.string.hh70_cancel);
         popReset = getString(R.string.reset);
         reseting = getString(R.string.resetting);
         resetFailed = getString(R.string.couldn_t_reset_try_again);

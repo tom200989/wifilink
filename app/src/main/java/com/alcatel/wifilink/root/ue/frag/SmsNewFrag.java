@@ -215,15 +215,15 @@ public class SmsNewFrag extends BaseFrag {
 
                 SaveSMSHelper xSaveSMSHelper = new SaveSMSHelper();
                 xSaveSMSHelper.setOnSaveSMSSuccessListener(() -> {
-                    toast(R.string.sms_save_success, 2000);
+                    toast(R.string.hh70_sms_save_draft, 2000);
                     toFrag(getClass(), SmsFrag.class, null, false);
                 });
                 xSaveSMSHelper.setOnSaveSmsFailListener(() -> toFrag(getClass(), SmsFrag.class, null, false));
-                xSaveSMSHelper.setOnSaveFailListener(() -> toast(R.string.sms_save_error, 2000));
-                xSaveSMSHelper.setOnSpaceFullListener(() -> toast(R.string.sms_error_message_full_storage, 2000));
+                xSaveSMSHelper.setOnSaveFailListener(() -> toast(R.string.hh70_cant_save_sms, 2000));
+                xSaveSMSHelper.setOnSpaceFullListener(() -> toast(R.string.hh70_sms_box_full, 2000));
                 xSaveSMSHelper.saveSms(xSaveSmsParam);
             } else {
-                String msgRes = activity.getString(R.string.sms_number_invalid);
+                String msgRes = activity.getString(R.string.hh70_only_3_phone_num);
                 toast(msgRes, 2000);
                 m_etNumber.requestFocus();
             }
@@ -267,7 +267,7 @@ public class SmsNewFrag extends BaseFrag {
             m_etContent.setEnabled(false);
         } else {
 
-            String msgRes = this.getString(R.string.sms_number_invalid);
+            String msgRes = this.getString(R.string.hh70_only_3_phone_num);
             toast(msgRes, 2000);
             m_etNumber.requestFocus();
         }
@@ -311,7 +311,7 @@ public class SmsNewFrag extends BaseFrag {
                 toFrag(getClass(), SmsFrag.class, null, false);
             } else if (sendStatus == GetSendSMSResultBean.CONS_SEND_STATUS_FAIL) {
                 loadWidget.setVisibility(View.GONE);
-                toast(R.string.fail, 2000);
+                toast(R.string.hh70_fail, 2000);
                 toFrag(getClass(), SmsFrag.class, null, false);
             }
         });

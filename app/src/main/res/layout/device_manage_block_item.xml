@@ -59,7 +59,7 @@
         android:layout_marginEnd="10dip"
         android:layout_marginRight="10dip"
         android:background="@drawable/selector_common_button"
-        android:text="@string/device_manage_unblock_btn"
+        android:text="@string/hh70_unblock"
         android:textColor="@color/color_white"
         android:textSize="10sp" />
 </com.hiber.tools.layout.PercentRelativeLayout>

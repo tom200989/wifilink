@@ -312,7 +312,7 @@ public class SettingNetworkFrag extends BaseFrag {
         networkSetDataPlan.setOnClickListener(v -> {
             mSetDataPlan.setVisibility(View.VISIBLE);
             mMobileNetwork.setVisibility(View.GONE);
-            tvTitle.setText(getString(R.string.setting_set_data_plan));
+            tvTitle.setText(getString(R.string.hh70_set_data_plan));
             getUsageSetting();
         });
         networkChangePin.setOnClickListener(v -> {
@@ -320,7 +320,7 @@ public class SettingNetworkFrag extends BaseFrag {
                 mChangePin.setVisibility(View.VISIBLE);
                 tvDone.setVisibility(mChangePin.getVisibility() == View.VISIBLE ? View.VISIBLE : View.GONE);
                 mMobileNetwork.setVisibility(View.GONE);
-                tvTitle.setText(getString(R.string.change_pin));
+                tvTitle.setText(getString(R.string.hh70_change_pin));
             } else {
                 toast(R.string.please_enable_sim_pin, 3000);
             }
@@ -479,7 +479,7 @@ public class SettingNetworkFrag extends BaseFrag {
             et_settingPin.setText("");
             RootUtils.hideKeyBoard(activity);
             int remainTimes = mSimStatus.getPinRemainingTimes() - 1;
-            String content = getString(R.string.pin_error_waring_title) + "\n" + getString(R.string.can_also_enter_times, remainTimes + "");
+            String content = getString(R.string.hh70_pin_code_wrong) + "\n" + getString(R.string.can_also_enter_times, remainTimes + "");
             toast(content, 3000);
             getSimStatus();
             mSimPinCompat.setChecked(enable != 1);
@@ -555,13 +555,13 @@ public class SettingNetworkFrag extends BaseFrag {
                     int simState = getSimStatusBean.getSIMState();
                     switch (simState) {
                         case GetSimStatusBean.CONS_NOWN:
-                            toast(R.string.home_no_sim, 3000);
+                            toast(R.string.hh70_no_sim, 3000);
                             break;
                         case GetSimStatusBean.CONS_PIN_REQUIRED:
                             showSimPinEnableDialog();
                             break;
                         case GetSimStatusBean.CONS_PUK_TIMES_USED_OUT:
-                            toast(R.string.Home_PukTimes_UsedOut, 3000);
+                            toast(R.string.hh70_puk_timeout, 3000);
                             break;
                     }
                 });
@@ -758,7 +758,7 @@ public class SettingNetworkFrag extends BaseFrag {
             mOldMobileDataEnable = false;
         });
         xDisConnectHelper.setOnDisconnectFailedListener(() -> {
-            toast(R.string.setting_failed, 3000);
+            toast(R.string.hh70_failed, 3000);
             mOldMobileDataEnable = true;
             mMobileDataSwitchCompat.setChecked(true);
         });
@@ -806,14 +806,14 @@ public class SettingNetworkFrag extends BaseFrag {
         } else if (mSetDataPlan.getVisibility() == View.VISIBLE) {
             mSetDataPlan.setVisibility(View.GONE);
             mMobileNetwork.setVisibility(View.VISIBLE);
-            tvTitle.setText(R.string.setting_mobile_network);
+            tvTitle.setText(R.string.hh70_mobile_network);
             return true;
 
         } else if (mChangePin.getVisibility() == View.VISIBLE) {
             mChangePin.setVisibility(View.GONE);
             tvDone.setVisibility(mChangePin.getVisibility() == View.VISIBLE ? View.VISIBLE : View.GONE);
             mMobileNetwork.setVisibility(View.VISIBLE);
-            tvTitle.setText(R.string.setting_mobile_network);
+            tvTitle.setText(R.string.hh70_mobile_network);
             return true;
         } else if (monthlyDataPlanWidget.getVisibility() == View.VISIBLE) {
             monthlyDataPlanWidget.setVisibility(View.GONE);
