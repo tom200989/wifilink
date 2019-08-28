@@ -35,7 +35,7 @@
                 android:textColor="@color/mg_blue"
                 app:layout_marginTopPercent="18.18%h"
                 app:layout_textSizePercent="2.7%sh"
-                tools:layout_textSizePercent="12.27%h" />
+                tools:layout_textSizePercent="11%h" />
 
             <View
                 android:id="@+id/v_smsdetail_tryagain_split"
@@ -54,7 +54,7 @@
                 android:layout_height="@dimen/dimen_50dip"
                 android:layout_below="@id/v_smsdetail_tryagain_split"
                 android:orientation="horizontal"
-                app:layout_heightPercent="36.36%h"
+                app:layout_heightPercent="30%h"
                 app:layout_marginTopPercent="9.10%h">
 
                 <Button
@@ -69,7 +69,7 @@
                     android:text="@string/cancel"
                     android:textAllCaps="false"
                     android:textColor="@color/white"
-                    app:layout_textSizePercent="33%h" />
+                    app:layout_textSizePercent="36%h" />
 
                 <Button
                     android:id="@+id/tv_smsdetail_detele_confirm"
@@ -83,7 +83,7 @@
                     android:text="@string/delete"
                     android:textAllCaps="false"
                     android:textColor="@color/sms_detail_tryagain"
-                    app:layout_textSizePercent="33%h" />
+                    app:layout_textSizePercent="36%h" />
 
             </com.hiber.tools.layout.PercentLinearLayout>
 

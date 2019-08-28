@@ -36,9 +36,9 @@
                 android:textColor="@color/black"
                 app:layout_marginLeftPercent="5%w"
                 app:layout_marginRightPercent="5%w"
-                app:layout_marginTopPercent="3%h"
+                app:layout_marginTopPercent="2.5%h"
                 app:layout_textSizePercent="3%sh"
-                tools:layout_textSizePercent="3%h"
+                tools:layout_textSizePercent="2.5%h"
                 />
 
             <!-- 分割线 -->
@@ -51,7 +51,7 @@
                 android:background="@color/gray"
                 app:layout_marginLeftPercent="5%w"
                 app:layout_marginRightPercent="5%w"
-                app:layout_marginTopPercent="3%h" />
+                app:layout_marginTopPercent="2.5%h" />
 
             <!-- 描述 -->
             <TextView
@@ -65,9 +65,9 @@
                 android:textColor="@color/black_text"
                 app:layout_marginLeftPercent="5%w"
                 app:layout_marginRightPercent="5%w"
-                app:layout_marginTopPercent="3%h"
+                app:layout_marginTopPercent="2.5%h"
                 app:layout_textSizePercent="3%sh"
-                tools:layout_textSizePercent="3%h"
+                tools:layout_textSizePercent="2.5%h"
                 />
 
             <View
@@ -79,7 +79,7 @@
                 android:background="@color/gray"
                 app:layout_marginLeftPercent="5%w"
                 app:layout_marginRightPercent="5%w"
-                app:layout_marginTopPercent="3%h" />
+                app:layout_marginTopPercent="2.5%h" />
 
             <!-- 描述 -->
             <TextView
@@ -93,9 +93,9 @@
                 android:textColor="@color/black_text"
                 app:layout_marginLeftPercent="5%w"
                 app:layout_marginRightPercent="5%w"
-                app:layout_marginTopPercent="3%h"
+                app:layout_marginTopPercent="2.5%h"
                 app:layout_textSizePercent="3%sh"
-                tools:layout_textSizePercent="3%h"
+                tools:layout_textSizePercent="2.5%h"
                 />
 
             <View
@@ -107,7 +107,7 @@
                 android:background="@color/gray"
                 app:layout_marginLeftPercent="5%w"
                 app:layout_marginRightPercent="5%w"
-                app:layout_marginTopPercent="3%h" />
+                app:layout_marginTopPercent="2.5%h" />
 
             <!-- 描述 -->
             <TextView
@@ -121,10 +121,10 @@
                 android:textColor="@color/black_text"
                 app:layout_marginLeftPercent="5%w"
                 app:layout_marginRightPercent="5%w"
-                app:layout_marginTopPercent="3%h"
+                app:layout_marginTopPercent="2.5%h"
                 app:layout_textSizePercent="3%sh"
-                tools:layout_textSizePercent="3%h"
-                app:layout_marginBottomPercent="3%h"
+                tools:layout_textSizePercent="2.5%h"
+                app:layout_marginBottomPercent="2.5%h"
                 />
 
         </com.hiber.tools.layout.PercentRelativeLayout>

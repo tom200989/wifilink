@@ -42,8 +42,10 @@
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_centerVertical="true"
+            android:layout_marginStart="5dp"
             android:text="@string/ssid_broadcast"
-            android:textColor="@color/black" />
+            android:textColor="@color/black"
+            android:textSize="16dp" />
 
         <android.support.v7.widget.SwitchCompat
             android:id="@+id/switch_ssid_broadcast"
@@ -110,8 +112,10 @@
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_centerVertical="true"
+            android:layout_marginStart="5dp"
             android:text="@string/mode_802_11"
-            android:textColor="@color/black" />
+            android:textColor="@color/black"
+            android:textSize="16dp" />
 
         <android.support.v7.widget.AppCompatSpinner
             android:id="@+id/spinner_802_11_mode"
@@ -132,8 +136,10 @@
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_centerVertical="true"
+            android:layout_marginStart="5dp"
             android:text="@string/ap_isolation"
-            android:textColor="@color/black" />
+            android:textColor="@color/black"
+            android:textSize="16dp" />
 
         <android.support.v7.widget.SwitchCompat
             android:id="@+id/switch_ap_isolation"
@@ -152,8 +158,10 @@
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_centerVertical="true"
+            android:layout_marginStart="5dp"
             android:text="@string/bandwidth"
-            android:textColor="@color/black" />
+            android:textColor="@color/black"
+            android:textSize="16dp" />
 
         <android.support.v7.widget.AppCompatSpinner
             android:id="@+id/spinner_bandwidth_type"

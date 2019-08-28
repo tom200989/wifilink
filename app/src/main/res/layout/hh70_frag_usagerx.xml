@@ -29,7 +29,7 @@
             android:layout_centerInParent="true"
             android:text="@string/monthly_data_usage"
             android:textColor="@color/white"
-            app:layout_textSizePercent="30%h" />
+            app:layout_textSizePercent="28%h" />
 
     </com.hiber.tools.layout.PercentRelativeLayout>
 
@@ -64,7 +64,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/home_network"
                 android:textColor="@color/black"
-                app:layout_textSizePercent="30%h" />
+                app:layout_textSizePercent="25%h" />
 
             <TextView
                 android:id="@+id/tv_usage_rx_homeNetwork_traffic"
@@ -86,7 +86,7 @@
             android:layout_marginEnd="@dimen/dimen_15dip"
             android:text=""
             android:textColor="@color/black"
-            app:layout_textSizePercent="30%h" />
+            app:layout_textSizePercent="25%h" />
 
     </com.hiber.tools.layout.PercentRelativeLayout>
 
@@ -122,7 +122,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/usage_setting_roaming"
                 android:textColor="@color/black"
-                app:layout_textSizePercent="30%h" />
+                app:layout_textSizePercent="25%h" />
 
             <TextView
                 android:id="@+id/tv_usage_rx_roaming_traffic"
@@ -142,7 +142,7 @@
             android:layout_centerVertical="true"
             android:layout_marginEnd="@dimen/dimen_15dip"
             android:textColor="@color/black"
-            app:layout_textSizePercent="30%h" />
+            app:layout_textSizePercent="25%h" />
 
     </com.hiber.tools.layout.PercentRelativeLayout>
 
@@ -155,10 +155,10 @@
         android:background="@drawable/bt_login_selector"
         android:text="@string/reset_statistics"
         android:textColor="@color/white"
-        app:layout_heightPercent="8%h"
+        app:layout_heightPercent="6%h"
         android:textAllCaps="false"
         app:layout_marginTopPercent="5%h"
-        app:layout_textSizePercent="2.8%h"
+        app:layout_textSizePercent="2.5%h"
         app:layout_widthPercent="80%w" />
 
     <TextView
@@ -170,7 +170,7 @@
         android:gravity="center"
         android:text="@string/mobile_network_settings"
         android:textColor="@color/gray"
-        app:layout_heightPercent="5%h"
+        app:layout_heightPercent="4%h"
         app:layout_marginTopPercent="3%h"
         app:layout_textSizePercent="2.5%h" />
 

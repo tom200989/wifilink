@@ -47,7 +47,7 @@
                     android:inputType="number"
                     android:maxLength="2"
                     app:layout_heightPercent="80%h"
-                    app:layout_textSizePercent="27%h"
+                    app:layout_textSizePercent="30%h"
                     app:layout_widthPercent="20%w" />
 
                 <TextView
@@ -55,7 +55,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/dimen_10dip"
                     android:text="@string/hr_s"
-                    app:layout_textSizePercent="27%h" />
+                    app:layout_textSizePercent="30%h" />
 
                 <EditText
                     android:id="@+id/et_pop_setPlan_rx_settimelimit_min"
@@ -68,7 +68,7 @@
                     android:inputType="number"
                     android:maxLength="2"
                     app:layout_heightPercent="80%h"
-                    app:layout_textSizePercent="27%h"
+                    app:layout_textSizePercent="30%h"
                     app:layout_widthPercent="20%w" />
 
                 <TextView
@@ -76,7 +76,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/dimen_10dip"
                     android:text="@string/min_s"
-                    app:layout_textSizePercent="27%h" />
+                    app:layout_textSizePercent="30%h" />
             </com.hiber.tools.layout.PercentLinearLayout>
 
             <!-- tip -->

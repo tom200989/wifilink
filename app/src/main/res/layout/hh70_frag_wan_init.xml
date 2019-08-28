@@ -29,9 +29,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
+            android:gravity="center"
+            android:lines="1"
+            android:maxLines="1"
             android:text="@string/ethernet_wan_connection"
             android:textColor="@color/white"
-            app:layout_textSizePercent="30%h" />
+            app:layout_textSizePercent="28%h"
+            app:layout_widthPercent="60%w" />
 
         <TextView
             android:id="@+id/tv_wanmode_rx_skip"
@@ -66,7 +70,7 @@
             android:paddingEnd="@dimen/dimen_15dip"
             android:text="@string/pppoe"
             android:textColor="@color/black"
-            app:layout_textSizePercent="28%h" />
+            app:layout_textSizePercent="25%h" />
 
         <ImageView
             android:id="@+id/iv_wanmode_rx_pppoe_check"
@@ -98,7 +102,7 @@
             android:paddingEnd="@dimen/dimen_15dip"
             android:text="@string/dhcp"
             android:textColor="@color/black"
-            app:layout_textSizePercent="28%h" />
+            app:layout_textSizePercent="25%h" />
 
         <ImageView
             android:id="@+id/iv_wanmode_rx_dhcp_check"
@@ -130,7 +134,7 @@
             android:paddingEnd="@dimen/dimen_15dip"
             android:text="@string/static_ip"
             android:textColor="@color/black"
-            app:layout_textSizePercent="28%h" />
+            app:layout_textSizePercent="25%h" />
 
         <ImageView
             android:id="@+id/iv_wanmode_rx_static_check"
@@ -152,7 +156,7 @@
         android:layout_below="@id/rl_wanmode_check_static"
         android:background="@color/white"
         android:visibility="gone"
-        app:layout_heightPercent="30%h"
+        app:layout_heightPercent="25%h"
         app:layout_marginTopPercent="2%h">
 
         <!-- account -->
@@ -169,7 +173,7 @@
                 android:layout_marginStart="@dimen/dimen_15dip"
                 android:text="@string/account"
                 android:textColor="@color/black"
-                app:layout_textSizePercent="30%h" />
+                app:layout_textSizePercent="25%h" />
 
             <EditText
                 android:id="@+id/et_wanmode_rx_pppoe_account"
@@ -184,7 +188,7 @@
                 android:maxLength="32"
                 android:maxLines="1"
                 android:textColor="@color/mg_blue"
-                app:layout_textSizePercent="30%h"
+                app:layout_textSizePercent="25%h"
                 app:layout_widthPercent="60%w" />
 
         </com.hiber.tools.layout.PercentRelativeLayout>
@@ -204,7 +208,7 @@
                 android:layout_marginStart="@dimen/dimen_15dip"
                 android:text="@string/password"
                 android:textColor="@color/black"
-                app:layout_textSizePercent="30%h" />
+                app:layout_textSizePercent="25%h" />
 
             <EditText
                 android:id="@+id/et_wanmode_rx_pppoe_psd"
@@ -219,7 +223,7 @@
                 android:maxLength="32"
                 android:maxLines="1"
                 android:textColor="@color/mg_blue"
-                app:layout_textSizePercent="30%h"
+                app:layout_textSizePercent="25%h"
                 app:layout_widthPercent="60%w" />
 
         </com.hiber.tools.layout.PercentRelativeLayout>
@@ -239,7 +243,7 @@
                 android:text="@string/netmode_mtu"
                 android:textColor="@color/black"
                 app:layout_marginTopPercent="12%h"
-                app:layout_textSizePercent="30%h" />
+                app:layout_textSizePercent="25%h" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -264,7 +268,7 @@
                 android:maxLength="4"
                 android:maxLines="1"
                 android:textColor="@color/mg_blue"
-                app:layout_textSizePercent="30%h"
+                app:layout_textSizePercent="25%h"
                 app:layout_widthPercent="15%w" />
 
         </com.hiber.tools.layout.PercentRelativeLayout>
@@ -295,7 +299,7 @@
                 android:layout_marginStart="@dimen/dimen_15dip"
                 android:text="@string/ip_address"
                 android:textColor="@color/black"
-                app:layout_textSizePercent="28%h" />
+                app:layout_textSizePercent="25%h" />
 
             <EditText
                 android:id="@+id/et_wanmode_rx_static_detail_ipaddress4"
@@ -312,7 +316,7 @@
                 android:maxLength="32"
                 android:maxLines="1"
                 android:textColor="@color/mg_blue"
-                app:layout_textSizePercent="30%h"
+                app:layout_textSizePercent="25%h"
                 app:layout_widthPercent="40%w" />
 
         </com.hiber.tools.layout.PercentRelativeLayout>
@@ -331,7 +335,7 @@
                 android:layout_marginStart="@dimen/dimen_15dip"
                 android:text="@string/subnet_mask"
                 android:textColor="@color/black"
-                app:layout_textSizePercent="28%h" />
+                app:layout_textSizePercent="25%h" />
 
             <EditText
                 android:id="@+id/et_wanmode_rx_static_detail_subnet"
@@ -348,7 +352,7 @@
                 android:maxLength="32"
                 android:maxLines="1"
                 android:textColor="@color/mg_blue"
-                app:layout_textSizePercent="30%h"
+                app:layout_textSizePercent="25%h"
                 app:layout_widthPercent="40%w" />
 
         </com.hiber.tools.layout.PercentRelativeLayout>

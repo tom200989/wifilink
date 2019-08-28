@@ -30,7 +30,7 @@
                 android:paddingEnd="@dimen/dimen_10dip"
                 android:paddingStart="@dimen/dimen_10dip"
                 android:textColor="@color/mg_blue"
-                app:layout_textSizePercent="30%h" />
+                app:layout_textSizePercent="25%h" />
 
             <ImageView
                 android:id="@+id/iv_pin_rx_deleted"
@@ -54,7 +54,7 @@
             android:layout_marginStart="@dimen/dimen_10dip"
             android:layout_marginTop="@dimen/dimen_10dip"
             android:textColor="@color/gray"
-            app:layout_textSizePercent="2.8%h" />
+            app:layout_textSizePercent="2.5%h" />
 
         <TextView
             android:id="@+id/tv_pin_rx_tip_des"
@@ -66,7 +66,7 @@
             android:layout_toEndOf="@id/tv_pin_rx_tip_num"
             android:text="@string/sim_unlocked_attempts"
             android:textColor="@color/gray"
-            app:layout_textSizePercent="2.8%h" />
+            app:layout_textSizePercent="2.5%h" />
 
         <!-- 记住PIN码 -->
         <ImageView
@@ -90,7 +90,7 @@
             android:layout_toEndOf="@+id/iv_pin_rx_checkbox"
             android:text="@string/remember_sim_pin"
             android:textColor="@color/black"
-            app:layout_textSizePercent="2.8%h" />
+            app:layout_textSizePercent="2.5%h" />
 
         <!-- 按钮 -->
         <Button
@@ -99,12 +99,13 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/tv_pin_rx_checkbox"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="@dimen/dimen_15dip"
+            android:layout_marginTop="30dp"
             android:background="@drawable/bt_login_selector"
             android:text="@string/netmode_connect"
             android:textColor="@color/white"
-            app:layout_heightPercent="8%h"
-            app:layout_textSizePercent="2.8%h"
+            android:textAllCaps="false"
+            app:layout_heightPercent="6%h"
+            app:layout_textSizePercent="2.5%h"
             app:layout_widthPercent="85%w" />
 
     </com.hiber.tools.layout.PercentRelativeLayout>

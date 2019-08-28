@@ -68,7 +68,7 @@
                 android:textColor="@color/grey_text"
                 android:textDirection="locale"
                 app:layout_heightPercent="10%h"
-                app:layout_textSizePercent="2.2%h"
+                app:layout_textSizePercent="2.4%h"
                 tools:ignore="Autofill" />
 
             <View
@@ -89,7 +89,7 @@
                 android:textDirection="locale"
                 android:textScaleX="0.9"
                 app:layout_heightPercent="10%h"
-                app:layout_textSizePercent="2.2%h"
+                app:layout_textSizePercent="2.4%h"
                 tools:ignore="Autofill" />
 
             <View
@@ -109,7 +109,7 @@
                 android:textColor="@color/grey_text"
                 android:textDirection="locale"
                 app:layout_heightPercent="10%h"
-                app:layout_textSizePercent="2.2%h"
+                app:layout_textSizePercent="2.4%h"
                 tools:ignore="Autofill" />
 
             <View
@@ -128,7 +128,7 @@
                 android:textStyle="normal"
                 app:layout_heightPercent="10%h"
                 app:layout_marginTopPercent="10%h"
-                app:layout_textSizePercent="2.5%h" />
+                app:layout_textSizePercent="2.8%h" />
         </com.hiber.tools.layout.PercentLinearLayout>
 
         <!-- 确定取消按钮 -->

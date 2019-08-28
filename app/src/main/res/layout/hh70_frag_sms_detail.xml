@@ -122,15 +122,6 @@
         android:textColor="@color/shadowcolor"
         android:textSize="@dimen/dimen_textsize_16sp" />
 
-    <!-- 等待 -->
-    <com.alcatel.wifilink.root.widget.HH70_LoadWidget
-        android:id="@+id/wd_smsdetail_load"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@id/rl_sms_detail_title_bar"
-        android:visibility="gone" />
-
-</com.hiber.tools.layout.PercentRelativeLayout>
     <com.alcatel.wifilink.root.widget.HH70_SmsTryAgainWidget
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -142,4 +133,14 @@
         android:layout_height="match_parent"
         android:visibility="gone"
         android:id="@+id/wd_sms_delete"/>
-</RelativeLayout>
+
+    <!-- 等待 -->
+    <com.alcatel.wifilink.root.widget.HH70_LoadWidget
+        android:id="@+id/wd_smsdetail_load"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/rl_sms_detail_title_bar"
+        android:visibility="gone" />
+
+</com.hiber.tools.layout.PercentRelativeLayout>
+    

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.hiber.tools.layout.PercentRelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -29,11 +30,11 @@
                 android:layout_height="@dimen/setting_item_height"
                 android:gravity="center"
                 android:textColor="@color/black_text"
-                android:textSize="@dimen/dimen_textsize_16sp" />
+                app:layout_textSizePercent="2.5%h" />
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="0.2dp"
+                android:layout_height="0.1dp"
                 android:background="@color/background" />
 
             <TextView
@@ -42,11 +43,11 @@
                 android:layout_height="@dimen/setting_item_height"
                 android:gravity="center"
                 android:textColor="@color/black_text"
-                android:textSize="@dimen/dimen_textsize_16sp" />
+                app:layout_textSizePercent="2.5%h" />
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="0.2dp"
+                android:layout_height="0.1dp"
                 android:background="@color/background" />
 
             <TextView
@@ -56,7 +57,7 @@
                 android:gravity="center"
                 android:text="@string/cancel"
                 android:textColor="@color/black_text"
-                android:textSize="@dimen/dimen_textsize_16sp" />
+                app:layout_textSizePercent="2.5%h" />
         </com.hiber.tools.layout.PercentLinearLayout>
 
     </com.hiber.tools.layout.PercentRelativeLayout>

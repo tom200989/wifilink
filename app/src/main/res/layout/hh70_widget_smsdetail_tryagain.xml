@@ -30,7 +30,7 @@
             android:text="@string/smsdetail_tryagain"
             android:textColor="@color/mg_blue"
             app:layout_marginTopPercent="18.18%h"
-            app:layout_textSizePercent="12.27%h" />
+            app:layout_textSizePercent="11%h" />
 
         <!-- split -->
         <View
@@ -51,7 +51,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/v_smsdetail_tryagain_split"
             android:orientation="horizontal"
-            app:layout_heightPercent="36.36%h"
+            app:layout_heightPercent="30%h"
             app:layout_marginTopPercent="9.10%h">
 
             <Button
@@ -66,7 +66,7 @@
                 android:layout_marginStart="@dimen/dimen_10dip"
                 android:textAllCaps="false"
                 android:textColor="@color/white"
-                app:layout_textSizePercent="32%h"/>
+                app:layout_textSizePercent="36%h"/>
 
             <Button
                 android:layout_marginEnd="@dimen/dimen_10dip"
@@ -80,7 +80,7 @@
                 android:gravity="center"
                 android:text="@string/smsdetail_tryagain_confirm"
                 android:textColor="@color/sms_detail_tryagain"
-                app:layout_textSizePercent="32%h"/>
+                app:layout_textSizePercent="35%h"/>
         </com.hiber.tools.layout.PercentLinearLayout>
 
         <View

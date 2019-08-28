@@ -26,7 +26,7 @@
             android:paddingStart="@dimen/dimen_10dip"
             android:textColor="@color/mg_blue"
             app:layout_heightPercent="9%h"
-            app:layout_textSizePercent="3%h" />
+            app:layout_textSizePercent="2.3%h" />
 
         <!-- 剩余次数 -->
         <TextView
@@ -38,7 +38,7 @@
             android:layout_marginTop="@dimen/dimen_10dip"
             android:text="10"
             android:textColor="@color/gray"
-            app:layout_textSizePercent="2.8%h" />
+            app:layout_textSizePercent="2.3%h" />
 
         <TextView
             android:id="@+id/tv_puk_rx_tip_des"
@@ -50,7 +50,7 @@
             android:layout_toEndOf="@id/tv_puk_rx_tip_num"
             android:text="@string/sim_unlocked_attempts"
             android:textColor="@color/gray"
-            app:layout_textSizePercent="2.8%h" />
+            app:layout_textSizePercent="2.3%h" />
 
         <!-- 重新设置PIN码 -->
         <EditText
@@ -67,7 +67,7 @@
             android:paddingStart="@dimen/dimen_10dip"
             android:textColor="@color/mg_blue"
             app:layout_heightPercent="9%h"
-            app:layout_textSizePercent="3%h" />
+            app:layout_textSizePercent="2.3%h" />
 
         <!-- 4~8 位数提示 -->
         <TextView
@@ -81,7 +81,7 @@
             android:text="@string/puk_limit_strings"
             android:textColor="@color/gray"
             app:layout_heightPercent="9%h"
-            app:layout_textSizePercent="3%h" />
+            app:layout_textSizePercent="2.3%h" />
 
         <!-- 确认PIN码 -->
         <EditText
@@ -97,7 +97,7 @@
             android:paddingStart="@dimen/dimen_10dip"
             android:textColor="@color/mg_blue"
             app:layout_heightPercent="9%h"
-            app:layout_textSizePercent="3%h" />
+            app:layout_textSizePercent="2.3%h" />
 
         <!-- 记住PIN码 -->
         <ImageView
@@ -121,10 +121,11 @@
             android:layout_toEndOf="@+id/iv_puk_remempin_rx_checkbox"
             android:text="@string/remember_sim_pin"
             android:textColor="@color/black"
-            app:layout_textSizePercent="2.8%h" />
+            app:layout_textSizePercent="2.3%h" />
 
         <!-- 按钮 -->
         <Button
+            android:textAllCaps="false"
             android:id="@+id/bt_puk_rx_unlock"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -135,7 +136,7 @@
             android:text="@string/netmode_connect"
             android:textColor="@color/white"
             app:layout_heightPercent="8%h"
-            app:layout_textSizePercent="2.8%h"
+            app:layout_textSizePercent="2.3%h"
             app:layout_widthPercent="85%w" />
 
         <!-- 剩余1次提示 -->
