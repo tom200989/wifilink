@@ -39,8 +39,7 @@ public class ConnectSettingHelper {
             }
         });
         xGetConnectionSettingsHelper.setOnGetConnectionSettingsFailedListener(() -> {
-            resultErrorNext(null);
-            errorNext(null);
+          connectSettingFailNext();
         });
         xGetConnectionSettingsHelper.getConnectionSettings();
     }
@@ -224,8 +223,7 @@ public class ConnectSettingHelper {
                 connSuccessNext(null);
             });
             xConnectHelper.setOnConnectFailedListener(() -> {
-                resultErrorNext(null);
-                errorNext(null);
+                connectSettingFailNext();
             });
             xConnectHelper.connect();
 
@@ -234,8 +232,7 @@ public class ConnectSettingHelper {
             DisConnectHelper xDisConnectHelper = new DisConnectHelper();
             xDisConnectHelper.setOnDisconnectSuccessListener(() -> disconnSuccessNext(null));
             xDisConnectHelper.setOnDisconnectFailedListener(() -> {
-                resultErrorNext(null);
-                errorNext(null);
+                connectSettingFailNext();
 
             });
             xDisConnectHelper.disconnect();
@@ -299,8 +296,7 @@ public class ConnectSettingHelper {
             }
         });
         xGetConnectionSettingsHelper.setOnGetConnectionSettingsFailedListener(() -> {
-            errorNext(null);
-            resultErrorNext(null);
+            connectSettingFailNext();
         });
         xGetConnectionSettingsHelper.getConnectionSettings();
 
@@ -363,41 +359,22 @@ public class ConnectSettingHelper {
         }
     }
 
-    private OnResultErrorListener onResultErrorListener;
 
-    // 接口OnResultErrorListener
-    public interface OnResultErrorListener {
-        void resultError(FwError attr);
+    public interface OnConnectSettingFailListener {
+        void connectSettingFail();
     }
 
-    // 对外方式setOnResultErrorListener
-    public void setOnResultErrorListener(OnResultErrorListener onResultErrorListener) {
-        this.onResultErrorListener = onResultErrorListener;
+    private OnConnectSettingFailListener onConnectSettingFailListener;
+
+    //对外方式setOnConnectSettingFailListener
+    public void setOnConnectSettingFailListener(OnConnectSettingFailListener onConnectSettingFailListener) {
+        this.onConnectSettingFailListener = onConnectSettingFailListener;
     }
 
-    // 封装方法resultErrorNext
-    private void resultErrorNext(FwError attr) {
-        if (onResultErrorListener != null) {
-            onResultErrorListener.resultError(attr);
-        }
-    }
-
-    private OnErrorListener onErrorListener;
-
-    // 接口OnErrorListener
-    public interface OnErrorListener {
-        void error(Throwable attr);
-    }
-
-    // 对外方式setOnErrorListener
-    public void setOnErrorListener(OnErrorListener onErrorListener) {
-        this.onErrorListener = onErrorListener;
-    }
-
-    // 封装方法errorNext
-    private void errorNext(Throwable attr) {
-        if (onErrorListener != null) {
-            onErrorListener.error(attr);
+    //封装方法ConnectSettingFailNext
+    private void connectSettingFailNext() {
+        if (onConnectSettingFailListener != null) {
+            onConnectSettingFailListener.connectSettingFail();
         }
     }
 

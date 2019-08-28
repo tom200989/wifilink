@@ -1,7 +1,6 @@
 package com.alcatel.wifilink.root.helper;
 
 import com.p_xhelper_smart.p_xhelper_smart.helper.SetWIFIExtenderSettingsHelper;
-import com.p_xhelper_smart.p_xhelper_smart.impl.FwError;
 
 /**
  * Created by qianli.ma on 2018/5/23 0023.
@@ -14,47 +13,26 @@ public class Extender_SetWIFIExtenderSettingsHelper {
         SetWIFIExtenderSettingsHelper xSetWIFIExtenderSettingsHelper = new SetWIFIExtenderSettingsHelper();
         xSetWIFIExtenderSettingsHelper.setOnSetWifiExSettingsSuccessListener(this::successNext);
         xSetWIFIExtenderSettingsHelper.setOnSetWifiExSettingFailListener(() -> {
-            failedNext(null);
-            resultErrorNext(null);
+            Extender_SetWIFIExtenderSettingFailNext();
         });
         xSetWIFIExtenderSettingsHelper.setWifiExSettings(StationEnable);
     }
 
-    private OnResultErrorListener onResultErrorListener;
-
-    // 接口OnResultErrorListener
-    public interface OnResultErrorListener {
-        void resultError(FwError error);
+    public interface OnExtender_SetWIFIExtenderSettingFailListener {
+        void Extender_SetWIFIExtenderSettingFail();
     }
 
-    // 对外方式setOnResultErrorListener
-    public void setOnResultErrorListener(OnResultErrorListener onResultErrorListener) {
-        this.onResultErrorListener = onResultErrorListener;
+    private OnExtender_SetWIFIExtenderSettingFailListener onExtender_setWIFIExtenderSettingFailListener;
+
+    //对外方式setOnExtender_SetWIFIExtenderSettingFailListener
+    public void setOnExtender_SetWIFIExtenderSettingFailListener(OnExtender_SetWIFIExtenderSettingFailListener onExtender_setWIFIExtenderSettingFailListener) {
+        this.onExtender_setWIFIExtenderSettingFailListener = onExtender_setWIFIExtenderSettingFailListener;
     }
 
-    // 封装方法resultErrorNext
-    private void resultErrorNext(FwError attr) {
-        if (onResultErrorListener != null) {
-            onResultErrorListener.resultError(attr);
-        }
-    }
-
-    private OnFailedListener onFailedListener;
-
-    // 接口OnFailedListener
-    public interface OnFailedListener {
-        void failed(Object attr);
-    }
-
-    // 对外方式setOnFailedListener
-    public void setOnFailedListener(OnFailedListener onFailedListener) {
-        this.onFailedListener = onFailedListener;
-    }
-
-    // 封装方法failedNext
-    private void failedNext(Object attr) {
-        if (onFailedListener != null) {
-            onFailedListener.failed(attr);
+    //封装方法
+    private void Extender_SetWIFIExtenderSettingFailNext() {
+        if (onExtender_setWIFIExtenderSettingFailListener != null) {
+            onExtender_setWIFIExtenderSettingFailListener.Extender_SetWIFIExtenderSettingFail();
         }
     }
 

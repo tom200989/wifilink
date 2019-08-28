@@ -122,8 +122,7 @@ public class MobileDataHelper {
         // 断连成功
         csDisconnhelper.setOnDisConnSuccessListener(this::disConnSuccessNext);
         // 连接产生的错误
-        csDisconnhelper.setOnErrorListener(attr -> checkMonthly());
-        csDisconnhelper.setOnResultErrorListener(attr -> checkMonthly());
+        csDisconnhelper.setOnConnectSettingFailListener(() -> checkMonthly());
         csDisconnhelper.toDisConnect();
     }
 
@@ -141,8 +140,7 @@ public class MobileDataHelper {
         // 连接成功
         csConnhelper.setOnConnSuccessListener(this::connSuccessNext);
         // 连接产生的错误--> 检测是否超出了流量
-        csConnhelper.setOnErrorListener(attr -> checkMonthly());
-        csConnhelper.setOnResultErrorListener(attr -> checkMonthly());
+        csConnhelper.setOnConnectSettingFailListener(() -> checkMonthly());
         csConnhelper.toConnect();
     }
 

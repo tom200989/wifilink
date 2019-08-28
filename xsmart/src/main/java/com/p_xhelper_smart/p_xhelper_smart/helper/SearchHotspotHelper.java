@@ -22,12 +22,12 @@ public class SearchHotspotHelper extends BaseHelper {
 
             @Override
             public void appError(Throwable ex) {
-                searchHotSpotFailNext();
+                appErrorNext();
             }
 
             @Override
             public void fwError(FwError fwError) {
-                searchHotSpotFailNext();
+                fwErrorNext();
             }
 
             @Override
@@ -57,21 +57,40 @@ public class SearchHotspotHelper extends BaseHelper {
     }
 
     /*----------------------------------触发搜索热点失败的回调------------------------------*/
-    public interface OnSearchHotSpotFailListener {
-        void searchHotSpotFail();
+    public interface OnAppErrorListener {
+        void appError();
     }
 
-    private OnSearchHotSpotFailListener onSearchHotSpotFailListener;
+    private OnAppErrorListener onAppErrorListener;
 
-    //对外方式setOnSearchHotSpotFailListener
-    public void setOnSearchHotSpotFailListener(OnSearchHotSpotFailListener onSearchHotSpotFailListener) {
-        this.onSearchHotSpotFailListener = onSearchHotSpotFailListener;
+    //对外方式setOnAppErrorListener
+    public void setOnAppErrorListener(OnAppErrorListener onAppErrorListener) {
+        this.onAppErrorListener = onAppErrorListener;
     }
 
-    //封装方法searchHotSpotFailNext
-    private void searchHotSpotFailNext() {
-        if (onSearchHotSpotFailListener != null) {
-            onSearchHotSpotFailListener.searchHotSpotFail();
+    //封装方法appErrorNext
+    private void appErrorNext() {
+        if (onAppErrorListener != null) {
+            onAppErrorListener.appError();
         }
     }
+
+    public interface OnFwErrorListener {
+        void fwError();
+    }
+
+    private OnFwErrorListener onFwErrorListener;
+
+    //对外方式setOnFwErrorListener
+    public void setOnFwErrorListener(OnFwErrorListener onFwErrorListener) {
+        this.onFwErrorListener = onFwErrorListener;
+    }
+
+    //封装方法fwErrorNext
+    private void fwErrorNext() {
+        if (onFwErrorListener != null) {
+            onFwErrorListener.fwError();
+        }
+    }
+
 }

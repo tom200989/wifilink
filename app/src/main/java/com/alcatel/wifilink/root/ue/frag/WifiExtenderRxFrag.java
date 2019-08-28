@@ -19,7 +19,6 @@ import com.alcatel.wifilink.root.helper.Extender_GetConnectHotspotStateHelper;
 import com.alcatel.wifilink.root.helper.Extender_GetHotspotListHelper;
 import com.alcatel.wifilink.root.helper.Extender_GetWIFIExtenderCurrentStatusHelper;
 import com.alcatel.wifilink.root.helper.Extender_GetWIFIExtenderSettingsHelper;
-import com.alcatel.wifilink.root.helper.Extender_SearchHotspotHelper;
 import com.alcatel.wifilink.root.helper.Extender_SetWIFIExtenderSettingsHelper;
 import com.alcatel.wifilink.root.utils.RootUtils;
 import com.alcatel.wifilink.root.widget.DisConnHotpotView;
@@ -27,6 +26,7 @@ import com.alcatel.wifilink.root.widget.ExtenderWait;
 import com.alcatel.wifilink.root.widget.HotPotKeyView;
 import com.alcatel.wifilink.root.widget.OpenCloseExtenderView;
 import com.hiber.cons.TimerState;
+import com.p_xhelper_smart.p_xhelper_smart.helper.SearchHotspotHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -353,8 +353,9 @@ public class WifiExtenderRxFrag extends BaseFrag {
         int SEARCHING = 1;
         int COMPLETED = 2;
         // 1.触发搜索
-        Extender_SearchHotspotHelper extenderSearchHotspotHelper = new Extender_SearchHotspotHelper();
-        extenderSearchHotspotHelper.setOnSuccessListener(searchresult -> {
+
+        SearchHotspotHelper xSearchHotspotHelper = new SearchHotspotHelper();
+        xSearchHotspotHelper.setOnSearchHotSpotSuccessListener(object -> {
             // 2.获取列表
             Extender_GetHotspotListHelper extenderGetHotspotListHelper = new Extender_GetHotspotListHelper();
             extenderGetHotspotListHelper.setOnSuccessListener(hotpotInfo -> {
@@ -400,19 +401,19 @@ public class WifiExtenderRxFrag extends BaseFrag {
             });
             extenderGetHotspotListHelper.get();
         });
-        extenderSearchHotspotHelper.setOnFailedListener(attr -> {
+        xSearchHotspotHelper.setOnAppErrorListener(() -> {
             widgetWifiExtenderWait.setVisibility(View.GONE);
             tvScan.setVisibility(View.VISIBLE);
             rcvWifiExtenderAvailableNetwork.setVisibility(View.GONE);
             toast(R.string.connect_failed, 2000);
         });
-        extenderSearchHotspotHelper.setOnResultErrorListener(error -> {
+        xSearchHotspotHelper.setOnFwErrorListener(() -> {
             widgetWifiExtenderWait.setVisibility(View.GONE);
             tvScan.setVisibility(View.VISIBLE);
             rcvWifiExtenderAvailableNetwork.setVisibility(View.GONE);
             toast(R.string.get_current_time_and_timezone_failed, 2000);
         });
-        extenderSearchHotspotHelper.search();
+        xSearchHotspotHelper.searchHotSpot();
     }
 
     /**
@@ -475,8 +476,7 @@ public class WifiExtenderRxFrag extends BaseFrag {
             widgetWifiExtenderWait.setVisibility(View.VISIBLE);
             Extender_SetWIFIExtenderSettingsHelper sseh = new Extender_SetWIFIExtenderSettingsHelper();
             sseh.setOnSuccessListener(o -> getHotpotInfo());
-            sseh.setOnFailedListener(nulls -> connectFailed());
-            sseh.setOnResultErrorListener(error -> connectFailed());
+            sseh.setOnExtender_SetWIFIExtenderSettingFailListener(() -> connectFailed());
             int settingState = (ivPanelSocket.getDrawable() == button_off ? ENABLE : DISABLE);
             sseh.set(settingState);
         });
