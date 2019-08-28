@@ -28,7 +28,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/v_splitrx"
         android:layout_centerHorizontal="true"
-        android:text="@string/guide2_title"
+        android:text="@string/hh70_alway_to_date"
         android:textColor="@color/white"
         android:textStyle="bold"
         app:layout_textSizePercent="2.8%h" />
@@ -39,7 +39,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/tv_guide_rx_title"
         android:layout_centerHorizontal="true"
-        android:text="@string/guide2_description"
+        android:text="@string/hh70_quickly_your_connect"
         android:textColor="@color/white"
         app:layout_marginPercent="4%w"
         app:layout_textSizePercent="2.6%h" />

@@ -311,7 +311,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/netmode_mtu"
+                            android:text="@string/hh70_mtu"
                             android:textColor="@color/black"
                             android:textSize="@dimen/dimen_textsize_16sp" />
 
@@ -375,7 +375,7 @@
                         android:layout_gravity="center_vertical"
                         android:layout_marginStart="20dp"
                         android:gravity="center"
-                        android:text="@string/ip_address"
+                        android:text="@string/hh70_ip_address"
                         android:textColor="@color/black"
                         android:textSize="@dimen/dimen_textsize_16sp" />
 
@@ -387,7 +387,7 @@
                         android:layout_marginStart="12dp"
                         android:background="@null"
                         android:digits="1234567890."
-                        android:hint="@string/ip_address"
+                        android:hint="@string/hh70_ip_address"
                         android:inputType="number"
                         android:textColor="@color/grey_text"
                         android:textSize="@dimen/dimen_textsize_14sp" />
@@ -413,7 +413,7 @@
                         android:layout_gravity="center_vertical"
                         android:layout_marginStart="20dp"
                         android:gravity="center"
-                        android:text="@string/subnet_mask"
+                        android:text="@string/hh70_subnet_mask"
                         android:textColor="@color/black"
                         android:textSize="@dimen/dimen_textsize_16sp" />
 
@@ -425,7 +425,7 @@
                         android:layout_marginStart="12dp"
                         android:background="@null"
                         android:digits="1234567890."
-                        android:hint="@string/subnet_mask"
+                        android:hint="@string/hh70_subnet_mask"
                         android:inputType="number"
                         android:textColor="@color/grey_text"
                         android:textSize="@dimen/dimen_textsize_14sp" />
@@ -451,7 +451,7 @@
                         android:layout_gravity="center_vertical"
                         android:layout_marginStart="20dp"
                         android:gravity="center"
-                        android:text="@string/default_gateway"
+                        android:text="@string/hh70_default_gateway"
                         android:textColor="@color/black"
                         android:textSize="@dimen/dimen_textsize_16sp" />
 
@@ -463,7 +463,7 @@
                         android:layout_marginStart="12dp"
                         android:background="@null"
                         android:digits="1234567890."
-                        android:hint="@string/default_gateway"
+                        android:hint="@string/hh70_default_gateway"
                         android:inputType="number"
                         android:textColor="@color/grey_text"
                         android:textSize="@dimen/dimen_textsize_14sp" />
@@ -489,7 +489,7 @@
                         android:layout_gravity="center_vertical"
                         android:layout_marginStart="20dp"
                         android:gravity="center"
-                        android:text="@string/preferred_dns"
+                        android:text="@string/hh70_prefer_dns"
                         android:textColor="@color/black"
                         android:textSize="@dimen/dimen_textsize_16sp" />
 
@@ -501,7 +501,7 @@
                         android:layout_marginStart="12dp"
                         android:background="@null"
                         android:digits="1234567890."
-                        android:hint="@string/preferred_dns"
+                        android:hint="@string/hh70_prefer_dns"
                         android:inputType="number"
                         android:textColor="@color/grey_text"
                         android:textSize="@dimen/dimen_textsize_14sp" />
@@ -527,7 +527,7 @@
                         android:layout_gravity="center_vertical"
                         android:layout_marginStart="20dp"
                         android:gravity="center"
-                        android:text="@string/secondary_dns"
+                        android:text="@string/hh70_second_dns"
                         android:textColor="@color/black"
                         android:textSize="@dimen/dimen_textsize_16sp" />
 
@@ -539,7 +539,7 @@
                         android:layout_marginStart="12dp"
                         android:background="@null"
                         android:digits="1234567890."
-                        android:hint="@string/secondary_dns"
+                        android:hint="@string/hh70_second_dns"
                         android:inputType="number"
                         android:textColor="@color/grey_text"
                         android:textSize="@dimen/dimen_textsize_14sp" />
@@ -569,7 +569,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="20dp"
-                            android:text="@string/netmode_mtu"
+                            android:text="@string/hh70_mtu"
                             android:textColor="@color/black"
                             android:textSize="@dimen/dimen_textsize_16sp" />
 

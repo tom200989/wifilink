@@ -300,7 +300,7 @@ public class SmsNewFrag extends BaseFrag {
                 getSendSMSResult();
             } else if (sendStatus == GetSendSMSResultBean.CONS_SEND_STATUS_SUCCESS) {
                 loadWidget.setVisibility(View.GONE);
-                toast(R.string.succeed, 2000);
+                toast(R.string.hh70_succeed, 2000);
                 toFrag(getClass(), SmsFrag.class, null, false);
             } else if (sendStatus == GetSendSMSResultBean.CONS_SEND_STATUS_FAIL_LAST_MSG) {
                 loadWidget.setVisibility(View.GONE);

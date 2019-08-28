@@ -92,7 +92,7 @@
             android:layout_marginStart="@dimen/dimen_10dip"
             android:layout_toEndOf="@id/iv_main_mw70_extender_wifi"
             android:singleLine="true"
-            android:text="@string/unknown"
+            android:text="@string/hh70_unknown"
             android:textColor="@color/white"
             android:visibility="gone"
             app:layout_textSizePercent="40%h"

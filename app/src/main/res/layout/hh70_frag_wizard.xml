@@ -20,7 +20,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="@string/main_header_linkhub"
+            android:text="@string/hh70_linkhub"
             android:textColor="@color/white"
             app:layout_textSizePercent="30%h" />
 
@@ -75,7 +75,7 @@
             android:layout_centerInParent="true"
             android:background="@color/white"
             android:gravity="center"
-            android:text="@string/or"
+            android:text="@string/hh70_or"
             android:textColor="@color/gray"
             app:layout_textSizePercent="3%h"
             app:layout_widthPercent="15%w" />
@@ -103,7 +103,7 @@
                 android:layout_below="@id/iv_sim_rx"
                 android:layout_centerHorizontal="true"
                 android:gravity="center"
-                android:text="@string/connect_type_select_sim_card_disable"
+                android:text="@string/hh70_insert_sim_first"
                 android:textColor="@color/red"
                 app:layout_textSizePercent="3%w" />
 
@@ -133,7 +133,7 @@
                 android:layout_below="@id/iv_wan_rx"
                 android:layout_centerHorizontal="true"
                 android:gravity="center"
-                android:text="@string/connect_type_select_wan_port_disable"
+                android:text="@string/hh70_insert_inter_wan"
                 android:textColor="@color/red"
                 app:layout_textSizePercent="3%w" />
 

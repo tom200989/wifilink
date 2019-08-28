@@ -289,7 +289,7 @@ public class PinInitFrag extends BaseFrag {
         } else {
             LogoutHelper xLogouthelper = new LogoutHelper();
             xLogouthelper.setOnLogoutSuccessListener(() -> toFrag(getClass(), LoginFrag.class, null, true));
-            xLogouthelper.setOnLogOutFailedListener(() -> toast(R.string.login_logout_failed, 5000));
+            xLogouthelper.setOnLogOutFailedListener(() -> toast(R.string.hh70_cant_logout, 5000));
             xLogouthelper.logout();
         }
         return true;

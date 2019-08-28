@@ -63,7 +63,7 @@
                         android:layout_centerVertical="true"
                         android:layout_weight="1"
                         android:gravity="center"
-                        android:text="@string/mb_text"
+                        android:text="@string/hh70_mb"
                         android:textColor="@color/mg_blue"
                         app:layout_textSizePercent="30%h" />
 
@@ -74,7 +74,7 @@
                         android:layout_centerVertical="true"
                         android:layout_weight="1"
                         android:gravity="center"
-                        android:text="@string/gb_text"
+                        android:text="@string/hh70_gb"
                         android:textColor="@color/gray"
                         app:layout_textSizePercent="30%h" />
 
@@ -123,7 +123,7 @@
                     android:layout_centerHorizontal="true"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:text="@string/ok"
+                    android:text="@string/hh70_ok"
                     android:textColor="@color/mg_blue"
                     app:layout_textSizePercent="40%h" />
 

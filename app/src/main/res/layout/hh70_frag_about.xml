@@ -210,7 +210,7 @@
                     android:gravity="center_vertical"
                     android:paddingStart="12dp"
                     android:paddingEnd="12dp"
-                    android:text="@string/subnet_mask"
+                    android:text="@string/hh70_subnet_mask"
                     android:textColor="@color/black_text"
                     android:textDirection="locale"
                     android:textSize="@dimen/dimen_textsize_16sp" />

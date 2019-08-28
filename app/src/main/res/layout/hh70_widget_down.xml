@@ -30,7 +30,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
-                android:text="@string/download_text_dling"
+                android:text="@string/hh70_downloading"
                 android:textColor="@color/black"
                 app:layout_textSizePercent="10%h" />
 

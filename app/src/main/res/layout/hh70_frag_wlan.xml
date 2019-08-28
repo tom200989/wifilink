@@ -66,7 +66,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_centerVertical="true"
-            android:text="@string/country_region"
+            android:text="@string/hh70_country_region"
             android:textColor="@color/black" />
 
         <android.support.v7.widget.AppCompatSpinner
@@ -113,7 +113,7 @@
             android:layout_alignParentStart="true"
             android:layout_centerVertical="true"
             android:layout_marginStart="5dp"
-            android:text="@string/mode_802_11"
+            android:text="@string/hh70_802_11_mode"
             android:textColor="@color/black"
             android:textSize="16dp" />
 
@@ -137,7 +137,7 @@
             android:layout_alignParentStart="true"
             android:layout_centerVertical="true"
             android:layout_marginStart="5dp"
-            android:text="@string/ap_isolation"
+            android:text="@string/hh70_ap_isolation"
             android:textColor="@color/black"
             android:textSize="16dp" />
 
@@ -178,7 +178,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/selector_conner_btn_login_blue"
-        android:text="@string/ok"
+        android:text="@string/hh70_ok"
         android:textAllCaps="false"
         android:textColor="@color/white"
         app:layout_textSizePercent="2.5%h" />

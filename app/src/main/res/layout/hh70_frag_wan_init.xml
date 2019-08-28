@@ -240,7 +240,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/dimen_15dip"
-                android:text="@string/netmode_mtu"
+                android:text="@string/hh70_mtu"
                 android:textColor="@color/black"
                 app:layout_marginTopPercent="12%h"
                 app:layout_textSizePercent="25%h" />
@@ -297,7 +297,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginStart="@dimen/dimen_15dip"
-                android:text="@string/ip_address"
+                android:text="@string/hh70_ip_address"
                 android:textColor="@color/black"
                 app:layout_textSizePercent="25%h" />
 
@@ -333,7 +333,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginStart="@dimen/dimen_15dip"
-                android:text="@string/subnet_mask"
+                android:text="@string/hh70_subnet_mask"
                 android:textColor="@color/black"
                 app:layout_textSizePercent="25%h" />
 

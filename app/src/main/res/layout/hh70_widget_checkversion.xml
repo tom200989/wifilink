@@ -30,7 +30,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
-                android:text="@string/unknown"
+                android:text="@string/hh70_unknown"
                 android:textColor="@color/black"
                 app:layout_textSizePercent="12%h" />
 
@@ -52,7 +52,7 @@
                 android:layout_below="@id/tv_pop_setting_rx_upgrade_noNewVersion_tip"
                 android:layout_centerHorizontal="true"
                 android:gravity="center"
-                android:text="@string/ok"
+                android:text="@string/hh70_ok"
                 android:textColor="@color/mg_blue"
                 app:layout_heightPercent="30%h"
                 app:layout_marginTopPercent="10%h"

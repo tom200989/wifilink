@@ -196,12 +196,12 @@ public class LoginFrag extends RootFrag {
         // 超出次数需要重启
         loginHelper.setOnDeviceRebootListener(() -> {
             wdLoginLoad.setGone();
-            toast(R.string.login_login_time_used_out_msg, 5000);
+            toast(R.string.hh70_login_used_out, 5000);
         });
         // WEB端被登陆
         loginHelper.setOnGuestWebUiListener(() -> {
             wdLoginLoad.setGone();
-            toast(R.string.login_login_app_or_webui, 5000);
+            toast(R.string.hh70_ap_cant_webui, 5000);
         });
         // 其他用户登陆
         loginHelper.setOnOtherUserLoginListener(() -> {
@@ -211,7 +211,7 @@ public class LoginFrag extends RootFrag {
         // 登陆出错超限
         loginHelper.setOnLoginOutTimeListener(() -> {
             wdLoginLoad.setGone();
-            toast(R.string.login_login_time_used_out_msg, 5000);
+            toast(R.string.hh70_login_used_out, 5000);
         });
         // 正式请求
         loginHelper.login("admin", password);
@@ -402,7 +402,7 @@ public class LoginFrag extends RootFrag {
             wdLoginLoad.setGone();
             String content = "";
             int remainingTimes = getLoginStateBean.getLoginRemainingTimes();
-            String noRemain = getString(R.string.login_login_time_used_out_msg);
+            String noRemain = getString(R.string.hh70_login_used_out);
             String tips = getString(R.string.login_psd_error_msg);
             String remainTips = String.format(tips, remainingTimes);
             content = remainingTimes <= 0 ? noRemain : remainTips;

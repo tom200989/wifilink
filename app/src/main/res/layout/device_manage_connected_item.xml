@@ -85,7 +85,7 @@
                             android:gravity="center_vertical"
                             android:maxWidth="115dip"
                             android:singleLine="true"
-                            android:text="@string/unknown"
+                            android:text="@string/hh70_unknown"
                             android:textColor="@color/color_black"
                             app:layout_textSizePercent="40%h" />
                     </com.hiber.tools.layout.PercentFrameLayout>
@@ -111,7 +111,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:singleLine="true"
-                android:text="@string/ip_address"
+                android:text="@string/hh70_ip_address"
                 android:textColor="@color/color_grey"
                 app:layout_textSizePercent="15%h"
                 />

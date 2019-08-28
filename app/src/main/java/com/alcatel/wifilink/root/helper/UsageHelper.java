@@ -66,11 +66,11 @@ public class UsageHelper {
         Usage usage = new Usage();
         if (tempGB >= 1) {
             usage.usage = String.valueOf(mathRound(tempGB));
-            usage.unit = context.getString(R.string.gb_text);
+            usage.unit = context.getString(R.string.hh70_gb);
         } else {
             int d = (int) mathRound(tempMB);
             usage.usage = String.valueOf(d);
-            usage.unit = context.getString(R.string.mb_text);
+            usage.unit = context.getString(R.string.hh70_mb);
         }
         return usage;
     }

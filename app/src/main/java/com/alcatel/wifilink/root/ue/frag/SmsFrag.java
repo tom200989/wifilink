@@ -74,8 +74,8 @@ public class SmsFrag extends BaseFrag {
     }
 
     private void initRes() {
-        select_all = getString(R.string.operation_selectall);
-        deselect_all = getString(R.string.operation_cancel_selectall);
+        select_all = getString(R.string.hh70_select_all);
+        deselect_all = getString(R.string.hh70_delete_all);
     }
 
     @Override
@@ -286,10 +286,10 @@ public class SmsFrag extends BaseFrag {
             if (getLoginStateBean.getState() == GetLoginStateBean.CONS_LOGIN) {
                 LogoutHelper xLogoutHelper = new LogoutHelper();
                 xLogoutHelper.setOnLogoutSuccessListener(() -> {
-                    toast(R.string.login_logout_successful, 3000);
+                    toast(R.string.hh70_logout_completed, 3000);
                     toFragActivity(getClass(), SplashActivity.class, LoginFrag.class, null, true);
                 });
-                xLogoutHelper.setOnLogOutFailedListener(() -> toast(R.string.login_logout_failed, 3000));
+                xLogoutHelper.setOnLogOutFailedListener(() -> toast(R.string.hh70_cant_logout, 3000));
                 xLogoutHelper.logout();
             } else {
                 toFragActivity(getClass(), SplashActivity.class, LoginFrag.class, null, true);

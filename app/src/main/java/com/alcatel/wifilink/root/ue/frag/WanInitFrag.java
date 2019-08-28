@@ -280,12 +280,12 @@ public class WanInitFrag extends BaseFrag {
                 boolean subnet_super_match = RootUtils.isAllMatch(subnetMask);
 
                 if (!ip_super_match) {
-                    String ipValid = getString(R.string.ip_address) + "\n" + getString(R.string.connect_failed);
+                    String ipValid = getString(R.string.hh70_ip_address) + "\n" + getString(R.string.connect_failed);
                     toast(ipValid, 5000);
                     return;
                 }
                 if (!subnet_super_match) {
-                    String subnetValid = getString(R.string.subnet_mask) + "\n" + getString(R.string.connect_failed);
+                    String subnetValid = getString(R.string.hh70_subnet_mask) + "\n" + getString(R.string.connect_failed);
                     toast(subnetValid, 5000);
                     return;
                 }
@@ -514,7 +514,7 @@ public class WanInitFrag extends BaseFrag {
         } else {
             LogoutHelper xLogouthelper = new LogoutHelper();
             xLogouthelper.setOnLogoutSuccessListener(() -> toFrag(getClass(), LoginFrag.class, null, true));
-            xLogouthelper.setOnLogOutFailedListener(() -> toast(R.string.login_logout_failed, 5000));
+            xLogouthelper.setOnLogOutFailedListener(() -> toast(R.string.hh70_cant_logout, 5000));
             xLogouthelper.logout();
         }
         // 隐藏软键盘

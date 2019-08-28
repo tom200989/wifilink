@@ -85,8 +85,8 @@ public class DataPlanInitFrag extends BaseFrag {
     private void initRes() {
         switch_on = getRootDrawable(R.drawable.pwd_switcher_on);
         switch_off = getRootDrawable(R.drawable.pwd_switcher_off);
-        MB = getString(R.string.mb_text);
-        GB = getString(R.string.gb_text);
+        MB = getString(R.string.hh70_mb);
+        GB = getString(R.string.hh70_gb);
     }
 
     /**
@@ -288,7 +288,7 @@ public class DataPlanInitFrag extends BaseFrag {
         } else {
             LogoutHelper xLogoutHelper = new LogoutHelper();
             xLogoutHelper.setOnLogoutSuccessListener(() -> toFrag(getClass(), LoginFrag.class, null, true));
-            xLogoutHelper.setOnLogOutFailedListener(() -> toast(R.string.login_logout_failed, 5000));
+            xLogoutHelper.setOnLogOutFailedListener(() -> toast(R.string.hh70_cant_logout, 5000));
             xLogoutHelper.logout();
         }
         return true;

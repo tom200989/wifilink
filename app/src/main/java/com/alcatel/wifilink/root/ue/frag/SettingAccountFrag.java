@@ -83,15 +83,15 @@ public class SettingAccountFrag extends BaseFrag {
         String confirmPassword = RootUtils.getEDText(mConfirmPassword);
 
         if (TextUtils.isEmpty(currentPassword)) {
-            toast(R.string.input_current_password, 3000);
+            toast(R.string.hh70_enter_psd, 3000);
             return;
         }
         if (!newPassword.equals(confirmPassword)) {
-            toast(R.string.inconsistent_new_password, 3000);
+            toast(R.string.hh70_new_psd_not_match, 3000);
             return;
         }
         if (confirmPassword.length() < 4 || confirmPassword.length() > 16) {
-            toast(R.string.change_passowrd_invalid_password, 3000);
+            toast(R.string.hh70_the_psd_should_4, 3000);
             return;
         }
 
@@ -142,7 +142,7 @@ public class SettingAccountFrag extends BaseFrag {
         // 发起请求
         ChangePasswordHelper xChangePasswordHelper = new ChangePasswordHelper();
         xChangePasswordHelper.setOnChangePasswordSuccessListener(() -> {
-            toast(R.string.succeed, 3000);
+            toast(R.string.hh70_succeed, 3000);
             toFragActivity(getClass(), SplashActivity.class, LoginFrag.class, null, true);
         });
         xChangePasswordHelper.setOnChangePasswordFailedListener(() -> toast(R.string.change_password_failed, 3000));// 失败

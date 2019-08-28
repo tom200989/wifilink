@@ -24,7 +24,7 @@
             android:layout_below="@id/iv_refresh_logo"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="24dp"
-            android:text="@string/refresh_no_device_manage"
+            android:text="@string/hh70_no_device_find"
             android:textColor="@color/color_deep_grey"
             android:textSize="18sp"
             android:textStyle="bold" />
@@ -37,7 +37,7 @@
             android:layout_centerHorizontal="true"
             android:background="@drawable/hh70_corner_1"
             android:gravity="center"
-            android:text="@string/refresh"
+            android:text="@string/hh70_refresh"
             android:textAllCaps="false"
             android:textColor="@color/mg_blue"
             app:layout_heightPercent="10%w"

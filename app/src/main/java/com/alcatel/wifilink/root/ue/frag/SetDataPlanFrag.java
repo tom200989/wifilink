@@ -253,7 +253,7 @@ public class SetDataPlanFrag extends BaseFrag {
         tempSetting.setStatus(tempSetting.getStatus() == GetUsageSettingsBean.CONS_STATUS_ENABLE ? GetUsageSettingsBean.CONS_STATUS_DISABLE : GetUsageSettingsBean.CONS_STATUS_ENABLE);
         UsageSettingHelper usageSettingHelper = new UsageSettingHelper(activity);
         usageSettingHelper.setOnSetUsageSettingSuccessListener(attr -> {
-            toast(R.string.succeed);
+            toast(R.string.hh70_succeed);
             loadWidget.setGone();
         });
         usageSettingHelper.setOnSetUsageSettingFailedListener(() -> {

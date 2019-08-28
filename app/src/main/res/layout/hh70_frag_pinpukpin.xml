@@ -101,7 +101,7 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="30dp"
             android:background="@drawable/bt_login_selector"
-            android:text="@string/netmode_connect"
+            android:text="@string/hh70_connect"
             android:textColor="@color/white"
             android:textAllCaps="false"
             app:layout_heightPercent="6%h"

@@ -139,9 +139,9 @@ public class UsageRxFrag extends BaseFrag {
             String currentLanguage1 = ShareUtils.get(RootCons.LOCALE_LANGUAGE_COUNTRY,"");
             boolean isRussian = currentLanguage1.contains(RootCons.LANGUAGES.RUSSIAN);
             int tConnTimes = (int) result.getTConnTimes();
-            String noRoamingUsage = "0.00" + getString(R.string.mb_text);
+            String noRoamingUsage = "0.00" + getString(R.string.hh70_mb);
             if (isRussian) {
-                noRoamingUsage = "0.00" + " " + getString(R.string.mb_text);
+                noRoamingUsage = "0.00" + " " + getString(R.string.hh70_mb);
             }
             String noRoamingTime = "0" + getString(R.string.min_s);
             if (isRussian) {

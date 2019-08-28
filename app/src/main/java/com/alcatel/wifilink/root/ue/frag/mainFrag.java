@@ -214,7 +214,7 @@ public class mainFrag extends BaseFrag {
                         showPukPanel();
                         break;
                     case GetSimStatusBean.CONS_PUK_TIMES_USED_OUT:
-                        toast(R.string.puk_alarm_des1, 5000);
+                        toast(R.string.hh70_you_have_incorrect, 5000);
                         break;
                     case GetSimStatusBean.CONS_SIM_CARD_READY:
                         toConnect();
@@ -292,7 +292,7 @@ public class mainFrag extends BaseFrag {
                         showPukPanel();
                         break;
                     case GetSimStatusBean.CONS_PUK_TIMES_USED_OUT:
-                        toast(R.string.puk_alarm_des1, 5000);
+                        toast(R.string.hh70_you_have_incorrect, 5000);
                         break;
                     case GetSimStatusBean.CONS_SIM_CARD_READY:
                         toFrag(getClass(), UsageRxFrag.class, null, true);
@@ -324,7 +324,7 @@ public class mainFrag extends BaseFrag {
                         showPukPanel();
                         break;
                     case GetSimStatusBean.CONS_PUK_TIMES_USED_OUT:
-                        toast(R.string.puk_alarm_des1, 5000);
+                        toast(R.string.hh70_you_have_incorrect, 5000);
                         break;
                     case GetSimStatusBean.CONS_SIM_CARD_READY:
                         checkUsageOver();
@@ -456,7 +456,7 @@ public class mainFrag extends BaseFrag {
             // 2.设置wifi强度
             rlMainrxMw70BatteryExtender.setWifiStrength(result.getSignal());
             // 3.设置SSID
-            String ssid = TextUtils.isEmpty(result.getHotspotSSID()) ? getString(R.string.unknown) : result.getHotspotSSID();
+            String ssid = TextUtils.isEmpty(result.getHotspotSSID()) ? getString(R.string.hh70_unknown) : result.getHotspotSSID();
             ssid = RootUtils.turnUrlCode(ssid);
             rlMainrxMw70BatteryExtender.setWifiName(ssid);// SSID
         }
@@ -745,7 +745,7 @@ public class mainFrag extends BaseFrag {
         // 1.显示UI
         buttonUi(WAN_CONNECT_MODE);// 显示wan口按钮
         tvNetworkType.setVisibility(isMWDev ? View.GONE : View.VISIBLE);
-        tvNetworkType.setText(getString(R.string.Ethernet));// 显示网络类型文本
+        tvNetworkType.setText(getString(R.string.hh70_Ethernet));// 显示网络类型文本
         rlSignalPanel.setVisibility(View.GONE);// 信号面板消隐
         // 2.获取连接设备数
         getDevice();
@@ -794,8 +794,8 @@ public class mainFrag extends BaseFrag {
     }
 
     private void initRes() {
-        mb_unit = getString(R.string.mb_text);
-        gb_unit = getString(R.string.gb_text);
+        mb_unit = getString(R.string.hh70_mb);
+        gb_unit = getString(R.string.hh70_gb);
         noUsagePlan = getString(R.string.ergo_20181010_no_set_plan);
         useOf = getString(R.string.used_of);
         connected_text = getString(R.string.hh70_connected);
@@ -846,10 +846,10 @@ public class mainFrag extends BaseFrag {
             if (getLoginStateBean.getState() == GetLoginStateBean.CONS_LOGIN) {
                 LogoutHelper xLogoutHelper = new LogoutHelper();
                 xLogoutHelper.setOnLogoutSuccessListener(() -> {
-                    toast(R.string.login_logout_successful, 3000);
+                    toast(R.string.hh70_logout_completed, 3000);
                     toFragActivity(getClass(), SplashActivity.class, LoginFrag.class, null, true);
                 });
-                xLogoutHelper.setOnLogOutFailedListener(() -> toast(R.string.login_logout_failed, 3000));
+                xLogoutHelper.setOnLogOutFailedListener(() -> toast(R.string.hh70_cant_logout, 3000));
                 xLogoutHelper.logout();
             } else {
                 toFragActivity(getClass(), SplashActivity.class, LoginFrag.class, null, true);

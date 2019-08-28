@@ -76,7 +76,7 @@ public class PukRxFrag extends BaseFrag {
         gray_color = getRootColor(R.color.gray);
         check_pic = getRootDrawable(R.drawable.general_btn_remember_pre);
         uncheck_pic = getRootDrawable(R.drawable.general_btn_remember_nor);
-        pukTimeout_string = getString(R.string.puk_alarm_des1);
+        pukTimeout_string = getString(R.string.hh70_you_have_incorrect);
     }
 
     private void initUi() {
@@ -218,7 +218,7 @@ public class PukRxFrag extends BaseFrag {
         }
         // 匹配
         if (!pin.equalsIgnoreCase(pinConfirm)) {
-            toast(R.string.puk_pinDontMatch, 2000);
+            toast(R.string.hh70_pin_dont_match, 2000);
             return;
         }
         // 发起请求

@@ -78,10 +78,10 @@ public class WizardFrag extends RootFrag {
         sim_checked_pic = getResources().getDrawable(R.drawable.results_sim_nor);
         wan_unchecked_pic = getResources().getDrawable(R.drawable.results_wan_dis);
         wan_checked_pic = getResources().getDrawable(R.drawable.results_wan_nor);
-        sim_checked_str = getResources().getString(R.string.connect_type_select_sim_card_enable);
-        sim_unchecked_str = getResources().getString(R.string.connect_type_select_sim_card_disable);
-        wan_checked_str = getResources().getString(R.string.connect_type_select_wan_port_enable);
-        wan_unchecked_str = getResources().getString(R.string.connect_type_select_wan_port_disable);
+        sim_checked_str = getResources().getString(R.string.hh70_use_broadband);
+        sim_unchecked_str = getResources().getString(R.string.hh70_insert_sim_first);
+        wan_checked_str = getResources().getString(R.string.hh70_always_ethernet_connect);
+        wan_unchecked_str = getResources().getString(R.string.hh70_insert_inter_wan);
         red_color = getResources().getColor(R.color.color_red);
         blue_color = getResources().getColor(R.color.mg_blue);
     }
@@ -140,7 +140,7 @@ public class WizardFrag extends RootFrag {
 
                 default:// 其他
                     wdLoad.setGone();
-                    toast(R.string.connect_type_select_wan_port_disable, 5000);
+                    toast(R.string.hh70_insert_inter_wan, 5000);
                     break;
             }
         });
@@ -182,7 +182,7 @@ public class WizardFrag extends RootFrag {
 
                 case GetSimStatusBean.CONS_NOWN:
                     wdLoad.setGone();
-                    toast(R.string.connect_type_select_sim_card_disable, 5000);
+                    toast(R.string.hh70_insert_sim_first, 5000);
                     break;
 
                 case GetSimStatusBean.CONS_SIM_CARD_DETECTED:
@@ -214,7 +214,7 @@ public class WizardFrag extends RootFrag {
 
                 case GetSimStatusBean.CONS_PUK_TIMES_USED_OUT:
                     wdLoad.setGone();
-                    toast(R.string.puk_alarm_des1, 5000);
+                    toast(R.string.hh70_you_have_incorrect, 5000);
                     break;
 
             }
@@ -312,7 +312,7 @@ public class WizardFrag extends RootFrag {
     private void logout() {
         LogoutHelper xLogouthelper = new LogoutHelper();
         xLogouthelper.setOnLogoutSuccessListener(() -> toFrag(getClass(), LoginFrag.class, null, true));
-        xLogouthelper.setOnLogOutFailedListener(() -> toast(R.string.login_logout_failed, 5000));
+        xLogouthelper.setOnLogOutFailedListener(() -> toast(R.string.hh70_cant_logout, 5000));
         xLogouthelper.logout();
     }
 }

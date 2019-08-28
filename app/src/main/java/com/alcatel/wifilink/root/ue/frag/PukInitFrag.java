@@ -125,7 +125,7 @@ public class PukInitFrag extends BaseFrag {
         gray_color = getRootColor(R.color.gray);
         check_pic = getRootDrawable(R.drawable.general_btn_remember_pre);
         uncheck_pic = getRootDrawable(R.drawable.edit_normal);
-        pukTimeout_string = getString(R.string.puk_alarm_des1);
+        pukTimeout_string = getString(R.string.hh70_you_have_incorrect);
     }
 
     /**
@@ -184,7 +184,7 @@ public class PukInitFrag extends BaseFrag {
         }
         // 匹配
         if (!pin.equalsIgnoreCase(pinConfirm)) {
-            toast(R.string.puk_pinDontMatch, 5000);
+            toast(R.string.hh70_pin_dont_match, 5000);
             return;
         }
         // 发起请求
@@ -309,7 +309,7 @@ public class PukInitFrag extends BaseFrag {
         } else {
             LogoutHelper xLogouthelper = new LogoutHelper();
             xLogouthelper.setOnLogoutSuccessListener(() -> toFrag(getClass(), LoginFrag.class, null, true));
-            xLogouthelper.setOnLogOutFailedListener(() -> toast(R.string.login_logout_failed, 5000));
+            xLogouthelper.setOnLogOutFailedListener(() -> toast(R.string.hh70_cant_logout, 5000));
             xLogouthelper.logout();
         }
         return true;

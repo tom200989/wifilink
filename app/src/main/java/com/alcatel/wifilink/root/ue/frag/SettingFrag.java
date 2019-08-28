@@ -341,7 +341,7 @@ public class SettingFrag extends BaseFrag {
         wd_checkVersion.setVisibility(View.VISIBLE);
         wd_checkVersion.setVersionName(noNewVersion ? systemSystemInfo.getSwVersionMain() : updateDeviceNewVersion.getVersion() + " " + getString(R.string.available));
         wd_checkVersion.setTipVisible(noNewVersion);
-        wd_checkVersion.setOkText(noNewVersion ? getString(R.string.ok) : getString(R.string.hh70_upgrade));
+        wd_checkVersion.setOkText(noNewVersion ? getString(R.string.hh70_ok) : getString(R.string.hh70_upgrade));
         wd_checkVersion.setOnClickOKListener(() -> {
             if (!noNewVersion) {
                 dgSettingRxWidgetOk.setVisibility(View.VISIBLE);
@@ -575,7 +575,7 @@ public class SettingFrag extends BaseFrag {
         SetDeviceBackupHelper xSetDeviceBackup = new SetDeviceBackupHelper();
         xSetDeviceBackup.setOnPrepareHelperListener(this::showLoadingDialog);
         xSetDeviceBackup.setOnDoneHelperListener(this::dismissLoadingDialog);
-        xSetDeviceBackup.setOnDownSuccessListener(attr -> toast(R.string.succeed));
+        xSetDeviceBackup.setOnDownSuccessListener(attr -> toast(R.string.hh70_succeed));
         xSetDeviceBackup.setOnSetDeviceBackupFailedListener(() -> toast(R.string.hh70_fail));
         xSetDeviceBackup.setOnPathNotMatchRuleListener(path -> toast("path is empty or not match rule , it contains [\\ : * ? \" < > | .]", 2000));
         xSetDeviceBackup.setDeviceBackup(saveUrl);
@@ -595,7 +595,7 @@ public class SettingFrag extends BaseFrag {
 
     private void restartDevice() {
         SetDeviceRebootHelper xSetDeviceRebootHelper = new SetDeviceRebootHelper();
-        xSetDeviceRebootHelper.setOnSetDeviceRebootSuccessListener(() -> toast(R.string.succeed));
+        xSetDeviceRebootHelper.setOnSetDeviceRebootSuccessListener(() -> toast(R.string.hh70_succeed));
         xSetDeviceRebootHelper.setOnSetDeviceRebootFailedListener(() -> toast(R.string.hh70_fail));
         xSetDeviceRebootHelper.setOnPrepareHelperListener(this::showLoadingDialog);
         xSetDeviceRebootHelper.setOnDoneHelperListener(this::dismissLoadingDialog);
@@ -620,7 +620,7 @@ public class SettingFrag extends BaseFrag {
         SetDeviceRestoreHelper xSetDeviceRestoreHelper = new SetDeviceRestoreHelper();
         xSetDeviceRestoreHelper.setOnPrepareHelperListener(this::showLoadingDialog);
         xSetDeviceRestoreHelper.setOnDoneHelperListener(this::dismissLoadingDialog);
-        xSetDeviceRestoreHelper.setOnRestoreSuccessListener(file -> toast(R.string.succeed));
+        xSetDeviceRestoreHelper.setOnRestoreSuccessListener(file -> toast(R.string.hh70_succeed));
         xSetDeviceRestoreHelper.setOnRestoreFailedListener(() -> toast(R.string.couldn_t_restore_try_again));
         xSetDeviceRestoreHelper.setDeviceRestore();
     }
@@ -754,10 +754,10 @@ public class SettingFrag extends BaseFrag {
             if (getLoginStateBean.getState() == GetLoginStateBean.CONS_LOGIN) {
                 LogoutHelper xLogoutHelper = new LogoutHelper();
                 xLogoutHelper.setOnLogoutSuccessListener(() -> {
-                    toast(R.string.login_logout_successful, 3000);
+                    toast(R.string.hh70_logout_completed, 3000);
                     toFragActivity(getClass(), SplashActivity.class, LoginFrag.class, null, true);
                 });
-                xLogoutHelper.setOnLogOutFailedListener(() -> toast(R.string.login_logout_failed, 3000));
+                xLogoutHelper.setOnLogOutFailedListener(() -> toast(R.string.hh70_cant_logout, 3000));
                 xLogoutHelper.logout();
             } else {
                 toFragActivity(getClass(), SplashActivity.class, LoginFrag.class, null, true);

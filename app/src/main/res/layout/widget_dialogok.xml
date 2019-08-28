@@ -82,7 +82,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:text="@string/ok"
+                    android:text="@string/hh70_ok"
                     android:textColor="@color/blue_btn"
                     app:layout_textSizePercent="30%h" />
 

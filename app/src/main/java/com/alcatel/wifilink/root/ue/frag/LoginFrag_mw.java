@@ -166,7 +166,7 @@ public class LoginFrag_mw extends RootFrag {
             if (currentConnCount > 0) {// 当设备连接数大于0才连接
                 toFrag(getClass(), LoginFrag_mw_device.class, null, true);
             } else {// 提示没发现设备
-                toast(R.string.refresh_no_device_manage, 5000);
+                toast(R.string.hh70_no_device_find, 5000);
             }
         });
         rlLoginPreFreesharing.setOnClickListener(v -> {

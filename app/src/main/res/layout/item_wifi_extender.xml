@@ -31,7 +31,7 @@
             android:layout_centerVertical="true"
             android:layout_marginStart="@dimen/dimen_8dip"
             android:layout_toEndOf="@id/iv_wifiExtender_item_check"
-            android:text="@string/unknown"
+            android:text="@string/hh70_unknown"
             android:textColor="@color/black"
             app:layout_textSizePercent="30%h" />
 

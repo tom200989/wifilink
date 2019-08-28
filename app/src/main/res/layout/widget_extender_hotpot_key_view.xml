@@ -31,7 +31,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/dimen_15dip"
-                android:text="@string/unknown"
+                android:text="@string/hh70_unknown"
                 android:textColor="@color/black"
                 app:layout_marginTopPercent="10%h"
                 app:layout_textSizePercent="9%h" />
@@ -104,7 +104,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:gravity="center"
-                    android:text="@string/ok"
+                    android:text="@string/hh70_ok"
                     android:textColor="@color/mg_blue"
                     app:layout_textSizePercent="23%h"
                     app:layout_widthPercent="50%w" />

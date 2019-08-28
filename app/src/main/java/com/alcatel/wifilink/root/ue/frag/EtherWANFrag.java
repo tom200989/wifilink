@@ -137,35 +137,35 @@ public class EtherWANFrag extends BaseFrag {
 
             // static ip_phone
             if (!RootUtils.isAllMatch(str_staticIp)) {
-                String ipValid = getString(R.string.ip_address) + "\n" + getString(R.string.connect_failed);
+                String ipValid = getString(R.string.hh70_ip_address) + "\n" + getString(R.string.connect_failed);
                 toast(ipValid, 3000);
                 return;
             }
 
             // subnet mask
             if (!RootUtils.isAllMatch(str_subnetMask)) {
-                String subnetValid = getString(R.string.subnet_mask) + "\n" + getString(R.string.connect_failed);
+                String subnetValid = getString(R.string.hh70_subnet_mask) + "\n" + getString(R.string.connect_failed);
                 toast(subnetValid, 3000);
                 return;
             }
 
             // default gate way
             if (!RootUtils.isAllMatch(str_defaultGateway)) {
-                String defaultGateway = getString(R.string.default_gateway) + "\n" + getString(R.string.connect_failed);
+                String defaultGateway = getString(R.string.hh70_default_gateway) + "\n" + getString(R.string.connect_failed);
                 toast(defaultGateway, 3000);
                 return;
             }
 
             // preferred dns
             if (!RootUtils.isAllMatch(str_preferredDns)) {
-                String preferred_dns = getString(R.string.preferred_dns) + "\n" + getString(R.string.connect_failed);
+                String preferred_dns = getString(R.string.hh70_prefer_dns) + "\n" + getString(R.string.connect_failed);
                 toast(preferred_dns, 3000);
                 return;
             }
 
             // secondary dns
             if (!RootUtils.isAllMatch(str_secondaryDns)) {
-                String secondary_dns = getString(R.string.secondary_dns) + "\n" + getString(R.string.connect_failed);
+                String secondary_dns = getString(R.string.hh70_second_dns) + "\n" + getString(R.string.connect_failed);
                 toast(secondary_dns, 3000);
                 return;
             }
