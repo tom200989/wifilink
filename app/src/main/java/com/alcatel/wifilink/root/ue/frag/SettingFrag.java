@@ -1,15 +1,9 @@
 package com.alcatel.wifilink.root.ue.frag;
 
-import android.app.Activity;
 import android.os.Handler;
-import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.WindowManager;
-import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -20,6 +14,7 @@ import com.alcatel.wifilink.root.helper.FirmUpgradeHelper;
 import com.alcatel.wifilink.root.helper.UpgradeHelper;
 import com.alcatel.wifilink.root.ue.activity.SplashActivity;
 import com.alcatel.wifilink.root.utils.RootUtils;
+import com.alcatel.wifilink.root.widget.HH70_BackupPathWidget;
 import com.alcatel.wifilink.root.widget.HH70_BackupWidget;
 import com.alcatel.wifilink.root.widget.HH70_CheckVersionWidget;
 import com.alcatel.wifilink.root.widget.HH70_CountDownWidget;
@@ -123,6 +118,10 @@ public class SettingFrag extends BaseFrag {
     HH70_CountDownWidget wd_countdown;
     @BindView(R.id.wd_backup)
     HH70_BackupWidget wd_backup;
+    @BindView(R.id.wd_backup_path)
+    HH70_BackupPathWidget wd_backpath;
+    @BindView(R.id.wd_reset_tip)
+    NormalWidget wd_reset;
     @BindView(R.id.lw_loading)
     HH70_LoadWidget loadWidget;
 
@@ -565,26 +564,12 @@ public class SettingFrag extends BaseFrag {
     }
 
     private void backupDevice() {
-        showBackupSuccessDialog();
-    }
-
-    private void showBackupSuccessDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(activity);
-        builder.setTitle(R.string.back_up_settings);
-        EditText editText = new EditText(activity);
-        LinearLayout.LayoutParams LayoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        LayoutParams.setMargins(20, 0, 20, 0);
-        editText.setLayoutParams(LayoutParams);
-        editText.setText(isMW120 ? mdefaultSaveUrl2 : mdefaultSaveUrl);// mw120就用mw120的地址
-        builder.setView(editText);
-        builder.setNegativeButton(R.string.cancel, (dialog, which) -> dialog.dismiss());
-        builder.setPositiveButton(R.string.backup, (dialog, which) -> {
-            String savePath = RootUtils.getEDText(editText, true);
-            ShareUtils.set(CONFIG_FILE_PATH, savePath);
-            downLoadConfigureFile(savePath);
-            dialog.dismiss();
+        wd_backpath.setVisibility(View.VISIBLE);
+        wd_backpath.setPath(isMW120 ? mdefaultSaveUrl2 : mdefaultSaveUrl);
+        wd_backpath.setOnClickBackupListener(path -> {
+            ShareUtils.set(CONFIG_FILE_PATH, path);
+            downLoadConfigureFile(path);
         });
-        builder.show();
     }
 
     private void downLoadConfigureFile(String saveUrl) {
@@ -593,19 +578,20 @@ public class SettingFrag extends BaseFrag {
         xSetDeviceBackup.setOnDoneHelperListener(this::dismissLoadingDialog);
         xSetDeviceBackup.setOnDownSuccessListener(attr -> toast(R.string.succeed));
         xSetDeviceBackup.setOnSetDeviceBackupFailedListener(() -> toast(R.string.fail));
-        xSetDeviceBackup.setOnPathNotMatchRuleListener(path -> {
-            toast("path is empty or not match rule , it contains [\\ : * ? \" < > | .]", 2000);
-        });
+        xSetDeviceBackup.setOnPathNotMatchRuleListener(path -> toast("path is empty or not match rule , it contains [\\ : * ? \" < > | .]", 2000));
         xSetDeviceBackup.setDeviceBackup(saveUrl);
     }
 
     private void showDialogResetFactorySetting() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(activity);
-        builder.setTitle(R.string.reset_router);
-        builder.setMessage(R.string.This_will_reset_all_settings_on_your_router_to_factory_defaults_This_action_can_not_be_undone);
-        builder.setNegativeButton(R.string.cancel, (dialogInterface, i) -> dialogInterface.dismiss());
-        builder.setPositiveButton(R.string.reset, (dialogInterface, i) -> resetDevice());
-        builder.show();
+        wd_reset.setVisibility(View.VISIBLE);
+        wd_reset.setTitle(R.string.reset_router);
+        wd_reset.setDes(R.string.This_will_reset_all_settings_on_your_router_to_factory_defaults_This_action_can_not_be_undone);
+        wd_reset.setOnBgClickListener(() -> wd_reset.setVisibility(View.GONE));
+        wd_reset.setOnCancelClickListener(() -> wd_reset.setVisibility(View.GONE));
+        wd_reset.setOnOkClickListener(() -> {
+            resetDevice();
+            wd_reset.setVisibility(View.GONE);
+        });
     }
 
     private void restartDevice() {
@@ -648,14 +634,6 @@ public class SettingFrag extends BaseFrag {
     private void dismissLoadingDialog() {
         loadWidget.setGone();
     }
-
-    public void backgroundAlpha(Activity context, float bgAlpha) {
-        WindowManager.LayoutParams lp = context.getWindow().getAttributes();
-        lp.alpha = bgAlpha;
-        context.getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
-        context.getWindow().setAttributes(lp);
-    }
-
 
     /* -------------------------------------------- HELPER -------------------------------------------- */
     private void goToShareSettingPage() {
@@ -724,17 +702,39 @@ public class SettingFrag extends BaseFrag {
         if (wd_checkVersion.getVisibility() == View.VISIBLE) {
             wd_checkVersion.setVisibility(View.GONE);
             return true;
+
         } else if (wd_down.getVisibility() == View.VISIBLE) {
             Log.i("ma", "onBackPressed: ");
             return true;
+
+        } else if (wd_countdown.getVisibility() == View.VISIBLE) {
+            Log.i("ma", "onBackPressed: ");
+            return true;
+
+        } else if (wd_backup.getVisibility() == View.VISIBLE) {
+            wd_backup.setVisibility(View.GONE);
+            return true;
+
+        } else if (wd_backpath.getVisibility() == View.VISIBLE) {
+            wd_backpath.setVisibility(View.GONE);
+            return true;
+
         } else if (dgSettingRxWidgetOk.getVisibility() == View.VISIBLE) {
             dgSettingRxWidgetOk.setVisibility(View.GONE);
             return true;
+
         } else if (dgSettingRxWidgetConfirm.getVisibility() == View.VISIBLE) {
             dgSettingRxWidgetConfirm.setVisibility(View.GONE);
             return true;
-        } else if (isDownloading) {// 如果在下载中, 则自己处理返回按钮的逻辑
+
+        } else if (loadWidget.getVisibility() == View.VISIBLE) {
+            Log.i("ma", "onBackPressed: ");
             return true;
+
+        } else if (isDownloading) {// 如果在下载中, 则自己处理返回按钮的逻辑
+            Log.i("ma", "onBackPressed: ");
+            return true;
+
         } else {
             // 登出
             ClickDoubleHelper clickDouble = new ClickDoubleHelper();

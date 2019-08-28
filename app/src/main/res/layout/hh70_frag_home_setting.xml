@@ -692,9 +692,25 @@
         android:layout_below="@id/rl_settingRx_banner"
         android:visibility="gone" />
 
-    <!-- 备份 -->
+    <!-- 备份选择 -->
     <com.alcatel.wifilink.root.widget.HH70_BackupWidget
         android:id="@+id/wd_backup"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/rl_settingRx_banner"
+        android:visibility="gone" />
+
+    <!-- 备份路径 -->
+    <com.alcatel.wifilink.root.widget.HH70_BackupPathWidget
+        android:id="@+id/wd_backup_path"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/rl_settingRx_banner"
+        android:visibility="gone" />
+
+    <!-- 恢复出厂提示 -->
+    <com.alcatel.wifilink.root.widget.NormalWidget
+        android:id="@+id/wd_reset_tip"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/rl_settingRx_banner"

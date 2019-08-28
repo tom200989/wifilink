@@ -15,11 +15,11 @@ import com.alcatel.wifilink.R;
  */
 public class NormalWidget extends RelativeLayout {
 
-    private ImageView ivDialogokWidgetBg;
-    private TextView tvDialogokWidgetTitle;
-    private TextView tvDialogokWidgetDes;
-    private TextView tvDialogokWidgetCancel;
-    private TextView tvDialogokWidgetOk;
+    private ImageView ivbg;
+    private TextView tvTitle;
+    private TextView tvContent;
+    private TextView tvCancel;
+    private TextView tvOK;
 
     public NormalWidget(Context context) {
         this(context, null, 0);
@@ -32,17 +32,17 @@ public class NormalWidget extends RelativeLayout {
     public NormalWidget(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         View.inflate(context, R.layout.widget_dialogok, this);
-        ivDialogokWidgetBg = findViewById(R.id.iv_dialogok_widget_bg);
-        ivDialogokWidgetBg.setOnClickListener(v -> bgClickNext());
-        tvDialogokWidgetTitle = findViewById(R.id.tv_dialogok_widget_title);
-        tvDialogokWidgetDes = findViewById(R.id.tv_dialogok_widget_des);
-        tvDialogokWidgetCancel = findViewById(R.id.tv_dialogok_widget_cancel);
-        tvDialogokWidgetCancel.setOnClickListener(v -> {
+        ivbg = findViewById(R.id.iv_dialogok_widget_bg);
+        ivbg.setOnClickListener(v -> bgClickNext());
+        tvTitle = findViewById(R.id.tv_dialogok_widget_title);
+        tvContent = findViewById(R.id.tv_dialogok_widget_des);
+        tvCancel = findViewById(R.id.tv_dialogok_widget_cancel);
+        tvCancel.setOnClickListener(v -> {
             setVisibility(GONE);
             cancelClickNext();
         });
-        tvDialogokWidgetOk = findViewById(R.id.tv_dialogok_widget_ok);
-        tvDialogokWidgetOk.setOnClickListener(v -> {
+        tvOK = findViewById(R.id.tv_dialogok_widget_ok);
+        tvOK.setOnClickListener(v -> {
             setVisibility(GONE);
             okClickNext();
         });
@@ -54,7 +54,7 @@ public class NormalWidget extends RelativeLayout {
      * @param title 标题字符串
      */
     public void setTitle(String title) {
-        tvDialogokWidgetTitle.setText(title);
+        tvTitle.setText(title);
     }
 
     /**
@@ -63,7 +63,7 @@ public class NormalWidget extends RelativeLayout {
      * @param titleRef 标题字符串资源应用
      */
     public void setTitle(@StringRes int titleRef) {
-        tvDialogokWidgetTitle.setText(titleRef);
+        tvTitle.setText(titleRef);
     }
 
     /**
@@ -72,7 +72,7 @@ public class NormalWidget extends RelativeLayout {
      * @param content 内容字符串
      */
     public void setDes(String content) {
-        tvDialogokWidgetDes.setText(content);
+        tvContent.setText(content);
     }
 
     /**
@@ -81,7 +81,7 @@ public class NormalWidget extends RelativeLayout {
      * @param desRef 内容字符串资源应用
      */
     public void setDes(@StringRes int desRef) {
-        tvDialogokWidgetDes.setText(desRef);
+        tvContent.setText(desRef);
     }
 
     /**
@@ -90,7 +90,7 @@ public class NormalWidget extends RelativeLayout {
      * @param isVisible true:可显
      */
     public void setCancelVisible(boolean isVisible) {
-        tvDialogokWidgetCancel.setVisibility(isVisible ? VISIBLE : GONE);
+        tvCancel.setVisibility(isVisible ? VISIBLE : GONE);
     }
 
     /**
@@ -99,7 +99,7 @@ public class NormalWidget extends RelativeLayout {
      * @param isVisible true:可显
      */
     public void setOkVisible(boolean isVisible) {
-        tvDialogokWidgetOk.setVisibility(isVisible ? VISIBLE : GONE);
+        tvOK.setVisibility(isVisible ? VISIBLE : GONE);
     }
 
     /* -------------------------------------------- impl -------------------------------------------- */
