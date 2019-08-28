@@ -3,7 +3,6 @@ package com.alcatel.wifilink.root.helper;
 import com.p_xhelper_smart.p_xhelper_smart.bean.GetNetworkSettingsBean;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetNetworkRegisterStateHelper;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetNetworkSettingsBeanHelper;
-import com.p_xhelper_smart.p_xhelper_smart.impl.FwError;
 
 /**
  * Created by qianli.ma on 2017/12/11 0011.
@@ -61,10 +60,7 @@ public class NetworkSettingHelper {
                     break;
             }
         });
-        xGetNetworkSettingsBeanHelper.setOnGetNetworkSettingsFailedListener(() -> {
-            errorNext(null);
-            resultErrorNext(null);
-        });
+        xGetNetworkSettingsBeanHelper.setOnGetNetworkSettingsFailedListener(this::NetworkSettingFailedNext);
         xGetNetworkSettingsBeanHelper.getNetworkSettings();
 
     }
@@ -164,41 +160,22 @@ public class NetworkSettingHelper {
         }
     }
 
-    private OnResultErrorListener onResultErrorListener;
+    private OnNetworkSettingFailedListener onNetworkSettingFailedListener;
 
-    // 接口OnResultErrorListener
-    public interface OnResultErrorListener {
-        void resultError(FwError attr);
+    // Inteerface--> 接口OnNetworkSettingFailedListener
+    public interface OnNetworkSettingFailedListener {
+        void NetworkSettingFailed();
     }
 
-    // 对外方式setOnResultErrorListener
-    public void setOnResultErrorListener(OnResultErrorListener onResultErrorListener) {
-        this.onResultErrorListener = onResultErrorListener;
+    // 对外方式setOnNetworkSettingFailedListener
+    public void setOnNetworkSettingFailedListener(OnNetworkSettingFailedListener onNetworkSettingFailedListener) {
+        this.onNetworkSettingFailedListener = onNetworkSettingFailedListener;
     }
 
-    // 封装方法resultErrorNext
-    private void resultErrorNext(FwError attr) {
-        if (onResultErrorListener != null) {
-            onResultErrorListener.resultError(attr);
-        }
-    }
-
-    private OnErrorListener onErrorListener;
-
-    // 接口OnErrorListener
-    public interface OnErrorListener {
-        void error(Throwable attr);
-    }
-
-    // 对外方式setOnErrorListener
-    public void setOnErrorListener(OnErrorListener onErrorListener) {
-        this.onErrorListener = onErrorListener;
-    }
-
-    // 封装方法errorNext
-    private void errorNext(Throwable attr) {
-        if (onErrorListener != null) {
-            onErrorListener.error(attr);
+    // 封装方法NetworkSettingFailedNext
+    private void NetworkSettingFailedNext() {
+        if (onNetworkSettingFailedListener != null) {
+            onNetworkSettingFailedListener.NetworkSettingFailed();
         }
     }
 }

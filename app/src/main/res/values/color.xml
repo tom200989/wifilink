@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorPrimary">#009AFF</color>
-    <color name="color_transparent">#00000000</color>
-    <color name="color_divider">#ffcccccc</color>
     <color name="color_black">#ff000000</color>
     <color name="color_light_gray">#ff848484</color>
     <color name="color_white">#ffffffff</color>
@@ -16,30 +14,21 @@
     <color name="deep_black_text">#333333</color>
     <color name="deep_grey_text">#999999</color>
     <color name="grey_line">#DDDDDD</color>
-    <color name="not_wifi_background">#ece8e8</color>
     <color name="orange_textColor">#FF7E00</color>
     <color name="sms_green">#00cd3a</color>
     <color name="main_title_background">#009AFF</color>
     <color name="main_bottom_divider">#ffdbdbdb</color>
     <color name="main_tabbar_background">#fff9f9f9</color>
-    <color name="color_blue">#ff0089cf</color>
     <color name="color_grey">#ffa8a8a8</color>
-    <color name="color_sms_detail_send_grey">#ff8dd3f7</color>
-    <color name="color_connected_view_refresh_bg">#fff8f8f8</color>
     <color name="custom_spinner_divider_line">#ff545454</color>
     <color name="red">#f00</color>
     <color name="black">#ff000000</color>
     <color name="gray">#aaa</color>
     <color name="white">#ffffff</color>
-    <color name="white_yellow">#fffaeb</color>
     <color name="yellow">#FFF000</color>
     <color name="gray11">#A6A6A0</color>
     <color name="shadowcolor">#333333</color>
     <color name="background">#747474</color>
-    <color name="path_indicator_button_divider">#ffb2b2b2</color>
-    <color name="path_indicator_button_text_selected">#ff58d2ff</color>
-    <color name="path_indicator_button_text_enabled">#ff0089cf</color>
-    <color name="path_indicator_button_text_disabled">#ff000000</color>
     <color name="transparent">#0000</color>
     <color name="setting_background_color">#efeff4</color>
     <color name="blue_btn">#009AFF</color>

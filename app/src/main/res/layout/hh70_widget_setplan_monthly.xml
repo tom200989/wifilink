@@ -94,7 +94,6 @@
                 app:layout_textSizePercent="8%h" />
 
             <com.hiber.tools.layout.PercentLinearLayout
-                android:id="@+id/ll_pop_setPlan_monthly_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/tv_pop_setPlan_rx_blank"

@@ -14,12 +14,10 @@
     <string name="remember_sim_pin">Remember SIM PIN</string>
     <string name="qs_pin_unlock_congratulations">Congratulations.</string>
     <string name="qs_pin_unlock_congratulations_des">Connected to the Internet completed</string>
-    <string name="network_disconnected">Network disconnected</string>
     <string name="qs_pin_unlock_can_not_connect_des">Check your WAN cabling or SIM card.</string>
     <string name="qs_pin_unlock_to_home">Home &gt;</string>
     <string name="qs_wifi_setting_2G_wifi">2.4GHz Wi-Fi</string>
     <string name="qs_wifi_setting_5G_wifi">5GHz Wi-Fi</string>
-    <string name="main_home">Home</string>
     <string name="wifi_settings">Wi-Fi settings</string>
     <string name="main_setting">Settings</string>
     <string name="main_sms">SMS</string>
@@ -30,7 +28,6 @@
     <string name="Home_SimLock_Required">SIM lock required</string>
     <string name="Home_SimCard_Detected">SIM Card detected</string>
     <string name="home_no_service">No service</string>
-    <string name="signal">SIGNAL</string>
     <string name="home_initializing">Initializing</string>
     <string name="home_network_type_2g">2G</string>
     <string name="home_network_type_3g">3G</string>
@@ -43,13 +40,9 @@
     <string name="home_sim_not_accessible">SIM card is not accessible</string>
     <string name="home_usage_over_redial_message">Monthly data plan has been used up. If you want to re-dial, change the monthly values or reset consumption.</string>
     <string name="home_exit_app">Touch again to exit app</string>
-    <string name="usage_view_duration">Duration</string>
-    <string name="usage_status_des">No data plan set yet</string>
-    <string name="usage_duration">%1$dh %2$dm</string>
     <string name="usage_setting_mobile_data">Mobile data</string>
     <string name="usage_setting_timelimit">limit</string>
     <string name="usage_setting_settimelimit">Set Time Limit:</string>
-    <string name="usage_setting_usage">Usage</string>
     <string name="usage_setting_billingday">Billing cycle</string>
     <string name="usage_setting_usagealert">Usage alert</string>
     <string name="usage_setting_usagealertunit">%</string>
@@ -61,28 +54,20 @@
     <string name="channel">Channel</string>
     <string name="sms_title">Message</string>
     <string name="sms_empty">No SMS</string>
-    <string name="sms_list_view_draft">%1$d,draft</string>
     <string name="fail">Fail</string>
-    <string name="sms_report_message">delivered.</string>
     <string name="sms_to">To:</string>
-    <string name="sms_error_send_error">Couldn\'t send SMS.</string>
-    <string name="sms_send_success">Send SMS completed.</string>
     <string name="sms_error_message_full_storage">SMS box is full. Delete some SMS to send/save new SMS.</string>
-    <string name="sms_delete_multi_success">Delete conversation completed.</string>
     <string name="sms_delete_error">Couldn\'t delete SMS.</string>
     <string name="sms_delete_success">Delete SMS completed.</string>
     <string name="sms_number_invalid">Error. Only 3 phone numbers are allowed.</string>
     <string name="sms_save_success">SMS is saved as a draft.</string>
     <string name="sms_save_error">Couldn\'t save SMS.</string>
-    <string name="sms_unread_num">(%1$d)</string>
     <string name="setting_imsi">IMSI</string>
     <string name="setting_sim_number">SIM number</string>
     <string name="change_pin">Change SIM PIN</string>
     <string name="setting_set_data_plan">Set data plan</string>
     <string name="setting_network_connect_mode">Connection mode</string>
     <string name="device_manage_title">Devices</string>
-    <string name="device_manage_connected">Connected Devices (%1$d)</string>
-    <string name="device_manage_block">Block Devices (%1$d)</string>
     <string name="device_manage_block_btn">BLOCK</string>
     <string name="device_manage_unblock_btn">UNBLOCK</string>
     <string name="device_manage_ip">IP: %1$s</string>
@@ -102,7 +87,6 @@
     <string name="setting_usb_storage">USB Storage</string>
     <string name="setting_about">About</string>
     <string name="setting_wifi">Wi-Fi</string>
-    <string name="setting_sharing">FTP&amp;DLNA</string>
     <string name="setting_sharing_ftp">FTP</string>
     <string name="setting_sharing_dlna">DLNA</string>
     <string name="setting_text_2point4G_wifi">2.4G Wi-Fi</string>
@@ -131,30 +115,19 @@
     <string name="setting_confirm_password">Confirm new password</string>
     <string name="setting_password_note">Note: The password should be 4–16 characters.</string>
     <string name="setting_network_mode">mode</string>
-    <string name="setting_network_selection">Network Selection</string>
     <string name="setting_network_try_again">Disconnecting… Try again later.</string>
-    <string name="setting_network_profile_management">Profile Management</string>
     <string name="setting_network_mode_auto">Auto</string>
-    <string name="setting_network_mode_2G_only">2G Only</string>
-    <string name="setting_network_mode_3G_only">3G Only</string>
-    <string name="setting_network_mode_LTE_only">4G Only</string>
-    <string name="other_login_warning_title">Login warning</string>
     <string name="usage_limit_over_notification_content">Monthly data usage limit reached</string>
-    <string name="dialog_delete_title">Confirm Deletion</string>
-    <string name="dialog_delete_content">Confirm deletion of this chat\'s history</string>
-    <string name="dialog_delete_content_description">Long press the SMS to delete.</string>
     <string name="dialog_delete_multi_sms_content">Delete this message(s)?</string>
     <string name="pin_error_waring_title">The PIN code is wrong.</string>
     <string name="puk_new_pin_label">New PIN:</string>
     <string name="puk_confirm_pin_label">Confirmed PIN:</string>
     <string name="puk_error_waring_title">The PUK code is wrong.</string>
     <string name="error_info">Error</string>
-    <string name="btn_reply">Retry</string>
     <string name="IDS_PIN_LOCKED">PIN Locked</string>
     <string name="IDS_PUK_LOCKED">PUK Locked</string>
     <string name="login_invalid_password"><![CDATA[Invalid password. The password only can include 0–9, a-z, A-Z, \"-+.@$#^&*\"]]></string>
     <string name="login_other_user_logined_error_msg">Other user is login\nplease log in again after a moment.</string>
-    <string name="login_other_user_logined_error_forcelogin_msg">Other user already loged in, do you still want to login? This will kick other user off.</string>
     <string name="login_login_time_used_out_msg">Login times used out\nyou can login until the device reboot.</string>
     <string name="login_login_app_or_webui">If disable guest AP UI access\nguest AP can’t access WEB UI</string>
     <string name="login_logout_successful">Logout completed.</string>
@@ -186,7 +159,6 @@
     <string name="operation_cancel_selectall">Deselect All</string>
     <string name="mb_text">MB</string>
     <string name="gb_text">GB</string>
-    <string name="confirm_unit">CONFIRM</string>
     <string name="connect_type_select_sim_card_disable">Insert SIM card first</string>
     <string name="connect_type_select_wan_port_disable">Insert Internet cable to WAN port</string>
     <string name="connect_type_select_sim_card_enable">Always use Mobile Broadband &gt;</string>
@@ -220,9 +192,7 @@
     <string name="This_will_reset_all_settings_on_your_router_to_factory_defaults_This_action_can_not_be_undone">This will reset all settings on your router to factory defaults. This action can\'t be undone.</string>
     <string name="reset">Reset</string>
     <string name="couldn_t_reset_try_again">Couldn’t reset. Try again.</string>
-    <string name="couldn_t_backup_try_again">Couldn’t backup. Try again.</string>
     <string name="couldn_t_restore_try_again">Couldn’t restore. Try again.</string>
-    <string name="back_up_settings">Back up settings</string>
     <string name="complete">Complete</string>
     <string name="device_name">Device name</string>
     <string name="imei">IMEI</string>
@@ -289,7 +259,6 @@
     <string name="smsdetail_tryagain">You message was not send</string>
     <string name="smsdetail_tryagain_confirm">Try again</string>
     <string name="log_out">LOG OUT</string>
-    <string name="connection_timed_out">Connection timed out</string>
     <string name="enter_sim_pin">Enter SIM PIN</string>
     <string name="to_edit_profile_go_to_settings_about_web_manager">To edit profile, go to Settings &gt; About &gt; Web manager.</string>
     <string name="connectedlist_will_be_restarted_to_apply_new_settings">Connected List will be restarted to apply new settings.</string>
@@ -299,7 +268,6 @@
     <string name="login_failed">Couldn\'t login</string>
     <string name="insert_sim_or_wan">Try again after insert SIM or WAN</string>
     <string name="not_empty">Not permit empty</string>
-    <string name="sms_sending">Sending…</string>
     <string name="setting_account">Change password</string>
     <string name="login_psd_error_msg">Your password is wrong. \n%1$d attempt(s) remaining</string>
     <string name="connect_failed">Couldn\'t connect</string>
@@ -347,7 +315,6 @@
     <string name="Blocked">Blocked</string>
     <string name="mtu_not_match">MTU must between 576 and 1500</string>
     <string name="Set_connected_device_black_failed">Set connected device block failed.</string>
-    <string name="crash_tip">Connection timeout, your mobile phone and your device has been disconnected, check your device signal is normal, please restart your device or WIFI, and then relanded APP</string>
     <string name="reset_tip">Please operate your reset button on the device to restore the factory settings</string>
     <string name="about_x_data_remain">About %s data remaining</string>
     <string name="sms_max_length">SMS can enter %d characters at most</string>
@@ -376,7 +343,6 @@
     <string name="return_feedback_title">Return?</string>
     <string name="return_feedback_des">The data will not be saved.\nAre you sure you want to return?</string>
     <string name="please_wait_a_moment_to_scan">Please wait a moment to scan</string>
-    <string name="get_wifi_extender_settings_failed">Get WIFI Extender Settings failed</string>
     <string name="get_wifi_extender_current_status_failed">Get WIFI Extender Current Status failed</string>
     <string name="get_current_time_and_timezone_failed">Get Current Time and timezone failed</string>
     <string name="password_is_not_allowed_to_be_empty">Password is not allowed to be empty</string>
@@ -405,5 +371,4 @@
     <string name="MONTHLY_PLAN">monthly plan</string>
 
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
