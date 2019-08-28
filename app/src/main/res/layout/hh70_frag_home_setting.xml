@@ -690,7 +690,15 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/rl_settingRx_banner"
-        android:visibility="gone"/>
+        android:visibility="gone" />
+
+    <!-- 备份 -->
+    <com.alcatel.wifilink.root.widget.HH70_BackupWidget
+        android:id="@+id/wd_backup"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/rl_settingRx_banner"
+        android:visibility="gone" />
 
     <!-- 等待 -->
     <com.alcatel.wifilink.root.widget.HH70_LoadWidget

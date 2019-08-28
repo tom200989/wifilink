@@ -719,7 +719,8 @@ public class SettingNetworkFrag extends BaseFrag {
             Uri content_url = Uri.parse("http://" + wifiGateWay);
             intent.setData(content_url);
             startActivity(intent);
-        }); AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+        });
+        AlertDialog.Builder builder = new AlertDialog.Builder(activity);
         builder.setView(v);
         builder.setNegativeButton(R.string.cancel, null);
         builder.create();

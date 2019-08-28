@@ -4,14 +4,12 @@ import android.app.Activity;
 import android.os.Handler;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -22,6 +20,7 @@ import com.alcatel.wifilink.root.helper.FirmUpgradeHelper;
 import com.alcatel.wifilink.root.helper.UpgradeHelper;
 import com.alcatel.wifilink.root.ue.activity.SplashActivity;
 import com.alcatel.wifilink.root.utils.RootUtils;
+import com.alcatel.wifilink.root.widget.HH70_BackupWidget;
 import com.alcatel.wifilink.root.widget.HH70_CheckVersionWidget;
 import com.alcatel.wifilink.root.widget.HH70_CountDownWidget;
 import com.alcatel.wifilink.root.widget.HH70_DownWidget;
@@ -45,8 +44,6 @@ import com.p_xhelper_smart.p_xhelper_smart.helper.SetDeviceRebootHelper;
 import com.p_xhelper_smart.p_xhelper_smart.helper.SetDeviceResetHelper;
 import com.p_xhelper_smart.p_xhelper_smart.helper.SetDeviceRestoreHelper;
 import com.p_xhelper_smart.p_xhelper_smart.helper.SetDeviceUpdateStopHelper;
-
-import java.util.Objects;
 
 import butterknife.BindView;
 
@@ -124,6 +121,8 @@ public class SettingFrag extends BaseFrag {
     HH70_DownWidget wd_down;
     @BindView(R.id.wd_countdown)
     HH70_CountDownWidget wd_countdown;
+    @BindView(R.id.wd_backup)
+    HH70_BackupWidget wd_backup;
     @BindView(R.id.lw_loading)
     HH70_LoadWidget loadWidget;
 
@@ -546,51 +545,23 @@ public class SettingFrag extends BaseFrag {
     }
 
     private void popDialogFromBottom(int itemType) {
-        PopupWindow popupWindow = new PopupWindow(activity);
-        View view = View.inflate(activity, R.layout.dialog_from_bottom, null);
-
-        TextView mFirstTxt = (TextView) view.findViewById(R.id.first_txt);
-        TextView mSecondTxt = (TextView) view.findViewById(R.id.second_txt);
-        TextView mCancelTxt = (TextView) view.findViewById(R.id.cancel_txt);
-
-        popupWindow.setContentView(view);
-        if (itemType == RESTART_RESET) {
-            mFirstTxt.setText(R.string.restart);
-            mSecondTxt.setText(R.string.reset_to_factory_settings);
-
-        } else {
-            mFirstTxt.setText(R.string.backup);
-            mSecondTxt.setText(R.string.restore);
-        }
-
-        mFirstTxt.setOnClickListener(v -> {
+        wd_backup.setVisibility(View.VISIBLE);
+        wd_backup.setFirstText(itemType == RESTART_RESET ? R.string.restart : R.string.backup);
+        wd_backup.setSecondText(itemType == RESTART_RESET ? R.string.reset_to_factory_settings : R.string.restore);
+        wd_backup.setOnClickFirstTextListener(() -> {
             if (itemType == RESTART_RESET) {
                 restartDevice();
             } else {
                 backupDevice();
             }
-            popupWindow.dismiss();
         });
-        mSecondTxt.setOnClickListener(v -> {
+        wd_backup.setOnClickSecTextListener(() -> {
             if (itemType == RESTART_RESET) {
                 showDialogResetFactorySetting();
             } else {
                 restore();
             }
-            popupWindow.dismiss();
         });
-        mCancelTxt.setOnClickListener(v -> {
-            popupWindow.dismiss();
-            backgroundAlpha(activity, 1f);
-        });
-        popupWindow.setOnDismissListener(() -> backgroundAlpha(activity, 1f));
-        popupWindow.setWidth(ViewGroup.LayoutParams.MATCH_PARENT);
-        popupWindow.setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
-        popupWindow.setOutsideTouchable(true);
-        popupWindow.setFocusable(true);
-        popupWindow.setBackgroundDrawable(getRootDrawable(R.color.white));
-        backgroundAlpha(activity, 0.5f);
-        popupWindow.showAtLocation(view, Gravity.BOTTOM, 0, 0);
     }
 
     private void backupDevice() {
@@ -651,11 +622,11 @@ public class SettingFrag extends BaseFrag {
         xSetDeviceResetHelper.setOnPrepareHelperListener(this::showLoadingDialog);
         xSetDeviceResetHelper.setOnSetDeviceResetSuccessListener(() -> {
             dismissLoadingDialog();
-            showSuccessDialog();
+            toast(R.string.complete, 5000);
         });
         xSetDeviceResetHelper.setOnSetDeviceResetFailedListener(() -> {
             dismissLoadingDialog();
-            showFailedDialog(R.string.couldn_t_reset_try_again);
+            toast(R.string.couldn_t_reset_try_again, 5000);
         });
         xSetDeviceResetHelper.SetDeviceReset();
     }
@@ -667,20 +638,6 @@ public class SettingFrag extends BaseFrag {
         xSetDeviceRestoreHelper.setOnRestoreSuccessListener(file -> toast(R.string.succeed));
         xSetDeviceRestoreHelper.setOnRestoreFailedListener(() -> toast(R.string.couldn_t_restore_try_again));
         xSetDeviceRestoreHelper.setDeviceRestore();
-    }
-
-    private void showSuccessDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(Objects.requireNonNull(activity));
-        builder.setMessage(activity.getString(R.string.complete));
-        builder.setCancelable(true);
-        builder.show();
-    }
-
-    private void showFailedDialog(int stringId) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(Objects.requireNonNull(activity));
-        builder.setMessage(activity.getString(stringId));
-        builder.setCancelable(true);
-        builder.show();
     }
 
     private void showLoadingDialog() {
