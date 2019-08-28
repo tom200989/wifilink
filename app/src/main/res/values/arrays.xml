@@ -2,7 +2,7 @@
 <resources>
 
     <string-array name="wlan_settings_security">
-        <item>@string/disabled</item>
+        <item>@string/hh70_disabled</item>
         <item>WEP</item>
         <item>WPA</item>
         <item>WPA2</item>
@@ -78,7 +78,7 @@
 
     <string-array name="settings_connection_mode">
         <item>@string/hh70_auto</item>
-        <item>@string/maunal</item>
+        <item>@string/hh70_maunal</item>
     </string-array>
 
     <string-array name="settings_network_mode">
@@ -134,38 +134,38 @@
     </string-array>
 
     <string-array name="settings_data_plan_billing_day">
-        <item>@string/day_1</item>
-        <item>@string/day_2</item>
-        <item>@string/day_3</item>
-        <item>@string/day_4</item>
-        <item>@string/day_5</item>
-        <item>@string/day_6</item>
-        <item>@string/day_7</item>
-        <item>@string/day_8</item>
-        <item>@string/day_9</item>
-        <item>@string/day_10</item>
-        <item>@string/day_11</item>
-        <item>@string/day_12</item>
-        <item>@string/day_13</item>
-        <item>@string/day_14</item>
-        <item>@string/day_15</item>
-        <item>@string/day_16</item>
-        <item>@string/day_17</item>
-        <item>@string/day_18</item>
-        <item>@string/day_19</item>
-        <item>@string/day_20</item>
-        <item>@string/day_21</item>
-        <item>@string/day_22</item>
-        <item>@string/day_23</item>
-        <item>@string/day_24</item>
-        <item>@string/day_25</item>
-        <item>@string/day_26</item>
-        <item>@string/day_27</item>
-        <item>@string/day_28</item>
+        <item>@string/hh70_day_1</item>
+        <item>@string/hh70_day_2</item>
+        <item>@string/hh70_day_3</item>
+        <item>@string/hh70_day_4</item>
+        <item>@string/hh70_day_5</item>
+        <item>@string/hh70_day_6</item>
+        <item>@string/hh70_day_7</item>
+        <item>@string/hh70_day_8</item>
+        <item>@string/hh70_day_9</item>
+        <item>@string/hh70_day_10</item>
+        <item>@string/hh70_day_11</item>
+        <item>@string/hh70_day_12</item>
+        <item>@string/hh70_day_13</item>
+        <item>@string/hh70_day_14</item>
+        <item>@string/hh70_day_15</item>
+        <item>@string/hh70_day_16</item>
+        <item>@string/hh70_day_17</item>
+        <item>@string/hh70_day_18</item>
+        <item>@string/hh70_day_19</item>
+        <item>@string/hh70_day_20</item>
+        <item>@string/hh70_day_21</item>
+        <item>@string/hh70_day_22</item>
+        <item>@string/hh70_day_23</item>
+        <item>@string/hh70_day_24</item>
+        <item>@string/hh70_day_25</item>
+        <item>@string/hh70_day_26</item>
+        <item>@string/hh70_day_27</item>
+        <item>@string/hh70_day_28</item>
     </string-array>
 
     <string-array name="settings_data_plan_usage_alert">
-        <item>@string/ergo_20181010_not_reminded</item>
+        <item>@string/hh70_ergo_not_reminded</item>
         <item>90%</item>
         <item>80%</item>
         <item>70%</item>
@@ -174,13 +174,13 @@
     </string-array>
 
     <string-array name="feedbacktype">
-        <item>@string/wifi_connection</item>
+        <item>@string/hh70_wifi_connection</item>
         <item>@string/hh70_main_sms</item>
-        <item>@string/signal_for_feedback</item>
-        <item>@string/battery_life</item>
+        <item>@string/hh70_signal_for_feedback</item>
+        <item>@string/hh70_battery_life</item>
         <item>@string/hh70_mobile_data</item>
         <item>@string/hh70_network</item>
-        <item>@string/others</item>
+        <item>@string/hh70_others</item>
     </string-array>
 
 

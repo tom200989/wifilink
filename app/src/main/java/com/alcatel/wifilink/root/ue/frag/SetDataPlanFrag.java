@@ -115,8 +115,8 @@ public class SetDataPlanFrag extends BaseFrag {
         gray_color = getRootColor(R.color.gray);
         black_color = getRootColor(R.color.black);
         pop_bg = getRootDrawable(R.drawable.bg_pop_conner);
-        hour = getString(R.string.hr_s);
-        min = getString(R.string.min_s);
+        hour = getString(R.string.hh70_hr_s);
+        min = getString(R.string.hh70_min_s);
         days = RootUtils.getResArr(activity, R.array.settings_data_plan_billing_day);
         alerts = RootUtils.getResArr(activity, R.array.settings_data_plan_usage_alert);
     }
@@ -257,7 +257,7 @@ public class SetDataPlanFrag extends BaseFrag {
             loadWidget.setGone();
         });
         usageSettingHelper.setOnSetUsageSettingFailedListener(() -> {
-            toast(R.string.connect_failed);
+            toast(R.string.hh70_connect_failed);
             loadWidget.setGone();
         });
         usageSettingHelper.setUsageSetting(tempSetting);
@@ -283,7 +283,7 @@ public class SetDataPlanFrag extends BaseFrag {
         // 范围鉴定
         int num = Integer.valueOf(content);
         if (num < 0 || num > 1024) {
-            toast(R.string.input_a_data_value_between_0_1024);
+            toast(R.string.hh70_input_data_tips);
             return;
         }
         // 请求提交
@@ -296,11 +296,11 @@ public class SetDataPlanFrag extends BaseFrag {
             // 2.在提交usage-setting
             UsageSettingHelper ush1 = new UsageSettingHelper(activity);
             ush1.setOnSetUsageSettingSuccessListener(attr1 -> {
-                toast(R.string.success);
+                toast(R.string.hh70_success);
                 loadWidget.setGone();
             });
             ush1.setOnSetUsageSettingFailedListener(() -> {
-                toast(R.string.connect_failed);
+                toast(R.string.hh70_connect_failed);
                 loadWidget.setGone();
             });
             ush1.setUsageSetting(attr);
@@ -315,7 +315,7 @@ public class SetDataPlanFrag extends BaseFrag {
     private void clickBilling() {
         wd_bill.setOnClickBillItemListener(day -> {
             BillingHelper billingHelper = new BillingHelper(activity);
-            billingHelper.setOnSetBillSuccessListener(() -> toast(R.string.success, 3000));
+            billingHelper.setOnSetBillSuccessListener(() -> toast(R.string.hh70_success, 3000));
             billingHelper.setBillingDay(day);
         });
         wd_bill.setVisibles(days);
@@ -436,7 +436,7 @@ public class SetDataPlanFrag extends BaseFrag {
                         String des = getString(R.string.hh70_monthly_data_plan_used);// 3.超出月流量--> 显示警告
                         if (usedData < monthlyPlan) {// 3.没有超出--> 显示剩余百分比
                             String per_s = (int) (((monthlyPlan - usedData) / monthlyPlan) * 100) + "%";
-                            des = String.format(getString(R.string.about_x_data_remain), per_s);
+                            des = String.format(getString(R.string.hh70_about_data_remain), per_s);
                         }
                         toastLong(des);// 4.吐司提示
                     }

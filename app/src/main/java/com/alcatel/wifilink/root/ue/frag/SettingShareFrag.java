@@ -101,13 +101,13 @@ public class SettingShareFrag extends BaseFrag {
         xGetSystemStatusHelper.setOnGetSystemStatusSuccessListener(getSystemStatusBean -> {
             switch (getSystemStatusBean.getUsbStatus()) {
                 case GetSystemStatusBean.CONS_NOT_INSERT:
-                    mUSBStorageText.setText(R.string.not_inserted);
+                    mUSBStorageText.setText(R.string.hh70_not_inserted);
                     break;
                 case GetSystemStatusBean.CONS_USB_STORAGE:
                     mUSBStorageText.setText(R.string.hh70_usb_storage);
                     break;
                 case GetSystemStatusBean.CONS_USB_PRINT:
-                    mUSBStorageText.setText(R.string.usb_printer);
+                    mUSBStorageText.setText(R.string.hh70_usb_printer);
                     break;
             }
         });

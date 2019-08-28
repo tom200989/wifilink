@@ -53,7 +53,7 @@
                 android:paddingStart="10dp"
                 android:paddingEnd="10dp"
                 android:paddingBottom="5dp"
-                android:text="@string/select_your_internet_connection_type"
+                android:text="@string/hh70_choose_connect_type"
                 android:textColor="@color/black" />
 
             <View
@@ -80,7 +80,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="20dp"
-                        android:text="@string/pppoe"
+                        android:text="@string/hh70_pppoe"
                         android:textColor="@color/black"
                         android:textSize="@dimen/dimen_textsize_16sp" />
 
@@ -88,7 +88,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="20dp"
-                        android:text="@string/need_account_and_password_given_by_network_operator"
+                        android:text="@string/hh70_need_account_and_password"
                         android:textColor="@color/deep_grey_text"
                         android:textSize="@dimen/dimen_textsize_12sp"
                         android:visibility="gone" />
@@ -130,7 +130,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="20dp"
-                        android:text="@string/dhcp"
+                        android:text="@string/hh70_dhcp"
                         android:textColor="@color/black"
                         android:textSize="@dimen/dimen_textsize_16sp" />
 
@@ -138,7 +138,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="20dp"
-                        android:text="@string/no_need_to_set_internet_parameters"
+                        android:text="@string/hh70_not_set_parameters"
                         android:textColor="@color/deep_grey_text"
                         android:textSize="@dimen/dimen_textsize_12sp"
                         android:visibility="gone" />
@@ -180,7 +180,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="20dp"
-                        android:text="@string/static_ip"
+                        android:text="@string/hh70_static_ip"
                         android:textColor="@color/black"
                         android:textSize="@dimen/dimen_textsize_16sp" />
 
@@ -235,7 +235,7 @@
                         android:layout_gravity="center_vertical"
                         android:layout_marginStart="20dp"
                         android:gravity="center"
-                        android:text="@string/account"
+                        android:text="@string/hh70_account"
                         android:textColor="@color/black"
                         android:textSize="@dimen/dimen_textsize_16sp" />
 
@@ -246,7 +246,7 @@
                         android:layout_gravity="center_vertical"
                         android:layout_marginStart="12dp"
                         android:background="@null"
-                        android:hint="@string/account"
+                        android:hint="@string/hh70_account"
                         android:textColor="@color/grey_text"
                         android:textSize="@dimen/dimen_textsize_14sp" />
                 </com.hiber.tools.layout.PercentLinearLayout>
@@ -318,7 +318,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/do_not_change_default_if_not_necessary"
+                            android:text="@string/hh70_not_change_default"
                             android:textColor="@color/deep_grey_text"
                             android:textSize="@dimen/dimen_textsize_12sp" />
                     </com.hiber.tools.layout.PercentLinearLayout>
@@ -349,7 +349,7 @@
                 android:layout_marginTop="@dimen/dimen_5dip"
                 android:background="@color/white"
                 android:padding="20dp"
-                android:text="@string/do_not_change_default_if_not_necessary"
+                android:text="@string/hh70_not_change_default"
                 android:textColor="@color/deep_grey_text"
                 android:textSize="@dimen/dimen_textsize_14sp"
                 android:visibility="gone" />
@@ -577,7 +577,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="20dp"
-                            android:text="@string/do_not_change_default_if_not_necessary"
+                            android:text="@string/hh70_not_change_default"
                             android:textColor="@color/deep_grey_text"
                             android:textSize="@dimen/dimen_textsize_12sp" />
                     </com.hiber.tools.layout.PercentLinearLayout>

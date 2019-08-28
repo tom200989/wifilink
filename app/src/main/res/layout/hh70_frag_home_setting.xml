@@ -30,7 +30,7 @@
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
             android:layout_marginEnd="@dimen/dimen_8dip"
-            android:text="@string/log_out"
+            android:text="@string/hh70_log_out"
             android:textColor="@color/white"
             app:layout_textSizePercent="23%h" />
 
@@ -79,7 +79,7 @@
                     android:layout_marginLeft="@dimen/dimen_10dip"
                     android:layout_toEndOf="@id/setting_login_password_pic"
                     android:layout_toRightOf="@id/setting_login_password_pic"
-                    android:text="@string/setting_account"
+                    android:text="@string/hh70_setting_account"
                     android:textColor="@color/black_text"
                     app:layout_textSizePercent="25%h" />
 
@@ -295,7 +295,7 @@
                     android:layout_marginLeft="@dimen/dimen_10dip"
                     android:layout_toEndOf="@id/setting_wifi_extender_pic"
                     android:layout_toRightOf="@id/setting_wifi_extender_pic"
-                    android:text="@string/setting_wifi_extender"
+                    android:text="@string/hh70_setting_wifi_extender"
                     android:textColor="@color/black_text"
                     app:layout_textSizePercent="25%h" />
 
@@ -355,7 +355,7 @@
                     android:layout_marginLeft="@dimen/dimen_10dip"
                     android:layout_toEndOf="@id/setting_language_pic"
                     android:layout_toRightOf="@id/setting_language_pic"
-                    android:text="@string/language"
+                    android:text="@string/hh70_language"
                     android:textColor="@color/black_text"
                     app:layout_textSizePercent="25%h" />
 
@@ -584,7 +584,7 @@
                     android:layout_marginLeft="@dimen/dimen_10dip"
                     android:layout_toEndOf="@id/setting_feedback_pic"
                     android:layout_toRightOf="@id/setting_feedback_pic"
-                    android:text="@string/setting_feedback"
+                    android:text="@string/hh70_setting_feedback"
                     android:textColor="@color/black_text"
                     app:layout_textSizePercent="25%h" />
 

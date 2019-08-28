@@ -39,7 +39,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginStart="@dimen/dimen_10dip"
                 android:layout_toEndOf="@id/pg_pop_upgrade"
-                android:text="@string/checking_for_update"
+                android:text="@string/hh70_check_for_update"
                 android:textColor="@color/mg_blue"
                 app:layout_textSizePercent="20%h"
                 app:layout_widthPercent="60%w" />

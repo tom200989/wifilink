@@ -217,7 +217,7 @@ public class WifiInitFrag extends BaseFrag {
                 xGetWlanSettingsHelper.getWlanSettings();
             } else {
                 wdLoad.setGone();
-                toast(R.string.log_out, 5000);
+                toast(R.string.hh70_log_out, 5000);
                 toFrag(getClass(), LoginFrag.class, null, true);
             }
         });
@@ -336,7 +336,7 @@ public class WifiInitFrag extends BaseFrag {
                 checkChange();
             } else {
                 wdLoad.setGone();
-                toast(R.string.log_out, 5000);
+                toast(R.string.hh70_log_out, 5000);
                 toFrag(getClass(), LoginFrag.class, null, true);
             }
         });
@@ -373,7 +373,7 @@ public class WifiInitFrag extends BaseFrag {
         }
         if (is2P4GAPStatusSame & is5GAPStatusSame & is2P4GSSIDSame & is5GSSIDSame & is2P4GWpaSame & is5GWpaSame) {
             // 4.直接跳转到主页
-            toast(R.string.ergo_20181010_setup_success, 5000);
+            toast(R.string.hh70_ergo_setup_success, 5000);
             skip();
         } else {
             // 4.显示重启提示对话框
@@ -394,7 +394,7 @@ public class WifiInitFrag extends BaseFrag {
      */
     private void showResetUi() {
         String des1 = getString(R.string.hh70_change_wifi);
-        String des2 = getString(R.string.connectedlist_will_be_restarted_to_apply_new_settings);
+        String des2 = getString(R.string.hh70_list_will_restarted);
         String des = des1 + "\n" + des2;
         wdOk.setVisibility(View.VISIBLE);
         wdOk.setTitle(R.string.hh70_restart);
@@ -415,7 +415,7 @@ public class WifiInitFrag extends BaseFrag {
             RootUtils.setWifiOn(activity, false);
             // 提交标记位
             ShareUtils.set(RootCons.SP_WIFI_INIT, true);
-            toast(R.string.ergo_20181010_update_wifi, 5000);
+            toast(R.string.hh70_ergo_update_wifi, 5000);
             wdLoad.setGone();
         });
         xSetWlanSettingsHelper.setOnSetWlanSettingsFailedListener(() -> {
@@ -438,7 +438,7 @@ public class WifiInitFrag extends BaseFrag {
                 skip();
             } else {
                 wdLoad.setGone();
-                toast(R.string.log_out, 5000);
+                toast(R.string.hh70_log_out, 5000);
                 toFrag(getClass(), LoginFrag.class, null, true);
             }
         });
@@ -528,7 +528,7 @@ public class WifiInitFrag extends BaseFrag {
         // 1.退出登陆
         LogoutHelper xLogouthelper = new LogoutHelper();
         xLogouthelper.setOnLogoutSuccessListener(() -> toFrag(getClass(), LoginFrag.class, null, true));
-        xLogouthelper.setOnLogOutFailedListener(() -> toast(R.string.connect_failed, 5000));
+        xLogouthelper.setOnLogOutFailedListener(() -> toast(R.string.hh70_connect_failed, 5000));
         xLogouthelper.logout();
     }
 

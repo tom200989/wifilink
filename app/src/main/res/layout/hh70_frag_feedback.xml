@@ -26,7 +26,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="@string/setting_feedback"
+            android:text="@string/hh70_setting_feedback"
             android:textColor="@color/white"
             app:layout_textSizePercent="30%h" />
 
@@ -41,7 +41,7 @@
         android:background="@color/fffef5"
         android:gravity="center_vertical"
         android:paddingStart="@dimen/dimen_8dip"
-        android:text="@string/requestType"
+        android:text="@string/hh70_requestType"
         android:textColor="@color/c_666666"
         app:layout_heightPercent="6%h"
         app:layout_textSizePercent="2.7%h" />
@@ -61,7 +61,7 @@
             android:background="@null"
             android:editable="false"
             android:gravity="center_vertical"
-            android:hint="@string/select_the_feedback_type"
+            android:hint="@string/hh70_select_feedback_type"
             android:lines="1"
             android:maxLines="1"
             android:paddingStart="@dimen/dimen_8dip"
@@ -91,7 +91,7 @@
         android:background="@color/fffef5"
         android:gravity="center_vertical"
         android:paddingStart="@dimen/dimen_8dip"
-        android:text="@string/description"
+        android:text="@string/hh70_description"
         android:textColor="@color/c_666666"
         app:layout_heightPercent="6%h"
         app:layout_textSizePercent="2.7%h" />
@@ -116,7 +116,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@null"
-                android:hint="@string/enter_feedback_and_suggestion"
+                android:hint="@string/hh70_enter_feedback_suggestion"
                 android:maxLength="2000"
                 android:padding="@dimen/dimen_8dip"
                 android:textColor="@color/black"
@@ -209,7 +209,7 @@
         android:layout_centerHorizontal="true"
         android:background="@drawable/bg_feedback_submit_seletor"
         android:gravity="center"
-        android:text="@string/submit"
+        android:text="@string/hh70_submit"
         android:textColor="@color/white"
         app:layout_heightPercent="7.5%h"
         app:layout_marginTopPercent="2.5%h"
@@ -279,7 +279,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/iv_feedback_selectType_submit_ok_pop_logo"
                 android:gravity="center"
-                android:text="@string/thanks_for_your_feedback_to_help_us_improve_our_product"
+                android:text="@string/hh70_thanks_for_feedback"
                 android:textColor="@color/black"
                 app:layout_marginPercent="5%w"
                 app:layout_textSizePercent="5.3%h" />

@@ -128,7 +128,7 @@ public class DataPlanInitFrag extends BaseFrag {
      * 对失败的处理
      */
     private void failedHandle() {
-        toast(R.string.connect_failed, 5000);
+        toast(R.string.hh70_connect_failed, 5000);
         wdLoad.setGone();
         toFrag(getClass(), RefreshFrag.class, null, true);
     }
@@ -156,18 +156,18 @@ public class DataPlanInitFrag extends BaseFrag {
     private void clickDone() {
         // 是否掉线
         if (result == null) {
-            toast(R.string.connect_failed, 5000);
+            toast(R.string.hh70_connect_failed, 5000);
             return;
         }
         // 空值判断
         if (TextUtils.isEmpty(RootUtils.getEDText(etDataplanRxLimit))) {
-            toast(R.string.not_empty, 5000);
+            toast(R.string.hh70_not_empty, 5000);
             return;
         }
         // 范围判断
         double limit = Double.valueOf(RootUtils.getEDText(etDataplanRxLimit));
         if (limit < 0 | limit > 1024) {
-            toast(R.string.input_a_data_value_between_0_1024, 5000);
+            toast(R.string.hh70_input_data_tips, 5000);
             return;
         }
         // 提交请求
@@ -197,12 +197,12 @@ public class DataPlanInitFrag extends BaseFrag {
                     }
                 });
                 xGetSimStatusHelper.setOnGetSimStatusFailedListener(() -> {
-                    toast(R.string.connect_failed, 5000);
+                    toast(R.string.hh70_connect_failed, 5000);
                     toFrag(getClass(), RefreshFrag.class, null, true);
                 });
                 xGetSimStatusHelper.getSimStatus();
             } else {
-                toast(R.string.log_out, 5000);
+                toast(R.string.hh70_log_out, 5000);
                 toFrag(getClass(), LoginFrag.class, null, true);
             }
         });
@@ -222,7 +222,7 @@ public class DataPlanInitFrag extends BaseFrag {
         param.copy(result);
         SetUsageSettingsHelper xSetUsageSettingsHelper = new SetUsageSettingsHelper();
         xSetUsageSettingsHelper.setOnSetUsageSettingsSuccessListener(() -> {
-            toast(R.string.success, 5000);
+            toast(R.string.hh70_success, 5000);
             skip();
         });
         xSetUsageSettingsHelper.setOnSetUsageSettingsFailListener(this::failedHandle);

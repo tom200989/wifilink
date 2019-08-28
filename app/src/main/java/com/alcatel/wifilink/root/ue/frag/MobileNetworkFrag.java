@@ -111,7 +111,7 @@ public class MobileNetworkFrag extends BaseFrag {
 
     private void initRes() {
         text_auto = activity.getString(R.string.hh70_auto);
-        text_manual = activity.getString(R.string.maunal);
+        text_manual = activity.getString(R.string.hh70_maunal);
         text_4G = activity.getString(R.string.hh70_4g);
         text_3G = activity.getString(R.string.hh70_3g);
         text_2G = activity.getString(R.string.hh70_2g);
@@ -318,11 +318,11 @@ public class MobileNetworkFrag extends BaseFrag {
             SimPinHelper simPinHelper = new SimPinHelper(activity);
             simPinHelper.setOnPukLockedListener(attr -> toPukRx());
             simPinHelper.setOnPinEnableListener(() -> {// 开启成功
-                toast(R.string.success);
+                toast(R.string.hh70_success);
                 ivSimPin.setImageDrawable(switch_on);
             });
             simPinHelper.setOnPinDisableListener(() -> {// 关闭成功
-                toast(R.string.success);
+                toast(R.string.hh70_success);
                 ivSimPin.setImageDrawable(switch_off);
             });
             simPinHelper.setOnPinTimeoutListener(attr -> toPukRx());// PIN次数超过限制
@@ -338,7 +338,7 @@ public class MobileNetworkFrag extends BaseFrag {
         PinStatuHelper pinStatuHelper = new PinStatuHelper(activity);
         pinStatuHelper.setOnNormalPinStatesListener(attr1 -> {
             if (attr1.getPinState() != GetSimStatusBean.CONS_FOR_PIN_PIN_ENABLE_VERIFIED) {
-                toast(R.string.please_enable_sim_pin);
+                toast(R.string.hh70_enable_sim_pin);
             } else {
                 changpinWidget.setOnOkClickListener(() -> {
                     String currentPin = changpinWidget.getCurrentPin();

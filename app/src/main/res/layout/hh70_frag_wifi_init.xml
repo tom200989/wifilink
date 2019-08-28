@@ -97,7 +97,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginStart="@dimen/dimen_15dip"
-                android:text="@string/account"
+                android:text="@string/hh70_account"
                 android:textColor="@color/black"
                 app:layout_textSizePercent="30%h" />
 
@@ -217,7 +217,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginStart="@dimen/dimen_15dip"
-                android:text="@string/account"
+                android:text="@string/hh70_account"
                 android:textColor="@color/black"
                 app:layout_textSizePercent="30%h" />
 
@@ -323,7 +323,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/iv_wifiInit_rx_failed_logo"
             android:layout_centerHorizontal="true"
-            android:text="@string/connect_failed"
+            android:text="@string/hh70_connect_failed"
             android:textColor="@color/black"
             app:layout_textSizePercent="3.5%h" />
 
@@ -346,7 +346,7 @@
             android:layout_centerHorizontal="true"
             android:background="@drawable/bg_tryagain_selector"
             android:gravity="center"
-            android:text="@string/smsdetail_tryagain_confirm"
+            android:text="@string/hh70_smsdetail_try_confirm"
             android:textColor="@color/mg_blue"
             app:layout_heightPercent="10%w"
             app:layout_marginTopPercent="5%h"

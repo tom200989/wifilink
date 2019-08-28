@@ -131,7 +131,7 @@ public class SettingAccountFrag extends BaseFrag {
             }
         });
         xGetSystemInfoHelper.setOnFwErrorListener(() -> encryptAccAndPsd(true));// 1.3.如果获取出错 -- 则一定是需要加密的版本
-        xGetSystemInfoHelper.setOnAppErrorListener(() -> toast(R.string.connect_failed, 3000));
+        xGetSystemInfoHelper.setOnAppErrorListener(() -> toast(R.string.hh70_connect_failed, 3000));
         xGetSystemInfoHelper.getSystemInfo();
     }
 
@@ -145,9 +145,9 @@ public class SettingAccountFrag extends BaseFrag {
             toast(R.string.hh70_succeed, 3000);
             toFragActivity(getClass(), SplashActivity.class, LoginFrag.class, null, true);
         });
-        xChangePasswordHelper.setOnChangePasswordFailedListener(() -> toast(R.string.change_password_failed, 3000));// 失败
-        xChangePasswordHelper.setOnCurrentPasswordWrongListener(() -> toast(R.string.the_current_password_is_wrong, 3000));// 当前密码错误
-        xChangePasswordHelper.setOnSameDefaultPasswordListener(() -> toast(R.string.the_current_password_is_the_same_as_default_password, 3000));// 与默认密码相同
+        xChangePasswordHelper.setOnChangePasswordFailedListener(() -> toast(R.string.hh70_change_password_failed, 3000));// 失败
+        xChangePasswordHelper.setOnCurrentPasswordWrongListener(() -> toast(R.string.hh70_current_password_wrong, 3000));// 当前密码错误
+        xChangePasswordHelper.setOnSameDefaultPasswordListener(() -> toast(R.string.hh70_password_same_default, 3000));// 与默认密码相同
         xChangePasswordHelper.changePassword(currentPassword, password);
     }
 
@@ -183,7 +183,7 @@ public class SettingAccountFrag extends BaseFrag {
             // 1.2.发起修改
             changePassword();
         });
-        loginStateHelper.setOnGetLoginStateFailedListener(() -> toast(R.string.connect_failed, 3000));
+        loginStateHelper.setOnGetLoginStateFailedListener(() -> toast(R.string.hh70_connect_failed, 3000));
         loginStateHelper.getLoginState();
     }
 
@@ -192,8 +192,8 @@ public class SettingAccountFrag extends BaseFrag {
      */
     private void showAlertPanel() {
         wdOK.setVisibility(View.VISIBLE);
-        wdOK.setTitle(R.string.warning);
-        wdOK.setDes(R.string.ergo_20181010_forgot_password);
+        wdOK.setTitle(R.string.hh70_warning);
+        wdOK.setDes(R.string.hh70_ergo_forgot_password);
         wdOK.setOnCancelClickListener(() -> wdOK.setVisibility(View.GONE));
         wdOK.setOnOkClickListener(this::toReset);
     }
@@ -214,7 +214,7 @@ public class SettingAccountFrag extends BaseFrag {
             wdOK.setVisibility(View.GONE);
             return true;
         } else if (wdLoad.getVisibility() == View.VISIBLE) {
-            toast(R.string.the_data_is_being_submitted_please_wait_a_moment, 3000);
+            toast(R.string.hh70_data_being_submitted, 3000);
             return true;
         }
         toFrag(getClass(), SettingFrag.class, null, false);

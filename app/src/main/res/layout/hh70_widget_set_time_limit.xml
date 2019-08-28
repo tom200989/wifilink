@@ -49,7 +49,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="@string/hr_s" />
+                    android:text="@string/hh70_hr_s" />
 
                 <EditText
                     android:id="@+id/dialog_time_limit_min"
@@ -65,7 +65,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="@string/min_s" />
+                    android:text="@string/hh70_min_s" />
 
             </com.hiber.tools.layout.PercentLinearLayout>
 

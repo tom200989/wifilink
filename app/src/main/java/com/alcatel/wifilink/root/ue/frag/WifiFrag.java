@@ -177,7 +177,7 @@ public class WifiFrag extends BaseFrag {
      */
     private void initClick() {
         // other
-        rlWait.setOnClickListener(v -> toast(R.string.connecting, 2000));
+        rlWait.setOnClickListener(v -> toast(R.string.hh70_connecting, 2000));
 
         m2GAdvancedText.setOnClickListener(v -> {
             WlanBean wlanBean = new WlanBean();
@@ -563,7 +563,7 @@ public class WifiFrag extends BaseFrag {
 
         if (isPasswordMatch) {
             String des1 = getString(R.string.hh70_change_wifi);
-            String des2 = getString(R.string.connectedlist_will_be_restarted_to_apply_new_settings);
+            String des2 = getString(R.string.hh70_list_will_restarted);
             String des = des1 + "\n" + des2;
             dgWifiSettingrxOk.setVisibility(View.VISIBLE);
             dgWifiSettingrxOk.setTitle(R.string.hh70_restart);

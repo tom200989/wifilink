@@ -194,18 +194,18 @@ public class WifiExtenderRxFrag extends BaseFrag {
                     break;
                 case SUCCESS:// 2
                     getConnectHotpotCount = 0;
-                    toast(R.string.success, 2000);
+                    toast(R.string.hh70_success, 2000);
                     getHotpotInfo();// 重新获取
                     break;
                 case PASSWORD_ERROR:// 3
                     getConnectHotpotCount = 0;
-                    toast(R.string.please_enter_the_correct_password, 2000);
+                    toast(R.string.hh70_enter_correct_password, 2000);
                     widgetWifiExtenderWait.setVisibility(View.GONE);
                     tvScan.setVisibility(View.VISIBLE);
                     break;
                 case NEED_PASSWORD:// 4
                     getConnectHotpotCount = 0;
-                    toast(R.string.please_enter_the_correct_password, 2000);
+                    toast(R.string.hh70_enter_correct_password, 2000);
                     widgetWifiExtenderWait.setVisibility(View.GONE);
                     tvScan.setVisibility(View.VISIBLE);
                     break;
@@ -223,7 +223,7 @@ public class WifiExtenderRxFrag extends BaseFrag {
                     break;
                 case OPEN:// 6
                     getConnectHotpotCount = 0;
-                    toast(R.string.success_but_unencrypt, 2000);
+                    toast(R.string.hh70_success_but_unencrypt, 2000);
                     getHotpotInfo();// 重新获取
                     break;
             }
@@ -239,7 +239,7 @@ public class WifiExtenderRxFrag extends BaseFrag {
     private void connectFailed() {
         widgetWifiExtenderWait.setVisibility(View.GONE);
         tvScan.setVisibility(View.VISIBLE);
-        toast(R.string.the_connection_failed_please_try_again_extender, 2000);
+        toast(R.string.hh70_try_again_extender, 2000);
         getHotpotInfo();// 重新获取
     }
 
@@ -283,7 +283,7 @@ public class WifiExtenderRxFrag extends BaseFrag {
             // 1.获取wifi extender的StateEnable状态
             if (extenderSetting.getStationEnable() == DISABLE) {
                 // 1.1.设置描述
-                tvNotConnectPanelDes.setText(getString(R.string.connect_to_other_wifi_networks));
+                tvNotConnectPanelDes.setText(getString(R.string.hh70_connect_other_wifi));
                 disconnUi();
             } else {
                 // 2.获取wifi extender的初始化状态
@@ -294,7 +294,7 @@ public class WifiExtenderRxFrag extends BaseFrag {
                         break;
                     case COMPLETE:
                         // 2.1.设置描述
-                        tvNotConnectPanelDes.setText(getString(R.string.known_networks_will_be_joined_automatically));
+                        tvNotConnectPanelDes.setText(getString(R.string.hh70_networks_will_joined));
                         tvNotConnectTip.setVisibility(View.GONE);
                         ivPanelSocket.setImageDrawable(button_on);
                         getCurrentState();/* 2.获取当前是否有连接的热点 */
@@ -307,7 +307,7 @@ public class WifiExtenderRxFrag extends BaseFrag {
             }
         });
         getSettingsHelper.setOnGetExtenderFailedListener(() -> {
-            toast(R.string.connect_failed, 2000);
+            toast(R.string.hh70_connect_failed, 2000);
             disconnUi();
         });
         getSettingsHelper.get();
@@ -335,11 +335,11 @@ public class WifiExtenderRxFrag extends BaseFrag {
             }
         });
         getCurrentStatusHelper.setOnFailedListener(attr -> {
-            toast(R.string.connect_failed, 2000);
+            toast(R.string.hh70_connect_failed, 2000);
             disconnUi();
         });
         getCurrentStatusHelper.setOnResultErrorListener(error -> {
-            toast(R.string.get_wifi_extender_current_status_failed, 2000);
+            toast(R.string.hh70_wifi_status_failed, 2000);
             disconnUi();
         });
         getCurrentStatusHelper.get();
@@ -397,7 +397,7 @@ public class WifiExtenderRxFrag extends BaseFrag {
                 widgetWifiExtenderWait.setVisibility(View.GONE);
                 tvScan.setVisibility(View.VISIBLE);
                 rcvWifiExtenderAvailableNetwork.setVisibility(View.GONE);
-                toast(R.string.get_current_time_and_timezone_failed, 2000);
+                toast(R.string.hh70_get_time_failed, 2000);
             });
             extenderGetHotspotListHelper.get();
         });
@@ -405,13 +405,13 @@ public class WifiExtenderRxFrag extends BaseFrag {
             widgetWifiExtenderWait.setVisibility(View.GONE);
             tvScan.setVisibility(View.VISIBLE);
             rcvWifiExtenderAvailableNetwork.setVisibility(View.GONE);
-            toast(R.string.connect_failed, 2000);
+            toast(R.string.hh70_connect_failed, 2000);
         });
         xSearchHotspotHelper.setOnFwErrorListener(() -> {
             widgetWifiExtenderWait.setVisibility(View.GONE);
             tvScan.setVisibility(View.VISIBLE);
             rcvWifiExtenderAvailableNetwork.setVisibility(View.GONE);
-            toast(R.string.get_current_time_and_timezone_failed, 2000);
+            toast(R.string.hh70_get_time_failed, 2000);
         });
         xSearchHotspotHelper.searchHotSpot();
     }
@@ -443,7 +443,7 @@ public class WifiExtenderRxFrag extends BaseFrag {
         ivBack.setOnClickListener(v -> onBackPressed());
         tvScan.setOnClickListener(v -> getHotpotInfo());
         ivPanelSocket.setOnClickListener(v -> openOrCloseWifiExtender());
-        widgetWifiExtenderWait.setOnClickListener(v -> toast(R.string.please_wait_a_moment_to_scan, 2000));
+        widgetWifiExtenderWait.setOnClickListener(v -> toast(R.string.hh70wait_moment_scan, 2000));
         rlHadConnected.setOnClickListener(v -> disconnectCurrentHotpot());
     }
 
@@ -487,7 +487,7 @@ public class WifiExtenderRxFrag extends BaseFrag {
 
         // 等待界面显示时--> 提示用户不可回退
         if (widgetWifiExtenderWait.getVisibility() == View.VISIBLE) {
-            toast(R.string.please_wait_a_moment_to_scan, 2000);
+            toast(R.string.hh70wait_moment_scan, 2000);
             return true;
         }
 

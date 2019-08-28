@@ -79,7 +79,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/tv_dataplan_rx_limit_des"
                 android:layout_alignStart="@id/tv_dataplan_rx_limit_des"
-                android:text="@string/if_blank_data_unlimited"
+                android:text="@string/hh70_blank_data_unlimited"
                 app:layout_textSizePercent="15%h" />
 
             <ImageView

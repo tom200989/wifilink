@@ -37,7 +37,7 @@ public class SplashFrag extends BaseFrag {
         StringBean stringBean = new StringBean();
         stringBean.setCancel(String.valueOf(R.string.hh70_cancel));
         stringBean.setOk(String.valueOf(R.string.hh70_ok));
-        stringBean.setTitle(String.valueOf(R.string.warning));
+        stringBean.setTitle(String.valueOf(R.string.hh70_warning));
         permissBean.setStringBean(stringBean);
         permissBean.setPermissView(null);
         // 传递给框架内部

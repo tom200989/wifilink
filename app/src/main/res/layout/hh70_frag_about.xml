@@ -69,7 +69,7 @@
                     android:gravity="center_vertical"
                     android:paddingStart="12dp"
                     android:paddingEnd="12dp"
-                    android:text="@string/device_name"
+                    android:text="@string/hh70_device_name"
                     android:textColor="@color/black_text"
                     android:textDirection="locale"
                     android:textSize="@dimen/dimen_textsize_16sp" />
@@ -108,7 +108,7 @@
                     android:gravity="center_vertical"
                     android:paddingStart="12dp"
                     android:paddingEnd="12dp"
-                    android:text="@string/imei"
+                    android:text="@string/hh70_imei"
                     android:textColor="@color/black_text"
                     android:textDirection="locale"
                     android:textSize="@dimen/dimen_textsize_16sp" />
@@ -145,7 +145,7 @@
                     android:gravity="center_vertical"
                     android:paddingStart="12dp"
                     android:paddingEnd="12dp"
-                    android:text="@string/mac_address"
+                    android:text="@string/hh70_mac_address"
                     android:textColor="@color/black_text"
                     android:textDirection="locale"
                     android:textSize="@dimen/dimen_textsize_16sp" />
@@ -177,7 +177,7 @@
                     android:gravity="center_vertical"
                     android:paddingStart="12dp"
                     android:paddingEnd="12dp"
-                    android:text="@string/management_ip_address"
+                    android:text="@string/hh70_manage_ip_address"
                     android:textColor="@color/black_text"
                     android:textDirection="locale"
                     android:textSize="@dimen/dimen_textsize_16sp" />
@@ -252,7 +252,7 @@
                     android:paddingLeft="12dp"
                     android:paddingEnd="12dp"
                     android:paddingRight="12dp"
-                    android:text="@string/web_manager"
+                    android:text="@string/hh70_web_manager"
                     android:textColor="@color/black_text"
                     android:textDirection="locale"
                     android:textSize="@dimen/dimen_textsize_16sp" />
@@ -281,7 +281,7 @@
                     android:paddingLeft="12dp"
                     android:paddingEnd="12dp"
                     android:paddingRight="12dp"
-                    android:text="@string/quick_guide_user_manual"
+                    android:text="@string/hh70_guide_user_manual"
                     android:textColor="@color/black_text"
                     android:textDirection="locale"
                     android:textSize="@dimen/dimen_textsize_16sp" />
@@ -303,7 +303,7 @@
                     android:paddingLeft="12dp"
                     android:paddingEnd="12dp"
                     android:paddingRight="12dp"
-                    android:text="@string/app_version"
+                    android:text="@string/hh70_app_version"
                     android:textColor="@color/black_text"
                     android:textDirection="locale"
                     android:textSize="@dimen/dimen_textsize_16sp" />

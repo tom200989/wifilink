@@ -30,7 +30,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="@string/ergo_20181010_not_reminded"
+                android:text="@string/hh70_ergo_not_reminded"
                 android:textColor="@color/black"
                 app:layout_heightPercent="16%h"
                 app:layout_textSizePercent="4.5%h" />

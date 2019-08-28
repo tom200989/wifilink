@@ -163,7 +163,7 @@ public class UpgradeHelper {
                     hideAllWidget();
                     isContinueChecking = false;
                     countDownTimer.stop();
-                    ToastTool.show(activity, R.string.could_not_update_try_again);
+                    ToastTool.show(activity, R.string.hh70_update_try_again);
                 });
 
             }
@@ -232,7 +232,7 @@ public class UpgradeHelper {
             xGetDeviceNewVersionHelper.getDeviceNewVersion();
         } else {
             hideAllWidget();
-            ToastTool.show(activity, R.string.could_not_update_try_again);
+            ToastTool.show(activity, R.string.hh70_update_try_again);
         }
 
     }

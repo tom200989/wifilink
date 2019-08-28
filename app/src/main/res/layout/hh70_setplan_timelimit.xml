@@ -54,7 +54,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/dimen_10dip"
-                    android:text="@string/hr_s"
+                    android:text="@string/hh70_hr_s"
                     app:layout_textSizePercent="30%h" />
 
                 <EditText
@@ -75,7 +75,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/dimen_10dip"
-                    android:text="@string/min_s"
+                    android:text="@string/hh70_min_s"
                     app:layout_textSizePercent="30%h" />
             </com.hiber.tools.layout.PercentLinearLayout>
 
@@ -84,7 +84,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:text="@string/if_blank_data_unlimited"
+                android:text="@string/hh70_blank_data_unlimited"
                 android:textColor="@color/gray"
                 app:layout_marginTopPercent="2%h"
                 app:layout_textSizePercent="8%h" />

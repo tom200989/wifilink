@@ -41,10 +41,10 @@ public class ConnModeHelper {
                 // 4.再次获取连接模式
                 GetConnectionSettingsHelper xGetConnectionSettingsHelper = new GetConnectionSettingsHelper();
                 xGetConnectionSettingsHelper.setOnGetConnectionSettingsSuccessListener(attr -> connModeSuccessNext(result1));
-                xGetConnectionSettingsHelper.setOnGetConnectionSettingsFailedListener(() -> toast(R.string.connect_failed));
+                xGetConnectionSettingsHelper.setOnGetConnectionSettingsFailedListener(() -> toast(R.string.hh70_connect_failed));
                 xGetConnectionSettingsHelper.getConnectionSettings();
             });
-            xSetConnectionSettingsHelper.setOnsetConnectionSettingsFailedListener(() -> toast(R.string.connect_failed));
+            xSetConnectionSettingsHelper.setOnsetConnectionSettingsFailedListener(() -> toast(R.string.hh70_connect_failed));
             xSetConnectionSettingsHelper.setConnectionSettings(connectMode, roamingConnect, pdpType, connOffTime);
 
         });

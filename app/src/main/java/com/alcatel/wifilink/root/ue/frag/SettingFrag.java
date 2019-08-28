@@ -339,7 +339,7 @@ public class SettingFrag extends BaseFrag {
         boolean noNewVersion = state == GetDeviceNewVersionBean.CONS_NO_NEW_VERSION || state == GetDeviceNewVersionBean.CONS_CHECK_ERROR;
         // 2.显示弹窗
         wd_checkVersion.setVisibility(View.VISIBLE);
-        wd_checkVersion.setVersionName(noNewVersion ? systemSystemInfo.getSwVersionMain() : updateDeviceNewVersion.getVersion() + " " + getString(R.string.available));
+        wd_checkVersion.setVersionName(noNewVersion ? systemSystemInfo.getSwVersionMain() : updateDeviceNewVersion.getVersion() + " " + getString(R.string.hh70_available));
         wd_checkVersion.setTipVisible(noNewVersion);
         wd_checkVersion.setOkText(noNewVersion ? getString(R.string.hh70_ok) : getString(R.string.hh70_upgrade));
         wd_checkVersion.setOnClickOKListener(() -> {
@@ -365,7 +365,7 @@ public class SettingFrag extends BaseFrag {
         fuh.setOnLoginOutListener(() -> toFragActivity(getClass(), SplashActivity.class, LoginFrag.class, null, true));
         fuh.setOnErrorListener(() -> {
             count = 0;
-            toast(R.string.connect_failed);
+            toast(R.string.hh70_connect_failed);
             isDownloading = false;
         });
         // 触发成功
@@ -519,8 +519,8 @@ public class SettingFrag extends BaseFrag {
         fuh.setOnLoginOutListener(() -> toFragActivity(getClass(), SplashActivity.class, LoginFrag.class, null, true));
         fuh.setOnErrorListener(() -> downError(R.string.hh70_device_cant_start));
         fuh.setOnStartUpgradeListener(() -> {
-            toast(R.string.device_will_restart_later);
-            loadWidget.setLoadTv(R.string.updating);
+            toast(R.string.hh70_device_will_restart);
+            loadWidget.setLoadTv(R.string.hh70_updating);
             loadWidget.setVisibles();
         });
         fuh.startUpgrade();
@@ -534,7 +534,7 @@ public class SettingFrag extends BaseFrag {
         stopDownTimerAndPop();
         // 3.提示
         if (resId == -1) {
-            toast(R.string.connect_failed);
+            toast(R.string.hh70_connect_failed);
         } else {
             toast(resId);
         }
@@ -545,7 +545,7 @@ public class SettingFrag extends BaseFrag {
     private void popDialogFromBottom(int itemType) {
         wd_backup.setVisibility(View.VISIBLE);
         wd_backup.setFirstText(itemType == RESTART_RESET ? R.string.hh70_restart : R.string.hh70_backup);
-        wd_backup.setSecondText(itemType == RESTART_RESET ? R.string.hh70_reset_factory : R.string.restore);
+        wd_backup.setSecondText(itemType == RESTART_RESET ? R.string.hh70_reset_factory : R.string.hh70_restore);
         wd_backup.setOnClickFirstTextListener(() -> {
             if (itemType == RESTART_RESET) {
                 restartDevice();
@@ -583,7 +583,7 @@ public class SettingFrag extends BaseFrag {
 
     private void showDialogResetFactorySetting() {
         wd_reset.setVisibility(View.VISIBLE);
-        wd_reset.setTitle(R.string.reset_router);
+        wd_reset.setTitle(R.string.hh70_reset_router);
         wd_reset.setDes(R.string.hh70_will_reset_route);
         wd_reset.setOnBgClickListener(() -> wd_reset.setVisibility(View.GONE));
         wd_reset.setOnCancelClickListener(() -> wd_reset.setVisibility(View.GONE));
@@ -607,11 +607,11 @@ public class SettingFrag extends BaseFrag {
         xSetDeviceResetHelper.setOnPrepareHelperListener(this::showLoadingDialog);
         xSetDeviceResetHelper.setOnSetDeviceResetSuccessListener(() -> {
             dismissLoadingDialog();
-            toast(R.string.complete, 5000);
+            toast(R.string.hh70_complete, 5000);
         });
         xSetDeviceResetHelper.setOnSetDeviceResetFailedListener(() -> {
             dismissLoadingDialog();
-            toast(R.string.couldn_t_reset_try_again, 5000);
+            toast(R.string.hh70_reset_try_again, 5000);
         });
         xSetDeviceResetHelper.SetDeviceReset();
     }
@@ -621,12 +621,12 @@ public class SettingFrag extends BaseFrag {
         xSetDeviceRestoreHelper.setOnPrepareHelperListener(this::showLoadingDialog);
         xSetDeviceRestoreHelper.setOnDoneHelperListener(this::dismissLoadingDialog);
         xSetDeviceRestoreHelper.setOnRestoreSuccessListener(file -> toast(R.string.hh70_succeed));
-        xSetDeviceRestoreHelper.setOnRestoreFailedListener(() -> toast(R.string.couldn_t_restore_try_again));
+        xSetDeviceRestoreHelper.setOnRestoreFailedListener(() -> toast(R.string.hh70_restore_try_again));
         xSetDeviceRestoreHelper.setDeviceRestore();
     }
 
     private void showLoadingDialog() {
-        loadWidget.setLoadTv(R.string.back_up_progress);
+        loadWidget.setLoadTv(R.string.hh70_back_up_progress);
         loadWidget.setVisibles();
     }
 

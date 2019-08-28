@@ -68,7 +68,7 @@
             android:layout_centerVertical="true"
             android:paddingStart="@dimen/dimen_15dip"
             android:paddingEnd="@dimen/dimen_15dip"
-            android:text="@string/pppoe"
+            android:text="@string/hh70_pppoe"
             android:textColor="@color/black"
             app:layout_textSizePercent="25%h" />
 
@@ -100,7 +100,7 @@
             android:layout_centerVertical="true"
             android:paddingStart="@dimen/dimen_15dip"
             android:paddingEnd="@dimen/dimen_15dip"
-            android:text="@string/dhcp"
+            android:text="@string/hh70_dhcp"
             android:textColor="@color/black"
             app:layout_textSizePercent="25%h" />
 
@@ -132,7 +132,7 @@
             android:layout_centerVertical="true"
             android:paddingStart="@dimen/dimen_15dip"
             android:paddingEnd="@dimen/dimen_15dip"
-            android:text="@string/static_ip"
+            android:text="@string/hh70_static_ip"
             android:textColor="@color/black"
             app:layout_textSizePercent="25%h" />
 
@@ -171,7 +171,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginStart="@dimen/dimen_15dip"
-                android:text="@string/account"
+                android:text="@string/hh70_account"
                 android:textColor="@color/black"
                 app:layout_textSizePercent="25%h" />
 
@@ -250,7 +250,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/tv_wanmode_rx_pppoe_mtu_des"
                 android:layout_marginStart="@dimen/dimen_15dip"
-                android:text="@string/do_not_change_default_if_not_necessary"
+                android:text="@string/hh70_not_change_default"
                 app:layout_textSizePercent="20%h"
                 app:layout_widthPercent="65%w" />
 
@@ -368,7 +368,7 @@
         android:layout_centerHorizontal="true"
         android:background="@drawable/bt_login_selector"
         android:gravity="center"
-        android:text="@string/connect"
+        android:text="@string/hh70_connect"
         android:textColor="@color/white"
         app:layout_heightPercent="8%h"
         app:layout_marginBottomPercent="2%h"
@@ -436,7 +436,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/iv_wanmode_rx_failed_logo"
             android:layout_centerHorizontal="true"
-            android:text="@string/connect_failed"
+            android:text="@string/hh70_connect_failed"
             android:textColor="@color/black"
             app:layout_textSizePercent="3.5%h" />
 
@@ -446,7 +446,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/tv_wanmode_rx_failed_title"
             android:layout_centerHorizontal="true"
-            android:text="@string/check_your_wan_cabling"
+            android:text="@string/hh70_check_wan_cabling"
             android:textColor="@color/gray"
             app:layout_marginTopPercent="2%h"
             app:layout_textSizePercent="2.5%h" />
@@ -459,7 +459,7 @@
             android:layout_centerHorizontal="true"
             android:background="@drawable/bg_tryagain_selector"
             android:gravity="center"
-            android:text="@string/smsdetail_tryagain_confirm"
+            android:text="@string/hh70_smsdetail_try_confirm"
             android:textColor="@color/mg_blue"
             app:layout_heightPercent="10%w"
             app:layout_marginTopPercent="5%h"

@@ -115,7 +115,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/dimen_10dip"
                 android:layout_toEndOf="@id/iv_loginRx_checkbox"
-                android:text="@string/login_remenber_psd"
+                android:text="@string/hh70_login_remenber_psd"
                 app:layout_textSizePercent="7.5%h" />
 
         </com.hiber.tools.layout.PercentRelativeLayout>

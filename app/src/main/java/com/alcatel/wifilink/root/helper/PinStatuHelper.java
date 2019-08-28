@@ -89,7 +89,7 @@ public class PinStatuHelper {
                         toast(R.string.hh70_sim_card_deleted);
                         break;
                     case GetSimStatusBean.CONS_NOWN:
-                        toast(R.string.not_inserted);
+                        toast(R.string.hh70_not_inserted);
                         break;
                     case GetSimStatusBean.CONS_SIM_CARD_ILLEGAL:
                         toast(R.string.hh70_invalid_sim);
@@ -111,7 +111,7 @@ public class PinStatuHelper {
         });
 
         xGetLoginStateHelper.setOnGetLoginStateFailedListener(() -> {
-            toast(R.string.connect_failed);
+            toast(R.string.hh70_connect_failed);
             to(RootCons.ACTIVITYS.SPLASH_AC, RootCons.FRAG.REFRESH_FR);
         });
         xGetLoginStateHelper.getLoginState();

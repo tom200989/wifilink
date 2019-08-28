@@ -58,7 +58,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/div_connmode"
                 android:layout_centerHorizontal="true"
-                android:text="@string/maunal"
+                android:text="@string/hh70_maunal"
                 android:gravity="center"
                 android:textColor="@color/black_text"
                 app:layout_marginLeftPercent="5%w"

@@ -49,7 +49,7 @@
             android:layout_height="match_parent"
             android:layout_alignParentStart="true"
             android:gravity="center"
-            android:text="@string/usb"
+            android:text="@string/hh70_usb"
             android:textColor="@color/deep_black_text"
             android:textSize="@dimen/dimen_textsize_18sp" />
 
@@ -120,7 +120,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="@string/share_usb_storage_content"
+            android:text="@string/hh70_share_usb_content"
             android:textColor="@color/deep_grey_text"
             android:textSize="@dimen/dimen_textsize_12sp" />
     </com.hiber.tools.layout.PercentLinearLayout>
@@ -150,7 +150,7 @@
                 android:layout_height="match_parent"
                 android:layout_alignParentStart="true"
                 android:gravity="center"
-                android:text="@string/samba"
+                android:text="@string/hh70_samba"
                 android:textColor="@color/deep_black_text"
                 android:textSize="@dimen/dimen_textsize_18sp" />
 
@@ -175,7 +175,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="@string/share_usb_storage_content"
+            android:text="@string/hh70_share_usb_content"
             android:textColor="@color/deep_grey_text"
             android:textSize="@dimen/dimen_textsize_12sp" />
     </com.hiber.tools.layout.PercentLinearLayout>
@@ -231,7 +231,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="@string/share_service_dlna_tips"
+            android:text="@string/hh70_share_dlna_tips"
             android:textColor="@color/deep_grey_text"
             android:textSize="@dimen/dimen_textsize_12sp" />
     </com.hiber.tools.layout.PercentLinearLayout>

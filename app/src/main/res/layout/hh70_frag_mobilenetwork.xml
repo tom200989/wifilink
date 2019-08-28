@@ -215,7 +215,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginStart="@dimen/dimen_15dip"
-                    android:text="@string/ergo_20181010_network_mode"
+                    android:text="@string/hh70_ergo_network_mode"
                     android:textColor="@color/black"
                     app:layout_textSizePercent="25%h" />
 
@@ -262,7 +262,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginStart="@dimen/dimen_15dip"
-                    android:text="@string/profile"
+                    android:text="@string/hh70_profile"
                     android:textColor="@color/black"
                     app:layout_textSizePercent="25%h" />
 

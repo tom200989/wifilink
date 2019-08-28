@@ -155,7 +155,7 @@ public class FeedbackFrag extends BaseFrag {
             clickShowPhotoDel();
         });
         rlFeedbackWait.setOnClickListener(v -> {
-            toast(R.string.the_data_is_being_submitted_please_wait_a_moment);
+            toast(R.string.hh70_data_being_submitted);
         });
     }
 
@@ -245,7 +245,7 @@ public class FeedbackFrag extends BaseFrag {
     public boolean onBackPresss() {
         // 如果等待界面显示--> 提示等待
         if (rlFeedbackWait.getVisibility() == View.VISIBLE) {
-            toast(R.string.the_data_is_being_submitted_please_wait_a_moment);
+            toast(R.string.hh70_data_being_submitted);
         } else if (dgFeedbackTip.getVisibility() == View.VISIBLE) {
             dgFeedbackTip.setVisibility(View.GONE);
         } else {
@@ -260,8 +260,8 @@ public class FeedbackFrag extends BaseFrag {
     private void commit() {
         GetSystemInfoHelper xGetSystemInfoHelper = new GetSystemInfoHelper();
         xGetSystemInfoHelper.setOnGetSystemInfoSuccessListener(result -> toCommitLoginBegin(result));
-        xGetSystemInfoHelper.setOnAppErrorListener(() -> toast(R.string.connect_failed));
-        xGetSystemInfoHelper.setOnFwErrorListener(() -> toast(R.string.connect_failed));
+        xGetSystemInfoHelper.setOnAppErrorListener(() -> toast(R.string.hh70_connect_failed));
+        xGetSystemInfoHelper.setOnFwErrorListener(() -> toast(R.string.hh70_connect_failed));
         xGetSystemInfoHelper.getSystemInfo();
     }
 
@@ -276,13 +276,13 @@ public class FeedbackFrag extends BaseFrag {
         boolean isTypeEmpty = TextUtils.isEmpty(questionType);
         boolean isSuggestionEmpty = TextUtils.isEmpty(suggestion);
         if (isTypeEmpty) {
-            toast(R.string.you_have_not_chosen_the_problem_type);
+            toast(R.string.hh70_chosen_the_problem_type);
             return;
         } else if (isSuggestionEmpty) {
-            toast(R.string.you_have_not_filled_out_the_suggestion);
+            toast(R.string.hh70_not_filled_suggestion);
             return;
         } else if (suggestion.length() < 10) {
-            toast(R.string.at_least_10_characters);
+            toast(R.string.hh70_at_least_10_characters);
             return;
         }
 
@@ -325,7 +325,7 @@ public class FeedbackFrag extends BaseFrag {
         flh.setOnErrorListener(error -> {
             fids.clear();
             rlFeedbackWait.setVisibility(View.GONE);
-            toast(R.string.the_connection_failed_please_try_again_extender);
+            toast(R.string.hh70_try_again_extender);
         });
         flh.login(deviceName, imei, macId);
     }
@@ -352,7 +352,7 @@ public class FeedbackFrag extends BaseFrag {
                 count = 0;
                 fids.clear();
                 rlFeedbackWait.setVisibility(View.GONE);
-                toast(R.string.upload_failure);
+                toast(R.string.hh70_upload_failure);
             });
             fup.upload(access_token, deviceName, pic);
         } else {// 否则开始上传
@@ -392,13 +392,13 @@ public class FeedbackFrag extends BaseFrag {
                 sumbitOkPop(true);
             } else {
                 rlFeedbackWait.setVisibility(View.GONE);
-                toast(R.string.upload_failure);
+                toast(R.string.hh70_upload_failure);
             }
         });
         fch.setOnErrorListener(error -> {
             fids.clear();
             rlFeedbackWait.setVisibility(View.GONE);
-            toast(R.string.upload_failure);
+            toast(R.string.hh70_upload_failure);
         });
         fch.commit(deviceName, access_Token, sign_timeStamp_newToken, json);
     }
@@ -550,8 +550,8 @@ public class FeedbackFrag extends BaseFrag {
         }
         //否则弹出对话框
         dgFeedbackTip.setVisibility(View.VISIBLE);
-        dgFeedbackTip.setTitle(R.string.return_feedback_title);
-        dgFeedbackTip.setDes(R.string.return_feedback_des);
+        dgFeedbackTip.setTitle(R.string.hh70_return_feedback_title);
+        dgFeedbackTip.setDes(R.string.hh70_return_feedback_des);
         dgFeedbackTip.setOnBgClickListener(() -> {
         });
         dgFeedbackTip.setOnCancelClickListener(() -> dgFeedbackTip.setVisibility(View.GONE));

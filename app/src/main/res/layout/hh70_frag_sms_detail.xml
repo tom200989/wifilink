@@ -74,7 +74,7 @@
             android:layout_marginEnd="@dimen/dimen_10dip"
             android:background="@drawable/btn_click_selector"
             android:gravity="center"
-            android:text="@string/SEND"
+            android:text="@string/hh70_SEND"
             android:textAllCaps="false"
             android:textColor="@color/white"
             android:textStyle="bold" />
@@ -88,7 +88,7 @@
             android:layout_margin="@dimen/dimen_10dip"
             android:layout_toStartOf="@id/rv_smsdetail_send"
             android:background="@drawable/smsdetail_sendtext_bg"
-            android:hint="@string/message"
+            android:hint="@string/hh70_message"
             android:maxHeight="@dimen/dimen_80dip"
             android:maxLength="1530"
             android:minHeight="@dimen/dimen_40dip"

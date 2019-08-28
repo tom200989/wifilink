@@ -37,7 +37,7 @@ public class SmsWatcher implements TextWatcher {
     @Override
     public void afterTextChanged(Editable s) {
         if (s.toString().length() >= maxLength) {
-            String smsLength = context.getString(R.string.sms_max_length);
+            String smsLength = context.getString(R.string.hh70_sms_max_length);
             String content = String.format(smsLength, maxLength);
             ToastTool.show(context, content);
         }

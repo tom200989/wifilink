@@ -29,7 +29,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/dimen_10dip"
                 android:layout_marginEnd="@dimen/dimen_10dip"
-                android:text="@string/whether_to_disconnect_the_hot_spot"
+                android:text="@string/hh70__ornot_disconnect_hot_spot"
                 android:textColor="@color/mg_blue"
                 app:layout_marginBottomPercent="3%h"
                 app:layout_marginTopPercent="3%h"

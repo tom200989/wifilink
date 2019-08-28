@@ -61,7 +61,7 @@ public abstract class SmsSendHelper {
         xGetSendSMSResultHelper.setOnGetSendSmsResultSuccessListener(bean -> {
             int sendStatus = bean.getSendStatus();
             if (sendStatus == GetSendSMSResultBean.CONS_SEND_STATUS_NONE) {
-                ToastTool.show(context, context.getString(R.string.none));
+                ToastTool.show(context, context.getString(R.string.hh70_none));
             } else if (sendStatus == GetSendSMSResultBean.CONS_SEND_STATUS_SENDING) {
                 noCostCheck();// 间隔5秒,获取5次,如仍是sending则认为欠费
             } else if (sendStatus == GetSendSMSResultBean.CONS_SEND_STATUS_SUCCESS) {
@@ -69,7 +69,7 @@ public abstract class SmsSendHelper {
             } else if (sendStatus == GetSendSMSResultBean.CONS_SEND_STATUS_FAIL_LAST_MSG) {
                 noCostCheck();// 间隔5秒,获取5次,如仍是sending则认为欠费
             } else if (sendStatus == GetSendSMSResultBean.CONS_SEND_STATUS_FAIL_MEMORY_FULL) {
-                ToastTool.show(context, context.getString(R.string.fail_with_memory_full));
+                ToastTool.show(context, context.getString(R.string.hh70_fail_memory_full));
             } else if (sendStatus == GetSendSMSResultBean.CONS_SEND_STATUS_FAIL) {
                 ToastTool.show(context, context.getString(R.string.hh70_fail));
             }
@@ -95,7 +95,7 @@ public abstract class SmsSendHelper {
                 getSendStatus();
             }, 5000);
         } else {
-            ToastTool.show(context, context.getString(R.string.check_sim_normal_or_no_cost));
+            ToastTool.show(context, context.getString(R.string.hh70_check_sim));
             done();
         }
     }

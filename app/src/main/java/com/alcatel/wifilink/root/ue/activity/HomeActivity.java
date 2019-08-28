@@ -169,17 +169,17 @@ public class HomeActivity extends RootMAActivity {
                             toFrag(getClass(), SmsFrag.class, null, false, 0);
                             break;
                         case GetSimStatusBean.CONS_NOWN:
-                            toast(R.string.not_inserted, 5000);
+                            toast(R.string.hh70_not_inserted, 5000);
                             break;
                     }
                 });
-                xGetSimStatusHelper.setOnGetSimStatusFailedListener(() -> toast(R.string.check_sim_normal_or_no_cost, 5000));
+                xGetSimStatusHelper.setOnGetSimStatusFailedListener(() -> toast(R.string.hh70_check_sim, 5000));
                 xGetSimStatusHelper.getSimStatus();
             } else {
-                toast(R.string.login_failed, 5000);
+                toast(R.string.hh70_login_failed, 5000);
             }
         });
-        xGetLoginStateHelper.setOnGetLoginStateFailedListener(() -> toast(R.string.check_sim_normal_or_no_cost, 5000));
+        xGetLoginStateHelper.setOnGetLoginStateFailedListener(() -> toast(R.string.hh70_check_sim, 5000));
         xGetLoginStateHelper.getLoginState();
     }
 

@@ -221,10 +221,10 @@ public class mainFrag extends BaseFrag {
                         break;
                 }
             });
-            xGetSimStatusHelper.setOnGetSimStatusFailedListener(() -> toast(R.string.restart_device_tip, 5000));
+            xGetSimStatusHelper.setOnGetSimStatusFailedListener(() -> toast(R.string.hh70_restart_device_tip, 5000));
             xGetSimStatusHelper.getSimStatus();
         });
-        xGetLoginStateHelper.setOnGetLoginStateFailedListener(() -> toast(R.string.restart_device_tip, 5000));
+        xGetLoginStateHelper.setOnGetLoginStateFailedListener(() -> toast(R.string.hh70_restart_device_tip, 5000));
         xGetLoginStateHelper.getLoginState();
     }
 
@@ -255,7 +255,7 @@ public class mainFrag extends BaseFrag {
         GetLoginStateHelper xGetLoginStateHelper = new GetLoginStateHelper();
         xGetLoginStateHelper.setOnGetLoginStateSuccessListener(getLoginStateBean -> {
             GetWanSettingsHelper xGetWanSettingsHelper = new GetWanSettingsHelper();
-            xGetWanSettingsHelper.setOnGetWanSettingFailedListener(() -> toast(R.string.restart_device_tip, 5000));
+            xGetWanSettingsHelper.setOnGetWanSettingFailedListener(() -> toast(R.string.hh70_restart_device_tip, 5000));
             xGetWanSettingsHelper.setOnGetWanSettingsSuccessListener(wanSettingsBean -> {
                 int status = wanSettingsBean.getStatus();
                 switch (status) {
@@ -264,13 +264,13 @@ public class mainFrag extends BaseFrag {
                         break;
                     case GetWanSettingsBean.CONS_DISCONNECTED:
                     case GetWanSettingsBean.CONS_DISCONNECTING:
-                        toast(R.string.restart_device_tip, 5000);
+                        toast(R.string.hh70_restart_device_tip, 5000);
                         break;
                 }
             });
             xGetWanSettingsHelper.getWanSettings();
         });
-        xGetLoginStateHelper.setOnGetLoginStateFailedListener(() -> toast(R.string.restart_device_tip, 5000));
+        xGetLoginStateHelper.setOnGetLoginStateFailedListener(() -> toast(R.string.hh70_restart_device_tip, 5000));
         xGetLoginStateHelper.getLoginState();
     }
 
@@ -299,10 +299,10 @@ public class mainFrag extends BaseFrag {
                         break;
                 }
             });
-            xGetSimStatusHelper.setOnGetSimStatusFailedListener(() -> toast(R.string.restart_device_tip, 5000));
+            xGetSimStatusHelper.setOnGetSimStatusFailedListener(() -> toast(R.string.hh70_restart_device_tip, 5000));
             xGetSimStatusHelper.getSimStatus();
         });
-        xGetLoginStateHelper.setOnGetLoginStateFailedListener(() -> toast(R.string.restart_device_tip, 5000));
+        xGetLoginStateHelper.setOnGetLoginStateFailedListener(() -> toast(R.string.hh70_restart_device_tip, 5000));
         xGetLoginStateHelper.getLoginState();
     }
 
@@ -331,10 +331,10 @@ public class mainFrag extends BaseFrag {
                         break;
                 }
             });
-            xGetSimStatusHelper.setOnGetSimStatusFailedListener(() -> toast(R.string.restart_device_tip, 5000));
+            xGetSimStatusHelper.setOnGetSimStatusFailedListener(() -> toast(R.string.hh70_restart_device_tip, 5000));
             xGetSimStatusHelper.getSimStatus();
         });
-        xGetLoginStateHelper.setOnGetLoginStateFailedListener(() -> toast(R.string.restart_device_tip, 5000));
+        xGetLoginStateHelper.setOnGetLoginStateFailedListener(() -> toast(R.string.hh70_restart_device_tip, 5000));
         xGetLoginStateHelper.getLoginState();
     }
 
@@ -353,7 +353,7 @@ public class mainFrag extends BaseFrag {
                 toConnect();
             }
         });
-        getUsageSettingsHelper.setOnGetUsageSettingsFailedListener(() -> toast(R.string.connect_failed, 5000));
+        getUsageSettingsHelper.setOnGetUsageSettingsFailedListener(() -> toast(R.string.hh70_connect_failed, 5000));
         getUsageSettingsHelper.getUsageSetting();
     }
 
@@ -675,7 +675,7 @@ public class mainFrag extends BaseFrag {
             tvUsedData.setText("-");
         }
         if (tvUsedTotal != null) {
-            tvUsedTotal.setText(String.valueOf(getString(R.string.used_of) + " -"));
+            tvUsedTotal.setText(String.valueOf(getString(R.string.hh70_used_of) + " -"));
         }
     }
 
@@ -796,10 +796,10 @@ public class mainFrag extends BaseFrag {
     private void initRes() {
         mb_unit = getString(R.string.hh70_mb);
         gb_unit = getString(R.string.hh70_gb);
-        noUsagePlan = getString(R.string.ergo_20181010_no_set_plan);
-        useOf = getString(R.string.used_of);
+        noUsagePlan = getString(R.string.hh70_ergo_no_set_plan);
+        useOf = getString(R.string.hh70_used_of);
         connected_text = getString(R.string.hh70_connected);
-        unlockSim_title = getString(R.string.sim_unlocked);
+        unlockSim_title = getString(R.string.hh70_sim_unlocked);
         unlockSim_content = getString(R.string.hh70_verify_your_pin);
         blue_color = getRootColor(R.color.mg_blue);
         gray_color = getRootColor(R.color.gray);

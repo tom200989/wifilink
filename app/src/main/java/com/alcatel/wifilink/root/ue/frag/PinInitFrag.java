@@ -79,9 +79,9 @@ public class PinInitFrag extends BaseFrag {
                     tvPinRxTipNum.setTextColor(red_color);
                     tvPinRxTipDes.setTextColor(red_color);
                     if (isRussia) {
-                        tvPinRxTipDes.setText(getString(R.string.sim_unlocked_attempts));
+                        tvPinRxTipDes.setText(getString(R.string.hh70_sim_unlocked_attempts));
                     } else {
-                        String text = getString(R.string.sim_unlocked_attempts) + " " + remainTimes;
+                        String text = getString(R.string.hh70_sim_unlocked_attempts) + " " + remainTimes;
                         tvPinRxTipDes.setText(text);
                     }
                     if (isTaiwan) {
@@ -91,7 +91,7 @@ public class PinInitFrag extends BaseFrag {
                 } else if (remainTimes == 1) {
                     tvPinRxTipNum.setVisibility(View.GONE);
                     tvPinRxTipDes.setTextColor(red_color);
-                    tvPinRxTipDes.setText(getString(R.string.ergo_20181010_pin_remained));
+                    tvPinRxTipDes.setText(getString(R.string.hh70_ergo_pin_remained));
                 } else {
                     toFrag(getClass(), PukInitFrag.class, null, true);
                 }
@@ -99,12 +99,12 @@ public class PinInitFrag extends BaseFrag {
                 tvPinRxTipNum.setTextColor(gray_color);
                 tvPinRxTipDes.setTextColor(gray_color);
                 if (isRussia) {
-                    String text = getString(R.string.sim_unlocked_attempts) + " " + remainTimes;
+                    String text = getString(R.string.hh70_sim_unlocked_attempts) + " " + remainTimes;
                     tvPinRxTipDes.setText(text);
                 }
             }
         });
-        xGetSimStatusHelper.setOnGetSimStatusFailedListener(() -> toast(R.string.connect_failed, 5000));
+        xGetSimStatusHelper.setOnGetSimStatusFailedListener(() -> toast(R.string.hh70_connect_failed, 5000));
         xGetSimStatusHelper.getSimStatus();
     }
 
@@ -175,12 +175,12 @@ public class PinInitFrag extends BaseFrag {
         // 空值判断
         String pin = RootUtils.getEDText(etPinRx);
         if (TextUtils.isEmpty(pin)) {
-            toast(R.string.pin_empty, 5000);
+            toast(R.string.hh70_pin_empty, 5000);
             return;
         }
         // 位数判断
         if (pin.length() < 4 | pin.length() > 8) {
-            toast(R.string.the_pin_code_should_be_4_8_characters, 5000);
+            toast(R.string.hh70_the_pin_code_tips, 5000);
             return;
         }
         // 提交请求
@@ -212,14 +212,14 @@ public class PinInitFrag extends BaseFrag {
                             break;
                     }
                 });
-                xGetSimStatusHelper.setOnGetSimStatusFailedListener(() -> toast(R.string.connect_failed, 5000));
+                xGetSimStatusHelper.setOnGetSimStatusFailedListener(() -> toast(R.string.hh70_connect_failed, 5000));
                 xGetSimStatusHelper.getSimStatus();
             } else {
-                toast(R.string.log_out, 5000);
+                toast(R.string.hh70_log_out, 5000);
                 toFrag(getClass(), LoginFrag.class, null, true);
             }
         });
-        xGetLoginStateHelper.setOnGetLoginStateFailedListener(() -> toast(R.string.connect_failed, 5000));
+        xGetLoginStateHelper.setOnGetLoginStateFailedListener(() -> toast(R.string.hh70_connect_failed, 5000));
         xGetLoginStateHelper.getLoginState();
 
     }

@@ -145,7 +145,7 @@ public class WizardFrag extends RootFrag {
             }
         });
         xGetWanSettingsHelper.setOnGetWanSettingFailedListener(() -> {
-            toast(R.string.connect_failed, 5000);
+            toast(R.string.hh70_connect_failed, 5000);
             wdLoad.setGone();
             toFrag(getClass(), RefreshFrag.class, null, true);
         });
@@ -220,7 +220,7 @@ public class WizardFrag extends RootFrag {
             }
         });
         xGetSimStatusHelper.setOnGetSimStatusFailedListener(() -> {
-            toast(R.string.connect_failed, 5000);
+            toast(R.string.hh70_connect_failed, 5000);
             wdLoad.setGone();
             toFrag(getClass(), RefreshFrag.class, null, true);
         });

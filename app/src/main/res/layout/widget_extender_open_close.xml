@@ -29,7 +29,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/dimen_10dip"
                 android:layout_marginStart="@dimen/dimen_10dip"
-                android:text="@string/open_or_close_extender"
+                android:text="@string/hh70_open_or_close_extender"
                 android:textColor="@color/mg_blue"
                 app:layout_marginBottomPercent="3%h"
                 app:layout_marginTopPercent="3%h"

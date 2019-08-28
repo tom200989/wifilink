@@ -322,7 +322,7 @@ public class SettingNetworkFrag extends BaseFrag {
                 mMobileNetwork.setVisibility(View.GONE);
                 tvTitle.setText(getString(R.string.hh70_change_pin));
             } else {
-                toast(R.string.please_enable_sim_pin, 3000);
+                toast(R.string.hh70_enable_sim_pin, 3000);
             }
         });
         ivSettingnetworkBack.setOnClickListener(v -> onBackPresss());
@@ -447,7 +447,7 @@ public class SettingNetworkFrag extends BaseFrag {
 
         SetConnectionSettingsHelper xSetConnectionSettingsHelper = new SetConnectionSettingsHelper();
         xSetConnectionSettingsHelper.setOnsetConnectionSettingsSuccessListener(() -> {
-            toast(R.string.success, 3000);
+            toast(R.string.hh70_success, 3000);
             if (connectMode == 0) {
                 mRoamingRl.setVisibility(View.VISIBLE);
             } else if (connectMode == 1) {
@@ -465,7 +465,7 @@ public class SettingNetworkFrag extends BaseFrag {
         param.setNetworkBand(mNetworkSettings.getNetworkBand());
         param.setNetworkMode(networkMode);
         SetNetworkSettingsHelper xSetNetworkSettingsHelper = new SetNetworkSettingsHelper();
-        xSetNetworkSettingsHelper.setOnSetNetworkSettingsSuccessListener(() -> toast(R.string.success, 3000));
+        xSetNetworkSettingsHelper.setOnSetNetworkSettingsSuccessListener(() -> toast(R.string.hh70_success, 3000));
         xSetNetworkSettingsHelper.setNetworkSettings(param);
     }
 
@@ -479,7 +479,7 @@ public class SettingNetworkFrag extends BaseFrag {
             et_settingPin.setText("");
             RootUtils.hideKeyBoard(activity);
             int remainTimes = mSimStatus.getPinRemainingTimes() - 1;
-            String content = getString(R.string.hh70_pin_code_wrong) + "\n" + getString(R.string.can_also_enter_times, remainTimes + "");
+            String content = getString(R.string.hh70_pin_code_wrong) + "\n" + getString(R.string.hh70_can_enter_times, remainTimes + "");
             toast(content, 3000);
             getSimStatus();
             mSimPinCompat.setChecked(enable != 1);
@@ -498,13 +498,13 @@ public class SettingNetworkFrag extends BaseFrag {
     private void changePinCode(String newPin, String currentPin) {
         ChangePinCodeHelper xChangePinCodeHelper = new ChangePinCodeHelper();
         xChangePinCodeHelper.setOnChangePinCodeSuccessListener(() -> {
-            toast(R.string.success, 3000);
+            toast(R.string.hh70_success, 3000);
             mCurrentSimPin.setText(null);
             mNewSimPin.setText(null);
             mConfirmNewSimPin.setText(null);
         });
         xChangePinCodeHelper.setOnChangePinCodeFailedListener(() -> {
-            toast(R.string.can_also_enter_times, 3000);
+            toast(R.string.hh70_can_enter_times, 3000);
             getSimStatus();
         });
         xChangePinCodeHelper.changePinCode(newPin, currentPin);
@@ -538,7 +538,7 @@ public class SettingNetworkFrag extends BaseFrag {
             } else if (result.getTimeLimitFlag() == GetUsageSettingsBean.CONS_TIME_LIMIT_ABLE) {
                 mLimitAutoDisaconectCompat.setChecked(true);
             }
-            mSetTimeLimitText.setText(String.valueOf(result.getTimeLimitTimes() + getString(R.string.min_s)));
+            mSetTimeLimitText.setText(String.valueOf(result.getTimeLimitTimes() + getString(R.string.hh70_min_s)));
         });
         getUsageSettingsHelper.getUsageSetting();
     }
@@ -567,7 +567,7 @@ public class SettingNetworkFrag extends BaseFrag {
                 });
                 xGetSimStatusHelper.getSimStatus();
             } else {
-                toast(R.string.connect_failed, 3000);
+                toast(R.string.hh70_connect_failed, 3000);
             }
         });
         xGetLoginStateHelper.getLoginState();
@@ -605,21 +605,21 @@ public class SettingNetworkFrag extends BaseFrag {
                     xSetConnectionSettingsHelper.setConnectionSettings(connectMode, RoamingConnect, pdpType, connOffTime);
 
                 });
-                xGetConnectionSettingsHelper.setOnGetConnectionSettingsFailedListener(() -> toast(R.string.connect_failed, 3000));
+                xGetConnectionSettingsHelper.setOnGetConnectionSettingsFailedListener(() -> toast(R.string.hh70_connect_failed, 3000));
                 xGetConnectionSettingsHelper.getConnectionSettings();
             } else {
                 wdLoad.setGone();
-                toast(R.string.insert_sim_or_wan, 3000);
+                toast(R.string.hh70_insert_sim_or_wan, 3000);
             }
         });
-        xGetSimStatusHelper.setOnGetSimStatusFailedListener(() -> toast(R.string.connect_failed, 3000));
+        xGetSimStatusHelper.setOnGetSimStatusFailedListener(() -> toast(R.string.hh70_connect_failed, 3000));
         xGetSimStatusHelper.getSimStatus();
     }
 
     private void roamError() {
         isRoaming = !isRoaming;
         wdLoad.setGone();
-        toast(R.string.connect_failed, 3000);
+        toast(R.string.hh70_connect_failed, 3000);
     }
 
     private void showSetmonthlyDataPlanDialog() {
@@ -636,7 +636,7 @@ public class SettingNetworkFrag extends BaseFrag {
                 mUsageSetting.setMonthlyPlan((Long.parseLong(mothlyplan) * dataPlanByte1));
                 setUsageSetting(mUsageSetting);
             } else {
-                toast(R.string.input_a_data_value_between_0_1024, 3000);
+                toast(R.string.hh70_input_data_tips, 3000);
             }
         });
         long dataPlanByte = getDataPlanByte(mUsageSetting.getUnit());
@@ -683,9 +683,9 @@ public class SettingNetworkFrag extends BaseFrag {
         ok_settingPin.setOnClickListener(v -> {
             String edContent = RootUtils.getEDText(et_settingPin);
             if (TextUtils.isEmpty(edContent)) {
-                toast(R.string.not_empty, 3000);
+                toast(R.string.hh70_not_empty, 3000);
             } else if (edContent.length() < 4 || edContent.length() > 8) {
-                toast(R.string.the_pin_code_should_be_4_8_characters, 3000);
+                toast(R.string.hh70_the_pin_code_tips, 3000);
             } else {
                 RootUtils.hideKeyBoard(activity);
                 changePinState(edContent, mSimPinCompat.isChecked() ? 0 : 1);
@@ -717,19 +717,19 @@ public class SettingNetworkFrag extends BaseFrag {
         String newPin = RootUtils.getEDText(mNewSimPin);
         String confirmPin = RootUtils.getEDText(mConfirmNewSimPin);
         if (currentPin.length() == 0) {
-            toast(R.string.please_input_your_current_pin_code, 3000);
+            toast(R.string.hh70_input_pin, 3000);
             return;
         }
         if (newPin.length() == 0) {
-            toast(R.string.please_input_your_new_pin_code, 3000);
+            toast(R.string.hh70_input_new_pin, 3000);
             return;
         }
         if (!newPin.equals(confirmPin)) {
-            toast(R.string.inconsistent_new_pin_code, 3000);
+            toast(R.string.hh70_inconsistent_new_pin, 3000);
             return;
         }
         if (confirmPin.length() < 4 || confirmPin.length() > 8) {
-            toast(R.string.the_pin_code_should_be_4_8_characters, 3000);
+            toast(R.string.hh70_the_pin_code_tips, 3000);
             return;
         }
 
@@ -739,11 +739,11 @@ public class SettingNetworkFrag extends BaseFrag {
     private void connect() {
         ConnectHelper xConnectHelper = new ConnectHelper();
         xConnectHelper.setOnConnectSuccessListener(() -> {
-            toast(R.string.success, 3000);
+            toast(R.string.hh70_success, 3000);
             mOldMobileDataEnable = true;
         });
         xConnectHelper.setOnConnectFailedListener(() -> {
-            toast(R.string.restart_device_tip, 3000);
+            toast(R.string.hh70_restart_device_tip, 3000);
             mOldMobileDataEnable = false;
             mMobileDataSwitchCompat.setChecked(false);
         });
@@ -754,7 +754,7 @@ public class SettingNetworkFrag extends BaseFrag {
     private void disConnect() {
         DisConnectHelper xDisConnectHelper = new DisConnectHelper();
         xDisConnectHelper.setOnDisconnectSuccessListener(() -> {
-            toast(R.string.success, 3000);
+            toast(R.string.hh70_success, 3000);
             mOldMobileDataEnable = false;
         });
         xDisConnectHelper.setOnDisconnectFailedListener(() -> {

@@ -41,7 +41,7 @@
                 android:layout_below="@id/tv_pop_setting_rx_upgrade_noNewVersion_version"
                 android:layout_centerHorizontal="true"
                 android:gravity="center"
-                android:text="@string/your_firmware_is_up_to_date"
+                android:text="@string/hh70_firmware_latest_tips"
                 app:layout_marginTopPercent="7%h"
                 app:layout_textSizePercent="11%h" />
 

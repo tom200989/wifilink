@@ -53,7 +53,7 @@
                 android:id="@+id/tv_pre_devices_item_macAddress"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/mac_address"
+                android:text="@string/hh70_mac_address"
                 android:textColor="@color/gray"
                 app:layout_textSizePercent="18%h" />
 
@@ -67,7 +67,7 @@
             android:layout_marginEnd="@dimen/dimen_10dip"
             android:layout_toEndOf="@id/rl_pre_devices_item_info"
             android:gravity="center_vertical|end"
-            android:text="@string/host"
+            android:text="@string/hh70_host"
             android:textColor="@color/mg_blue"
             app:layout_textSizePercent="22%h" />
 

@@ -159,27 +159,27 @@ public class PukInitFrag extends BaseFrag {
         // 空值判断
         String puk = RootUtils.getEDText(etPukRx);
         if (TextUtils.isEmpty(puk)) {
-            toast(R.string.puk_empty, 5000);
+            toast(R.string.hh70_puk_empty, 5000);
             return;
         }
 
         String pin = RootUtils.getEDText(etPukResetpinRx);
         if (TextUtils.isEmpty(pin)) {
-            toast(R.string.pin_empty, 5000);
+            toast(R.string.hh70_pin_empty, 5000);
             return;
         }
         String pinConfirm = RootUtils.getEDText(etPukResetpinRxConfirm);
         if (TextUtils.isEmpty(pinConfirm)) {
-            toast(R.string.pin_confirm_empty, 5000);
+            toast(R.string.hh70_pin_confirm_empty, 5000);
             return;
         }
         // 位数判断
         if (pin.length() < 4 | pin.length() > 8) {
-            toast(R.string.the_pin_code_should_be_4_8_characters, 5000);
+            toast(R.string.hh70_the_pin_code_tips, 5000);
             return;
         }
         if (pinConfirm.length() < 4 | pinConfirm.length() > 8) {
-            toast(R.string.the_pin_code_should_be_4_8_characters, 5000);
+            toast(R.string.hh70_the_pin_code_tips, 5000);
             return;
         }
         // 匹配
@@ -223,11 +223,11 @@ public class PukInitFrag extends BaseFrag {
                 });
                 xGetSimStatusHelper.getSimStatus();
             } else {
-                toast(R.string.log_out, 5000);
+                toast(R.string.hh70_log_out, 5000);
                 toFrag(getClass(), LoginFrag.class, null, true);
             }
         });
-        xGetLoginStateHelper.setOnGetLoginStateFailedListener(() -> toast(R.string.connect_failed, 5000));
+        xGetLoginStateHelper.setOnGetLoginStateFailedListener(() -> toast(R.string.hh70_connect_failed, 5000));
         xGetLoginStateHelper.getLoginState();
     }
 

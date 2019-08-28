@@ -89,7 +89,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/rl_pop_setPlan_rx_monthly"
                 android:layout_centerHorizontal="true"
-                android:text="@string/if_blank_data_unlimited"
+                android:text="@string/hh70_blank_data_unlimited"
                 app:layout_marginTopPercent="2%h"
                 app:layout_textSizePercent="8%h" />
 

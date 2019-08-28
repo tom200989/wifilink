@@ -26,7 +26,7 @@ public class BaseFrag extends RootFrag {
             @Override
             public void getData(WifiShutDownBean wifiShutDownBean) {
                 // 提示连接失败
-                toast(R.string.connect_failed, 3000);
+                toast(R.string.hh70_connect_failed, 3000);
                 // 跳转到refresh
                 if (activity instanceof SplashActivity) {
                     toFrag(getClass(), RefreshFrag.class, null, true);

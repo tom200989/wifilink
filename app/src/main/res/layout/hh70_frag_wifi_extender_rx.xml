@@ -27,7 +27,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="@string/setting_wifi_extender"
+            android:text="@string/hh70_setting_wifi_extender"
             android:textColor="@color/white"
             app:layout_textSizePercent="30%h" />
 
@@ -39,7 +39,7 @@
             android:layout_centerVertical="true"
             android:layout_marginEnd="@dimen/dimen_8dip"
             android:gravity="center"
-            android:text="@string/scan"
+            android:text="@string/hh70_scan"
             android:textColor="@color/white"
             app:layout_textSizePercent="27%h" />
 
@@ -56,7 +56,7 @@
         android:gravity="start|center_vertical"
         android:paddingEnd="@dimen/dimen_8dip"
         android:paddingStart="@dimen/dimen_8dip"
-        android:text="@string/device_not_connected_please_check_network_settings"
+        android:text="@string/hh70_check_network"
         android:textColor="@color/c_7c601e"
         android:visibility="gone"
         app:layout_heightPercent="6%h"
@@ -84,7 +84,7 @@
                 android:layout_height="match_parent"
                 android:layout_marginStart="@dimen/dimen_8dip"
                 android:gravity="center"
-                android:text="@string/setting_wifi_extender"
+                android:text="@string/hh70_setting_wifi_extender"
                 android:textColor="@color/black"
                 app:layout_textSizePercent="65%h" />
 
@@ -106,7 +106,7 @@
             android:layout_below="@id/tv_wifiExtender_socket_panel"
             android:paddingEnd="@dimen/dimen_8dip"
             android:paddingStart="@dimen/dimen_8dip"
-            android:text="@string/connect_to_other_wifi_networks"
+            android:text="@string/hh70_connect_other_wifi"
             android:textColor="@color/c_999999"
             app:layout_textSizePercent="14%h" />
 
@@ -185,7 +185,7 @@
         android:layout_below="@id/rl_wifiExtender_had_connected"
         android:layout_marginStart="@dimen/dimen_8dip"
         android:layout_marginTop="@dimen/dimen_8dip"
-        android:text="@string/available_networks"
+        android:text="@string/hh70_available_networks"
         android:textColor="@color/c_666666"
         android:visibility="visible"
         app:layout_textSizePercent="2.2%h" />

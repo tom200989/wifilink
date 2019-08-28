@@ -27,7 +27,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="@string/monthly_data_usage"
+            android:text="@string/hh70_monthly_data_usage"
             android:textColor="@color/white"
             app:layout_textSizePercent="28%h" />
 
@@ -62,7 +62,7 @@
                 android:id="@+id/tv_usage_rx_homeNetwork_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/home_network"
+                android:text="@string/hh70_home_network"
                 android:textColor="@color/black"
                 app:layout_textSizePercent="25%h" />
 
@@ -153,7 +153,7 @@
         android:layout_below="@id/rl_usage_rx_roaming"
         android:layout_centerHorizontal="true"
         android:background="@drawable/bt_login_selector"
-        android:text="@string/reset_statistics"
+        android:text="@string/hh70_reset_statistics"
         android:textColor="@color/white"
         app:layout_heightPercent="6%h"
         android:textAllCaps="false"
@@ -168,7 +168,7 @@
         android:layout_below="@id/bt_usage_rx_resetStatist"
         android:layout_centerHorizontal="true"
         android:gravity="center"
-        android:text="@string/mobile_network_settings"
+        android:text="@string/hh70_mobile_network_settings"
         android:textColor="@color/gray"
         app:layout_heightPercent="4%h"
         app:layout_marginTopPercent="3%h"

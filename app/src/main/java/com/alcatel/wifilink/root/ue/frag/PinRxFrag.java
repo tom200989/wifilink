@@ -154,12 +154,12 @@ public class PinRxFrag extends BaseFrag {
         // 空值判断
         String pin = RootUtils.getEDText(etPinRx);
         if (TextUtils.isEmpty(pin)) {
-            toast(R.string.pin_empty, 2000);
+            toast(R.string.hh70_pin_empty, 2000);
             return;
         }
         // 位数判断
         if (pin.length() < 4 | pin.length() > 8) {
-            toast(R.string.the_pin_code_should_be_4_8_characters, 2000);
+            toast(R.string.hh70_the_pin_code_tips, 2000);
             return;
         }
         // 请求

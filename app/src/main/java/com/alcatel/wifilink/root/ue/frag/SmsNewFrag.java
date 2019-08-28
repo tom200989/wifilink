@@ -251,13 +251,13 @@ public class SmsNewFrag extends BaseFrag {
             xSendSMSHelper.setOnSendSmsSuccessListener(this::getSendSMSResult);
             xSendSMSHelper.setOnSendSmsFailListener(this::resetUI);
             xSendSMSHelper.setOnSendFailListener(() -> {
-                toast(R.string.send_sms_failed, 2000);
+                toast(R.string.hh70_send_sms_failed, 2000);
             });
             xSendSMSHelper.setOnLastMessageListener(() -> {
-                toast(R.string.fail_still_sending_last_message, 2000);
+                toast(R.string.hh70_fail_lastsending, 2000);
             });
             xSendSMSHelper.setOnSpaceFullListener(() -> {
-                toast(R.string.fail_with_store_space_full, 2000);
+                toast(R.string.hh70_fail_store_full, 2000);
             });
             xSendSMSHelper.sendSms(xSendSmsParam);
 
@@ -294,7 +294,7 @@ public class SmsNewFrag extends BaseFrag {
             int sendStatus = bean.getSendStatus();
             if (sendStatus == GetSendSMSResultBean.CONS_SEND_STATUS_NONE) {
                 loadWidget.setVisibility(View.GONE);
-                toast(R.string.none, 2000);
+                toast(R.string.hh70_none, 2000);
                 toFrag(getClass(), SmsFrag.class, null, false);
             } else if (sendStatus == GetSendSMSResultBean.CONS_SEND_STATUS_SENDING) {
                 getSendSMSResult();
@@ -307,7 +307,7 @@ public class SmsNewFrag extends BaseFrag {
                 getSendSMSResult();
             } else if (sendStatus == GetSendSMSResultBean.CONS_SEND_STATUS_FAIL_MEMORY_FULL) {
                 loadWidget.setVisibility(View.GONE);
-                toast(R.string.fail_with_memory_full, 2000);
+                toast(R.string.hh70_fail_memory_full, 2000);
                 toFrag(getClass(), SmsFrag.class, null, false);
             } else if (sendStatus == GetSendSMSResultBean.CONS_SEND_STATUS_FAIL) {
                 loadWidget.setVisibility(View.GONE);

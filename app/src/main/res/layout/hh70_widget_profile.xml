@@ -37,7 +37,7 @@
                 app:layout_marginRightPercent="5%w"
                 app:layout_marginTopPercent="3%h"
                 app:layout_textSizePercent="2.5%h"
-                android:text="@string/to_edit_profile_go_to_settings_about_web_manager"/>
+                android:text="@string/hh70_to_edit_profile"/>
 
             <!-- 按钮 -->
             <com.hiber.tools.layout.PercentLinearLayout

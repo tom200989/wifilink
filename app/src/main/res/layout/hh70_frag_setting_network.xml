@@ -244,7 +244,7 @@
                         android:background="@color/color_white"
                         android:gravity="center_vertical"
                         android:padding="@dimen/setting_padding_10_dp"
-                        android:text="@string/profile"
+                        android:text="@string/hh70_profile"
                         android:textDirection="locale" />
 
                     <ImageView
@@ -689,7 +689,7 @@
                         android:layout_marginStart="@dimen/dimen_12dip"
                         android:background="@null"
                         android:digits="1234567890"
-                        android:hint="@string/current_sim_pin"
+                        android:hint="@string/hh70_current_sim_pin"
                         android:imeOptions="flagNoExtractUi"
                         android:inputType="number"
                         android:maxLength="8"
@@ -706,7 +706,7 @@
                     android:layout_height="@dimen/dimen_0_5dip"
                     android:layout_marginStart="@dimen/dimen_12dip"
                     android:background="@color/main_bottom_divider"
-                    android:contentDescription="@string/setting_account"
+                    android:contentDescription="@string/hh70_setting_account"
                     android:textDirection="locale" />
 
                 <com.hiber.tools.layout.PercentLinearLayout
@@ -721,7 +721,7 @@
                         android:layout_marginStart="@dimen/dimen_12dip"
                         android:background="@null"
                         android:digits="1234567890"
-                        android:hint="@string/new_sim_pin"
+                        android:hint="@string/hh70_new_sim_pin"
                         android:imeOptions="flagNoExtractUi"
                         android:inputType="number"
                         android:maxLength="8"
@@ -738,7 +738,7 @@
                     android:layout_height="@dimen/dimen_0_5dip"
                     android:layout_marginStart="@dimen/dimen_12dip"
                     android:background="@color/main_bottom_divider"
-                    android:contentDescription="@string/setting_account"
+                    android:contentDescription="@string/hh70_setting_account"
                     android:textDirection="locale" />
 
                 <com.hiber.tools.layout.PercentLinearLayout
@@ -770,7 +770,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/dimen_0_5dip"
                     android:background="@color/main_bottom_divider"
-                    android:contentDescription="@string/setting_account"
+                    android:contentDescription="@string/hh70_setting_account"
                     android:textDirection="locale" />
 
                 <CheckBox
@@ -815,7 +815,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:background="@drawable/bg_etsettingpin"
-                android:hint="@string/enter_sim_pin"
+                android:hint="@string/hh70_enter_sim_pin"
                 android:inputType="numberPassword"
                 android:maxLength="8"
                 android:paddingStart="@dimen/dimen_15dip"

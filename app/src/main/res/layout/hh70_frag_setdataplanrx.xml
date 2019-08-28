@@ -48,7 +48,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginStart="@dimen/dimen_15dip"
-            android:text="@string/MONTHLY_PLAN"
+            android:text="@string/hh70_MONTHLY_PLAN"
             android:textColor="@color/black"
             app:layout_textSizePercent="27%h" />
 
@@ -166,7 +166,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginEnd="@dimen/dimen_10dip"
                 android:layout_toStartOf="@id/iv_setPlan_rx_billing_to"
-                android:text="@string/day_1"
+                android:text="@string/hh70_day_1"
                 android:textColor="@color/black"
                 app:layout_textSizePercent="27%h" />
 
