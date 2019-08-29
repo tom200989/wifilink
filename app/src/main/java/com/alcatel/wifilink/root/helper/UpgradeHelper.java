@@ -241,13 +241,13 @@ public class UpgradeHelper {
         if (countDownTimer != null) {
             countDownTimer.stop();// 停止倒数计时器
         }
-        if (wdLoad.getVisibility()==View.VISIBLE) {
+        if (wdLoad != null && wdLoad.getVisibility() == View.VISIBLE) {
             wdLoad.setGone();
         }
-        if (wd_countdown.getVisibility() == View.VISIBLE) {
+        if (wd_countdown != null && wd_countdown.getVisibility() == View.VISIBLE) {
             wd_countdown.setVisibility(View.GONE);// 隐藏倒数条
         }
-        if (wd_countdown.getCountDownText() != null) {
+        if (wd_countdown != null && wd_countdown.getCountDownText() != null) {
             wd_countdown.getCountDownText().setCount(180);// 停止倒数
             wd_countdown.getCountDownText().pause();
         }
