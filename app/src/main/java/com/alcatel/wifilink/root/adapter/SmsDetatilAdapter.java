@@ -7,11 +7,11 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import com.alcatel.wifilink.R;
-import com.alcatel.wifilink.root.bean.SMSContentListBean;
 import com.alcatel.wifilink.root.helper.SmsContentSortHelper;
 import com.alcatel.wifilink.root.helper.SmsReSendHelper;
 import com.alcatel.wifilink.root.utils.RootUtils;
 import com.p_xhelper_smart.p_xhelper_smart.bean.GetSMSContactListBean;
+import com.p_xhelper_smart.p_xhelper_smart.bean.GetSMSContentListBean;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -27,11 +27,11 @@ public class SmsDetatilAdapter extends RecyclerView.Adapter<SmsDetailHolder> {
 
     private Context context;
     private LinearLayoutManager lm;
-    private SMSContentListBean smsContentListBean;
+    private GetSMSContentListBean smsContentListBean;
     private List<String> phoneNums;
     public boolean isLongClick;// 是否被长按
 
-    private List<SMSContentListBean.SMSContentBean> sortScbList;// 分类集合(去除草稿)
+    private List<GetSMSContentListBean.SMSContentListBean> sortScbList;// 分类集合(去除草稿)
     private List<NewSMSContentBean> newScbList;// 带有标记位集合
     private List<Long> smsIds;// 选中的smsId
 
@@ -39,7 +39,7 @@ public class SmsDetatilAdapter extends RecyclerView.Adapter<SmsDetailHolder> {
     private OnSmsLongClickListener onSmsLongClickListener;
     private OnSendSuccessListener onSendSuccessListener;
 
-    public SmsDetatilAdapter(Context context, LinearLayoutManager lm, SMSContentListBean smsContentListBean, List<String> phoneNums) {
+    public SmsDetatilAdapter(Context context, LinearLayoutManager lm, GetSMSContentListBean smsContentListBean, List<String> phoneNums) {
         this.context = context;
         this.lm = lm;
         this.smsContentListBean = smsContentListBean;
@@ -55,7 +55,7 @@ public class SmsDetatilAdapter extends RecyclerView.Adapter<SmsDetailHolder> {
      * @param smsContentListBean 信息列表
      * @param toLast         是否需要recycle定位到最后？
      */
-    public void notifys(SMSContentListBean smsContentListBean, boolean toLast) {
+    public void notifys(GetSMSContentListBean smsContentListBean, boolean toLast) {
         clearAll();// 1. clear all first
         this.smsContentListBean = smsContentListBean;// 2.deliver data
         refreshAll();// 3.operate all data ui
@@ -104,7 +104,7 @@ public class SmsDetatilAdapter extends RecyclerView.Adapter<SmsDetailHolder> {
     /* **** setSelectLogo **** */
     private void setSelectLogo(SmsDetailHolder holder, int position) {
         NewSMSContentBean nscb = newScbList.get(position);// 带选中|未选中标记位
-        SMSContentListBean.SMSContentBean scb = nscb.smsContentBean;
+        GetSMSContentListBean.SMSContentListBean scb = nscb.smsContentBean;
         holder.iv_smsdetail_selected.setVisibility(isLongClick ? VISIBLE : GONE);
         int selecedUi = nscb.isSelected ? checkbox_android_on : checkbox_android_off;
         holder.iv_smsdetail_selected.setImageResource(selecedUi);
@@ -113,7 +113,7 @@ public class SmsDetatilAdapter extends RecyclerView.Adapter<SmsDetailHolder> {
     /* **** setReceiver **** */
     private void setReceiver(SmsDetailHolder holder, int position) {
         NewSMSContentBean nscb = newScbList.get(position);// 带选中|未选中标记位
-        SMSContentListBean.SMSContentBean scb = nscb.smsContentBean;
+        GetSMSContentListBean.SMSContentListBean scb = nscb.smsContentBean;
         int smsType = scb.getSMSType();
         boolean receiver = smsType == GetSMSContactListBean.SMSContacBean.CONS_SMS_TYPE_READ // 
                                    || smsType == GetSMSContactListBean.SMSContacBean.CONS_SMS_TYPE_UNREAD;//
@@ -123,7 +123,7 @@ public class SmsDetatilAdapter extends RecyclerView.Adapter<SmsDetailHolder> {
     /* **** setSend **** */
     private void setSend(SmsDetailHolder holder, int position) {
         NewSMSContentBean nscb = newScbList.get(position);// 带选中|未选中标记位
-        SMSContentListBean.SMSContentBean scb = nscb.smsContentBean;
+        GetSMSContentListBean.SMSContentListBean scb = nscb.smsContentBean;
         int smsType = scb.getSMSType();
         boolean receiver = smsType == GetSMSContactListBean.SMSContacBean.CONS_SMS_TYPE_SENT || smsType == GetSMSContactListBean.SMSContacBean.CONS_SMS_TYPE_SENT_FAIL;
         holder.rl_smsdetail_send.setVisibility(receiver ? VISIBLE : INVISIBLE);
@@ -132,14 +132,14 @@ public class SmsDetatilAdapter extends RecyclerView.Adapter<SmsDetailHolder> {
     /* **** setReceiverText **** */
     private void setReceiverText(SmsDetailHolder holder, int position) {
         NewSMSContentBean nscb = newScbList.get(position);// 带选中|未选中标记位
-        SMSContentListBean.SMSContentBean scb = nscb.smsContentBean;
+        GetSMSContentListBean.SMSContentListBean scb = nscb.smsContentBean;
         holder.tv_smsdetail_text_receiver.setText(scb.getSMSContent());
     }
 
     /* **** setReceiverDate **** */
     private void setReceiverDate(SmsDetailHolder holder, int position) {
         NewSMSContentBean nscb = newScbList.get(position);// 带选中|未选中标记位
-        SMSContentListBean.SMSContentBean scb = nscb.smsContentBean;
+        GetSMSContentListBean.SMSContentListBean scb = nscb.smsContentBean;
         String date = RootUtils.transferDate(scb.getSMSTime());
         holder.tv_smsdetail_date_receiver.setText(date);
     }
@@ -147,21 +147,21 @@ public class SmsDetatilAdapter extends RecyclerView.Adapter<SmsDetailHolder> {
     /* **** setSendFailLogo **** */
     private void setSendFailLogo(SmsDetailHolder holder, int position) {
         NewSMSContentBean nscb = newScbList.get(position);// 带选中|未选中标记位
-        SMSContentListBean.SMSContentBean scb = nscb.smsContentBean;
+        GetSMSContentListBean.SMSContentListBean scb = nscb.smsContentBean;
         holder.iv_smsdetail_failed_send.setVisibility(scb.getSMSType() == GetSMSContactListBean.SMSContacBean.CONS_SMS_TYPE_SENT_FAIL ? VISIBLE : GONE);
     }
 
     /* **** setSendText **** */
     private void setSendText(SmsDetailHolder holder, int position) {
         NewSMSContentBean nscb = newScbList.get(position);// 带选中|未选中标记位
-        SMSContentListBean.SMSContentBean scb = nscb.smsContentBean;
+        GetSMSContentListBean.SMSContentListBean scb = nscb.smsContentBean;
         holder.tv_smsdetail_text_send.setText(scb.getSMSContent());
     }
 
     /* **** setSendDate **** */
     private void setSendDate(SmsDetailHolder holder, int position) {
         NewSMSContentBean nscb = newScbList.get(position);// 带选中|未选中标记位
-        SMSContentListBean.SMSContentBean scb = nscb.smsContentBean;
+        GetSMSContentListBean.SMSContentListBean scb = nscb.smsContentBean;
         String date = RootUtils.transferDate(scb.getSMSTime());
         holder.tv_smsdetail_date_send.setText(date);
     }
@@ -169,7 +169,7 @@ public class SmsDetatilAdapter extends RecyclerView.Adapter<SmsDetailHolder> {
     /* **** setLongClick **** */
     private void setLongClick(SmsDetailHolder holder, int position) {
         NewSMSContentBean nscb = newScbList.get(position);// 带选中|未选中标记位
-        SMSContentListBean.SMSContentBean scb = nscb.smsContentBean;
+        GetSMSContentListBean.SMSContentListBean scb = nscb.smsContentBean;
         holder.rl_smsdetail.setOnLongClickListener(v -> {
             if (onSmsLongClickListener != null) {
                 onSmsLongClickListener.smsLongClick();
@@ -210,7 +210,7 @@ public class SmsDetatilAdapter extends RecyclerView.Adapter<SmsDetailHolder> {
     /* **** setFailedClick **** */
     private void setFailedClick(SmsDetailHolder holder, int position) {
         NewSMSContentBean nscb = newScbList.get(position);// 带选中|未选中标记位
-        SMSContentListBean.SMSContentBean scb = nscb.smsContentBean;
+        GetSMSContentListBean.SMSContentListBean scb = nscb.smsContentBean;
         holder.iv_smsdetail_failed_send.setOnClickListener(v -> {
             tryAgainNext(scb);
         });
@@ -229,7 +229,7 @@ public class SmsDetatilAdapter extends RecyclerView.Adapter<SmsDetailHolder> {
     /* A1-过滤掉草稿短信 */
     private void filterSms() {
         if (smsContentListBean != null) {
-            for (SMSContentListBean.SMSContentBean scb : smsContentListBean.getSMSContentList()) {
+            for (GetSMSContentListBean.SMSContentListBean scb : smsContentListBean.getSMSContentList()) {
                 int smsType = scb.getSMSType();
                 if (smsType == GetSMSContactListBean.SMSContacBean.CONS_SMS_TYPE_DRAFT || smsType == GetSMSContactListBean.SMSContacBean.CONS_SMS_TYPE_REPORT) {
                     continue;
@@ -246,7 +246,7 @@ public class SmsDetatilAdapter extends RecyclerView.Adapter<SmsDetailHolder> {
 
     /* A3-重新封装出新的内容对象 */
     private void hiberNewbean() {
-        for (SMSContentListBean.SMSContentBean scb : sortScbList) {
+        for (GetSMSContentListBean.SMSContentListBean scb : sortScbList) {
             NewSMSContentBean nscb = new NewSMSContentBean();
             nscb.isSelected = false;
             nscb.smsContentBean = scb;
@@ -256,7 +256,7 @@ public class SmsDetatilAdapter extends RecyclerView.Adapter<SmsDetailHolder> {
 
     /* **** 带有选中|未选中标记的内容对象 **** */
     public class NewSMSContentBean {
-        public SMSContentListBean.SMSContentBean smsContentBean;
+        public GetSMSContentListBean.SMSContentListBean smsContentBean;
         public boolean isSelected;
     }
 
@@ -275,7 +275,7 @@ public class SmsDetatilAdapter extends RecyclerView.Adapter<SmsDetailHolder> {
     }
 
     /* 点击确定后重新发送 */
-    public void sendAgain(SMSContentListBean.SMSContentBean scb) {
+    public void sendAgain(GetSMSContentListBean.SMSContentListBean scb) {
         new SmsReSendHelper(scb, phoneNums) {
             @Override
             public void success() {
@@ -319,7 +319,7 @@ public class SmsDetatilAdapter extends RecyclerView.Adapter<SmsDetailHolder> {
     }
 
     public interface OnShowTrayAgainListener {
-        void tryAgain(SMSContentListBean.SMSContentBean bean);
+        void tryAgain(GetSMSContentListBean.SMSContentListBean bean);
     }
 
     private OnShowTrayAgainListener onShowTrayAgainListener;
@@ -330,7 +330,7 @@ public class SmsDetatilAdapter extends RecyclerView.Adapter<SmsDetailHolder> {
     }
 
     //封装方法
-    private void tryAgainNext(SMSContentListBean.SMSContentBean bean) {
+    private void tryAgainNext(GetSMSContentListBean.SMSContentListBean bean) {
         if (onShowTrayAgainListener != null) {
             onShowTrayAgainListener.tryAgain(bean);
         }

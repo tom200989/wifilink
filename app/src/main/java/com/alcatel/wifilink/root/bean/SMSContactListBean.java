@@ -1,16 +1,20 @@
 package com.alcatel.wifilink.root.bean;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by qianli.ma on 2017/6/27.
  */
 
-public class SMSContactListBean {
+public class SMSContactListBean implements Serializable{
 
     public List<SMSContact> SMSContactList;
     public int Page;
     public int TotalPageCount;
+
+    public SMSContactListBean() {
+    }
 
     public int getPage() {
         return Page;
@@ -36,7 +40,7 @@ public class SMSContactListBean {
         this.SMSContactList = SMSContactList;
     }
 
-    public static class SMSContact {
+    public static class SMSContact implements Serializable {
 
         public long ContactId;
         public List<String> PhoneNumber;
@@ -48,9 +52,7 @@ public class SMSContactListBean {
         public int UnreadCount;
         public int TSMSCount;
 
-        @Override
-        public String toString() {
-            return "SMSContact{" + "ContactId=" + ContactId + ", PhoneNumber=" + PhoneNumber + ", SMSId=" + SMSId + ", SMSType=" + SMSType + ", ReportStatus=" + ReportStatus + ", SMSContent='" + SMSContent + '\'' + ", SMSTime='" + SMSTime + '\'' + ", UnreadCount=" + UnreadCount + ", TSMSCount=" + TSMSCount + '}';
+        public SMSContact() {
         }
 
         public long getContactId() {

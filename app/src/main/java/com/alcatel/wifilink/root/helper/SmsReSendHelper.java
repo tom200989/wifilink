@@ -1,7 +1,7 @@
 package com.alcatel.wifilink.root.helper;
 
-import com.alcatel.wifilink.root.bean.SMSContentListBean;
 import com.alcatel.wifilink.root.utils.RootUtils;
+import com.p_xhelper_smart.p_xhelper_smart.bean.GetSMSContentListBean;
 import com.p_xhelper_smart.p_xhelper_smart.bean.GetSendSMSResultBean;
 import com.p_xhelper_smart.p_xhelper_smart.bean.SendSmsParam;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetSendSMSResultHelper;
@@ -15,10 +15,10 @@ import java.util.List;
 
 public abstract class SmsReSendHelper {
 
-    private SMSContentListBean.SMSContentBean scb;
+    private GetSMSContentListBean.SMSContentListBean scb;
     private List<String> phoneNums;
 
-    public SmsReSendHelper(SMSContentListBean.SMSContentBean scb, List<String> phoneNums) {
+    public SmsReSendHelper(GetSMSContentListBean.SMSContentListBean scb, List<String> phoneNums) {
         this.scb = scb;
         this.phoneNums = phoneNums;
         send();

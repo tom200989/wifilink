@@ -21,9 +21,9 @@ import com.alcatel.wifilink.root.bean.ConnectedListBean;
 import com.alcatel.wifilink.root.bean.DeviceBean;
 import com.alcatel.wifilink.root.bean.Extender_GetHotspotListBean;
 import com.alcatel.wifilink.root.bean.FeedbackPhotoBean;
-import com.alcatel.wifilink.root.bean.SMSContactListBean;
 import com.alcatel.wifilink.root.bean.SMSContactBean;
-import com.alcatel.wifilink.root.bean.SMSContentListBean;
+import com.alcatel.wifilink.root.bean.SMSContactListBean;
+import com.p_xhelper_smart.p_xhelper_smart.bean.GetSMSContentListBean;
 import com.tcl.token.ndk.JniTokenUtils;
 
 import java.net.URLDecoder;
@@ -536,10 +536,10 @@ public class RootUtils {
     /**
      * 获取某个contactId下所有的smsid
      */
-    public static List<Long> getAllSmsIdByOneSession(SMSContentListBean scList) {
+    public static List<Long> getAllSmsIdByOneSession(GetSMSContentListBean scList) {
         List<Long> smsIds = new ArrayList<>();
-        for (SMSContentListBean.SMSContentBean scb : scList.getSMSContentList()) {
-            smsIds.add(scb.getSMSId());
+        for (GetSMSContentListBean.SMSContentListBean scb : scList.getSMSContentList()) {
+            smsIds.add((long) scb.getSMSId());
         }
         return smsIds;
     }

@@ -122,7 +122,7 @@ public class SmsFrag extends BaseFrag {
         smsRcvAdapter.setOnSMSNormalClickListener(smsContact -> {
             // 1.2.跳转
             sendEvent(smsContact, true);
-            toFrag(getClass(), SmsDetailFrag.class, null, true);
+            toFrag(getClass(), SmsDetailFrag.class, smsContact, true);
         });
         /* 全选|全不选 */
         smsRcvAdapter.setOnSelectAllOrNotListener(contactIdList -> {

@@ -2,7 +2,6 @@ package com.alcatel.wifilink.root.helper;
 
 import android.app.Activity;
 
-import com.alcatel.wifilink.root.bean.SMSContentListBean;
 import com.alcatel.wifilink.root.utils.RootUtils;
 import com.p_xhelper_smart.p_xhelper_smart.bean.DeleteSmsParam;
 import com.p_xhelper_smart.p_xhelper_smart.bean.GetSMSContactListBean;
@@ -92,10 +91,10 @@ public class SmsDraftHelper {
         getSmsContentListParam.setContactId((int) contactId);
         GetSMSContentListHelper xGetSMSContentListHelper = new GetSMSContentListHelper();
         xGetSMSContentListHelper.setOnGetSmsContentListSuccessListener(bean -> {
-            List<SMSContentListBean.SMSContentBean> scbs = new ArrayList<>();
+            List<GetSMSContentListBean.SMSContentListBean> scbs = new ArrayList<>();
             for (GetSMSContentListBean.SMSContentListBean scb : bean.getSMSContentList()) {
                 if (scb.getSMSType() == GetSMSContactListBean.SMSContacBean.CONS_SMS_TYPE_DRAFT) {// add draft sms
-                    SMSContentListBean.SMSContentBean tempSmsContentBean = new SMSContentListBean.SMSContentBean();
+                    GetSMSContentListBean.SMSContentListBean tempSmsContentBean = new GetSMSContentListBean.SMSContentListBean();
                     tempSmsContentBean.setReportStatus(scb.getReportStatus());
                     tempSmsContentBean.setSMSContent(scb.getSMSContent());
                     tempSmsContentBean.setSMSId(scb.getSMSId());
@@ -108,7 +107,7 @@ public class SmsDraftHelper {
                 String draft = "";
                 if (scbs.size() > 0) {
                     Collections.sort(scbs, new SmsContentSortHelper());
-                    SMSContentListBean.SMSContentBean scb = scbs.get(0);
+                    GetSMSContentListBean.SMSContentListBean scb = scbs.get(0);
                     draft = scb.getSMSContent();
                 }
                 if (onGetDraftListener != null) {
@@ -147,35 +146,35 @@ public class SmsDraftHelper {
 
         GetSMSContentListHelper xGetSMSContentListHelper = new GetSMSContentListHelper();
         xGetSMSContentListHelper.setOnGetSmsContentListSuccessListener(bean -> {
-            //将xsmart框架内部的Bean转为旧的Bean
-            SMSContentListBean smsContentListBean = new SMSContentListBean();
-            smsContentListBean.setPage(bean.getPage());
-            smsContentListBean.setContactId(bean.getContactId());
-            smsContentListBean.setPhoneNumber(bean.getPhoneNumber());
-            smsContentListBean.setTotalPageCount(bean.getTotalPageCount());
-            //xsmart框架内部Bean列表
-            List<GetSMSContentListBean.SMSContentListBean> smsContentBeans = bean.getSMSContentList();
-            if(smsContentBeans != null && smsContentBeans.size() > 0){
-                //旧的Bean列表容器
-                List<SMSContentListBean.SMSContentBean> tempSMSContentList = new ArrayList<>();
-                for(GetSMSContentListBean.SMSContentListBean smsContentBean : smsContentBeans){
-                    //旧Bean容器
-                    SMSContentListBean.SMSContentBean tempSmsContentBean = new SMSContentListBean.SMSContentBean();
-                    tempSmsContentBean.setReportStatus(smsContentBean.getReportStatus());
-                    tempSmsContentBean.setSMSContent(smsContentBean.getSMSContent());
-                    tempSmsContentBean.setSMSId(smsContentBean.getSMSId());
-                    tempSmsContentBean.setSMSTime(smsContentBean.getSMSTime());
-                    tempSmsContentBean.setSMSType(smsContentBean.getSMSType());
-                    //填充旧的Bean
-                    tempSMSContentList.add(tempSmsContentBean);
-                }
-                //填充旧的Bean列表容器
-                smsContentListBean.setSMSContentList(tempSMSContentList);
-            }
+            // //将xsmart框架内部的Bean转为旧的Bean
+            // GetSMSContentListBean smsContentListBean = new GetSMSContentListBean();
+            // smsContentListBean.setPage(bean.getPage());
+            // smsContentListBean.setContactId(bean.getContactId());
+            // smsContentListBean.setPhoneNumber(bean.getPhoneNumber());
+            // smsContentListBean.setTotalPageCount(bean.getTotalPageCount());
+            // //xsmart框架内部Bean列表
+            // List<GetSMSContentListBean.SMSContentListBean> smsContentBeans = bean.getSMSContentList();
+            // if(smsContentBeans != null && smsContentBeans.size() > 0){
+            //     //旧的Bean列表容器
+            //     List<GetSMSContentListBean.SMSContentListBean> tempSMSContentList = new ArrayList<>();
+            //     for(GetSMSContentListBean.SMSContentListBean smsContentBean : smsContentBeans){
+            //         //旧Bean容器
+            //         GetSMSContentListBean.SMSContentListBean tempSmsContentBean = new GetSMSContentListBean.SMSContentListBean();
+            //         tempSmsContentBean.setReportStatus(smsContentBean.getReportStatus());
+            //         tempSmsContentBean.setSMSContent(smsContentBean.getSMSContent());
+            //         tempSmsContentBean.setSMSId(smsContentBean.getSMSId());
+            //         tempSmsContentBean.setSMSTime(smsContentBean.getSMSTime());
+            //         tempSmsContentBean.setSMSType(smsContentBean.getSMSType());
+            //         //填充旧的Bean
+            //         tempSMSContentList.add(tempSmsContentBean);
+            //     }
+            //     //填充旧的Bean列表容器
+            //     smsContentListBean.setSMSContentList(tempSMSContentList);
+            // }
 
-            for (SMSContentListBean.SMSContentBean scb : smsContentListBean.getSMSContentList()) {
+            for (GetSMSContentListBean.SMSContentListBean scb : bean.getSMSContentList()) {
                 if (scb.getSMSType() == GetSMSContactListBean.SMSContacBean.CONS_SMS_TYPE_DRAFT) {
-                    draftList.add(scb.getSMSId());
+                    draftList.add((long) scb.getSMSId());
                 }
             }
             // 删除全部草稿短信
