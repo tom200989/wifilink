@@ -345,7 +345,6 @@ di rete se non si è sicuri del codice PUK</string>
     <string name="hh70_return">Ritorno?</string>
     <string name="hh70_data_not_save">I dati non verranno salvati.\nRitorno?</string>
     <string name="hh70_wait_moment_scan">Attendere prima di eseguire la ricerca</string>
-    <string name="hh70_wifi_status_fail">Recupero dello stato corrente di estensione del Wi-Fi non riuscito</string>
     <string name="hh70_get_time_failed">Recupero di ora e fuso orario locale non riuscito</string>
     <string name="hh70_pw_not_allow_empty">La password non può essere vuota</string>
     <string name="hh70_enter_correct_psd">Inserire la password corretta</string>

@@ -341,7 +341,6 @@
     <string name="hh70_return">Vrni se?</string>
     <string name="hh70_data_not_save">Podatki ne bodo shranjeni.\nVrni se?</string>
     <string name="hh70_wait_moment_scan">Počakajte trenutek za pregled</string>
-    <string name="hh70_wifi_status_fail">Pridobitev trenutnega stanja razširitvene naprave za WiFi ni bila uspešna</string>
     <string name="hh70_get_time_failed">Pridobitev trenutnega časa in časovnega pasu ni bila uspešna</string>
     <string name="hh70_pw_not_allow_empty">Prostor za geslo ne sme biti prazen</string>
     <string name="hh70_enter_correct_psd">Vnesite pravilno geslo</string>

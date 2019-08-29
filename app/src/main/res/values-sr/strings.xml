@@ -341,7 +341,6 @@
     <string name="hh70_return">Повратак?</string>
     <string name="hh70_data_not_save">Подаци неће бити сачувани.\nПовратак?</string>
     <string name="hh70_wait_moment_scan">Sačekajte malo za pretragu</string>
-    <string name="hh70_wifi_status_fail">Preuzimanje trenutnog statusa proširenja Wi–Fi mreže nije uspelo</string>
     <string name="hh70_get_time_failed">Preuzimanje trenutnog vremena i vremenske zone nije uspelo</string>
     <string name="hh70_pw_not_allow_empty">Nije dozvoljeno da lozinka bude prazna</string>
     <string name="hh70_enter_correct_psd">Unesite tačnu lozinku.</string>

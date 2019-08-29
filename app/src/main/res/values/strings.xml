@@ -342,7 +342,6 @@
     <string name="hh70_return">Return?</string>
     <string name="hh70_data_not_save">The data will not be saved.\nAre you sure you want to return?</string>
     <string name="hh70_wait_moment_scan">Please wait a moment to scan</string>
-    <string name="hh70_wifi_status_fail">Get WIFI Extender Current Status failed</string>
     <string name="hh70_get_time_failed">Get Current Time and timezone failed</string>
     <string name="hh70_pw_not_allow_empty">Password is not allowed to be empty</string>
     <string name="hh70_enter_correct_psd">Please enter the correct password</string>

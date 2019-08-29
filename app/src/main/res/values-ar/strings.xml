@@ -342,7 +342,6 @@
     <string name="hh70_return">إرجاع؟</string>
     <string name="hh70_data_not_save">لن يتم حفظ البيانات.\nهل أنت متأكد من أنك تريد العودة؟</string>
     <string name="hh70_wait_moment_scan">يرجى الانتظار لحظة للمسح</string>
-    <string name="hh70_wifi_status_fail">فشل الحصول على الحالة الحالية لمعزز شبكة WIFI</string>
     <string name="hh70_get_time_failed">فشل الحصول على الوقت الحالي والمنطقة الزمنية</string>
     <string name="hh70_pw_not_allow_empty">لا يجوز أن تكون كلمة المرور فارغة</string>
     <string name="hh70_enter_correct_psd">يرجى إدخال كلمة المرور الصحيحة</string>

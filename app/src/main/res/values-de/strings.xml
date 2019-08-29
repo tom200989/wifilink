@@ -341,7 +341,6 @@
     <string name="hh70_return">Rückkehr?</string>
     <string name="hh70_data_not_save">Die Daten werden nicht gespeichert.\nMöchten Sie wirklich zurückkehren?</string>
     <string name="hh70_wait_moment_scan">Suche, bitte warten</string>
-    <string name="hh70_wifi_status_fail">Abrufen des Status der WLAN-Erweiterung fehlgeschlagen</string>
     <string name="hh70_get_time_failed">Abrufen der aktuelle Uhrzeit und Zeitzone fehlgeschlagen</string>
     <string name="hh70_pw_not_allow_empty">Das Passwort darf nicht leer sein.</string>
     <string name="hh70_enter_correct_psd">Geben Sie das richtige Passwort ein.</string>

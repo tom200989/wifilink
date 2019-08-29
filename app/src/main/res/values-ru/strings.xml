@@ -343,7 +343,6 @@
     <string name="hh70_return">Вернуться?</string>
     <string name="hh70_data_not_save">Данные не будут сохранены.\nВернуться?</string>
     <string name="hh70_wait_moment_scan">Идёт сканирование, пожалуйста, подождите</string>
-    <string name="hh70_wifi_status_fail">Не удалось получить Текущее Состояние Усилителя сигнала WIFI </string>
     <string name="hh70_get_time_failed">Не удалось получить Текущее Время и часовой пояс</string>
     <string name="hh70_pw_not_allow_empty">Пароль не должен быть пустым</string>
     <string name="hh70_enter_correct_psd">Пожалуйста, введите правильный пароль</string>

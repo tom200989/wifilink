@@ -342,7 +342,6 @@
     <string name="hh70_return">Revenir?</string>
     <string name="hh70_data_not_save">Les données ne seront pas sauvegardées.\nRevenir?</string>
     <string name="hh70_wait_moment_scan">Veuillez patienter pendant la recherche…</string>
-    <string name="hh70_wifi_status_fail">Échec de détermination de l’état d’extension Wi-Fi</string>
     <string name="hh70_get_time_failed">Échec de détermination de l’heure et du fuseau horaire</string>
     <string name="hh70_pw_not_allow_empty">Mot de passe vide interdit</string>
     <string name="hh70_enter_correct_psd">Entrer le bon mot de passe</string>

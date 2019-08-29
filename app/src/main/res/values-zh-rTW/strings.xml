@@ -341,7 +341,6 @@
     <string name="hh70_return">返回？</string>
     <string name="hh70_data_not_save">將不會儲存資料。\n您確定要返回嗎？</string>
     <string name="hh70_wait_moment_scan">請稍候以掃描</string>
-    <string name="hh70_wifi_status_fail">取得目前的 WLAN 擴展器狀態失敗</string>
     <string name="hh70_get_time_failed">取得目前時間和時區失敗</string>
     <string name="hh70_pw_not_allow_empty">密碼不允許為空</string>
     <string name="hh70_enter_correct_psd">請輸入正確的密碼。</string>

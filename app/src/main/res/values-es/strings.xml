@@ -342,7 +342,6 @@
     <string name="hh70_return">¿Regreso?</string>
     <string name="hh70_data_not_save">Los datos no serán guardados.\n¿Regreso?</string>
     <string name="hh70_wait_moment_scan">Espere un momento para escanear</string>
-    <string name="hh70_wifi_status_fail">No se ha podido obtener el estado del amplificador de Wi-Fi</string>
     <string name="hh70_get_time_failed">No se han podido obtener ni la hora ni la zona horaria</string>
     <string name="hh70_pw_not_allow_empty">La contraseña no puede estar vacía</string>
     <string name="hh70_enter_correct_psd">Introduzca la contraseña correcta</string>

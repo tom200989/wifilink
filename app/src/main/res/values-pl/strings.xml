@@ -341,7 +341,6 @@
     <string name="hh70_return">Powrót?</string>
     <string name="hh70_data_not_save">Dane nie zostaną zapisane.\nPowrót?</string>
     <string name="hh70_wait_moment_scan">Odczekaj chwilę na zakończenie skanowania</string>
-    <string name="hh70_wifi_status_fail">Pobieranie danych o stanie WIFI Extender nieudane</string>
     <string name="hh70_get_time_failed">Pobieranie bieżącej godziny i strefy czasowej nieudane</string>
     <string name="hh70_pw_not_allow_empty">Hasło nie może być puste</string>
     <string name="hh70_enter_correct_psd">Wprowadź prawidłowe hasło</string>
