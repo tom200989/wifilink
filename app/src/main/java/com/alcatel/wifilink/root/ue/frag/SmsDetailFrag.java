@@ -295,7 +295,7 @@ public class SmsDetailFrag extends BaseFrag {
 
         GetSMSContentListHelper xGetSMSContentListHelper = new GetSMSContentListHelper();
         xGetSMSContentListHelper.setOnGetSmsContentListSuccessListener(bean -> {
-            Lgg.t("ma_ssmsmsms").ii("bean is: " + bean.getPhoneNumber());
+            Lgg.t("ma_ssmsmsms").ii("bean is: " + bean.getSMSContentList());
             boolean isLast = false;
             // 1. refresh the list
             smsContentListBean = bean;
@@ -339,7 +339,6 @@ public class SmsDetailFrag extends BaseFrag {
 
     /* **** clickBack **** */
     private void clickBack() {
-        // TOGO 2019/8/29 0029 
         if (isLongClick) {// if long click status
             resetLongClickFlag();
         } else if (tryAgainWidget.getVisibility() == View.VISIBLE) {
@@ -355,7 +354,6 @@ public class SmsDetailFrag extends BaseFrag {
 
     /* **** sendSms **** */
     private void sendSms() {
-        // TOGO 2019/8/29 0029 
         // 1. getInstant send sms content from et
         String content = RootUtils.getEDText(etSmsdetailSend, true);
         if (TextUtils.isEmpty(content)) {
@@ -415,7 +413,6 @@ public class SmsDetailFrag extends BaseFrag {
 
     /* **** clearDraft **** */
     public void clearDraft(boolean isSaveDraft) {
-        // TOGO 2019/8/29 0029 
         // 1.first deleted the draft sms in router
         SmsDraftHelper sdfp = new SmsDraftHelper(activity, smsContact.getContactId());
         sdfp.setOnNoSimListener(() -> {
@@ -433,7 +430,6 @@ public class SmsDetailFrag extends BaseFrag {
 
     /* **** 保存草稿 **** */
     private void saveDraft() {
-        // TOGO 2019/8/29 0029 
         String content = RootUtils.getEDText(etSmsdetailSend, true);
         List<String> phoneNumber = smsContact.getPhoneNumber();
         SmsDraftHelper sdfp = new SmsDraftHelper(activity, smsContact.getContactId());

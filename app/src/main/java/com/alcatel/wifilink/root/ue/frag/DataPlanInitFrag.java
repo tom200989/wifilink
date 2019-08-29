@@ -203,7 +203,7 @@ public class DataPlanInitFrag extends BaseFrag {
                 xGetSimStatusHelper.getSimStatus();
             } else {
                 toast(R.string.hh70_log_out, 5000);
-                toFrag(getClass(), LoginFrag.class, null, true);
+                toFrag(getClass(), LoginFrag.class, null, true, getClass());
             }
         });
         xGetLoginStateHelper.getLoginState();
@@ -276,7 +276,7 @@ public class DataPlanInitFrag extends BaseFrag {
                     toFrag(getClass(), WifiInitFrag.class, null, true);
                 }
             });
-            wpsHelper.setOnGetWPSFailedListener(() ->  toFragActivity(getClass(), HomeActivity.class, mainFrag.class, null, true));
+            wpsHelper.setOnGetWPSFailedListener(() -> toFragActivity(getClass(), HomeActivity.class, mainFrag.class, null, true));
             wpsHelper.getWpsStatus();
         }
     }
@@ -287,7 +287,7 @@ public class DataPlanInitFrag extends BaseFrag {
             toFrag(getClass(), WizardFrag.class, null, true);
         } else {
             LogoutHelper xLogoutHelper = new LogoutHelper();
-            xLogoutHelper.setOnLogoutSuccessListener(() -> toFrag(getClass(), LoginFrag.class, null, true));
+            xLogoutHelper.setOnLogoutSuccessListener(() -> toFrag(getClass(), LoginFrag.class, null, true,getClass()));
             xLogoutHelper.setOnLogOutFailedListener(() -> toast(R.string.hh70_cant_logout, 5000));
             xLogoutHelper.logout();
         }

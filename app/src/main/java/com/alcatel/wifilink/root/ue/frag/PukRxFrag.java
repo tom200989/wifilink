@@ -130,7 +130,7 @@ public class PukRxFrag extends BaseFrag {
      * @param targetFr
      */
     private void to(Class targetAc, Class targetFr) {
-        toFragActivity(getClass(), targetAc, targetFr, null, false, true, 0);
+        toFragActivity(getClass(), targetAc, targetFr, null, false, true, 0,getClass());
 
     }
 

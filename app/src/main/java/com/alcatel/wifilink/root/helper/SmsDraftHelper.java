@@ -146,32 +146,6 @@ public class SmsDraftHelper {
 
         GetSMSContentListHelper xGetSMSContentListHelper = new GetSMSContentListHelper();
         xGetSMSContentListHelper.setOnGetSmsContentListSuccessListener(bean -> {
-            // //将xsmart框架内部的Bean转为旧的Bean
-            // GetSMSContentListBean smsContentListBean = new GetSMSContentListBean();
-            // smsContentListBean.setPage(bean.getPage());
-            // smsContentListBean.setContactId(bean.getContactId());
-            // smsContentListBean.setPhoneNumber(bean.getPhoneNumber());
-            // smsContentListBean.setTotalPageCount(bean.getTotalPageCount());
-            // //xsmart框架内部Bean列表
-            // List<GetSMSContentListBean.SMSContentListBean> smsContentBeans = bean.getSMSContentList();
-            // if(smsContentBeans != null && smsContentBeans.size() > 0){
-            //     //旧的Bean列表容器
-            //     List<GetSMSContentListBean.SMSContentListBean> tempSMSContentList = new ArrayList<>();
-            //     for(GetSMSContentListBean.SMSContentListBean smsContentBean : smsContentBeans){
-            //         //旧Bean容器
-            //         GetSMSContentListBean.SMSContentListBean tempSmsContentBean = new GetSMSContentListBean.SMSContentListBean();
-            //         tempSmsContentBean.setReportStatus(smsContentBean.getReportStatus());
-            //         tempSmsContentBean.setSMSContent(smsContentBean.getSMSContent());
-            //         tempSmsContentBean.setSMSId(smsContentBean.getSMSId());
-            //         tempSmsContentBean.setSMSTime(smsContentBean.getSMSTime());
-            //         tempSmsContentBean.setSMSType(smsContentBean.getSMSType());
-            //         //填充旧的Bean
-            //         tempSMSContentList.add(tempSmsContentBean);
-            //     }
-            //     //填充旧的Bean列表容器
-            //     smsContentListBean.setSMSContentList(tempSMSContentList);
-            // }
-
             for (GetSMSContentListBean.SMSContentListBean scb : bean.getSMSContentList()) {
                 if (scb.getSMSType() == GetSMSContactListBean.SMSContacBean.CONS_SMS_TYPE_DRAFT) {
                     draftList.add((long) scb.getSMSId());

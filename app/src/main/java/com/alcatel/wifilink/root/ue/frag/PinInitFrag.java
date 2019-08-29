@@ -216,7 +216,7 @@ public class PinInitFrag extends BaseFrag {
                 xGetSimStatusHelper.getSimStatus();
             } else {
                 toast(R.string.hh70_log_out, 5000);
-                toFrag(getClass(), LoginFrag.class, null, true);
+                toFrag(getClass(), LoginFrag.class, null, true,getClass());
             }
         });
         xGetLoginStateHelper.setOnGetLoginStateFailedListener(() -> toast(R.string.hh70_cant_connect, 5000));
@@ -288,7 +288,7 @@ public class PinInitFrag extends BaseFrag {
             toFrag(getClass(), WizardFrag.class, null, true);
         } else {
             LogoutHelper xLogouthelper = new LogoutHelper();
-            xLogouthelper.setOnLogoutSuccessListener(() -> toFrag(getClass(), LoginFrag.class, null, true));
+            xLogouthelper.setOnLogoutSuccessListener(() -> toFrag(getClass(), LoginFrag.class, null, true,getClass()));
             xLogouthelper.setOnLogOutFailedListener(() -> toast(R.string.hh70_cant_logout, 5000));
             xLogouthelper.logout();
         }

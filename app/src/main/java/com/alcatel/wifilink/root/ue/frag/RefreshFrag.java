@@ -38,7 +38,7 @@ public class RefreshFrag extends RootFrag {
     @Override
     public void setTimerTask() {
         GetSystemInfoHelper xGetSystemInfoHelper = new GetSystemInfoHelper();
-        xGetSystemInfoHelper.setOnGetSystemInfoSuccessListener(info -> toFrag(getClass(), LoginFrag.class, null, true));
+        xGetSystemInfoHelper.setOnGetSystemInfoSuccessListener(info -> toFrag(getClass(), LoginFrag.class, null, true, getClass()));
         xGetSystemInfoHelper.getSystemInfo();
     }
 

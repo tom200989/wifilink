@@ -231,7 +231,9 @@ public class HomeActivity extends RootMAActivity {
                 getSMSUnread();
             } else {
                 toast(R.string.hh70_log_out, 3000);
-                toFragActivity(getClass(), SplashActivity.class, LoginFrag.class, null, true);
+                if (!LoginFrag.currentIsLoginPage) {
+                    toFragActivity(getClass(), SplashActivity.class, LoginFrag.class, null, true);
+                }
                 heartTimer.stop();
                 touchTimer.stop();
             }
@@ -279,14 +281,18 @@ public class HomeActivity extends RootMAActivity {
                     }
                 });
                 xLogoutHelper.setOnLogOutFailedListener(() -> {
-                    toFrag(getClass(), LoginFrag.class, null, true);
+                    if (!LoginFrag.currentIsLoginPage) {
+                        toFrag(getClass(), LoginFrag.class, null, true);
+                    }
                     if (touchTimer != null) {
                         touchTimer.stop();
                     }
                 });
                 xLogoutHelper.logout();
             } else {
-                toFrag(getClass(), LoginFrag.class, null, true);
+                if (!LoginFrag.currentIsLoginPage) {
+                    toFrag(getClass(), LoginFrag.class, null, true);
+                }
                 if (touchTimer != null) {
                     touchTimer.stop();
                 }

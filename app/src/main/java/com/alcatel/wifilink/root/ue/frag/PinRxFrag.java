@@ -122,7 +122,7 @@ public class PinRxFrag extends BaseFrag {
                 });
                 xGetSimStatusHelper.getSimStatus();
             } else {
-                toFragActivity(getClass(), SplashActivity.class, LoginFrag.class, null, true);
+                toFragActivity(getClass(), SplashActivity.class, LoginFrag.class, null, true,getClass());
             }
         });
         xGetLoginStateHelper.getLoginState();
@@ -192,7 +192,7 @@ public class PinRxFrag extends BaseFrag {
                 });
                 xGetSimStatusHelper.getSimStatus();
             } else {
-                toFragActivity(getClass(), SplashActivity.class, LoginFrag.class, null, true);
+                toFragActivity(getClass(), SplashActivity.class, LoginFrag.class, null, true,getClass());
             }
         });
         xGetLoginStateHelper.getLoginState();

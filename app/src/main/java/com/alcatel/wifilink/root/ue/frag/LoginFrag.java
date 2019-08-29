@@ -76,6 +76,7 @@ public class LoginFrag extends RootFrag {
     private Drawable mw12_logo;
     private Drawable hh71_logo;
     private Drawable default_logo;
+    public static boolean currentIsLoginPage = false;
 
     @Override
     public int onInflateLayout() {
@@ -87,6 +88,12 @@ public class LoginFrag extends RootFrag {
         timerState = TimerState.OFF_ALL_BUT_KEEP_CURRENT_OFF_WHEN_PAUSE;
         initRes();
         initClick();
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        currentIsLoginPage = !hidden;
+        super.onHiddenChanged(hidden);
     }
 
     @Override
@@ -345,7 +352,7 @@ public class LoginFrag extends RootFrag {
             else
                 toFrag(getClass(), WifiInitFrag.class, null, true);
         });
-        wpsHelper.setOnGetWPSFailedListener(() ->  toFragActivity(getClass(), HomeActivity.class, mainFrag.class, null, true));
+        wpsHelper.setOnGetWPSFailedListener(() -> toFragActivity(getClass(), HomeActivity.class, mainFrag.class, null, true));
         wpsHelper.getWpsStatus();
     }
 

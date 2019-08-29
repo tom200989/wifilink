@@ -218,7 +218,7 @@ public class WifiInitFrag extends BaseFrag {
             } else {
                 wdLoad.setGone();
                 toast(R.string.hh70_log_out, 5000);
-                toFrag(getClass(), LoginFrag.class, null, true);
+                toFrag(getClass(), LoginFrag.class, null, true,getClass());
             }
         });
         xGetLoginStateHelper.getLoginState();
@@ -337,7 +337,7 @@ public class WifiInitFrag extends BaseFrag {
             } else {
                 wdLoad.setGone();
                 toast(R.string.hh70_log_out, 5000);
-                toFrag(getClass(), LoginFrag.class, null, true);
+                toFrag(getClass(), LoginFrag.class, null, true,getClass());
             }
         });
         xGetLoginStateHelper.getLoginState();
@@ -439,7 +439,7 @@ public class WifiInitFrag extends BaseFrag {
             } else {
                 wdLoad.setGone();
                 toast(R.string.hh70_log_out, 5000);
-                toFrag(getClass(), LoginFrag.class, null, true);
+                toFrag(getClass(), LoginFrag.class, null, true,getClass());
             }
         });
         xGetLoginStateHelper.getLoginState();
