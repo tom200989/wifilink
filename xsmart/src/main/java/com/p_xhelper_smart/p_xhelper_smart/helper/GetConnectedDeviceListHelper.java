@@ -25,11 +25,13 @@ public class GetConnectedDeviceListHelper extends BaseHelper {
 
             @Override
             public void appError(Throwable ex) {
+                AppErrorNext();
                 getDeviceListFailNext();
             }
 
             @Override
             public void fwError(FwError fwError) {
+                fwErrorNext();
                 getDeviceListFailNext();
             }
 
@@ -76,6 +78,44 @@ public class GetConnectedDeviceListHelper extends BaseHelper {
     private void getDeviceListFailNext() {
         if (onGetDeviceListFailListener != null) {
             onGetDeviceListFailListener.getDeviceListFail();
+        }
+    }
+
+    private OnFwErrorListener onFwErrorListener;
+
+    // Inteerface--> 接口OnFwErrorListener
+    public interface OnFwErrorListener {
+        void fwError();
+    }
+
+    // 对外方式setOnFwErrorListener
+    public void setOnFwErrorListener(OnFwErrorListener onFwErrorListener) {
+        this.onFwErrorListener = onFwErrorListener;
+    }
+
+    // 封装方法fwErrorNext
+    private void fwErrorNext() {
+        if (onFwErrorListener != null) {
+            onFwErrorListener.fwError();
+        }
+    }
+
+    private OnAPPErrorListener onAPPErrorListener;
+
+    // Inteerface--> 接口OnAPPErrorListener
+    public interface OnAPPErrorListener {
+        void AppError();
+    }
+
+    // 对外方式setOnAPPErrorListener
+    public void setOnAPPErrorListener(OnAPPErrorListener onAPPErrorListener) {
+        this.onAPPErrorListener = onAPPErrorListener;
+    }
+
+    // 封装方法AppErrorNext
+    private void AppErrorNext() {
+        if (onAPPErrorListener != null) {
+            onAPPErrorListener.AppError();
         }
     }
 }

@@ -2,7 +2,6 @@ package com.alcatel.wifilink.root.helper;
 
 import com.alcatel.wifilink.root.bean.Extender_GetConnectHotspotStateBean;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetConnectHotspotStateHelper;
-import com.p_xhelper_smart.p_xhelper_smart.impl.FwError;
 
 /**
  * Created by qianli.ma on 2018/5/24 0024.
@@ -24,48 +23,26 @@ public class Extender_GetConnectHotspotStateHelper {
             extenderGetConnectHotspotStateResult.setState(bean.getState());
             successNext(extenderGetConnectHotspotStateResult);
         });
-        xGetConnectHotspotStateHelper.setOnGetConnectHotSpotFailListener(() -> {
-            failedNext(null);
-            resultErrorNext(null);
-        });
+        xGetConnectHotspotStateHelper.setOnGetConnectHotSpotFailListener(this::getHotspotStateFailedNext);
         xGetConnectHotspotStateHelper.getConnectHotspotState();
     }
 
-    private OnResultErrorListener onResultErrorListener;
+    private OnGetHotspotStateFailedListener onGetHotspotStateFailedListener;
 
-    // 接口OnResultErrorListener
-    public interface OnResultErrorListener {
-        void resultError(FwError error);
+    // Inteerface--> 接口OnGetHotspotStateFailedListener
+    public interface OnGetHotspotStateFailedListener {
+        void getHotspotStateFailed();
     }
 
-    // 对外方式setOnResultErrorListener
-    public void setOnResultErrorListener(OnResultErrorListener onResultErrorListener) {
-        this.onResultErrorListener = onResultErrorListener;
+    // 对外方式setOnGetHotspotStateFailedListener
+    public void setOnGetHotspotStateFailedListener(OnGetHotspotStateFailedListener onGetHotspotStateFailedListener) {
+        this.onGetHotspotStateFailedListener = onGetHotspotStateFailedListener;
     }
 
-    // 封装方法resultErrorNext
-    private void resultErrorNext(FwError attr) {
-        if (onResultErrorListener != null) {
-            onResultErrorListener.resultError(attr);
-        }
-    }
-
-    private OnFailedListener onFailedListener;
-
-    // 接口OnFailedListener
-    public interface OnFailedListener {
-        void failed(Object attr);
-    }
-
-    // 对外方式setOnFailedListener
-    public void setOnFailedListener(OnFailedListener onFailedListener) {
-        this.onFailedListener = onFailedListener;
-    }
-
-    // 封装方法failedNext
-    private void failedNext(Object attr) {
-        if (onFailedListener != null) {
-            onFailedListener.failed(attr);
+    // 封装方法getHotspotStateFailedNext
+    private void getHotspotStateFailedNext() {
+        if (onGetHotspotStateFailedListener != null) {
+            onGetHotspotStateFailedListener.getHotspotStateFailed();
         }
     }
 

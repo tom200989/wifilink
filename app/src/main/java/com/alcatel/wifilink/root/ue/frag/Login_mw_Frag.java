@@ -35,7 +35,7 @@ import butterknife.BindView;
 /*
  * Created by qianli.ma on 2019/8/15 0015.
  */
-public class LoginFrag_mw extends RootFrag {
+public class Login_mw_Frag extends RootFrag {
 
     @BindView(R.id.rl_login_pre)
     RelativeLayout rl_loginPre;// 预登录总布局
@@ -109,7 +109,7 @@ public class LoginFrag_mw extends RootFrag {
                     sendEvent(responceBean, false);
                     SplashActivity.freeSharingLock = true;
                 });
-                deviceHelper.setOnGetDevicesResultErrorListener(error -> {
+                deviceHelper.setOnFwErrorListener(() -> {
                     InteractiveResponceBean responceBean = new InteractiveResponceBean();
                     responceBean.setConnectedList(null);
                     responceBean.setErrorMsg("no error msg");
@@ -117,7 +117,7 @@ public class LoginFrag_mw extends RootFrag {
                     sendEvent(responceBean, false);
                     SplashActivity.freeSharingLock = true;
                 });
-                deviceHelper.setOnGetDevicesErrorListener(throwable -> {
+                deviceHelper.setOnAppErrorListener(() -> {
                     InteractiveResponceBean responceBean = new InteractiveResponceBean();
                     responceBean.setConnectedList(null);
                     responceBean.setErrorMsg("no error msg");
@@ -164,7 +164,7 @@ public class LoginFrag_mw extends RootFrag {
         btnLoginPreToLogin.setOnClickListener(v -> toFrag(getClass(), LoginFrag.class, null, true));
         rlLoginPreConnected.setOnClickListener(v -> {
             if (currentConnCount > 0) {// 当设备连接数大于0才连接
-                toFrag(getClass(), LoginFrag_mw_device.class, null, true);
+                toFrag(getClass(), Login_mw_dev_Frag.class, null, true);
             } else {// 提示没发现设备
                 toast(R.string.hh70_no_device_find, 5000);
             }

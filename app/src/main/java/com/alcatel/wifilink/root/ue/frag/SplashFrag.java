@@ -88,7 +88,7 @@ public class SplashFrag extends BaseFrag {
     private void toNextFrag(String deviceName) {
         boolean isGuide = ShareUtils.get(RootCons.SP_GUIDE, false);
         boolean isMWDev = RootUtils.isMWDEV(deviceName);
-        toFrag(getClass(), isGuide ? (isMWDev ? LoginFrag_mw.class : LoginFrag.class) : GuideFrag.class, null, true);
+        toFrag(getClass(), isGuide ? (isMWDev ? Login_mw_Frag.class : LoginFrag.class) : GuideFrag.class, null, true);
     }
 
     @Override

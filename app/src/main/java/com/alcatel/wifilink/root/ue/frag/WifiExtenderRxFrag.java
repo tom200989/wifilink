@@ -227,8 +227,7 @@ public class WifiExtenderRxFrag extends BaseFrag {
                     break;
             }
         });
-        helper.setOnFailedListener(attr1 -> connectFailed());
-        helper.setOnResultErrorListener(error -> connectFailed());
+        helper.setOnGetHotspotStateFailedListener(this::connectFailed);
         helper.get();
     }
 

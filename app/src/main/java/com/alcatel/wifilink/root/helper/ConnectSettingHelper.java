@@ -25,7 +25,6 @@ public class ConnectSettingHelper {
      * 获取漫游时是否允许连接的状态
      */
     public void getConnWhenRoam() {
-
         GetConnectionSettingsHelper xGetConnectionSettingsHelper = new GetConnectionSettingsHelper();
         xGetConnectionSettingsHelper.setOnGetConnectionSettingsSuccessListener(result -> {
             int roamingConnect = result.getRoamingConnect();
@@ -38,9 +37,7 @@ public class ConnectSettingHelper {
                     break;
             }
         });
-        xGetConnectionSettingsHelper.setOnGetConnectionSettingsFailedListener(() -> {
-          connectSettingFailNext();
-        });
+        xGetConnectionSettingsHelper.setOnGetConnectionSettingsFailedListener(this::connectSettingFailNext);
         xGetConnectionSettingsHelper.getConnectionSettings();
     }
 

@@ -30,7 +30,7 @@ public class GuideFrag extends RootFrag {
             ShareUtils.set(RootCons.SP_GUIDE, true);// 保存向导缓存
             String cacheDevice = ShareUtils.get(RootCons.DEVICE_NAME, RootCons.DEVICE_NAME_DEFAULT);
             boolean isMwDev = RootUtils.isMWDEV(cacheDevice);// 是否为MW系列
-            toFrag(getClass(), isMwDev ? LoginFrag_mw.class : LoginFrag.class, null, true);
+            toFrag(getClass(), isMwDev ? Login_mw_Frag.class : LoginFrag.class, null, true);
         });
     }
 

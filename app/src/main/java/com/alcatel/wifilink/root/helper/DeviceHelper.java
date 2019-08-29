@@ -5,7 +5,6 @@ import android.content.Context;
 import com.alcatel.wifilink.root.bean.ConnectedListBean;
 import com.p_xhelper_smart.p_xhelper_smart.bean.GetConnectDeviceListBean;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetConnectedDeviceListHelper;
-import com.p_xhelper_smart.p_xhelper_smart.impl.FwError;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,50 +44,69 @@ public class DeviceHelper {
             }
             devicesNext(tempConnectedListBean);
         });
-        xGetConnectedDeviceListHelper.setOnGetDeviceListFailListener(() -> {
-            resuletErrorNext(null);
-            errorNext(null);
-        });
+        xGetConnectedDeviceListHelper.setOnGetDeviceListFailListener(this::getDeviceListFailedNext);
+        xGetConnectedDeviceListHelper.setOnAPPErrorListener(this::AppErrorNext);
+        xGetConnectedDeviceListHelper.setOnFwErrorListener(this::FwErrorNext);
         xGetConnectedDeviceListHelper.getConnectDeviceList();
     }
 
-    private OnGetDevicesErrorListener onGetDevicesErrorListener;
+    private OnAppErrorListener onAppErrorListener;
 
-    // 接口OnGetDevicesErrorListener
-    public interface OnGetDevicesErrorListener {
-        void error(Throwable throwable);
+    // Inteerface--> 接口OnAppErrorListener
+    public interface OnAppErrorListener {
+        void AppError();
     }
 
-    // 对外方式setOnGetDevicesErrorListener
-    public void setOnGetDevicesErrorListener(OnGetDevicesErrorListener onGetDevicesErrorListener) {
-        this.onGetDevicesErrorListener = onGetDevicesErrorListener;
+    // 对外方式setOnAppErrorListener
+    public void setOnAppErrorListener(OnAppErrorListener onAppErrorListener) {
+        this.onAppErrorListener = onAppErrorListener;
     }
 
-    // 封装方法errorNext
-    private void errorNext(Throwable throwable) {
-        if (onGetDevicesErrorListener != null) {
-            onGetDevicesErrorListener.error(throwable);
+    // 封装方法AppErrorNext
+    private void AppErrorNext() {
+        if (onAppErrorListener != null) {
+            onAppErrorListener.AppError();
         }
     }
 
-    private OnGetDevicesResultErrorListener onGetDevicesResultErrorListener;
+    private OnFwErrorListener onFwErrorListener;
 
-    // 接口OnGetDevicesResultErrorListener
-    public interface OnGetDevicesResultErrorListener {
-        void resuletError(FwError error);
+    // Inteerface--> 接口OnFwErrorListener
+    public interface OnFwErrorListener {
+        void FwError();
     }
 
-    // 对外方式setOnGetDevicesResultErrorListener
-    public void setOnGetDevicesResultErrorListener(OnGetDevicesResultErrorListener onGetDevicesResultErrorListener) {
-        this.onGetDevicesResultErrorListener = onGetDevicesResultErrorListener;
+    // 对外方式setOnFwErrorListener
+    public void setOnFwErrorListener(OnFwErrorListener onFwErrorListener) {
+        this.onFwErrorListener = onFwErrorListener;
     }
 
-    // 封装方法resuletErrorNext
-    private void resuletErrorNext(FwError error) {
-        if (onGetDevicesResultErrorListener != null) {
-            onGetDevicesResultErrorListener.resuletError(error);
+    // 封装方法FwErrorNext
+    private void FwErrorNext() {
+        if (onFwErrorListener != null) {
+            onFwErrorListener.FwError();
         }
     }
+
+    private OnGetDeviceListFailedListener onGetDeviceListFailedListener;
+
+    // Inteerface--> 接口OnGetDeviceListFailedListener
+    public interface OnGetDeviceListFailedListener {
+        void getDeviceListFailed();
+    }
+
+    // 对外方式setOnGetDeviceListFailedListener
+    public void setOnGetDeviceListFailedListener(OnGetDeviceListFailedListener onGetDeviceListFailedListener) {
+        this.onGetDeviceListFailedListener = onGetDeviceListFailedListener;
+    }
+
+    // 封装方法getDeviceListFailedNext
+    private void getDeviceListFailedNext() {
+        if (onGetDeviceListFailedListener != null) {
+            onGetDeviceListFailedListener.getDeviceListFailed();
+        }
+    }
+
 
     private OnGetDevicesSuccessListener onGetDevicesSuccessListener;
 

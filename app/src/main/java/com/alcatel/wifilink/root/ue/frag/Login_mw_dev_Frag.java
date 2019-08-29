@@ -22,7 +22,7 @@ import butterknife.BindView;
 /*
  * Created by qianli.ma on 2019/8/16 0016.
  */
-public class LoginFrag_mw_device extends RootFrag {
+public class Login_mw_dev_Frag extends RootFrag {
 
     @BindView(R.id.rl_login_devices)
     LinearLayout rlLoginDevices;// 显示设备总布局
@@ -89,7 +89,7 @@ public class LoginFrag_mw_device extends RootFrag {
 
     @Override
     public boolean onBackPresss() {
-        toFrag(getClass(), LoginFrag_mw.class, null, false);
+        toFrag(getClass(), Login_mw_Frag.class, null, false);
         return true;
     }
 }

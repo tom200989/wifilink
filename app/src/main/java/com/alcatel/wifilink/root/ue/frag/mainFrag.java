@@ -617,7 +617,7 @@ public class mainFrag extends BaseFrag {
 
             // 设置已使用流量
             UsageHelper.Usage usedUsage = UsageHelper.getUsageByte(getActivity(), result.getUsedData());
-            String currentLanguage = ShareUtils.get(RootCons.LOCALE_LANGUAGE_COUNTRY,"");
+            String currentLanguage = ShareUtils.get(RootCons.LOCALE_LANGUAGE_COUNTRY, "");
             boolean isRussian = currentLanguage.contains(RootCons.LANGUAGES.RUSSIAN);
             tvUsedUnit.setVisibility(isRussian ? View.GONE : View.VISIBLE);
             if (isRussian) {
@@ -642,7 +642,8 @@ public class mainFrag extends BaseFrag {
             }
             tvUsedTotal.setText(plan <= 0 ? noUsagePlan : useOf + BLANK_TEXT + montyUsage + planUnit);
             // 计算已使用流量比率
-            usageLimit = ShareUtils.get(RootCons.USAGE_LIMIT_DEFAULT, 90);;
+            usageLimit = ShareUtils.get(RootCons.USAGE_LIMIT_DEFAULT, 90);
+            ;
             if (usageLimit == -1) {
                 btSimConnected.setFrontColor(Color.parseColor(frontColor_nor));
                 btSimConnected.setBehindColor(Color.parseColor(behindColor_nor));
@@ -769,7 +770,7 @@ public class mainFrag extends BaseFrag {
             deviceSize = bean.getConnectedList().size();
             ivConnectedPeople.setImageDrawable(deviceSize > 0 ? connected_more : connected_none);
             String hadConnect = deviceSize + BLANK_TEXT + connected_text;
-            String currentLanguage = ShareUtils.get(RootCons.LOCALE_LANGUAGE_COUNTRY,"");
+            String currentLanguage = ShareUtils.get(RootCons.LOCALE_LANGUAGE_COUNTRY, "");
             if (currentLanguage.equalsIgnoreCase(RootCons.LANGUAGES.RUSSIAN)) {
                 hadConnect = connected_text + ":" + BLANK_TEXT + deviceSize;
             }
@@ -884,7 +885,7 @@ public class mainFrag extends BaseFrag {
                     sendEvent(responceBean, false);
                     SplashActivity.freeSharingLock = true;
                 });
-                deviceHelper.setOnGetDevicesResultErrorListener(error -> {
+                deviceHelper.setOnFwErrorListener(() -> {
                     InteractiveResponceBean responceBean = new InteractiveResponceBean();
                     responceBean.setConnectedList(null);
                     responceBean.setErrorMsg("no error msg");
@@ -892,7 +893,7 @@ public class mainFrag extends BaseFrag {
                     sendEvent(responceBean, false);
                     SplashActivity.freeSharingLock = true;
                 });
-                deviceHelper.setOnGetDevicesErrorListener(throwable -> {
+                deviceHelper.setOnAppErrorListener(() -> {
                     InteractiveResponceBean responceBean = new InteractiveResponceBean();
                     responceBean.setConnectedList(null);
                     responceBean.setErrorMsg("no error msg");

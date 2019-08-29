@@ -7,8 +7,8 @@ import com.alcatel.wifilink.R;
 import com.alcatel.wifilink.root.ue.frag.DataPlanInitFrag;
 import com.alcatel.wifilink.root.ue.frag.GuideFrag;
 import com.alcatel.wifilink.root.ue.frag.LoginFrag;
-import com.alcatel.wifilink.root.ue.frag.LoginFrag_mw;
-import com.alcatel.wifilink.root.ue.frag.LoginFrag_mw_device;
+import com.alcatel.wifilink.root.ue.frag.Login_mw_Frag;
+import com.alcatel.wifilink.root.ue.frag.Login_mw_dev_Frag;
 import com.alcatel.wifilink.root.ue.frag.PinInitFrag;
 import com.alcatel.wifilink.root.ue.frag.PukInitFrag;
 import com.alcatel.wifilink.root.ue.frag.RefreshFrag;
@@ -31,8 +31,8 @@ public class SplashActivity extends RootMAActivity {
             SplashFrag.class,// 启动页 -1
             RefreshFrag.class,// 断连页 -2
             LoginFrag.class,// 登陆页 -3
-            LoginFrag_mw.class,// 登陆页(MW系列) -4
-            LoginFrag_mw_device.class,// 登陆设备页(MW系列) -5
+            Login_mw_Frag.class,// 登陆页(MW系列) -4
+            Login_mw_dev_Frag.class,// 登陆设备页(MW系列) -5
             GuideFrag.class,// 向导页 -6
             DataPlanInitFrag.class,// 流量设置页 -7
             WanInitFrag.class,// WAN初始设置页 -8

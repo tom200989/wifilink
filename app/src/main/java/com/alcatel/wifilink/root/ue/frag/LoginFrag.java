@@ -425,7 +425,7 @@ public class LoginFrag extends RootFrag {
         String cacheDevice = ShareUtils.get(RootCons.DEVICE_NAME, RootCons.DEVICE_NAME_DEFAULT);
         boolean isMWDev = RootUtils.isMWDEV(cacheDevice);
         if (isMWDev) {
-            toFrag(getClass(), LoginFrag_mw.class, null, true);
+            toFrag(getClass(), Login_mw_Frag.class, null, true);
         } else {
             killAllActivitys();
             kill();
