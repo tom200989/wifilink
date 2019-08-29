@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.text.TextUtils;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.Button;
@@ -236,6 +237,7 @@ public class mainFrag extends BaseFrag {
         xGetConnectionStateHelper.setOnDisconnectedListener(() -> {
             ConnectHelper xConnectHelper = new ConnectHelper();
             xConnectHelper.setOnConnectFailedListener(() -> toast(R.string.hh70_month_data_limit, 5000));
+            xConnectHelper.setOnConnectSuccessListener(() -> Log.i("ma_mode", "Disconnected: "));
             xConnectHelper.connect();
         });
         xGetConnectionStateHelper.setOnDisConnectingListener(() -> {
@@ -416,6 +418,7 @@ public class mainFrag extends BaseFrag {
         GetSystemStatusHelper xGetSystemStatusHelper = new GetSystemStatusHelper();
         xGetSystemStatusHelper.setOnGetSystemStatusSuccessListener(this::showBatteryAndSignalUi);
         xGetSystemStatusHelper.setOnGetSystemStatusFailedListener(() -> showBatteryAndSignalUi(null));
+        xGetSystemStatusHelper.getSystemStatus();
     }
 
     /**

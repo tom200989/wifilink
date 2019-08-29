@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.Context;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
@@ -17,9 +18,9 @@ import com.p_xhelper_smart.p_xhelper_smart.impl.XResponceBody;
 import com.p_xhelper_smart.p_xhelper_smart.impl.XRestoreCallback;
 import com.p_xhelper_smart.p_xhelper_smart.utils.HostnameUtils;
 import com.p_xhelper_smart.p_xhelper_smart.utils.Logg;
-import com.p_xhelper_smart.p_xhelper_smart.utils.XPerfrence;
 import com.p_xhelper_smart.p_xhelper_smart.utils.SmartUtils;
 import com.p_xhelper_smart.p_xhelper_smart.utils.XCons;
+import com.p_xhelper_smart.p_xhelper_smart.utils.XPerfrence;
 
 import org.xutils.common.Callback;
 import org.xutils.http.HttpMethod;
@@ -225,6 +226,7 @@ public class XSmart<T> {
                         if (fwError != null & count >= 0 & count < MAX_COUNT) {
                             request(type, callback);
                             count++;
+                            Log.i("ma_mode", "method: " + method + ";     count: " + count);
                         } else {
                             count = 0;
                             if (fwError != null) {
@@ -256,7 +258,6 @@ public class XSmart<T> {
                         // 移除请求连接体
                         cancelList.remove(requestCancelable);
                         if (count == 0 | count == MAX_COUNT) {
-                            count = 0;
                             printFinish();
                             callback.finish();
                         }

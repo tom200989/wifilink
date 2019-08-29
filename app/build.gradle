@@ -82,7 +82,7 @@ dependencies {
     // rootMAhiber -- 数字进度条
     api(name: 'ma_numberbar', ext: 'aar')
     // rootMAhiber -- freesharing
-    api(name: 'ma_freesharing', ext: 'aar')
+    api(name: 'ma_frees', ext: 'aar')
     // rootMAhiber -- 网络请求xutils(feedback用到)
     api(name: 'ma_xutils', ext: 'aar')
     // rootMAhiber -- wifilink网络helper

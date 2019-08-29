@@ -1,5 +1,6 @@
 package com.alcatel.wifilink.root.widget;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.util.AttributeSet;
@@ -27,12 +28,14 @@ public class HH70_CountDownWidget extends RelativeLayout {
     public HH70_CountDownWidget(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         inflate = inflate(context, R.layout.hh70_widget_countdown, this);
-        findViewById(R.id.iv_count_bg).setOnClickListener(null);
+        inflate.findViewById(R.id.iv_count_bg).setOnClickListener(null);
         ctv = inflate.findViewById(R.id.ctv_pop_upgrade);
-        ctv.setCount(180);
-        ctv.setTopColor(Color.parseColor("#009AFF"));
-        ctv.setBottomColor(Color.parseColor("#009AFF"));
-        ctv.run();
+        ((Activity)context).runOnUiThread(() -> {
+            ctv.setCount(180);
+            ctv.setTopColor(Color.parseColor("#009AFF"));
+            ctv.setBottomColor(Color.parseColor("#009AFF"));
+            ctv.run();
+        });
     }
 
     public CountDownWidget getCountDownText() {

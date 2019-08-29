@@ -51,6 +51,8 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+        
+        <!-- SharingFileActivity -->
 
         <!-- 调用本地相册 -->
         <activity

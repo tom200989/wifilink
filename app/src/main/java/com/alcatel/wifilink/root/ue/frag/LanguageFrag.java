@@ -4,6 +4,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.alcatel.wifilink.R;
@@ -24,7 +25,7 @@ import butterknife.BindView;
 public class LanguageFrag extends BaseFrag {
 
     @BindView(R.id.tv_language_back)
-    TextView tvLanguageBack;
+    ImageView tvLanguageBack;
     @BindView(R.id.tv_language_done)
     TextView tvLanguageDone;
     @BindView(R.id.listview_language)

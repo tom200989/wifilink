@@ -2,9 +2,11 @@ package com.alcatel.wifilink.root.ue.activity;
 
 import android.os.Bundle;
 import android.view.MotionEvent;
+import android.view.View;
 
 import com.alcatel.wifilink.BuildConfig;
 import com.alcatel.wifilink.R;
+import com.alcatel.wifilink.root.bean.TabBean;
 import com.alcatel.wifilink.root.helper.GetSMSUnreadHelper;
 import com.alcatel.wifilink.root.ue.frag.AboutFrag;
 import com.alcatel.wifilink.root.ue.frag.DeviceBlockFrag;
@@ -33,6 +35,7 @@ import com.alcatel.wifilink.root.ue.frag.mainFrag;
 import com.alcatel.wifilink.root.widget.HH70_HomeTabWidget;
 import com.hiber.bean.RootProperty;
 import com.hiber.hiber.RootMAActivity;
+import com.hiber.impl.RootEventListener;
 import com.hiber.tools.TimerHelper;
 import com.p_xhelper_smart.p_xhelper_smart.bean.GetLoginStateBean;
 import com.p_xhelper_smart.p_xhelper_smart.bean.GetSimStatusBean;
@@ -88,7 +91,20 @@ public class HomeActivity extends RootMAActivity {
     @Override
     public RootProperty initProperty() {
         startHeartTimer();// 启动心跳检测定时器
+        initEvent();
         return getProperty();
+    }
+
+    private void initEvent() {
+        // 底部栏显隐监听
+        setEventListener(TabBean.class, new RootEventListener<TabBean>() {
+            @Override
+            public void getData(TabBean tabBean) {
+                if (tabBean != null) {
+                    wdTab.setVisibility(tabBean.isShowTab() ? View.VISIBLE : View.GONE);
+                }
+            }
+        });
     }
 
     @Override
