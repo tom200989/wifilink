@@ -706,7 +706,7 @@
                     android:layout_height="@dimen/dimen_0_5dip"
                     android:layout_marginStart="@dimen/dimen_12dip"
                     android:background="@color/main_bottom_divider"
-                    android:contentDescription="@string/hh70_setting_account"
+                    android:contentDescription="@string/hh70_change_psd"
                     android:textDirection="locale" />
 
                 <com.hiber.tools.layout.PercentLinearLayout
@@ -738,7 +738,7 @@
                     android:layout_height="@dimen/dimen_0_5dip"
                     android:layout_marginStart="@dimen/dimen_12dip"
                     android:background="@color/main_bottom_divider"
-                    android:contentDescription="@string/hh70_setting_account"
+                    android:contentDescription="@string/hh70_change_psd"
                     android:textDirection="locale" />
 
                 <com.hiber.tools.layout.PercentLinearLayout
@@ -770,7 +770,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/dimen_0_5dip"
                     android:background="@color/main_bottom_divider"
-                    android:contentDescription="@string/hh70_setting_account"
+                    android:contentDescription="@string/hh70_change_psd"
                     android:textDirection="locale" />
 
                 <CheckBox

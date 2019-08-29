@@ -567,7 +567,7 @@ public class SettingNetworkFrag extends BaseFrag {
                 });
                 xGetSimStatusHelper.getSimStatus();
             } else {
-                toast(R.string.hh70_connect_failed, 3000);
+                toast(R.string.hh70_cant_connect, 3000);
             }
         });
         xGetLoginStateHelper.getLoginState();
@@ -605,21 +605,21 @@ public class SettingNetworkFrag extends BaseFrag {
                     xSetConnectionSettingsHelper.setConnectionSettings(connectMode, RoamingConnect, pdpType, connOffTime);
 
                 });
-                xGetConnectionSettingsHelper.setOnGetConnectionSettingsFailedListener(() -> toast(R.string.hh70_connect_failed, 3000));
+                xGetConnectionSettingsHelper.setOnGetConnectionSettingsFailedListener(() -> toast(R.string.hh70_cant_connect, 3000));
                 xGetConnectionSettingsHelper.getConnectionSettings();
             } else {
                 wdLoad.setGone();
-                toast(R.string.hh70_insert_sim_or_wan, 3000);
+                toast(R.string.hh70_try_again_insert_sim, 3000);
             }
         });
-        xGetSimStatusHelper.setOnGetSimStatusFailedListener(() -> toast(R.string.hh70_connect_failed, 3000));
+        xGetSimStatusHelper.setOnGetSimStatusFailedListener(() -> toast(R.string.hh70_cant_connect, 3000));
         xGetSimStatusHelper.getSimStatus();
     }
 
     private void roamError() {
         isRoaming = !isRoaming;
         wdLoad.setGone();
-        toast(R.string.hh70_connect_failed, 3000);
+        toast(R.string.hh70_cant_connect, 3000);
     }
 
     private void showSetmonthlyDataPlanDialog() {
@@ -636,7 +636,7 @@ public class SettingNetworkFrag extends BaseFrag {
                 mUsageSetting.setMonthlyPlan((Long.parseLong(mothlyplan) * dataPlanByte1));
                 setUsageSetting(mUsageSetting);
             } else {
-                toast(R.string.hh70_input_data_tips, 3000);
+                toast(R.string.hh70_input_data_1024, 3000);
             }
         });
         long dataPlanByte = getDataPlanByte(mUsageSetting.getUnit());
@@ -683,9 +683,9 @@ public class SettingNetworkFrag extends BaseFrag {
         ok_settingPin.setOnClickListener(v -> {
             String edContent = RootUtils.getEDText(et_settingPin);
             if (TextUtils.isEmpty(edContent)) {
-                toast(R.string.hh70_not_empty, 3000);
+                toast(R.string.hh70_not_permit_empty, 3000);
             } else if (edContent.length() < 4 || edContent.length() > 8) {
-                toast(R.string.hh70_the_pin_code_tips, 3000);
+                toast(R.string.hh70_the_pin_code_should_4, 3000);
             } else {
                 RootUtils.hideKeyBoard(activity);
                 changePinState(edContent, mSimPinCompat.isChecked() ? 0 : 1);
@@ -729,7 +729,7 @@ public class SettingNetworkFrag extends BaseFrag {
             return;
         }
         if (confirmPin.length() < 4 || confirmPin.length() > 8) {
-            toast(R.string.hh70_the_pin_code_tips, 3000);
+            toast(R.string.hh70_the_pin_code_should_4, 3000);
             return;
         }
 

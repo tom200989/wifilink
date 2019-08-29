@@ -104,7 +104,7 @@ public class EtherWANFrag extends BaseFrag {
             if (mConnectOrDisconnect.getCurrentTextColor() == getRootColor(R.color.white)) {
                 connectWan();
             } else {
-                toast(R.string.hh70_switch_connection_tips, 3000);
+                toast(R.string.hh70_switch_other_connect_mode, 3000);
             }
         });
     }
@@ -116,7 +116,7 @@ public class EtherWANFrag extends BaseFrag {
         int staticMtu = Integer.valueOf(TextUtils.isEmpty(RootUtils.getEDText(mStaticIpMtu)) ? "1500" : RootUtils.getEDText(mStaticIpMtu));
         if (flag == GetWanSettingsBean.CONS_PPPOE) {
             if (pppoeMtu < 576 || pppoeMtu > 1492) {
-                String content = getString(R.string.hh70_mtu_not_match).replace("1500", "1492");
+                String content = getString(R.string.hh70_mtu_between_576).replace("1500", "1492");
                 toast(content, 3000);
                 return;
             }
@@ -131,48 +131,48 @@ public class EtherWANFrag extends BaseFrag {
 
             // 非空判断
             if (RootUtils.isEdEmpty(mStaticIpAddress, mStaticIpSubnetMask, mStaticIpDefaultGateway, mStaticIpPreferredDns, mStaticIpSecondaryDns)) {
-                toast(getString(R.string.hh70_not_empty), 3000);
+                toast(getString(R.string.hh70_not_permit_empty), 3000);
                 return;
             }
 
             // static ip_phone
             if (!RootUtils.isAllMatch(str_staticIp)) {
-                String ipValid = getString(R.string.hh70_ip_address) + "\n" + getString(R.string.hh70_connect_failed);
+                String ipValid = getString(R.string.hh70_ip_address) + "\n" + getString(R.string.hh70_cant_connect);
                 toast(ipValid, 3000);
                 return;
             }
 
             // subnet mask
             if (!RootUtils.isAllMatch(str_subnetMask)) {
-                String subnetValid = getString(R.string.hh70_subnet_mask) + "\n" + getString(R.string.hh70_connect_failed);
+                String subnetValid = getString(R.string.hh70_subnet_mask) + "\n" + getString(R.string.hh70_cant_connect);
                 toast(subnetValid, 3000);
                 return;
             }
 
             // default gate way
             if (!RootUtils.isAllMatch(str_defaultGateway)) {
-                String defaultGateway = getString(R.string.hh70_default_gateway) + "\n" + getString(R.string.hh70_connect_failed);
+                String defaultGateway = getString(R.string.hh70_default_gateway) + "\n" + getString(R.string.hh70_cant_connect);
                 toast(defaultGateway, 3000);
                 return;
             }
 
             // preferred dns
             if (!RootUtils.isAllMatch(str_preferredDns)) {
-                String preferred_dns = getString(R.string.hh70_prefer_dns) + "\n" + getString(R.string.hh70_connect_failed);
+                String preferred_dns = getString(R.string.hh70_prefer_dns) + "\n" + getString(R.string.hh70_cant_connect);
                 toast(preferred_dns, 3000);
                 return;
             }
 
             // secondary dns
             if (!RootUtils.isAllMatch(str_secondaryDns)) {
-                String secondary_dns = getString(R.string.hh70_second_dns) + "\n" + getString(R.string.hh70_connect_failed);
+                String secondary_dns = getString(R.string.hh70_second_dns) + "\n" + getString(R.string.hh70_cant_connect);
                 toast(secondary_dns, 3000);
                 return;
             }
 
 
             if (staticMtu < 576 || staticMtu > 1500) {
-                toast(getString(R.string.hh70_mtu_not_match), 3000);
+                toast(getString(R.string.hh70_mtu_between_576), 3000);
                 return;
             }
             mWanSettingsParams.setMtu(staticMtu);

@@ -55,12 +55,12 @@ public class ChangePinHelper {
         boolean refreshLengthNotMatch = refreshCode.length() < 4 || refreshCode.length() > 8;
         boolean confirmLengthNotMatch = confirmCode.length() < 4 || confirmCode.length() > 8;
         if (currentLengthNotMatch || refreshLengthNotMatch || confirmLengthNotMatch) {
-            toast(R.string.hh70_the_pin_code_tips);
+            toast(R.string.hh70_the_pin_code_should_4);
             return;
         }
 
         if (!refreshCode.equals(confirmCode)) {
-            toast(R.string.hh70_pin_no_same);
+            toast(R.string.hh70_confirm_pin_same);
             return;
         }
 
@@ -72,7 +72,7 @@ public class ChangePinHelper {
                 toast(R.string.hh70_success);
                 changePinSuccessNext(null);
             });
-            xChangePinCodeHelper.setOnChangePinCodeFailedListener(() -> toast(R.string.hh70_sim_unlocked_failed));
+            xChangePinCodeHelper.setOnChangePinCodeFailedListener(() -> toast(R.string.hh70_cant_unlock_pin));
             xChangePinCodeHelper.changePinCode(refreshCode, currentCode);
         });
         xUnlockPinHelper.setOnUnlockPinFailedListener(() -> toast(R.string.hh70_fail));
@@ -93,7 +93,7 @@ public class ChangePinHelper {
             if (result.getSIMState() == GetSimStatusBean.CONS_PIN_REQUIRED) {
                 int pinRemainingTimes = result.getPinRemainingTimes();
                 if (pinRemainingTimes >= 1) {
-                    String tip = pinRemainingTimes + " " + activity.getString(R.string.hh70_sim_unlocked_attempts);
+                    String tip = pinRemainingTimes + " " + activity.getString(R.string.hh70_attempts_remaing);
                     toast(tip);
                 } else {
                     toast(R.string.hh70_pin_timeout);

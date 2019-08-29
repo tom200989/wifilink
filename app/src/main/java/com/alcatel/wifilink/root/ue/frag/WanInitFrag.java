@@ -250,19 +250,19 @@ public class WanInitFrag extends BaseFrag {
             case GetWanSettingsBean.CONS_PPPOE:
                 // 空值判断
                 if (RootUtils.isEdEmpty(etPppoeAccount, etPppoePsd, etPppoeMtu)) {
-                    toast(R.string.hh70_not_empty, 5000);
+                    toast(R.string.hh70_not_permit_empty, 5000);
                     return;
                 }
                 // MTU匹配判断
                 String mtu = RootUtils.getEDText(etPppoeMtu);
                 if (mtu.startsWith("0")) {// 是否为0开头
-                    toast(R.string.hh70_mtu_not_match, 5000);
+                    toast(R.string.hh70_mtu_between_576, 5000);
                     return;
                 }
                 // MTU取值范围判断
                 int mtuValue = Integer.valueOf(mtu);
                 if (mtuValue < 576 | mtuValue > 1492) {
-                    toast(R.string.hh70_mtu_not_match, 5000);
+                    toast(R.string.hh70_mtu_between_576, 5000);
                     return;
                 }
                 break;
@@ -271,7 +271,7 @@ public class WanInitFrag extends BaseFrag {
                 String ipaddress = RootUtils.getEDText(etStaticIpaddress);
                 String subnetMask = RootUtils.getEDText(etStaticSubnet);
                 if (RootUtils.isEmptys(ipaddress, subnetMask)) {
-                    toast(R.string.hh70_not_empty, 5000);
+                    toast(R.string.hh70_not_permit_empty, 5000);
                     return;
                 }
 
@@ -280,12 +280,12 @@ public class WanInitFrag extends BaseFrag {
                 boolean subnet_super_match = RootUtils.isAllMatch(subnetMask);
 
                 if (!ip_super_match) {
-                    String ipValid = getString(R.string.hh70_ip_address) + "\n" + getString(R.string.hh70_connect_failed);
+                    String ipValid = getString(R.string.hh70_ip_address) + "\n" + getString(R.string.hh70_cant_connect);
                     toast(ipValid, 5000);
                     return;
                 }
                 if (!subnet_super_match) {
-                    String subnetValid = getString(R.string.hh70_subnet_mask) + "\n" + getString(R.string.hh70_connect_failed);
+                    String subnetValid = getString(R.string.hh70_subnet_mask) + "\n" + getString(R.string.hh70_cant_connect);
                     toast(subnetValid, 5000);
                     return;
                 }
@@ -381,7 +381,7 @@ public class WanInitFrag extends BaseFrag {
         wdLoad.setGone();
         rlSuccessful.setVisibility(View.GONE);
         rlFailed.setVisibility(View.VISIBLE);// 显示失败状态
-        toast(R.string.hh70_connect_failed, 5000);
+        toast(R.string.hh70_cant_connect, 5000);
     }
 
     /**

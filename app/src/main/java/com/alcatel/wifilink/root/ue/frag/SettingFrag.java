@@ -365,7 +365,7 @@ public class SettingFrag extends BaseFrag {
         fuh.setOnLoginOutListener(() -> toFragActivity(getClass(), SplashActivity.class, LoginFrag.class, null, true));
         fuh.setOnErrorListener(() -> {
             count = 0;
-            toast(R.string.hh70_connect_failed);
+            toast(R.string.hh70_cant_connect);
             isDownloading = false;
         });
         // 触发成功
@@ -534,7 +534,7 @@ public class SettingFrag extends BaseFrag {
         stopDownTimerAndPop();
         // 3.提示
         if (resId == -1) {
-            toast(R.string.hh70_connect_failed);
+            toast(R.string.hh70_cant_connect);
         } else {
             toast(resId);
         }
@@ -626,7 +626,7 @@ public class SettingFrag extends BaseFrag {
     }
 
     private void showLoadingDialog() {
-        loadWidget.setLoadTv(R.string.hh70_back_up_progress);
+        loadWidget.setLoadTv(R.string.hh70_wait_5_60);
         loadWidget.setVisibles();
     }
 

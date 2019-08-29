@@ -563,7 +563,7 @@ public class WifiFrag extends BaseFrag {
 
         if (isPasswordMatch) {
             String des1 = getString(R.string.hh70_change_wifi);
-            String des2 = getString(R.string.hh70_list_will_restarted);
+            String des2 = getString(R.string.hh70_list_will_restart);
             String des = des1 + "\n" + des2;
             dgWifiSettingrxOk.setVisibility(View.VISIBLE);
             dgWifiSettingrxOk.setTitle(R.string.hh70_restart);

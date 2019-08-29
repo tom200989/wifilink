@@ -72,7 +72,7 @@ public class MobileDataHelper {
         });
 
         xGetLoginStateHelper.setOnGetLoginStateFailedListener(() -> {
-            toast(R.string.hh70_connect_failed);
+            toast(R.string.hh70_cant_connect);
             to(RootCons.ACTIVITYS.SPLASH_AC,RootCons.FRAG.REFRESH_FR);
         });
         xGetLoginStateHelper.getLoginState();
@@ -84,7 +84,7 @@ public class MobileDataHelper {
     private void getConnectState() {
         // 2.获取连接状态(断连--> 连接,连接--> 断连)
         GetConnectionStateHelper xGetConnectionStateHelper = new GetConnectionStateHelper();
-        xGetConnectionStateHelper.setOnGetConnectionStateFailedListener(() -> toast(R.string.hh70_connect_failed));
+        xGetConnectionStateHelper.setOnGetConnectionStateFailedListener(() -> toast(R.string.hh70_cant_connect));
         xGetConnectionStateHelper.setOnDisConnectingListener(() -> toast(R.string.hh70_disconn_try_again));
         xGetConnectionStateHelper.setOnDisconnectedListener(this::toConn);
         xGetConnectionStateHelper.setOnConnectingListener(() -> toast(R.string.hh70_connecting));
@@ -113,10 +113,10 @@ public class MobileDataHelper {
     private void toDisConn() {
         ConnectSettingHelper csDisconnhelper = new ConnectSettingHelper();
         // 注册产生的错误
-        csDisconnhelper.setOnRegisterErrorListener(attr -> toast(R.string.hh70_connect_failed));
-        csDisconnhelper.setOnRegisterResultErrorListener(attr -> toast(R.string.hh70_connect_failed));
-        csDisconnhelper.setOnRegisteFailedListener(attr -> toast(R.string.hh70_connect_failed));
-        csDisconnhelper.setOnNotRegisterListener(attr -> toast(R.string.hh70_connect_failed));
+        csDisconnhelper.setOnRegisterErrorListener(attr -> toast(R.string.hh70_cant_connect));
+        csDisconnhelper.setOnRegisterResultErrorListener(attr -> toast(R.string.hh70_cant_connect));
+        csDisconnhelper.setOnRegisteFailedListener(attr -> toast(R.string.hh70_cant_connect));
+        csDisconnhelper.setOnNotRegisterListener(attr -> toast(R.string.hh70_cant_connect));
         csDisconnhelper.setOnRegistingListener(attr -> toast(R.string.hh70_connecting));
         // 断连成功
         csDisconnhelper.setOnDisConnSuccessListener(this::disConnSuccessNext);
@@ -131,10 +131,10 @@ public class MobileDataHelper {
     private void toConn() {
         ConnectSettingHelper csConnhelper = new ConnectSettingHelper();
         // 注册产生的错误
-        csConnhelper.setOnRegisterErrorListener(attr -> toast(R.string.hh70_connect_failed));
-        csConnhelper.setOnRegisterResultErrorListener(attr -> toast(R.string.hh70_connect_failed));
-        csConnhelper.setOnRegisteFailedListener(attr -> toast(R.string.hh70_connect_failed));
-        csConnhelper.setOnNotRegisterListener(attr -> toast(R.string.hh70_connect_failed));
+        csConnhelper.setOnRegisterErrorListener(attr -> toast(R.string.hh70_cant_connect));
+        csConnhelper.setOnRegisterResultErrorListener(attr -> toast(R.string.hh70_cant_connect));
+        csConnhelper.setOnRegisteFailedListener(attr -> toast(R.string.hh70_cant_connect));
+        csConnhelper.setOnNotRegisterListener(attr -> toast(R.string.hh70_cant_connect));
         csConnhelper.setOnRegistingListener(attr -> toast(R.string.hh70_connecting));
         // 连接成功
         csConnhelper.setOnConnSuccessListener(this::connSuccessNext);
@@ -148,7 +148,7 @@ public class MobileDataHelper {
      */
     private void checkMonthly() {
         UsageHelper usageHelper = new UsageHelper(context);
-        usageHelper.setOnGetUsageErrorListener(() -> toast(R.string.hh70_connect_failed));
+        usageHelper.setOnGetUsageErrorListener(() -> toast(R.string.hh70_cant_connect));
         usageHelper.setOnOverMonthlyListener(() -> toast(R.string.hh70_month_data_limit));// 超出流量
         usageHelper.getOverUsage();
     }

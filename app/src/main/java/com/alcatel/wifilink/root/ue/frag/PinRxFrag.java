@@ -159,7 +159,7 @@ public class PinRxFrag extends BaseFrag {
         }
         // 位数判断
         if (pin.length() < 4 | pin.length() > 8) {
-            toast(R.string.hh70_the_pin_code_tips, 2000);
+            toast(R.string.hh70_the_pin_code_should_4, 2000);
             return;
         }
         // 请求

@@ -293,7 +293,7 @@ public class WifiExtenderRxFrag extends BaseFrag {
                         break;
                     case COMPLETE:
                         // 2.1.设置描述
-                        tvNotConnectPanelDes.setText(getString(R.string.hh70_networks_will_joined));
+                        tvNotConnectPanelDes.setText(getString(R.string.hh70_networks_will_join));
                         tvNotConnectTip.setVisibility(View.GONE);
                         ivPanelSocket.setImageDrawable(button_on);
                         getCurrentState();/* 2.获取当前是否有连接的热点 */
@@ -306,7 +306,7 @@ public class WifiExtenderRxFrag extends BaseFrag {
             }
         });
         getSettingsHelper.setOnGetExtenderFailedListener(() -> {
-            toast(R.string.hh70_connect_failed, 2000);
+            toast(R.string.hh70_cant_connect, 2000);
             disconnUi();
         });
         getSettingsHelper.get();
@@ -334,7 +334,7 @@ public class WifiExtenderRxFrag extends BaseFrag {
             }
         });
         getCurrentStatusHelper.setOnExtenderGetWIFIExtenderCurrentStatusFailedListener(() -> {
-            toast(R.string.hh70_connect_failed, 2000);
+            toast(R.string.hh70_cant_connect, 2000);
             disconnUi();
         });
         getCurrentStatusHelper.get();
@@ -400,7 +400,7 @@ public class WifiExtenderRxFrag extends BaseFrag {
             widgetWifiExtenderWait.setVisibility(View.GONE);
             tvScan.setVisibility(View.VISIBLE);
             rcvWifiExtenderAvailableNetwork.setVisibility(View.GONE);
-            toast(R.string.hh70_connect_failed, 2000);
+            toast(R.string.hh70_cant_connect, 2000);
         });
         xSearchHotspotHelper.setOnFwErrorListener(() -> {
             widgetWifiExtenderWait.setVisibility(View.GONE);

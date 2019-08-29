@@ -259,7 +259,7 @@ public class SetDataPlanFrag extends BaseFrag {
             loadWidget.setGone();
         });
         usageSettingHelper.setOnSetUsageSettingFailedListener(() -> {
-            toast(R.string.hh70_connect_failed);
+            toast(R.string.hh70_cant_connect);
             loadWidget.setGone();
         });
         usageSettingHelper.setUsageSetting(tempSetting);
@@ -285,7 +285,7 @@ public class SetDataPlanFrag extends BaseFrag {
         // 范围鉴定
         int num = Integer.valueOf(content);
         if (num < 0 || num > 1024) {
-            toast(R.string.hh70_input_data_tips);
+            toast(R.string.hh70_input_data_1024);
             return;
         }
         // 请求提交
@@ -302,7 +302,7 @@ public class SetDataPlanFrag extends BaseFrag {
                 loadWidget.setGone();
             });
             ush1.setOnSetUsageSettingFailedListener(() -> {
-                toast(R.string.hh70_connect_failed);
+                toast(R.string.hh70_cant_connect);
                 loadWidget.setGone();
             });
             ush1.setUsageSetting(attr);

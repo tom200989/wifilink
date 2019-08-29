@@ -111,7 +111,7 @@ public class PinStatuHelper {
         });
 
         xGetLoginStateHelper.setOnGetLoginStateFailedListener(() -> {
-            toast(R.string.hh70_connect_failed);
+            toast(R.string.hh70_cant_connect);
             to(RootCons.ACTIVITYS.SPLASH_AC, RootCons.FRAG.REFRESH_FR);
         });
         xGetLoginStateHelper.getLoginState();

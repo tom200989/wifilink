@@ -27,7 +27,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:text="@string/hh70_smsdetail_tryagain"
+            android:text="@string/hh70_you_msg_not_send"
             android:textColor="@color/mg_blue"
             app:layout_marginTopPercent="18.18%h"
             app:layout_textSizePercent="11%h" />
@@ -78,7 +78,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="@string/hh70_smsdetail_try_confirm"
+                android:text="@string/hh70_try_again"
                 android:textColor="@color/sms_detail_tryagain"
                 app:layout_textSizePercent="35%h"/>
         </com.hiber.tools.layout.PercentLinearLayout>

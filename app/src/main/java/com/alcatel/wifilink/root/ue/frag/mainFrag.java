@@ -353,7 +353,7 @@ public class mainFrag extends BaseFrag {
                 toConnect();
             }
         });
-        getUsageSettingsHelper.setOnGetUsageSettingsFailedListener(() -> toast(R.string.hh70_connect_failed, 5000));
+        getUsageSettingsHelper.setOnGetUsageSettingsFailedListener(() -> toast(R.string.hh70_cant_connect, 5000));
         getUsageSettingsHelper.getUsageSetting();
     }
 

@@ -173,13 +173,13 @@ public class HomeActivity extends RootMAActivity {
                             break;
                     }
                 });
-                xGetSimStatusHelper.setOnGetSimStatusFailedListener(() -> toast(R.string.hh70_check_sim, 5000));
+                xGetSimStatusHelper.setOnGetSimStatusFailedListener(() -> toast(R.string.hh70_check_sim_cost, 5000));
                 xGetSimStatusHelper.getSimStatus();
             } else {
-                toast(R.string.hh70_login_failed, 5000);
+                toast(R.string.hh70_cant_login, 5000);
             }
         });
-        xGetLoginStateHelper.setOnGetLoginStateFailedListener(() -> toast(R.string.hh70_check_sim, 5000));
+        xGetLoginStateHelper.setOnGetLoginStateFailedListener(() -> toast(R.string.hh70_check_sim_cost, 5000));
         xGetLoginStateHelper.getLoginState();
     }
 

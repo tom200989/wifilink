@@ -254,10 +254,10 @@ public class SmsNewFrag extends BaseFrag {
                 toast(R.string.hh70_send_sms_failed, 2000);
             });
             xSendSMSHelper.setOnLastMessageListener(() -> {
-                toast(R.string.hh70_fail_lastsending, 2000);
+                toast(R.string.hh70_last_msg_sending, 2000);
             });
             xSendSMSHelper.setOnSpaceFullListener(() -> {
-                toast(R.string.hh70_fail_store_full, 2000);
+                toast(R.string.hh70_store_full, 2000);
             });
             xSendSMSHelper.sendSms(xSendSmsParam);
 
@@ -307,7 +307,7 @@ public class SmsNewFrag extends BaseFrag {
                 getSendSMSResult();
             } else if (sendStatus == GetSendSMSResultBean.CONS_SEND_STATUS_FAIL_MEMORY_FULL) {
                 loadWidget.setVisibility(View.GONE);
-                toast(R.string.hh70_fail_memory_full, 2000);
+                toast(R.string.hh70_memory_full, 2000);
                 toFrag(getClass(), SmsFrag.class, null, false);
             } else if (sendStatus == GetSendSMSResultBean.CONS_SEND_STATUS_FAIL) {
                 loadWidget.setVisibility(View.GONE);

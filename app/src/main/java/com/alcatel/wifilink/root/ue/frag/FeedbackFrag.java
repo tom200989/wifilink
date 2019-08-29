@@ -260,8 +260,8 @@ public class FeedbackFrag extends BaseFrag {
     private void commit() {
         GetSystemInfoHelper xGetSystemInfoHelper = new GetSystemInfoHelper();
         xGetSystemInfoHelper.setOnGetSystemInfoSuccessListener(result -> toCommitLoginBegin(result));
-        xGetSystemInfoHelper.setOnAppErrorListener(() -> toast(R.string.hh70_connect_failed));
-        xGetSystemInfoHelper.setOnFwErrorListener(() -> toast(R.string.hh70_connect_failed));
+        xGetSystemInfoHelper.setOnAppErrorListener(() -> toast(R.string.hh70_cant_connect));
+        xGetSystemInfoHelper.setOnFwErrorListener(() -> toast(R.string.hh70_cant_connect));
         xGetSystemInfoHelper.getSystemInfo();
     }
 

@@ -17,7 +17,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginStart="@dimen/dimen_10dip"
-            android:text="@string/hh70_requestType"
+            android:text="@string/hh70_type"
             android:textColor="@color/black"
             app:layout_textSizePercent="35%h" />
 

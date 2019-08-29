@@ -27,11 +27,11 @@ public class SimPinHelper {
 
         // 条件判断
         if (TextUtils.isEmpty(pincode)) {
-            toast(R.string.hh70_not_empty);
+            toast(R.string.hh70_not_permit_empty);
             return;
         }
         if (pincode.length() < 4 || pincode.length() > 8) {
-            toast(R.string.hh70_the_pin_code_tips);
+            toast(R.string.hh70_the_pin_code_should_4);
             return;
         }
 
@@ -103,7 +103,7 @@ public class SimPinHelper {
             if (result.getSIMState() == GetSimStatusBean.CONS_PIN_REQUIRED || result.getSIMState() == GetSimStatusBean.CONS_SIM_CARD_READY) {
                 int pinRemainingTimes = result.getPinRemainingTimes();
                 if (pinRemainingTimes >= 1) {
-                    String tip = pinRemainingTimes + " " + activity.getString(R.string.hh70_sim_unlocked_attempts);
+                    String tip = pinRemainingTimes + " " + activity.getString(R.string.hh70_attempts_remaing);
                     toast(tip);
                 } else {
                     toast(R.string.hh70_pin_timeout);

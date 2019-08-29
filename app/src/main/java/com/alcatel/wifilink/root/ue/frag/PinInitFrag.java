@@ -79,9 +79,9 @@ public class PinInitFrag extends BaseFrag {
                     tvPinRxTipNum.setTextColor(red_color);
                     tvPinRxTipDes.setTextColor(red_color);
                     if (isRussia) {
-                        tvPinRxTipDes.setText(getString(R.string.hh70_sim_unlocked_attempts));
+                        tvPinRxTipDes.setText(getString(R.string.hh70_attempts_remaing));
                     } else {
-                        String text = getString(R.string.hh70_sim_unlocked_attempts) + " " + remainTimes;
+                        String text = getString(R.string.hh70_attempts_remaing) + " " + remainTimes;
                         tvPinRxTipDes.setText(text);
                     }
                     if (isTaiwan) {
@@ -99,12 +99,12 @@ public class PinInitFrag extends BaseFrag {
                 tvPinRxTipNum.setTextColor(gray_color);
                 tvPinRxTipDes.setTextColor(gray_color);
                 if (isRussia) {
-                    String text = getString(R.string.hh70_sim_unlocked_attempts) + " " + remainTimes;
+                    String text = getString(R.string.hh70_attempts_remaing) + " " + remainTimes;
                     tvPinRxTipDes.setText(text);
                 }
             }
         });
-        xGetSimStatusHelper.setOnGetSimStatusFailedListener(() -> toast(R.string.hh70_connect_failed, 5000));
+        xGetSimStatusHelper.setOnGetSimStatusFailedListener(() -> toast(R.string.hh70_cant_connect, 5000));
         xGetSimStatusHelper.getSimStatus();
     }
 
@@ -180,7 +180,7 @@ public class PinInitFrag extends BaseFrag {
         }
         // 位数判断
         if (pin.length() < 4 | pin.length() > 8) {
-            toast(R.string.hh70_the_pin_code_tips, 5000);
+            toast(R.string.hh70_the_pin_code_should_4, 5000);
             return;
         }
         // 提交请求
@@ -212,14 +212,14 @@ public class PinInitFrag extends BaseFrag {
                             break;
                     }
                 });
-                xGetSimStatusHelper.setOnGetSimStatusFailedListener(() -> toast(R.string.hh70_connect_failed, 5000));
+                xGetSimStatusHelper.setOnGetSimStatusFailedListener(() -> toast(R.string.hh70_cant_connect, 5000));
                 xGetSimStatusHelper.getSimStatus();
             } else {
                 toast(R.string.hh70_log_out, 5000);
                 toFrag(getClass(), LoginFrag.class, null, true);
             }
         });
-        xGetLoginStateHelper.setOnGetLoginStateFailedListener(() -> toast(R.string.hh70_connect_failed, 5000));
+        xGetLoginStateHelper.setOnGetLoginStateFailedListener(() -> toast(R.string.hh70_cant_connect, 5000));
         xGetLoginStateHelper.getLoginState();
 
     }

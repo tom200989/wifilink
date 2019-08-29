@@ -27,7 +27,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="@string/hh70_setting_wifi_extender"
+            android:text="@string/hh70_wifi_extender"
             android:textColor="@color/white"
             app:layout_textSizePercent="30%h" />
 
@@ -84,7 +84,7 @@
                 android:layout_height="match_parent"
                 android:layout_marginStart="@dimen/dimen_8dip"
                 android:gravity="center"
-                android:text="@string/hh70_setting_wifi_extender"
+                android:text="@string/hh70_wifi_extender"
                 android:textColor="@color/black"
                 app:layout_textSizePercent="65%h" />
 

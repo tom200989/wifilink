@@ -30,7 +30,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/colorPrimary"
-            android:text="@string/hh70_back_up_progress"
+            android:text="@string/hh70_wait_5_60"
             android:layout_below="@+id/iv_wd_load"
             android:layout_centerHorizontal="true"
             app:layout_marginBottomPercent="2.8%sh"

@@ -64,7 +64,7 @@
             android:layout_marginStart="@dimen/dimen_10dip"
             android:layout_marginTop="@dimen/dimen_10dip"
             android:layout_toEndOf="@id/tv_pin_rx_tip_num"
-            android:text="@string/hh70_sim_unlocked_attempts"
+            android:text="@string/hh70_attempts_remaing"
             android:textColor="@color/gray"
             app:layout_textSizePercent="2.5%h" />
 

@@ -69,7 +69,7 @@ public abstract class SmsSendHelper {
             } else if (sendStatus == GetSendSMSResultBean.CONS_SEND_STATUS_FAIL_LAST_MSG) {
                 noCostCheck();// 间隔5秒,获取5次,如仍是sending则认为欠费
             } else if (sendStatus == GetSendSMSResultBean.CONS_SEND_STATUS_FAIL_MEMORY_FULL) {
-                ToastTool.show(context, context.getString(R.string.hh70_fail_memory_full));
+                ToastTool.show(context, context.getString(R.string.hh70_memory_full));
             } else if (sendStatus == GetSendSMSResultBean.CONS_SEND_STATUS_FAIL) {
                 ToastTool.show(context, context.getString(R.string.hh70_fail));
             }
@@ -95,7 +95,7 @@ public abstract class SmsSendHelper {
                 getSendStatus();
             }, 5000);
         } else {
-            ToastTool.show(context, context.getString(R.string.hh70_check_sim));
+            ToastTool.show(context, context.getString(R.string.hh70_check_sim_cost));
             done();
         }
     }

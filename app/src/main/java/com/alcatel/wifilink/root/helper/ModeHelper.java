@@ -37,7 +37,7 @@ public class ModeHelper {
                 networkSettingHelper.setOnNormalNetworkListener(this::modeSuccessNext);
                 networkSettingHelper.getNetworkSetting();
             });
-            xSetNetworkSettingsHelper.setOnSetNetworkSettingsFailedListener(() -> toast(R.string.hh70_connect_failed));
+            xSetNetworkSettingsHelper.setOnSetNetworkSettingsFailedListener(() -> toast(R.string.hh70_cant_connect));
             xSetNetworkSettingsHelper.setNetworkSettings(param);
         });
         nshelper.getNetworkSetting();

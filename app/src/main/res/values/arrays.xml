@@ -176,7 +176,7 @@
     <string-array name="feedbacktype">
         <item>@string/hh70_wifi_connection</item>
         <item>@string/hh70_main_sms</item>
-        <item>@string/hh70_signal_for_feedback</item>
+        <item>@string/hh70_signal</item>
         <item>@string/hh70_battery_life</item>
         <item>@string/hh70_mobile_data</item>
         <item>@string/hh70_network</item>

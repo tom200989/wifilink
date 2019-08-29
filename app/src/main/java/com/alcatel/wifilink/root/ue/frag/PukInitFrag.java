@@ -175,11 +175,11 @@ public class PukInitFrag extends BaseFrag {
         }
         // 位数判断
         if (pin.length() < 4 | pin.length() > 8) {
-            toast(R.string.hh70_the_pin_code_tips, 5000);
+            toast(R.string.hh70_the_pin_code_should_4, 5000);
             return;
         }
         if (pinConfirm.length() < 4 | pinConfirm.length() > 8) {
-            toast(R.string.hh70_the_pin_code_tips, 5000);
+            toast(R.string.hh70_the_pin_code_should_4, 5000);
             return;
         }
         // 匹配
@@ -227,7 +227,7 @@ public class PukInitFrag extends BaseFrag {
                 toFrag(getClass(), LoginFrag.class, null, true);
             }
         });
-        xGetLoginStateHelper.setOnGetLoginStateFailedListener(() -> toast(R.string.hh70_connect_failed, 5000));
+        xGetLoginStateHelper.setOnGetLoginStateFailedListener(() -> toast(R.string.hh70_cant_connect, 5000));
         xGetLoginStateHelper.getLoginState();
     }
 

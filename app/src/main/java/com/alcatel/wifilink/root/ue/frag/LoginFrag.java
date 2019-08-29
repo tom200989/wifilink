@@ -149,7 +149,7 @@ public class LoginFrag extends RootFrag {
         // 提示重启设备
         wdResetFactory.setVisibility(View.VISIBLE);
         wdResetFactory.setTitle(R.string.hh70_reset);
-        wdResetFactory.setDes(R.string.hh70_reset_tip);
+        wdResetFactory.setDes(R.string.hh70_operate_reset_restore);
         wdResetFactory.setCancelVisible(false);
         wdResetFactory.setOnOkClickListener(() -> wdResetFactory.setVisibility(View.GONE));
     }
@@ -191,7 +191,7 @@ public class LoginFrag extends RootFrag {
         // 其他原因导致的无法登陆
         loginHelper.setOnLoginFailedListener(() -> {
             wdLoginLoad.setGone();
-            toast(R.string.hh70_login_failed, 5000);
+            toast(R.string.hh70_cant_login, 5000);
         });
         // 超出次数需要重启
         loginHelper.setOnDeviceRebootListener(() -> {
@@ -362,11 +362,11 @@ public class LoginFrag extends RootFrag {
                 xGetSimStatusHelper.setOnGetSimStatusFailedListener(this::to_Wizard_Home);
                 xGetSimStatusHelper.getSimStatus();
             } else {// HH设备
-                toast(R.string.hh70_login_failed, 5000);
+                toast(R.string.hh70_cant_login, 5000);
             }
         });
-        xGetSystemInfoHelper.setOnFwErrorListener(() -> toast(R.string.hh70_login_failed, 5000));
-        xGetSystemInfoHelper.setOnAppErrorListener(() -> toast(R.string.hh70_login_failed, 5000));
+        xGetSystemInfoHelper.setOnFwErrorListener(() -> toast(R.string.hh70_cant_login, 5000));
+        xGetSystemInfoHelper.setOnAppErrorListener(() -> toast(R.string.hh70_cant_login, 5000));
         xGetSystemInfoHelper.getSystemInfo();
     }
 
@@ -403,7 +403,7 @@ public class LoginFrag extends RootFrag {
             String content = "";
             int remainingTimes = getLoginStateBean.getLoginRemainingTimes();
             String noRemain = getString(R.string.hh70_login_used_out);
-            String tips = getString(R.string.hh70_login_psd_error_msg);
+            String tips = getString(R.string.hh70_you_psd_wrong);
             String remainTips = String.format(tips, remainingTimes);
             content = remainingTimes <= 0 ? noRemain : remainTips;
             toast(content, 5000);

@@ -26,7 +26,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="@string/hh70_setting_feedback"
+            android:text="@string/hh70_feedback"
             android:textColor="@color/white"
             app:layout_textSizePercent="30%h" />
 
@@ -41,7 +41,7 @@
         android:background="@color/fffef5"
         android:gravity="center_vertical"
         android:paddingStart="@dimen/dimen_8dip"
-        android:text="@string/hh70_requestType"
+        android:text="@string/hh70_type"
         android:textColor="@color/c_666666"
         app:layout_heightPercent="6%h"
         app:layout_textSizePercent="2.7%h" />
@@ -61,7 +61,7 @@
             android:background="@null"
             android:editable="false"
             android:gravity="center_vertical"
-            android:hint="@string/hh70_select_feedback_type"
+            android:hint="@string/hh70_select_feedback_data"
             android:lines="1"
             android:maxLines="1"
             android:paddingStart="@dimen/dimen_8dip"
@@ -116,7 +116,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@null"
-                android:hint="@string/hh70_enter_feedback_suggestion"
+                android:hint="@string/hh70_enter_feedback_suggest"
                 android:maxLength="2000"
                 android:padding="@dimen/dimen_8dip"
                 android:textColor="@color/black"
@@ -279,7 +279,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/iv_feedback_selectType_submit_ok_pop_logo"
                 android:gravity="center"
-                android:text="@string/hh70_thanks_for_feedback"
+                android:text="@string/hh70_thank_feedback"
                 android:textColor="@color/black"
                 app:layout_marginPercent="5%w"
                 app:layout_textSizePercent="5.3%h" />

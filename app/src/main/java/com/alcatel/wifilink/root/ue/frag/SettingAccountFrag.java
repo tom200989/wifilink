@@ -131,7 +131,7 @@ public class SettingAccountFrag extends BaseFrag {
             }
         });
         xGetSystemInfoHelper.setOnFwErrorListener(() -> encryptAccAndPsd(true));// 1.3.如果获取出错 -- 则一定是需要加密的版本
-        xGetSystemInfoHelper.setOnAppErrorListener(() -> toast(R.string.hh70_connect_failed, 3000));
+        xGetSystemInfoHelper.setOnAppErrorListener(() -> toast(R.string.hh70_cant_connect, 3000));
         xGetSystemInfoHelper.getSystemInfo();
     }
 
@@ -145,9 +145,9 @@ public class SettingAccountFrag extends BaseFrag {
             toast(R.string.hh70_succeed, 3000);
             toFragActivity(getClass(), SplashActivity.class, LoginFrag.class, null, true);
         });
-        xChangePasswordHelper.setOnChangePasswordFailedListener(() -> toast(R.string.hh70_change_password_failed, 3000));// 失败
-        xChangePasswordHelper.setOnCurrentPasswordWrongListener(() -> toast(R.string.hh70_current_password_wrong, 3000));// 当前密码错误
-        xChangePasswordHelper.setOnSameDefaultPasswordListener(() -> toast(R.string.hh70_password_same_default, 3000));// 与默认密码相同
+        xChangePasswordHelper.setOnChangePasswordFailedListener(() -> toast(R.string.hh70_change_psd_fail, 3000));// 失败
+        xChangePasswordHelper.setOnCurrentPasswordWrongListener(() -> toast(R.string.hh70_current_psd_wrong, 3000));// 当前密码错误
+        xChangePasswordHelper.setOnSameDefaultPasswordListener(() -> toast(R.string.hh70_current_psd_same, 3000));// 与默认密码相同
         xChangePasswordHelper.changePassword(currentPassword, password);
     }
 
@@ -183,7 +183,7 @@ public class SettingAccountFrag extends BaseFrag {
             // 1.2.发起修改
             changePassword();
         });
-        loginStateHelper.setOnGetLoginStateFailedListener(() -> toast(R.string.hh70_connect_failed, 3000));
+        loginStateHelper.setOnGetLoginStateFailedListener(() -> toast(R.string.hh70_cant_connect, 3000));
         loginStateHelper.getLoginState();
     }
 

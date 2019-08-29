@@ -48,7 +48,7 @@
             android:layout_marginStart="@dimen/dimen_10dip"
             android:layout_marginTop="@dimen/dimen_10dip"
             android:layout_toEndOf="@id/tv_puk_rx_tip_num"
-            android:text="@string/hh70_sim_unlocked_attempts"
+            android:text="@string/hh70_attempts_remaing"
             android:textColor="@color/gray"
             app:layout_textSizePercent="2.3%h" />
 
@@ -146,7 +146,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/bt_puk_rx_unlock"
             android:layout_centerHorizontal="true"
-            android:text="@string/hh70_puk_remain_1time"
+            android:text="@string/hh70_1_attempt_remain"
             android:textColor="@color/red"
             android:visibility="gone"
             app:layout_marginPercent="10%w"

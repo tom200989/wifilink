@@ -190,7 +190,7 @@ public class HH70ConnectAdapter extends RecyclerView.Adapter<ConnectHolder> {
             notifys(connectModelList);
         });
         xSetConnectedDeviceBlockHelper.setOnSetConnectDeviceBlockFailListener(() -> {
-            ToastTool.show(activity, activity.getString(R.string.hh70_black_failed));
+            ToastTool.show(activity, activity.getString(R.string.hh70_set_device_block));
         });
         xSetConnectedDeviceBlockHelper.setConnectedDeviceBlock(strDeviceName, strMac);
     }

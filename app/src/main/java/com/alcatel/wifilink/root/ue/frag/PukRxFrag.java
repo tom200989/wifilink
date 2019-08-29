@@ -117,7 +117,7 @@ public class PukRxFrag extends BaseFrag {
         });
 
         xGetLoginStateHelper.setOnGetLoginStateFailedListener(() -> {
-            toast(R.string.hh70_connect_failed, 2000);
+            toast(R.string.hh70_cant_connect, 2000);
             to(SplashActivity.class, RefreshFrag.class);
         });
         xGetLoginStateHelper.getLoginState();
@@ -209,11 +209,11 @@ public class PukRxFrag extends BaseFrag {
         }
         // 位数判断
         if (pin.length() < 4 | pin.length() > 8) {
-            toast(R.string.hh70_the_pin_code_tips, 2000);
+            toast(R.string.hh70_the_pin_code_should_4, 2000);
             return;
         }
         if (pinConfirm.length() < 4 | pinConfirm.length() > 8) {
-            toast(R.string.hh70_the_pin_code_tips, 2000);
+            toast(R.string.hh70_the_pin_code_should_4, 2000);
             return;
         }
         // 匹配
@@ -267,7 +267,7 @@ public class PukRxFrag extends BaseFrag {
         });
 
         xGetLoginStateHelper.setOnGetLoginStateFailedListener(() -> {
-            toast(R.string.hh70_connect_failed, 2000);
+            toast(R.string.hh70_cant_connect, 2000);
             to(SplashActivity.class, RefreshFrag.class);
         });
         xGetLoginStateHelper.getLoginState();
@@ -294,7 +294,7 @@ public class PukRxFrag extends BaseFrag {
             toOtherRx();
         });
         xUnlockPukHelper.setOnUnlockPukFailedListener(() -> {
-            toast(R.string.hh70_puk_unlock_failed, 2000);
+            toast(R.string.hh70_cant_unlock_puk, 2000);
             getRemainTime();
         });
         xUnlockPukHelper.unlockPuk(puk, pin);

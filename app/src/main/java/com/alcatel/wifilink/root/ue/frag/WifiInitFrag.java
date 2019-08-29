@@ -394,7 +394,7 @@ public class WifiInitFrag extends BaseFrag {
      */
     private void showResetUi() {
         String des1 = getString(R.string.hh70_change_wifi);
-        String des2 = getString(R.string.hh70_list_will_restarted);
+        String des2 = getString(R.string.hh70_list_will_restart);
         String des = des1 + "\n" + des2;
         wdOk.setVisibility(View.VISIBLE);
         wdOk.setTitle(R.string.hh70_restart);
@@ -528,7 +528,7 @@ public class WifiInitFrag extends BaseFrag {
         // 1.退出登陆
         LogoutHelper xLogouthelper = new LogoutHelper();
         xLogouthelper.setOnLogoutSuccessListener(() -> toFrag(getClass(), LoginFrag.class, null, true));
-        xLogouthelper.setOnLogOutFailedListener(() -> toast(R.string.hh70_connect_failed, 5000));
+        xLogouthelper.setOnLogOutFailedListener(() -> toast(R.string.hh70_cant_connect, 5000));
         xLogouthelper.logout();
     }
 

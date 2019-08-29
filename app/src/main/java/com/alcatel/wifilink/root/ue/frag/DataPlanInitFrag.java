@@ -128,7 +128,7 @@ public class DataPlanInitFrag extends BaseFrag {
      * 对失败的处理
      */
     private void failedHandle() {
-        toast(R.string.hh70_connect_failed, 5000);
+        toast(R.string.hh70_cant_connect, 5000);
         wdLoad.setGone();
         toFrag(getClass(), RefreshFrag.class, null, true);
     }
@@ -156,18 +156,18 @@ public class DataPlanInitFrag extends BaseFrag {
     private void clickDone() {
         // 是否掉线
         if (result == null) {
-            toast(R.string.hh70_connect_failed, 5000);
+            toast(R.string.hh70_cant_connect, 5000);
             return;
         }
         // 空值判断
         if (TextUtils.isEmpty(RootUtils.getEDText(etDataplanRxLimit))) {
-            toast(R.string.hh70_not_empty, 5000);
+            toast(R.string.hh70_not_permit_empty, 5000);
             return;
         }
         // 范围判断
         double limit = Double.valueOf(RootUtils.getEDText(etDataplanRxLimit));
         if (limit < 0 | limit > 1024) {
-            toast(R.string.hh70_input_data_tips, 5000);
+            toast(R.string.hh70_input_data_1024, 5000);
             return;
         }
         // 提交请求
@@ -197,7 +197,7 @@ public class DataPlanInitFrag extends BaseFrag {
                     }
                 });
                 xGetSimStatusHelper.setOnGetSimStatusFailedListener(() -> {
-                    toast(R.string.hh70_connect_failed, 5000);
+                    toast(R.string.hh70_cant_connect, 5000);
                     toFrag(getClass(), RefreshFrag.class, null, true);
                 });
                 xGetSimStatusHelper.getSimStatus();
