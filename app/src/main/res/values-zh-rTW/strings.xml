@@ -337,9 +337,9 @@
     <string name="hh70_others">其他</string>
     <string name="hh70_networks_will_join">將自動加入已知的網路。如果沒有可用的已知網路，則將無法手動選擇</string>
     <string name="hh70_available_networks">可用的網路</string>
-    <string name="hh70_free_sharing_up">免費分享</string>
-    <string name="hh70_return_feedback_title">返回？</string>
-    <string name="hh70_return_feedback_des">將不會儲存資料。\n您確定要返回嗎？</string>
+    <string name="hh70_free_share">免費分享</string>
+    <string name="hh70_return">返回？</string>
+    <string name="hh70_data_not_save">將不會儲存資料。\n您確定要返回嗎？</string>
     <string name="hh70wait_moment_scan">請稍候以掃描</string>
     <string name="hh70_wifi_status_failed">取得目前的 WLAN 擴展器狀態失敗</string>
     <string name="hh70_get_time_failed">取得目前時間和時區失敗</string>

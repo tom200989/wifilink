@@ -338,9 +338,9 @@
     <string name="hh70_others">Others</string>
     <string name="hh70_networks_will_join">known networks will be joined automatically.If no known networks are available,you will have no manually select</string>
     <string name="hh70_available_networks">Available networks</string>
-    <string name="hh70_free_sharing_up">FREE SHARING</string>
-    <string name="hh70_return_feedback_title">Return?</string>
-    <string name="hh70_return_feedback_des">The data will not be saved.\nAre you sure you want to return?</string>
+    <string name="hh70_free_share">FREE SHARING</string>
+    <string name="hh70_return">Return?</string>
+    <string name="hh70_data_not_save">The data will not be saved.\nAre you sure you want to return?</string>
     <string name="hh70wait_moment_scan">Please wait a moment to scan</string>
     <string name="hh70_wifi_status_failed">Get WIFI Extender Current Status failed</string>
     <string name="hh70_get_time_failed">Get Current Time and timezone failed</string>

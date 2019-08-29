@@ -224,7 +224,7 @@
                         android:layout_centerVertical="true"
                         android:layout_marginStart="@dimen/dimen_20dip"
                         android:layout_toEndOf="@id/iv_login_pre_freesharing_logo"
-                        android:text="@string/hh70_free_sharing_up"
+                        android:text="@string/hh70_free_share"
                         android:textColor="@color/text_color"
                         app:layout_textSizePercent="23%h" />
 

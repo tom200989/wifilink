@@ -337,9 +337,9 @@
     <string name="hh70_others">Inne</string>
     <string name="hh70_networks_will_join">Połączenie z rozpoznanymi sieciami nastąpi automatycznie. Jeżeli żadna z rozpoznanych sieci nie jest dostępna, połączenie trzeba nawiązać ręcznie</string>
     <string name="hh70_available_networks">Dostępne sieci</string>
-    <string name="hh70_free_sharing_up">NIEOGRANICZONE UDOSTĘPNIANIE</string>
-    <string name="hh70_return_feedback_title">Powrót?</string>
-    <string name="hh70_return_feedback_des">Dane nie zostaną zapisane.\nPowrót?</string>
+    <string name="hh70_free_share">NIEOGRANICZONE UDOSTĘPNIANIE</string>
+    <string name="hh70_return">Powrót?</string>
+    <string name="hh70_data_not_save">Dane nie zostaną zapisane.\nPowrót?</string>
     <string name="hh70wait_moment_scan">Odczekaj chwilę na zakończenie skanowania</string>
     <string name="hh70_wifi_status_failed">Pobieranie danych o stanie WIFI Extender nieudane</string>
     <string name="hh70_get_time_failed">Pobieranie bieżącej godziny i strefy czasowej nieudane</string>

@@ -337,9 +337,9 @@
     <string name="hh70_others">Ostalo</string>
     <string name="hh70_networks_will_join">poznate mreže će biti automatski pridružene. Ako nema dostupnih poznatih mreža, moraćete da ih izaberete ručno</string>
     <string name="hh70_available_networks">Dostupne mreže</string>
-    <string name="hh70_free_sharing_up">SLOBODNO DELJENJE</string>
-    <string name="hh70_return_feedback_title">Повратак?</string>
-    <string name="hh70_return_feedback_des">Подаци неће бити сачувани.\nПовратак?</string>
+    <string name="hh70_free_share">SLOBODNO DELJENJE</string>
+    <string name="hh70_return">Повратак?</string>
+    <string name="hh70_data_not_save">Подаци неће бити сачувани.\nПовратак?</string>
     <string name="hh70wait_moment_scan">Sačekajte malo za pretragu</string>
     <string name="hh70_wifi_status_failed">Preuzimanje trenutnog statusa proširenja Wi–Fi mreže nije uspelo</string>
     <string name="hh70_get_time_failed">Preuzimanje trenutnog vremena i vremenske zone nije uspelo</string>

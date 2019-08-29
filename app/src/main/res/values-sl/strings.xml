@@ -337,9 +337,9 @@
     <string name="hh70_others">Drugo</string>
     <string name="hh70_networks_will_join">znana omrežja se bodo samodejno pridružila. Če nobeno znano omrežje ni na voljo, jih ne boste izbrali ročno</string>
     <string name="hh70_available_networks">Omrežja, ki so na voljo</string>
-    <string name="hh70_free_sharing_up">BREZPLAČNO DELJENJE</string>
-    <string name="hh70_return_feedback_title">Vrni se?</string>
-    <string name="hh70_return_feedback_des">Podatki ne bodo shranjeni.\nVrni se?</string>
+    <string name="hh70_free_share">BREZPLAČNO DELJENJE</string>
+    <string name="hh70_return">Vrni se?</string>
+    <string name="hh70_data_not_save">Podatki ne bodo shranjeni.\nVrni se?</string>
     <string name="hh70wait_moment_scan">Počakajte trenutek za pregled</string>
     <string name="hh70_wifi_status_failed">Pridobitev trenutnega stanja razširitvene naprave za WiFi ni bila uspešna</string>
     <string name="hh70_get_time_failed">Pridobitev trenutnega časa in časovnega pasu ni bila uspešna</string>

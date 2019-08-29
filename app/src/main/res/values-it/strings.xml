@@ -341,9 +341,9 @@ di rete se non si è sicuri del codice PUK</string>
     <string name="hh70_others">Altri</string>
     <string name="hh70_networks_will_join">Le reti conosciute verranno aggiunte automaticamente. Se non è disponibile alcuna rete conosciuta, sarà necessario selezionarla manualmente</string>
     <string name="hh70_available_networks">Reti disponibili</string>
-    <string name="hh70_free_sharing_up">CONDIVISIONE GRATUITA</string>
-    <string name="hh70_return_feedback_title">Ritorno?</string>
-    <string name="hh70_return_feedback_des">I dati non verranno salvati.\nRitorno?</string>
+    <string name="hh70_free_share">CONDIVISIONE GRATUITA</string>
+    <string name="hh70_return">Ritorno?</string>
+    <string name="hh70_data_not_save">I dati non verranno salvati.\nRitorno?</string>
     <string name="hh70wait_moment_scan">Attendere prima di eseguire la ricerca</string>
     <string name="hh70_wifi_status_failed">Recupero dello stato corrente di estensione del Wi-Fi non riuscito</string>
     <string name="hh70_get_time_failed">Recupero di ora e fuso orario locale non riuscito</string>

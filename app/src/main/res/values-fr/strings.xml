@@ -338,9 +338,9 @@
     <string name="hh70_others">Autres</string>
     <string name="hh70_networks_will_join">Les réseaux connus seront automatiquement ajoutés. Si aucun réseau connu n\'est disponible, vous devrez le sélectionner manuellement</string>
     <string name="hh70_available_networks">Réseaux disponibles</string>
-    <string name="hh70_free_sharing_up">PARTAGE GRATUIT</string>
-    <string name="hh70_return_feedback_title">Revenir?</string>
-    <string name="hh70_return_feedback_des">Les données ne seront pas sauvegardées.\nRevenir?</string>
+    <string name="hh70_free_share">PARTAGE GRATUIT</string>
+    <string name="hh70_return">Revenir?</string>
+    <string name="hh70_data_not_save">Les données ne seront pas sauvegardées.\nRevenir?</string>
     <string name="hh70wait_moment_scan">Veuillez patienter pendant la recherche…</string>
     <string name="hh70_wifi_status_failed">Échec de détermination de l’état d’extension Wi-Fi</string>
     <string name="hh70_get_time_failed">Échec de détermination de l’heure et du fuseau horaire</string>

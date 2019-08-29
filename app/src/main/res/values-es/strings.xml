@@ -338,9 +338,9 @@
     <string name="hh70_others">Otros</string>
     <string name="hh70_networks_will_join">Las redes conocidas se conectarán automáticamente. Si no hay redes conocidas disponibles, tendrá que seleccionar una de forma manual</string>
     <string name="hh70_available_networks">Redes disponibles</string>
-    <string name="hh70_free_sharing_up">USO COMPARTIDO GRATUITO</string>
-    <string name="hh70_return_feedback_title">¿Regreso?</string>
-    <string name="hh70_return_feedback_des">Los datos no serán guardados.\n¿Regreso?</string>
+    <string name="hh70_free_share">USO COMPARTIDO GRATUITO</string>
+    <string name="hh70_return">¿Regreso?</string>
+    <string name="hh70_data_not_save">Los datos no serán guardados.\n¿Regreso?</string>
     <string name="hh70wait_moment_scan">Espere un momento para escanear</string>
     <string name="hh70_wifi_status_failed">No se ha podido obtener el estado del amplificador de Wi-Fi</string>
     <string name="hh70_get_time_failed">No se han podido obtener ni la hora ni la zona horaria</string>

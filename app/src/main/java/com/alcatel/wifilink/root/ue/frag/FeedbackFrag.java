@@ -550,8 +550,8 @@ public class FeedbackFrag extends BaseFrag {
         }
         //否则弹出对话框
         dgFeedbackTip.setVisibility(View.VISIBLE);
-        dgFeedbackTip.setTitle(R.string.hh70_return_feedback_title);
-        dgFeedbackTip.setDes(R.string.hh70_return_feedback_des);
+        dgFeedbackTip.setTitle(R.string.hh70_return);
+        dgFeedbackTip.setDes(R.string.hh70_data_not_save);
         dgFeedbackTip.setOnBgClickListener(() -> {
         });
         dgFeedbackTip.setOnCancelClickListener(() -> dgFeedbackTip.setVisibility(View.GONE));
