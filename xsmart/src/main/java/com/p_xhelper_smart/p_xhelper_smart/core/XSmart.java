@@ -4,7 +4,6 @@ import android.app.Application;
 import android.content.Context;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
@@ -226,7 +225,6 @@ public class XSmart<T> {
                         if (fwError != null & count >= 0 & count < MAX_COUNT) {
                             request(type, callback);
                             count++;
-                            Log.i("ma_mode", "method: " + method + ";     count: " + count);
                         } else {
                             count = 0;
                             if (fwError != null) {

@@ -36,6 +36,7 @@ import com.alcatel.wifilink.root.widget.HH70_HomeTabWidget;
 import com.hiber.bean.RootProperty;
 import com.hiber.hiber.RootMAActivity;
 import com.hiber.impl.RootEventListener;
+import com.hiber.tools.Lgg;
 import com.hiber.tools.TimerHelper;
 import com.p_xhelper_smart.p_xhelper_smart.bean.GetLoginStateBean;
 import com.p_xhelper_smart.p_xhelper_smart.bean.GetSimStatusBean;
@@ -222,11 +223,17 @@ public class HomeActivity extends RootMAActivity {
         xGetLoginStateHelper.setOnGetLoginStateSuccessListener(getLoginStateBean -> {
             // 如果处于登陆状态 -- 维持心跳
             if (getLoginStateBean.getState() == GetLoginStateBean.CONS_LOGIN) {
+                Lgg.t("ma_heart").ii("loginstate: " + getLoginStateBean.getState());
                 // 触发心跳
                 HeartBeatHelper xHeartBeatHelper = new HeartBeatHelper();
                 xHeartBeatHelper.heartbeat();
                 // 获取短信未读数
                 getSMSUnread();
+            } else {
+                toast(R.string.hh70_log_out, 3000);
+                toFragActivity(getClass(), SplashActivity.class, LoginFrag.class, null, true);
+                heartTimer.stop();
+                touchTimer.stop();
             }
         });
         xGetLoginStateHelper.getLoginState();

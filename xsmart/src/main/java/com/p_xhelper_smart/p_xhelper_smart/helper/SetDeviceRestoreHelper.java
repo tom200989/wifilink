@@ -19,7 +19,6 @@ public class SetDeviceRestoreHelper extends BaseHelper {
     public void setDeviceRestore() {
         prepareHelperNext();
         XSmart xSetDeviceRestore = new XSmart();
-        // TODO: 2019/8/12 0012 xMethod没有设置 -- 等待API
         xSetDeviceRestore.xRestore(new XRestoreCallback() {
             @Override
             public void noRestoreFile() {

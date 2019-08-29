@@ -54,9 +54,9 @@ public class SmsDeleteSessionHelper {
                 smsContentListBean.setPhoneNumber(bean.getPhoneNumber());
                 smsContentListBean.setTotalPageCount(bean.getTotalPageCount());
                 List<SMSContentListBean.SMSContentBean> tempSMSContentList = new ArrayList<>();
-                List<GetSMSContentListBean.SMSContentBean> smsContentBeans= bean.getSMSContentList();
+                List<GetSMSContentListBean.SMSContentListBean> smsContentBeans= bean.getSMSContentList();
                 if(smsContentBeans != null && smsContentBeans.size() > 0){
-                    for(GetSMSContentListBean.SMSContentBean smsContentBean : smsContentBeans){
+                    for(GetSMSContentListBean.SMSContentListBean smsContentBean : smsContentBeans){
                         SMSContentListBean.SMSContentBean tempSmsContentBean = new SMSContentListBean.SMSContentBean();
                         tempSmsContentBean.setReportStatus(smsContentBean.getReportStatus());
                         tempSmsContentBean.setSMSContent(smsContentBean.getSMSContent());

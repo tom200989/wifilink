@@ -92,11 +92,9 @@ public class SmsDetailFrag extends BaseFrag {
     public void initViewFinish(View inflateView) {
         super.initViewFinish(inflateView);
         initEvent();
-        initView();
-        initData();
-        initClick();
         timerState = TimerState.ON_BUT_OFF_WHEN_HIDE_AND_PAUSE;
     }
+    
 
     /**
      * 初始化监听
@@ -108,15 +106,16 @@ public class SmsDetailFrag extends BaseFrag {
             @Override
             public void getData(SMSContactListBean.SMSContact smsContact) {
                 SmsDetailFrag.this.smsContact = smsContact;
+                initData();
+                initView();
+                initClick();
                 tv_title.setText(RootUtils.stitchPhone(activity, smsContact.getPhoneNumber()));
             }
         });
     }
 
     private void initView() {
-        // set recycle view
         setRecycleView();
-        // set recycle touch listener
         setRecycleListener();
     }
 
@@ -160,7 +159,7 @@ public class SmsDetailFrag extends BaseFrag {
         adapter = new SmsDetatilAdapter(activity, linearLayoutManager, smsContentListBean, smsContact.getPhoneNumber());
         adapter.setOnSmsSelectedListener(smsIds1 -> {  /* 短信被选中 */
             // 被选中的短信ID集合
-            this.smsIds = smsIds;
+            this.smsIds = smsIds1;
         });// 监听item被选中
         adapter.setOnSmsLongClickListener(() -> {
             // 短信被长按
@@ -251,13 +250,12 @@ public class SmsDetailFrag extends BaseFrag {
     /* **** timertask: getSmsContents **** */
     private void getSmsContents(boolean isSetRcvToLast) {
         // 检测sim卡是否有插入
-
         GetSimStatusHelper xGetSimStatusHelper = new GetSimStatusHelper();
         xGetSimStatusHelper.setOnGetSimStatusSuccessListener(result -> {
             if (result.getSIMState() == GetSimStatusBean.CONS_SIM_CARD_READY) {// no sim
                 getContent(isSetRcvToLast);
             } else {
-                toFrag(getClass(), SmsFrag.class, null, false);
+                toast(R.string.hh70_no_sim, 3000);
             }
         });
         xGetSimStatusHelper.getSimStatus();
@@ -333,11 +331,11 @@ public class SmsDetailFrag extends BaseFrag {
             tempSmsContentListBean.setPhoneNumber(bean.getPhoneNumber());
             tempSmsContentListBean.setTotalPageCount(bean.getTotalPageCount());
 
-            List<GetSMSContentListBean.SMSContentBean> smsContentBeans = bean.getSMSContentList();
+            List<GetSMSContentListBean.SMSContentListBean> smsContentBeans = bean.getSMSContentList();
             if (smsContentBeans != null && smsContentBeans.size() > 0) {
                 //旧的Bean列表容器
                 List<SMSContentListBean.SMSContentBean> tempSmsContentBeans = new ArrayList<>();
-                for (GetSMSContentListBean.SMSContentBean smsContentBean : smsContentBeans) {
+                for (GetSMSContentListBean.SMSContentListBean smsContentBean : smsContentBeans) {
                     //旧的Bean容器
                     SMSContentListBean.SMSContentBean tempSmsContentBean = new SMSContentListBean.SMSContentBean();
                     tempSmsContentBean.setReportStatus(smsContentBean.getReportStatus());

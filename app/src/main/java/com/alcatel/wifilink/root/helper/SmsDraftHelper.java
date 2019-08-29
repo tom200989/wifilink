@@ -93,7 +93,7 @@ public class SmsDraftHelper {
         GetSMSContentListHelper xGetSMSContentListHelper = new GetSMSContentListHelper();
         xGetSMSContentListHelper.setOnGetSmsContentListSuccessListener(bean -> {
             List<SMSContentListBean.SMSContentBean> scbs = new ArrayList<>();
-            for (GetSMSContentListBean.SMSContentBean scb : bean.getSMSContentList()) {
+            for (GetSMSContentListBean.SMSContentListBean scb : bean.getSMSContentList()) {
                 if (scb.getSMSType() == GetSMSContactListBean.SMSContacBean.CONS_SMS_TYPE_DRAFT) {// add draft sms
                     SMSContentListBean.SMSContentBean tempSmsContentBean = new SMSContentListBean.SMSContentBean();
                     tempSmsContentBean.setReportStatus(scb.getReportStatus());
@@ -154,11 +154,11 @@ public class SmsDraftHelper {
             smsContentListBean.setPhoneNumber(bean.getPhoneNumber());
             smsContentListBean.setTotalPageCount(bean.getTotalPageCount());
             //xsmart框架内部Bean列表
-            List<GetSMSContentListBean.SMSContentBean> smsContentBeans = bean.getSMSContentList();
+            List<GetSMSContentListBean.SMSContentListBean> smsContentBeans = bean.getSMSContentList();
             if(smsContentBeans != null && smsContentBeans.size() > 0){
                 //旧的Bean列表容器
                 List<SMSContentListBean.SMSContentBean> tempSMSContentList = new ArrayList<>();
-                for(GetSMSContentListBean.SMSContentBean smsContentBean : smsContentBeans){
+                for(GetSMSContentListBean.SMSContentListBean smsContentBean : smsContentBeans){
                     //旧Bean容器
                     SMSContentListBean.SMSContentBean tempSmsContentBean = new SMSContentListBean.SMSContentBean();
                     tempSmsContentBean.setReportStatus(smsContentBean.getReportStatus());

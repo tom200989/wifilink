@@ -8,20 +8,11 @@ import java.util.List;
  */
 public class GetSMSContentListBean implements Serializable {
 
-
-    /**
-     * SMSContentList : [{"SMSId":65538,"SMSType":0,"ReportStatus":0,"SMSContent":"88888888554","SMSTime":"2016-06-30 10:02:22"},{"SMSId":65537,"SMSType":0,"ReportStatus":0,"SMSContent":"874651","SMSTime":"2016-06-30 10:01:48"}]
-     * Page : 0
-     * ContactId : 1
-     * PhoneNumber : ["18617092862"]
-     * TotalPageCount : 1
-     */
-
     private int Page;
     private int ContactId;
     private int TotalPageCount;
-    private List<SMSContentBean> SMSContentList;
-    private List<String> PhoneNumber;////发送短信给谁，可能一个或更多人
+    private List<SMSContentListBean> SMSContentList;
+    private List<String> PhoneNumber;
 
     public GetSMSContentListBean() {
     }
@@ -50,11 +41,11 @@ public class GetSMSContentListBean implements Serializable {
         this.TotalPageCount = TotalPageCount;
     }
 
-    public List<SMSContentBean> getSMSContentList() {
+    public List<SMSContentListBean> getSMSContentList() {
         return SMSContentList;
     }
 
-    public void setSMSContentList(List<SMSContentBean> SMSContentList) {
+    public void setSMSContentList(List<SMSContentListBean> SMSContentList) {
         this.SMSContentList = SMSContentList;
     }
 
@@ -66,21 +57,19 @@ public class GetSMSContentListBean implements Serializable {
         this.PhoneNumber = PhoneNumber;
     }
 
-    public static class SMSContentBean implements Serializable{
+    public static class SMSContentListBean implements Serializable{
+        
         /**
-         * SMSId : 65538
-         * SMSType : 0
+         * SMSId : 65537
+         * SMSType : 2
+         * sms_report : 0
+         * report_id : 0
          * ReportStatus : 0
-         * SMSContent : 88888888554
-         * SMSTime : 2016-06-30 10:02:22
+         * SMSContent : 窗前明月光疑是地上霜举头望明月 低头思故乡
+         * SMSTime : 29-08-2019 13:52:31
+         * report_time : 06-01-1980 00:00:00
+         * SMSTimezone : 0
          */
-
-        private int SMSId;
-        private int SMSType;//短信类型 0: read   1: unread   2: sent
-                            // 3: sent failed   4: report  5: flash 6: draft
-        private int ReportStatus;
-        private String SMSContent;//最新短信信息，截前40个字符
-        private String SMSTime;//最新一条短信的时间，格式YYYY-MM-DD hh:mm: ss
 
         public static final int CONS_SMS_TYPE_READ = 0;
         public static final int CONS_SMS_TYPE_UNREAD = 1;
@@ -90,7 +79,17 @@ public class GetSMSContentListBean implements Serializable {
         public static final int CONS_SMS_TYPE_FLASH = 5;
         public static final int CONS_SMS_TYPE_DRAFT = 6;
 
-        public SMSContentBean() {
+        private int SMSId;
+        private int SMSType;
+        private int sms_report;
+        private int report_id;
+        private int ReportStatus;
+        private String SMSContent;
+        private String SMSTime;
+        private String report_time;
+        private int SMSTimezone;
+
+        public SMSContentListBean() {
         }
 
         public int getSMSId() {
@@ -107,6 +106,22 @@ public class GetSMSContentListBean implements Serializable {
 
         public void setSMSType(int SMSType) {
             this.SMSType = SMSType;
+        }
+
+        public int getSms_report() {
+            return sms_report;
+        }
+
+        public void setSms_report(int sms_report) {
+            this.sms_report = sms_report;
+        }
+
+        public int getReport_id() {
+            return report_id;
+        }
+
+        public void setReport_id(int report_id) {
+            this.report_id = report_id;
         }
 
         public int getReportStatus() {
@@ -131,6 +146,22 @@ public class GetSMSContentListBean implements Serializable {
 
         public void setSMSTime(String SMSTime) {
             this.SMSTime = SMSTime;
+        }
+
+        public String getReport_time() {
+            return report_time;
+        }
+
+        public void setReport_time(String report_time) {
+            this.report_time = report_time;
+        }
+
+        public int getSMSTimezone() {
+            return SMSTimezone;
+        }
+
+        public void setSMSTimezone(int SMSTimezone) {
+            this.SMSTimezone = SMSTimezone;
         }
     }
 }

@@ -9,7 +9,8 @@
     <com.hiber.tools.layout.PercentRelativeLayout
         android:id="@+id/rl_sms_detail_title_bar"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="wrap_content"
+        app:layout_heightPercent="9%h"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:background="@color/main_title_background">
@@ -33,8 +34,8 @@
             android:gravity="center"
             android:maxLength="12"
             android:text="@string/hh70_no_sms"
+            app:layout_textSizePercent="30%h"
             android:textColor="@color/color_white"
-            android:textSize="20dp"
             android:textStyle="normal" />
 
         <ImageView

@@ -71,9 +71,7 @@ public class GetSMSUnreadHelper {
      */
     private void getSMSUnreadCount() {
         GetSMSStorageStateHelper xGetSMSStorageStateHelper = new GetSMSStorageStateHelper();
-        xGetSMSStorageStateHelper.setOnGetSMSStoreStateSuccessListener(stateBean -> {
-            GetSMSUnreadSuccessNext(stateBean.getUnreadSMSCount());
-        });
+        xGetSMSStorageStateHelper.setOnGetSMSStoreStateSuccessListener(stateBean -> GetSMSUnreadSuccessNext(stateBean.getUnreadSMSCount()));
         xGetSMSStorageStateHelper.setOnGetSMSStoreStateFailedListener(this::GetSMSUnreadFailedNext);
         xGetSMSStorageStateHelper.getSMSStorageState();
     }
