@@ -239,7 +239,9 @@ public class SetDataPlanFrag extends BaseFrag {
         } else if (wd_timeLimit.getVisibility() == View.VISIBLE) {
             wd_timeLimit.setVisibility(View.GONE);
         } else {
-            toFrag(getClass(), MobileNetworkFrag.class, null, false, SetDataPlanFrag.class);
+            // TODO: 2019/8/29 这里是不是有问题，原先的屏蔽了
+            //toFrag(getClass(), MobileNetworkFrag.class, null, false, SetDataPlanFrag.class);
+            toFrag(getClass(), MobileNetworkFrag.class, null, false);
         }
         return true;
     }

@@ -151,7 +151,7 @@ public class MobileNetworkFrag extends BaseFrag {
      */
     private void getProfileList() {
         ProfileHelper prh = new ProfileHelper();
-        prh.setOnGetProfileSuccessListener(profileList -> {
+        prh.setOnProfileSuccessListener(profileList -> {
             List<GetProfileListBean.ProfileBean> list = profileList.getProfileList();
             if (list != null & list.size() > 0) {
                 GetProfileListBean.ProfileBean profile = list.get(0);

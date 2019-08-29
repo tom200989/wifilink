@@ -152,9 +152,8 @@ public class WifiExtenderRxFrag extends BaseFrag {
 
         // 开始连接
         Extender_ConnectHotspotHelper extenderConnectHotspotHelper = new Extender_ConnectHotspotHelper();
-        extenderConnectHotspotHelper.setOnSuccessListener(attr -> getConnectHotpotState());
-        extenderConnectHotspotHelper.setOnFailedListener(attr -> connectFailed());
-        extenderConnectHotspotHelper.setOnResultErrorListener(attr -> connectFailed());
+        extenderConnectHotspotHelper.setOnExtenderConnectHotspotSuccessListener(attr -> getConnectHotpotState());
+        extenderConnectHotspotHelper.setOnExtenderConnectHotspotFailedListener(this::connectFailed);
         extenderConnectHotspotHelper.connect(hotspotId, ssid, password, SecurityMode, Hidden);
     }
 
@@ -321,7 +320,7 @@ public class WifiExtenderRxFrag extends BaseFrag {
         int CONNECTTING = 1;
         int CONNECTTED = 2;
         Extender_GetWIFIExtenderCurrentStatusHelper getCurrentStatusHelper = new Extender_GetWIFIExtenderCurrentStatusHelper();
-        getCurrentStatusHelper.setOnSuccessListener(result -> {
+        getCurrentStatusHelper.setOnExtenderGetWIFIExtenderCurrentStatusSuccessListener(result -> {
             if (result.getHotspotConnectStatus() == DISCONNECT) {
                 rlHadConnected.setVisibility(View.GONE);
                 getHotpotList(result);/* 3.获取热点列表 */
@@ -334,12 +333,8 @@ public class WifiExtenderRxFrag extends BaseFrag {
                 getHotpotList(result);/* 3.获取热点列表 */
             }
         });
-        getCurrentStatusHelper.setOnFailedListener(attr -> {
+        getCurrentStatusHelper.setOnExtenderGetWIFIExtenderCurrentStatusFailedListener(() -> {
             toast(R.string.hh70_connect_failed, 2000);
-            disconnUi();
-        });
-        getCurrentStatusHelper.setOnResultErrorListener(error -> {
-            toast(R.string.hh70_wifi_status_failed, 2000);
             disconnUi();
         });
         getCurrentStatusHelper.get();

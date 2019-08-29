@@ -2,7 +2,6 @@ package com.alcatel.wifilink.root.helper;
 
 import com.alcatel.wifilink.root.bean.Extender_GetWIFIExtenderCurrentStatusResult;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetWIFIExtenderCurrentStatusHelper;
-import com.p_xhelper_smart.p_xhelper_smart.impl.FwError;
 
 /**
  * Created by qianli.ma on 2018/5/23 0023.
@@ -18,69 +17,51 @@ public class Extender_GetWIFIExtenderCurrentStatusHelper {
             extenderGetWIFIExtenderCurrentStatusResult.setIPV4Addr(bean.getIPV4Addr());
             extenderGetWIFIExtenderCurrentStatusResult.setIPV6Addr(bean.getIPV6Addr());
             extenderGetWIFIExtenderCurrentStatusResult.setSignal(bean.getSignal());
-            successNext(extenderGetWIFIExtenderCurrentStatusResult);
+            extenderGetWIFIExtenderCurrentStatusSuccessNext(extenderGetWIFIExtenderCurrentStatusResult);
         });
-        xGetWIFIExtenderCurrentStatusHelper.setOnGetWifiExCurStatusFailListener(() -> {
-            failedNext(null);
-            resultErrorNext(null);
-        });
+        xGetWIFIExtenderCurrentStatusHelper.setOnGetWifiExCurStatusFailListener(this::extenderGetWIFIExtenderCurrentStatusFailedNext);
         xGetWIFIExtenderCurrentStatusHelper.getWIFIExtenderCurrentStatus();
     }
 
-    private OnResultErrorListener onResultErrorListener;
+    /* ************************** Success ***************************** */
 
-    // 接口OnResultErrorListener
-    public interface OnResultErrorListener {
-        void resultError(FwError error);
+    private OnExtenderGetWIFIExtenderCurrentStatusSuccessListener onExtenderGetWIFIExtenderCurrentStatusSuccessListener;
+
+    // 接口OnExtenderGetWIFIExtenderCurrentStatusSuccessListener
+    public interface OnExtenderGetWIFIExtenderCurrentStatusSuccessListener {
+        void extenderGetWIFIExtenderCurrentStatusSuccess(Extender_GetWIFIExtenderCurrentStatusResult result);
     }
 
-    // 对外方式setOnResultErrorListener
-    public void setOnResultErrorListener(OnResultErrorListener onResultErrorListener) {
-        this.onResultErrorListener = onResultErrorListener;
+    // 对外方式setOnExtenderGetWIFIExtenderCurrentStatusSuccessListener
+    public void setOnExtenderGetWIFIExtenderCurrentStatusSuccessListener(OnExtenderGetWIFIExtenderCurrentStatusSuccessListener onExtenderGetWIFIExtenderCurrentStatusSuccessListener) {
+        this.onExtenderGetWIFIExtenderCurrentStatusSuccessListener = onExtenderGetWIFIExtenderCurrentStatusSuccessListener;
     }
 
-    // 封装方法resultErrorNext
-    private void resultErrorNext(FwError error) {
-        if (onResultErrorListener != null) {
-            onResultErrorListener.resultError(error);
+    // 封装方法ExtenderGetWIFIExtenderCurrentStatusSuccessNext
+    private void extenderGetWIFIExtenderCurrentStatusSuccessNext(Extender_GetWIFIExtenderCurrentStatusResult result) {
+        if (onExtenderGetWIFIExtenderCurrentStatusSuccessListener != null) {
+            onExtenderGetWIFIExtenderCurrentStatusSuccessListener.extenderGetWIFIExtenderCurrentStatusSuccess(result);
         }
     }
 
-    private OnFailedListener onFailedListener;
+    /* ************************** Failed ***************************** */
 
-    // 接口OnFailedListener
-    public interface OnFailedListener {
-        void failed(Object attr);
+    private OnExtenderGetWIFIExtenderCurrentStatusFailedListener onExtenderGetWIFIExtenderCurrentStatusFailedListener;
+
+    // 接口OnExtenderGetWIFIExtenderCurrentStatusFailedListener
+    public interface OnExtenderGetWIFIExtenderCurrentStatusFailedListener {
+        void extenderGetWIFIExtenderCurrentStatusFailed();
     }
 
-    // 对外方式setOnFailedListener
-    public void setOnFailedListener(OnFailedListener onFailedListener) {
-        this.onFailedListener = onFailedListener;
+    // 对外方式setOnExtenderGetWIFIExtenderCurrentStatusFailedListener
+    public void setOnExtenderGetWIFIExtenderCurrentStatusFailedListener(OnExtenderGetWIFIExtenderCurrentStatusFailedListener onExtenderGetWIFIExtenderCurrentStatusFailedListener) {
+        this.onExtenderGetWIFIExtenderCurrentStatusFailedListener = onExtenderGetWIFIExtenderCurrentStatusFailedListener;
     }
 
-    // 封装方法failedNext
-    private void failedNext(Object attr) {
-        if (onFailedListener != null) {
-            onFailedListener.failed(attr);
-        }
-    }
-
-    private OnSuccessListener onSuccessListener;
-
-    // 接口OnSuccessListener
-    public interface OnSuccessListener {
-        void success(Extender_GetWIFIExtenderCurrentStatusResult result);
-    }
-
-    // 对外方式setOnSuccessListener
-    public void setOnSuccessListener(OnSuccessListener onSuccessListener) {
-        this.onSuccessListener = onSuccessListener;
-    }
-
-    // 封装方法successNext
-    private void successNext(Extender_GetWIFIExtenderCurrentStatusResult result) {
-        if (onSuccessListener != null) {
-            onSuccessListener.success(result);
+    // 封装方法ExtenderGetWIFIExtenderCurrentStatusFailedNext
+    private void extenderGetWIFIExtenderCurrentStatusFailedNext() {
+        if (onExtenderGetWIFIExtenderCurrentStatusFailedListener != null) {
+            onExtenderGetWIFIExtenderCurrentStatusFailedListener.extenderGetWIFIExtenderCurrentStatusFailed();
         }
     }
 }

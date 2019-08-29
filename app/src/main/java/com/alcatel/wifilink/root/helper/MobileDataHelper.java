@@ -17,7 +17,6 @@ import com.p_xhelper_smart.p_xhelper_smart.helper.GetSimStatusHelper;
 /**
  * Created by qianli.ma on 2017/12/11 0011.
  */
-
 public class MobileDataHelper {
 
     private Activity context;
@@ -122,7 +121,7 @@ public class MobileDataHelper {
         // 断连成功
         csDisconnhelper.setOnDisConnSuccessListener(this::disConnSuccessNext);
         // 连接产生的错误
-        csDisconnhelper.setOnConnectSettingFailListener(() -> checkMonthly());
+        csDisconnhelper.setOnConnectSettingFailListener(this::checkMonthly);
         csDisconnhelper.toDisConnect();
     }
 
@@ -140,7 +139,7 @@ public class MobileDataHelper {
         // 连接成功
         csConnhelper.setOnConnSuccessListener(this::connSuccessNext);
         // 连接产生的错误--> 检测是否超出了流量
-        csConnhelper.setOnConnectSettingFailListener(() -> checkMonthly());
+        csConnhelper.setOnConnectSettingFailListener(this::checkMonthly);
         csConnhelper.toConnect();
     }
 
@@ -153,6 +152,16 @@ public class MobileDataHelper {
         usageHelper.setOnOverMonthlyListener(() -> toast(R.string.hh70_month_data_limit));// 超出流量
         usageHelper.getOverUsage();
     }
+
+    public void toast(int resId) {
+        ToastTool.show(context, resId);
+    }
+
+    public void toast(String toastString) {
+        ToastTool.show(context, toastString);
+    }
+
+    /* ******************************* DisConnSuccess *********************************** */
 
     private OnDisConnSuccessListener onDisConnSuccessListener;
 
@@ -173,6 +182,8 @@ public class MobileDataHelper {
         }
     }
 
+    /* ******************************* ConnSuccess *********************************** */
+
     private OnConnSuccessListener onConnSuccessListener;
 
     // 接口OnConnSuccessListener
@@ -190,13 +201,5 @@ public class MobileDataHelper {
         if (onConnSuccessListener != null) {
             onConnSuccessListener.connSuccess(attr);
         }
-    }
-
-    public void toast(int resId) {
-        ToastTool.show(context, resId);
-    }
-
-    public void toast(String toastString) {
-        ToastTool.show(context, toastString);
     }
 }

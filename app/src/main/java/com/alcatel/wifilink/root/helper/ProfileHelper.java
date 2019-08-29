@@ -34,69 +34,51 @@ public class ProfileHelper {
                 profileListBean.setUserName(profileBean.getUserName());
             }
             result.setProfileList(tempProfileList);
-            getProfileSuccessNext(result);
+            profileSuccessNext(result);
         });
-        xGetProfileListHelper.setOnGetPrifileListFailListener(() -> {
-            failedNext();
-            resultErrorNext(null);
-        });
+        xGetProfileListHelper.setOnGetPrifileListFailListener(this::profileFailedNext);
         xGetProfileListHelper.getProfileList();
     }
 
-    private OnFailedListener onFailedListener;
+    /* ************************** Success ***************************** */
 
-    // Inteerface--> 接口OnFailedListener
-    public interface OnFailedListener {
-        void failed();
+    private OnProfileSuccessListener onProfileSuccessListener;
+
+    // Inteerface--> 接口OnProfileSuccessListener
+    public interface OnProfileSuccessListener {
+        void profileSuccess(GetProfileListBean profileList);
     }
 
-    // 对外方式setOnFailedListener
-    public void setOnFailedListener(OnFailedListener onFailedListener) {
-        this.onFailedListener = onFailedListener;
+    // 对外方式setOnProfileSuccessListener
+    public void setOnProfileSuccessListener(OnProfileSuccessListener onProfileSuccessListener) {
+        this.onProfileSuccessListener = onProfileSuccessListener;
     }
 
-    // 封装方法failedNext
-    private void failedNext() {
-        if (onFailedListener != null) {
-            onFailedListener.failed();
+    // 封装方法ProfileSuccessNext
+    private void profileSuccessNext(GetProfileListBean profileList) {
+        if (onProfileSuccessListener != null) {
+            onProfileSuccessListener.profileSuccess(profileList);
         }
     }
 
-    private OnResultErrorListener onResultErrorListener;
+    /* ************************** Failed ***************************** */
 
-    // Inteerface--> 接口OnResultErrorListener
-    public interface OnResultErrorListener {
-        void resultError(FwError error);
+    private OnProfileFailedListener onProfileFailedListener;
+
+    // Inteerface--> 接口OnProfileFailedListener
+    public interface OnProfileFailedListener {
+        void profileFailed();
     }
 
-    // 对外方式setOnResultErrorListener
-    public void setOnResultErrorListener(OnResultErrorListener onResultErrorListener) {
-        this.onResultErrorListener = onResultErrorListener;
+    // 对外方式setOnProfileFailedListener
+    public void setOnProfileFailedListener(OnProfileFailedListener onProfileFailedListener) {
+        this.onProfileFailedListener = onProfileFailedListener;
     }
 
-    // 封装方法resultErrorNext
-    private void resultErrorNext(FwError error) {
-        if (onResultErrorListener != null) {
-            onResultErrorListener.resultError(error);
-        }
-    }
-
-    private OnGetProfileSuccessListener onGetProfileSuccessListener;
-
-    // Inteerface--> 接口OnGetProfileSuccessListener
-    public interface OnGetProfileSuccessListener {
-        void getProfileSuccess(GetProfileListBean profileList);
-    }
-
-    // 对外方式setOnGetProfileSuccessListener
-    public void setOnGetProfileSuccessListener(OnGetProfileSuccessListener onGetProfileSuccessListener) {
-        this.onGetProfileSuccessListener = onGetProfileSuccessListener;
-    }
-
-    // 封装方法getProfileSuccessNext
-    private void getProfileSuccessNext(GetProfileListBean profileList) {
-        if (onGetProfileSuccessListener != null) {
-            onGetProfileSuccessListener.getProfileSuccess(profileList);
+    // 封装方法ProfileFailedNext
+    private void profileFailedNext() {
+        if (onProfileFailedListener != null) {
+            onProfileFailedListener.profileFailed();
         }
     }
 }

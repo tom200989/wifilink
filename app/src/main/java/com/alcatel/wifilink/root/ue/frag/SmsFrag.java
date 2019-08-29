@@ -227,8 +227,8 @@ public class SmsFrag extends BaseFrag {
      */
     private void deleteSessionSms(List<Long> contactIds) {
         SmsDeleteSessionHelper sdsh = new SmsDeleteSessionHelper();
-        sdsh.setOnResultErrorListener(attr -> delFailedReset());
-        sdsh.setOnErrorListener(attr -> delSuccessReset());
+        sdsh.setOnFwErrorListener(this::delFailedReset);
+        sdsh.setOnAppErrorListener(this::delSuccessReset);
         sdsh.setOnDeteledMoreSessionSuccessListener(attr -> delSuccessReset());
         sdsh.deletedOneOrMoreSessionSms(contactIds);
     }

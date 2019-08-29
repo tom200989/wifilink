@@ -73,8 +73,8 @@ public class SmsDeleteSessionHelper {
                 getAllSmsIds(contactIds);
             });
             xGetSMSContentListHelper.setOnGetSmsContentListFailListener(() -> {
-                resultErrorNext(null);
-                errorNext(null);
+                appErrorNext();
+                fwErrorNext();
                 smsIdsAll.clear();
                 index = 0;
             });
@@ -97,28 +97,9 @@ public class SmsDeleteSessionHelper {
         xDeleteSmsParam.setSMSArray(smsIdsAll);
         DeleteSMSHelper xDeleteSMSHelper = new DeleteSMSHelper();
         xDeleteSMSHelper.setOnDeleteSmsSuccessListener(this::DelMoreSessionSuccessNext);
-        xDeleteSMSHelper.setOnDeleteSmsFailListener(() -> errorNext(null));
-        xDeleteSMSHelper.setOnDeleteFailListener(() -> resultErrorNext(null));
+        xDeleteSMSHelper.setOnDeleteSmsFailListener(this::appErrorNext);
+        xDeleteSMSHelper.setOnDeleteFailListener(this::fwErrorNext);
         xDeleteSMSHelper.deleteSms(xDeleteSmsParam);
-    }
-
-    private OnSMSIdsListener onSMSIdsListener;
-
-    // 接口OnSMSIdsListener
-    public interface OnSMSIdsListener {
-        void getSmsIds(List<Long> attr);
-    }
-
-    // 对外方式setOnSMSIdsListener
-    public void setOnSMSIdsListener(OnSMSIdsListener onSMSIdsListener) {
-        this.onSMSIdsListener = onSMSIdsListener;
-    }
-
-    // 封装方法getSmsIdsNext
-    private void getSmsIdsNext(List<Long> attr) {
-        if (onSMSIdsListener != null) {
-            onSMSIdsListener.getSmsIds(attr);
-        }
     }
 
     /* -------------------------------------------- method1 -------------------------------------------- */
@@ -142,57 +123,42 @@ public class SmsDeleteSessionHelper {
                 DeleteSMSHelper xDeleteSMSHelper = new DeleteSMSHelper();
                 // 删除多个会话成功
                 xDeleteSMSHelper.setOnDeleteSmsSuccessListener(this::DelMoreSessionSuccessNext);
-                xDeleteSMSHelper.setOnDeleteSmsFailListener(() -> errorNext(null));
-                xDeleteSMSHelper.setOnDeleteFailListener(() -> resultErrorNext(null));
+                xDeleteSMSHelper.setOnDeleteSmsFailListener(this::appErrorNext);
+                xDeleteSMSHelper.setOnDeleteFailListener(this::fwErrorNext);
                 xDeleteSMSHelper.deleteSms(xDeleteSmsParam);
             }else{
                 deleteMoreSessionSms(contactIds);
             }
         });
         xGetSmsInitStateHelper.setOnGetSmsInitStateFailListener(() -> {
-            resultErrorNext(null);
-            errorNext(null);
+            appErrorNext();
+            fwErrorNext();
         });
         xGetSmsInitStateHelper.getSmsInitState();
     }
 
-    private OnResultErrorListener onResultErrorListener;
+    /* ************************************* SMSIds ************************************ */
 
-    // 接口OnResultErrorListener
-    public interface OnResultErrorListener {
-        void resultError(FwError attr);
+    private OnSMSIdsListener onSMSIdsListener;
+
+    // 接口OnSMSIdsListener
+    public interface OnSMSIdsListener {
+        void getSmsIds(List<Long> attr);
     }
 
-    // 对外方式setOnResultErrorListener
-    public void setOnResultErrorListener(OnResultErrorListener onResultErrorListener) {
-        this.onResultErrorListener = onResultErrorListener;
+    // 对外方式setOnSMSIdsListener
+    public void setOnSMSIdsListener(OnSMSIdsListener onSMSIdsListener) {
+        this.onSMSIdsListener = onSMSIdsListener;
     }
 
-    // 封装方法resultErrorNext
-    private void resultErrorNext(FwError attr) {
-        if (onResultErrorListener != null) {
-            onResultErrorListener.resultError(attr);
+    // 封装方法getSmsIdsNext
+    private void getSmsIdsNext(List<Long> attr) {
+        if (onSMSIdsListener != null) {
+            onSMSIdsListener.getSmsIds(attr);
         }
     }
 
-    private OnErrorListener onErrorListener;
-
-    // 接口OnErrorListener
-    public interface OnErrorListener {
-        void error(Throwable attr);
-    }
-
-    // 对外方式setOnErrorListener
-    public void setOnErrorListener(OnErrorListener onErrorListener) {
-        this.onErrorListener = onErrorListener;
-    }
-
-    // 封装方法errorNext
-    private void errorNext(Throwable attr) {
-        if (onErrorListener != null) {
-            onErrorListener.error(attr);
-        }
-    }
+    /* ************************************* DeletedMoreSession Success ************************************ */
 
     private OnDeteledMoreSessionSuccessListener onDeteledMoreSessionSuccessListener;
 
@@ -213,6 +179,8 @@ public class SmsDeleteSessionHelper {
         }
     }
 
+    /* ************************************* DeletedOneSession Success ************************************ */
+
     private OnDeletedOneSessionListener onDeletedOneSessionListener;
 
     // 接口OnDeletedOneSessionListener
@@ -232,5 +200,45 @@ public class SmsDeleteSessionHelper {
         }
     }
 
+    /* ************************************* AppError ************************************ */
 
+    private OnAppErrorListener onAppErrorListener;
+
+    // Inteerface--> 接口OnAppErrorListener
+    public interface OnAppErrorListener {
+        void appError();
+    }
+
+    // 对外方式setOnAppErrorListener
+    public void setOnAppErrorListener(OnAppErrorListener onAppErrorListener) {
+        this.onAppErrorListener = onAppErrorListener;
+    }
+
+    // 封装方法appErrorNext
+    private void appErrorNext() {
+        if (onAppErrorListener != null) {
+            onAppErrorListener.appError();
+        }
+    }
+
+    /* ************************************* FwError ************************************ */
+
+    private OnFwErrorListener onFwErrorListener;
+
+    // Inteerface--> 接口OnFwErrorListener
+    public interface OnFwErrorListener {
+        void fwError();
+    }
+
+    // 对外方式setOnFwErrorListener
+    public void setOnFwErrorListener(OnFwErrorListener onFwErrorListener) {
+        this.onFwErrorListener = onFwErrorListener;
+    }
+
+    // 封装方法fwErrorNext
+    private void fwErrorNext() {
+        if (onFwErrorListener != null) {
+            onFwErrorListener.fwError();
+        }
+    }
 }
