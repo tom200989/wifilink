@@ -138,7 +138,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="20dp"
-                        android:text="@string/hh70_not_set_parameters"
+                        android:text="@string/hh70_dont_set_parameters"
                         android:textColor="@color/deep_grey_text"
                         android:textSize="@dimen/dimen_textsize_12sp"
                         android:visibility="gone" />

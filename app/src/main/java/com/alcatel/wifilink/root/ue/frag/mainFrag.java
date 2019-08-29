@@ -796,7 +796,7 @@ public class mainFrag extends BaseFrag {
     private void initRes() {
         mb_unit = getString(R.string.hh70_mb);
         gb_unit = getString(R.string.hh70_gb);
-        noUsagePlan = getString(R.string.hh70_ergo_no_set_plan);
+        noUsagePlan = getString(R.string.hh70_no_set_plan);
         useOf = getString(R.string.hh70_used_of);
         connected_text = getString(R.string.hh70_connected);
         unlockSim_title = getString(R.string.hh70_sim_unlocked);

@@ -373,7 +373,7 @@ public class WifiInitFrag extends BaseFrag {
         }
         if (is2P4GAPStatusSame & is5GAPStatusSame & is2P4GSSIDSame & is5GSSIDSame & is2P4GWpaSame & is5GWpaSame) {
             // 4.直接跳转到主页
-            toast(R.string.hh70_ergo_setup_success, 5000);
+            toast(R.string.hh70_setup_success, 5000);
             skip();
         } else {
             // 4.显示重启提示对话框
@@ -415,7 +415,7 @@ public class WifiInitFrag extends BaseFrag {
             RootUtils.setWifiOn(activity, false);
             // 提交标记位
             ShareUtils.set(RootCons.SP_WIFI_INIT, true);
-            toast(R.string.hh70_ergo_update_wifi, 5000);
+            toast(R.string.hh70_update_wifi, 5000);
             wdLoad.setGone();
         });
         xSetWlanSettingsHelper.setOnSetWlanSettingsFailedListener(() -> {

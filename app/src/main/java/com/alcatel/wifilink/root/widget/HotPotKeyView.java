@@ -85,7 +85,7 @@ public class HotPotKeyView extends RelativeLayout implements View.OnClickListene
     private void clickOk() {
         String password = etPassword.getText().toString();
         if (TextUtils.isEmpty(password)) {
-            ToastTool.show(wifiApp.getInstance(), R.string.hh70_password_not_allowed_empty);
+            ToastTool.show(wifiApp.getInstance(), R.string.hh70_pw_not_allow_empty);
         } else {
             clickNext(hb, password);
         }

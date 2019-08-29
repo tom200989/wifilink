@@ -172,7 +172,7 @@
                         android:layout_centerVertical="true"
                         android:layout_marginStart="@dimen/dimen_20dip"
                         android:layout_toEndOf="@id/tv_login_pre_connected_count"
-                        android:text="@string/hh70_ergo_connections"
+                        android:text="@string/hh70_connects"
                         android:textColor="@color/text_color"
                         app:layout_textSizePercent="23%h" />
 

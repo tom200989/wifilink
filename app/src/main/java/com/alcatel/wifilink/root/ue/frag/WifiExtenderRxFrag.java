@@ -198,13 +198,13 @@ public class WifiExtenderRxFrag extends BaseFrag {
                     break;
                 case PASSWORD_ERROR:// 3
                     getConnectHotpotCount = 0;
-                    toast(R.string.hh70_enter_correct_password, 2000);
+                    toast(R.string.hh70_enter_correct_psd, 2000);
                     widgetWifiExtenderWait.setVisibility(View.GONE);
                     tvScan.setVisibility(View.VISIBLE);
                     break;
                 case NEED_PASSWORD:// 4
                     getConnectHotpotCount = 0;
-                    toast(R.string.hh70_enter_correct_password, 2000);
+                    toast(R.string.hh70_enter_correct_psd, 2000);
                     widgetWifiExtenderWait.setVisibility(View.GONE);
                     tvScan.setVisibility(View.VISIBLE);
                     break;
@@ -438,7 +438,7 @@ public class WifiExtenderRxFrag extends BaseFrag {
         ivBack.setOnClickListener(v -> onBackPressed());
         tvScan.setOnClickListener(v -> getHotpotInfo());
         ivPanelSocket.setOnClickListener(v -> openOrCloseWifiExtender());
-        widgetWifiExtenderWait.setOnClickListener(v -> toast(R.string.hh70wait_moment_scan, 2000));
+        widgetWifiExtenderWait.setOnClickListener(v -> toast(R.string.hh70_wait_moment_scan, 2000));
         rlHadConnected.setOnClickListener(v -> disconnectCurrentHotpot());
     }
 
@@ -482,7 +482,7 @@ public class WifiExtenderRxFrag extends BaseFrag {
 
         // 等待界面显示时--> 提示用户不可回退
         if (widgetWifiExtenderWait.getVisibility() == View.VISIBLE) {
-            toast(R.string.hh70wait_moment_scan, 2000);
+            toast(R.string.hh70_wait_moment_scan, 2000);
             return true;
         }
 

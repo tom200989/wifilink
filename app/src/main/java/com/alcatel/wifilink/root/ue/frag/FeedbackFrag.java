@@ -155,7 +155,7 @@ public class FeedbackFrag extends BaseFrag {
             clickShowPhotoDel();
         });
         rlFeedbackWait.setOnClickListener(v -> {
-            toast(R.string.hh70_data_being_submitted);
+            toast(R.string.hh70_data_be_submit);
         });
     }
 
@@ -245,7 +245,7 @@ public class FeedbackFrag extends BaseFrag {
     public boolean onBackPresss() {
         // 如果等待界面显示--> 提示等待
         if (rlFeedbackWait.getVisibility() == View.VISIBLE) {
-            toast(R.string.hh70_data_being_submitted);
+            toast(R.string.hh70_data_be_submit);
         } else if (dgFeedbackTip.getVisibility() == View.VISIBLE) {
             dgFeedbackTip.setVisibility(View.GONE);
         } else {
@@ -276,13 +276,13 @@ public class FeedbackFrag extends BaseFrag {
         boolean isTypeEmpty = TextUtils.isEmpty(questionType);
         boolean isSuggestionEmpty = TextUtils.isEmpty(suggestion);
         if (isTypeEmpty) {
-            toast(R.string.hh70_chosen_the_problem_type);
+            toast(R.string.hh70_not_chosen_problem_type);
             return;
         } else if (isSuggestionEmpty) {
-            toast(R.string.hh70_not_filled_suggestion);
+            toast(R.string.hh70_not_fill_suggest);
             return;
         } else if (suggestion.length() < 10) {
-            toast(R.string.hh70_at_least_10_characters);
+            toast(R.string.hh70_at_least_10_char);
             return;
         }
 
@@ -352,7 +352,7 @@ public class FeedbackFrag extends BaseFrag {
                 count = 0;
                 fids.clear();
                 rlFeedbackWait.setVisibility(View.GONE);
-                toast(R.string.hh70_upload_failure);
+                toast(R.string.hh70_upload_fail);
             });
             fup.upload(access_token, deviceName, pic);
         } else {// 否则开始上传
@@ -392,13 +392,13 @@ public class FeedbackFrag extends BaseFrag {
                 sumbitOkPop(true);
             } else {
                 rlFeedbackWait.setVisibility(View.GONE);
-                toast(R.string.hh70_upload_failure);
+                toast(R.string.hh70_upload_fail);
             }
         });
         fch.setOnErrorListener(error -> {
             fids.clear();
             rlFeedbackWait.setVisibility(View.GONE);
-            toast(R.string.hh70_upload_failure);
+            toast(R.string.hh70_upload_fail);
         });
         fch.commit(deviceName, access_Token, sign_timeStamp_newToken, json);
     }

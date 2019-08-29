@@ -91,7 +91,7 @@ public class PinInitFrag extends BaseFrag {
                 } else if (remainTimes == 1) {
                     tvPinRxTipNum.setVisibility(View.GONE);
                     tvPinRxTipDes.setTextColor(red_color);
-                    tvPinRxTipDes.setText(getString(R.string.hh70_ergo_pin_remained));
+                    tvPinRxTipDes.setText(getString(R.string.hh70_pin_remain));
                 } else {
                     toFrag(getClass(), PukInitFrag.class, null, true);
                 }

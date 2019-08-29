@@ -27,7 +27,7 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:gravity="center"
-            android:text="@string/hh70_ergo_connections_low"
+            android:text="@string/hh70_connect_small"
             android:textColor="@color/color_white"
             android:textSize="@dimen/dimen_20dip"
             android:textStyle="bold" />

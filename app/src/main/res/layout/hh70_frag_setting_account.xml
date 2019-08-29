@@ -32,7 +32,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:text="@string/hh70_ergo_login_password"
+                android:text="@string/hh70_login_psd"
                 android:textColor="@color/white"
                 app:layout_textSizePercent="30%h" />
 

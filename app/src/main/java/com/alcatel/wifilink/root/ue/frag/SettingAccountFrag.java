@@ -193,7 +193,7 @@ public class SettingAccountFrag extends BaseFrag {
     private void showAlertPanel() {
         wdOK.setVisibility(View.VISIBLE);
         wdOK.setTitle(R.string.hh70_warning);
-        wdOK.setDes(R.string.hh70_ergo_forgot_password);
+        wdOK.setDes(R.string.hh70_forgotten_reset_router);
         wdOK.setOnCancelClickListener(() -> wdOK.setVisibility(View.GONE));
         wdOK.setOnOkClickListener(this::toReset);
     }
@@ -214,7 +214,7 @@ public class SettingAccountFrag extends BaseFrag {
             wdOK.setVisibility(View.GONE);
             return true;
         } else if (wdLoad.getVisibility() == View.VISIBLE) {
-            toast(R.string.hh70_data_being_submitted, 3000);
+            toast(R.string.hh70_data_be_submit, 3000);
             return true;
         }
         toFrag(getClass(), SettingFrag.class, null, false);

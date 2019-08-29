@@ -71,7 +71,7 @@ public class DeviceConnectFrag extends BaseFrag {
             checkBlockList();
         });
         mblock.setText(String.valueOf(blockPre + "0" + blockFix));
-        mTitle.setText(getString(R.string.hh70_ergo_connections_low));
+        mTitle.setText(getString(R.string.hh70_connect_small));
         // 俄语文字大小适配
         String currentLanguage = ShareUtils.get(RootCons.LOCALE_LANGUAGE_COUNTRY,"");
         if (currentLanguage.contains(RootCons.LANGUAGES.RUSSIAN)) {

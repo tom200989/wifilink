@@ -327,7 +327,7 @@ public class RootUtils {
      */
     public static String getAlert(String[] arr, int include) {
         if (include == -1) {
-            return wifiApp.getInstance().getString(R.string.hh70_ergo_not_reminded);
+            return wifiApp.getInstance().getString(R.string.hh70_not_remind);
         }
         String alert = "90%";
         for (String s : arr) {
