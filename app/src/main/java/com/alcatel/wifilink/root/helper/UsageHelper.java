@@ -213,9 +213,6 @@ public class UsageHelper {
                             xGetUsageRecordHelper.getUsageRecord(currentTime);
 
             });
-            xGetNetworkInfoHelper.setOnGetNetworkInfoFailedListener(() -> {
-                
-            });
             xGetNetworkInfoHelper.getNetworkInfo();
 
         });
