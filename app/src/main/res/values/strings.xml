@@ -274,6 +274,14 @@
     <string name="hh70_resetting">Resetting…</string>
     <string name="hh70_wait_5_60">Wait for 5–60 seconds</string>
     <string name="hh70_day_1">Day 1</string>
+    <string name="hh70_day_2">Day 2</string>
+    <string name="hh70_day_3">Day 3</string>
+    <string name="hh70_day_4">Day 4</string>
+    <string name="hh70_day_5">Day 5</string>
+    <string name="hh70_day_6">Day 6</string>
+    <string name="hh70_day_7">Day 7</string>
+    <string name="hh70_day_8">Day 8</string>
+    <string name="hh70_day_9">Day 9</string>
     <string name="hh70_day_10">Day 10</string>
     <string name="hh70_day_11">Day 11</string>
     <string name="hh70_day_12">Day 12</string>
@@ -284,7 +292,6 @@
     <string name="hh70_day_17">Day 17</string>
     <string name="hh70_day_18">Day 18</string>
     <string name="hh70_day_19">Day 19</string>
-    <string name="hh70_day_2">Day 2</string>
     <string name="hh70_day_20">Day 20</string>
     <string name="hh70_day_21">Day 21</string>
     <string name="hh70_day_22">Day 22</string>
@@ -294,13 +301,6 @@
     <string name="hh70_day_26">Day 26</string>
     <string name="hh70_day_27">Day 27</string>
     <string name="hh70_day_28">Day 28</string>
-    <string name="hh70_day_3">Day 3</string>
-    <string name="hh70_day_4">Day 4</string>
-    <string name="hh70_day_5">Day 5</string>
-    <string name="hh70_day_6">Day 6</string>
-    <string name="hh70_day_7">Day 7</string>
-    <string name="hh70_day_8">Day 8</string>
-    <string name="hh70_day_9">Day 9</string>
     <string name="hh70_hr_s">Hr(s)</string>
     <string name="hh70_min_s">Min(s)</string>
     <string name="hh70_maunal">Manual</string>
