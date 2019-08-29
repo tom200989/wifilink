@@ -273,7 +273,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:background="@color/color_white"
-                android:visibility="visible"
+                android:visibility="gone"
                 app:layout_heightPercent="9%sh">
 
                 <ImageView

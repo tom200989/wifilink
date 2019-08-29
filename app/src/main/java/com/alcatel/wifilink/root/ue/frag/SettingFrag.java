@@ -164,7 +164,8 @@ public class SettingFrag extends BaseFrag {
             isMW120 = RootUtils.isMWDEV(deviceName);
             isHH71 = RootUtils.isHH71(deviceName);
             mEthernetWan.setVisibility(isMW120 ? View.GONE : View.VISIBLE);
-            rl_wifiExtender.setVisibility(isMW120 | isHH71 ? View.VISIBLE : View.GONE);
+            // rl_wifiExtender.setVisibility(isMW120 | isHH71 ? View.VISIBLE : View.GONE);
+            rl_wifiExtender.setVisibility(View.GONE);// 全面取消wifi-extender功能
             rl_feedback.setVisibility(isMW120 ? View.VISIBLE : View.GONE);
             if (!isMW120) {// 不是MW120机型--> 请求wan口
                 requestWAN();

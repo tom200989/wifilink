@@ -202,15 +202,15 @@ public class UsageHelper {
             GetNetworkInfoHelper xGetNetworkInfoHelper = new GetNetworkInfoHelper();
             xGetNetworkInfoHelper.setOnGetNetworkInfoSuccessListener(networkInfoBean -> {
 
-                            GetUsageRecordHelper xGetUsageRecordHelper = new GetUsageRecordHelper();
-                            xGetUsageRecordHelper.setOnGetUsageRecordSuccess(result -> {
-                                if (networkInfoBean.getRoaming() == GetNetworkInfoBean.CONS_ROAMING) {
-                                    roamingNext(result);
-                                } else {
-                                    noRoamingNext(result);
-                                }
-                            });
-                            xGetUsageRecordHelper.getUsageRecord(currentTime);
+                GetUsageRecordHelper xGetUsageRecordHelper = new GetUsageRecordHelper();
+                xGetUsageRecordHelper.setOnGetUsageRecordSuccess(result -> {
+                    if (networkInfoBean.getRoaming() == GetNetworkInfoBean.CONS_ROAMING) {
+                        roamingNext(result);
+                    } else {
+                        noRoamingNext(result);
+                    }
+                });
+                xGetUsageRecordHelper.getUsageRecord(currentTime);
 
             });
             xGetNetworkInfoHelper.getNetworkInfo();
