@@ -43,7 +43,7 @@ public class HH70_ConmodeWidget extends RelativeLayout {
 
 
     /* -------------------------------------------- impl -------------------------------------------- */
-    private NormalWidget.OnBgClickListener onBgClickListener;
+    private HH70_NormalWidget.OnBgClickListener onBgClickListener;
 
     // Inteerface--> 接口OnBgClickListener
     public interface OnBgClickListener {
@@ -51,7 +51,7 @@ public class HH70_ConmodeWidget extends RelativeLayout {
     }
 
     // 对外方式setOnBgClickListener
-    public void setOnBgClickListener(NormalWidget.OnBgClickListener onBgClickListener) {
+    public void setOnBgClickListener(HH70_NormalWidget.OnBgClickListener onBgClickListener) {
         this.onBgClickListener = onBgClickListener;
     }
 

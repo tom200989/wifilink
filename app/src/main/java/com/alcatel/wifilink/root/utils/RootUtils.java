@@ -16,14 +16,14 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
 import com.alcatel.wifilink.R;
-import com.alcatel.wifilink.root.app.wifiApp;
-import com.alcatel.wifilink.root.bean.ConnectedList;
+import com.alcatel.wifilink.root.app.WifiLinkApp;
+import com.alcatel.wifilink.root.bean.ConnectedListBean;
 import com.alcatel.wifilink.root.bean.DeviceBean;
-import com.alcatel.wifilink.root.bean.Extender_GetHotspotListResult;
+import com.alcatel.wifilink.root.bean.Extender_GetHotspotListBean;
 import com.alcatel.wifilink.root.bean.FeedbackPhotoBean;
-import com.alcatel.wifilink.root.bean.SMSContactList;
-import com.alcatel.wifilink.root.bean.SMSContactSelf;
-import com.alcatel.wifilink.root.bean.SMSContentList;
+import com.alcatel.wifilink.root.bean.SMSContactListBean;
+import com.alcatel.wifilink.root.bean.SMSContactBean;
+import com.alcatel.wifilink.root.bean.SMSContentListBean;
 import com.tcl.token.ndk.JniTokenUtils;
 
 import java.net.URLDecoder;
@@ -327,7 +327,7 @@ public class RootUtils {
      */
     public static String getAlert(String[] arr, int include) {
         if (include == -1) {
-            return wifiApp.getInstance().getString(R.string.hh70_not_remind);
+            return WifiLinkApp.getInstance().getString(R.string.hh70_not_remind);
         }
         String alert = "90%";
         for (String s : arr) {
@@ -342,11 +342,11 @@ public class RootUtils {
     /**
      * 获取短信联系人列表并添加长按标记
      */
-    public static List<SMSContactSelf> getSMSSelfList(SMSContactList smsContactList) {
-        List<SMSContactSelf> smscs = new ArrayList<>();
-        for (SMSContactList.SMSContact smsContact : smsContactList.getSMSContactList()) {
+    public static List<SMSContactBean> getSMSSelfList(SMSContactListBean smsContactListBean) {
+        List<SMSContactBean> smscs = new ArrayList<>();
+        for (SMSContactListBean.SMSContact smsContact : smsContactListBean.getSMSContactList()) {
             // 新建自定义SMS Contact对象
-            SMSContactSelf scs = new SMSContactSelf();
+            SMSContactBean scs = new SMSContactBean();
             scs.setSmscontact(smsContact);
             scs.setLongClick(false);
             smscs.add(scs);
@@ -357,9 +357,9 @@ public class RootUtils {
     /**
      * 修改联系人列表是否进入可删除状态(islongClick==true则为可删除)
      */
-    public static List<SMSContactSelf> modifySMSContactSelf(List<SMSContactSelf> smsContactSelves, boolean isLongClick) {
-        for (SMSContactSelf otherSmsContactSelf : smsContactSelves) {
-            otherSmsContactSelf.setLongClick(isLongClick);
+    public static List<SMSContactBean> modifySMSContactSelf(List<SMSContactBean> smsContactSelves, boolean isLongClick) {
+        for (SMSContactBean otherSmsContactBean : smsContactSelves) {
+            otherSmsContactBean.setLongClick(isLongClick);
         }
         return smsContactSelves;
     }
@@ -402,7 +402,7 @@ public class RootUtils {
      * 获取wifi extender signal 强度
      */
     public static Drawable transferWifiExtenderSignal(int signalStrength) {
-        wifiApp context = wifiApp.getInstance();
+        WifiLinkApp context = WifiLinkApp.getInstance();
         if (signalStrength <= 0) {
             return ContextCompat.getDrawable(context, R.drawable.wifi_ex_signal0);
         } else if (signalStrength == 1) {
@@ -422,9 +422,9 @@ public class RootUtils {
      * @param ori_hotpots 搜索到的热点集合
      * @param currentSSID 当前连接的热点SSID
      */
-    public static List<Extender_GetHotspotListResult.HotspotListBean> excludeCurrentHotpot(List<Extender_GetHotspotListResult.HotspotListBean> ori_hotpots, String currentSSID) {
-        List<Extender_GetHotspotListResult.HotspotListBean> newLists = new ArrayList<>();
-        for (Extender_GetHotspotListResult.HotspotListBean ori : ori_hotpots) {
+    public static List<Extender_GetHotspotListBean.HotspotListBean> excludeCurrentHotpot(List<Extender_GetHotspotListBean.HotspotListBean> ori_hotpots, String currentSSID) {
+        List<Extender_GetHotspotListBean.HotspotListBean> newLists = new ArrayList<>();
+        for (Extender_GetHotspotListBean.HotspotListBean ori : ori_hotpots) {
             if (ori.getSSID().equals(currentSSID)) {
                 if (ori.getConnectState() == 1) {
                     continue;
@@ -438,14 +438,14 @@ public class RootUtils {
     /**
      * 批量转换SSID并提出空字段的WIFI
      */
-    public static List<Extender_GetHotspotListResult.HotspotListBean> turnSSISBatch(List<Extender_GetHotspotListResult.HotspotListBean> hotspotListBeans) {
-        List<Extender_GetHotspotListResult.HotspotListBean> rehbs = new ArrayList<>();
-        for (Extender_GetHotspotListResult.HotspotListBean hb : hotspotListBeans) {
+    public static List<Extender_GetHotspotListBean.HotspotListBean> turnSSISBatch(List<Extender_GetHotspotListBean.HotspotListBean> hotspotListBeans) {
+        List<Extender_GetHotspotListBean.HotspotListBean> rehbs = new ArrayList<>();
+        for (Extender_GetHotspotListBean.HotspotListBean hb : hotspotListBeans) {
             if (!hb.getSSID().toLowerCase().contains("\\x00\\x00\\x00")) {
                 rehbs.add(hb);
             }
         }
-        for (Extender_GetHotspotListResult.HotspotListBean hb : rehbs) {
+        for (Extender_GetHotspotListBean.HotspotListBean hb : rehbs) {
             hb.setSSID(turnUrlCode(hb.getSSID()));
         }
 
@@ -478,7 +478,7 @@ public class RootUtils {
      * 检查WIFI是否有链接
      */
     public static boolean isWifiConnect() {
-        wifiApp instance = wifiApp.getInstance();
+        WifiLinkApp instance = WifiLinkApp.getInstance();
         ConnectivityManager connMgr = (ConnectivityManager) instance.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connMgr.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
         NetworkInfo.State wifiState = networkInfo.getState();
@@ -536,9 +536,9 @@ public class RootUtils {
     /**
      * 获取某个contactId下所有的smsid
      */
-    public static List<Long> getAllSmsIdByOneSession(SMSContentList scList) {
+    public static List<Long> getAllSmsIdByOneSession(SMSContentListBean scList) {
         List<Long> smsIds = new ArrayList<>();
-        for (SMSContentList.SMSContentBean scb : scList.getSMSContentList()) {
+        for (SMSContentListBean.SMSContentBean scb : scList.getSMSContentList()) {
             smsIds.add(scb.getSMSId());
         }
         return smsIds;
@@ -547,16 +547,16 @@ public class RootUtils {
     /**
      * 转换设备列表
      */
-    public static List<DeviceBean> transferDevicesbean(ConnectedList connectedList) {
-        wifiApp context = wifiApp.getInstance();
+    public static List<DeviceBean> transferDevicesbean(ConnectedListBean connectedListBean) {
+        WifiLinkApp context = WifiLinkApp.getInstance();
         List<DeviceBean> dbs = new ArrayList<>();
         String ip_field = context.getString(R.string.hh70_ip);
         String mac_field = context.getString(R.string.hh70_mac);
         String localIp = Objects.requireNonNull(NetUtils.getLocalIPAddress()).getHostAddress();
 
-        List<ConnectedList.Device> ccls = connectedList.getConnectedList();
+        List<ConnectedListBean.Device> ccls = connectedListBean.getConnectedList();
         if (ccls != null) {
-            for (ConnectedList.Device ccl : ccls) {
+            for (ConnectedListBean.Device ccl : ccls) {
                 DeviceBean ddb = new DeviceBean();
                 ddb.setDeviceIP(String.format(ip_field, ccl.getIPAddress()));
                 ddb.setDeviceMac(String.format(mac_field, ccl.getMacAddress()));

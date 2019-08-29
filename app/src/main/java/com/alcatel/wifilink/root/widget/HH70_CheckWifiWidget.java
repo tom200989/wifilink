@@ -27,7 +27,7 @@ public class HH70_CheckWifiWidget extends RelativeLayout {
 
     public HH70_CheckWifiWidget(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        View inflate = View.inflate(context, R.layout.widget_refresh_getconn, this);
+        View inflate = View.inflate(context, R.layout.hh70_widget_refresh, this);
         ivRefreshGetconnectBg = inflate.findViewById(R.id.iv_refresh_getconnect_bg);
         ivRefreshGetconnectBg.setOnClickListener(null);
         tvRefreshGetconnectOk = inflate.findViewById(R.id.tv_refresh_getconnect_ok);

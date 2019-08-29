@@ -1,6 +1,6 @@
 package com.alcatel.wifilink.root.helper;
 
-import com.alcatel.wifilink.root.bean.ConnectedList;
+import com.alcatel.wifilink.root.bean.ConnectedListBean;
 import com.p_xhelper_smart.p_xhelper_smart.bean.GetConnectDeviceListBean;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetConnectedDeviceListHelper;
 
@@ -16,12 +16,12 @@ public class ConnectDeviceHelper {
     public void get() {
         GetConnectedDeviceListHelper xGetConnectedDeviceListHelper = new GetConnectedDeviceListHelper();
         xGetConnectedDeviceListHelper.setOnGetDeviceListSuccessListener(bean -> {
-            ConnectedList tempConnectedList = new ConnectedList();
+            ConnectedListBean tempConnectedListBean = new ConnectedListBean();
             List<GetConnectDeviceListBean.ConnectedDeviceBean> connectedList = bean.getConnectedList();
             if(connectedList != null && connectedList.size() > 0){
-                List<ConnectedList.Device> tempDeviceArrayList = new ArrayList<>();
+                List<ConnectedListBean.Device> tempDeviceArrayList = new ArrayList<>();
                 for(GetConnectDeviceListBean.ConnectedDeviceBean connectedDeviceBean : connectedList){
-                    ConnectedList.Device device = new ConnectedList.Device();
+                    ConnectedListBean.Device device = new ConnectedListBean.Device();
                     device.setAssociationTime(connectedDeviceBean.getAssociationTime());
                     device.setConnectMode(connectedDeviceBean.getConnectMode());
                     device.setDeviceName(connectedDeviceBean.getDeviceName());
@@ -33,9 +33,9 @@ public class ConnectDeviceHelper {
                     device.setStorageRight(connectedDeviceBean.getStorageRight());
                     tempDeviceArrayList.add(device);
                 }
-                tempConnectedList.setConnectedList(tempDeviceArrayList);
+                tempConnectedListBean.setConnectedList(tempDeviceArrayList);
             }
-            devicesSuccessNext(tempConnectedList);
+            devicesSuccessNext(tempConnectedListBean);
         });
         xGetConnectedDeviceListHelper.setOnGetDeviceListFailListener(this::devicesFailedNext);
         xGetConnectedDeviceListHelper.getConnectDeviceList();
@@ -45,7 +45,7 @@ public class ConnectDeviceHelper {
 
     // 接口OnDevicesSuccessListener
     public interface OnDevicesSuccessListener {
-        void devicesSuccess(ConnectedList connectedList);
+        void devicesSuccess(ConnectedListBean connectedListBean);
     }
 
     // 对外方式setOnDevicesSuccessListener
@@ -54,9 +54,9 @@ public class ConnectDeviceHelper {
     }
 
     // 封装方法devicesSuccessNext
-    private void devicesSuccessNext(ConnectedList connectedList) {
+    private void devicesSuccessNext(ConnectedListBean connectedListBean) {
         if (onDevicesSuccessListener != null) {
-            onDevicesSuccessListener.devicesSuccess(connectedList);
+            onDevicesSuccessListener.devicesSuccess(connectedListBean);
         }
     }
 

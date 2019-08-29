@@ -2,7 +2,7 @@ package com.alcatel.wifilink.root.bean;
 
 import java.util.List;
 
-public class ConnectedList {
+public class ConnectedListBean {
 
     public List<Device> ConnectedList;
 
@@ -97,7 +97,7 @@ public class ConnectedList {
 
     @Override
     public String toString() {
-        return "ConnectedList{" + "ConnectedList=" + ConnectedList + '}';
+        return "ConnectedListBean{" + "ConnectedListBean=" + ConnectedList + '}';
     }
 
     public List<Device> getConnectedList() {

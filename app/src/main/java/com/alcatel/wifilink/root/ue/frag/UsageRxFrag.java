@@ -11,7 +11,7 @@ import com.alcatel.wifilink.root.helper.UsageHelper;
 import com.alcatel.wifilink.root.helper.UsageSettingHelper;
 import com.alcatel.wifilink.root.utils.RootCons;
 import com.alcatel.wifilink.root.widget.HH70_LoadWidget;
-import com.alcatel.wifilink.root.widget.NormalWidget;
+import com.alcatel.wifilink.root.widget.HH70_NormalWidget;
 import com.hiber.cons.TimerState;
 import com.hiber.tools.ShareUtils;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetUsageRecordHelper;
@@ -40,7 +40,7 @@ public class UsageRxFrag extends BaseFrag {
     @BindView(R.id.tv_usage_rx_mobileNetworkSetting)
     TextView tvMobileNetworkSetting;
     @BindView(R.id.dg_usage_rx_ok)
-    NormalWidget dgUsageRxOk;
+    HH70_NormalWidget dgUsageRxOk;
     @BindView(R.id.hh70_loading)
     HH70_LoadWidget hh70LoadWidget;
 

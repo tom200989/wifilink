@@ -14,7 +14,7 @@ import com.alcatel.wifilink.root.ue.activity.HomeActivity;
 import com.alcatel.wifilink.root.utils.RootCons;
 import com.alcatel.wifilink.root.utils.RootUtils;
 import com.alcatel.wifilink.root.widget.HH70_LoadWidget;
-import com.alcatel.wifilink.root.widget.NormalWidget;
+import com.alcatel.wifilink.root.widget.HH70_NormalWidget;
 import com.hiber.tools.ShareUtils;
 import com.hiber.tools.layout.PercentRelativeLayout;
 import com.p_xhelper_smart.p_xhelper_smart.bean.GetLoginStateBean;
@@ -86,7 +86,7 @@ public class WifiInitFrag extends BaseFrag {
     TextView tvTohome;// 前往主页
 
     @BindView(R.id.dg_wifiInit_ok)
-    NormalWidget wdOk;// ok & cancel
+    HH70_NormalWidget wdOk;// ok & cancel
 
     @BindView(R.id.wd_wifi_init_load)
     HH70_LoadWidget wdLoad;// 等待

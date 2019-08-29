@@ -4,25 +4,25 @@ package com.alcatel.wifilink.root.bean;
  * Created by qianli.ma on 2017/6/24.
  */
 
-public class BlockModel {
-    public BlockList.BlockDevice block;
+public class BlockBean {
+    public BlockListBean.BlockDevice block;
     public boolean isEdit;
 
-    public BlockModel(BlockList.BlockDevice block, boolean isEdit) {
+    public BlockBean(BlockListBean.BlockDevice block, boolean isEdit) {
         this.block = block;
         this.isEdit = isEdit;
     }
 
     @Override
     public String toString() {
-        return "BlockModel{" + "block=" + block + ", isEdit=" + isEdit + '}';
+        return "BlockBean{" + "block=" + block + ", isEdit=" + isEdit + '}';
     }
 
-    public BlockList.BlockDevice getBlock() {
+    public BlockListBean.BlockDevice getBlock() {
         return block;
     }
 
-    public void setBlock(BlockList.BlockDevice block) {
+    public void setBlock(BlockListBean.BlockDevice block) {
         this.block = block;
     }
 

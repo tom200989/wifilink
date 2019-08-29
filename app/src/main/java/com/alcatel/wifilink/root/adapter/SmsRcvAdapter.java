@@ -9,9 +9,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.alcatel.wifilink.R;
-import com.alcatel.wifilink.root.bean.SMSContactList;
-import com.alcatel.wifilink.root.bean.SMSContactSelf;
-import com.alcatel.wifilink.root.bean.SMSContactSelfSort;
+import com.alcatel.wifilink.root.bean.SMSContactListBean;
+import com.alcatel.wifilink.root.bean.SMSContactBean;
+import com.alcatel.wifilink.root.helper.SMSContactSortHelper;
 import com.alcatel.wifilink.root.helper.SmsCountHelper;
 import com.alcatel.wifilink.root.ue.frag.SmsFrag;
 import com.alcatel.wifilink.root.utils.RootUtils;
@@ -35,16 +35,16 @@ public class SmsRcvAdapter extends RecyclerView.Adapter<SmsHolder> {
     
     private HashMap<Long, Integer> smsUnreadMap = new HashMap<>();
     private Context context;
-    private List<SMSContactSelf> smsContactList;
+    private List<SMSContactBean> smsContactList;
     private OnRcvLongClickListener onRcvLongClickListener;
     private Drawable check_on;
     private Drawable check_off;
     private List<Long> contactIdClickList;
 
-    public SmsRcvAdapter(Context context, List<SMSContactSelf> smsContactList) {
+    public SmsRcvAdapter(Context context, List<SMSContactBean> smsContactList) {
         this.context = context;
         this.smsContactList = smsContactList;
-        Collections.sort(smsContactList, new SMSContactSelfSort());
+        Collections.sort(smsContactList, new SMSContactSortHelper());
         check_on = context.getResources().getDrawable(R.drawable.checkbox_android_on);
         check_off = context.getResources().getDrawable(R.drawable.checkbox_android_off);
         contactIdClickList = new ArrayList<>();
@@ -52,13 +52,13 @@ public class SmsRcvAdapter extends RecyclerView.Adapter<SmsHolder> {
         check_off = context.getResources().getDrawable(R.drawable.checkbox_android_off);
     }
 
-    public void notifys(List<SMSContactSelf> smsContactList) {
+    public void notifys(List<SMSContactBean> smsContactList) {
         this.smsContactList = smsContactList;
         if (contactIdClickList != null & contactIdClickList.size() > 0) {
             contactIdClickList.clear();
         }
         // sort by date
-        Collections.sort(this.smsContactList, new SMSContactSelfSort());
+        Collections.sort(this.smsContactList, new SMSContactSortHelper());
         notifyDataSetChanged();
     }
 
@@ -68,16 +68,16 @@ public class SmsRcvAdapter extends RecyclerView.Adapter<SmsHolder> {
     public void selectOrDeSelectAll(boolean isSelectAll) {
         contactIdClickList.clear();// 1.清空
         if (isSelectAll) {
-            for (SMSContactSelf scf : smsContactList) {
+            for (SMSContactBean scf : smsContactList) {
                 scf.setState(SELETE_ALL);// 2.修改全选标记位
                 contactIdClickList.add(scf.getSmscontact().getContactId());
             }
         } else {
-            for (SMSContactSelf scf : smsContactList) {
+            for (SMSContactBean scf : smsContactList) {
                 scf.setState(DESELETE_ALL);
             }
         }
-        //Collections.sort(smsContactList, new SMSContactSelfSort());
+        //Collections.sort(smsContactList, new SMSContactSortHelper());
         //notifys(smsContactList);// 3.刷新
         notifyDataSetChanged();
         selectAllOrNotNext(contactIdClickList);// 4.接口
@@ -85,7 +85,7 @@ public class SmsRcvAdapter extends RecyclerView.Adapter<SmsHolder> {
 
     @Override
     public SmsHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new SmsHolder(LayoutInflater.from(context).inflate(R.layout.item_sms_update, parent, false));
+        return new SmsHolder(LayoutInflater.from(context).inflate(R.layout.hh70_item_sms_update, parent, false));
     }
 
     @Override
@@ -112,7 +112,7 @@ public class SmsRcvAdapter extends RecyclerView.Adapter<SmsHolder> {
 
     /* **** setSmsPoint **** */
     private void setSmsPoint(SmsHolder holder, int position) {
-        SMSContactList.SMSContact smsContact = smsContactList.get(position).getSmscontact();
+        SMSContactListBean.SMSContact smsContact = smsContactList.get(position).getSmscontact();
         int smsType = smsContact.getSMSType();
         int unreadCount = smsContact.getUnreadCount();
         /*  如果检测到未读, 但是未读的数量又为0, 则是FW未做处理, 其实是不存在未读短信, 直接设置为已读 */
@@ -151,7 +151,7 @@ public class SmsRcvAdapter extends RecyclerView.Adapter<SmsHolder> {
 
     /* **** setPhoneNum **** */
     private void setPhoneNum(SmsHolder holder, int position) {
-        SMSContactList.SMSContact smsContact = smsContactList.get(position).getSmscontact();
+        SMSContactListBean.SMSContact smsContact = smsContactList.get(position).getSmscontact();
         List<String> phoneNumber = smsContact.getPhoneNumber();
         String phone = RootUtils.stitchPhone(context, phoneNumber);
         holder.tv_smsPhone.setText(phone);
@@ -159,19 +159,19 @@ public class SmsRcvAdapter extends RecyclerView.Adapter<SmsHolder> {
 
     /* **** setSmsCount **** */
     private void setSmsCount(SmsHolder holder, int position) {
-        SMSContactList.SMSContact smsContact = smsContactList.get(position).getSmscontact();
+        SMSContactListBean.SMSContact smsContact = smsContactList.get(position).getSmscontact();
         holder.tv_smsCount.setText(String.valueOf(smsContact.getTSMSCount()));
     }
 
     /* **** setSmsContent **** */
     private void setSmsContent(SmsHolder holder, int position) {
-        SMSContactList.SMSContact smsContact = smsContactList.get(position).getSmscontact();
+        SMSContactListBean.SMSContact smsContact = smsContactList.get(position).getSmscontact();
         holder.tv_smsContent.setText(smsContact.getSMSContent());
     }
 
     /* **** setSmsDate **** */
     private void setSmsDate(SmsHolder holder, int position) {
-        SMSContactList.SMSContact smsContact = smsContactList.get(position).getSmscontact();
+        SMSContactListBean.SMSContact smsContact = smsContactList.get(position).getSmscontact();
         String date = RootUtils.transferDate(smsContact.getSMSTime());
         holder.tv_smsDate.setText(date);
     }
@@ -180,11 +180,11 @@ public class SmsRcvAdapter extends RecyclerView.Adapter<SmsHolder> {
     private void setSmsClick(SmsHolder holder, int position) {
 
         // 1.切换
-        SMSContactList.SMSContact smsContact = smsContactList.get(position).getSmscontact();
+        SMSContactListBean.SMSContact smsContact = smsContactList.get(position).getSmscontact();
         holder.rl_sms.setOnClickListener(v -> {
             // 2.把所有的全选标记位复位为CLICK
-            for (SMSContactSelf scf : smsContactList) {
-                scf.setState(SMSContactSelf.CLICK);
+            for (SMSContactBean scf : smsContactList) {
+                scf.setState(SMSContactBean.CLICK);
             }
             if (!SmsFrag.isLongClick) {/* 普通模式下 */
                 smsNormalClickNext(smsContact);
@@ -217,13 +217,13 @@ public class SmsRcvAdapter extends RecyclerView.Adapter<SmsHolder> {
 
     /* **** setSmsSendFailed **** */
     private void setSmsSendFailed(SmsHolder holder, int position) {
-        SMSContactList.SMSContact smsContact = smsContactList.get(position).getSmscontact();
+        SMSContactListBean.SMSContact smsContact = smsContactList.get(position).getSmscontact();
         holder.iv_smsSendFailed.setVisibility(smsContact.getSMSType() == GetSMSContactListBean.SMSContacBean.CONS_SMS_TYPE_SENT_FAIL ? VISIBLE : GONE);
     }
 
 
     /* 调用此方法, 路由器自动设置为已读 */
-    private void setReaded(SMSContactList.SMSContact smsContact) {
+    private void setReaded(SMSContactListBean.SMSContact smsContact) {
         // 清空缓冲区短信未读数量
         smsUnreadMap.put(smsContact.getContactId(), 0);
 
@@ -267,7 +267,7 @@ public class SmsRcvAdapter extends RecyclerView.Adapter<SmsHolder> {
 
     // 接口OnSMSWhenLongClickAfterListener
     public interface OnSMSWhenLongClickAfterListener {
-        void smsWhenlongclickAfter(SMSContactList.SMSContact attr, List<Long> contactIdList);
+        void smsWhenlongclickAfter(SMSContactListBean.SMSContact attr, List<Long> contactIdList);
     }
 
     // 对外方式setOnSMSWhenLongClickAfterListener
@@ -276,7 +276,7 @@ public class SmsRcvAdapter extends RecyclerView.Adapter<SmsHolder> {
     }
 
     // 封装方法smsWhenlongclickAfterNext
-    private void smsWhenlongclickAfterNext(SMSContactList.SMSContact attr, List<Long> contactIdList) {
+    private void smsWhenlongclickAfterNext(SMSContactListBean.SMSContact attr, List<Long> contactIdList) {
         if (onSMSWhenLongClickAfterListener != null) {
             onSMSWhenLongClickAfterListener.smsWhenlongclickAfter(attr, contactIdList);
         }
@@ -286,7 +286,7 @@ public class SmsRcvAdapter extends RecyclerView.Adapter<SmsHolder> {
 
     // 接口OnSMSNormalClickListener
     public interface OnSMSNormalClickListener {
-        void smsNormalClick(SMSContactList.SMSContact attr);
+        void smsNormalClick(SMSContactListBean.SMSContact attr);
     }
 
     // 对外方式setOnSMSNormalClickListener
@@ -295,7 +295,7 @@ public class SmsRcvAdapter extends RecyclerView.Adapter<SmsHolder> {
     }
 
     // 封装方法smsNormalClickNext
-    private void smsNormalClickNext(SMSContactList.SMSContact attr) {
+    private void smsNormalClickNext(SMSContactListBean.SMSContact attr) {
         if (onSMSNormalClickListener != null) {
             onSMSNormalClickListener.smsNormalClick(attr);
         }

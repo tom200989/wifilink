@@ -2,7 +2,7 @@ package com.alcatel.wifilink.root.helper;
 
 import android.app.Activity;
 
-import com.alcatel.wifilink.root.bean.SMSContentList;
+import com.alcatel.wifilink.root.bean.SMSContentListBean;
 import com.alcatel.wifilink.root.utils.RootUtils;
 import com.p_xhelper_smart.p_xhelper_smart.bean.DeleteSmsParam;
 import com.p_xhelper_smart.p_xhelper_smart.bean.GetSMSContactListBean;
@@ -92,10 +92,10 @@ public class SmsDraftHelper {
         getSmsContentListParam.setContactId((int) contactId);
         GetSMSContentListHelper xGetSMSContentListHelper = new GetSMSContentListHelper();
         xGetSMSContentListHelper.setOnGetSmsContentListSuccessListener(bean -> {
-            List<SMSContentList.SMSContentBean> scbs = new ArrayList<>();
+            List<SMSContentListBean.SMSContentBean> scbs = new ArrayList<>();
             for (GetSMSContentListBean.SMSContentBean scb : bean.getSMSContentList()) {
                 if (scb.getSMSType() == GetSMSContactListBean.SMSContacBean.CONS_SMS_TYPE_DRAFT) {// add draft sms
-                    SMSContentList.SMSContentBean tempSmsContentBean = new SMSContentList.SMSContentBean();
+                    SMSContentListBean.SMSContentBean tempSmsContentBean = new SMSContentListBean.SMSContentBean();
                     tempSmsContentBean.setReportStatus(scb.getReportStatus());
                     tempSmsContentBean.setSMSContent(scb.getSMSContent());
                     tempSmsContentBean.setSMSId(scb.getSMSId());
@@ -108,7 +108,7 @@ public class SmsDraftHelper {
                 String draft = "";
                 if (scbs.size() > 0) {
                     Collections.sort(scbs, new SmsContentSortHelper());
-                    SMSContentList.SMSContentBean scb = scbs.get(0);
+                    SMSContentListBean.SMSContentBean scb = scbs.get(0);
                     draft = scb.getSMSContent();
                 }
                 if (onGetDraftListener != null) {
@@ -148,19 +148,19 @@ public class SmsDraftHelper {
         GetSMSContentListHelper xGetSMSContentListHelper = new GetSMSContentListHelper();
         xGetSMSContentListHelper.setOnGetSmsContentListSuccessListener(bean -> {
             //将xsmart框架内部的Bean转为旧的Bean
-            SMSContentList smsContentList = new SMSContentList();
-            smsContentList.setPage(bean.getPage());
-            smsContentList.setContactId(bean.getContactId());
-            smsContentList.setPhoneNumber(bean.getPhoneNumber());
-            smsContentList.setTotalPageCount(bean.getTotalPageCount());
+            SMSContentListBean smsContentListBean = new SMSContentListBean();
+            smsContentListBean.setPage(bean.getPage());
+            smsContentListBean.setContactId(bean.getContactId());
+            smsContentListBean.setPhoneNumber(bean.getPhoneNumber());
+            smsContentListBean.setTotalPageCount(bean.getTotalPageCount());
             //xsmart框架内部Bean列表
             List<GetSMSContentListBean.SMSContentBean> smsContentBeans = bean.getSMSContentList();
             if(smsContentBeans != null && smsContentBeans.size() > 0){
                 //旧的Bean列表容器
-                List<SMSContentList.SMSContentBean> tempSMSContentList = new ArrayList<>();
+                List<SMSContentListBean.SMSContentBean> tempSMSContentList = new ArrayList<>();
                 for(GetSMSContentListBean.SMSContentBean smsContentBean : smsContentBeans){
                     //旧Bean容器
-                    SMSContentList.SMSContentBean tempSmsContentBean = new SMSContentList.SMSContentBean();
+                    SMSContentListBean.SMSContentBean tempSmsContentBean = new SMSContentListBean.SMSContentBean();
                     tempSmsContentBean.setReportStatus(smsContentBean.getReportStatus());
                     tempSmsContentBean.setSMSContent(smsContentBean.getSMSContent());
                     tempSmsContentBean.setSMSId(smsContentBean.getSMSId());
@@ -170,10 +170,10 @@ public class SmsDraftHelper {
                     tempSMSContentList.add(tempSmsContentBean);
                 }
                 //填充旧的Bean列表容器
-                smsContentList.setSMSContentList(tempSMSContentList);
+                smsContentListBean.setSMSContentList(tempSMSContentList);
             }
 
-            for (SMSContentList.SMSContentBean scb : smsContentList.getSMSContentList()) {
+            for (SMSContentListBean.SMSContentBean scb : smsContentListBean.getSMSContentList()) {
                 if (scb.getSMSType() == GetSMSContactListBean.SMSContacBean.CONS_SMS_TYPE_DRAFT) {
                     draftList.add(scb.getSMSId());
                 }

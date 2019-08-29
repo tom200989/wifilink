@@ -12,8 +12,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.alcatel.wifilink.R;
-import com.alcatel.wifilink.root.bean.ConnectedList;
-import com.alcatel.wifilink.root.bean.Extender_GetWIFIExtenderCurrentStatusResult;
+import com.alcatel.wifilink.root.bean.ConnectedListBean;
+import com.alcatel.wifilink.root.bean.Extender_GetWIFICurrentStatuBean;
 import com.alcatel.wifilink.root.helper.ClickDoubleHelper;
 import com.alcatel.wifilink.root.helper.DeviceHelper;
 import com.alcatel.wifilink.root.helper.Extender_GetWIFIExtenderSettingsHelper;
@@ -24,9 +24,9 @@ import com.alcatel.wifilink.root.ue.activity.SplashActivity;
 import com.alcatel.wifilink.root.utils.RootCons;
 import com.alcatel.wifilink.root.utils.RootUtils;
 import com.alcatel.wifilink.root.widget.HH70_LoadWidget;
-import com.alcatel.wifilink.root.widget.MainMW70BatteryView;
-import com.alcatel.wifilink.root.widget.MainMW70BottomView;
-import com.alcatel.wifilink.root.widget.NormalWidget;
+import com.alcatel.wifilink.root.widget.HH70_MwBatteryWidget;
+import com.alcatel.wifilink.root.widget.HH70_MwBottomWidget;
+import com.alcatel.wifilink.root.widget.HH70_NormalWidget;
 import com.de.wave.core.WaveView;
 import com.hiber.cons.TimerState;
 import com.hiber.impl.RootEventListener;
@@ -106,13 +106,13 @@ public class mainFrag extends BaseFrag {
     TextView tvConnectedPeople;// 连接人数文本
 
     @BindView(R.id.rl_mainrx_mw70_panel)
-    MainMW70BottomView rlMainrxMw70BottomPanel;// MW70新型设备需要显示的面板
+    HH70_MwBottomWidget rlMainrxMw70BottomPanel;// MW70新型设备需要显示的面板
 
     @BindView(R.id.rl_mainrx_mw70_battery_extender)
-    MainMW70BatteryView rlMainrxMw70BatteryExtender;// MW70新型设备需要显示的电池面板
+    HH70_MwBatteryWidget rlMainrxMw70BatteryExtender;// MW70新型设备需要显示的电池面板
 
     @BindView(R.id.dg_mainrx_widget_ok)
-    NormalWidget wdOK;// 确定取消面板
+    HH70_NormalWidget wdOK;// 确定取消面板
 
     @BindView(R.id.wd_main_load)
     HH70_LoadWidget wdLoad;// 等待
@@ -449,7 +449,7 @@ public class mainFrag extends BaseFrag {
     /**
      * 显示extender强度以及SSID
      */
-    private void showExtenderStrength(Extender_GetWIFIExtenderCurrentStatusResult result) {
+    private void showExtenderStrength(Extender_GetWIFICurrentStatuBean result) {
         if (result != null) {
             // 1.切换network、wifi extender的启闭状态、wifi extender下的中心按钮UI
             setMWNetworkAndBatUi(result.getHotspotConnectStatus() == 2);
@@ -908,9 +908,9 @@ public class mainFrag extends BaseFrag {
     /**
      * 将本地的connectlist转换成aar接收的bean
      */
-    private com.p_freesharing.p_freesharing.bean.ConnectedList transferConnectList(ConnectedList connectedList) {
+    private com.p_freesharing.p_freesharing.bean.ConnectedList transferConnectList(ConnectedListBean connectedListBean) {
         // 本工程的connectlist
-        List<ConnectedList.Device> wifiConnectList = connectedList.getConnectedList();
+        List<ConnectedListBean.Device> wifiConnectList = connectedListBean.getConnectedList();
         // 创建aar包里的connectlist
         com.p_freesharing.p_freesharing.bean.ConnectedList aarConnectList = new com.p_freesharing.p_freesharing.bean.ConnectedList();
         List<com.p_freesharing.p_freesharing.bean.ConnectedList.Device> aarDevices = new ArrayList<>();

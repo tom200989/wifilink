@@ -20,7 +20,7 @@ import com.alcatel.wifilink.root.widget.HH70_CheckVersionWidget;
 import com.alcatel.wifilink.root.widget.HH70_CountDownWidget;
 import com.alcatel.wifilink.root.widget.HH70_DownWidget;
 import com.alcatel.wifilink.root.widget.HH70_LoadWidget;
-import com.alcatel.wifilink.root.widget.NormalWidget;
+import com.alcatel.wifilink.root.widget.HH70_NormalWidget;
 import com.hiber.cons.TimerState;
 import com.hiber.tools.ShareUtils;
 import com.hiber.tools.TimerHelper;
@@ -107,9 +107,9 @@ public class SettingFrag extends BaseFrag {
     TextView tvExtenderOnOff;
 
     @BindView(R.id.dg_settingRx_widget_ok)
-    NormalWidget dgSettingRxWidgetOk;
+    HH70_NormalWidget dgSettingRxWidgetOk;
     @BindView(R.id.dg_settingRx_widget_confirm)
-    NormalWidget dgSettingRxWidgetConfirm;
+    HH70_NormalWidget dgSettingRxWidgetConfirm;
     @BindView(R.id.wd_upgrade_checkversion)
     HH70_CheckVersionWidget wd_checkVersion;
     @BindView(R.id.wd_setting_down)
@@ -121,7 +121,7 @@ public class SettingFrag extends BaseFrag {
     @BindView(R.id.wd_backup_path)
     HH70_BackupPathWidget wd_backpath;
     @BindView(R.id.wd_reset_tip)
-    NormalWidget wd_reset;
+    HH70_NormalWidget wd_reset;
     @BindView(R.id.lw_loading)
     HH70_LoadWidget loadWidget;
 

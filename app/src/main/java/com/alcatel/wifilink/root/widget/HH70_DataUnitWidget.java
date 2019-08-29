@@ -33,7 +33,7 @@ public class HH70_DataUnitWidget extends RelativeLayout {
         super(context, attrs, defStyle);
         check_color = getResources().getColor(R.color.mg_blue);
         uncheck_color = getResources().getColor(R.color.gray);
-        inflate = inflate(context, R.layout.pop_dataplan_rx, this);
+        inflate = inflate(context, R.layout.hh70_widget_dataplan, this);
         rlBg = inflate.findViewById(R.id.rl_dataplan_bg);
         tvMB = inflate.findViewById(R.id.tv_dataplan_rx_pop_mb);
         tvGB = inflate.findViewById(R.id.tv_dataplan_rx_pop_gb);

@@ -33,7 +33,7 @@ public class LoginMWDevAdapter extends RecyclerView.Adapter<LoginDevicesHolder> 
 
     @Override
     public LoginDevicesHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new LoginDevicesHolder(LayoutInflater.from(context).inflate(R.layout.item_pre_devices, parent, false));
+        return new LoginDevicesHolder(LayoutInflater.from(context).inflate(R.layout.hh70_item_pre_devices, parent, false));
     }
 
     @Override

@@ -132,7 +132,7 @@
         </com.hiber.tools.layout.PercentLinearLayout>
 
         <!-- 确定取消按钮 -->
-        <com.alcatel.wifilink.root.widget.NormalWidget
+        <com.alcatel.wifilink.root.widget.HH70_NormalWidget
             android:id="@+id/dg_widget_ok"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

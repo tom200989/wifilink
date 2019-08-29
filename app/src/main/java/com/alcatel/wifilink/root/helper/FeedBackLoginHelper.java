@@ -1,7 +1,7 @@
 package com.alcatel.wifilink.root.helper;
 
 import com.alcatel.wifilink.root.bean.FeedbackLoginParam;
-import com.alcatel.wifilink.root.bean.FeedbackLoginResult;
+import com.alcatel.wifilink.root.bean.FeedbackLoginBean;
 import com.alibaba.fastjson.JSONObject;
 
 import org.xutils.http.RequestParams;
@@ -11,7 +11,7 @@ import org.xutils.x;
  * Created by qianli.ma on 2018/5/31 0031.
  */
 
-public class FeedBackLoginHelperFeedback extends FeedbackBaseCallBack {
+public class FeedBackLoginHelper extends FeedbackBaseCallBackHelper {
 
     private String url = BASE_URL + "/v1.0/wifi/device/login";
     private Class clz;
@@ -25,8 +25,8 @@ public class FeedBackLoginHelperFeedback extends FeedbackBaseCallBack {
     @Override
     public void onSuccess(String json) {
         super.onSuccess(json);
-        FeedbackLoginResult feedbackLoginResult = JSONObject.parseObject(json, FeedbackLoginResult.class);
-        loginSuccessNext(feedbackLoginResult);
+        FeedbackLoginBean feedbackLoginBean = JSONObject.parseObject(json, FeedbackLoginBean.class);
+        loginSuccessNext(feedbackLoginBean);
     }
 
     @Override
@@ -93,7 +93,7 @@ public class FeedBackLoginHelperFeedback extends FeedbackBaseCallBack {
 
     // 接口OnLoginSuccessListener
     public interface OnLoginSuccessListener {
-        void loginSuccess(FeedbackLoginResult feedbackLoginResult);
+        void loginSuccess(FeedbackLoginBean feedbackLoginBean);
     }
 
     // 对外方式setOnLoginSuccessListener
@@ -102,9 +102,9 @@ public class FeedBackLoginHelperFeedback extends FeedbackBaseCallBack {
     }
 
     // 封装方法loginSuccessNext
-    private void loginSuccessNext(FeedbackLoginResult feedbackLoginResult) {
+    private void loginSuccessNext(FeedbackLoginBean feedbackLoginBean) {
         if (onLoginSuccessListener != null) {
-            onLoginSuccessListener.loginSuccess(feedbackLoginResult);
+            onLoginSuccessListener.loginSuccess(feedbackLoginBean);
         }
     }
 }

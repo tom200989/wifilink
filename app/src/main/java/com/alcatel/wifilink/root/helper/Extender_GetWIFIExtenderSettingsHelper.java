@@ -1,7 +1,7 @@
 package com.alcatel.wifilink.root.helper;
 
-import com.alcatel.wifilink.root.bean.Extender_GetWIFIExtenderCurrentStatusResult;
-import com.alcatel.wifilink.root.bean.Extender_GetWIFIExtenderSettingsResult;
+import com.alcatel.wifilink.root.bean.Extender_GetWIFICurrentStatuBean;
+import com.alcatel.wifilink.root.bean.Extender_GetWIFISettingsBean;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetWIFIExtenderCurrentStatusHelper;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetWIFIExtenderSettingsHelper;
 
@@ -13,7 +13,7 @@ public class Extender_GetWIFIExtenderSettingsHelper {
     public void get() {
         GetWIFIExtenderSettingsHelper xGetWIFIExtenderSettingsHelper = new GetWIFIExtenderSettingsHelper();
         xGetWIFIExtenderSettingsHelper.setGetWifiExtenderSettingsSuccessListener(bean -> {
-            Extender_GetWIFIExtenderSettingsResult extenderGetWIFIExtenderSettingsResult = new Extender_GetWIFIExtenderSettingsResult();
+            Extender_GetWIFISettingsBean extenderGetWIFIExtenderSettingsResult = new Extender_GetWIFISettingsBean();
             extenderGetWIFIExtenderSettingsResult.setExtenderInitingStatus(bean.getExtenderInitingStatus());
             extenderGetWIFIExtenderSettingsResult.setStationEnable(bean.getStationEnable());
             successNext(extenderGetWIFIExtenderSettingsResult);
@@ -50,7 +50,7 @@ public class Extender_GetWIFIExtenderSettingsHelper {
     private void getCurrentHotpot() {
         GetWIFIExtenderCurrentStatusHelper xGetWIFIExtenderCurrentStatusHelper = new GetWIFIExtenderCurrentStatusHelper();
         xGetWIFIExtenderCurrentStatusHelper.setOnGetWifiExCurStatusSuccessListener(bean -> {
-            Extender_GetWIFIExtenderCurrentStatusResult extenderGetWIFIExtenderCurrentStatusResult = new Extender_GetWIFIExtenderCurrentStatusResult();
+            Extender_GetWIFICurrentStatuBean extenderGetWIFIExtenderCurrentStatusResult = new Extender_GetWIFICurrentStatuBean();
             extenderGetWIFIExtenderCurrentStatusResult.setHotspotConnectStatus(bean.getHotspotConnectStatus());
             extenderGetWIFIExtenderCurrentStatusResult.setHotspotSSID(bean.getHotspotSSID());
             extenderGetWIFIExtenderCurrentStatusResult.setIPV4Addr(bean.getIPV4Addr());
@@ -68,7 +68,7 @@ public class Extender_GetWIFIExtenderSettingsHelper {
 
     // 接口OnCurrentHotpotListener
     public interface OnCurrentHotpotListener {
-        void currentHotpot(Extender_GetWIFIExtenderCurrentStatusResult result);
+        void currentHotpot(Extender_GetWIFICurrentStatuBean result);
     }
 
     // 对外方式setOnCurrentHotpotListener
@@ -77,7 +77,7 @@ public class Extender_GetWIFIExtenderSettingsHelper {
     }
 
     // 封装方法currentHotpotNext
-    private void currentHotpotNext(Extender_GetWIFIExtenderCurrentStatusResult attr) {
+    private void currentHotpotNext(Extender_GetWIFICurrentStatuBean attr) {
         if (onCurrentHotpotListener != null) {
             onCurrentHotpotListener.currentHotpot(attr);
         }
@@ -182,7 +182,7 @@ public class Extender_GetWIFIExtenderSettingsHelper {
 
     // 接口OnSuccessListener
     public interface OnSuccessListener {
-        void success(Extender_GetWIFIExtenderSettingsResult result);
+        void success(Extender_GetWIFISettingsBean result);
     }
 
     // 对外方式setOnSuccessListener
@@ -191,7 +191,7 @@ public class Extender_GetWIFIExtenderSettingsHelper {
     }
 
     // 封装方法successNext
-    private void successNext(Extender_GetWIFIExtenderSettingsResult result) {
+    private void successNext(Extender_GetWIFISettingsBean result) {
         if (onSuccessListener != null) {
             onSuccessListener.success(result);
         }

@@ -7,9 +7,9 @@ import org.xutils.http.request.UriRequest;
  * Created by qianli.ma on 2018/5/31 0031.
  */
 
-public class FeedbackBaseCallBack implements Callback.CommonCallback<String>,Callback.ProgressCallback<String>{
+public class FeedbackBaseCallBackHelper implements Callback.CommonCallback<String>,Callback.ProgressCallback<String>{
 
-    public String TAG = "FeedbackBaseCallBack";
+    public String TAG = "FeedbackBaseCallBackHelper";
 
     // public String BASE_URL="http://api.tcl-move.com";
     public String BASE_URL="https://www.alcatel-move.com";

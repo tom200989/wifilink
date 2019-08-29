@@ -12,11 +12,11 @@ import java.util.List;
  * Created by qianli.ma on 2018/2/26 0026.
  */
 
-public class PreLoginTool {
+public class PreLoginHelper {
     private Context context;
     private List<Drawable> signals;// 信号强度集合
 
-    public PreLoginTool(Context context) {
+    public PreLoginHelper(Context context) {
         this.context = context;
         initRes();
     }

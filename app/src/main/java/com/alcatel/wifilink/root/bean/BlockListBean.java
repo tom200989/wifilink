@@ -3,13 +3,13 @@ package com.alcatel.wifilink.root.bean;
 import java.util.List;
 
 
-public class BlockList {
+public class BlockListBean {
 
     public List<BlockDevice> BlockList;
 
     @Override
     public String toString() {
-        return "BlockList{" + "BlockList=" + BlockList + '}';
+        return "BlockListBean{" + "BlockListBean=" + BlockList + '}';
     }
 
     public List<BlockDevice> getBlockList() {

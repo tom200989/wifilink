@@ -11,8 +11,8 @@ import android.widget.TextView;
 
 import com.alcatel.wifilink.R;
 import com.alcatel.wifilink.root.adapter.WifiExtenderAdapter;
-import com.alcatel.wifilink.root.bean.Extender_GetHotspotListResult;
-import com.alcatel.wifilink.root.bean.Extender_GetWIFIExtenderCurrentStatusResult;
+import com.alcatel.wifilink.root.bean.Extender_GetHotspotListBean;
+import com.alcatel.wifilink.root.bean.Extender_GetWIFICurrentStatuBean;
 import com.alcatel.wifilink.root.helper.Extender_ConnectHotspotHelper;
 import com.alcatel.wifilink.root.helper.Extender_DisConnectHotspotHelper;
 import com.alcatel.wifilink.root.helper.Extender_GetConnectHotspotStateHelper;
@@ -21,10 +21,10 @@ import com.alcatel.wifilink.root.helper.Extender_GetWIFIExtenderCurrentStatusHel
 import com.alcatel.wifilink.root.helper.Extender_GetWIFIExtenderSettingsHelper;
 import com.alcatel.wifilink.root.helper.Extender_SetWIFIExtenderSettingsHelper;
 import com.alcatel.wifilink.root.utils.RootUtils;
-import com.alcatel.wifilink.root.widget.DisConnHotpotView;
-import com.alcatel.wifilink.root.widget.ExtenderWait;
-import com.alcatel.wifilink.root.widget.HotPotKeyView;
-import com.alcatel.wifilink.root.widget.OpenCloseExtenderView;
+import com.alcatel.wifilink.root.widget.HH70_DisConnHotpotWidget;
+import com.alcatel.wifilink.root.widget.HH70_ExtenderWaitWidget;
+import com.alcatel.wifilink.root.widget.HH70_HotPotKeyWidget;
+import com.alcatel.wifilink.root.widget.HH70_OpenCloseExtenderWidget;
 import com.hiber.cons.TimerState;
 import com.p_xhelper_smart.p_xhelper_smart.helper.SearchHotspotHelper;
 
@@ -62,19 +62,19 @@ public class WifiExtenderRxFrag extends BaseFrag {
     @BindView(R.id.rcv_wifiExtender_available_network)
     RecyclerView rcvWifiExtenderAvailableNetwork;// 待连接的热点列表
     @BindView(R.id.widget_wifi_extender_wait)
-    ExtenderWait widgetWifiExtenderWait;// 等待列表
+    HH70_ExtenderWaitWidget widgetWifiHH70ExtenderWaitWidget;// 等待列表
     @BindView(R.id.widget_wifi_extender_password)
-    HotPotKeyView widgetWifiExtenderPassword;// 输入热点密码窗口
+    HH70_HotPotKeyWidget widgetWifiExtenderPassword;// 输入热点密码窗口
     @BindView(R.id.widget_wifi_extender_open_close)
-    OpenCloseExtenderView widgetWifiExtenderOpenClose;// 开启或者关闭wifiextender时弹出提示窗口
+    HH70_OpenCloseExtenderWidget widgetWifiExtenderOpenClose;// 开启或者关闭wifiextender时弹出提示窗口
     @BindView(R.id.widget_wifi_extender_disconnhotpot)
-    DisConnHotpotView widgetWifiExtenderDisconnhotpot;// 取消当前连接窗口
+    HH70_DisConnHotpotWidget widgetWifiExtenderDisconnhotpot;// 取消当前连接窗口
 
     private String TAG = "WifiExtenderRxFragment";
     private Drawable button_on;
     private Drawable button_off;
     private WifiExtenderAdapter wifiExtenderAdapter;
-    private List<Extender_GetHotspotListResult.HotspotListBean> hotspotBeans = new ArrayList<>();
+    private List<Extender_GetHotspotListBean.HotspotListBean> hotspotBeans = new ArrayList<>();
     private int getConnectHotpotCount = 0;// 获取已连接热点的状态计数器
     private Handler handler;
 
@@ -117,10 +117,10 @@ public class WifiExtenderRxFrag extends BaseFrag {
      *
      * @param hotpot
      */
-    private void showConnPasswordWindow(Extender_GetHotspotListResult.HotspotListBean hotpot) {
+    private void showConnPasswordWindow(Extender_GetHotspotListBean.HotspotListBean hotpot) {
         if (hotpot.getSecurityMode() == 0) {
             tvScan.setVisibility(View.GONE);
-            widgetWifiExtenderWait.setVisibility(View.VISIBLE);
+            widgetWifiHH70ExtenderWaitWidget.setVisibility(View.VISIBLE);
             connhotpot(hotpot, "");
         } else {
             // 弹出密码输入框
@@ -128,7 +128,7 @@ public class WifiExtenderRxFrag extends BaseFrag {
             widgetWifiExtenderPassword.show(hotpot);
             widgetWifiExtenderPassword.setOnClickOkListener((hb, password) -> {
                 tvScan.setVisibility(View.GONE);
-                widgetWifiExtenderWait.setVisibility(View.VISIBLE);
+                widgetWifiHH70ExtenderWaitWidget.setVisibility(View.VISIBLE);
                 connhotpot(hotpot, password);
                 widgetWifiExtenderPassword.clear();
             });
@@ -142,7 +142,7 @@ public class WifiExtenderRxFrag extends BaseFrag {
      * @param hotpot
      * @param password
      */
-    private void connhotpot(Extender_GetHotspotListResult.HotspotListBean hotpot, String password) {
+    private void connhotpot(Extender_GetHotspotListBean.HotspotListBean hotpot, String password) {
 
         // 整理要素
         String hotspotId = hotpot.getHotspotId();
@@ -199,13 +199,13 @@ public class WifiExtenderRxFrag extends BaseFrag {
                 case PASSWORD_ERROR:// 3
                     getConnectHotpotCount = 0;
                     toast(R.string.hh70_enter_correct_psd, 2000);
-                    widgetWifiExtenderWait.setVisibility(View.GONE);
+                    widgetWifiHH70ExtenderWaitWidget.setVisibility(View.GONE);
                     tvScan.setVisibility(View.VISIBLE);
                     break;
                 case NEED_PASSWORD:// 4
                     getConnectHotpotCount = 0;
                     toast(R.string.hh70_enter_correct_psd, 2000);
-                    widgetWifiExtenderWait.setVisibility(View.GONE);
+                    widgetWifiHH70ExtenderWaitWidget.setVisibility(View.GONE);
                     tvScan.setVisibility(View.VISIBLE);
                     break;
                 case FAIL:// 5
@@ -236,7 +236,7 @@ public class WifiExtenderRxFrag extends BaseFrag {
      * 连接失败处理
      */
     private void connectFailed() {
-        widgetWifiExtenderWait.setVisibility(View.GONE);
+        widgetWifiHH70ExtenderWaitWidget.setVisibility(View.GONE);
         tvScan.setVisibility(View.VISIBLE);
         toast(R.string.hh70_try_again_extender, 2000);
         getHotpotInfo();// 重新获取
@@ -258,7 +258,7 @@ public class WifiExtenderRxFrag extends BaseFrag {
      */
     private void getHotpotInfo() {
         /* 1.获取wifi extender setting */
-        widgetWifiExtenderWait.setVisibility(View.VISIBLE);
+        widgetWifiHH70ExtenderWaitWidget.setVisibility(View.VISIBLE);
         tvScan.setVisibility(View.GONE);
         // hotspotBeans.clear();
         getWIFISettings();
@@ -343,7 +343,7 @@ public class WifiExtenderRxFrag extends BaseFrag {
     /**
      * 获取热点列表
      */
-    private void getHotpotList(Extender_GetWIFIExtenderCurrentStatusResult currentResult) {
+    private void getHotpotList(Extender_GetWIFICurrentStatuBean currentResult) {
         int NONE = 0;
         int SEARCHING = 1;
         int COMPLETED = 2;
@@ -359,7 +359,7 @@ public class WifiExtenderRxFrag extends BaseFrag {
                 }
                 int hotpotStatus = hotpotInfo.getStatus();
                 if (hotpotStatus == NONE) {
-                    widgetWifiExtenderWait.setVisibility(View.GONE);
+                    widgetWifiHH70ExtenderWaitWidget.setVisibility(View.GONE);
                     rcvWifiExtenderAvailableNetwork.setVisibility(View.GONE);
                     tvScan.setVisibility(View.VISIBLE);
                 } else if (hotpotStatus == SEARCHING) {
@@ -375,21 +375,21 @@ public class WifiExtenderRxFrag extends BaseFrag {
                     // 列表显示
                     rcvWifiExtenderAvailableNetwork.setVisibility(View.VISIBLE);
                     // 获取到热点列表
-                    List<Extender_GetHotspotListResult.HotspotListBean> ori_hotpots = hotpotInfo.getHotspotList();
+                    List<Extender_GetHotspotListBean.HotspotListBean> ori_hotpots = hotpotInfo.getHotspotList();
                     // 排除掉当前连接的wifi
                     ori_hotpots = RootUtils.excludeCurrentHotpot(ori_hotpots, currentResult.getHotspotSSID());
                     hotspotBeans = RootUtils.turnSSISBatch(ori_hotpots);
                     // 刷新适配器
                     wifiExtenderAdapter.notifys(hotspotBeans);
                     // 等待隐藏
-                    widgetWifiExtenderWait.setVisibility(View.GONE);
+                    widgetWifiHH70ExtenderWaitWidget.setVisibility(View.GONE);
                     // scan按钮显示
                     tvScan.setVisibility(View.VISIBLE);
                 }
 
             });
             extenderGetHotspotListHelper.setOnGetHotpotFailedListener(() -> {
-                widgetWifiExtenderWait.setVisibility(View.GONE);
+                widgetWifiHH70ExtenderWaitWidget.setVisibility(View.GONE);
                 tvScan.setVisibility(View.VISIBLE);
                 rcvWifiExtenderAvailableNetwork.setVisibility(View.GONE);
                 toast(R.string.hh70_get_time_failed, 2000);
@@ -397,13 +397,13 @@ public class WifiExtenderRxFrag extends BaseFrag {
             extenderGetHotspotListHelper.get();
         });
         xSearchHotspotHelper.setOnAppErrorListener(() -> {
-            widgetWifiExtenderWait.setVisibility(View.GONE);
+            widgetWifiHH70ExtenderWaitWidget.setVisibility(View.GONE);
             tvScan.setVisibility(View.VISIBLE);
             rcvWifiExtenderAvailableNetwork.setVisibility(View.GONE);
             toast(R.string.hh70_cant_connect, 2000);
         });
         xSearchHotspotHelper.setOnFwErrorListener(() -> {
-            widgetWifiExtenderWait.setVisibility(View.GONE);
+            widgetWifiHH70ExtenderWaitWidget.setVisibility(View.GONE);
             tvScan.setVisibility(View.VISIBLE);
             rcvWifiExtenderAvailableNetwork.setVisibility(View.GONE);
             toast(R.string.hh70_get_time_failed, 2000);
@@ -421,7 +421,7 @@ public class WifiExtenderRxFrag extends BaseFrag {
         rlHadConnected.setVisibility(View.GONE);// 已连接面板
         tvAvailableNetwork.setVisibility(View.GONE);// available标题
         rcvWifiExtenderAvailableNetwork.setVisibility(View.GONE);// 热点列表
-        widgetWifiExtenderWait.setVisibility(View.GONE);// 等待
+        widgetWifiHH70ExtenderWaitWidget.setVisibility(View.GONE);// 等待
     }
 
     @Override
@@ -438,7 +438,7 @@ public class WifiExtenderRxFrag extends BaseFrag {
         ivBack.setOnClickListener(v -> onBackPressed());
         tvScan.setOnClickListener(v -> getHotpotInfo());
         ivPanelSocket.setOnClickListener(v -> openOrCloseWifiExtender());
-        widgetWifiExtenderWait.setOnClickListener(v -> toast(R.string.hh70_wait_moment_scan, 2000));
+        widgetWifiHH70ExtenderWaitWidget.setOnClickListener(v -> toast(R.string.hh70_wait_moment_scan, 2000));
         rlHadConnected.setOnClickListener(v -> disconnectCurrentHotpot());
     }
 
@@ -449,7 +449,7 @@ public class WifiExtenderRxFrag extends BaseFrag {
         // 弹出切断确认对话框
         widgetWifiExtenderDisconnhotpot.setVisibility(View.VISIBLE);
         widgetWifiExtenderDisconnhotpot.setOnClickOkListener(attr -> {
-            widgetWifiExtenderWait.setVisibility(View.VISIBLE);
+            widgetWifiHH70ExtenderWaitWidget.setVisibility(View.VISIBLE);
             Extender_DisConnectHotspotHelper disp = new Extender_DisConnectHotspotHelper();
             disp.setOnSuccessListener(object -> getHotpotInfo());
             disp.setOnDisconnectFailedListener(this::connectFailed);
@@ -468,7 +468,7 @@ public class WifiExtenderRxFrag extends BaseFrag {
             // 点击OK后设置extender
             int DISABLE = 0;
             int ENABLE = 1;
-            widgetWifiExtenderWait.setVisibility(View.VISIBLE);
+            widgetWifiHH70ExtenderWaitWidget.setVisibility(View.VISIBLE);
             Extender_SetWIFIExtenderSettingsHelper sseh = new Extender_SetWIFIExtenderSettingsHelper();
             sseh.setOnSuccessListener(o -> getHotpotInfo());
             sseh.setOnExtender_SetWIFIExtenderSettingFailListener(() -> connectFailed());
@@ -481,7 +481,7 @@ public class WifiExtenderRxFrag extends BaseFrag {
     public boolean onBackPresss() {
 
         // 等待界面显示时--> 提示用户不可回退
-        if (widgetWifiExtenderWait.getVisibility() == View.VISIBLE) {
+        if (widgetWifiHH70ExtenderWaitWidget.getVisibility() == View.VISIBLE) {
             toast(R.string.hh70_wait_moment_scan, 2000);
             return true;
         }

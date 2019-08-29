@@ -15,12 +15,12 @@ import android.widget.TextView;
 
 import com.alcatel.wifilink.R;
 import com.alcatel.wifilink.root.adapter.SmsDetatilAdapter;
-import com.alcatel.wifilink.root.bean.SMSContactList;
-import com.alcatel.wifilink.root.bean.SMSContentList;
+import com.alcatel.wifilink.root.bean.SMSContactListBean;
+import com.alcatel.wifilink.root.bean.SMSContentListBean;
 import com.alcatel.wifilink.root.helper.SmsContentSortHelper;
 import com.alcatel.wifilink.root.helper.SmsDraftHelper;
 import com.alcatel.wifilink.root.helper.SmsSendHelper;
-import com.alcatel.wifilink.root.helper.SmsWatcher;
+import com.alcatel.wifilink.root.helper.SmsWatcherHelper;
 import com.alcatel.wifilink.root.ue.activity.HomeActivity;
 import com.alcatel.wifilink.root.utils.RootCons;
 import com.alcatel.wifilink.root.utils.RootUtils;
@@ -75,8 +75,8 @@ public class SmsDetailFrag extends BaseFrag {
     HH70_LoadWidget wdLoad;
 
     private SmsDetatilAdapter adapter;
-    private SMSContentList smsContentList;
-    private SMSContactList.SMSContact smsContact;
+    private SMSContentListBean smsContentListBean;
+    private SMSContactListBean.SMSContact smsContact;
     private List<Long> smsIds = new ArrayList<>();
     private boolean isLongClick;// 处于长按状态
     private LinearLayoutManager linearLayoutManager;
@@ -103,10 +103,10 @@ public class SmsDetailFrag extends BaseFrag {
      */
     private void initEvent() {
         //  添加短信字数限制监听
-        new SmsWatcher(activity, etSmsdetailSend);
-        setEventListener(SMSContactList.SMSContact.class, new RootEventListener<SMSContactList.SMSContact>() {
+        new SmsWatcherHelper(activity, etSmsdetailSend);
+        setEventListener(SMSContactListBean.SMSContact.class, new RootEventListener<SMSContactListBean.SMSContact>() {
             @Override
-            public void getData(SMSContactList.SMSContact smsContact) {
+            public void getData(SMSContactListBean.SMSContact smsContact) {
                 SmsDetailFrag.this.smsContact = smsContact;
                 tv_title.setText(RootUtils.stitchPhone(activity, smsContact.getPhoneNumber()));
             }
@@ -157,7 +157,7 @@ public class SmsDetailFrag extends BaseFrag {
     private void setRecycleView() {
         linearLayoutManager = new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false);
         rcvSmsdetail.setLayoutManager(linearLayoutManager);
-        adapter = new SmsDetatilAdapter(activity, linearLayoutManager, smsContentList, smsContact.getPhoneNumber());
+        adapter = new SmsDetatilAdapter(activity, linearLayoutManager, smsContentListBean, smsContact.getPhoneNumber());
         adapter.setOnSmsSelectedListener(smsIds1 -> {  /* 短信被选中 */
             // 被选中的短信ID集合
             this.smsIds = smsIds;
@@ -211,7 +211,7 @@ public class SmsDetailFrag extends BaseFrag {
     /* **** setPositionTextTime: 根据当前第一个可视的SMS显示对应的短信时间 **** */
     private void setPositionTextTime() {
         activity.runOnUiThread(() -> {
-            List<SMSContentList.SMSContentBean> list = filterDraft(smsContentList);
+            List<SMSContentListBean.SMSContentBean> list = filterDraft(smsContentListBean);
             int pos = linearLayoutManager.findFirstVisibleItemPosition();
             dateTimebanner = list.get(pos).getSMSTime();
             String currentLanguage = ShareUtils.get(RootCons.LOCALE_LANGUAGE_COUNTRY, "");
@@ -223,9 +223,9 @@ public class SmsDetailFrag extends BaseFrag {
     }
 
     /* 提出草稿短信后按日期排序 */
-    public List<SMSContentList.SMSContentBean> filterDraft(SMSContentList smsContentList) {
-        List<SMSContentList.SMSContentBean> list = new ArrayList();
-        for (SMSContentList.SMSContentBean scb : smsContentList.getSMSContentList()) {
+    public List<SMSContentListBean.SMSContentBean> filterDraft(SMSContentListBean smsContentListBean) {
+        List<SMSContentListBean.SMSContentBean> list = new ArrayList();
+        for (SMSContentListBean.SMSContentBean scb : smsContentListBean.getSMSContentList()) {
             if (scb.getSMSType() == GetSMSContactListBean.SMSContacBean.CONS_SMS_TYPE_DRAFT) {
                 continue;
             }
@@ -327,19 +327,19 @@ public class SmsDetailFrag extends BaseFrag {
         GetSMSContentListHelper xGetSMSContentListHelper = new GetSMSContentListHelper();
         xGetSMSContentListHelper.setOnGetSmsContentListSuccessListener(bean -> {
             //用xsmart内部Bean转化为旧的bean，定义容器
-            SMSContentList tempSmsContentList = new SMSContentList();
-            tempSmsContentList.setPage(bean.getPage());
-            tempSmsContentList.setContactId(bean.getContactId());
-            tempSmsContentList.setPhoneNumber(bean.getPhoneNumber());
-            tempSmsContentList.setTotalPageCount(bean.getTotalPageCount());
+            SMSContentListBean tempSmsContentListBean = new SMSContentListBean();
+            tempSmsContentListBean.setPage(bean.getPage());
+            tempSmsContentListBean.setContactId(bean.getContactId());
+            tempSmsContentListBean.setPhoneNumber(bean.getPhoneNumber());
+            tempSmsContentListBean.setTotalPageCount(bean.getTotalPageCount());
 
             List<GetSMSContentListBean.SMSContentBean> smsContentBeans = bean.getSMSContentList();
             if (smsContentBeans != null && smsContentBeans.size() > 0) {
                 //旧的Bean列表容器
-                List<SMSContentList.SMSContentBean> tempSmsContentBeans = new ArrayList<>();
+                List<SMSContentListBean.SMSContentBean> tempSmsContentBeans = new ArrayList<>();
                 for (GetSMSContentListBean.SMSContentBean smsContentBean : smsContentBeans) {
                     //旧的Bean容器
-                    SMSContentList.SMSContentBean tempSmsContentBean = new SMSContentList.SMSContentBean();
+                    SMSContentListBean.SMSContentBean tempSmsContentBean = new SMSContentListBean.SMSContentBean();
                     tempSmsContentBean.setReportStatus(smsContentBean.getReportStatus());
                     tempSmsContentBean.setSMSContent(smsContentBean.getSMSContent());
                     tempSmsContentBean.setSMSId(smsContentBean.getSMSId());
@@ -349,13 +349,13 @@ public class SmsDetailFrag extends BaseFrag {
                     tempSmsContentBeans.add(tempSmsContentBean);
                 }
                 //填充旧的Bean列表
-                tempSmsContentList.setSMSContentList(tempSmsContentBeans);
+                tempSmsContentListBean.setSMSContentList(tempSmsContentBeans);
             }
             boolean isLast = false;
             // 1. refresh the list
-            smsContentList = tempSmsContentList;
+            smsContentListBean = tempSmsContentListBean;
             // 1.1.获取最新信息数
-            int newSize = smsContentList.getSMSContentList().size();
+            int newSize = smsContentListBean.getSMSContentList().size();
             if (newSize > current_sms_num) {
                 isLast = true;// 如果最新获取到的信息数比临时缓存的大, 则修改[滚动到最后一条]标记
             }
@@ -363,7 +363,7 @@ public class SmsDetailFrag extends BaseFrag {
             current_sms_num = newSize;
             // 刷新适配器
             if (adapter != null) {
-                adapter.notifys(smsContentList, isLast);
+                adapter.notifys(smsContentListBean, isLast);
             }
             // 2. refresh the router time
             setPositionTextTime();

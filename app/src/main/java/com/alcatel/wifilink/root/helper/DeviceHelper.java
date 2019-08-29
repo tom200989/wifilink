@@ -2,7 +2,7 @@ package com.alcatel.wifilink.root.helper;
 
 import android.content.Context;
 
-import com.alcatel.wifilink.root.bean.ConnectedList;
+import com.alcatel.wifilink.root.bean.ConnectedListBean;
 import com.p_xhelper_smart.p_xhelper_smart.bean.GetConnectDeviceListBean;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetConnectedDeviceListHelper;
 import com.p_xhelper_smart.p_xhelper_smart.impl.FwError;
@@ -24,12 +24,12 @@ public class DeviceHelper {
     public void getDeviecs() {
         GetConnectedDeviceListHelper xGetConnectedDeviceListHelper = new GetConnectedDeviceListHelper();
         xGetConnectedDeviceListHelper.setOnGetDeviceListSuccessListener(bean -> {
-            ConnectedList tempConnectedList = new ConnectedList();
+            ConnectedListBean tempConnectedListBean = new ConnectedListBean();
             List<GetConnectDeviceListBean.ConnectedDeviceBean> connectedList = bean.getConnectedList();
             if(connectedList != null && connectedList.size() > 0){
-                List<ConnectedList.Device> tempDeviceArrayList = new ArrayList<>();
+                List<ConnectedListBean.Device> tempDeviceArrayList = new ArrayList<>();
                 for(GetConnectDeviceListBean.ConnectedDeviceBean connectedDeviceBean : connectedList){
-                    ConnectedList.Device device = new ConnectedList.Device();
+                    ConnectedListBean.Device device = new ConnectedListBean.Device();
                     device.setAssociationTime(connectedDeviceBean.getAssociationTime());
                     device.setConnectMode(connectedDeviceBean.getConnectMode());
                     device.setDeviceName(connectedDeviceBean.getDeviceName());
@@ -41,9 +41,9 @@ public class DeviceHelper {
                     device.setStorageRight(connectedDeviceBean.getStorageRight());
                     tempDeviceArrayList.add(device);
                 }
-                tempConnectedList.setConnectedList(tempDeviceArrayList);
+                tempConnectedListBean.setConnectedList(tempDeviceArrayList);
             }
-            devicesNext(tempConnectedList);
+            devicesNext(tempConnectedListBean);
         });
         xGetConnectedDeviceListHelper.setOnGetDeviceListFailListener(() -> {
             resuletErrorNext(null);
@@ -94,7 +94,7 @@ public class DeviceHelper {
 
     // 接口OnGetDevicesSuccessListener
     public interface OnGetDevicesSuccessListener {
-        void devices(ConnectedList connectedList);
+        void devices(ConnectedListBean connectedListBean);
     }
 
     // 对外方式setOnGetDevicesSuccessListener
@@ -103,9 +103,9 @@ public class DeviceHelper {
     }
 
     // 封装方法devicesNext
-    private void devicesNext(ConnectedList connectedList) {
+    private void devicesNext(ConnectedListBean connectedListBean) {
         if (onGetDevicesSuccessListener != null) {
-            onGetDevicesSuccessListener.devices(connectedList);
+            onGetDevicesSuccessListener.devices(connectedListBean);
         }
     }
 }

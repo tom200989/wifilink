@@ -12,13 +12,13 @@ import com.alcatel.wifilink.root.utils.ToastTool;
  * Created by qianli.ma on 2018/1/5 0005.
  */
 
-public class SmsWatcher implements TextWatcher {
+public class SmsWatcherHelper implements TextWatcher {
 
     private int maxLength = 1530;
     private Context context;
     private EditText et;
 
-    public SmsWatcher(Context context, EditText et) {
+    public SmsWatcherHelper(Context context, EditText et) {
         this.context = context;
         this.et = et;
         et.addTextChangedListener(this);

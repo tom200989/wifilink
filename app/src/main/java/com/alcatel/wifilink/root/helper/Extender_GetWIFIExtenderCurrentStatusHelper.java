@@ -1,6 +1,6 @@
 package com.alcatel.wifilink.root.helper;
 
-import com.alcatel.wifilink.root.bean.Extender_GetWIFIExtenderCurrentStatusResult;
+import com.alcatel.wifilink.root.bean.Extender_GetWIFICurrentStatuBean;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetWIFIExtenderCurrentStatusHelper;
 
 /**
@@ -11,7 +11,7 @@ public class Extender_GetWIFIExtenderCurrentStatusHelper {
     public void get() {
         GetWIFIExtenderCurrentStatusHelper xGetWIFIExtenderCurrentStatusHelper = new GetWIFIExtenderCurrentStatusHelper();
         xGetWIFIExtenderCurrentStatusHelper.setOnGetWifiExCurStatusSuccessListener(bean -> {
-            Extender_GetWIFIExtenderCurrentStatusResult extenderGetWIFIExtenderCurrentStatusResult = new Extender_GetWIFIExtenderCurrentStatusResult();
+            Extender_GetWIFICurrentStatuBean extenderGetWIFIExtenderCurrentStatusResult = new Extender_GetWIFICurrentStatuBean();
             extenderGetWIFIExtenderCurrentStatusResult.setHotspotConnectStatus(bean.getHotspotConnectStatus());
             extenderGetWIFIExtenderCurrentStatusResult.setHotspotSSID(bean.getHotspotSSID());
             extenderGetWIFIExtenderCurrentStatusResult.setIPV4Addr(bean.getIPV4Addr());
@@ -29,7 +29,7 @@ public class Extender_GetWIFIExtenderCurrentStatusHelper {
 
     // 接口OnExtenderGetWIFIExtenderCurrentStatusSuccessListener
     public interface OnExtenderGetWIFIExtenderCurrentStatusSuccessListener {
-        void extenderGetWIFIExtenderCurrentStatusSuccess(Extender_GetWIFIExtenderCurrentStatusResult result);
+        void extenderGetWIFIExtenderCurrentStatusSuccess(Extender_GetWIFICurrentStatuBean result);
     }
 
     // 对外方式setOnExtenderGetWIFIExtenderCurrentStatusSuccessListener
@@ -38,7 +38,7 @@ public class Extender_GetWIFIExtenderCurrentStatusHelper {
     }
 
     // 封装方法ExtenderGetWIFIExtenderCurrentStatusSuccessNext
-    private void extenderGetWIFIExtenderCurrentStatusSuccessNext(Extender_GetWIFIExtenderCurrentStatusResult result) {
+    private void extenderGetWIFIExtenderCurrentStatusSuccessNext(Extender_GetWIFICurrentStatuBean result) {
         if (onExtenderGetWIFIExtenderCurrentStatusSuccessListener != null) {
             onExtenderGetWIFIExtenderCurrentStatusSuccessListener.extenderGetWIFIExtenderCurrentStatusSuccess(result);
         }

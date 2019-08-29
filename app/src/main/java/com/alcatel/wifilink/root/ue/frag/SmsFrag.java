@@ -9,8 +9,8 @@ import android.widget.TextView;
 
 import com.alcatel.wifilink.R;
 import com.alcatel.wifilink.root.adapter.SmsRcvAdapter;
-import com.alcatel.wifilink.root.bean.SMSContactList;
-import com.alcatel.wifilink.root.bean.SMSContactSelf;
+import com.alcatel.wifilink.root.bean.SMSContactListBean;
+import com.alcatel.wifilink.root.bean.SMSContactBean;
 import com.alcatel.wifilink.root.helper.ClickDoubleHelper;
 import com.alcatel.wifilink.root.helper.SmsDeleteSessionHelper;
 import com.alcatel.wifilink.root.ue.activity.SplashActivity;
@@ -49,8 +49,8 @@ public class SmsFrag extends BaseFrag {
     HH70_SmsDeleteWidget smsDeleteWidget;
 
     private SmsRcvAdapter smsRcvAdapter;
-    private SMSContactList smsContactList;// 不带有长按标记的联系人集合
-    private List<SMSContactSelf> otherSmsContactSelfList = new ArrayList<>();// 带有长按标记的联系人集合
+    private SMSContactListBean smsContactListBean;// 不带有长按标记的联系人集合
+    private List<SMSContactBean> otherSmsContactBeanList = new ArrayList<>();// 带有长按标记的联系人集合
     private List<Long> contactIdList;// 长按模式下存放被点击的短信条目的联系人ID
     public static boolean isLongClick = false;
     private String select_all;
@@ -91,7 +91,7 @@ public class SmsFrag extends BaseFrag {
      */
     private void initView() {
         rcvSms.setLayoutManager(new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false));
-        smsRcvAdapter = new SmsRcvAdapter(activity, otherSmsContactSelfList);
+        smsRcvAdapter = new SmsRcvAdapter(activity, otherSmsContactBeanList);
         rcvSms.setAdapter(smsRcvAdapter);
     }
 
@@ -106,8 +106,8 @@ public class SmsFrag extends BaseFrag {
                 isLongClick = true;// 进入允许删除状态
                 tvSmsBatchSelectAll.setText(select_all);// 初始文本为selected all
                 ivSmsNew.setVisibility(View.GONE);// 短信新建暂时不可用
-                otherSmsContactSelfList = RootUtils.modifySMSContactSelf(otherSmsContactSelfList, true);
-                smsRcvAdapter.notifys(otherSmsContactSelfList);
+                otherSmsContactBeanList = RootUtils.modifySMSContactSelf(otherSmsContactBeanList, true);
+                smsRcvAdapter.notifys(otherSmsContactBeanList);
                 llSmsBatchDeteled.setVisibility(isLongClick ? View.VISIBLE : View.GONE);
             }
         });
@@ -189,16 +189,16 @@ public class SmsFrag extends BaseFrag {
         // get sms list
         GetSMSContactListHelper xGetSMSContactListHelper = new GetSMSContactListHelper();
         xGetSMSContactListHelper.setOnGetSmsContactListSuccessListener(bean -> {
-            SMSContactList tempSmsContactList = new SMSContactList();
-            tempSmsContactList.setPage(bean.getPage());
-            tempSmsContactList.setTotalPageCount(bean.getTotalPageCount());
+            SMSContactListBean tempSmsContactListBean = new SMSContactListBean();
+            tempSmsContactListBean.setPage(bean.getPage());
+            tempSmsContactListBean.setTotalPageCount(bean.getTotalPageCount());
 
-            List<SMSContactList.SMSContact> tempSmsContact = new ArrayList<>();
+            List<SMSContactListBean.SMSContact> tempSmsContact = new ArrayList<>();
 
             List<GetSMSContactListBean.SMSContacBean> smsContacBeans = bean.getSMSContactList();
             if (smsContacBeans != null && smsContacBeans.size() > 0) {
                 for (GetSMSContactListBean.SMSContacBean smsContacBean : smsContacBeans) {
-                    SMSContactList.SMSContact smsContact = new SMSContactList.SMSContact();
+                    SMSContactListBean.SMSContact smsContact = new SMSContactListBean.SMSContact();
                     smsContact.setContactId(smsContacBean.getContactId());
                     smsContact.setPhoneNumber(smsContacBean.getPhoneNumber());
                     smsContact.setReportStatus(smsContacBean.getReportStatus());
@@ -211,11 +211,11 @@ public class SmsFrag extends BaseFrag {
                     tempSmsContact.add(smsContact);
                 }
             }
-            tempSmsContactList.setSMSContactList(tempSmsContact);
-            smsContactList = tempSmsContactList;
-            otherSmsContactSelfList = RootUtils.getSMSSelfList(smsContactList);
-            smsRcvAdapter.notifys(otherSmsContactSelfList);
-            noSms.setVisibility(smsContactList.getSMSContactList().size() > 0 ? View.GONE : View.VISIBLE);
+            tempSmsContactListBean.setSMSContactList(tempSmsContact);
+            smsContactListBean = tempSmsContactListBean;
+            otherSmsContactBeanList = RootUtils.getSMSSelfList(smsContactListBean);
+            smsRcvAdapter.notifys(otherSmsContactBeanList);
+            noSms.setVisibility(smsContactListBean.getSMSContactList().size() > 0 ? View.GONE : View.VISIBLE);
         });
         xGetSMSContactListHelper.getSMSContactList(0);
     }

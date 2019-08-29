@@ -18,14 +18,14 @@ import com.alcatel.wifilink.root.adapter.FeedbackTypeAdapter;
 import com.alcatel.wifilink.root.bean.FeedbackCommitParam;
 import com.alcatel.wifilink.root.bean.FeedbackPhotoBean;
 import com.alcatel.wifilink.root.bean.FeedbackTypeBean;
-import com.alcatel.wifilink.root.helper.FeedBackLoginHelperFeedback;
+import com.alcatel.wifilink.root.helper.FeedBackLoginHelper;
 import com.alcatel.wifilink.root.helper.FeedbackCommitHelper;
-import com.alcatel.wifilink.root.helper.FeedbackEnterWatcher;
+import com.alcatel.wifilink.root.helper.FeedbackEnterHelper;
 import com.alcatel.wifilink.root.helper.FeedbackUploadPicHelper;
 import com.alcatel.wifilink.root.utils.FormatTools;
 import com.alcatel.wifilink.root.utils.RootUtils;
-import com.alcatel.wifilink.root.widget.ExtenderWait;
-import com.alcatel.wifilink.root.widget.NormalWidget;
+import com.alcatel.wifilink.root.widget.HH70_ExtenderWaitWidget;
+import com.alcatel.wifilink.root.widget.HH70_NormalWidget;
 import com.alibaba.fastjson.JSONObject;
 import com.hiber.tools.layout.PercentRelativeLayout;
 import com.p_xhelper_smart.p_xhelper_smart.bean.GetSystemInfoBean;
@@ -87,9 +87,9 @@ public class FeedbackFrag extends BaseFrag {
     @BindView(R.id.tv_feedback_submit)
     TextView tvSubmit;// 点击提交按钮
     @BindView(R.id.rl_feedback_wait)
-    ExtenderWait rlFeedbackWait;// 等待UI
+    HH70_ExtenderWaitWidget rlFeedbackWait;// 等待UI
     @BindView(R.id.dg_feedback_tip)
-    NormalWidget dgFeedbackTip;// 确定取消面板
+    HH70_NormalWidget dgFeedbackTip;// 确定取消面板
 
     private FeedbackPhotoAdapter feedbackPhotoAdapter;
     private LinearLayoutManager lm_photo;
@@ -224,7 +224,7 @@ public class FeedbackFrag extends BaseFrag {
      */
     private void initListener() {
         // 添加字符数监听器
-        etEnterFeedback.addTextChangedListener(new FeedbackEnterWatcher() {
+        etEnterFeedback.addTextChangedListener(new FeedbackEnterHelper() {
             @Override
             public void getCurrentLength(int length) {
                 tvStringNum.setText(String.valueOf(length + "/2000"));
@@ -307,7 +307,7 @@ public class FeedbackFrag extends BaseFrag {
         String deviceName = systemSystemInfo.getDeviceName();
         String imei = systemSystemInfo.getIMEI();
         String macId = systemSystemInfo.getMacAddress();
-        FeedBackLoginHelperFeedback flh = new FeedBackLoginHelperFeedback();
+        FeedBackLoginHelper flh = new FeedBackLoginHelper();
         flh.setOnLoginSuccessListener(feedbackLoginResult -> {
             // 3.1.清空fid集合
             fids.clear();

@@ -14,7 +14,7 @@ import com.alcatel.wifilink.R;
  * Created by ZQ on 2017/1/24.
  */
 
-public class ShowPasswordEditText extends android.support.v7.widget.AppCompatEditText {
+public class HH70_ShowPsdEditTextWidget extends android.support.v7.widget.AppCompatEditText {
 
     private DrawableRightListener mRightListener;
 
@@ -29,15 +29,15 @@ public class ShowPasswordEditText extends android.support.v7.widget.AppCompatEdi
     }
 
 
-    public ShowPasswordEditText(Context context) {
+    public HH70_ShowPsdEditTextWidget(Context context) {
         super(context);
     }
 
-    public ShowPasswordEditText(Context context, AttributeSet attrs) {
+    public HH70_ShowPsdEditTextWidget(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public ShowPasswordEditText(Context context, AttributeSet attrs, int defStyleAttr) {
+    public HH70_ShowPsdEditTextWidget(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
 

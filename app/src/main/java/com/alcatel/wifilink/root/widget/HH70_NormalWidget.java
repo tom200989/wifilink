@@ -13,7 +13,7 @@ import com.alcatel.wifilink.R;
 /*
  * Created by qianli.ma on 2018/10/15 0015.
  */
-public class NormalWidget extends RelativeLayout {
+public class HH70_NormalWidget extends RelativeLayout {
 
     private ImageView ivbg;
     private TextView tvTitle;
@@ -21,17 +21,17 @@ public class NormalWidget extends RelativeLayout {
     private TextView tvCancel;
     private TextView tvOK;
 
-    public NormalWidget(Context context) {
+    public HH70_NormalWidget(Context context) {
         this(context, null, 0);
     }
 
-    public NormalWidget(Context context, AttributeSet attrs) {
+    public HH70_NormalWidget(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public NormalWidget(Context context, AttributeSet attrs, int defStyle) {
+    public HH70_NormalWidget(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
-        View.inflate(context, R.layout.widget_dialogok, this);
+        View.inflate(context, R.layout.hh70_widget_normal, this);
         ivbg = findViewById(R.id.iv_dialogok_widget_bg);
         ivbg.setOnClickListener(v -> bgClickNext());
         tvTitle = findViewById(R.id.tv_dialogok_widget_title);

@@ -14,8 +14,8 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
 import com.alcatel.wifilink.R;
-import com.alcatel.wifilink.root.bean.ConnectModel;
-import com.alcatel.wifilink.root.bean.ConnectedList;
+import com.alcatel.wifilink.root.bean.ConnectBean;
+import com.alcatel.wifilink.root.bean.ConnectedListBean;
 import com.alcatel.wifilink.root.helper.MacHelper;
 import com.alcatel.wifilink.root.ue.frag.DeviceConnectFrag;
 import com.alcatel.wifilink.root.utils.ToastTool;
@@ -29,34 +29,34 @@ public class HH70ConnectAdapter extends RecyclerView.Adapter<ConnectHolder> {
 
     public Activity activity;
     private DeviceConnectFrag fragment;
-    private List<ConnectModel> connectModelList;
+    private List<ConnectBean> connectBeanList;
     String m_strEditString = new String();
 
-    public HH70ConnectAdapter(Activity activity, Fragment fragment, List<ConnectModel> connectModelList) {
+    public HH70ConnectAdapter(Activity activity, Fragment fragment, List<ConnectBean> connectBeanList) {
         this.activity = activity;
         this.fragment = (DeviceConnectFrag) fragment;
-        this.connectModelList = connectModelList;
+        this.connectBeanList = connectBeanList;
     }
 
-    public void notifys(List<ConnectModel> connectModelList) {
-        this.connectModelList = connectModelList;
+    public void notifys(List<ConnectBean> connectBeanList) {
+        this.connectBeanList = connectBeanList;
         notifyDataSetChanged();
     }
 
     @Override
     public int getItemCount() {
-        return connectModelList != null ? connectModelList.size() : 0;
+        return connectBeanList != null ? connectBeanList.size() : 0;
     }
 
     @Override
     public ConnectHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new ConnectHolder(LayoutInflater.from(activity).inflate(R.layout.device_manage_connected_item, parent, false));
+        return new ConnectHolder(LayoutInflater.from(activity).inflate(R.layout.hh70_item_device_connect, parent, false));
     }
 
     @Override
     public void onBindViewHolder(ConnectHolder holder, int position) {
-        ConnectModel connectModel = connectModelList.get(position);
-        ConnectedList.Device device = connectModel.device;
+        ConnectBean connectBean = connectBeanList.get(position);
+        ConnectedListBean.Device device = connectBean.device;
 
         final String displayName = device.DeviceName;
         holder.deviceNameTextView.setText(displayName);
@@ -79,7 +79,7 @@ public class HH70ConnectAdapter extends RecyclerView.Adapter<ConnectHolder> {
             holder.blockBtn.setVisibility(View.VISIBLE);
             holder.icon.setBackgroundResource(R.drawable.item_pre_phone);
             holder.modifyDeviceName.setVisibility(View.VISIBLE);
-            if (connectModel.isEdit) {
+            if (connectBean.isEdit) {
                 holder.deviceNameEditView.setVisibility(View.VISIBLE);
                 holder.deviceNameEditView.setText(m_strEditString);
                 holder.deviceNameEditView.requestFocus();
@@ -122,10 +122,10 @@ public class HH70ConnectAdapter extends RecyclerView.Adapter<ConnectHolder> {
         /* modifyDeviceName */
         holder.modifyDeviceName.setOnClickListener(v -> {
             fragment.isStopGetDeviceStatus = true;
-            if (connectModelList.get(position).isEdit) {
+            if (connectBeanList.get(position).isEdit) {
                 InputMethodManager imm = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
-                connectModelList.get(position).isEdit = false;
+                connectBeanList.get(position).isEdit = false;
                 String strName = m_strEditString.trim();
                 if (strName.length() == 0 || strName.length() > 31) {
                     String msgRes = activity.getString(R.string.hh70_device_name_invalid);
@@ -133,15 +133,15 @@ public class HH70ConnectAdapter extends RecyclerView.Adapter<ConnectHolder> {
                 }
                 if (strName.length() != 0 && !strName.equals(displayName)) {
                     setDeviceName(strName, mac, type);
-                    connectModelList.get(position).device.DeviceName = strName;
+                    connectBeanList.get(position).device.DeviceName = strName;
                 }
             } else {
-                m_strEditString = connectModelList.get(position).device.DeviceName;
-                connectModelList.get(position).isEdit = true;
+                m_strEditString = connectBeanList.get(position).device.DeviceName;
+                connectBeanList.get(position).isEdit = true;
             }
 
             // notify adapter
-            notifys(connectModelList);
+            notifys(connectBeanList);
         });
 
 
@@ -158,7 +158,7 @@ public class HH70ConnectAdapter extends RecyclerView.Adapter<ConnectHolder> {
                 if (!strName.equals(displayName)) {
                     setDeviceName(strName, mac, type);
                 }
-                connectModelList.get(position).isEdit = false;
+                connectBeanList.get(position).isEdit = false;
                 holder.modifyDeviceName.setBackgroundResource(R.drawable.connected_edit);
             }
 
@@ -181,13 +181,13 @@ public class HH70ConnectAdapter extends RecyclerView.Adapter<ConnectHolder> {
     private void setConnectedDeviceBlock(String strDeviceName, String strMac, int position) {
         SetConnectedDeviceBlockHelper xSetConnectedDeviceBlockHelper = new SetConnectedDeviceBlockHelper();
         xSetConnectedDeviceBlockHelper.setOnSetConnectDeviceBlockFailListener(() -> {
-            int oldSize = connectModelList.size();
+            int oldSize = connectBeanList.size();
             // remove item
-            connectModelList.remove(position);
+            connectBeanList.remove(position);
             // refresh the blocked count in action bar
-            fragment.setBlockText(fragment.blockPre + (oldSize - connectModelList.size()) + fragment.blockFix);
+            fragment.setBlockText(fragment.blockPre + (oldSize - connectBeanList.size()) + fragment.blockFix);
             // notify change
-            notifys(connectModelList);
+            notifys(connectBeanList);
         });
         xSetConnectedDeviceBlockHelper.setOnSetConnectDeviceBlockFailListener(() -> {
             ToastTool.show(activity, activity.getString(R.string.hh70_set_device_block));

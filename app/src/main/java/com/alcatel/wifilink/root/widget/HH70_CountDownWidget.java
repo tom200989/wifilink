@@ -12,9 +12,9 @@ import com.alcatel.wifilink.R;
  * Created by qianli.ma on 2019/8/27 0027.
  */
 public class HH70_CountDownWidget extends RelativeLayout {
-    
+
     private View inflate;
-    private CountDownTextView ctv;
+    private CountDownWidget ctv;
 
     public HH70_CountDownWidget(Context context) {
         this(context, null, 0);
@@ -35,7 +35,7 @@ public class HH70_CountDownWidget extends RelativeLayout {
         ctv.run();
     }
 
-    public CountDownTextView getCountDownText( ) {
+    public CountDownWidget getCountDownText() {
         return ctv;
     }
 }

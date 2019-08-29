@@ -1,6 +1,6 @@
 package com.alcatel.wifilink.root.helper;
 
-import com.alcatel.wifilink.root.bean.Extender_GetConnectHotspotStateResult;
+import com.alcatel.wifilink.root.bean.Extender_GetConnectHotspotStateBean;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetConnectHotspotStateHelper;
 import com.p_xhelper_smart.p_xhelper_smart.impl.FwError;
 
@@ -20,7 +20,7 @@ public class Extender_GetConnectHotspotStateHelper {
     public void get() {
         GetConnectHotspotStateHelper xGetConnectHotspotStateHelper = new GetConnectHotspotStateHelper();
         xGetConnectHotspotStateHelper.setOnGetConnectHotSpotStateSuccessListener(bean -> {
-            Extender_GetConnectHotspotStateResult extenderGetConnectHotspotStateResult = new Extender_GetConnectHotspotStateResult();
+            Extender_GetConnectHotspotStateBean extenderGetConnectHotspotStateResult = new Extender_GetConnectHotspotStateBean();
             extenderGetConnectHotspotStateResult.setState(bean.getState());
             successNext(extenderGetConnectHotspotStateResult);
         });
@@ -73,7 +73,7 @@ public class Extender_GetConnectHotspotStateHelper {
 
     // 接口OnSuccessListener
     public interface OnSuccessListener {
-        void success(Extender_GetConnectHotspotStateResult result);
+        void success(Extender_GetConnectHotspotStateBean result);
     }
 
     // 对外方式setOnSuccessListener
@@ -82,7 +82,7 @@ public class Extender_GetConnectHotspotStateHelper {
     }
 
     // 封装方法successNext
-    private void successNext(Extender_GetConnectHotspotStateResult attr) {
+    private void successNext(Extender_GetConnectHotspotStateBean attr) {
         if (onSuccessListener != null) {
             onSuccessListener.success(attr);
         }

@@ -24,7 +24,7 @@ import java.util.regex.Pattern;
  * use handler and  message to implement count down
  */
 @SuppressLint("AppCompatCustomView")
-public class CountDownTextView extends TextView {
+public class CountDownWidget extends TextView {
     private Paint mPaint;
     private int mFontHeight = 0;
     private Shader mShader;
@@ -61,17 +61,17 @@ public class CountDownTextView extends TextView {
         this.mTopColor = mTopColor;
     }
 
-    public CountDownTextView(Context context) {
+    public CountDownWidget(Context context) {
         super(context);
         init(null);
     }
 
-    public CountDownTextView(Context context, AttributeSet attrs) {
+    public CountDownWidget(Context context, AttributeSet attrs) {
         super(context, attrs);
         init(attrs);
     }
 
-    public CountDownTextView(Context context, AttributeSet attrs, int defStyleAttr) {
+    public CountDownWidget(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init(attrs);
     }
@@ -144,7 +144,7 @@ public class CountDownTextView extends TextView {
                     if (mCount < 0) {
                         return;
                     }
-                    CountDownTextView.this.setText(String.valueOf(mCount));
+                    setText(String.valueOf(mCount));
                     invalidate();
                     Message message = mHandler.obtainMessage(1);
                     mHandler.sendMessageDelayed(message, 1000);
@@ -181,7 +181,7 @@ public class CountDownTextView extends TextView {
         isRunning = false;
         mCount = mUserCount;
         Log.d("reset", "mCount:" + mCount);
-        CountDownTextView.this.setText(String.valueOf(mUserCount));
+        this.setText(String.valueOf(mUserCount));
         invalidate();
     }
 

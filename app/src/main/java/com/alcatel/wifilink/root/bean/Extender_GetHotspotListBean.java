@@ -6,7 +6,7 @@ import java.util.List;
  * Created by qianli.ma on 2018/5/23 0023.
  */
 
-public class Extender_GetHotspotListResult {
+public class Extender_GetHotspotListBean {
     /**
      * Status : 0
      * HotspotList : [{"HotspotId":"1234567890123456","ConnectState":0,"SSID":"MW120-123","Signal":6,"SecurityMode":0,"IsSave":0},{"HotspotId":"1234567890123456","ConnectState":0,"SSID":"MW70-123","Signal":2,"SecurityMode":0,"IsSave":1}]

@@ -10,7 +10,7 @@ import com.alcatel.wifilink.R;
 import com.alcatel.wifilink.root.ue.activity.SplashActivity;
 import com.alcatel.wifilink.root.utils.RootUtils;
 import com.alcatel.wifilink.root.widget.HH70_LoadWidget;
-import com.alcatel.wifilink.root.widget.NormalWidget;
+import com.alcatel.wifilink.root.widget.HH70_NormalWidget;
 import com.p_encrypt.p_encrypt.core.md5.Md5Code;
 import com.p_xhelper_smart.p_xhelper_smart.bean.GetLoginStateBean;
 import com.p_xhelper_smart.p_xhelper_smart.bean.GetSystemInfoBean;
@@ -44,7 +44,7 @@ public class SettingAccountFrag extends BaseFrag {
     TextView tvNotice;
 
     @BindView(R.id.dg_widget_ok)
-    NormalWidget wdOK;
+    HH70_NormalWidget wdOK;
     @BindView(R.id.wd_setting_account_load)
     HH70_LoadWidget wdLoad;
 

@@ -7,7 +7,7 @@ import android.text.TextWatcher;
  * Created by qianli.ma on 2018/2/8 0008.
  */
 
-public abstract class FeedbackEnterWatcher implements TextWatcher {
+public abstract class FeedbackEnterHelper implements TextWatcher {
 
     @Override
     public void beforeTextChanged(CharSequence s, int start, int count, int after) {

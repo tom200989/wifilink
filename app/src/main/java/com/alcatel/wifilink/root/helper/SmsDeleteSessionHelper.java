@@ -1,6 +1,6 @@
 package com.alcatel.wifilink.root.helper;
 
-import com.alcatel.wifilink.root.bean.SMSContentList;
+import com.alcatel.wifilink.root.bean.SMSContentListBean;
 import com.alcatel.wifilink.root.utils.RootUtils;
 import com.p_xhelper_smart.p_xhelper_smart.bean.DeleteSmsParam;
 import com.p_xhelper_smart.p_xhelper_smart.bean.GetSMSContentListBean;
@@ -8,7 +8,6 @@ import com.p_xhelper_smart.p_xhelper_smart.bean.GetSmsContentListParam;
 import com.p_xhelper_smart.p_xhelper_smart.helper.DeleteSMSHelper;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetSMSContentListHelper;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetSmsInitStateHelper;
-import com.p_xhelper_smart.p_xhelper_smart.impl.FwError;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,16 +48,16 @@ public class SmsDeleteSessionHelper {
             getSmsContentListParam.setContactId(contactIds.get(index).intValue());
             GetSMSContentListHelper xGetSMSContentListHelper = new GetSMSContentListHelper();
             xGetSMSContentListHelper.setOnGetSmsContentListSuccessListener(bean -> {
-                SMSContentList smsContentList = new SMSContentList();
-                smsContentList.setPage(bean.getPage());
-                smsContentList.setContactId(bean.getContactId());
-                smsContentList.setPhoneNumber(bean.getPhoneNumber());
-                smsContentList.setTotalPageCount(bean.getTotalPageCount());
-                List<SMSContentList.SMSContentBean> tempSMSContentList = new ArrayList<>();
+                SMSContentListBean smsContentListBean = new SMSContentListBean();
+                smsContentListBean.setPage(bean.getPage());
+                smsContentListBean.setContactId(bean.getContactId());
+                smsContentListBean.setPhoneNumber(bean.getPhoneNumber());
+                smsContentListBean.setTotalPageCount(bean.getTotalPageCount());
+                List<SMSContentListBean.SMSContentBean> tempSMSContentList = new ArrayList<>();
                 List<GetSMSContentListBean.SMSContentBean> smsContentBeans= bean.getSMSContentList();
                 if(smsContentBeans != null && smsContentBeans.size() > 0){
                     for(GetSMSContentListBean.SMSContentBean smsContentBean : smsContentBeans){
-                        SMSContentList.SMSContentBean tempSmsContentBean = new SMSContentList.SMSContentBean();
+                        SMSContentListBean.SMSContentBean tempSmsContentBean = new SMSContentListBean.SMSContentBean();
                         tempSmsContentBean.setReportStatus(smsContentBean.getReportStatus());
                         tempSmsContentBean.setSMSContent(smsContentBean.getSMSContent());
                         tempSmsContentBean.setSMSId(smsContentBean.getSMSId());
@@ -67,8 +66,8 @@ public class SmsDeleteSessionHelper {
                         tempSMSContentList.add(tempSmsContentBean);
                     }
                 }
-                smsContentList.setSMSContentList(tempSMSContentList);
-                smsIdsAll.addAll(RootUtils.getAllSmsIdByOneSession(smsContentList));
+                smsContentListBean.setSMSContentList(tempSMSContentList);
+                smsIdsAll.addAll(RootUtils.getAllSmsIdByOneSession(smsContentListBean));
                 index++;
                 getAllSmsIds(contactIds);
             });

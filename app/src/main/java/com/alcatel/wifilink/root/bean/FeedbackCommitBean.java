@@ -4,7 +4,7 @@ package com.alcatel.wifilink.root.bean;
  * Created by qianli.ma on 2018/6/1 0001.
  */
 
-public class FeedbackCommitResult {
+public class FeedbackCommitBean {
     /**
      * error_id : 0--> 如果是0则成功
      * error_msg : ok

@@ -26,7 +26,7 @@ public class HH70_TimelimitWidget extends RelativeLayout {
 
     public HH70_TimelimitWidget(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
-        inflate = inflate(context, R.layout.hh70_setplan_timelimit, this);
+        inflate = inflate(context, R.layout.hh70_widget_setplan_timelimit, this);
         inflate.findViewById(R.id.iv_timelimit_bg).setOnClickListener(null);
         EditText etHour = inflate.findViewById(R.id.et_pop_setPlan_rx_settimelimit_hour);
         EditText etMin = inflate.findViewById(R.id.et_pop_setPlan_rx_settimelimit_min);

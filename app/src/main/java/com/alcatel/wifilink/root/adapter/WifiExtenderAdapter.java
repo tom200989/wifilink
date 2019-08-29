@@ -7,7 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.alcatel.wifilink.R;
-import com.alcatel.wifilink.root.bean.Extender_GetHotspotListResult;
+import com.alcatel.wifilink.root.bean.Extender_GetHotspotListBean;
 import com.alcatel.wifilink.root.utils.RootUtils;
 
 import java.util.List;
@@ -19,21 +19,21 @@ import java.util.List;
 public class WifiExtenderAdapter extends RecyclerView.Adapter<WifiExtenderHolder> {
 
     private Context context;
-    private List<Extender_GetHotspotListResult.HotspotListBean> hotspotList;
+    private List<Extender_GetHotspotListBean.HotspotListBean> hotspotList;
 
-    public WifiExtenderAdapter(Context context, List<Extender_GetHotspotListResult.HotspotListBean> hotspotList) {
+    public WifiExtenderAdapter(Context context, List<Extender_GetHotspotListBean.HotspotListBean> hotspotList) {
         this.context = context;
         this.hotspotList = hotspotList;
     }
 
-    public void notifys(List<Extender_GetHotspotListResult.HotspotListBean> hotspotList) {
+    public void notifys(List<Extender_GetHotspotListBean.HotspotListBean> hotspotList) {
         this.hotspotList = hotspotList;
         notifyDataSetChanged();
     }
 
     @Override
     public WifiExtenderHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new WifiExtenderHolder(LayoutInflater.from(context).inflate(R.layout.item_wifi_extender, parent, false));
+        return new WifiExtenderHolder(LayoutInflater.from(context).inflate(R.layout.hh70_item_wifi_extender, parent, false));
     }
 
     @Override
@@ -45,7 +45,7 @@ public class WifiExtenderAdapter extends RecyclerView.Adapter<WifiExtenderHolder
         int WPA2 = 3;// WPA2
         int WPA_WPA2 = 4;// WPA/WPA2
         
-        Extender_GetHotspotListResult.HotspotListBean hb = hotspotList.get(position);
+        Extender_GetHotspotListBean.HotspotListBean hb = hotspotList.get(position);
         if (hotspotList != null) {
             try {
                 holder.tv_wifiEx_ssid.setText(hb.getSSID());
@@ -67,7 +67,7 @@ public class WifiExtenderAdapter extends RecyclerView.Adapter<WifiExtenderHolder
 
     // 接口OnClickHotPotListener
     public interface OnClickHotPotListener {
-        void click(Extender_GetHotspotListResult.HotspotListBean hotspotListBean);
+        void click(Extender_GetHotspotListBean.HotspotListBean hotspotListBean);
     }
 
     // 对外方式setOnClickHotPotListener
@@ -76,7 +76,7 @@ public class WifiExtenderAdapter extends RecyclerView.Adapter<WifiExtenderHolder
     }
 
     // 封装方法clickNext
-    private void clickNext(Extender_GetHotspotListResult.HotspotListBean hotspotListBean) {
+    private void clickNext(Extender_GetHotspotListBean.HotspotListBean hotspotListBean) {
         if (onClickHotPotListener != null) {
             onClickHotPotListener.click(hotspotListBean);
         }

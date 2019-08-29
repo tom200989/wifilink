@@ -327,6 +327,7 @@
     <string name="hh70_scan">Сканировать</string>
     <string name="hh70_check_network">Устройство не подключено. Проверьте настройки сети.</string>
     <string name="hh70_connect_other_wifi">Подключение к другим сетям Wi-Fi</string>
+    <string name="hh70_type">тип</string>
     <string name="hh70_select_feedback_data">Выберите тип обращения</string>
     <string name="hh70_description">Описание</string>
     <string name="hh70_enter_feedback_suggest">Введите текст отзыва</string>
@@ -366,5 +367,4 @@
     <string name="hh70_setup_success">Настроено успешно</string>
     <string name="hh70_forgotten_reset_router">Если вы забыли пароль, вам необходимо будет сбросить настройки роутера. После этого вы сможете войти, используя пароль по умолчанию (admin).</string>
     <string name="hh70_MONTHLY_PLAN">Месячный лимит</string>
-    <string name="hh70_type">тип</string>
 </resources>

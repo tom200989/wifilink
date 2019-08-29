@@ -655,14 +655,14 @@
     </ScrollView>
 
     <!-- 升级弹窗提示1 -->
-    <com.alcatel.wifilink.root.widget.NormalWidget
+    <com.alcatel.wifilink.root.widget.HH70_NormalWidget
         android:id="@+id/dg_settingRx_widget_ok"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="gone" />
 
     <!-- 升级弹窗提示2 -->
-    <com.alcatel.wifilink.root.widget.NormalWidget
+    <com.alcatel.wifilink.root.widget.HH70_NormalWidget
         android:id="@+id/dg_settingRx_widget_confirm"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -709,7 +709,7 @@
         android:visibility="gone" />
 
     <!-- 恢复出厂提示 -->
-    <com.alcatel.wifilink.root.widget.NormalWidget
+    <com.alcatel.wifilink.root.widget.HH70_NormalWidget
         android:id="@+id/wd_reset_tip"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

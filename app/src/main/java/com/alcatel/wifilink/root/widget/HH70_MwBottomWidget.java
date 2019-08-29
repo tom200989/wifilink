@@ -13,24 +13,24 @@ import com.alcatel.wifilink.R;
  * Created by qianli.ma on 2018/6/1 0001.
  */
 
-public class MainMW70BottomView extends RelativeLayout {
+public class HH70_MwBottomWidget extends RelativeLayout {
 
     private LinearLayout rlAll;
     private RelativeLayout rlConnected;
     private TextView tvConnectedNum;
     private RelativeLayout rlFreeSharing;
 
-    public MainMW70BottomView(Context context) {
+    public HH70_MwBottomWidget(Context context) {
         this(context, null, 0);
     }
 
-    public MainMW70BottomView(Context context, AttributeSet attrs) {
+    public HH70_MwBottomWidget(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public MainMW70BottomView(Context context, AttributeSet attrs, int defStyleAttr) {
+    public HH70_MwBottomWidget(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        View.inflate(context, R.layout.widget_main_mw70_bottom, this);
+        View.inflate(context, R.layout.hh70_widget_mw_bottom, this);
         rlAll = (LinearLayout) findViewById(R.id.rl_main_mw70_all);
         rlConnected = (RelativeLayout) findViewById(R.id.rl_main_mw70_connected);
         tvConnectedNum = (TextView) findViewById(R.id.tv_main_mw70_connected_deviceNum);

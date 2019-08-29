@@ -25,7 +25,7 @@ public abstract class BillingAdaper extends RecyclerView.Adapter<BillingHolder> 
 
     @Override
     public BillingHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new BillingHolder(LayoutInflater.from(context).inflate(R.layout.item_setplan_rx_pop_billing, parent, false));
+        return new BillingHolder(LayoutInflater.from(context).inflate(R.layout.hh70_item_setplan_billing, parent, false));
     }
 
     @Override

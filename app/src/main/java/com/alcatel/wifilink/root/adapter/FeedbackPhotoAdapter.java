@@ -31,7 +31,7 @@ public class FeedbackPhotoAdapter extends RecyclerView.Adapter<FeedbackPhotoHold
 
     @Override
     public FeedbackPhotoHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new FeedbackPhotoHolder(LayoutInflater.from(context).inflate(R.layout.item_feedback_photo_rx, parent, false));
+        return new FeedbackPhotoHolder(LayoutInflater.from(context).inflate(R.layout.hh70_item_feedback_photo, parent, false));
     }
 
     @Override

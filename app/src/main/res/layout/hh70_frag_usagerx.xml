@@ -175,7 +175,7 @@
         app:layout_textSizePercent="2.5%h" />
 
     <!-- 确定取消 -->
-    <com.alcatel.wifilink.root.widget.NormalWidget
+    <com.alcatel.wifilink.root.widget.HH70_NormalWidget
         android:id="@+id/dg_usage_rx_ok"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

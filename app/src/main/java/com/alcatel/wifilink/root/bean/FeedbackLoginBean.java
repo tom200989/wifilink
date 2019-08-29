@@ -4,7 +4,7 @@ package com.alcatel.wifilink.root.bean;
  * Created by qianli.ma on 2018/5/31 0031.
  */
 
-public class FeedbackLoginResult {
+public class FeedbackLoginBean {
     /**
      * uid : 1234567890
      * access_token : 9wegfweg8ge7erthrt6h54h5hr321
@@ -17,7 +17,7 @@ public class FeedbackLoginResult {
     private String ExpiredAt;
     private String ExpiredTime;
 
-    public FeedbackLoginResult() {
+    public FeedbackLoginBean() {
     }
 
     public String getUid() {

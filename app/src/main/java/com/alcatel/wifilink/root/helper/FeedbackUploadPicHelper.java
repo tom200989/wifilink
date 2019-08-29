@@ -1,6 +1,6 @@
 package com.alcatel.wifilink.root.helper;
 
-import com.alcatel.wifilink.root.bean.FeedbackPicFidResult;
+import com.alcatel.wifilink.root.bean.FeedbackPicFidBean;
 import com.alibaba.fastjson.JSONObject;
 
 import org.xutils.http.RequestParams;
@@ -12,7 +12,7 @@ import java.io.File;
  * Created by qianli.ma on 2018/5/31 0031.
  */
 
-public class FeedbackUploadPicHelper extends FeedbackBaseCallBack {
+public class FeedbackUploadPicHelper extends FeedbackBaseCallBackHelper {
 
     String url = BASE_URL + "/v1.0/fs";
 
@@ -25,7 +25,7 @@ public class FeedbackUploadPicHelper extends FeedbackBaseCallBack {
     @Override
     public void onSuccess(String result) {
         super.onSuccess(result);
-        FeedbackPicFidResult feedbackPicFid = JSONObject.parseObject(result, FeedbackPicFidResult.class);
+        FeedbackPicFidBean feedbackPicFid = JSONObject.parseObject(result, FeedbackPicFidBean.class);
         String fid = feedbackPicFid.getFid();
         successNext(fid);
     }

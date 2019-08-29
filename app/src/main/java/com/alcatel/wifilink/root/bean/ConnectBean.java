@@ -4,25 +4,25 @@ package com.alcatel.wifilink.root.bean;
  * Created by qianli.ma on 2017/6/24.
  */
 
-public class ConnectModel {
-    public ConnectedList.Device device;
+public class ConnectBean {
+    public ConnectedListBean.Device device;
     public boolean isEdit;
 
-    public ConnectModel(ConnectedList.Device device, boolean isEdit) {
+    public ConnectBean(ConnectedListBean.Device device, boolean isEdit) {
         this.device = device;
         this.isEdit = isEdit;
     }
 
     @Override
     public String toString() {
-        return "ConnectModel{" + "device=" + device + ", isEdit=" + isEdit + '}';
+        return "ConnectBean{" + "device=" + device + ", isEdit=" + isEdit + '}';
     }
 
-    public ConnectedList.Device getDevice() {
+    public ConnectedListBean.Device getDevice() {
         return device;
     }
 
-    public void setDevice(ConnectedList.Device device) {
+    public void setDevice(ConnectedListBean.Device device) {
         this.device = device;
     }
 

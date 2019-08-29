@@ -1,6 +1,6 @@
 package com.alcatel.wifilink.root.helper;
 
-import com.alcatel.wifilink.root.bean.SMSContentList;
+import com.alcatel.wifilink.root.bean.SMSContentListBean;
 import com.alcatel.wifilink.root.utils.RootUtils;
 
 import java.util.Comparator;
@@ -14,8 +14,8 @@ public class SmsContentSortHelper implements Comparator {
 
     @Override
     public int compare(Object o1, Object o2) {
-        SMSContentList.SMSContentBean s1 = (SMSContentList.SMSContentBean) o1;
-        SMSContentList.SMSContentBean s2 = (SMSContentList.SMSContentBean) o2;
+        SMSContentListBean.SMSContentBean s1 = (SMSContentListBean.SMSContentBean) o1;
+        SMSContentListBean.SMSContentBean s2 = (SMSContentListBean.SMSContentBean) o2;
         Date d1 = RootUtils.transferDateForText(s1.getSMSTime());
         Date d2 = RootUtils.transferDateForText(s2.getSMSTime());
         assert d1 != null;

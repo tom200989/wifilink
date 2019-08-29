@@ -15,12 +15,12 @@ import java.util.List;
 import java.util.Locale;
 
 
-public class wifiApp extends RootApp {
+public class WifiLinkApp extends RootApp {
 
-    private static wifiApp m_instance = null;
+    private static WifiLinkApp m_instance = null;
     private static List<Activity> contexts;
 
-    public static wifiApp getInstance() {
+    public static WifiLinkApp getInstance() {
         return m_instance;
     }
 

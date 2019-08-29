@@ -31,7 +31,7 @@ public class FeedbackTypeAdapter extends RecyclerView.Adapter<FeedbackTypeHolder
 
     @Override
     public FeedbackTypeHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new FeedbackTypeHolder(LayoutInflater.from(context).inflate(R.layout.item_feedback_type_rx, parent, false));
+        return new FeedbackTypeHolder(LayoutInflater.from(context).inflate(R.layout.hh70_item_feedback_type, parent, false));
     }
 
     @Override

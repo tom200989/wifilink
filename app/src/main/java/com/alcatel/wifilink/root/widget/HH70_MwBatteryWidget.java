@@ -18,7 +18,7 @@ import java.util.List;
  * Created by qianli.ma on 2018/6/4 0004.
  */
 
-public class MainMW70BatteryView extends RelativeLayout {
+public class HH70_MwBatteryWidget extends RelativeLayout {
 
     private ProgressBar pgBattery;// 电池进度
     private TextView tvBatteryPercent;// 电池百分比
@@ -33,17 +33,17 @@ public class MainMW70BatteryView extends RelativeLayout {
     private List<String> networks;// 信号类型
     private List<Drawable> wifiStrength;// wifi强度集合
 
-    public MainMW70BatteryView(Context context) {
+    public HH70_MwBatteryWidget(Context context) {
         this(context, null, 0);
     }
 
-    public MainMW70BatteryView(Context context, AttributeSet attrs) {
+    public HH70_MwBatteryWidget(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public MainMW70BatteryView(Context context, AttributeSet attrs, int defStyleAttr) {
+    public HH70_MwBatteryWidget(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        View.inflate(context, R.layout.widget_main_mw70_battery, this);
+        View.inflate(context, R.layout.hh70_widget_mw_battery, this);
         pgBattery = (ProgressBar) findViewById(R.id.pg_main_mw70_battery);
         tvBatteryPercent = (TextView) findViewById(R.id.tv_main_mw70_battery_percent);
         ivSignal = (ImageView) findViewById(R.id.iv_main_mw70_signal);

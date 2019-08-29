@@ -1,6 +1,6 @@
 package com.alcatel.wifilink.root.helper;
 
-import com.alcatel.wifilink.root.bean.Extender_GetHotspotListResult;
+import com.alcatel.wifilink.root.bean.Extender_GetHotspotListBean;
 import com.p_xhelper_smart.p_xhelper_smart.bean.GetHotSpotListBean;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetHotspotListHelper;
 
@@ -15,12 +15,12 @@ public class Extender_GetHotspotListHelper {
     public void get() {
         GetHotspotListHelper xGetHotspotListHelper = new GetHotspotListHelper();
         xGetHotspotListHelper.setOnGetHotSpotListSuccessListener(bean -> {
-            Extender_GetHotspotListResult extenderGetHotspotListResult = new Extender_GetHotspotListResult();
+            Extender_GetHotspotListBean extenderGetHotspotListResult = new Extender_GetHotspotListBean();
             List<GetHotSpotListBean.HotspotBean> hotspotBeanList = bean.getHotspotList();
             if(hotspotBeanList != null && hotspotBeanList.size() >0 ){
-                List<Extender_GetHotspotListResult.HotspotListBean> tempHotspotList = new ArrayList<>();
+                List<Extender_GetHotspotListBean.HotspotListBean> tempHotspotList = new ArrayList<>();
                 for(GetHotSpotListBean.HotspotBean hotspotBean : hotspotBeanList){
-                    Extender_GetHotspotListResult.HotspotListBean tempHotspotListBean = new Extender_GetHotspotListResult.HotspotListBean();
+                    Extender_GetHotspotListBean.HotspotListBean tempHotspotListBean = new Extender_GetHotspotListBean.HotspotListBean();
                     tempHotspotListBean.setConnectState(hotspotBean.getConnectState());
                     tempHotspotListBean.setHotspotId(hotspotBean.getHotspotId());
                     tempHotspotListBean.setIsSave(hotspotBean.getIsSave());
@@ -61,7 +61,7 @@ public class Extender_GetHotspotListHelper {
 
     // 接口OnSuccessListener
     public interface OnSuccessListener {
-        void success(Extender_GetHotspotListResult result);
+        void success(Extender_GetHotspotListBean result);
     }
 
     // 对外方式setOnSuccessListener
@@ -70,7 +70,7 @@ public class Extender_GetHotspotListHelper {
     }
 
     // 封装方法successNext
-    private void successNext(Extender_GetHotspotListResult result) {
+    private void successNext(Extender_GetHotspotListBean result) {
         if (onSuccessListener != null) {
             onSuccessListener.success(result);
         }

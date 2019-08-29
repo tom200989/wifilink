@@ -15,7 +15,7 @@ import com.alcatel.wifilink.root.ue.activity.HomeActivity;
 import com.alcatel.wifilink.root.utils.RootCons;
 import com.alcatel.wifilink.root.utils.RootUtils;
 import com.alcatel.wifilink.root.widget.HH70_LoadWidget;
-import com.alcatel.wifilink.root.widget.NormalWidget;
+import com.alcatel.wifilink.root.widget.HH70_NormalWidget;
 import com.hiber.cons.TimerState;
 import com.hiber.hiber.RootFrag;
 import com.hiber.tools.ShareUtils;
@@ -64,7 +64,7 @@ public class LoginFrag extends RootFrag {
     TextView tvLoginRxForgot;// 忘记密码提示
 
     @BindView(R.id.wd_reset_factory)
-    NormalWidget wdResetFactory;// 恢复出厂设置视图
+    HH70_NormalWidget wdResetFactory;// 恢复出厂设置视图
 
     @BindView(R.id.wd_login_load)
     HH70_LoadWidget wdLoginLoad;// 等待

@@ -280,14 +280,14 @@
     </com.hiber.tools.layout.PercentRelativeLayout>
 
     <!-- **** MW70机型下的UI **** -->
-    <com.alcatel.wifilink.root.widget.MainMW70BottomView
+    <com.alcatel.wifilink.root.widget.HH70_MwBottomWidget
         android:id="@+id/rl_mainrx_mw70_panel"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="gone" />
 
     <!-- 信号强度 + wifi extender -->
-    <com.alcatel.wifilink.root.widget.MainMW70BatteryView
+    <com.alcatel.wifilink.root.widget.HH70_MwBatteryWidget
         android:id="@+id/rl_mainrx_mw70_battery_extender"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -297,7 +297,7 @@
         app:layout_marginTopPercent="3%h" />
 
     <!-- 确定取消按钮 -->
-    <com.alcatel.wifilink.root.widget.NormalWidget
+    <com.alcatel.wifilink.root.widget.HH70_NormalWidget
         android:id="@+id/dg_mainrx_widget_ok"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

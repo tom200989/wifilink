@@ -13,23 +13,23 @@ import com.alcatel.wifilink.R;
  * Created by qianli.ma on 2018/5/29 0029.
  */
 
-public class OpenCloseExtenderView extends RelativeLayout implements View.OnClickListener {
+public class HH70_OpenCloseExtenderWidget extends RelativeLayout implements View.OnClickListener {
 
     private ImageView ivBg;
     private TextView ivCancel;
     private TextView ivOk;
 
-    public OpenCloseExtenderView(Context context) {
+    public HH70_OpenCloseExtenderWidget(Context context) {
         this(context, null, 0);
     }
 
-    public OpenCloseExtenderView(Context context, AttributeSet attrs) {
+    public HH70_OpenCloseExtenderWidget(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public OpenCloseExtenderView(Context context, AttributeSet attrs, int defStyleAttr) {
+    public HH70_OpenCloseExtenderWidget(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        View.inflate(context, R.layout.widget_extender_open_close, this);
+        View.inflate(context, R.layout.hh70_widget_extend_open_close, this);
         ivBg = (ImageView) findViewById(R.id.iv_extender_open_close_bg);
         ivCancel = (TextView) findViewById(R.id.tv_extender_open_close_cancel);
         ivOk = (TextView) findViewById(R.id.tv_extender_open_close_ok);

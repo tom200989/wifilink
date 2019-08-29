@@ -1,7 +1,7 @@
 package com.alcatel.wifilink.root.helper;
 
-import com.alcatel.wifilink.root.bean.ConnectModel;
-import com.alcatel.wifilink.root.bean.ConnectedList;
+import com.alcatel.wifilink.root.bean.ConnectBean;
+import com.alcatel.wifilink.root.bean.ConnectedListBean;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,16 +12,16 @@ import java.util.List;
 
 public class ModelHelper {
 
-    public static List<ConnectModel> getConnectModel(ConnectedList result) {
-        List<ConnectModel> connectModels = new ArrayList<>();
-        List<ConnectedList.Device> connectedList = result.getConnectedList();
+    public static List<ConnectBean> getConnectModel(ConnectedListBean result) {
+        List<ConnectBean> connectBeans = new ArrayList<>();
+        List<ConnectedListBean.Device> connectedList = result.getConnectedList();
         if (connectedList.size() > 0) {
-            for (ConnectedList.Device device : connectedList) {
-                connectModels.add(new ConnectModel(device, false));
+            for (ConnectedListBean.Device device : connectedList) {
+                connectBeans.add(new ConnectBean(device, false));
             }
         }
 
-        return connectModels;
+        return connectBeans;
     }
 
 }

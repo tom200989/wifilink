@@ -9,8 +9,8 @@ import android.widget.TextView;
 
 import com.alcatel.wifilink.R;
 import com.alcatel.wifilink.root.adapter.HH70ConnectAdapter;
-import com.alcatel.wifilink.root.bean.ConnectModel;
-import com.alcatel.wifilink.root.bean.ConnectedList;
+import com.alcatel.wifilink.root.bean.ConnectBean;
+import com.alcatel.wifilink.root.bean.ConnectedListBean;
 import com.alcatel.wifilink.root.helper.ModelHelper;
 import com.alcatel.wifilink.root.utils.RootCons;
 import com.hiber.cons.TimerState;
@@ -40,7 +40,7 @@ public class DeviceConnectFrag extends BaseFrag {
     public int blockSize;
 
     private HH70ConnectAdapter rvAdapter;
-    private List<ConnectModel> connectModelList = new ArrayList<>();
+    private List<ConnectBean> connectBeanList = new ArrayList<>();
     public boolean isStopGetDeviceStatus;//是否停止刷新读取设备状态,默认false表示需要刷新状态
 
     @Override
@@ -60,7 +60,7 @@ public class DeviceConnectFrag extends BaseFrag {
     private void initUI(){
         LinearLayoutManager lm = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         rcv_deviceConnect.setLayoutManager(lm);
-        rvAdapter = new HH70ConnectAdapter(activity, this, connectModelList);
+        rvAdapter = new HH70ConnectAdapter(activity, this, connectBeanList);
         rcv_deviceConnect.setAdapter(rvAdapter);
         //titlebar
         blockPre = getString(R.string.hh70_Blocked) + " (";
@@ -116,15 +116,15 @@ public class DeviceConnectFrag extends BaseFrag {
         GetConnectedDeviceListHelper xGetConnectedDeviceListHelper = new GetConnectedDeviceListHelper();
         xGetConnectedDeviceListHelper.setOnGetDeviceListSuccessListener(bean -> {
             //将xsmart框架内部的Bean转为旧的Bean
-            ConnectedList tempConnectedList = new ConnectedList();
+            ConnectedListBean tempConnectedListBean = new ConnectedListBean();
             //框架内部返回的列表
             List<GetConnectDeviceListBean.ConnectedDeviceBean> connectedList = bean.getConnectedList();
             if(connectedList != null && connectedList.size() > 0){
                 //旧的Bean列表
-                List<ConnectedList.Device> tempDeviceArrayList = new ArrayList<>();
+                List<ConnectedListBean.Device> tempDeviceArrayList = new ArrayList<>();
                 for(GetConnectDeviceListBean.ConnectedDeviceBean connectedDeviceBean : connectedList){
                     //旧的Bean
-                    ConnectedList.Device device = new ConnectedList.Device();
+                    ConnectedListBean.Device device = new ConnectedListBean.Device();
                     device.setAssociationTime(connectedDeviceBean.getAssociationTime());
                     device.setConnectMode(connectedDeviceBean.getConnectMode());
                     device.setDeviceName(connectedDeviceBean.getDeviceName());
@@ -138,12 +138,12 @@ public class DeviceConnectFrag extends BaseFrag {
                     tempDeviceArrayList.add(device);
                 }
                 //填充旧的bean
-                tempConnectedList.setConnectedList(tempDeviceArrayList);
+                tempConnectedListBean.setConnectedList(tempDeviceArrayList);
             }
             //向外抛出
-            connectModelList = ModelHelper.getConnectModel(tempConnectedList);
-            if (connectModelList.size() > 0) {
-                rvAdapter.notifys(connectModelList);
+            connectBeanList = ModelHelper.getConnectModel(tempConnectedListBean);
+            if (connectBeanList.size() > 0) {
+                rvAdapter.notifys(connectBeanList);
             }
         });
         xGetConnectedDeviceListHelper.getConnectDeviceList();

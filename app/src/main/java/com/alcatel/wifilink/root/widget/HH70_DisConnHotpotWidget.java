@@ -13,23 +13,23 @@ import com.alcatel.wifilink.R;
  * Created by qianli.ma on 2018/5/29 0029.
  */
 
-public class DisConnHotpotView extends RelativeLayout {
+public class HH70_DisConnHotpotWidget extends RelativeLayout {
 
     private ImageView ivBg;
     private TextView tvCancel;
     private TextView tvOk;
 
-    public DisConnHotpotView(Context context) {
+    public HH70_DisConnHotpotWidget(Context context) {
         this(context, null, 0);
     }
 
-    public DisConnHotpotView(Context context, AttributeSet attrs) {
+    public HH70_DisConnHotpotWidget(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public DisConnHotpotView(Context context, AttributeSet attrs, int defStyleAttr) {
+    public HH70_DisConnHotpotWidget(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        View.inflate(context, R.layout.widget_extender_disconn_hotpot, this);
+        View.inflate(context, R.layout.hh70_widget_extend_disconn_hotpot, this);
         ivBg = (ImageView) findViewById(R.id.iv_extender_disconn_hotpot_bg);
         tvCancel = (TextView) findViewById(R.id.tv_extender_disconn_hotpot_cancel);
         tvOk = (TextView) findViewById(R.id.tv_extender_disconn_hotpot_ok);

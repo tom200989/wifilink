@@ -6,7 +6,7 @@ import java.util.List;
  * Created by qianli.ma on 2017/6/28.
  */
 
-public class SMSContentList {
+public class SMSContentListBean {
 
     private int Page;
     private int ContactId;

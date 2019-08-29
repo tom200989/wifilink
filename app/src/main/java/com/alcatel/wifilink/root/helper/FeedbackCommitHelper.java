@@ -1,6 +1,6 @@
 package com.alcatel.wifilink.root.helper;
 
-import com.alcatel.wifilink.root.bean.FeedbackCommitResult;
+import com.alcatel.wifilink.root.bean.FeedbackCommitBean;
 import com.alibaba.fastjson.JSONObject;
 
 import org.xutils.http.RequestParams;
@@ -10,7 +10,7 @@ import org.xutils.x;
  * Created by qianli.ma on 2018/6/1 0001.
  */
 
-public class FeedbackCommitHelper extends FeedbackBaseCallBack {
+public class FeedbackCommitHelper extends FeedbackBaseCallBackHelper {
 
     private String url = BASE_URL + "/v1.0/fbs/feedback";
 
@@ -41,8 +41,8 @@ public class FeedbackCommitHelper extends FeedbackBaseCallBack {
     @Override
     public void onSuccess(String result) {
         super.onSuccess(result);
-        FeedbackCommitResult feedbackCommitResult = JSONObject.parseObject(result, FeedbackCommitResult.class);
-        successNext(feedbackCommitResult);
+        FeedbackCommitBean feedbackCommitBean = JSONObject.parseObject(result, FeedbackCommitBean.class);
+        successNext(feedbackCommitBean);
     }
 
     @Override
@@ -85,7 +85,7 @@ public class FeedbackCommitHelper extends FeedbackBaseCallBack {
 
     // 接口OnCommitSuccessListener
     public interface OnCommitSuccessListener {
-        void success(FeedbackCommitResult commitResult);
+        void success(FeedbackCommitBean commitResult);
     }
 
     // 对外方式setOnCommitSuccessListener
@@ -94,7 +94,7 @@ public class FeedbackCommitHelper extends FeedbackBaseCallBack {
     }
 
     // 封装方法successNext
-    private void successNext(FeedbackCommitResult commitResult) {
+    private void successNext(FeedbackCommitBean commitResult) {
         if (onCommitSuccessListener != null) {
             onCommitSuccessListener.success(commitResult);
         }

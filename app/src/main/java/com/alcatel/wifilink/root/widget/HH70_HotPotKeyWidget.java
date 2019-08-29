@@ -12,15 +12,15 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.alcatel.wifilink.R;
-import com.alcatel.wifilink.root.bean.Extender_GetHotspotListResult;
-import com.alcatel.wifilink.root.app.wifiApp;
+import com.alcatel.wifilink.root.bean.Extender_GetHotspotListBean;
+import com.alcatel.wifilink.root.app.WifiLinkApp;
 import com.alcatel.wifilink.root.utils.ToastTool;
 
 /**
  * Created by qianli.ma on 2018/5/28 0028.
  */
 
-public class HotPotKeyView extends RelativeLayout implements View.OnClickListener {
+public class HH70_HotPotKeyWidget extends RelativeLayout implements View.OnClickListener {
 
     private RelativeLayout rlAll;// 总布局
     private ImageView ivBackground;// 背景
@@ -29,22 +29,22 @@ public class HotPotKeyView extends RelativeLayout implements View.OnClickListene
     private ImageView ivShowHide;// 显示或隐藏按钮
     private TextView tvCancel;// 取消
     private TextView tvOk;// 确认
-    private Extender_GetHotspotListResult.HotspotListBean hb;
+    private Extender_GetHotspotListBean.HotspotListBean hb;
     private Drawable hide;
     private Drawable show;
 
 
-    public HotPotKeyView(Context context) {
+    public HH70_HotPotKeyWidget(Context context) {
         this(context, null, 0);
     }
 
-    public HotPotKeyView(Context context, AttributeSet attrs) {
+    public HH70_HotPotKeyWidget(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public HotPotKeyView(Context context, AttributeSet attrs, int defStyleAttr) {
+    public HH70_HotPotKeyWidget(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        View.inflate(context, R.layout.widget_extender_hotpot_key_view, this);
+        View.inflate(context, R.layout.hh70_widget_extend_hotpot_key, this);
         show = context.getResources().getDrawable(R.drawable.password_show);
         hide = context.getResources().getDrawable(R.drawable.password_hide);
         rlAll = (RelativeLayout) findViewById(R.id.rl_widget_hotpot_key_all);
@@ -85,7 +85,7 @@ public class HotPotKeyView extends RelativeLayout implements View.OnClickListene
     private void clickOk() {
         String password = etPassword.getText().toString();
         if (TextUtils.isEmpty(password)) {
-            ToastTool.show(wifiApp.getInstance(), R.string.hh70_pw_not_allow_empty);
+            ToastTool.show(WifiLinkApp.getInstance(), R.string.hh70_pw_not_allow_empty);
         } else {
             clickNext(hb, password);
         }
@@ -104,7 +104,7 @@ public class HotPotKeyView extends RelativeLayout implements View.OnClickListene
     /**
      * 显示密码面板
      */
-    public void show(Extender_GetHotspotListResult.HotspotListBean hb) {
+    public void show(Extender_GetHotspotListBean.HotspotListBean hb) {
         this.hb = hb;
         tvSSid.setText(hb.getSSID());
         etPassword.setText("");
@@ -126,7 +126,7 @@ public class HotPotKeyView extends RelativeLayout implements View.OnClickListene
      * 隐藏软键盘
      */
     private void hideKeyBoard() {
-        InputMethodManager imm = (InputMethodManager) wifiApp.getInstance().getSystemService(Context.INPUT_METHOD_SERVICE);
+        InputMethodManager imm = (InputMethodManager) WifiLinkApp.getInstance().getSystemService(Context.INPUT_METHOD_SERVICE);
         if (imm != null) {
             imm.hideSoftInputFromWindow(this.getWindowToken(), 0);
         }
@@ -136,7 +136,7 @@ public class HotPotKeyView extends RelativeLayout implements View.OnClickListene
 
     // 接口OnClickOkListener
     public interface OnClickOkListener {
-        void click(Extender_GetHotspotListResult.HotspotListBean hb, String inputPassword);
+        void click(Extender_GetHotspotListBean.HotspotListBean hb, String inputPassword);
     }
 
     // 对外方式setOnClickOkListener
@@ -145,7 +145,7 @@ public class HotPotKeyView extends RelativeLayout implements View.OnClickListene
     }
 
     // 封装方法clickNext
-    private void clickNext(Extender_GetHotspotListResult.HotspotListBean hb, String inputPassword) {
+    private void clickNext(Extender_GetHotspotListBean.HotspotListBean hb, String inputPassword) {
         if (onClickOkListener != null) {
             onClickOkListener.click(hb, inputPassword);
         }

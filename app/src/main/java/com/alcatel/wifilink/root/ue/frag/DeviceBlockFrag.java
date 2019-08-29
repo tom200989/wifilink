@@ -9,8 +9,8 @@ import android.widget.TextView;
 
 import com.alcatel.wifilink.R;
 import com.alcatel.wifilink.root.adapter.BlockAdapter;
-import com.alcatel.wifilink.root.bean.BlockList;
-import com.alcatel.wifilink.root.bean.BlockModel;
+import com.alcatel.wifilink.root.bean.BlockBean;
+import com.alcatel.wifilink.root.bean.BlockListBean;
 import com.alcatel.wifilink.root.utils.RootCons;
 import com.hiber.cons.TimerState;
 import com.hiber.tools.ShareUtils;
@@ -32,8 +32,8 @@ public class DeviceBlockFrag extends BaseFrag {
     TextView mTitle;
 
     private BlockAdapter blockAdapter;
-    private List<BlockModel> blockList = new ArrayList<>();
-    private List<BlockModel> blockModelList;
+    private List<BlockBean> blockList = new ArrayList<>();
+    private List<BlockBean> blockBeanList;
 
     @Override
     public int onInflateLayout() {
@@ -77,20 +77,20 @@ public class DeviceBlockFrag extends BaseFrag {
     private void updateBlockDeviceUI() {
         GetBlockDeviceListHelper xGetBlockDeviceListHelper = new GetBlockDeviceListHelper();
         xGetBlockDeviceListHelper.setonGetBlockDeviceListSuccessListener(getBlockDeviceListBean -> {
-            List<BlockModel> tempBlockModelList = new ArrayList<>();
+            List<BlockBean> tempBlockBeanList = new ArrayList<>();
             List<GetBlockDeviceListBean.BlockDeviceBean> blockDeviceBeans = getBlockDeviceListBean.getBlockList();
             if(blockDeviceBeans != null && blockDeviceBeans.size() > 0){
                 for(GetBlockDeviceListBean.BlockDeviceBean blockDeviceBean : blockDeviceBeans){
-                    BlockList.BlockDevice blockDevice = new BlockList.BlockDevice();
+                    BlockListBean.BlockDevice blockDevice = new BlockListBean.BlockDevice();
                     blockDevice.setId(blockDeviceBean.getId());
                     blockDevice.setDeviceName(blockDeviceBean.getDeviceName());
                     blockDevice.setMacAddress(blockDeviceBean.getMacAddress());
-                    tempBlockModelList.add(new BlockModel(blockDevice,false));
+                    tempBlockBeanList.add(new BlockBean(blockDevice,false));
                 }
             }
-            blockModelList = tempBlockModelList;
-            if (blockModelList.size() > 0) {
-                blockAdapter.notifys(blockModelList);
+            blockBeanList = tempBlockBeanList;
+            if (blockBeanList.size() > 0) {
+                blockAdapter.notifys(blockBeanList);
             }
         });
         xGetBlockDeviceListHelper.getBlockDeviceList();

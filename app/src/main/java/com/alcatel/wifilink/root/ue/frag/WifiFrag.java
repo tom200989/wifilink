@@ -20,7 +20,7 @@ import com.alcatel.wifilink.root.helper.WepPsdHelper;
 import com.alcatel.wifilink.root.helper.WpaPsdHelper;
 import com.alcatel.wifilink.root.ue.activity.SplashActivity;
 import com.alcatel.wifilink.root.utils.RootUtils;
-import com.alcatel.wifilink.root.widget.NormalWidget;
+import com.alcatel.wifilink.root.widget.HH70_NormalWidget;
 import com.p_xhelper_smart.p_xhelper_smart.bean.GetLoginStateBean;
 import com.p_xhelper_smart.p_xhelper_smart.bean.GetWlanSettingsBean;
 import com.p_xhelper_smart.p_xhelper_smart.bean.GetWlanSupportModeBean;
@@ -87,7 +87,7 @@ public class WifiFrag extends BaseFrag {
     @BindView(R.id.rl_wifiSettingrx_wait)
     RelativeLayout rlWait;
     @BindView(R.id.dg_wifiSettingrx_ok)
-    NormalWidget dgWifiSettingrxOk;
+    HH70_NormalWidget dgWifiSettingrxOk;
     @BindView(R.id.btn_apply)
     Button btnApply;
     @BindView(R.id.btn_cancel)

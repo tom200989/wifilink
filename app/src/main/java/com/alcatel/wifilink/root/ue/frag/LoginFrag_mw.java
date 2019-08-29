@@ -10,9 +10,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.alcatel.wifilink.R;
-import com.alcatel.wifilink.root.bean.ConnectedList;
+import com.alcatel.wifilink.root.bean.ConnectedListBean;
 import com.alcatel.wifilink.root.helper.DeviceHelper;
-import com.alcatel.wifilink.root.helper.PreLoginTool;
+import com.alcatel.wifilink.root.helper.PreLoginHelper;
 import com.alcatel.wifilink.root.ue.activity.SplashActivity;
 import com.alcatel.wifilink.root.utils.RootCons;
 import com.alcatel.wifilink.root.utils.RootUtils;
@@ -58,7 +58,7 @@ public class LoginFrag_mw extends RootFrag {
     @BindView(R.id.rl_login_pre_freesharing)
     RelativeLayout rlLoginPreFreesharing;// 点击后跳转到free sharing界面
 
-    private PreLoginTool preLoginTool;// 转换辅助工具
+    private PreLoginHelper preLoginHelper;// 转换辅助工具
     private int currentConnCount;// 当前连接总数
 
     @Override
@@ -133,9 +133,9 @@ public class LoginFrag_mw extends RootFrag {
     /**
      * 将本地的connectlist转换成aar接收的bean
      */
-    private com.p_freesharing.p_freesharing.bean.ConnectedList transferConnectList(ConnectedList connectedList) {
+    private com.p_freesharing.p_freesharing.bean.ConnectedList transferConnectList(ConnectedListBean connectedListBean) {
         // 本工程的connectlist
-        List<ConnectedList.Device> wifiConnectList = connectedList.getConnectedList();
+        List<ConnectedListBean.Device> wifiConnectList = connectedListBean.getConnectedList();
         // 创建aar包里的connectlist
         com.p_freesharing.p_freesharing.bean.ConnectedList aarConnectList = new com.p_freesharing.p_freesharing.bean.ConnectedList();
         List<com.p_freesharing.p_freesharing.bean.ConnectedList.Device> aarDevices = new ArrayList<>();
@@ -204,7 +204,7 @@ public class LoginFrag_mw extends RootFrag {
      */
     private void getSignalAbout() {
         // 电池 + 强度 + 网络类型 + 连接数
-        preLoginTool = new PreLoginTool(activity);
+        preLoginHelper = new PreLoginHelper(activity);
         GetSystemStatusHelper xGetSystemStatusHelper = new GetSystemStatusHelper();
         xGetSystemStatusHelper.setOnGetSystemStatusSuccessListener(result -> {
             // 设置电池电量
@@ -216,10 +216,10 @@ public class LoginFrag_mw extends RootFrag {
             pgLoginPreBattery.setProgressDrawable(isCharing ? batFlash : batUse);
             tvLoginPreBatteryPercent.setText(String.valueOf(cap + "%"));
             // 设置强度
-            Drawable strenght = preLoginTool.getStrenght(result.getSignalStrength());
+            Drawable strenght = preLoginHelper.getStrenght(result.getSignalStrength());
             ivLoginPreSignal.setImageDrawable(strenght);
             // 设置网络类型
-            String mobileType = preLoginTool.getMobileType(result.getNetworkType());
+            String mobileType = preLoginHelper.getMobileType(result.getNetworkType());
             tvLoginPreMobileType.setText(mobileType);
             // 设置连接数
             int c2g = result.getCurr_num_2g();

@@ -4,7 +4,7 @@ package com.alcatel.wifilink.root.bean;
  * Created by qianli.ma on 2018/5/23 0023.
  */
 
-public class Extender_GetWIFIExtenderSettingsResult {
+public class Extender_GetWIFISettingsBean {
 
     /**
      * StationEnable : 0

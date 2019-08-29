@@ -14,7 +14,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 
 import com.alcatel.wifilink.R;
-import com.alcatel.wifilink.root.helper.SmsWatcher;
+import com.alcatel.wifilink.root.helper.SmsWatcherHelper;
 import com.alcatel.wifilink.root.utils.RootUtils;
 import com.alcatel.wifilink.root.widget.HH70_LoadWidget;
 import com.p_xhelper_smart.p_xhelper_smart.bean.GetSendSMSResultBean;
@@ -61,7 +61,7 @@ public class SmsNewFrag extends BaseFrag {
         m_btnSend.setEnabled(false);
         m_etNumber.setText("");
         m_etContent.setText("");
-        new SmsWatcher(activity, m_etContent);
+        new SmsWatcherHelper(activity, m_etContent);
         setEditTextChangedListener();
     }
 
