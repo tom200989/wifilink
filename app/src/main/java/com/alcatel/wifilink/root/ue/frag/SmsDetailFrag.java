@@ -102,10 +102,10 @@ public class SmsDetailFrag extends BaseFrag {
         super.onNexts(o, view, s);
         if (o instanceof SMSContactListBean.SMSContact) {
             smsContact = (SMSContactListBean.SMSContact) o;
-            getDraftSms();
             setRecycleView();
             setRecycleListener();
             initClick();
+            getDraftSms();
             tv_title.setText(RootUtils.stitchPhone(activity, smsContact.getPhoneNumber()));
         }
         timerState = TimerState.ON_BUT_OFF_WHEN_HIDE_AND_PAUSE;
@@ -191,6 +191,9 @@ public class SmsDetailFrag extends BaseFrag {
         activity.runOnUiThread(() -> {
             List<GetSMSContentListBean.SMSContentListBean> list = filterDraft(smsContentListBean);
             int pos = linearLayoutManager.findFirstVisibleItemPosition();
+            if (pos == -1){
+                return;
+            }
             dateTimebanner = list.get(pos).getSMSTime();
             String currentLanguage = ShareUtils.get(RootCons.LOCALE_LANGUAGE_COUNTRY, "");
             if (currentLanguage.contains(RootCons.LANGUAGES.RUSSIAN)) {
@@ -262,15 +265,13 @@ public class SmsDetailFrag extends BaseFrag {
                             int unreadCount = scc.getUnreadCount();
                             if (unreadCount > 0) {/* 如果有未读消息 */
                                 if (!isHidden()) {
-                                    // 4.向接口发起请求
+                                    // 3.用户是否停留在短信详情页
                                     realToGetContent();
                                 } else {
                                     // 3.用户离开
                                     // 4.把未读消息数量保存到MAP中
                                     HomeActivity.smsUnreadMap.put(contactId, unreadCount);
                                 }
-                                // 3.用户是否停留在短信详情页
-                                realToGetContent();
                             } else {/* 没有未读消息, 直接获取内容--> 正常显示已读的消息 */
                                 realToGetContent();// 向接口发起请求
                             }
@@ -361,7 +362,8 @@ public class SmsDetailFrag extends BaseFrag {
             return;
         }
         // 2. send sms
-        new SmsSendHelper(activity, smsContact.getPhoneNumber(), content) {
+        String smsTime = smsContentListBean.getSMSContentList().get(0).getSMSTime();
+        new SmsSendHelper(activity, smsContact.getPhoneNumber(), content,smsTime) {
 
             @Override
             public void prepare() {

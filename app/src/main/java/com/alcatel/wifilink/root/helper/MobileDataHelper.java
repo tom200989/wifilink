@@ -113,7 +113,7 @@ public class MobileDataHelper {
     private void toDisConn() {
         ConnectSettingHelper csDisconnhelper = new ConnectSettingHelper();
         // 注册产生的错误
-        csDisconnhelper.setOnConnectSettingFailListener(() -> toast(R.string.hh70_cant_connect));
+        // csDisconnhelper.setOnConnectSettingFailListener(() -> toast(R.string.hh70_cant_connect));
         csDisconnhelper.setOnRegisteFailedListener(attr -> toast(R.string.hh70_cant_connect));
         csDisconnhelper.setOnNotRegisterListener(attr -> toast(R.string.hh70_cant_connect));
         csDisconnhelper.setOnRegistingListener(attr -> toast(R.string.hh70_connecting));
@@ -130,7 +130,7 @@ public class MobileDataHelper {
     private void toConn() {
         ConnectSettingHelper csConnhelper = new ConnectSettingHelper();
         // 注册产生的错误
-        csConnhelper.setOnConnectSettingFailListener(() -> toast(R.string.hh70_cant_connect));
+        // csConnhelper.setOnConnectSettingFailListener(() -> toast(R.string.hh70_cant_connect));
         csConnhelper.setOnRegisteFailedListener(attr -> toast(R.string.hh70_cant_connect));
         csConnhelper.setOnNotRegisterListener(attr -> toast(R.string.hh70_cant_connect));
         csConnhelper.setOnRegistingListener(attr -> toast(R.string.hh70_connecting));

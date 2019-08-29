@@ -679,7 +679,7 @@ public class mainFrag extends BaseFrag {
             tvUsedData.setText("-");
         }
         if (tvUsedTotal != null) {
-            tvUsedTotal.setText(String.valueOf(getString(R.string.hh70_used_of) + " -"));
+            tvUsedTotal.setText(String.valueOf(activity.getString(R.string.hh70_used_of) + " -"));
         }
     }
 

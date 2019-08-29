@@ -616,4 +616,17 @@ public class RootUtils {
         Date now = new Date();
         return sDate.format(now);
     }
+
+    public static String getSendTime(String lastString){
+        Date lastDate = RootUtils.transferDateForText(lastString);
+        Date date = new Date();
+        if (date.after(lastDate)) {
+            return getCurrentDate();
+        }else {
+            long sendTime = lastDate.getTime() + 3000;
+            SimpleDateFormat sDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+            Date now = new Date(sendTime);
+            return sDate.format(now);
+        }
+    }
 }

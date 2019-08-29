@@ -56,11 +56,14 @@ public class LanguageFrag extends BaseFrag {
             if (languageBean != null) {
                 String[] lang_coun = languageBean.getLanguage_country().split("-");
                 String language = lang_coun[0];
-                String country = lang_coun[1];
+                String country = "";
+                if (lang_coun.length >= 1) {
+                    country = lang_coun[1];
+                }
                 country = TextUtils.isEmpty(country) | country.equals("default") ? "" : country;
                 LangHelper.transfer(activity, language, country);
                 // 保存到缓存
-                ShareUtils.set(RootCons.LOCALE_LANGUAGE_COUNTRY, language + "-" + country);
+                ShareUtils.set(RootCons.LOCALE_LANGUAGE_COUNTRY, language + "-" + (TextUtils.isEmpty(country) ? "default" : country));
                 // 重启Activity(必须)
                 activity.recreate();
             }
@@ -111,8 +114,8 @@ public class LanguageFrag extends BaseFrag {
         List<LanguageBean> langs = new ArrayList<>();
         for (String lang_coun : RootCons.LANGUAGE_COUNTRY_LIST) {
             LanguageBean languageBean = new LanguageBean();
-            languageBean.setLanguage_country(language_country);
-            languageBean.setCurrent(lang_coun.equals(language_country));
+            languageBean.setLanguage_country(lang_coun);
+            languageBean.setCurrent(language_country.contains(lang_coun));
             langs.add(languageBean);
         }
         return langs;

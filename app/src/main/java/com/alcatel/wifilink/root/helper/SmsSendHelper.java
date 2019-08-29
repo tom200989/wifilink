@@ -20,11 +20,13 @@ public abstract class SmsSendHelper {
     private String content;
     private Handler handler;
     private int count = 0;
+    private String lastMsgTime;
 
-    public SmsSendHelper(Context context, List<String> phoneNums, String content) {
+    public SmsSendHelper(Context context, List<String> phoneNums, String content,String lastMsgTime) {
         this.context = context;
         this.phoneNums = phoneNums;
         this.content = content;
+        this.lastMsgTime = lastMsgTime;
         handler = new Handler();
         send();
     }
@@ -39,7 +41,7 @@ public abstract class SmsSendHelper {
         SendSmsParam xSendSmsParam = new SendSmsParam();
         xSendSmsParam.setSMSId(-1);
         xSendSmsParam.setSMSContent(content);
-        xSendSmsParam.setSMSTime(RootUtils.getCurrentDate());
+        xSendSmsParam.setSMSTime(RootUtils.getSendTime(lastMsgTime));
         xSendSmsParam.setPhoneNumber(phoneNums);
         SendSMSHelper xSendSMSHelper = new SendSMSHelper();
         xSendSMSHelper.setOnSendSmsSuccessListener(() -> {

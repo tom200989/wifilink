@@ -9,7 +9,6 @@ import com.p_xhelper_smart.p_xhelper_smart.helper.GetNetworkRegisterStateHelper;
 /**
  * Created by qianli.ma on 2017/11/25 0025.
  */
-
 public class ConnectSettingHelper {
 
     public ConnectSettingHelper() {
@@ -45,7 +44,7 @@ public class ConnectSettingHelper {
         xGetNetworkRegisterStateHelper.setOnRegisttingListener(() -> registingNext(1));// 注册中
         xGetNetworkRegisterStateHelper.setOnGetNetworkRegisterStateFailedListener(() -> registerFailedNext(3));// 注册失败
         xGetNetworkRegisterStateHelper.setOnNotRegisterListener(() -> notRegisterNext(0));// 没有注册
-        xGetNetworkRegisterStateHelper.setOnGetNetworkRegisterStateFailedListener(this::connectSettingFailNext);
+        // xGetNetworkRegisterStateHelper.setOnGetNetworkRegisterStateFailedListener(this::connectSettingFailNext);
         xGetNetworkRegisterStateHelper.getNetworkRegisterState();
     }
 
@@ -55,11 +54,11 @@ public class ConnectSettingHelper {
     public void toConnect() {
         // 1.检测sim卡的注册状态
         GetNetworkRegisterStateHelper xGetNetworkRegisterStateHelper = new GetNetworkRegisterStateHelper();
-        xGetNetworkRegisterStateHelper.setOnRegisterSuccessListener(() -> connectOrDisconnect(false));// 注册成功
+        xGetNetworkRegisterStateHelper.setOnRegisterSuccessListener(() -> connectOrDisconnect(true));// 注册成功
         xGetNetworkRegisterStateHelper.setOnRegisttingListener(() -> registingNext(1));// 注册中
         xGetNetworkRegisterStateHelper.setOnGetNetworkRegisterStateFailedListener(() -> registerFailedNext(3));// 注册失败
         xGetNetworkRegisterStateHelper.setOnNotRegisterListener(() -> notRegisterNext(0));// 没有注册
-        xGetNetworkRegisterStateHelper.setOnGetNetworkRegisterStateFailedListener(this::connectSettingFailNext);
+        // xGetNetworkRegisterStateHelper.setOnGetNetworkRegisterStateFailedListener(this::connectSettingFailNext);
         xGetNetworkRegisterStateHelper.getNetworkRegisterState();
     }
 
@@ -81,7 +80,6 @@ public class ConnectSettingHelper {
             xConnectHelper.connect();
 
         } else {
-
             DisConnectHelper xDisConnectHelper = new DisConnectHelper();
             xDisConnectHelper.setOnDisconnectSuccessListener(() -> disconnSuccessNext(null));
             xDisConnectHelper.setOnDisconnectFailedListener(() -> {
@@ -256,6 +254,7 @@ public class ConnectSettingHelper {
             onDisConnSuccessListener.disconnSuccess(attr);
         }
     }
+
     /*--------------------------------------------------------------------------------------*/
     private OnConnSuccessListener onConnSuccessListener;
 
@@ -275,6 +274,7 @@ public class ConnectSettingHelper {
             onConnSuccessListener.connSuccess(attr);
         }
     }
+
     /*--------------------------------------------------------------------------------------*/
     private OnNotRegisterListener onNotRegisterListener;
 
@@ -294,6 +294,7 @@ public class ConnectSettingHelper {
             onNotRegisterListener.notRegister(attr);
         }
     }
+
     /*--------------------------------------------------------------------------------------*/
     private OnRegisteFailedListener onRegisteFailedListener;
 
@@ -313,6 +314,7 @@ public class ConnectSettingHelper {
             onRegisteFailedListener.registerFailed(attr);
         }
     }
+
     /*--------------------------------------------------------------------------------------*/
     private OnRegistingListener onRegistingListener;
 
@@ -332,4 +334,24 @@ public class ConnectSettingHelper {
             onRegistingListener.registing(attr);
         }
     }
+
+    /*注册出错的回调*/
+    public interface OnRegisterFwError {
+        void error();
+    }
+
+    private OnRegisterFwError onRegisterFwError;
+
+    //对外方式setOnRegisterFwError
+    public void setOnRegisterFwError(OnRegisterFwError onRegisterFwError) {
+        this.onRegisterFwError = onRegisterFwError;
+    }
+
+    //封装方法
+    private void reigsterErrorNext() {
+        if (onRegisterFwError != null) {
+            onRegisterFwError.error();
+        }
+    }
+
 }

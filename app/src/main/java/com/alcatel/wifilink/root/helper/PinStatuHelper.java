@@ -36,6 +36,7 @@ public class PinStatuHelper {
             }
             GetSimStatusHelper xGetSimStatusHelper = new GetSimStatusHelper();
             xGetSimStatusHelper.setOnGetSimStatusSuccessListener(result -> {
+                normalPinStatesNext(result);
                 int pinState = result.getPinState();
                 switch (pinState) {
                     case GetSimStatusBean.CONS_FOR_PIN_UNKNOWN:

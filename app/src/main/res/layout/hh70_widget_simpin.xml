@@ -11,7 +11,7 @@
         android:id="@+id/iv_dialogok_widget_bg"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:alpha="0.7"
+        android:alpha="0.5"
         android:background="@color/gray" />
 
     <!-- 白色底框 -->
@@ -20,8 +20,8 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:background="@drawable/bg_pop_conner"
-        app:layout_heightPercent="27%h"
-        app:layout_widthPercent="85%w">
+        app:layout_heightPercent="22%h"
+        app:layout_widthPercent="75%w">
 
         <EditText
             android:id="@+id/et_pop_simpin"

@@ -14,7 +14,7 @@
             android:id="@+id/iv_dialogok_widget_bg"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:alpha="0.7"
+            android:alpha="0.5"
             android:background="@color/gray" />
 
         <!-- 白色底框 -->
