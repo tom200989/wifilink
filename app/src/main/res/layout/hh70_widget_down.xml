@@ -38,7 +38,7 @@
                 android:id="@+id/tv_pop_setting_download_per"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/dimen_10dip"
+                android:layout_marginStart="10dp"
                 android:layout_toEndOf="@id/tv_pop_setting_download_tip"
                 android:text="0%"
                 android:textColor="@color/black"

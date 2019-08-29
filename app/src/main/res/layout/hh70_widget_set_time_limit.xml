@@ -72,10 +72,10 @@
             <View
                 android:id="@+id/v_smsdetail_tryagain_split"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/dimen_1dip"
+                android:layout_height="1dp"
                 android:layout_below="@id/content_view"
-                android:layout_marginLeft="@dimen/dimen_15dip"
-                android:layout_marginRight="@dimen/dimen_15dip"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
                 android:alpha="0.5"
                 android:background="@color/gray"
                 app:layout_marginTopPercent="10%h" />
@@ -83,7 +83,7 @@
             <com.hiber.tools.layout.PercentLinearLayout
                 android:id="@+id/ll_smsdetail_buttons"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/dimen_50dip"
+                android:layout_height="50dp"
                 android:layout_below="@id/v_smsdetail_tryagain_split"
                 android:orientation="horizontal"
                 app:layout_heightPercent="33%h"
@@ -93,8 +93,8 @@
                     android:id="@+id/tv_smsdetail_detele_cancel"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_marginStart="@dimen/dimen_10dip"
-                    android:layout_marginEnd="@dimen/dimen_10dip"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
                     android:layout_weight="1"
                     android:background="@drawable/btn_click_selector"
                     android:gravity="center"
@@ -107,8 +107,8 @@
                     android:id="@+id/tv_smsdetail_detele_ok"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_marginStart="@dimen/dimen_10dip"
-                    android:layout_marginEnd="@dimen/dimen_10dip"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
                     android:layout_weight="1"
                     android:background="@drawable/pop_sim_bg"
                     android:gravity="center"
@@ -121,7 +121,7 @@
 
             <View
                 android:layout_width="wrap_content"
-                android:layout_height="@dimen/dimen_1dip"
+                android:layout_height="1dp"
                 android:layout_below="@id/ll_smsdetail_buttons"
                 app:layout_marginTopPercent="9.10%h" />
 

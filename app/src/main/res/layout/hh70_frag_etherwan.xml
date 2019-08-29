@@ -82,7 +82,7 @@
                         android:layout_marginStart="20dp"
                         android:text="@string/hh70_pppoe"
                         android:textColor="@color/black"
-                        android:textSize="@dimen/dimen_textsize_16sp" />
+                        android:textSize="16sp" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -90,7 +90,7 @@
                         android:layout_marginStart="20dp"
                         android:text="@string/hh70_need_account_and_psd"
                         android:textColor="@color/deep_grey_text"
-                        android:textSize="@dimen/dimen_textsize_12sp"
+                        android:textSize="12sp"
                         android:visibility="gone" />
 
                 </com.hiber.tools.layout.PercentLinearLayout>
@@ -132,7 +132,7 @@
                         android:layout_marginStart="20dp"
                         android:text="@string/hh70_dhcp"
                         android:textColor="@color/black"
-                        android:textSize="@dimen/dimen_textsize_16sp" />
+                        android:textSize="16sp" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -140,7 +140,7 @@
                         android:layout_marginStart="20dp"
                         android:text="@string/hh70_dont_set_parameters"
                         android:textColor="@color/deep_grey_text"
-                        android:textSize="@dimen/dimen_textsize_12sp"
+                        android:textSize="12sp"
                         android:visibility="gone" />
 
                 </com.hiber.tools.layout.PercentLinearLayout>
@@ -182,7 +182,7 @@
                         android:layout_marginStart="20dp"
                         android:text="@string/hh70_static_ip"
                         android:textColor="@color/black"
-                        android:textSize="@dimen/dimen_textsize_16sp" />
+                        android:textSize="16sp" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -190,7 +190,7 @@
                         android:layout_marginStart="20dp"
                         android:text="@string/hh70_need_ip"
                         android:textColor="@color/deep_grey_text"
-                        android:textSize="@dimen/dimen_textsize_12sp"
+                        android:textSize="12sp"
                         android:visibility="gone" />
 
                 </com.hiber.tools.layout.PercentLinearLayout>
@@ -219,7 +219,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/ethernet_wan_connection_static_ip"
-                android:layout_marginTop="@dimen/dimen_5dip"
+                android:layout_marginTop="5dp"
                 android:background="@color/white"
                 android:orientation="vertical"
                 android:visibility="gone">
@@ -237,7 +237,7 @@
                         android:gravity="center"
                         android:text="@string/hh70_account"
                         android:textColor="@color/black"
-                        android:textSize="@dimen/dimen_textsize_16sp" />
+                        android:textSize="16sp" />
 
                     <EditText
                         android:id="@+id/pppoe_account"
@@ -248,7 +248,7 @@
                         android:background="@null"
                         android:hint="@string/hh70_account"
                         android:textColor="@color/grey_text"
-                        android:textSize="@dimen/dimen_textsize_14sp" />
+                        android:textSize="14sp" />
                 </com.hiber.tools.layout.PercentLinearLayout>
 
                 <View
@@ -273,7 +273,7 @@
                         android:gravity="center"
                         android:text="@string/hh70_password"
                         android:textColor="@color/black"
-                        android:textSize="@dimen/dimen_textsize_16sp" />
+                        android:textSize="16sp" />
 
                     <EditText
                         android:id="@+id/pppoe_password"
@@ -284,7 +284,7 @@
                         android:background="@null"
                         android:hint="@string/hh70_password"
                         android:textColor="@color/grey_text"
-                        android:textSize="@dimen/dimen_textsize_14sp" />
+                        android:textSize="14sp" />
                 </com.hiber.tools.layout.PercentLinearLayout>
 
                 <View
@@ -313,14 +313,14 @@
                             android:layout_height="wrap_content"
                             android:text="@string/hh70_mtu"
                             android:textColor="@color/black"
-                            android:textSize="@dimen/dimen_textsize_16sp" />
+                            android:textSize="16sp" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/hh70_not_change_default"
                             android:textColor="@color/deep_grey_text"
-                            android:textSize="@dimen/dimen_textsize_12sp" />
+                            android:textSize="12sp" />
                     </com.hiber.tools.layout.PercentLinearLayout>
 
                     <!-- MTU -->
@@ -336,7 +336,7 @@
                         android:maxLength="4"
                         android:text="1492"
                         android:textColor="@color/deep_grey_text"
-                        android:textSize="@dimen/dimen_textsize_14sp" />
+                        android:textSize="14sp" />
                 </com.hiber.tools.layout.PercentRelativeLayout>
 
             </com.hiber.tools.layout.PercentLinearLayout>
@@ -346,12 +346,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_below="@+id/ethernet_wan_connection_static_ip"
-                android:layout_marginTop="@dimen/dimen_5dip"
+                android:layout_marginTop="5dp"
                 android:background="@color/white"
                 android:padding="20dp"
                 android:text="@string/hh70_not_change_default"
                 android:textColor="@color/deep_grey_text"
-                android:textSize="@dimen/dimen_textsize_14sp"
+                android:textSize="14sp"
                 android:visibility="gone" />
 
             <com.hiber.tools.layout.PercentLinearLayout
@@ -359,7 +359,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/ethernet_wan_connection_static_ip"
-                android:layout_marginTop="@dimen/dimen_5dip"
+                android:layout_marginTop="5dp"
                 android:background="@color/white"
                 android:orientation="vertical"
                 android:visibility="gone">
@@ -377,7 +377,7 @@
                         android:gravity="center"
                         android:text="@string/hh70_ip_address"
                         android:textColor="@color/black"
-                        android:textSize="@dimen/dimen_textsize_16sp" />
+                        android:textSize="16sp" />
 
                     <EditText
                         android:id="@+id/static_ip_address"
@@ -390,7 +390,7 @@
                         android:hint="@string/hh70_ip_address"
                         android:inputType="number"
                         android:textColor="@color/grey_text"
-                        android:textSize="@dimen/dimen_textsize_14sp" />
+                        android:textSize="14sp" />
                 </com.hiber.tools.layout.PercentLinearLayout>
 
                 <View
@@ -415,7 +415,7 @@
                         android:gravity="center"
                         android:text="@string/hh70_subnet_mask"
                         android:textColor="@color/black"
-                        android:textSize="@dimen/dimen_textsize_16sp" />
+                        android:textSize="16sp" />
 
                     <EditText
                         android:id="@+id/static_ip_subnet_mask"
@@ -428,7 +428,7 @@
                         android:hint="@string/hh70_subnet_mask"
                         android:inputType="number"
                         android:textColor="@color/grey_text"
-                        android:textSize="@dimen/dimen_textsize_14sp" />
+                        android:textSize="14sp" />
                 </com.hiber.tools.layout.PercentLinearLayout>
 
                 <View
@@ -453,7 +453,7 @@
                         android:gravity="center"
                         android:text="@string/hh70_default_gateway"
                         android:textColor="@color/black"
-                        android:textSize="@dimen/dimen_textsize_16sp" />
+                        android:textSize="16sp" />
 
                     <EditText
                         android:id="@+id/static_ip_default_gateway"
@@ -466,7 +466,7 @@
                         android:hint="@string/hh70_default_gateway"
                         android:inputType="number"
                         android:textColor="@color/grey_text"
-                        android:textSize="@dimen/dimen_textsize_14sp" />
+                        android:textSize="14sp" />
                 </com.hiber.tools.layout.PercentLinearLayout>
 
                 <View
@@ -491,7 +491,7 @@
                         android:gravity="center"
                         android:text="@string/hh70_prefer_dns"
                         android:textColor="@color/black"
-                        android:textSize="@dimen/dimen_textsize_16sp" />
+                        android:textSize="16sp" />
 
                     <EditText
                         android:id="@+id/static_ip_preferred_dns"
@@ -504,7 +504,7 @@
                         android:hint="@string/hh70_prefer_dns"
                         android:inputType="number"
                         android:textColor="@color/grey_text"
-                        android:textSize="@dimen/dimen_textsize_14sp" />
+                        android:textSize="14sp" />
                 </com.hiber.tools.layout.PercentLinearLayout>
 
                 <View
@@ -529,7 +529,7 @@
                         android:gravity="center"
                         android:text="@string/hh70_second_dns"
                         android:textColor="@color/black"
-                        android:textSize="@dimen/dimen_textsize_16sp" />
+                        android:textSize="16sp" />
 
                     <EditText
                         android:id="@+id/static_ip_secondary_dns"
@@ -542,7 +542,7 @@
                         android:hint="@string/hh70_second_dns"
                         android:inputType="number"
                         android:textColor="@color/grey_text"
-                        android:textSize="@dimen/dimen_textsize_14sp" />
+                        android:textSize="14sp" />
                 </com.hiber.tools.layout.PercentLinearLayout>
 
                 <View
@@ -571,7 +571,7 @@
                             android:layout_marginStart="20dp"
                             android:text="@string/hh70_mtu"
                             android:textColor="@color/black"
-                            android:textSize="@dimen/dimen_textsize_16sp" />
+                            android:textSize="16sp" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -579,7 +579,7 @@
                             android:layout_marginStart="20dp"
                             android:text="@string/hh70_not_change_default"
                             android:textColor="@color/deep_grey_text"
-                            android:textSize="@dimen/dimen_textsize_12sp" />
+                            android:textSize="12sp" />
                     </com.hiber.tools.layout.PercentLinearLayout>
 
                     <!-- MTU -->
@@ -592,7 +592,7 @@
                         android:inputType="number"
                         android:maxLength="4"
                         android:textColor="@color/deep_grey_text"
-                        android:textSize="@dimen/dimen_textsize_14sp" />
+                        android:textSize="14sp" />
                 </com.hiber.tools.layout.PercentLinearLayout>
 
             </com.hiber.tools.layout.PercentLinearLayout>

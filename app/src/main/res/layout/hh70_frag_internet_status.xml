@@ -67,7 +67,13 @@
                 app:layout_textSizePercent="30%h"
                 tools:ignore="HardcodedText" />
 
-            <View style="@style/internet_split" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.1dp"
+                android:layout_alignParentBottom="true"
+                android:layout_marginStart="15dp"
+                android:layout_marginEnd="15dp"
+                android:background="@color/gray" />
 
         </com.hiber.tools.layout.PercentRelativeLayout>
 
@@ -88,7 +94,6 @@
                 android:textColor="@color/black"
                 app:layout_textSizePercent="30%h" />
 
-
             <TextView
                 android:id="@+id/tv_internet_content_subnetmask"
                 android:layout_width="wrap_content"
@@ -102,7 +107,12 @@
                 tools:ignore="HardcodedText" />
 
             <View
-                style="@style/internet_split" />
+                android:layout_width="match_parent"
+                android:layout_alignParentBottom="true"
+                android:layout_marginStart="15dp"
+                android:layout_marginEnd="15dp"
+                android:background="@color/gray"
+                android:layout_height="0.1dp"/>
 
         </com.hiber.tools.layout.PercentRelativeLayout>
 
@@ -136,8 +146,12 @@
                 tools:ignore="HardcodedText" />
 
             <View
-                style="@style/internet_split" />
-
+                android:layout_width="match_parent"
+                android:layout_alignParentBottom="true"
+                android:layout_marginStart="15dp"
+                android:layout_marginEnd="15dp"
+                android:background="@color/gray"
+                android:layout_height="0.1dp"/>
         </com.hiber.tools.layout.PercentRelativeLayout>
 
         <!-- Preferred DNS  -->
@@ -170,7 +184,12 @@
                 tools:ignore="HardcodedText" />
 
             <View
-                style="@style/internet_split" />
+                android:layout_width="match_parent"
+                android:layout_alignParentBottom="true"
+                android:layout_marginStart="15dp"
+                android:layout_marginEnd="15dp"
+                android:background="@color/gray"
+                android:layout_height="0.1dp"/>
 
         </com.hiber.tools.layout.PercentRelativeLayout>
 
@@ -203,7 +222,13 @@
                 app:layout_textSizePercent="30%h"
                 tools:ignore="HardcodedText" />
 
-            <View style="@style/internet_split" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_alignParentBottom="true"
+                android:layout_marginStart="15dp"
+                android:layout_marginEnd="15dp"
+                android:background="@color/gray"
+                android:layout_height="0.1dp"/>
 
         </com.hiber.tools.layout.PercentRelativeLayout>
 
@@ -211,9 +236,9 @@
         <Button
             android:id="@+id/bt_internet_renew"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/dimen_50dip"
+            android:layout_height="50dp"
             android:layout_below="@id/rl_internet_secondDns"
-            android:layout_margin="@dimen/dimen_20dip"
+            android:layout_margin="20dp"
             android:background="@drawable/btn_click_selector"
             android:gravity="center"
             android:text="@string/hh70_renew"

@@ -39,7 +39,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_marginStart="@dimen/dimen_10dip"
+                android:layout_marginStart="10dp"
                 android:layout_toEndOf="@id/iv_main_mw70_connected_logo"
                 android:text="0"
                 android:textColor="@color/blue_btn"
@@ -49,7 +49,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_marginStart="@dimen/dimen_10dip"
+                android:layout_marginStart="10dp"
                 android:layout_toEndOf="@id/tv_main_mw70_connected_deviceNum"
                 android:text="@string/hh70_connected"
                 android:textColor="@color/text_color"
@@ -61,7 +61,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
-                android:layout_marginEnd="@dimen/dimen_10dip"
+                android:layout_marginEnd="10dp"
                 android:src="@drawable/right_arrow_small"
                 app:layout_heightPercent="25%h" />
 
@@ -92,7 +92,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_marginStart="@dimen/dimen_10dip"
+                android:layout_marginStart="10dp"
                 android:layout_toEndOf="@id/iv_main_mw70_freesharing_logo"
                 android:text="@string/hh70_free_share"
                 android:textColor="@color/text_color"
@@ -103,7 +103,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
-                android:layout_marginEnd="@dimen/dimen_10dip"
+                android:layout_marginEnd="10dp"
                 android:src="@drawable/right_arrow_small"
                 app:layout_heightPercent="25%h" />
 

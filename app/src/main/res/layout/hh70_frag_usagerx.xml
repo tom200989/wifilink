@@ -46,7 +46,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginStart="@dimen/dimen_15dip"
+            android:layout_marginStart="15dp"
             android:src="@drawable/home_connected_ic_home"
             app:layout_heightPercent="50%h"
             app:layout_widthPercent="50%h" />
@@ -54,7 +54,7 @@
         <com.hiber.tools.layout.PercentRelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_marginStart="@dimen/dimen_15dip"
+            android:layout_marginStart="15dp"
             android:layout_toEndOf="@id/iv_usage_rx_homeNetwork_logo"
             android:gravity="center">
 
@@ -83,7 +83,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
-            android:layout_marginEnd="@dimen/dimen_15dip"
+            android:layout_marginEnd="15dp"
             android:text=""
             android:textColor="@color/black"
             app:layout_textSizePercent="25%h" />
@@ -104,7 +104,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_centerVertical="true"
-            android:layout_marginStart="@dimen/dimen_15dip"
+            android:layout_marginStart="15dp"
             android:src="@drawable/home_connected_ic_roaming"
             app:layout_heightPercent="50%h"
             app:layout_widthPercent="50%h" />
@@ -112,7 +112,7 @@
         <com.hiber.tools.layout.PercentRelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_marginStart="@dimen/dimen_15dip"
+            android:layout_marginStart="15dp"
             android:layout_toEndOf="@id/iv_usage_rx_roaming_logo"
             android:gravity="center">
 
@@ -140,7 +140,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
-            android:layout_marginEnd="@dimen/dimen_15dip"
+            android:layout_marginEnd="15dp"
             android:textColor="@color/black"
             app:layout_textSizePercent="25%h" />
 

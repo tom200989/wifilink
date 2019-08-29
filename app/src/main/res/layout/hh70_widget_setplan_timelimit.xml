@@ -53,7 +53,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/dimen_10dip"
+                    android:layout_marginStart="10dp"
                     android:text="@string/hh70_hr_s"
                     app:layout_textSizePercent="30%h" />
 
@@ -61,7 +61,7 @@
                     android:id="@+id/et_pop_setPlan_rx_settimelimit_min"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/dimen_10dip"
+                    android:layout_marginStart="10dp"
                     android:background="@drawable/et_underline_settimelimit"
                     android:gravity="center"
                     android:hint="5"
@@ -74,7 +74,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/dimen_10dip"
+                    android:layout_marginStart="10dp"
                     android:text="@string/hh70_min_s"
                     app:layout_textSizePercent="30%h" />
             </com.hiber.tools.layout.PercentLinearLayout>
@@ -94,8 +94,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_below="@id/ll_pop_setPlan_rx_input"
-                android:layout_marginStart="@dimen/dimen_15dip"
-                android:layout_marginEnd="@dimen/dimen_15dip"
+                android:layout_marginStart="15dp"
+                android:layout_marginEnd="15dp"
                 android:alpha="0.5"
                 android:background="@color/gray"
                 app:layout_marginTopPercent="5%h" />
@@ -104,8 +104,8 @@
             <com.hiber.tools.layout.PercentLinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/dimen_15dip"
-                android:layout_marginEnd="@dimen/dimen_15dip"
+                android:layout_marginStart="15dp"
+                android:layout_marginEnd="15dp"
                 android:gravity="center"
                 android:orientation="horizontal"
                 app:layout_heightPercent="30%h"

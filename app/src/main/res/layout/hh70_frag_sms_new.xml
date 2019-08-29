@@ -13,13 +13,13 @@
         <com.hiber.tools.layout.PercentRelativeLayout
             android:id="@+id/rl_sms_new_title_bar"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/dimen_60dip"
+            android:layout_height="60dp"
             android:background="@color/main_title_background">
 
             <ImageButton
                 android:id="@+id/ib_newsms_back"
-                android:layout_width="@dimen/dimen_18dip"
-                android:layout_height="@dimen/dimen_35dip"
+                android:layout_width="18dp"
+                android:layout_height="35dp"
                 android:layout_alignParentStart="true"
                 
                 android:layout_centerVertical="true"
@@ -29,14 +29,14 @@
                 android:src="@drawable/back" />
 
             <TextView
-                android:layout_width="@dimen/dimen_200dip"
+                android:layout_width="200dp"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:gravity="center"
                 android:maxLength="12"
                 android:text="@string/hh70_sms_title"
                 android:textColor="@color/color_white"
-                android:textSize="@dimen/dimen_20dip"
+                android:textSize="20dp"
                 android:textStyle="normal" />
 
         </com.hiber.tools.layout.PercentRelativeLayout>
@@ -75,7 +75,7 @@
                         android:layout_centerVertical="true"
                         android:text="@string/hh70_sms_to"
                         android:textColor="@color/grey_text"
-                        android:textSize="@dimen/dimen_textsize_18sp" />
+                        android:textSize="18sp" />
 
                     <EditText
                         android:id="@+id/edit_number"
@@ -122,7 +122,7 @@
                     <Button
                         android:id="@+id/send_btn"
                         android:layout_width="wrap_content"
-                        android:layout_height="@dimen/dimen_35dip"
+                        android:layout_height="35dp"
                         android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
                         android:layout_marginEnd="20dip"
@@ -132,7 +132,7 @@
                         android:paddingRight="15dip"
                         android:text="@string/hh70_SEND"
                         android:textColor="@color/color_white"
-                        android:textSize="@dimen/dimen_textsize_16sp" />
+                        android:textSize="16sp" />
 
                     <EditText
                         android:id="@+id/edit_content"

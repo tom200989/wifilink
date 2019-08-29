@@ -54,11 +54,11 @@
                 android:text="@string/hh70_device"
                 android:textColor="@color/black_text"
                 android:textDirection="locale"
-                android:textSize="@dimen/dimen_textsize_16sp" />
+                android:textSize="16sp" />
 
             <com.hiber.tools.layout.PercentRelativeLayout
                 android:layout_width="wrap_content"
-                android:layout_height="@dimen/setting_item_height"
+                android:layout_height="50dp"
                 android:background="@color/white">
 
                 <TextView
@@ -72,7 +72,7 @@
                     android:text="@string/hh70_device_name"
                     android:textColor="@color/black_text"
                     android:textDirection="locale"
-                    android:textSize="@dimen/dimen_textsize_16sp" />
+                    android:textSize="16sp" />
 
                 <TextView
                     android:id="@+id/device_name_txt"
@@ -84,7 +84,7 @@
                     android:gravity="center_vertical"
                     android:text="LINKHUB HH70"
                     android:textDirection="locale"
-                    android:textSize="@dimen/dimen_textsize_12sp"
+                    android:textSize="12sp"
                     tools:ignore="HardcodedText" />
 
                 <View
@@ -98,7 +98,7 @@
 
             <com.hiber.tools.layout.PercentRelativeLayout
                 android:layout_width="wrap_content"
-                android:layout_height="@dimen/setting_item_height"
+                android:layout_height="50dp"
                 android:background="@color/white">
 
                 <TextView
@@ -111,7 +111,7 @@
                     android:text="@string/hh70_imei"
                     android:textColor="@color/black_text"
                     android:textDirection="locale"
-                    android:textSize="@dimen/dimen_textsize_16sp" />
+                    android:textSize="16sp" />
 
                 <TextView
                     android:id="@+id/imei_txt"
@@ -122,7 +122,7 @@
                     android:gravity="center_vertical"
                     android:text="LINKHUB HH70"
                     android:textDirection="locale"
-                    android:textSize="@dimen/dimen_textsize_12sp"
+                    android:textSize="12sp"
                     tools:ignore="HardcodedText" />
 
                 <View
@@ -135,7 +135,7 @@
 
             <com.hiber.tools.layout.PercentRelativeLayout
                 android:layout_width="wrap_content"
-                android:layout_height="@dimen/setting_item_height"
+                android:layout_height="50dp"
                 android:background="@color/white">
 
                 <TextView
@@ -148,7 +148,7 @@
                     android:text="@string/hh70_mac_address"
                     android:textColor="@color/black_text"
                     android:textDirection="locale"
-                    android:textSize="@dimen/dimen_textsize_16sp" />
+                    android:textSize="16sp" />
 
                 <TextView
                     android:id="@+id/mac_address_txt"
@@ -159,14 +159,14 @@
                     android:gravity="center_vertical"
                     android:text="LINKHUB HH70"
                     android:textDirection="locale"
-                    android:textSize="@dimen/dimen_textsize_12sp"
+                    android:textSize="12sp"
                     tools:ignore="HardcodedText" />
 
             </com.hiber.tools.layout.PercentRelativeLayout>
 
             <com.hiber.tools.layout.PercentRelativeLayout
                 android:layout_width="wrap_content"
-                android:layout_height="@dimen/setting_item_height"
+                android:layout_height="50dp"
                 android:layout_marginTop="30dp"
                 android:background="@color/white">
 
@@ -180,7 +180,7 @@
                     android:text="@string/hh70_manage_ip_address"
                     android:textColor="@color/black_text"
                     android:textDirection="locale"
-                    android:textSize="@dimen/dimen_textsize_16sp" />
+                    android:textSize="16sp" />
 
                 <TextView
                     android:id="@+id/management_ip_txt"
@@ -191,14 +191,14 @@
                     android:gravity="center_vertical"
                     android:text="0.0.0.0"
                     android:textDirection="locale"
-                    android:textSize="@dimen/dimen_textsize_12sp"
+                    android:textSize="12sp"
                     tools:ignore="HardcodedText" />
 
             </com.hiber.tools.layout.PercentRelativeLayout>
 
             <com.hiber.tools.layout.PercentRelativeLayout
                 android:layout_width="wrap_content"
-                android:layout_height="@dimen/setting_item_height"
+                android:layout_height="50dp"
                 android:background="@color/white"
                 android:visibility="gone">
 
@@ -213,7 +213,7 @@
                     android:text="@string/hh70_subnet_mask"
                     android:textColor="@color/black_text"
                     android:textDirection="locale"
-                    android:textSize="@dimen/dimen_textsize_16sp" />
+                    android:textSize="16sp" />
 
                 <TextView
                     android:id="@+id/subnet_mask_txt"
@@ -224,7 +224,7 @@
                     android:gravity="center_vertical"
                     android:text="0.0.0.0"
                     android:textDirection="locale"
-                    android:textSize="@dimen/dimen_textsize_12sp"
+                    android:textSize="12sp"
                     tools:ignore="HardcodedText" />
 
                 <View
@@ -237,7 +237,7 @@
 
             <com.hiber.tools.layout.PercentRelativeLayout
                 android:layout_width="wrap_content"
-                android:layout_height="@dimen/setting_item_height"
+                android:layout_height="50dp"
                 android:layout_marginTop="30dp"
                 android:background="@color/white">
 
@@ -255,7 +255,7 @@
                     android:text="@string/hh70_web_manager"
                     android:textColor="@color/black_text"
                     android:textDirection="locale"
-                    android:textSize="@dimen/dimen_textsize_16sp" />
+                    android:textSize="16sp" />
 
                 <View
                     android:layout_width="match_parent"
@@ -267,7 +267,7 @@
 
             <com.hiber.tools.layout.PercentRelativeLayout
                 android:layout_width="wrap_content"
-                android:layout_height="@dimen/setting_item_height"
+                android:layout_height="50dp"
                 android:background="@color/white">
 
                 <TextView
@@ -284,13 +284,13 @@
                     android:text="@string/hh70_guide_user_manual"
                     android:textColor="@color/black_text"
                     android:textDirection="locale"
-                    android:textSize="@dimen/dimen_textsize_16sp" />
+                    android:textSize="16sp" />
 
             </com.hiber.tools.layout.PercentRelativeLayout>
 
             <com.hiber.tools.layout.PercentRelativeLayout
                 android:layout_width="wrap_content"
-                android:layout_height="@dimen/setting_item_height"
+                android:layout_height="50dp"
                 android:layout_marginTop="30dp"
                 android:background="@color/white">
 
@@ -306,14 +306,14 @@
                     android:text="@string/hh70_app_version"
                     android:textColor="@color/black_text"
                     android:textDirection="locale"
-                    android:textSize="@dimen/dimen_textsize_16sp" />
+                    android:textSize="16sp" />
 
                 <ImageView
                     android:id="@+id/iv_point"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:layout_marginEnd="@dimen/dimen_8dip"
+                    android:layout_marginEnd="8dp"
                     android:layout_toStartOf="@+id/app_version_txt"
                     android:src="@drawable/point_red"
                     tools:ignore="ContentDescription" />
@@ -327,7 +327,7 @@
                     android:gravity="center_vertical"
                     android:text="LINKHUB HH70"
                     android:textDirection="locale"
-                    android:textSize="@dimen/dimen_textsize_12sp"
+                    android:textSize="12sp"
                     tools:ignore="HardcodedText" />
 
             </com.hiber.tools.layout.PercentRelativeLayout>

@@ -30,7 +30,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
-            android:layout_marginEnd="@dimen/dimen_8dip"
+            android:layout_marginEnd="8dp"
             android:src="@drawable/actionbar_edit_icon"
             android:textColor="@color/white"
             android:visibility="visible"
@@ -90,8 +90,8 @@
     <!-- no sms 提示 -->
     <TextView
         android:id="@+id/no_sms"
-        android:layout_width="@dimen/dimen_200dip"
-        android:layout_height="@dimen/dimen_200dip"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
         android:layout_centerInParent="true"
         android:layout_gravity="center"
         android:drawablePadding="10dip"

@@ -40,7 +40,7 @@
         android:layout_below="@id/rl_feedback_banner"
         android:background="@color/fffef5"
         android:gravity="center_vertical"
-        android:paddingStart="@dimen/dimen_8dip"
+        android:paddingStart="8dp"
         android:text="@string/hh70_type"
         android:textColor="@color/c_666666"
         app:layout_heightPercent="6%h"
@@ -64,7 +64,7 @@
             android:hint="@string/hh70_select_feedback_data"
             android:lines="1"
             android:maxLines="1"
-            android:paddingStart="@dimen/dimen_8dip"
+            android:paddingStart="8dp"
             android:textColorHint="@color/gray11"
             app:layout_textSizePercent="35%h"
             app:layout_widthPercent="70%w" />
@@ -74,7 +74,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
-            android:layout_marginEnd="@dimen/dimen_15dip"
+            android:layout_marginEnd="15dp"
             android:rotation="90"
             android:src="@drawable/general_ic_next"
             app:layout_heightPercent="30%h"
@@ -90,7 +90,7 @@
         android:layout_below="@id/rl_feedback_selectType"
         android:background="@color/fffef5"
         android:gravity="center_vertical"
-        android:paddingStart="@dimen/dimen_8dip"
+        android:paddingStart="8dp"
         android:text="@string/hh70_description"
         android:textColor="@color/c_666666"
         app:layout_heightPercent="6%h"
@@ -118,7 +118,7 @@
                 android:background="@null"
                 android:hint="@string/hh70_enter_feedback_suggest"
                 android:maxLength="2000"
-                android:padding="@dimen/dimen_8dip"
+                android:padding="8dp"
                 android:textColor="@color/black"
                 android:textColorHint="@color/gray11"
                 app:layout_textSizePercent="6%h" />
@@ -135,7 +135,7 @@
         android:layout_below="@id/scv_feedback_enterFeedback"
         android:background="@color/white"
         android:gravity="center_vertical|end"
-        android:paddingEnd="@dimen/dimen_8dip"
+        android:paddingEnd="8dp"
         android:text="0/2000"
         android:textColor="@color/gray11"
         app:layout_heightPercent="6%h"
@@ -152,7 +152,7 @@
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="@dimen/dimen_0_5dip"
+            android:layout_height="0.5dp"
             android:layout_alignParentTop="true"
             android:alpha="0.5"
             android:background="@color/gray11" />
@@ -163,7 +163,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginStart="@dimen/dimen_8dip"
+            android:layout_marginStart="8dp"
             android:background="@drawable/feedback_photo_bg"
             app:layout_heightPercent="80%h"
             app:layout_widthPercent="80%h">
@@ -312,7 +312,7 @@
             android:layout_height="match_parent"
             android:layout_centerInParent="true"
             android:background="@color/fffef5"
-            android:padding="@dimen/dimen_5dip"
+            android:padding="5dp"
             android:scaleType="centerInside" />
 
         <!-- 图片详情导航栏 -->
@@ -329,7 +329,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_marginStart="@dimen/dimen_8dip"
+                android:layout_marginStart="8dp"
                 android:src="@drawable/back"
                 app:layout_heightPercent="50%h"
                 app:layout_widthPercent="50%h" />
@@ -340,7 +340,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_marginStart="@dimen/dimen_18dip"
+                android:layout_marginStart="18dp"
                 android:layout_toEndOf="@id/iv_feedback_show_photo_back"
                 android:text="1/2"
                 android:textColor="@color/white"
@@ -354,7 +354,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
-                android:layout_marginEnd="@dimen/dimen_18dip"
+                android:layout_marginEnd="18dp"
                 android:src="@drawable/feedback_photo_deleted"
                 app:layout_heightPercent="50%h"
                 app:layout_widthPercent="50%h" />

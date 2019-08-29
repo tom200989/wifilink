@@ -32,16 +32,16 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_marginLeft="@dimen/dimen_12dip"
-        android:layout_marginTop="@dimen/dimen_5dip"
-        android:layout_marginRight="@dimen/dimen_12dip"
-        android:layout_marginBottom="@dimen/dimen_5dip"
+        android:layout_marginLeft="12dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginRight="12dp"
+        android:layout_marginBottom="5dp"
         android:orientation="horizontal">
 
         <Button
             android:id="@+id/btn_apply"
             android:layout_width="0dp"
-            android:layout_height="@dimen/dimen_40dip"
+            android:layout_height="40dp"
             android:layout_weight="1.0"
             android:background="@drawable/selector_conner_btn_login_blue"
             android:text="@string/hh70_apply"
@@ -52,9 +52,9 @@
             android:textAllCaps="false"
             android:id="@+id/btn_cancel"
             android:layout_width="0dp"
-            android:layout_height="@dimen/dimen_40dip"
-            android:layout_marginStart="@dimen/dimen_10dip"
-            android:layout_marginLeft="@dimen/dimen_10dip"
+            android:layout_height="40dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginLeft="10dp"
             android:layout_weight="1.0"
             android:background="@drawable/selector_conner_btn_login_blue"
             android:text="@string/hh70_cancel"
@@ -72,10 +72,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:paddingLeft="@dimen/activity_horizontal_margin"
-            android:paddingTop="@dimen/activity_vertical_margin"
-            android:paddingRight="@dimen/activity_horizontal_margin"
-            android:paddingBottom="@dimen/activity_vertical_margin">
+            android:paddingLeft="16dp"
+            android:paddingTop="16dp"
+            android:paddingRight="16dp"
+            android:paddingBottom="16dp">
 
             <!-- *** 2.4G panel -->
             <LinearLayout
@@ -90,7 +90,8 @@
                     android:layout_height="wrap_content">
 
                     <TextView
-                        style="@style/WlanSettingTitle"
+                        android:textColor="@color/black"
+                        android:textSize="16sp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
@@ -115,7 +116,8 @@
                     android:orientation="horizontal">
 
                     <TextView
-                        style="@style/WlanSettingTitle"
+                        android:textColor="@color/black"
+                        android:textSize="16sp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/hh70_ssid" />
@@ -124,7 +126,7 @@
                         android:id="@+id/edit_ssid_2g"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/dimen_24dip"
+                        android:layout_marginStart="24dp"
                         android:layout_marginLeft="24dp"
                         android:maxLength="32"
                         android:textSize="16sp" />
@@ -137,7 +139,8 @@
                     android:layout_height="48dp">
 
                     <TextView
-                        style="@style/WlanSettingTitle"
+                        android:textColor="@color/black"
+                        android:textSize="16sp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentStart="true"
@@ -164,7 +167,8 @@
                     android:visibility="visible">
 
                     <TextView
-                        style="@style/WlanSettingTitle"
+                        android:textColor="@color/black"
+                        android:textSize="16sp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentStart="true"
@@ -193,7 +197,8 @@
                     android:visibility="visible">
 
                     <TextView
-                        style="@style/WlanSettingTitle"
+                        android:textColor="@color/black"
+                        android:textSize="16sp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/hh70_password" />
@@ -213,9 +218,10 @@
                 <!-- ** 2.4G advanced settings -->
                 <TextView
                     android:id="@+id/text_advanced_settings_2g"
-                    style="@style/WlanSettingTitle"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/dimen_35dip"
+                    android:layout_height="35dp"
                     android:layout_marginTop="8dp"
                     android:drawableEnd="@drawable/right_arrow_small"
                     android:drawableRight="@drawable/right_arrow_small"
@@ -245,7 +251,8 @@
                     android:layout_marginTop="12dp">
 
                     <TextView
-                        style="@style/WlanSettingTitle"
+                        android:textColor="@color/black"
+                        android:textSize="16sp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
@@ -270,7 +277,8 @@
                     android:orientation="horizontal">
 
                     <TextView
-                        style="@style/WlanSettingTitle"
+                        android:textColor="@color/black"
+                        android:textSize="16sp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/hh70_ssid" />
@@ -279,7 +287,7 @@
                         android:id="@+id/edit_ssid_5g"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/dimen_24dip"
+                        android:layout_marginStart="24dp"
                         android:layout_marginLeft="24dp"
                         android:maxLength="32"
                         android:textSize="16sp" />
@@ -293,7 +301,8 @@
                     android:layout_height="48dp">
 
                     <TextView
-                        style="@style/WlanSettingTitle"
+                        android:textColor="@color/black"
+                        android:textSize="16sp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentStart="true"
@@ -319,7 +328,8 @@
                     android:layout_height="48dp">
 
                     <TextView
-                        style="@style/WlanSettingTitle"
+                        android:textColor="@color/black"
+                        android:textSize="16sp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentStart="true"
@@ -347,7 +357,8 @@
                     android:orientation="horizontal">
 
                     <TextView
-                        style="@style/WlanSettingTitle"
+                        android:textColor="@color/black"
+                        android:textSize="16sp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/hh70_password" />
@@ -365,9 +376,10 @@
                 <!-- ** 5G advanced setting -->
                 <TextView
                     android:id="@+id/text_advanced_settings_5g"
-                    style="@style/WlanSettingTitle"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/dimen_35dip"
+                    android:layout_height="35dp"
                     android:layout_marginTop="8dp"
                     android:drawableEnd="@drawable/right_arrow_small"
                     android:drawableRight="@drawable/right_arrow_small"
