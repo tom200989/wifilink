@@ -1,6 +1,7 @@
 package com.alcatel.wifilink.root.adapter;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,13 +32,14 @@ public class WifiExtenderAdapter extends RecyclerView.Adapter<WifiExtenderHolder
         notifyDataSetChanged();
     }
 
+    @NonNull
     @Override
-    public WifiExtenderHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public WifiExtenderHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new WifiExtenderHolder(LayoutInflater.from(context).inflate(R.layout.hh70_item_wifi_extender, parent, false));
     }
 
     @Override
-    public void onBindViewHolder(WifiExtenderHolder holder, int position) {
+    public void onBindViewHolder(@NonNull WifiExtenderHolder holder, int position) {
         
         int NO_SECURITY = 0;//No Security
         int WEP = 1;//WEP
@@ -46,15 +48,13 @@ public class WifiExtenderAdapter extends RecyclerView.Adapter<WifiExtenderHolder
         int WPA_WPA2 = 4;// WPA/WPA2
         
         Extender_GetHotspotListBean.HotspotListBean hb = hotspotList.get(position);
-        if (hotspotList != null) {
-            try {
-                holder.tv_wifiEx_ssid.setText(hb.getSSID());
-                holder.iv_wifiEx_password.setVisibility(hb.getSecurityMode() != NO_SECURITY ? View.VISIBLE : View.GONE);
-                holder.iv_wifiEx_signal.setImageDrawable(RootUtils.transferWifiExtenderSignal(hb.getSignal()));
-                holder.rl_wifiEx_all.setOnClickListener(v -> clickNext(hb));
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+        try {
+            holder.tv_wifiEx_ssid.setText(hb.getSSID());
+            holder.iv_wifiEx_password.setVisibility(hb.getSecurityMode() != NO_SECURITY ? View.VISIBLE : View.GONE);
+            holder.iv_wifiEx_signal.setImageDrawable(RootUtils.transferWifiExtenderSignal(context,hb.getSignal()));
+            holder.rl_wifiEx_all.setOnClickListener(v -> clickNext(hb));
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 

@@ -4,6 +4,7 @@ package com.alcatel.wifilink.root.helper;
  */
 
 public class WpaPsdHelper {
+    
     public static boolean isMatch(String content) {
         return isASCIIData(content);
     }

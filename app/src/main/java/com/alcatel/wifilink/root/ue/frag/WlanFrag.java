@@ -222,11 +222,11 @@ public class WlanFrag extends BaseFrag {
                 public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                     String countryCode = getCountryCode(mAllCountryNames[i]);
                     if (mChannel5gFiveCountryCodes.contains(countryCode)) {
-                        ArrayAdapter<String> channelAdapter = new ArrayAdapter(activity, android.R.layout.simple_list_item_1, mChannel5gfive);
+                        ArrayAdapter<String> channelAdapter = new ArrayAdapter<>(activity, android.R.layout.simple_list_item_1, mChannel5gfive);
                         channelAdapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
                         mChannelSpinner.setAdapter(channelAdapter);
                     } else if (mChannel5gOneCountryCodes.contains(countryCode)) {
-                        ArrayAdapter<String> channelAdapter = new ArrayAdapter(activity, android.R.layout.simple_list_item_1, mChannel5gOne);
+                        ArrayAdapter<String> channelAdapter = new ArrayAdapter<>(activity, android.R.layout.simple_list_item_1, mChannel5gOne);
                         channelAdapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
                         mChannelSpinner.setAdapter(channelAdapter);
                     }
@@ -234,7 +234,6 @@ public class WlanFrag extends BaseFrag {
                         mChannelSpinner.setSelection(mChannel);
                         time[0]++;
                     }
-
                 }
 
                 @Override

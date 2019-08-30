@@ -11,9 +11,7 @@ public class ConnectDeviceHelper {
 
     public void get() {
         GetConnectedDeviceListHelper xGetConnectedDeviceListHelper = new GetConnectedDeviceListHelper();
-        xGetConnectedDeviceListHelper.setOnGetDeviceListSuccessListener(bean -> {
-            devicesSuccessNext(bean);
-        });
+        xGetConnectedDeviceListHelper.setOnGetDeviceListSuccessListener(this::devicesSuccessNext);
         xGetConnectedDeviceListHelper.setOnGetDeviceListFailListener(this::devicesFailedNext);
         xGetConnectedDeviceListHelper.getConnectDeviceList();
     }

@@ -121,22 +121,11 @@ public class FeedbackFrag extends BaseFrag {
     }
 
     private void initClick() {
-        iv_back.setOnClickListener(v -> {
-            back();
-        });
-        rlSelectType.setOnClickListener(v -> {
-            clickSelectType(true);
-        });
-        rlPhotoLogo.setOnClickListener(v -> {
-            toPhoto();
-        });
-        tvSubmit.setOnClickListener(v -> {
-            commit();
-        });
-        ivSelectTypeChoiceListGray.setOnClickListener(v -> {
-            clickSelectType(false);
-        });
-
+        iv_back.setOnClickListener(v -> back());
+        rlSelectType.setOnClickListener(v -> clickSelectType(true));
+        rlPhotoLogo.setOnClickListener(v -> toPhoto());
+        tvSubmit.setOnClickListener(v -> commit());
+        ivSelectTypeChoiceListGray.setOnClickListener(v -> clickSelectType(false));
         ivSelectTypeSubmitOkGray.setOnClickListener(v -> {
             sumbitOkPop(false);
             backAndClear();
@@ -145,18 +134,10 @@ public class FeedbackFrag extends BaseFrag {
             sumbitOkPop(false);
             backAndClear();
         });
-        ivShowPhotoBitmap.setOnClickListener(v -> {
-            clickShowOrHideTopBanner(false);
-        });
-        ivShowPhotoBack.setOnClickListener(v -> {
-            clickShowPhoto(false);
-        });
-        ivShowPhotoDel.setOnClickListener(v -> {
-            clickShowPhotoDel();
-        });
-        rlFeedbackWait.setOnClickListener(v -> {
-            toast(R.string.hh70_data_be_submit);
-        });
+        ivShowPhotoBitmap.setOnClickListener(v -> clickShowOrHideTopBanner(false));
+        ivShowPhotoBack.setOnClickListener(v -> clickShowPhoto(false));
+        ivShowPhotoDel.setOnClickListener(v -> clickShowPhotoDel());
+        rlFeedbackWait.setOnClickListener(v -> toast(R.string.hh70_data_be_submit));
     }
 
     /**
@@ -259,7 +240,7 @@ public class FeedbackFrag extends BaseFrag {
      */
     private void commit() {
         GetSystemInfoHelper xGetSystemInfoHelper = new GetSystemInfoHelper();
-        xGetSystemInfoHelper.setOnGetSystemInfoSuccessListener(result -> toCommitLoginBegin(result));
+        xGetSystemInfoHelper.setOnGetSystemInfoSuccessListener(this::toCommitLoginBegin);
         xGetSystemInfoHelper.setOnAppErrorListener(() -> toast(R.string.hh70_cant_connect));
         xGetSystemInfoHelper.setOnFwErrorListener(() -> toast(R.string.hh70_cant_connect));
         xGetSystemInfoHelper.getSystemInfo();
@@ -288,7 +269,7 @@ public class FeedbackFrag extends BaseFrag {
 
         // 2.获取图片集合的file对象
         List<File> pics = new ArrayList<>();
-        if (bbs != null & bbs.size() > 0) {
+        if (bbs != null && bbs.size() > 0) {
             for (FeedbackPhotoBean bb : bbs) {
                 File pic = new File(bb.getUrl());
                 if (pic.exists()) {// 文件存在
@@ -332,11 +313,6 @@ public class FeedbackFrag extends BaseFrag {
 
     /**
      * C2.上传图片
-     *
-     * @param access_token
-     * @param deviceName
-     * @param uid
-     * @param pics
      */
     public void toUpload(String access_token, String deviceName, String uid, List<File> pics) {
         // 小于文件数才进入上传逻辑
@@ -364,10 +340,6 @@ public class FeedbackFrag extends BaseFrag {
 
     /**
      * C3.请求[提交feedback接口]
-     *
-     * @param deviceName
-     * @param access_Token
-     * @param uid
      */
     public void commitFeedback(String deviceName, String access_Token, String uid) {
         // 1.--> (; sign=YOUR_SIGN; timestamp=YOUR_TIMESTAMP; newtoken=YOUR_NEW_TOKEN)
@@ -434,7 +406,7 @@ public class FeedbackFrag extends BaseFrag {
      */
     private void clickShowOrHideTopBanner(boolean isShow) {
         if (isShow) {// 如果进行了强制指定--> 则按照指定的来
-            rlShowPhotoBanner.setVisibility(isShow ? View.VISIBLE : View.GONE);
+            rlShowPhotoBanner.setVisibility(View.VISIBLE);
         } else {// 否则自动判断
             boolean isShowBanner = rlShowPhotoBanner.getVisibility() == View.VISIBLE;
             rlShowPhotoBanner.setVisibility(isShowBanner ? View.GONE : View.VISIBLE);
@@ -503,8 +475,6 @@ public class FeedbackFrag extends BaseFrag {
 
     /**
      * 提交成功弹框
-     *
-     * @param isShow
      */
     private void sumbitOkPop(boolean isShow) {
         isPopShow = isShow;
@@ -591,9 +561,6 @@ public class FeedbackFrag extends BaseFrag {
 
     /**
      * 封装类型对象
-     *
-     * @param feedbackTypes
-     * @return
      */
     private List<FeedbackTypeBean> setFeedbackTypeBeans(String[] feedbackTypes) {
         List<FeedbackTypeBean> fts = new ArrayList<>();

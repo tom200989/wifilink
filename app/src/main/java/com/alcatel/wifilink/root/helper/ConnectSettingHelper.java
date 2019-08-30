@@ -69,23 +69,15 @@ public class ConnectSettingHelper {
      */
     private void connectOrDisconnect(boolean needConn) {
         if (needConn) {
-
             ConnectHelper xConnectHelper = new ConnectHelper();
-            xConnectHelper.setOnConnectSuccessListener(() -> {
-                connSuccessNext(null);
-            });
-            xConnectHelper.setOnConnectFailedListener(() -> {
-                connectSettingFailNext();
-            });
+            xConnectHelper.setOnConnectSuccessListener(() -> connSuccessNext(null));
+            xConnectHelper.setOnConnectFailedListener(this::connectSettingFailNext);
             xConnectHelper.connect();
 
         } else {
             DisConnectHelper xDisConnectHelper = new DisConnectHelper();
             xDisConnectHelper.setOnDisconnectSuccessListener(() -> disconnSuccessNext(null));
-            xDisConnectHelper.setOnDisconnectFailedListener(() -> {
-                connectSettingFailNext();
-
-            });
+            xDisConnectHelper.setOnDisconnectFailedListener(this::connectSettingFailNext);
             xDisConnectHelper.disconnect();
 
         }
@@ -108,13 +100,9 @@ public class ConnectSettingHelper {
                     break;
             }
         });
-        xGetConnectionSettingsHelper.setOnGetConnectionSettingsFailedListener(() -> {
-            connectSettingFailNext();
-        });
+        xGetConnectionSettingsHelper.setOnGetConnectionSettingsFailedListener(this::connectSettingFailNext);
         xGetConnectionSettingsHelper.getConnectionSettings();
-
     }
-
 
     /*--------------------------------------------------------------------------------------*/
     private OnRoamNotConnListener onRoamNotConnListener;

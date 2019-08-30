@@ -94,7 +94,7 @@ public class PinRxFrag extends BaseFrag {
     private void initOnClick() {
         ivPinRxDeleted.setOnClickListener(v -> etPinRx.setText(""));
         btPinRxUnlock.setOnClickListener(v -> {
-            RootUtils.hideKeyBoard(getActivity());
+            RootUtils.hideKeyBoard(activity);
             unlockPin();
         });
         ivPinRxCheckbox.setOnClickListener(v -> tvPinRxCheckbox.performLongClick());
@@ -130,8 +130,6 @@ public class PinRxFrag extends BaseFrag {
 
     /**
      * 处理剩余次数
-     *
-     * @param simStatus
      */
     private void toRemain(GetSimStatusBean simStatus) {
         int pinTime = simStatus.getPinRemainingTimes();

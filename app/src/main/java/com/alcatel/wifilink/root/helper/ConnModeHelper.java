@@ -22,8 +22,6 @@ public class ConnModeHelper {
 
     /**
      * 切换连接模式(手动|自动)
-     *
-     * @param connMode
      */
     public void transferConnMode(int connMode) {
         // 1.获取当前的连接模式

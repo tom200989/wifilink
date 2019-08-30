@@ -1,6 +1,5 @@
 package com.alcatel.wifilink.root.helper;
 
-import android.app.Activity;
 import android.content.Context;
 
 import com.alcatel.wifilink.R;
@@ -13,18 +12,9 @@ import com.p_xhelper_smart.p_xhelper_smart.helper.GetNetworkRegisterStateHelper;
  */
 
 public abstract class NetworkInfoHelper {
-    private Activity activity;
-
-    public NetworkInfoHelper(Activity activity) {
-        this.activity = activity;
-    }
 
     /**
      * 获取2G\3G\4G
-     *
-     * @param context
-     * @param type
-     * @return
      */
     public String getSignalType(Context context, int type) {
         if (type == GetNetworkInfoBean.CONS_NO_SERVER) {

@@ -2,6 +2,7 @@ package com.alcatel.wifilink.root.adapter;
 
 import android.app.Activity;
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
@@ -30,7 +31,7 @@ public class HH70ConnectAdapter extends RecyclerView.Adapter<ConnectHolder> {
     public Activity activity;
     private DeviceConnectFrag fragment;
     private List<ConnectBean> connectBeanList;
-    String m_strEditString = new String();
+    private String m_strEditString = "";
 
     public HH70ConnectAdapter(Activity activity, Fragment fragment, List<ConnectBean> connectBeanList) {
         this.activity = activity;
@@ -48,13 +49,14 @@ public class HH70ConnectAdapter extends RecyclerView.Adapter<ConnectHolder> {
         return connectBeanList != null ? connectBeanList.size() : 0;
     }
 
+    @NonNull
     @Override
-    public ConnectHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ConnectHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new ConnectHolder(LayoutInflater.from(activity).inflate(R.layout.hh70_item_device_connect, parent, false));
     }
 
     @Override
-    public void onBindViewHolder(ConnectHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ConnectHolder holder, int position) {
         ConnectBean connectBean = connectBeanList.get(position);
         GetConnectDeviceListBean.ConnectedDeviceBean device = connectBean.device;
 
@@ -65,7 +67,6 @@ public class HH70ConnectAdapter extends RecyclerView.Adapter<ConnectHolder> {
         holder.mac.setText(String.format(activity.getString(R.string.hh70_mac), mac));
         final int type = device.getDeviceType();
 
-        // if (mac.equalsIgnoreCase(MacHelper.getLocalMacAddress(activity))) {
         /*  is the host  */
         if (MacHelper.isHost(activity, mac)) {
             holder.host.setVisibility(View.VISIBLE);

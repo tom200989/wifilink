@@ -14,7 +14,6 @@ import org.xutils.x;
 public class FeedBackLoginHelper extends FeedbackBaseCallBackHelper {
 
     private String url = BASE_URL + "/v1.0/wifi/device/login";
-    private Class clz;
 
     public void login(String deviceName, String imei, String macAddr) {
 

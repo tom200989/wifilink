@@ -2,7 +2,6 @@ package com.alcatel.wifilink.root.ue.frag;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.support.v7.widget.AppCompatSpinner;
 import android.support.v7.widget.SwitchCompat;
@@ -146,8 +145,6 @@ public class SettingNetworkFrag extends BaseFrag {
     private boolean mFirstSetNetworkMode;
     private boolean mFirstSetBillingDay;
     private boolean isRoaming;
-    private Drawable switchOn;
-    private Drawable switchOff;
     private GetNetworkSettingsBean mNetworkSettings;
     private GetConnectionSettingsBean mConnectionSettings;
     private GetUsageSettingsBean mUsageSetting;
@@ -511,7 +508,7 @@ public class SettingNetworkFrag extends BaseFrag {
     }
 
     private void getUsageSetting() {
-        UsageSettingHelper getUsageSettingsHelper = new UsageSettingHelper(activity);
+        UsageSettingHelper getUsageSettingsHelper = new UsageSettingHelper();
         getUsageSettingsHelper.setOnGetUsageSettingsSuccessListener(result -> {
             mUsageSetting = result;
             String unit = "";
@@ -766,9 +763,6 @@ public class SettingNetworkFrag extends BaseFrag {
     }
 
     private void initRes() {
-        switchOn = getRootDrawable(R.drawable.pwd_switcher_on);
-        switchOff = getRootDrawable(R.drawable.pwd_switcher_off);
-
         mFirstSetConnectionMode = true;
         mFirstSetNetworkMode = true;
         mFirstSetBillingDay = true;

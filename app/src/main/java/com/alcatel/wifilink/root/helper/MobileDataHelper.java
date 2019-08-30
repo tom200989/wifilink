@@ -94,9 +94,6 @@ public class MobileDataHelper {
 
     /**
      * 跳转activity
-     *
-     * @param targetAc
-     * @param targetFr
      */
     private void to(String targetAc, String targetFr) {
         Intent intent = new Intent();

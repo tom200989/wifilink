@@ -29,6 +29,7 @@ import com.p_xhelper_smart.p_xhelper_smart.helper.SetFOTAStartDownloadHelper;
  */
 
 public class FirmUpgradeHelper {
+    
     private Activity activity;
 
     public FirmUpgradeHelper(Activity activity, HH70_LoadWidget wdLoad, boolean isDialog) {

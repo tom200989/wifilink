@@ -58,9 +58,7 @@ public class Extender_GetWIFIExtenderSettingsHelper {
             extenderGetWIFIExtenderCurrentStatusResult.setSignal(bean.getSignal());
             currentHotpotNext(extenderGetWIFIExtenderCurrentStatusResult);
         });
-        xGetWIFIExtenderCurrentStatusHelper.setOnGetWifiExCurStatusFailListener(() -> {
-            currentHotpotNext(null);
-        });
+        xGetWIFIExtenderCurrentStatusHelper.setOnGetWifiExCurStatusFailListener(() -> currentHotpotNext(null));
         xGetWIFIExtenderCurrentStatusHelper.getWIFIExtenderCurrentStatus();
     }
 

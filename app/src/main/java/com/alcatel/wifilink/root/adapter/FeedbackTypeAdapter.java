@@ -1,6 +1,7 @@
 package com.alcatel.wifilink.root.adapter;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,26 +30,21 @@ public class FeedbackTypeAdapter extends RecyclerView.Adapter<FeedbackTypeHolder
         notifyDataSetChanged();
     }
 
+    @NonNull
     @Override
-    public FeedbackTypeHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public FeedbackTypeHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new FeedbackTypeHolder(LayoutInflater.from(context).inflate(R.layout.hh70_item_feedback_type, parent, false));
     }
 
     @Override
-    public void onBindViewHolder(FeedbackTypeHolder holder, int position) {
-        holder.rl_feedback_type.setOnClickListener(v -> {
-            selectTypeNext(selectCurrentChoice(ftbs, position));
-        });
+    public void onBindViewHolder(@NonNull FeedbackTypeHolder holder, int position) {
+        holder.rl_feedback_type.setOnClickListener(v -> selectTypeNext(selectCurrentChoice(ftbs, position)));
         holder.tv_feedback_type.setText(ftbs.get(position).getTypeName());
         holder.iv_feedback_type.setVisibility(ftbs.get(position).isSelected() ? View.VISIBLE : View.GONE);
     }
 
     /**
      * 切换当前选中的项
-     *
-     * @param ftbs
-     * @param position
-     * @return
      */
     private List<FeedbackTypeBean> selectCurrentChoice(List<FeedbackTypeBean> ftbs, int position) {
         for (int i = 0; i < ftbs.size(); i++) {
@@ -59,7 +55,7 @@ public class FeedbackTypeAdapter extends RecyclerView.Adapter<FeedbackTypeHolder
 
     @Override
     public int getItemCount() {
-        return ftbs != null & ftbs.size() > 0 ? ftbs.size() : 0;
+        return ftbs != null && ftbs.size() > 0 ? ftbs.size() : 0;
     }
 
     private OnSelectTypeListener onSelectTypeListener;

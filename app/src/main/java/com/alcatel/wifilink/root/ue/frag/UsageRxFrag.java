@@ -198,7 +198,7 @@ public class UsageRxFrag extends BaseFrag {
         });
         xGetUsageRecordHelper.getUsageRecord(UsageHelper.getCurrentTime());
         // 获取月流量
-        UsageSettingHelper helper = new UsageSettingHelper(activity);
+        UsageSettingHelper helper = new UsageSettingHelper();
         helper.setOnGetUsageSettingsSuccessListener(result -> {
             //  月流量计划
             monthly_l = result.getMonthlyPlan();

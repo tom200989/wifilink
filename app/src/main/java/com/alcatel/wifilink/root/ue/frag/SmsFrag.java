@@ -124,9 +124,7 @@ public class SmsFrag extends BaseFrag {
             toFrag(getClass(), SmsDetailFrag.class, smsContact, true);
         });
         /* 全选|全不选 */
-        smsRcvAdapter.setOnSelectAllOrNotListener(contactIdList -> {
-            SmsFrag.this.contactIdList = contactIdList;
-        });
+        smsRcvAdapter.setOnSelectAllOrNotListener(contactIdList -> SmsFrag.this.contactIdList = contactIdList);
     }
 
     /**
@@ -142,9 +140,7 @@ public class SmsFrag extends BaseFrag {
                 showDelPop();
             }
         });
-        ivSmsNew.setOnClickListener(v -> {
-            toFrag(getClass(), SmsNewFrag.class, null, false);
-        });
+        ivSmsNew.setOnClickListener(v -> toFrag(getClass(), SmsNewFrag.class, null, false));
     }
 
     @Override
@@ -162,7 +158,7 @@ public class SmsFrag extends BaseFrag {
     private void selectedAll() {
         if (isLongClick) {
             // 修改全选或者全不选
-            smsRcvAdapter.selectOrDeSelectAll(tvSmsBatchSelectAll.getText() == select_all ? true : false);
+            smsRcvAdapter.selectOrDeSelectAll(tvSmsBatchSelectAll.getText() == select_all);
             tvSmsBatchSelectAll.setText(tvSmsBatchSelectAll.getText() == select_all ? deselect_all : select_all);
         }
     }
@@ -198,8 +194,6 @@ public class SmsFrag extends BaseFrag {
 
     /**
      * 删除会话短信
-     *
-     * @param contactIds
      */
     private void deleteSessionSms(List<Long> contactIds) {
         SmsDeleteSessionHelper sdsh = new SmsDeleteSessionHelper();

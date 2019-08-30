@@ -9,6 +9,8 @@ import com.p_xhelper_smart.p_xhelper_smart.bean.GetSMSContactListBean;
 public class SMSContactBean {
 
     public static final int CLICK = 0;
+    public static final int SELETE_ALL = 1;
+    public static final int DESELETE_ALL = -1;
 
     private GetSMSContactListBean.SMSContacBean smscontact;
     private boolean isLongClick;

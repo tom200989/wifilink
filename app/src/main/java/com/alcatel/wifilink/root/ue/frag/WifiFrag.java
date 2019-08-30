@@ -87,7 +87,7 @@ public class WifiFrag extends BaseFrag {
     @BindView(R.id.rl_wifiSettingrx_wait)
     RelativeLayout rlWait;
     @BindView(R.id.dg_wifiSettingrx_ok)
-    HH70_NormalWidget dgWifiSettingrxOk;
+    HH70_NormalWidget wdNormal;
     @BindView(R.id.btn_apply)
     Button btnApply;
     @BindView(R.id.btn_cancel)
@@ -217,14 +217,13 @@ public class WifiFrag extends BaseFrag {
                     mKey2GGroup.setVisibility(View.VISIBLE);
                     mEncryption2GGroup.setVisibility(View.VISIBLE);
                     if (position == 1) {
-                        mEncryption2GSpinner.setAdapter(new ArrayAdapter(activity, android.R.layout.simple_spinner_dropdown_item, mWepEncryptionSettings));
+                        mEncryption2GSpinner.setAdapter(new ArrayAdapter<>(activity, android.R.layout.simple_spinner_dropdown_item, mWepEncryptionSettings));
                         int wepType = mOriginSettings.getAP2G().getWepType();
                         mEncryption2GSpinner.setSelection(wepType);
 
                     } else {
-                        mEncryption2GSpinner.setAdapter(new ArrayAdapter(activity, android.R.layout.simple_spinner_dropdown_item, mWpaEncryptionSettings));
+                        mEncryption2GSpinner.setAdapter(new ArrayAdapter<>(activity, android.R.layout.simple_spinner_dropdown_item, mWpaEncryptionSettings));
                         int wpaType = mOriginSettings.getAP2G().getWpaType();
-                        System.out.println("2.4G wpaType: " + wpaType);
                         mEncryption2GSpinner.setSelection(wpaType);
                     }
                 }
@@ -246,13 +245,13 @@ public class WifiFrag extends BaseFrag {
                     mKey5GGroup.setVisibility(View.VISIBLE);
                     mEncryption5GGroup.setVisibility(View.VISIBLE);
                     if (position == 1) {
-                        mEncryption5GSpinner.setAdapter(new ArrayAdapter(activity, android.R.layout.simple_spinner_dropdown_item, mWepEncryptionSettings));
+                        mEncryption5GSpinner.setAdapter(new ArrayAdapter<>(activity, android.R.layout.simple_spinner_dropdown_item, mWepEncryptionSettings));
                         int wepType = mOriginSettings.getAP5G().getWepType();
+
                         mEncryption5GSpinner.setSelection(wepType);
                     } else {
-                        mEncryption5GSpinner.setAdapter(new ArrayAdapter(activity, android.R.layout.simple_spinner_dropdown_item, mWpaEncryptionSettings));
+                        mEncryption5GSpinner.setAdapter(new ArrayAdapter<>(activity, android.R.layout.simple_spinner_dropdown_item, mWpaEncryptionSettings));
                         int wpaType = mOriginSettings.getAP5G().getWpaType();
-                        System.out.println("5G wpaType: " + wpaType);
                         mEncryption5GSpinner.setSelection(wpaType);
                     }
                 }
@@ -370,13 +369,13 @@ public class WifiFrag extends BaseFrag {
         } else if (mOriginSettings.getAP5G().getSecurityMode() == GetWlanSettingsBean.CONS_SECURITY_MODE_WEP) {
             mEncryption5GGroup.setVisibility(View.VISIBLE);
             mKey5GGroup.setVisibility(View.VISIBLE);
-            mEncryption5GSpinner.setAdapter(new ArrayAdapter(activity, android.R.layout.simple_spinner_dropdown_item, mWepEncryptionSettings));
+            mEncryption5GSpinner.setAdapter(new ArrayAdapter<>(activity, android.R.layout.simple_spinner_dropdown_item, mWepEncryptionSettings));
             mEncryption5GSpinner.setSelection(mOriginSettings.getAP5G().getWepType());
             mKey5GEdit.setText(mOriginSettings.getAP5G().getWepKey());
         } else {
             mEncryption5GGroup.setVisibility(View.VISIBLE);
             mKey5GGroup.setVisibility(View.VISIBLE);
-            mEncryption5GSpinner.setAdapter(new ArrayAdapter(activity, android.R.layout.simple_spinner_dropdown_item, mWpaEncryptionSettings));
+            mEncryption5GSpinner.setAdapter(new ArrayAdapter<>(activity, android.R.layout.simple_spinner_dropdown_item, mWpaEncryptionSettings));
             mEncryption5GSpinner.setSelection(mOriginSettings.getAP5G().getWpaType());
             mKey5GEdit.setText(mOriginSettings.getAP5G().getWpaKey());
         }
@@ -397,13 +396,13 @@ public class WifiFrag extends BaseFrag {
         } else if (securityMode == GetWlanSettingsBean.CONS_SECURITY_MODE_WEP) {
             mEncryption2GGroup.setVisibility(View.VISIBLE);
             mKey2GGroup.setVisibility(View.VISIBLE);
-            mEncryption2GSpinner.setAdapter(new ArrayAdapter(activity, android.R.layout.simple_spinner_dropdown_item, mWepEncryptionSettings));
+            mEncryption2GSpinner.setAdapter(new ArrayAdapter<>(activity, android.R.layout.simple_spinner_dropdown_item, mWepEncryptionSettings));
             mEncryption2GSpinner.setSelection(mOriginSettings.getAP2G().getWepType());
             mKey2GEdit.setText(mOriginSettings.getAP2G().getWepKey());
         } else {
             mEncryption2GGroup.setVisibility(View.VISIBLE);
             mKey2GGroup.setVisibility(View.VISIBLE);
-            mEncryption2GSpinner.setAdapter(new ArrayAdapter(activity, android.R.layout.simple_spinner_dropdown_item, mWpaEncryptionSettings));
+            mEncryption2GSpinner.setAdapter(new ArrayAdapter<>(activity, android.R.layout.simple_spinner_dropdown_item, mWpaEncryptionSettings));
             mEncryption2GSpinner.setSelection(mOriginSettings.getAP2G().getWpaType());
             mKey2GEdit.setText(mOriginSettings.getAP2G().getWpaKey());
         }
@@ -456,9 +455,6 @@ public class WifiFrag extends BaseFrag {
 
     private void applySettings() {
 
-        // 密码标记
-        boolean isPasswordMatch = true;
-
         // check 2.4g settings
         if (mSupportMode == GetWlanSupportModeBean.CONS_WLAN_2_4G || mSupportMode == GetWlanSupportModeBean.CONS_WLAN_2_4G_5G) {
             boolean isAP2GStateChanged = mWifi2GSwitch.isChecked() != (mOriginSettings.getAP2G().getApStatus() == 1);
@@ -487,7 +483,6 @@ public class WifiFrag extends BaseFrag {
                     //wep
                 } else if (newSecurity2GMode == 1) {
                     if (!WepPsdHelper.psdMatch(newKey2G)) {
-                        isPasswordMatch = false;
                         toast(R.string.hh70_wep_key_is_5, 2000);
                         return;
                     }
@@ -498,7 +493,6 @@ public class WifiFrag extends BaseFrag {
                     //wpa
                 } else {
                     if (newKey2G.length() < 8 || newKey2G.length() > 63 || !WpaPsdHelper.isMatch(newKey2G)) {
-                        isPasswordMatch = false;
                         toast(R.string.hh70_the_wpa_pre, 2000);
                         return;
                     }
@@ -538,7 +532,6 @@ public class WifiFrag extends BaseFrag {
                     //wep
                 } else if (newSecurity5GMode == 1) {
                     if (!WepPsdHelper.psdMatch(newKey5G)) {
-                        isPasswordMatch = false;
                         toast(R.string.hh70_wep_key_is_5, 2000);
                         return;
                     }
@@ -549,7 +542,6 @@ public class WifiFrag extends BaseFrag {
                     //wpa
                 } else {
                     if (newKey5G.length() < 8 || newKey5G.length() > 63 || !WpaPsdHelper.isMatch(newKey5G)) {
-                        isPasswordMatch = false;
                         toast(R.string.hh70_the_wpa_pre, 2000);
                         return;
                     }
@@ -561,16 +553,14 @@ public class WifiFrag extends BaseFrag {
             }
         }
 
-        if (isPasswordMatch) {
-            String des1 = getString(R.string.hh70_change_wifi);
-            String des2 = getString(R.string.hh70_list_will_restart);
-            String des = des1 + "\n" + des2;
-            dgWifiSettingrxOk.setVisibility(View.VISIBLE);
-            dgWifiSettingrxOk.setTitle(R.string.hh70_restart);
-            dgWifiSettingrxOk.setDes(des);
-            dgWifiSettingrxOk.setOnCancelClickListener(() -> dgWifiSettingrxOk.setVisibility(View.GONE));
-            dgWifiSettingrxOk.setOnOkClickListener(this::setWlanRequest);
-        }
+        String des1 = getString(R.string.hh70_change_wifi);
+        String des2 = getString(R.string.hh70_list_will_restart);
+        String des = des1 + "\n" + des2;
+        wdNormal.setVisibility(View.VISIBLE);
+        wdNormal.setTitle(R.string.hh70_restart);
+        wdNormal.setDes(des);
+        wdNormal.setOnCancelClickListener(() -> wdNormal.setVisibility(View.GONE));
+        wdNormal.setOnOkClickListener(this::setWlanRequest);
     }
 
     /**
@@ -581,7 +571,7 @@ public class WifiFrag extends BaseFrag {
         xSetWlanSettingsHelper.setOnPrepareHelperListener(() -> rlWait.setVisibility(View.VISIBLE));
         xSetWlanSettingsHelper.setOnDoneHelperListener(() -> rlWait.setVisibility(View.GONE));
         xSetWlanSettingsHelper.setOnSetWlanSettingsSuccessListener(() -> new Handler().postDelayed(() -> rlWait.setVisibility(View.GONE), 30 * 1000));
-        xSetWlanSettingsHelper.setOnSetWlanSettingsFailedListener(() -> toFragActivity(getClass(), SplashActivity.class, RefreshFrag.class, null, false,true,0));
+        xSetWlanSettingsHelper.setOnSetWlanSettingsFailedListener(() -> toFragActivity(getClass(), SplashActivity.class, RefreshFrag.class, null, false, true, 0));
         xSetWlanSettingsHelper.setWlanSettings(mEditedSettings);
     }
 
@@ -599,8 +589,8 @@ public class WifiFrag extends BaseFrag {
 
     @Override
     public boolean onBackPressed() {
-        if (dgWifiSettingrxOk.getVisibility() == View.VISIBLE) {
-            dgWifiSettingrxOk.setVisibility(View.GONE);
+        if (wdNormal.getVisibility() == View.VISIBLE) {
+            wdNormal.setVisibility(View.GONE);
             return true;
         } else {
             // 登出
@@ -622,12 +612,12 @@ public class WifiFrag extends BaseFrag {
                 LogoutHelper xLogoutHelper = new LogoutHelper();
                 xLogoutHelper.setOnLogoutSuccessListener(() -> {
                     toast(R.string.hh70_logout_completed, 3000);
-                    toFragActivity(getClass(), SplashActivity.class, LoginFrag.class, null, true,getClass());
+                    toFragActivity(getClass(), SplashActivity.class, LoginFrag.class, null, true, getClass());
                 });
                 xLogoutHelper.setOnLogOutFailedListener(() -> toast(R.string.hh70_cant_logout, 3000));
                 xLogoutHelper.logout();
             } else {
-                toFragActivity(getClass(), SplashActivity.class, LoginFrag.class, null, true,getClass());
+                toFragActivity(getClass(), SplashActivity.class, LoginFrag.class, null, true, getClass());
             }
         });
         xGetLoginStateHelper.getLoginState();

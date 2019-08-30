@@ -1,10 +1,8 @@
-//apply plugin: 'com.android.application'
 apply plugin: 'com.android.library'
 
 android {
     compileSdkVersion 28
     defaultConfig {
-        // applicationId "com.p_xhelper_smart.p_xhelper_smart"
         minSdkVersion 19
         targetSdkVersion 28
         versionCode 1

@@ -98,7 +98,7 @@ public class Login_mw_Frag extends RootFrag {
         if (SplashActivity.freeSharingLock) {
             synchronized (SplashActivity.class) {
                 SplashActivity.freeSharingLock = false;
-                DeviceHelper deviceHelper = new DeviceHelper(activity);
+                DeviceHelper deviceHelper = new DeviceHelper();
                 deviceHelper.setOnGetDevicesSuccessListener(connectedList -> {
                     // 转换
                     com.p_freesharing.p_freesharing.bean.ConnectedList aarConnectList = transferConnectList(connectedList);

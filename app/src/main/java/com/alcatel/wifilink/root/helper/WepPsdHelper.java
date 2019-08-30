@@ -33,7 +33,7 @@ public class WepPsdHelper {
         if (TextUtils.isEmpty(str)) {
             return true;
         }
-        int i = 0;
+        int i;
         char char_i;
         int num_char_i;
         for (i = 0; i < str.length(); i++) {
@@ -48,7 +48,7 @@ public class WepPsdHelper {
 
     private static boolean isHexaData(String data) {
         int len = data.length();
-        int i = 0;
+        int i;
         for (i = 0; i < len; i++) {
             if (!isHexaDigit(data.charAt(i))) {
                 return false;
@@ -64,7 +64,7 @@ public class WepPsdHelper {
                 'A', 'B', 'C', 'D', 'E',//
                 'F', 'a', 'b', 'c', 'd', 'e', 'f'};//
         int len = hexVals.length;
-        int i = 0;
+        int i;
         boolean ret = false;
         for (i = 0; i < len; i++) {
             if (c == hexVals[i]) {

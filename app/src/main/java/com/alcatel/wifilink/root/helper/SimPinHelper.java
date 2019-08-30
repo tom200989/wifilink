@@ -43,26 +43,23 @@ public class SimPinHelper {
             toast(R.string.hh70_puk_locked);
             pukLockNext(attr);
         });
-        pinStatuHelper.setOnPinDisableListener(attr -> enablePin(attr, pincode));// 原先为disable状态--> 设置为有效
-        pinStatuHelper.setOnPinEnableButNotVerifyListener(attr -> enableUnlockFirst(attr, pincode));// 原先为PIN码设置但未开启--> 设置为有效
-        pinStatuHelper.setOnPinEnableVerifyListener(attr -> disablePin(attr, pincode));// 原先为PIN码有效--> 设置为无效
+        pinStatuHelper.setOnPinDisableListener(attr -> enablePin(pincode));// 原先为disable状态--> 设置为有效
+        pinStatuHelper.setOnPinEnableButNotVerifyListener(attr -> enableUnlockFirst(pincode));// 原先为PIN码设置但未开启--> 设置为有效
+        pinStatuHelper.setOnPinEnableVerifyListener(attr -> disablePin(pincode));// 原先为PIN码有效--> 设置为无效
         pinStatuHelper.getOne();
     }
 
     /**
      * 使PIN码失效
-     *
-     * @param attr
-     * @param pincode
      */
-    private void disablePin(GetSimStatusBean attr, String pincode) {
+    private void disablePin(String pincode) {
 
         // 1.先解PIN
         UnlockPinHelper xUnlockPinHelper = new UnlockPinHelper();
         xUnlockPinHelper.setOnUnlockPinSuccessListener(() -> {
             // 2.再改变PIN码状态
             ChangePinStateHelper xChangePinStateHelper = new ChangePinStateHelper();
-            xChangePinStateHelper.setOnChangePinStateSuccessListener(() -> pinDisableNext());
+            xChangePinStateHelper.setOnChangePinStateSuccessListener(this::pinDisableNext);
             xChangePinStateHelper.setOnChangePinStateFailedListener(() -> toast(R.string.hh70_failed));
             xChangePinStateHelper.changePinState(pincode, ChangePinStateParam.CONS_DISABLED_PIN);
         });
@@ -73,18 +70,15 @@ public class SimPinHelper {
 
     /**
      * 使PIN码有效(但要先解PIN)
-     *
-     * @param attr
-     * @param pincode
      */
-    private void enableUnlockFirst(GetSimStatusBean attr, String pincode) {
+    private void enableUnlockFirst(String pincode) {
         // 1.先解PIN
 
         UnlockPinHelper xUnlockPinHelper = new UnlockPinHelper();
         xUnlockPinHelper.setOnUnlockPinSuccessListener(() -> {
             // 2.再改变PIN码状态
             ChangePinStateHelper xChangePinStateHelper = new ChangePinStateHelper();
-            xChangePinStateHelper.setOnChangePinStateSuccessListener(() -> pinEnableNext());
+            xChangePinStateHelper.setOnChangePinStateSuccessListener(this::pinEnableNext);
             xChangePinStateHelper.setOnChangePinStateFailedListener(() -> toast(R.string.hh70_failed));
             xChangePinStateHelper.changePinState(pincode, ChangePinStateParam.CONS_ENABLED_PIN);
         });
@@ -118,13 +112,10 @@ public class SimPinHelper {
 
     /**
      * 使PIN码有效
-     *
-     * @param attr
-     * @param pincode
      */
-    private void enablePin(GetSimStatusBean attr, String pincode) {
+    private void enablePin(String pincode) {
         ChangePinStateHelper xChangePinStateHelper = new ChangePinStateHelper();
-        xChangePinStateHelper.setOnChangePinStateSuccessListener(() -> pinEnableNext());
+        xChangePinStateHelper.setOnChangePinStateSuccessListener(this::pinEnableNext);
         xChangePinStateHelper.setOnChangePinStateFailedListener(() -> toast(R.string.hh70_failed));
         xChangePinStateHelper.changePinState(pincode, ChangePinStateParam.CONS_ENABLED_PIN);
     }

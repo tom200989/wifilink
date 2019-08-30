@@ -44,7 +44,7 @@ public class Login_mw_dev_Frag extends RootFrag {
         initAdapter();
         initClick();
     }
-    
+
     /**
      * 初始化设备列表适配器
      */
@@ -54,7 +54,7 @@ public class Login_mw_dev_Frag extends RootFrag {
         rcv.setLayoutManager(lm);
         rcv.setAdapter(devAdapter);
     }
-    
+
 
     private void initClick() {
         ivPreDevicesBack.setOnClickListener(v -> onBackPresss());
@@ -78,7 +78,7 @@ public class Login_mw_dev_Frag extends RootFrag {
                 ConnectDeviceHelper connDevHelper = new ConnectDeviceHelper();
                 connDevHelper.setOnDevicesSuccessListener(connectedList -> {
                     // 4.更新适配器
-                    List<DeviceBean> ddbs = RootUtils.transferDevicesbean(connectedList);
+                    List<DeviceBean> ddbs = RootUtils.transferDevicesbean(activity, connectedList);
                     devAdapter.notifys(ddbs);
                 });
                 connDevHelper.get();

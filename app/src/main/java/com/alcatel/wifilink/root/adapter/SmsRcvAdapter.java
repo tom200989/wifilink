@@ -3,6 +3,7 @@ package com.alcatel.wifilink.root.adapter;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,9 +30,6 @@ import static android.view.View.VISIBLE;
 @SuppressLint("UseSparseArrays")
 public class SmsRcvAdapter extends RecyclerView.Adapter<SmsHolder> {
 
-    public static final int SELETE_ALL = 1;
-    public static final int DESELETE_ALL = -1;
-    
     private HashMap<Long, Integer> smsUnreadMap = new HashMap<>();
     private Context context;
     private List<SMSContactBean> smsContactList;
@@ -53,7 +51,7 @@ public class SmsRcvAdapter extends RecyclerView.Adapter<SmsHolder> {
 
     public void notifys(List<SMSContactBean> smsContactList) {
         this.smsContactList = smsContactList;
-        if (contactIdClickList != null & contactIdClickList.size() > 0) {
+        if (contactIdClickList != null && contactIdClickList.size() > 0) {
             contactIdClickList.clear();
         }
         // sort by date
@@ -68,28 +66,26 @@ public class SmsRcvAdapter extends RecyclerView.Adapter<SmsHolder> {
         contactIdClickList.clear();// 1.清空
         if (isSelectAll) {
             for (SMSContactBean scf : smsContactList) {
-                scf.setState(SELETE_ALL);// 2.修改全选标记位
+                scf.setState(SMSContactBean.SELETE_ALL);// 2.修改全选标记位
                 contactIdClickList.add(scf.getSmscontact().getContactId());
             }
         } else {
             for (SMSContactBean scf : smsContactList) {
-                scf.setState(DESELETE_ALL);
+                scf.setState(SMSContactBean.DESELETE_ALL);
             }
         }
-        //Collections.sort(smsContactList, new SMSContactSortHelper());
-        //notifys(smsContactList);// 3.刷新
         notifyDataSetChanged();
         selectAllOrNotNext(contactIdClickList);// 4.接口
     }
 
+    @NonNull
     @Override
-    public SmsHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public SmsHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new SmsHolder(LayoutInflater.from(context).inflate(R.layout.hh70_item_sms_update, parent, false));
     }
 
     @Override
-    public void onBindViewHolder(SmsHolder holder, int position) {
-        // TOAT: 总方法汇聚
+    public void onBindViewHolder(@NonNull SmsHolder holder, int position) {
         if (smsContactList != null) {
             // set ui
             setSmsPoint(holder, position);// set sms point
@@ -97,7 +93,6 @@ public class SmsRcvAdapter extends RecyclerView.Adapter<SmsHolder> {
             setPhoneNum(holder, position);// set telphone
             setSmsCount(holder, position);// set sms count
             setSmsContent(holder, position);// set sms simple content
-            // setSmsSendFailed(holder, position);// set sms send failed logo (keep it)
             setSmsDate(holder, position);// set date
             setSmsClick(holder, position);// to sms detail
             setSmsLongClick(holder, position);// to show delete pop
@@ -141,7 +136,7 @@ public class SmsRcvAdapter extends RecyclerView.Adapter<SmsHolder> {
         holder.iv_smsLongClickPoint.setVisibility(SmsFrag.isLongClick ? VISIBLE : GONE);
         holder.iv_smsLongClickPoint.setImageDrawable(check_off);
         // 判断是否处于全选|全不选状态
-        if (smsContactList.get(position).getState() == SELETE_ALL) {
+        if (smsContactList.get(position).getState() == SMSContactBean.SELETE_ALL) {
             holder.iv_smsLongClickPoint.setImageDrawable(check_on);
         } else {
             holder.iv_smsLongClickPoint.setImageDrawable(check_off);
@@ -196,7 +191,7 @@ public class SmsRcvAdapter extends RecyclerView.Adapter<SmsHolder> {
                 if (holder.iv_smsLongClickPoint.getDrawable() == check_on) {
                     contactIdClickList.add(smsContact.getContactId());
                 } else {
-                    contactIdClickList.remove(contactIdClickList.indexOf(smsContact.getContactId()));
+                    contactIdClickList.remove(smsContact.getContactId());
                 }
                 smsWhenlongclickAfterNext(smsContact, contactIdClickList);
             }

@@ -1,6 +1,5 @@
 package com.alcatel.wifilink.root.helper;
 
-import android.app.Activity;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -13,17 +12,9 @@ import com.alcatel.wifilink.root.utils.RootUtils;
  */
 
 public class SetTimeLimitHelper {
-    private Activity activity;
-
-    public SetTimeLimitHelper(Activity activity) {
-        this.activity = activity;
-    }
 
     /**
      * 增加ED监听器
-     *
-     * @param etHour
-     * @param etMin
      */
     public static void addEdwatch(EditText etHour, EditText etMin) {
         // ethour 修改过程中的限定
@@ -39,7 +30,7 @@ public class SetTimeLimitHelper {
                 int min = Integer.valueOf(TextUtils.isEmpty(RootUtils.getEDText(etMin)) ? "0" : RootUtils.getEDText(etMin));
                 if (hour >= 12 & min > 0) {
                     etMin.setText("0");
-                    etHour.setText("12");
+                    etHour.setText(String.valueOf("12"));
                 }
             }
 
@@ -55,7 +46,7 @@ public class SetTimeLimitHelper {
                 int min = Integer.valueOf(TextUtils.isEmpty(RootUtils.getEDText(etMin)) ? "0" : RootUtils.getEDText(etMin));
                 if (hour >= 12 & min > 0) {
                     etMin.setText("0");
-                    etHour.setText("12");
+                    etHour.setText(String.valueOf("12"));
                 }
             }
         });
@@ -75,7 +66,7 @@ public class SetTimeLimitHelper {
                     etMin.setText("0");
                 } else {
                     if (min > 59) {
-                        etMin.setText("59");
+                        etMin.setText(String.valueOf("59"));
                     }
                 }
             }
@@ -94,7 +85,7 @@ public class SetTimeLimitHelper {
                     etMin.setText("0");
                 } else {
                     if (min > 59) {
-                        etMin.setText("59");
+                        etMin.setText(String.valueOf("59"));
                     }
                 }
             }

@@ -12,9 +12,7 @@ public class Extender_SetWIFIExtenderSettingsHelper {
     public void set(int StationEnable) {
         SetWIFIExtenderSettingsHelper xSetWIFIExtenderSettingsHelper = new SetWIFIExtenderSettingsHelper();
         xSetWIFIExtenderSettingsHelper.setOnSetWifiExSettingsSuccessListener(this::successNext);
-        xSetWIFIExtenderSettingsHelper.setOnSetWifiExSettingFailListener(() -> {
-            Extender_SetWIFIExtenderSettingFailNext();
-        });
+        xSetWIFIExtenderSettingsHelper.setOnSetWifiExSettingFailListener(this::Extender_SetWIFIExtenderSettingFailNext);
         xSetWIFIExtenderSettingsHelper.setWifiExSettings(StationEnable);
     }
 

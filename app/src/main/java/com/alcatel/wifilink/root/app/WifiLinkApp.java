@@ -1,6 +1,5 @@
 package com.alcatel.wifilink.root.app;
 
-import android.app.Activity;
 import android.text.TextUtils;
 
 import com.alcatel.wifilink.root.utils.RootCons;
@@ -10,30 +9,13 @@ import com.hiber.tools.ShareUtils;
 import com.p_xhelper_smart.p_xhelper_smart.core.XSmart;
 import com.p_xhelper_smart.p_xhelper_smart.utils.HostnameUtils;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Locale;
 
-
 public class WifiLinkApp extends RootApp {
-
-    private static WifiLinkApp m_instance = null;
-    private static List<Activity> contexts;
-
-    public static WifiLinkApp getInstance() {
-        return m_instance;
-    }
-
-    public static List<Activity> getContextInstance() {
-        return contexts;
-    }
 
     @Override
     public void onCreate() {
         super.onCreate();
-        contexts = new ArrayList<>();
-
-        /* 新框架 */
         XSmart.init(this);// 初始化网络框架
         ShareUtils.init(this);// 初始化缓存框架
         ShareUtils.spName = "ROOT_WIFI_LINK";
@@ -49,7 +31,7 @@ public class WifiLinkApp extends RootApp {
         Locale locale = LangHelper.getLocale(getApplicationContext());
         String language = locale.getLanguage();
         String country = locale.getCountry();
-        // 如果没有指定地区, 则格式为: es-default, 否则es-MX
+        // 如果没有指定地区, 则格式为: es-default, 否则es-MX (一般情况下即便是从系统取, 系统会自动带地区, 这里仅仅为防止其他情况)
         ShareUtils.set(RootCons.LOCALE_LANGUAGE_COUNTRY, language + "-" + (TextUtils.isEmpty(country) ? "default" : country));
     }
 }

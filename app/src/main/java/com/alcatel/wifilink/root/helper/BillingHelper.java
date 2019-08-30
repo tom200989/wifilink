@@ -18,12 +18,12 @@ public class BillingHelper {
      */
     public void setBillingDay(int day) {
         // 1. 先获取当前的流量对象
-        UsageSettingHelper helper = new UsageSettingHelper(activity);
+        UsageSettingHelper helper = new UsageSettingHelper();
         helper.setOnGetUsageSettingsSuccessListener(attr -> {
             // 2.修改结算日
             attr.setBillingDay(day);
             // 3.提交最新请求
-            UsageSettingHelper ush_s = new UsageSettingHelper(activity);
+            UsageSettingHelper ush_s = new UsageSettingHelper();
             ush_s.setOnSetUsageSettingSuccessListener(attr1 -> setBillSuccessNext());
             ush_s.setUsageSetting(attr);
         });

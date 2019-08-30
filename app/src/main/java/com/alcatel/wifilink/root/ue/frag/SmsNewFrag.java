@@ -25,6 +25,7 @@ import com.p_xhelper_smart.p_xhelper_smart.helper.SaveSMSHelper;
 import com.p_xhelper_smart.p_xhelper_smart.helper.SendSMSHelper;
 
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -94,9 +95,8 @@ public class SmsNewFrag extends BaseFrag {
                     m_etNumber.setSelection(start);
                 }
 
-                String strNumber = str;
                 String strContent = RootUtils.getEDText(m_etContent,true);
-                if (strNumber != null && strNumber.length() != 0 && strContent.length() != 0) {
+                if (str != null && str.length() != 0 && strContent.length() != 0) {
                     m_btnSend.setEnabled(true);
                 } else {
                     m_btnSend.setEnabled(false);
@@ -115,9 +115,9 @@ public class SmsNewFrag extends BaseFrag {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                String strNumber = RootUtils.getEDText(m_etNumber,true) == null ? null : RootUtils.getEDText(m_etNumber,true);
+                String strNumber = RootUtils.getEDText(m_etNumber, true);
                 String strContent = s == null ? null : s.toString();
-                if (strNumber != null && strContent != null && strNumber.length() != 0 && strContent.length() != 0) {
+                if (strContent != null && strNumber.length() != 0 && strContent.length() != 0) {
                     m_btnSend.setEnabled(true);
                 } else {
                     m_btnSend.setEnabled(false);
@@ -125,8 +125,6 @@ public class SmsNewFrag extends BaseFrag {
 
                 int sms[] = SmsMessage.calculateLength(s, false);
                 int msgCount = sms[0];
-                int codeUnitCount = sms[1];
-                int codeUnitsRemaining = sms[2];
                 int codeUnitSize = sms[3];
 
                 if (msgCount > 10) {
@@ -234,7 +232,7 @@ public class SmsNewFrag extends BaseFrag {
 
     private void OnBtnSend() {
         InputMethodManager imm = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.hideSoftInputFromWindow(activity.getCurrentFocus().getApplicationWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+        imm.hideSoftInputFromWindow(Objects.requireNonNull(activity.getCurrentFocus()).getApplicationWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
 
         if (checkNumbers()) {
             String num = RootUtils.getEDText(m_etNumber,true);
@@ -250,15 +248,9 @@ public class SmsNewFrag extends BaseFrag {
             SendSMSHelper xSendSMSHelper = new SendSMSHelper();
             xSendSMSHelper.setOnSendSmsSuccessListener(this::getSendSMSResult);
             xSendSMSHelper.setOnSendSmsFailListener(this::resetUI);
-            xSendSMSHelper.setOnSendFailListener(() -> {
-                toast(R.string.hh70_send_sms_failed, 2000);
-            });
-            xSendSMSHelper.setOnLastMessageListener(() -> {
-                toast(R.string.hh70_last_msg_sending, 2000);
-            });
-            xSendSMSHelper.setOnSpaceFullListener(() -> {
-                toast(R.string.hh70_store_full, 2000);
-            });
+            xSendSMSHelper.setOnSendFailListener(() -> toast(R.string.hh70_send_sms_failed, 2000));
+            xSendSMSHelper.setOnLastMessageListener(() -> toast(R.string.hh70_last_msg_sending, 2000));
+            xSendSMSHelper.setOnSpaceFullListener(() -> toast(R.string.hh70_store_full, 2000));
             xSendSMSHelper.sendSms(xSendSmsParam);
 
             loadWidget.setVisibility(View.VISIBLE);
@@ -266,7 +258,6 @@ public class SmsNewFrag extends BaseFrag {
             m_etNumber.setEnabled(false);
             m_etContent.setEnabled(false);
         } else {
-
             String msgRes = this.getString(R.string.hh70_only_3_phone_num);
             toast(msgRes, 2000);
             m_etNumber.requestFocus();
@@ -315,9 +306,7 @@ public class SmsNewFrag extends BaseFrag {
                 toFrag(getClass(), SmsFrag.class, null, false);
             }
         });
-        xGetSendSMSResultHelper.setOnGetSendSmsResultFailListener(() -> {
-            resetUI();
-        });
+        xGetSendSMSResultHelper.setOnGetSendSmsResultFailListener(this::resetUI);
         xGetSendSMSResultHelper.getSendSmsResult();
     }
 
@@ -342,13 +331,12 @@ public class SmsNewFrag extends BaseFrag {
         if (number == null)
             number = "";
         String[] listNumbers = number.split(";");
-        ArrayList<String> phoneNumberLst = new ArrayList<String>();
+        ArrayList<String> phoneNumberLst = new ArrayList<>();
         for (String listNumber : listNumbers) {
             if (null == listNumber || listNumber.length() == 0)
                 continue;
             phoneNumberLst.add(listNumber);
         }
-
         return phoneNumberLst;
     }
 }

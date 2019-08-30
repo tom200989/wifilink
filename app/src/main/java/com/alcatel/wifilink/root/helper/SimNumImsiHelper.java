@@ -30,8 +30,8 @@ public class SimNumImsiHelper {
                 imsiNext(imsi);
             }
         });
-        xGetSystemInfoHelper.setOnAppErrorListener(() -> SimNumImsiFailedNext());
-        xGetSystemInfoHelper.setOnFwErrorListener(() -> SimNumImsiFailedNext());
+        xGetSystemInfoHelper.setOnAppErrorListener(this::SimNumImsiFailedNext);
+        xGetSystemInfoHelper.setOnFwErrorListener(this::SimNumImsiFailedNext);
         xGetSystemInfoHelper.getSystemInfo();
     }
 

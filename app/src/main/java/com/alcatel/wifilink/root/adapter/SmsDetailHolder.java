@@ -29,17 +29,17 @@ public class SmsDetailHolder extends RecyclerView.ViewHolder {
     public SmsDetailHolder(View itemView) {
         super(itemView);
         // 总布局
-        rl_smsdetail = (RelativeLayout) itemView.findViewById(R.id.rl_smsdetail);
+        rl_smsdetail = itemView.findViewById(R.id.rl_smsdetail);
         // selected logo
-        iv_smsdetail_selected = (ImageView) itemView.findViewById(R.id.iv_smsdetail_selected);
+        iv_smsdetail_selected = itemView.findViewById(R.id.iv_smsdetail_selected);
         // receiver
-        rl_smsdetail_receiver = (RelativeLayout) itemView.findViewById(R.id.rl_smsdetail_receiver);
-        tv_smsdetail_text_receiver = (TextView) itemView.findViewById(R.id.tv_smsdetail_text_receiver);
-        tv_smsdetail_date_receiver = (TextView) itemView.findViewById(R.id.tv_smsdetail_date_receiver);
+        rl_smsdetail_receiver = itemView.findViewById(R.id.rl_smsdetail_receiver);
+        tv_smsdetail_text_receiver = itemView.findViewById(R.id.tv_smsdetail_text_receiver);
+        tv_smsdetail_date_receiver = itemView.findViewById(R.id.tv_smsdetail_date_receiver);
         // send
-        rl_smsdetail_send = (RelativeLayout) itemView.findViewById(R.id.rl_smsdetail_send);
-        iv_smsdetail_failed_send = (ImageView) itemView.findViewById(R.id.iv_smsdetail_failed_send);
-        tv_smsdetail_text_send = (TextView) itemView.findViewById(R.id.tv_smsdetail_text_send);
-        tv_smsdetail_date_send = (TextView) itemView.findViewById(R.id.tv_smsdetail_date_send);
+        rl_smsdetail_send = itemView.findViewById(R.id.rl_smsdetail_send);
+        iv_smsdetail_failed_send = itemView.findViewById(R.id.iv_smsdetail_failed_send);
+        tv_smsdetail_text_send = itemView.findViewById(R.id.tv_smsdetail_text_send);
+        tv_smsdetail_date_send = itemView.findViewById(R.id.tv_smsdetail_date_send);
     }
 }

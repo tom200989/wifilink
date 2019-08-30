@@ -10,12 +10,10 @@ import java.util.Date;
  * Created by qianli.ma on 2017/6/29.
  */
 
-public class SmsContentSortHelper implements Comparator {
+public class SmsContentSortHelper implements Comparator<GetSMSContentListBean.SMSContentListBean> {
 
     @Override
-    public int compare(Object o1, Object o2) {
-        GetSMSContentListBean.SMSContentListBean s1 = (GetSMSContentListBean.SMSContentListBean) o1;
-        GetSMSContentListBean.SMSContentListBean s2 = (GetSMSContentListBean.SMSContentListBean) o2;
+    public int compare(GetSMSContentListBean.SMSContentListBean s1, GetSMSContentListBean.SMSContentListBean s2) {
         Date d1 = RootUtils.transferDateForText(s1.getSMSTime());
         Date d2 = RootUtils.transferDateForText(s2.getSMSTime());
         assert d1 != null;
@@ -25,4 +23,5 @@ public class SmsContentSortHelper implements Comparator {
             return 0;
         return -1;
     }
+    
 }

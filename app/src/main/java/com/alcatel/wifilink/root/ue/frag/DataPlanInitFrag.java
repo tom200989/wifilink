@@ -105,7 +105,7 @@ public class DataPlanInitFrag extends BaseFrag {
      */
     private void initProperty() {
         wdLoad.setVisibles();
-        UsageSettingHelper getUsageSettingsHelper = new UsageSettingHelper(activity);
+        UsageSettingHelper getUsageSettingsHelper = new UsageSettingHelper();
         getUsageSettingsHelper.setOnGetUsageSettingsSuccessListener(getUsageSettings -> {
             wdLoad.setGone();
             result = getUsageSettings;

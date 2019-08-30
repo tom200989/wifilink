@@ -1,6 +1,7 @@
 package com.alcatel.wifilink.root.ue.frag;
 
 
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -113,7 +114,7 @@ public class SmsDetailFrag extends BaseFrag {
     public void setTimerTask() {
         super.setTimerTask();
         if (!isLongClick) {
-            getSmsContents(false);
+            getSmsContents();
         }
     }
 
@@ -152,7 +153,7 @@ public class SmsDetailFrag extends BaseFrag {
         });
         adapter.setOnSendSuccessListener(() -> {
             // 重新获取短信
-            getSmsContents(true);
+            getSmsContents();
         });
         rcvSmsdetail.setAdapter(adapter);
     }
@@ -161,7 +162,7 @@ public class SmsDetailFrag extends BaseFrag {
     private void setRecycleListener() {
         rcvSmsdetail.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
-            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
                 if (newState == AbsListView.OnScrollListener.SCROLL_STATE_IDLE) {
                     // 1. according the coodinary of top to set the alpha
@@ -178,7 +179,7 @@ public class SmsDetailFrag extends BaseFrag {
             }
 
             @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
             }
         });
@@ -203,7 +204,7 @@ public class SmsDetailFrag extends BaseFrag {
 
     /* 提出草稿短信后按日期排序 */
     public List<GetSMSContentListBean.SMSContentListBean> filterDraft(GetSMSContentListBean smsContentListBean) {
-        List<GetSMSContentListBean.SMSContentListBean> list = new ArrayList();
+        List<GetSMSContentListBean.SMSContentListBean> list = new ArrayList<>();
         for (GetSMSContentListBean.SMSContentListBean scb : smsContentListBean.getSMSContentList()) {
             if (scb.getSMSType() == GetSMSContactListBean.SMSContacBean.CONS_SMS_TYPE_DRAFT) {
                 continue;
@@ -220,12 +221,12 @@ public class SmsDetailFrag extends BaseFrag {
     }
 
     /* **** timertask: getSmsContents **** */
-    private void getSmsContents(boolean isSetRcvToLast) {
+    private void getSmsContents() {
         // 检测sim卡是否有插入
         GetSimStatusHelper xGetSimStatusHelper = new GetSimStatusHelper();
         xGetSimStatusHelper.setOnGetSimStatusSuccessListener(result -> {
             if (result.getSIMState() == GetSimStatusBean.CONS_SIM_CARD_READY) {// no sim
-                getContent(isSetRcvToLast);
+                getContent();
             } else {
                 toast(R.string.hh70_no_sim, 3000);
             }
@@ -233,11 +234,8 @@ public class SmsDetailFrag extends BaseFrag {
         xGetSimStatusHelper.getSimStatus();
     }
 
-    /**
-     * @param isSetRcvToLast 是否需要定位rcv到底部
-     */
     /* **** getContent **** */
-    private void getContent(boolean isSetRcvToLast) {
+    private void getContent() {
         GetSmsInitStateHelper xGetSmsInitStateHelper = new GetSmsInitStateHelper();
         xGetSmsInitStateHelper.setOnGetSmsInitStateSuccessListener(SmsInitStateBean -> {
             if (SmsInitStateBean.getState() == GetSmsInitStateHelper.SMS_COMPLETE) {
@@ -371,7 +369,7 @@ public class SmsDetailFrag extends BaseFrag {
             public void sendFinish(int status) {/* 发送完成 */
                 if (status == GetSendSMSResultBean.CONS_SEND_STATUS_SUCCESS) {
                     // 注意此处, 一调用即为标记为已读
-                    getSmsContents(true);
+                    getSmsContents();
                 } else {
                     toFrag(getClass(), SmsFrag.class, null, false);
                 }
@@ -444,9 +442,9 @@ public class SmsDetailFrag extends BaseFrag {
     private void deleteSmsPop() {
         smsDeleteWidget.setOnConfirmClickListener(() -> {
             resetLongClickFlag();// 1. reset the status ui
-            getSmsContents(false);// 2. getInstant data again
+            getSmsContents();// 2. getInstant data again
         });
-        smsDeleteWidget.setOnCancelClickListener(() -> deleteSms());
+        smsDeleteWidget.setOnCancelClickListener(this::deleteSms);
         smsDeleteWidget.setVisibility(View.VISIBLE);
     }
 
@@ -465,15 +463,10 @@ public class SmsDetailFrag extends BaseFrag {
                 toast(R.string.hh70_no_sim, 2000);
             }
             resetLongClickFlag();
-            getSmsContents(false);/* 删除短信后无需跳到最后一条 */
+            getSmsContents();/* 删除短信后无需跳到最后一条 */
         });
-        xDeleteSMSHelper.setOnDeleteSmsFailListener(() -> {
-            toast(R.string.hh70_no_sim, 2000);
-        });
-        xDeleteSMSHelper.setOnDeleteFailListener(() -> {
-            toast(R.string.hh70_no_sim, 2000);
-        });
+        xDeleteSMSHelper.setOnDeleteSmsFailListener(() -> toast(R.string.hh70_no_sim, 2000));
+        xDeleteSMSHelper.setOnDeleteFailListener(() -> toast(R.string.hh70_no_sim, 2000));
         xDeleteSMSHelper.deleteSms(xDeleteSmsParam);
     }
-
 }

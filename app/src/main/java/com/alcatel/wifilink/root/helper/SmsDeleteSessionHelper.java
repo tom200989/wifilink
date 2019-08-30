@@ -13,7 +13,7 @@ import java.util.List;
 public class SmsDeleteSessionHelper {
 
     private List<Long> smsIdsAll;
-    private int index = 0;
+    private int index;
 
 
     public SmsDeleteSessionHelper() {
@@ -25,8 +25,6 @@ public class SmsDeleteSessionHelper {
 
     /**
      * 删除一个或者多个会话短信
-     *
-     * @param contactIds
      */
     public void deletedOneOrMoreSessionSms(List<Long> contactIds) {
         index = 0;
@@ -36,8 +34,6 @@ public class SmsDeleteSessionHelper {
 
     /**
      * 获取所有的smsIds
-     *
-     * @param contactIds
      */
     private void getAllSmsIds(List<Long> contactIds) {
         if (index < contactIds.size()) {/* 未完成收集前 */
@@ -66,8 +62,6 @@ public class SmsDeleteSessionHelper {
 
     /**
      * 执行删除
-     *
-     * @param smsIdsAll
      */
     private void doDelSms(List<Long> smsIdsAll) {
         DeleteSmsParam xDeleteSmsParam = new DeleteSmsParam();
@@ -87,7 +81,6 @@ public class SmsDeleteSessionHelper {
      *
      * @param contactIds 联系人ID
      */
-    @Deprecated
     public void deleteMoreSessionSms(List<Long> contactIds) {
         // 1.检测初始化状态
         GetSmsInitStateHelper xGetSmsInitStateHelper = new GetSmsInitStateHelper();
@@ -104,7 +97,7 @@ public class SmsDeleteSessionHelper {
                 xDeleteSMSHelper.setOnDeleteSmsFailListener(this::appErrorNext);
                 xDeleteSMSHelper.setOnDeleteFailListener(this::fwErrorNext);
                 xDeleteSMSHelper.deleteSms(xDeleteSmsParam);
-            }else{
+            } else {
                 deleteMoreSessionSms(contactIds);
             }
         });

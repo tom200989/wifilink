@@ -67,9 +67,7 @@ public class SettingFrag extends BaseFrag {
     private String perText;
     private int upgrade_Temp = 0;// 临时记录升级失效的次数
     int count = 0;
-    private boolean isMW120;
-    private boolean isHH71;
-
+    private boolean isMWDev;
 
     @BindView(R.id.tv_settingrx_logout)
     TextView tvLogout;
@@ -161,13 +159,12 @@ public class SettingFrag extends BaseFrag {
         xGetSystemInfoHelper = new GetSystemInfoHelper();
         xGetSystemInfoHelper.setOnGetSystemInfoSuccessListener(systemInfo -> {
             String deviceName = systemInfo.getDeviceName().toLowerCase();
-            isMW120 = RootUtils.isMWDEV(deviceName);
-            isHH71 = RootUtils.isHH71(deviceName);
-            mEthernetWan.setVisibility(isMW120 ? View.GONE : View.VISIBLE);
-            // rl_wifiExtender.setVisibility(isMW120 | isHH71 ? View.VISIBLE : View.GONE);
+            isMWDev = RootUtils.isMWDEV(deviceName);
+            mEthernetWan.setVisibility(isMWDev ? View.GONE : View.VISIBLE);
+            // rl_wifiExtender.setVisibility(isMWDev | isHH71 ? View.VISIBLE : View.GONE);
             rl_wifiExtender.setVisibility(View.GONE);// 全面取消wifi-extender功能
-            rl_feedback.setVisibility(isMW120 ? View.VISIBLE : View.GONE);
-            if (!isMW120) {// 不是MW120机型--> 请求wan口
+            rl_feedback.setVisibility(isMWDev ? View.VISIBLE : View.GONE);
+            if (!isMWDev) {// 不是MW120机型--> 请求wan口
                 requestWAN();
             } else {// 如果是MW120机型--> 请求extender接口
                 extenderHelper.get();
@@ -276,9 +273,7 @@ public class SettingFrag extends BaseFrag {
         mLanguage.setOnClickListener(v -> goSettingLanguagePage());// 进入语言设置
         mFirmwareUpgrade.setOnClickListener(v -> clickUpgrade());// 点击升级
         mRestart.setOnClickListener(v -> popDialogFromBottom(RESTART_RESET));// 重启设备
-        mBackup.setOnClickListener(v -> {// 备份配置
-            popDialogFromBottom(Backup_Restore);
-        });
+        mBackup.setOnClickListener(v -> popDialogFromBottom(Backup_Restore));// 备份配置
         mAbout.setOnClickListener(v -> goToAboutSettingPage());// 进入about
         rl_wifiExtender.setOnClickListener(v -> goToWifiExtender());// 进入wifi extender
         rl_feedback.setOnClickListener(v -> goToFeedback());// 上线时把这句打开
@@ -295,9 +290,7 @@ public class SettingFrag extends BaseFrag {
     private void getDeviceFWCurrentVersion() {
         // 1.获取当前版本
         GetSystemInfoHelper xGetSystemInfoHelper = new GetSystemInfoHelper();
-        xGetSystemInfoHelper.setOnGetSystemInfoSuccessListener(result -> {
-            mDeviceVersion.setText(result.getSwVersionMain());
-        });
+        xGetSystemInfoHelper.setOnGetSystemInfoSuccessListener(result -> mDeviceVersion.setText(result.getSwVersionMain()));
         xGetSystemInfoHelper.getSystemInfo();
 
         // 2.检测新版本
@@ -331,8 +324,6 @@ public class SettingFrag extends BaseFrag {
 
     /**
      * U2.弹窗(有新版本 | 没有新版本)
-     *
-     * @param updateDeviceNewVersion
      */
     private void popversion(GetDeviceNewVersionBean updateDeviceNewVersion, GetSystemInfoBean systemSystemInfo) {
         // 1.获取状态 ( NO_NEW_VERSION || CHECK_ERROR 均为没有版本可以升级 )
@@ -565,7 +556,7 @@ public class SettingFrag extends BaseFrag {
 
     private void backupDevice() {
         wd_backpath.setVisibility(View.VISIBLE);
-        wd_backpath.setPath(isMW120 ? mdefaultSaveUrl2 : mdefaultSaveUrl);
+        wd_backpath.setPath(isMWDev ? mdefaultSaveUrl2 : mdefaultSaveUrl);
         wd_backpath.setOnClickBackupListener(path -> {
             ShareUtils.set(CONFIG_FILE_PATH, path);
             downLoadConfigureFile(path);

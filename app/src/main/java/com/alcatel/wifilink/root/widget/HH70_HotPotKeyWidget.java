@@ -13,7 +13,6 @@ import android.widget.TextView;
 
 import com.alcatel.wifilink.R;
 import com.alcatel.wifilink.root.bean.Extender_GetHotspotListBean;
-import com.alcatel.wifilink.root.app.WifiLinkApp;
 import com.alcatel.wifilink.root.utils.ToastTool;
 
 /**
@@ -32,6 +31,7 @@ public class HH70_HotPotKeyWidget extends RelativeLayout implements View.OnClick
     private Extender_GetHotspotListBean.HotspotListBean hb;
     private Drawable hide;
     private Drawable show;
+    private Context context;
 
 
     public HH70_HotPotKeyWidget(Context context) {
@@ -44,17 +44,18 @@ public class HH70_HotPotKeyWidget extends RelativeLayout implements View.OnClick
 
     public HH70_HotPotKeyWidget(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        this.context = context;
         View.inflate(context, R.layout.hh70_widget_extend_hotpot_key, this);
         show = context.getResources().getDrawable(R.drawable.password_show);
         hide = context.getResources().getDrawable(R.drawable.password_hide);
-        rlAll = (RelativeLayout) findViewById(R.id.rl_widget_hotpot_key_all);
-        ivBackground = (ImageView) findViewById(R.id.iv_widget_hotpot_key_background);
-        tvSSid = (TextView) findViewById(R.id.tv_widget_hotpot_key_ssid);
-        etPassword = (EditText) findViewById(R.id.et_widget_hotpot_key_password);
-        ivShowHide = (ImageView) findViewById(R.id.iv_widget_hotpot_key_showOrhide);
+        rlAll = findViewById(R.id.rl_widget_hotpot_key_all);
+        ivBackground = findViewById(R.id.iv_widget_hotpot_key_background);
+        tvSSid = findViewById(R.id.tv_widget_hotpot_key_ssid);
+        etPassword = findViewById(R.id.et_widget_hotpot_key_password);
+        ivShowHide = findViewById(R.id.iv_widget_hotpot_key_showOrhide);
         ivShowHide.setImageDrawable(hide);
-        tvCancel = (TextView) findViewById(R.id.tv_widget_hotpot_key_cancel);
-        tvOk = (TextView) findViewById(R.id.tv_widget_hotpot_key_ok);
+        tvCancel = findViewById(R.id.tv_widget_hotpot_key_cancel);
+        tvOk = findViewById(R.id.tv_widget_hotpot_key_ok);
         ivBackground.setOnClickListener(this);
         ivShowHide.setOnClickListener(this);
         tvCancel.setOnClickListener(this);
@@ -85,7 +86,7 @@ public class HH70_HotPotKeyWidget extends RelativeLayout implements View.OnClick
     private void clickOk() {
         String password = etPassword.getText().toString();
         if (TextUtils.isEmpty(password)) {
-            ToastTool.show(WifiLinkApp.getInstance(), R.string.hh70_pw_not_allow_empty);
+            ToastTool.show(context, R.string.hh70_pw_not_allow_empty);
         } else {
             clickNext(hb, password);
         }
@@ -126,7 +127,7 @@ public class HH70_HotPotKeyWidget extends RelativeLayout implements View.OnClick
      * 隐藏软键盘
      */
     private void hideKeyBoard() {
-        InputMethodManager imm = (InputMethodManager) WifiLinkApp.getInstance().getSystemService(Context.INPUT_METHOD_SERVICE);
+        InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
         if (imm != null) {
             imm.hideSoftInputFromWindow(this.getWindowToken(), 0);
         }

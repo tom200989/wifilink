@@ -16,7 +16,6 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
 import com.alcatel.wifilink.R;
-import com.alcatel.wifilink.root.app.WifiLinkApp;
 import com.alcatel.wifilink.root.bean.DeviceBean;
 import com.alcatel.wifilink.root.bean.Extender_GetHotspotListBean;
 import com.alcatel.wifilink.root.bean.FeedbackPhotoBean;
@@ -325,9 +324,9 @@ public class RootUtils {
      * @param arr     需要匹配的字符数组
      * @param include 数组中可能包含的字符
      */
-    public static String getAlert(String[] arr, int include) {
+    public static String getAlert(Context context, String[] arr, int include) {
         if (include == -1) {
-            return WifiLinkApp.getInstance().getString(R.string.hh70_not_remind);
+            return context.getString(R.string.hh70_not_remind);
         }
         String alert = "90%";
         for (String s : arr) {
@@ -401,8 +400,7 @@ public class RootUtils {
     /**
      * 获取wifi extender signal 强度
      */
-    public static Drawable transferWifiExtenderSignal(int signalStrength) {
-        WifiLinkApp context = WifiLinkApp.getInstance();
+    public static Drawable transferWifiExtenderSignal(Context context, int signalStrength) {
         if (signalStrength <= 0) {
             return ContextCompat.getDrawable(context, R.drawable.wifi_ex_signal0);
         } else if (signalStrength == 1) {
@@ -477,9 +475,8 @@ public class RootUtils {
     /**
      * 检查WIFI是否有链接
      */
-    public static boolean isWifiConnect() {
-        WifiLinkApp instance = WifiLinkApp.getInstance();
-        ConnectivityManager connMgr = (ConnectivityManager) instance.getSystemService(Context.CONNECTIVITY_SERVICE);
+    public static boolean isWifiConnect(Context context) {
+        ConnectivityManager connMgr = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connMgr.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
         NetworkInfo.State wifiState = networkInfo.getState();
         return NetworkInfo.State.CONNECTED == wifiState;
@@ -547,14 +544,13 @@ public class RootUtils {
     /**
      * 转换设备列表
      */
-    public static List<DeviceBean> transferDevicesbean(GetConnectDeviceListBean connectedListBean) {
-        WifiLinkApp context = WifiLinkApp.getInstance();
+    public static List<DeviceBean> transferDevicesbean(Context context, GetConnectDeviceListBean connectedListBean) {
         List<DeviceBean> dbs = new ArrayList<>();
         String ip_field = context.getString(R.string.hh70_ip);
         String mac_field = context.getString(R.string.hh70_mac);
         String localIp = Objects.requireNonNull(NetUtils.getLocalIPAddress()).getHostAddress();
 
-        List<GetConnectDeviceListBean .ConnectedDeviceBean> ccls = connectedListBean.getConnectedList();
+        List<GetConnectDeviceListBean.ConnectedDeviceBean> ccls = connectedListBean.getConnectedList();
         if (ccls != null) {
             for (GetConnectDeviceListBean.ConnectedDeviceBean ccl : ccls) {
                 DeviceBean ddb = new DeviceBean();
@@ -617,12 +613,12 @@ public class RootUtils {
         return sDate.format(now);
     }
 
-    public static String getSendTime(String lastString){
+    public static String getSendTime(String lastString) {
         Date lastDate = RootUtils.transferDateForText(lastString);
         Date date = new Date();
         if (date.after(lastDate)) {
             return getCurrentDate();
-        }else {
+        } else {
             long sendTime = lastDate.getTime() + 3000;
             SimpleDateFormat sDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
             Date now = new Date(sendTime);

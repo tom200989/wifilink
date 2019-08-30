@@ -1,7 +1,5 @@
 package com.alcatel.wifilink.root.helper;
 
-import android.content.Context;
-
 import com.p_xhelper_smart.p_xhelper_smart.bean.GetConnectDeviceListBean;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetConnectedDeviceListHelper;
 
@@ -10,15 +8,10 @@ import com.p_xhelper_smart.p_xhelper_smart.helper.GetConnectedDeviceListHelper;
  */
 
 public class DeviceHelper {
-    private Context context;
-
-    public DeviceHelper(Context context) {
-        this.context = context;
-    }
-
+    
     public void getDeviecs() {
         GetConnectedDeviceListHelper xGetConnectedDeviceListHelper = new GetConnectedDeviceListHelper();
-        xGetConnectedDeviceListHelper.setOnGetDeviceListSuccessListener(bean -> devicesNext(bean));
+        xGetConnectedDeviceListHelper.setOnGetDeviceListSuccessListener(this::devicesNext);
         xGetConnectedDeviceListHelper.setOnGetDeviceListFailListener(this::getDeviceListFailedNext);
         xGetConnectedDeviceListHelper.setOnAPPErrorListener(this::AppErrorNext);
         xGetConnectedDeviceListHelper.setOnFwErrorListener(this::FwErrorNext);

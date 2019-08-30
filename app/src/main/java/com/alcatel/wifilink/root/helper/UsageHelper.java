@@ -26,8 +26,6 @@ public class UsageHelper {
 
     /**
      * 格式化日期
-     *
-     * @return
      */
     public static String getCurrentTime() {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
@@ -38,10 +36,6 @@ public class UsageHelper {
 
     /**
      * 获取已经使用流量比率
-     *
-     * @param used
-     * @param monthly
-     * @return
      */
     public static int getRateUsed(double used, double monthly) {
         if (monthly <= 0) {
@@ -55,10 +49,6 @@ public class UsageHelper {
 
     /**
      * 获取单位以及换算(带小数)
-     *
-     * @param context
-     * @param bytes
-     * @return
      */
     public static Usage getUsageByte(Context context, double bytes) {
         double tempGB = bytes * 1f / 1024 / 1024 / 1024;
@@ -77,10 +67,6 @@ public class UsageHelper {
 
     /**
      * 获取时间对象(传入时间以秒为单位)
-     *
-     * @param context
-     * @param sec     总秒数
-     * @return
      */
     public static Times getUsedTimeForSec(Context context, int sec) {
         int hours = sec / 3600;
@@ -95,10 +81,6 @@ public class UsageHelper {
 
     /**
      * 获取时间对象(传入时间以分钟为单位)
-     *
-     * @param context
-     * @param min     总分钟数
-     * @return
      */
     public static Times getUsedTimeForMin(Context context, int min) {
         int hours = min / 60;
@@ -117,12 +99,6 @@ public class UsageHelper {
         return (double) (Math.round(value * dimension)) / dimension;
     }
 
-    /* 保留N位小数 */
-    private static float mathRoundByDimension(float value, int dimen) {
-        long dimension = dimen;// 两位小数此处如为100,则表示保留两位小数, 4位小数, 此处为10000....依此类推
-        return (float) (Math.round(value * dimension)) / dimension;
-    }
-
     public static class Usage {
         public String unit;
         public String usage;
@@ -139,7 +115,7 @@ public class UsageHelper {
      * 获取流量超限状况
      */
     public void getOverUsage() {
-        UsageSettingHelper getUsageSettingsHelper = new UsageSettingHelper(context);
+        UsageSettingHelper getUsageSettingsHelper = new UsageSettingHelper();
         getUsageSettingsHelper.setOnGetUsageSettingsSuccessListener(result -> {
             long monthlyPlan = result.getMonthlyPlan();
             long usedData = result.getUsedData();

@@ -10,11 +10,9 @@ import java.util.Date;
  * Created by qianli.ma on 2017/12/17 0017.
  */
 
-public class SMSContactSortHelper implements Comparator {
+public class SMSContactSortHelper implements Comparator<SMSContactBean> {
     @Override
-    public int compare(Object o1, Object o2) {
-        SMSContactBean s1 = (SMSContactBean) o1;
-        SMSContactBean s2 = (SMSContactBean) o2;
+    public int compare(SMSContactBean s1, SMSContactBean s2) {
         Date d1 = RootUtils.transferDateForText(s1.getSmscontact().getSMSTime());
         Date d2 = RootUtils.transferDateForText(s2.getSmscontact().getSMSTime());
         assert d1 != null;

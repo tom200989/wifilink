@@ -1,6 +1,7 @@
 package com.alcatel.wifilink.root.adapter;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -53,7 +54,7 @@ public class SmsDetatilAdapter extends RecyclerView.Adapter<SmsDetailHolder> {
 
     /**
      * @param smsContentListBean 信息列表
-     * @param toLast         是否需要recycle定位到最后？
+     * @param toLast             是否需要recycle定位到最后？
      */
     public void notifys(GetSMSContentListBean smsContentListBean, boolean toLast) {
         clearAll();// 1. clear all first
@@ -70,17 +71,15 @@ public class SmsDetatilAdapter extends RecyclerView.Adapter<SmsDetailHolder> {
         return newScbList.size();
     }
 
+    @NonNull
     @Override
-    public SmsDetailHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public SmsDetailHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new SmsDetailHolder(LayoutInflater.from(context).inflate(R.layout.hh70_item_smsdetail_update, parent, false));
     }
 
-    // TOAT: 主要方法
     @Override
-    public void onBindViewHolder(SmsDetailHolder holder, int position) {
+    public void onBindViewHolder(@NonNull SmsDetailHolder holder, int position) {
         if (newScbList.size() > 0) {
-            // nscb = newScbList.getInstant(position);// 带选中|未选中标记位
-            // scb = nscb.smsContentBean;// 不带标记位
 
             setSelectLogo(holder, position);// set selected or not logo
 
@@ -93,7 +92,7 @@ public class SmsDetatilAdapter extends RecyclerView.Adapter<SmsDetailHolder> {
             setSendText(holder, position);// set send text
             setSendDate(holder, position);// set send date
 
-            setLongClick(holder, position);// set layout long click
+            setLongClick(holder);// set layout long click
             setItemClick(holder, position);// set sms item click
             setFailedClick(holder, position);// set send failed logo click
         }
@@ -104,7 +103,6 @@ public class SmsDetatilAdapter extends RecyclerView.Adapter<SmsDetailHolder> {
     /* **** setSelectLogo **** */
     private void setSelectLogo(SmsDetailHolder holder, int position) {
         NewSMSContentBean nscb = newScbList.get(position);// 带选中|未选中标记位
-        GetSMSContentListBean.SMSContentListBean scb = nscb.smsContentBean;
         holder.iv_smsdetail_selected.setVisibility(isLongClick ? VISIBLE : GONE);
         int selecedUi = nscb.isSelected ? checkbox_android_on : checkbox_android_off;
         holder.iv_smsdetail_selected.setImageResource(selecedUi);
@@ -167,9 +165,7 @@ public class SmsDetatilAdapter extends RecyclerView.Adapter<SmsDetailHolder> {
     }
 
     /* **** setLongClick **** */
-    private void setLongClick(SmsDetailHolder holder, int position) {
-        NewSMSContentBean nscb = newScbList.get(position);// 带选中|未选中标记位
-        GetSMSContentListBean.SMSContentListBean scb = nscb.smsContentBean;
+    private void setLongClick(SmsDetailHolder holder) {
         holder.rl_smsdetail.setOnLongClickListener(v -> {
             if (onSmsLongClickListener != null) {
                 onSmsLongClickListener.smsLongClick();
@@ -193,9 +189,7 @@ public class SmsDetatilAdapter extends RecyclerView.Adapter<SmsDetailHolder> {
                         smsIds.add(smsId);
                     }
                 } else {
-                    if (smsIds.contains(smsId)) {
-                        smsIds.remove(smsIds.indexOf(smsId));
-                    }
+                    smsIds.remove(smsId);
                 }
                 // deliver the list outside
                 if (onSmsSelectedListener != null) {
@@ -211,9 +205,7 @@ public class SmsDetatilAdapter extends RecyclerView.Adapter<SmsDetailHolder> {
     private void setFailedClick(SmsDetailHolder holder, int position) {
         NewSMSContentBean nscb = newScbList.get(position);// 带选中|未选中标记位
         GetSMSContentListBean.SMSContentListBean scb = nscb.smsContentBean;
-        holder.iv_smsdetail_failed_send.setOnClickListener(v -> {
-            tryAgainNext(scb);
-        });
+        holder.iv_smsdetail_failed_send.setOnClickListener(v -> tryAgainNext(scb));
     }
 
 

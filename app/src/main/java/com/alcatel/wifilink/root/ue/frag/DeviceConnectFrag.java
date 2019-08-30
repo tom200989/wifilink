@@ -62,12 +62,8 @@ public class DeviceConnectFrag extends BaseFrag {
         rcv_deviceConnect.setAdapter(rvAdapter);
         //titlebar
         blockPre = getString(R.string.hh70_Blocked) + " (";
-        mbackBtn.setOnClickListener(v -> {
-            onBackPresss();
-        });
-        mblock.setOnClickListener(v -> {
-            checkBlockList();
-        });
+        mbackBtn.setOnClickListener(v -> onBackPresss());
+        mblock.setOnClickListener(v -> checkBlockList());
         mblock.setText(String.valueOf(blockPre + "0" + blockFix));
         mTitle.setText(getString(R.string.hh70_connect_small));
         // 俄语文字大小适配

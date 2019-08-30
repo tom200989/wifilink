@@ -328,7 +328,7 @@ public class WifiExtenderRxFrag extends BaseFrag {
             } else {
                 rlHadConnected.setVisibility(View.VISIBLE);// 已连接显示
                 tvHadConnectedHotDotName.setText(RootUtils.turnUrlCode(result.getHotspotSSID()));// SSID(需要进行URL转码)
-                ivHadConnectedWifiSignal.setImageDrawable(RootUtils.transferWifiExtenderSignal(result.getSignal()));// 强度
+                ivHadConnectedWifiSignal.setImageDrawable(RootUtils.transferWifiExtenderSignal(activity, result.getSignal()));// 强度
                 getHotpotList(result);/* 3.获取热点列表 */
             }
         });

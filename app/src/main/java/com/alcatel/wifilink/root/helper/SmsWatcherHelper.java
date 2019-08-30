@@ -16,11 +16,9 @@ public class SmsWatcherHelper implements TextWatcher {
 
     private int maxLength = 1530;
     private Context context;
-    private EditText et;
 
     public SmsWatcherHelper(Context context, EditText et) {
         this.context = context;
-        this.et = et;
         et.addTextChangedListener(this);
     }
 

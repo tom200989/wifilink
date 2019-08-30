@@ -27,14 +27,14 @@ public class SmsHolder extends RecyclerView.ViewHolder {
 
     public SmsHolder(View itemView) {
         super(itemView);
-        rl_sms = (RelativeLayout) itemView.findViewById(R.id.rl_sms);
-        iv_smsPoint = (ImageView) itemView.findViewById(R.id.iv_smsPoint);
-        iv_smsLongClickPoint = (ImageView) itemView.findViewById(R.id.iv_smsLongClickPoint);
-        rl_smsInfo = (RelativeLayout) itemView.findViewById(R.id.rl_smsInfo);
-        tv_smsPhone = (TextView) itemView.findViewById(R.id.tv_smsPhone);
-        tv_smsCount = (TextView) itemView.findViewById(R.id.tv_smsCount);
-        iv_smsSendFailed = (ImageView) itemView.findViewById(R.id.iv_smsSendFailed);
-        tv_smsContent = (TextView) itemView.findViewById(R.id.tv_smsContent);
-        tv_smsDate = (TextView) itemView.findViewById(R.id.tv_smsDate);
+        rl_sms = itemView.findViewById(R.id.rl_sms);
+        iv_smsPoint = itemView.findViewById(R.id.iv_smsPoint);
+        iv_smsLongClickPoint = itemView.findViewById(R.id.iv_smsLongClickPoint);
+        rl_smsInfo = itemView.findViewById(R.id.rl_smsInfo);
+        tv_smsPhone = itemView.findViewById(R.id.tv_smsPhone);
+        tv_smsCount = itemView.findViewById(R.id.tv_smsCount);
+        iv_smsSendFailed = itemView.findViewById(R.id.iv_smsSendFailed);
+        tv_smsContent = itemView.findViewById(R.id.tv_smsContent);
+        tv_smsDate = itemView.findViewById(R.id.tv_smsDate);
     }
 }

@@ -108,7 +108,7 @@ public class PukRxFrag extends BaseFrag {
                 return;
             }
             GetSimStatusHelper xGetSimStatusHelper = new GetSimStatusHelper();
-            xGetSimStatusHelper.setOnGetSimStatusSuccessListener(result -> toShowRemain(result));
+            xGetSimStatusHelper.setOnGetSimStatusSuccessListener(this::toShowRemain);
             xGetSimStatusHelper.setOnGetSimStatusFailedListener(() -> {
                 toast(R.string.hh70_sim_not_accessible, 2000);
                 to(SplashActivity.class, RefreshFrag.class);
@@ -125,9 +125,6 @@ public class PukRxFrag extends BaseFrag {
 
     /**
      * 跳转activity
-     *
-     * @param targetAc
-     * @param targetFr
      */
     private void to(Class targetAc, Class targetFr) {
         toFragActivity(getClass(), targetAc, targetFr, null, false, true, 0,getClass());
@@ -136,8 +133,6 @@ public class PukRxFrag extends BaseFrag {
 
     /**
      * 显示超出限制的ui
-     *
-     * @param simStatus
      */
     private void toShowRemain(GetSimStatusBean simStatus) {
         int pukTime = simStatus.getPukRemainingTimes();

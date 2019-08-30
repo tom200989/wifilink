@@ -345,7 +345,7 @@ public class mainFrag extends BaseFrag {
      */
     private void checkUsageOver() {
         // 检测是否超过流量
-        UsageSettingHelper getUsageSettingsHelper = new UsageSettingHelper(activity);
+        UsageSettingHelper getUsageSettingsHelper = new UsageSettingHelper();
         getUsageSettingsHelper.setOnGetUsageSettingsSuccessListener(attr -> {
             long monthlyPlan = attr.getMonthlyPlan();
             long usedData = attr.getUsedData();
@@ -612,7 +612,7 @@ public class mainFrag extends BaseFrag {
      * 获取流量
      */
     private void getUsage() {
-        UsageSettingHelper getUsageSettingsHelper = new UsageSettingHelper(activity);
+        UsageSettingHelper getUsageSettingsHelper = new UsageSettingHelper();
         getUsageSettingsHelper.setOnGetUsageSettingsSuccessListener(result -> {
             if (temp == 0) {
                 temp++;
@@ -701,7 +701,7 @@ public class mainFrag extends BaseFrag {
      * 获取注册状态
      */
     private void getNetworkRegister() {
-        NetworkInfoHelper networkHelper = new NetworkInfoHelper(getActivity()) {
+        NetworkInfoHelper networkHelper = new NetworkInfoHelper() {
             @Override
             public void noRegister() {
                 if (rlSignalPanel != null) {
@@ -877,7 +877,7 @@ public class mainFrag extends BaseFrag {
         if (SplashActivity.freeSharingLock) {
             synchronized (mainFrag.class) {
                 SplashActivity.freeSharingLock = false;
-                DeviceHelper deviceHelper = new DeviceHelper(activity);
+                DeviceHelper deviceHelper = new DeviceHelper();
                 deviceHelper.setOnGetDevicesSuccessListener(connectedList -> {
                     // 转换
                     com.p_freesharing.p_freesharing.bean.ConnectedList aarConnectList = transferConnectList(connectedList);

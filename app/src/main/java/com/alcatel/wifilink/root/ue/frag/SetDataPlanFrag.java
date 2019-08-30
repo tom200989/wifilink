@@ -1,5 +1,6 @@
 package com.alcatel.wifilink.root.ue.frag;
 
+import android.annotation.SuppressLint;
 import android.graphics.drawable.Drawable;
 import android.text.TextUtils;
 import android.view.View;
@@ -29,6 +30,7 @@ import butterknife.BindView;
 /**
  * Created by wzhiqiang on 2019/8/20
  */
+@SuppressLint("SetTextI18n")
 public class SetDataPlanFrag extends BaseFrag {
 
     @BindView(R.id.iv_setPlan_rx_back)
@@ -83,7 +85,6 @@ public class SetDataPlanFrag extends BaseFrag {
     private String hour;
     private String min;
     private GetSystemInfoHelper xGetSystemInfoHelper;
-    private Drawable pop_bg;
     private int count = 0;
     private boolean isHH71 = false;
     private GetUsageSettingsBean tempSetting;
@@ -114,7 +115,6 @@ public class SetDataPlanFrag extends BaseFrag {
         blue_color = getRootColor(R.color.mg_blue);
         gray_color = getRootColor(R.color.gray);
         black_color = getRootColor(R.color.black);
-        pop_bg = getRootDrawable(R.drawable.bg_pop_conner);
         hour = getString(R.string.hh70_hr_s);
         min = getString(R.string.hh70_min_s);
         days = RootUtils.getResArr(activity, R.array.settings_data_plan_billing_day);
@@ -163,7 +163,7 @@ public class SetDataPlanFrag extends BaseFrag {
 
     private void getUsageSetting() {
         /* 获取流量信息 */
-        UsageSettingHelper getUsageSettingsHelper = new UsageSettingHelper(activity);
+        UsageSettingHelper getUsageSettingsHelper = new UsageSettingHelper();
         getUsageSettingsHelper.setOnGetUsageSettingsFailedListener(this::toErrorUi);
         getUsageSettingsHelper.setOnGetUsageSettingsSuccessListener(result -> {
             tempSetting = result;
@@ -192,7 +192,7 @@ public class SetDataPlanFrag extends BaseFrag {
             tvBilling.setText(days[result.getBillingDay() - 1]);
             // usage alert
             int per = ShareUtils.get(RootCons.USAGE_LIMIT_DEFAULT, 90);
-            tvUsageAlert.setText(RootUtils.getAlert(alerts, per));
+            tvUsageAlert.setText(RootUtils.getAlert(activity, alerts, per));
             // auto disconnect
             ivAutoDisconnect.setImageDrawable(result.getAutoDisconnFlag() == GetUsageSettingsBean.CONS_AUTO_DISCONNECT_ENABLE ? switch_on : switch_off);
             // time limit
@@ -239,9 +239,7 @@ public class SetDataPlanFrag extends BaseFrag {
         } else if (wd_timeLimit.getVisibility() == View.VISIBLE) {
             wd_timeLimit.setVisibility(View.GONE);
         } else {
-            // TODO: 2019/8/29 这里是不是有问题，原先的屏蔽了
-            // toFrag(getClass(), MobileNetworkFrag.class, null, false, SetDataPlanFrag.class);
-            toFrag(getClass(), MobileNetworkFrag.class, null, false);
+            toFrag(getClass(), MobileNetworkFrag.class, null, false, SetDataPlanFrag.class);
         }
         return true;
     }
@@ -253,7 +251,7 @@ public class SetDataPlanFrag extends BaseFrag {
         // 修改状态
         loadWidget.setVisibles();
         tempSetting.setStatus(tempSetting.getStatus() == GetUsageSettingsBean.CONS_STATUS_ENABLE ? GetUsageSettingsBean.CONS_STATUS_DISABLE : GetUsageSettingsBean.CONS_STATUS_ENABLE);
-        UsageSettingHelper usageSettingHelper = new UsageSettingHelper(activity);
+        UsageSettingHelper usageSettingHelper = new UsageSettingHelper();
         usageSettingHelper.setOnSetUsageSettingSuccessListener(attr -> {
             toast(R.string.hh70_succeed);
             loadWidget.setGone();
@@ -270,13 +268,13 @@ public class SetDataPlanFrag extends BaseFrag {
      */
     private void clickMonthly() {
         wd_monthly.setVisibility(View.VISIBLE);
-        wd_monthly.setOnClickMonthlyOKListener(this::setMonthly);
+        wd_monthly.setOnClickMonthlyOKListener((edNum, tvmb, tvmb2) -> setMonthly(edNum, tvmb));
     }
 
     /**
      * 请求设置月流量计划
      */
-    private void setMonthly(EditText edNum, TextView tvmb, TextView tvgb) {
+    private void setMonthly(EditText edNum, TextView tvmb) {
         String content = RootUtils.getEDText(edNum, true);
         // 非空判断
         if (TextUtils.isEmpty(content)) {
@@ -290,13 +288,13 @@ public class SetDataPlanFrag extends BaseFrag {
         }
         // 请求提交
         loadWidget.setVisibles();
-        UsageSettingHelper ush = new UsageSettingHelper(activity);
+        UsageSettingHelper ush = new UsageSettingHelper();
         // 1.先获取一次usage-setting
         ush.setOnGetUsageSettingsSuccessListener(attr -> {
             attr.setUnit(tvmb.getCurrentTextColor() == blue_color ? GetUsageSettingsBean.CONS_UNIT_MB : GetUsageSettingsBean.CONS_UNIT_GB);
             attr.setMonthlyPlan(tvmb.getCurrentTextColor() == blue_color ? num * 1024L * 1024L : num * 1024L * 1024L * 1024L);
             // 2.在提交usage-setting
-            UsageSettingHelper ush1 = new UsageSettingHelper(activity);
+            UsageSettingHelper ush1 = new UsageSettingHelper();
             ush1.setOnSetUsageSettingSuccessListener(attr1 -> {
                 toast(R.string.hh70_success);
                 loadWidget.setGone();
@@ -336,10 +334,10 @@ public class SetDataPlanFrag extends BaseFrag {
      */
     private void clickAutoDisconnect() {
         loadWidget.setVisibles();
-        UsageSettingHelper ush = new UsageSettingHelper(activity);
+        UsageSettingHelper ush = new UsageSettingHelper();
         ush.setOnGetUsageSettingsSuccessListener(attr -> {
             attr.setAutoDisconnFlag(attr.getAutoDisconnFlag() == GetUsageSettingsBean.CONS_AUTO_DISCONNECT_ENABLE ? GetUsageSettingsBean.CONS_AUTO_DISCONNECT_DISABLE : GetUsageSettingsBean.CONS_AUTO_DISCONNECT_ENABLE);
-            UsageSettingHelper ush1 = new UsageSettingHelper(activity);
+            UsageSettingHelper ush1 = new UsageSettingHelper();
             ush1.setOnSetUsageSettingSuccessListener(attr1 -> loadWidget.setGone());
             ush1.setOnSetUsageSettingFailedListener(() -> loadWidget.setGone());
             ush1.setUsageSetting(attr);
@@ -353,10 +351,10 @@ public class SetDataPlanFrag extends BaseFrag {
      */
     private void clickTimelimit() {
         loadWidget.setVisibles();
-        UsageSettingHelper ush = new UsageSettingHelper(activity);
+        UsageSettingHelper ush = new UsageSettingHelper();
         ush.setOnGetUsageSettingsSuccessListener(attr -> {
             attr.setTimeLimitFlag(attr.getTimeLimitFlag() == GetUsageSettingsBean.CONS_TIME_LIMIT_ABLE ? GetUsageSettingsBean.CONS_TIME_LIMIT_DISABLE : GetUsageSettingsBean.CONS_TIME_LIMIT_ABLE);
-            UsageSettingHelper ush1 = new UsageSettingHelper(activity);
+            UsageSettingHelper ush1 = new UsageSettingHelper();
             ush1.setOnSetUsageSettingFailedListener(() -> loadWidget.setGone());
             ush1.setOnSetUsageSettingSuccessListener(getUsageSettings -> loadWidget.setGone());
             ush1.setUsageSetting(attr);
@@ -391,11 +389,11 @@ public class SetDataPlanFrag extends BaseFrag {
         int total = hour * 60 + min;
         // 用户设定的时间如果为0--> 强制关闭time limit按钮功能
         if (total <= 0) {
-            UsageSettingHelper ush = new UsageSettingHelper(activity);
+            UsageSettingHelper ush = new UsageSettingHelper();
             ush.setOnGetUsageSettingsSuccessListener(attr -> {
                 // 强制设定为disable
                 attr.setTimeLimitFlag(GetUsageSettingsBean.CONS_TIME_LIMIT_DISABLE);
-                UsageSettingHelper ush1 = new UsageSettingHelper(activity);
+                UsageSettingHelper ush1 = new UsageSettingHelper();
                 ush1.setOnSetUsageSettingFailedListener(() -> loadWidget.setGone());
                 ush1.setOnSetUsageSettingSuccessListener(getUsageSettings -> loadWidget.setGone());
                 ush1.setUsageSetting(attr);
@@ -405,10 +403,10 @@ public class SetDataPlanFrag extends BaseFrag {
             return;
         }
         // 用户设定的时间如果不为0--> 则正常提交
-        UsageSettingHelper ush = new UsageSettingHelper(activity);
+        UsageSettingHelper ush = new UsageSettingHelper();
         ush.setOnGetUsageSettingsSuccessListener(attr -> {
             attr.setTimeLimitTimes(total);
-            UsageSettingHelper ush1 = new UsageSettingHelper(activity);
+            UsageSettingHelper ush1 = new UsageSettingHelper();
             ush1.setOnSetUsageSettingSuccessListener(getUsageSettings -> loadWidget.setGone());
             ush1.setOnSetUsageSettingFailedListener(() -> loadWidget.setGone());
             ush1.setUsageSetting(attr);
@@ -419,8 +417,6 @@ public class SetDataPlanFrag extends BaseFrag {
 
     /**
      * 保存流量警告值 & 弹出剩余流量提示
-     *
-     * @param value
      */
     private void saveAlertAndShowPop(int value) {
         // 1.保存警告值
@@ -428,7 +424,7 @@ public class SetDataPlanFrag extends BaseFrag {
         if (value != -1) {
             // 2.弹出剩余流量
             loadWidget.setVisibles();
-            UsageSettingHelper ush = new UsageSettingHelper(activity);
+            UsageSettingHelper ush = new UsageSettingHelper();
             ush.setOnGetUsageSettingsFailedListener(() -> loadWidget.setGone());
             ush.setOnGetUsageSettingsSuccessListener(attr -> {
                 if (count == 0) {// 1.首次显示
@@ -452,8 +448,6 @@ public class SetDataPlanFrag extends BaseFrag {
 
     /**
      * 弹出吐司
-     *
-     * @param resId
      */
     private void toast(int resId) {
         toast(resId, 2000);
@@ -461,8 +455,6 @@ public class SetDataPlanFrag extends BaseFrag {
 
     /**
      * 弹出吐司
-     *
-     * @param content
      */
     private void toastLong(String content) {
         toast(content, 3000);

@@ -86,7 +86,7 @@ public class WifiInitFrag extends BaseFrag {
     TextView tvTohome;// 前往主页
 
     @BindView(R.id.dg_wifiInit_ok)
-    HH70_NormalWidget wdOk;// ok & cancel
+    HH70_NormalWidget wdNormal;// ok & cancel
 
     @BindView(R.id.wd_wifi_init_load)
     HH70_LoadWidget wdLoad;// 等待
@@ -396,11 +396,11 @@ public class WifiInitFrag extends BaseFrag {
         String des1 = getString(R.string.hh70_change_wifi);
         String des2 = getString(R.string.hh70_list_will_restart);
         String des = des1 + "\n" + des2;
-        wdOk.setVisibility(View.VISIBLE);
-        wdOk.setTitle(R.string.hh70_restart);
-        wdOk.setDes(des);
-        wdOk.setOnCancelClickListener(() -> wdOk.setVisibility(View.GONE));
-        wdOk.setOnOkClickListener(this::pullSetting);
+        wdNormal.setVisibility(View.VISIBLE);
+        wdNormal.setTitle(R.string.hh70_restart);
+        wdNormal.setDes(des);
+        wdNormal.setOnCancelClickListener(() -> wdNormal.setVisibility(View.GONE));
+        wdNormal.setOnOkClickListener(this::pullSetting);
     }
 
     /**
@@ -464,8 +464,6 @@ public class WifiInitFrag extends BaseFrag {
 
     /**
      * 切换状态开关
-     *
-     * @param flag
      */
     private void checkWlanStatusSocket(int flag) {
         if (flag == FLAG_2P4G) {
@@ -534,8 +532,8 @@ public class WifiInitFrag extends BaseFrag {
 
     @Override
     public boolean onBackPresss() {
-        if (wdOk.getVisibility() == View.VISIBLE) {
-            wdOk.setVisibility(View.GONE);
+        if (wdNormal.getVisibility() == View.VISIBLE) {
+            wdNormal.setVisibility(View.GONE);
         } else if (wdLoad.getVisibility() == View.VISIBLE) {
             wdLoad.setGone();
         } else {

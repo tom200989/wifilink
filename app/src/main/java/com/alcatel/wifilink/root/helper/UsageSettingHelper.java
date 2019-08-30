@@ -1,7 +1,5 @@
 package com.alcatel.wifilink.root.helper;
 
-import android.content.Context;
-
 import com.p_xhelper_smart.p_xhelper_smart.bean.GetUsageSettingsBean;
 import com.p_xhelper_smart.p_xhelper_smart.bean.SetUsageSettingsParam;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetUsageSettingsHelper;
@@ -12,12 +10,6 @@ import com.p_xhelper_smart.p_xhelper_smart.helper.SetUsageSettingsHelper;
  */
 
 public class UsageSettingHelper {
-
-    private Context context;
-
-    public UsageSettingHelper(Context context) {
-        this.context = context;
-    }
 
     /**
      * 获取流量设置
