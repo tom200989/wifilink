@@ -13,7 +13,6 @@ import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.widget.TextView;
 
 import java.util.regex.Matcher;
@@ -102,7 +101,6 @@ public class CountDownWidget extends TextView {
         Pattern pattern = Pattern.compile("[0-9]+");
         Matcher matcher = pattern.matcher(mText);
         boolean result = matcher.matches();
-        Log.d("CanParseToInt", result + "");
         return result;
 
     }
@@ -148,7 +146,6 @@ public class CountDownWidget extends TextView {
                     invalidate();
                     Message message = mHandler.obtainMessage(1);
                     mHandler.sendMessageDelayed(message, 1000);
-                    Log.d("mCount2:", mCount + "");
                 case 2:
                     break;
                 default:
@@ -180,7 +177,6 @@ public class CountDownWidget extends TextView {
 
         isRunning = false;
         mCount = mUserCount;
-        Log.d("reset", "mCount:" + mCount);
         this.setText(String.valueOf(mUserCount));
         invalidate();
     }

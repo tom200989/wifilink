@@ -2,7 +2,6 @@ package com.alcatel.wifilink.root.ue.frag;
 
 import android.os.Handler;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -701,11 +700,9 @@ public class SettingFrag extends BaseFrag {
             return true;
 
         } else if (wd_down.getVisibility() == View.VISIBLE) {
-            Log.i("ma", "onBackPressed: ");
             return true;
 
         } else if (wd_countdown.getVisibility() == View.VISIBLE) {
-            Log.i("ma", "onBackPressed: ");
             return true;
 
         } else if (wd_backup.getVisibility() == View.VISIBLE) {
@@ -725,11 +722,9 @@ public class SettingFrag extends BaseFrag {
             return true;
 
         } else if (loadWidget.getVisibility() == View.VISIBLE) {
-            Log.i("ma", "onBackPressed: ");
             return true;
 
         } else if (isDownloading) {// 如果在下载中, 则自己处理返回按钮的逻辑
-            Log.i("ma", "onBackPressed: ");
             return true;
 
         } else {

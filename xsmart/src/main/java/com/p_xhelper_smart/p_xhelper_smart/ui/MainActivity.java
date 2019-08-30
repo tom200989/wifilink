@@ -25,10 +25,8 @@ public class MainActivity extends AppCompatActivity {
         XSmart.init(this);
 
         // 登陆
-        Logg.t("ma_test_ui").ii("login begin");
         LoginHelper loginHelper = new LoginHelper();
         loginHelper.setOnLoginSuccesListener(() -> {
-            Logg.t("ma_test_ui").ii("login success start timer");
             TimerHelper timerHelper = new TimerHelper(this) {
                 @Override
                 public void doSomething() {
