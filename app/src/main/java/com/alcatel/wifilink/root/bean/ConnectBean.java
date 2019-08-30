@@ -1,28 +1,26 @@
 package com.alcatel.wifilink.root.bean;
 
+import com.p_xhelper_smart.p_xhelper_smart.bean.GetConnectDeviceListBean;
+
 /**
  * Created by qianli.ma on 2017/6/24.
  */
 
 public class ConnectBean {
-    public ConnectedListBean.Device device;
-    public boolean isEdit;
+    
+    public GetConnectDeviceListBean.ConnectedDeviceBean device;
+    public boolean isEdit;// 是否可编辑
 
-    public ConnectBean(ConnectedListBean.Device device, boolean isEdit) {
+    public ConnectBean(GetConnectDeviceListBean.ConnectedDeviceBean device, boolean isEdit) {
         this.device = device;
         this.isEdit = isEdit;
     }
 
-    @Override
-    public String toString() {
-        return "ConnectBean{" + "device=" + device + ", isEdit=" + isEdit + '}';
-    }
-
-    public ConnectedListBean.Device getDevice() {
+    public GetConnectDeviceListBean.ConnectedDeviceBean getDevice() {
         return device;
     }
 
-    public void setDevice(ConnectedListBean.Device device) {
+    public void setDevice(GetConnectDeviceListBean.ConnectedDeviceBean device) {
         this.device = device;
     }
 

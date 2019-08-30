@@ -17,12 +17,12 @@ import android.widget.EditText;
 
 import com.alcatel.wifilink.R;
 import com.alcatel.wifilink.root.app.WifiLinkApp;
-import com.alcatel.wifilink.root.bean.ConnectedListBean;
 import com.alcatel.wifilink.root.bean.DeviceBean;
 import com.alcatel.wifilink.root.bean.Extender_GetHotspotListBean;
 import com.alcatel.wifilink.root.bean.FeedbackPhotoBean;
 import com.alcatel.wifilink.root.bean.SMSContactBean;
-import com.alcatel.wifilink.root.bean.SMSContactListBean;
+import com.p_xhelper_smart.p_xhelper_smart.bean.GetConnectDeviceListBean;
+import com.p_xhelper_smart.p_xhelper_smart.bean.GetSMSContactListBean;
 import com.p_xhelper_smart.p_xhelper_smart.bean.GetSMSContentListBean;
 import com.tcl.token.ndk.JniTokenUtils;
 
@@ -342,9 +342,9 @@ public class RootUtils {
     /**
      * 获取短信联系人列表并添加长按标记
      */
-    public static List<SMSContactBean> getSMSSelfList(SMSContactListBean smsContactListBean) {
+    public static List<SMSContactBean> getSMSSelfList(GetSMSContactListBean smsContactListBean) {
         List<SMSContactBean> smscs = new ArrayList<>();
-        for (SMSContactListBean.SMSContact smsContact : smsContactListBean.getSMSContactList()) {
+        for (GetSMSContactListBean.SMSContacBean smsContact : smsContactListBean.getSMSContactList()) {
             // 新建自定义SMS Contact对象
             SMSContactBean scs = new SMSContactBean();
             scs.setSmscontact(smsContact);
@@ -547,16 +547,16 @@ public class RootUtils {
     /**
      * 转换设备列表
      */
-    public static List<DeviceBean> transferDevicesbean(ConnectedListBean connectedListBean) {
+    public static List<DeviceBean> transferDevicesbean(GetConnectDeviceListBean connectedListBean) {
         WifiLinkApp context = WifiLinkApp.getInstance();
         List<DeviceBean> dbs = new ArrayList<>();
         String ip_field = context.getString(R.string.hh70_ip);
         String mac_field = context.getString(R.string.hh70_mac);
         String localIp = Objects.requireNonNull(NetUtils.getLocalIPAddress()).getHostAddress();
 
-        List<ConnectedListBean.Device> ccls = connectedListBean.getConnectedList();
+        List<GetConnectDeviceListBean .ConnectedDeviceBean> ccls = connectedListBean.getConnectedList();
         if (ccls != null) {
-            for (ConnectedListBean.Device ccl : ccls) {
+            for (GetConnectDeviceListBean.ConnectedDeviceBean ccl : ccls) {
                 DeviceBean ddb = new DeviceBean();
                 ddb.setDeviceIP(String.format(ip_field, ccl.getIPAddress()));
                 ddb.setDeviceMac(String.format(mac_field, ccl.getMacAddress()));

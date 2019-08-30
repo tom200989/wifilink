@@ -153,9 +153,11 @@ public class MobileNetworkFrag extends BaseFrag {
         ProfileHelper prh = new ProfileHelper();
         prh.setOnProfileSuccessListener(profileList -> {
             List<GetProfileListBean.ProfileBean> list = profileList.getProfileList();
-            if (list != null & list.size() > 0) {
-                GetProfileListBean.ProfileBean profile = list.get(0);
-                tvProfileName.setText(profile.getProfileName());
+            if (list != null) {
+                if (list.size() > 0) {
+                    GetProfileListBean.ProfileBean profile = list.get(0);
+                    tvProfileName.setText(profile.getProfileName());
+                }
             }
         });
         prh.get();
@@ -272,9 +274,7 @@ public class MobileNetworkFrag extends BaseFrag {
      */
     private void clickRoaming() {
         DataRoamHelper dataRoamHelper = new DataRoamHelper(activity);
-        dataRoamHelper.setOnRoamConnSuccessListener(result -> {
-            ivDataRoaming.setImageDrawable(result.getRoamingConnect() == GetConnectionSettingsBean.CONS_WHEN_ROAMING_CAN_CONNECT ? switch_on : switch_off);
-        });
+        dataRoamHelper.setOnRoamConnSuccessListener(result -> ivDataRoaming.setImageDrawable(result.getRoamingConnect() == GetConnectionSettingsBean.CONS_WHEN_ROAMING_CAN_CONNECT ? switch_on : switch_off));
         dataRoamHelper.transfer();
     }
 
@@ -291,14 +291,10 @@ public class MobileNetworkFrag extends BaseFrag {
 
     /**
      * 修改模式
-     *
-     * @param mode
      */
     private void changeMode(int mode) {
         ModeHelper modeHelper = new ModeHelper(activity);
-        modeHelper.setOnModeSuccessListener(attr -> {
-            tvModeMode.setText(modes[attr.getNetworkMode()]);
-        });
+        modeHelper.setOnModeSuccessListener(attr -> tvModeMode.setText(modes[attr.getNetworkMode()]));
         modeHelper.transfer(mode);
     }
 

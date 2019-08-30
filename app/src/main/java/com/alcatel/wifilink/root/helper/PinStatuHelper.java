@@ -31,7 +31,7 @@ public class PinStatuHelper {
         GetLoginStateHelper xGetLoginStateHelper = new GetLoginStateHelper();
         xGetLoginStateHelper.setOnGetLoginStateSuccessListener(getLoginStateBean -> {
             if (getLoginStateBean.getState() == GetLoginStateBean.CONS_LOGOUT) {
-                to(RootCons.ACTIVITYS.SPLASH_AC,RootCons.FRAG.LOGIN_FR);
+                to(RootCons.ACTIVITYS.SPLASH_AC, RootCons.FRAG.LOGIN_FR);
                 return;
             }
             GetSimStatusHelper xGetSimStatusHelper = new GetSimStatusHelper();
@@ -68,7 +68,7 @@ public class PinStatuHelper {
     /**
      * 点击事件使用该方法请求pins state
      */
-    public void getOne() {
+    void getOne() {
         // 1.先获取SIM卡的状态
         GetLoginStateHelper xGetLoginStateHelper = new GetLoginStateHelper();
         xGetLoginStateHelper.setOnGetLoginStateSuccessListener(getLoginStateBean -> {
@@ -120,9 +120,6 @@ public class PinStatuHelper {
 
     /**
      * 跳转activity
-     *
-     * @param targetAc
-     * @param targetFr
      */
     private void to(String targetAc, String targetFr) {
         Intent intent = new Intent();
@@ -135,8 +132,6 @@ public class PinStatuHelper {
 
     /**
      * 获取PIN status
-     *
-     * @param result
      */
     private void getPinStatus(GetSimStatusBean result) {
         normalPinStatesNext(result);

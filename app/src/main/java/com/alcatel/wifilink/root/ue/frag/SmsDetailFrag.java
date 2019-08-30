@@ -15,7 +15,6 @@ import android.widget.TextView;
 
 import com.alcatel.wifilink.R;
 import com.alcatel.wifilink.root.adapter.SmsDetatilAdapter;
-import com.alcatel.wifilink.root.bean.SMSContactListBean;
 import com.alcatel.wifilink.root.helper.SmsContentSortHelper;
 import com.alcatel.wifilink.root.helper.SmsDraftHelper;
 import com.alcatel.wifilink.root.helper.SmsSendHelper;
@@ -26,7 +25,6 @@ import com.alcatel.wifilink.root.widget.HH70_LoadWidget;
 import com.alcatel.wifilink.root.widget.HH70_SmsDeleteWidget;
 import com.alcatel.wifilink.root.widget.HH70_SmsTryAgainWidget;
 import com.hiber.cons.TimerState;
-import com.hiber.tools.Lgg;
 import com.hiber.tools.ShareUtils;
 import com.p_xhelper_smart.p_xhelper_smart.bean.DeleteSmsParam;
 import com.p_xhelper_smart.p_xhelper_smart.bean.GetSMSContactListBean;
@@ -74,7 +72,7 @@ public class SmsDetailFrag extends BaseFrag {
 
     private SmsDetatilAdapter adapter;
     private GetSMSContentListBean smsContentListBean;
-    private SMSContactListBean.SMSContact smsContact;
+    private GetSMSContactListBean.SMSContacBean smsContact;
     private List<Long> smsIds = new ArrayList<>();
     private boolean isLongClick;// 处于长按状态
     private LinearLayoutManager linearLayoutManager;
@@ -100,8 +98,8 @@ public class SmsDetailFrag extends BaseFrag {
     @Override
     public void onNexts(Object o, View view, String s) {
         super.onNexts(o, view, s);
-        if (o instanceof SMSContactListBean.SMSContact) {
-            smsContact = (SMSContactListBean.SMSContact) o;
+        if (o instanceof GetSMSContactListBean.SMSContacBean) {
+            smsContact = (GetSMSContactListBean.SMSContacBean) o;
             setRecycleView();
             setRecycleListener();
             initClick();
@@ -249,7 +247,7 @@ public class SmsDetailFrag extends BaseFrag {
                     // 1.1.判断最新获取的contact id集合是否包含传进来的id--> 是:回退
                     List<Long> contactIds = new ArrayList<>();
                     for (GetSMSContactListBean.SMSContacBean scc : SmsContactListBean.getSMSContactList()) {
-                        contactIds.add((long) scc.getContactId());
+                        contactIds.add(scc.getContactId());
                     }
                     if (!contactIds.contains(smsContact.getContactId())) {
                         clickBack();
@@ -296,7 +294,6 @@ public class SmsDetailFrag extends BaseFrag {
 
         GetSMSContentListHelper xGetSMSContentListHelper = new GetSMSContentListHelper();
         xGetSMSContentListHelper.setOnGetSmsContentListSuccessListener(bean -> {
-            Lgg.t("ma_ssmsmsms").ii("bean is: " + bean.getSMSContentList());
             boolean isLast = false;
             // 1. refresh the list
             smsContentListBean = bean;

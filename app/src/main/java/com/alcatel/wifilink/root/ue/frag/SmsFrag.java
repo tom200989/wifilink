@@ -9,7 +9,6 @@ import android.widget.TextView;
 
 import com.alcatel.wifilink.R;
 import com.alcatel.wifilink.root.adapter.SmsRcvAdapter;
-import com.alcatel.wifilink.root.bean.SMSContactListBean;
 import com.alcatel.wifilink.root.bean.SMSContactBean;
 import com.alcatel.wifilink.root.helper.ClickDoubleHelper;
 import com.alcatel.wifilink.root.helper.SmsDeleteSessionHelper;
@@ -49,7 +48,7 @@ public class SmsFrag extends BaseFrag {
     HH70_SmsDeleteWidget smsDeleteWidget;
 
     private SmsRcvAdapter smsRcvAdapter;
-    private SMSContactListBean smsContactListBean;// 不带有长按标记的联系人集合
+    private GetSMSContactListBean smsContactListBean;// 不带有长按标记的联系人集合
     private List<SMSContactBean> otherSmsContactBeanList = new ArrayList<>();// 带有长按标记的联系人集合
     private List<Long> contactIdList;// 长按模式下存放被点击的短信条目的联系人ID
     public static boolean isLongClick = false;
@@ -189,30 +188,7 @@ public class SmsFrag extends BaseFrag {
         // get sms list
         GetSMSContactListHelper xGetSMSContactListHelper = new GetSMSContactListHelper();
         xGetSMSContactListHelper.setOnGetSmsContactListSuccessListener(bean -> {
-            SMSContactListBean tempSmsContactListBean = new SMSContactListBean();
-            tempSmsContactListBean.setPage(bean.getPage());
-            tempSmsContactListBean.setTotalPageCount(bean.getTotalPageCount());
-
-            List<SMSContactListBean.SMSContact> tempSmsContact = new ArrayList<>();
-
-            List<GetSMSContactListBean.SMSContacBean> smsContacBeans = bean.getSMSContactList();
-            if (smsContacBeans != null && smsContacBeans.size() > 0) {
-                for (GetSMSContactListBean.SMSContacBean smsContacBean : smsContacBeans) {
-                    SMSContactListBean.SMSContact smsContact = new SMSContactListBean.SMSContact();
-                    smsContact.setContactId(smsContacBean.getContactId());
-                    smsContact.setPhoneNumber(smsContacBean.getPhoneNumber());
-                    smsContact.setReportStatus(smsContacBean.getReportStatus());
-                    smsContact.setSMSContent(smsContacBean.getSMSContent());
-                    smsContact.setSMSId(smsContacBean.getSMSId());
-                    smsContact.setSMSTime(smsContacBean.getSMSTime());
-                    smsContact.setSMSType(smsContacBean.getSMSType());
-                    smsContact.setTSMSCount(smsContacBean.getTSMSCount());
-                    smsContact.setUnreadCount(smsContacBean.getUnreadCount());
-                    tempSmsContact.add(smsContact);
-                }
-            }
-            tempSmsContactListBean.setSMSContactList(tempSmsContact);
-            smsContactListBean = tempSmsContactListBean;
+            smsContactListBean = bean;
             otherSmsContactBeanList = RootUtils.getSMSSelfList(smsContactListBean);
             smsRcvAdapter.notifys(otherSmsContactBeanList);
             noSms.setVisibility(smsContactListBean.getSMSContactList().size() > 0 ? View.GONE : View.VISIBLE);

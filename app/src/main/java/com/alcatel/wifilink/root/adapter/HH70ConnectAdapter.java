@@ -15,10 +15,10 @@ import android.widget.Toast;
 
 import com.alcatel.wifilink.R;
 import com.alcatel.wifilink.root.bean.ConnectBean;
-import com.alcatel.wifilink.root.bean.ConnectedListBean;
 import com.alcatel.wifilink.root.helper.MacHelper;
 import com.alcatel.wifilink.root.ue.frag.DeviceConnectFrag;
 import com.alcatel.wifilink.root.utils.ToastTool;
+import com.p_xhelper_smart.p_xhelper_smart.bean.GetConnectDeviceListBean;
 import com.p_xhelper_smart.p_xhelper_smart.bean.SetDeviceNameParam;
 import com.p_xhelper_smart.p_xhelper_smart.helper.SetConnectedDeviceBlockHelper;
 import com.p_xhelper_smart.p_xhelper_smart.helper.SetDeviceNameHelper;
@@ -56,14 +56,14 @@ public class HH70ConnectAdapter extends RecyclerView.Adapter<ConnectHolder> {
     @Override
     public void onBindViewHolder(ConnectHolder holder, int position) {
         ConnectBean connectBean = connectBeanList.get(position);
-        ConnectedListBean.Device device = connectBean.device;
+        GetConnectDeviceListBean.ConnectedDeviceBean device = connectBean.device;
 
-        final String displayName = device.DeviceName;
+        final String displayName = device.getDeviceName();
         holder.deviceNameTextView.setText(displayName);
-        holder.ip.setText(String.format(activity.getString(R.string.hh70_ip), device.IPAddress));
-        String mac = device.MacAddress;
+        holder.ip.setText(String.format(activity.getString(R.string.hh70_ip), device.getIPAddress()));
+        String mac = device.getMacAddress();
         holder.mac.setText(String.format(activity.getString(R.string.hh70_mac), mac));
-        final int type = device.DeviceType;
+        final int type = device.getDeviceType();
 
         // if (mac.equalsIgnoreCase(MacHelper.getLocalMacAddress(activity))) {
         /*  is the host  */
@@ -133,10 +133,10 @@ public class HH70ConnectAdapter extends RecyclerView.Adapter<ConnectHolder> {
                 }
                 if (strName.length() != 0 && !strName.equals(displayName)) {
                     setDeviceName(strName, mac, type);
-                    connectBeanList.get(position).device.DeviceName = strName;
+                    connectBeanList.get(position).getDevice().setDeviceName(strName);
                 }
             } else {
-                m_strEditString = connectBeanList.get(position).device.DeviceName;
+                m_strEditString = connectBeanList.get(position).device.getDeviceName();
                 connectBeanList.get(position).isEdit = true;
             }
 

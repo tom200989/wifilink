@@ -7,9 +7,9 @@ import android.view.ViewGroup;
 
 import com.alcatel.wifilink.R;
 import com.alcatel.wifilink.root.bean.BlockBean;
-import com.alcatel.wifilink.root.bean.BlockListBean;
 import com.alcatel.wifilink.root.ue.activity.HomeActivity;
 import com.alcatel.wifilink.root.ue.frag.DeviceConnectFrag;
+import com.p_xhelper_smart.p_xhelper_smart.bean.GetBlockDeviceListBean;
 import com.p_xhelper_smart.p_xhelper_smart.helper.SetDeviceUnblockHelper;
 
 import java.util.List;
@@ -46,11 +46,11 @@ public class BlockAdapter extends RecyclerView.Adapter<BlockHolder> {
     @Override
     public void onBindViewHolder(BlockHolder holder, int position) {
         BlockBean blockBean = blockBeanList.get(position);
-        BlockListBean.BlockDevice block = blockBean.block;
+        GetBlockDeviceListBean.BlockDeviceBean block = blockBean.block;
 
-        final String displayName = block.DeviceName;
+        final String displayName = block.getDeviceName();
         holder.deviceName.setText(displayName);
-        String mac = block.MacAddress;
+        String mac = block.getMacAddress();
         holder.mac.setText(String.format(activity.getString(R.string.hh70_mac), mac));
         // Click the unblock button
         holder.unblockBtn.setOnClickListener(v -> setDeviceUnlock(displayName, mac, position));

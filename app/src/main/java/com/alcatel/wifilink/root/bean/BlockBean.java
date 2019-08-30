@@ -1,28 +1,26 @@
 package com.alcatel.wifilink.root.bean;
 
+import com.p_xhelper_smart.p_xhelper_smart.bean.GetBlockDeviceListBean;
+
 /**
  * Created by qianli.ma on 2017/6/24.
  */
 
 public class BlockBean {
-    public BlockListBean.BlockDevice block;
+    
+    public GetBlockDeviceListBean.BlockDeviceBean block;
     public boolean isEdit;
 
-    public BlockBean(BlockListBean.BlockDevice block, boolean isEdit) {
+    public BlockBean(GetBlockDeviceListBean.BlockDeviceBean block, boolean isEdit) {
         this.block = block;
         this.isEdit = isEdit;
     }
 
-    @Override
-    public String toString() {
-        return "BlockBean{" + "block=" + block + ", isEdit=" + isEdit + '}';
-    }
-
-    public BlockListBean.BlockDevice getBlock() {
+    public GetBlockDeviceListBean.BlockDeviceBean getBlock() {
         return block;
     }
 
-    public void setBlock(BlockListBean.BlockDevice block) {
+    public void setBlock(GetBlockDeviceListBean.BlockDeviceBean block) {
         this.block = block;
     }
 

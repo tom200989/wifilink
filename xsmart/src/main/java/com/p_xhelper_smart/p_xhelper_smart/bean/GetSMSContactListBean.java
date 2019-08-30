@@ -50,19 +50,16 @@ public class GetSMSContactListBean implements Serializable {
     }
 
     public static class SMSContacBean implements Serializable {
-        /**
-         * ContactId : 1
-         * PhoneNumber : ["18617092862"]
-         * SMSId : 65538
-         * SMSType : 1
-         * ReportStatus : 0
-         * SMSContent : 88888888554
-         * SMSTime : 2016-06-30 10:02:22
-         * UnreadCount : 2
-         * TSMSCount : 2
-         */
 
-        private int ContactId;//The list ID
+        public static final int CONS_SMS_TYPE_READ = 0;
+        public static final int CONS_SMS_TYPE_UNREAD = 1;
+        public static final int CONS_SMS_TYPE_SENT = 2;
+        public static final int CONS_SMS_TYPE_SENT_FAIL = 3;
+        public static final int CONS_SMS_TYPE_REPORT = 4;
+        public static final int CONS_SMS_TYPE_FLASH = 5;
+        public static final int CONS_SMS_TYPE_DRAFT = 6;
+
+        private long ContactId;//The list ID
         private int SMSId;//最新的短信id
         private int SMSType;//短信类型 0: read   1: unread   2: sent
         // 3: sent failed   4: report  5: flash 6: draft
@@ -73,23 +70,15 @@ public class GetSMSContactListBean implements Serializable {
         private int TSMSCount;//总共短信数量
         private List<String> PhoneNumber;//短信联系人信息，可能1个或多个
 
-        public static final int CONS_SMS_TYPE_READ = 0;
-        public static final int CONS_SMS_TYPE_UNREAD = 1;
-        public static final int CONS_SMS_TYPE_SENT = 2;
-        public static final int CONS_SMS_TYPE_SENT_FAIL = 3;
-        public static final int CONS_SMS_TYPE_REPORT = 4;
-        public static final int CONS_SMS_TYPE_FLASH = 5;
-        public static final int CONS_SMS_TYPE_DRAFT = 6;
-
         public SMSContacBean() {
         }
 
-        public int getContactId() {
+        public long getContactId() {
             return ContactId;
         }
 
-        public void setContactId(int ContactId) {
-            this.ContactId = ContactId;
+        public void setContactId(long contactId) {
+            ContactId = contactId;
         }
 
         public int getSMSId() {

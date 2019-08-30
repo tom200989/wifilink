@@ -1,46 +1,37 @@
 package com.alcatel.wifilink.root.helper;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Build;
+import android.text.TextUtils;
 
 import java.io.FileReader;
 import java.io.InputStreamReader;
 import java.io.LineNumberReader;
 import java.io.Reader;
 
+@SuppressLint({"WifiManagerPotentialLeak", "HardwareIds"})
 public class MacHelper {
 
     /**
-     * @param context
-     * @param mac     需要判断的mac
-     * @return 是否为手机端
+     * 是否为本机地址
      */
     public static boolean isHost(Context context, String mac) {
-        int osVersion = Integer.valueOf(android.os.Build.VERSION.SDK);
-        int M = Build.VERSION_CODES.M;
         String localMac;
-        if (osVersion == M) {
-            localMac = getSixMac();
+        if (Build.VERSION.SDK_INT == Build.VERSION_CODES.M) {
+            localMac = getMACHigh();
         } else {
-            localMac = getLocalMacAddress(context);
+            localMac = getMACLow(context);
         }
-
-        if (mac.equalsIgnoreCase(localMac)) {
-            return true;
-        }
-
-        return false;
+        return mac.equalsIgnoreCase(localMac);
     }
 
     /**
-     * 获取6.0以下的手机MAC
-     *
-     * @param context
-     * @return
+     * 获取 6.0 以下的手机MAC
      */
-    public static String getLocalMacAddress(Context context) {
+    private static String getMACLow(Context context) {
         WifiManager wifi = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
         WifiInfo info = wifi.getConnectionInfo();
         return info.getMacAddress();
@@ -49,10 +40,8 @@ public class MacHelper {
 
     /**
      * 获取安卓6.0手机的MAC地址
-     *
-     * @return
      */
-    public static String getSixMac() {
+    private static String getMACHigh() {
         String str = "";
         String macSerial = "";
         try {
@@ -70,9 +59,9 @@ public class MacHelper {
         } catch (Exception ex) {
             ex.printStackTrace();
         }
-        if (macSerial == null || "".equals(macSerial)) {
+        if (TextUtils.isEmpty(macSerial)) {
             try {
-                return loadFileAsString("/sys/class/net/eth0/address").toUpperCase().substring(0, 17);
+                return loadFileAsString().toUpperCase().substring(0, 17);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -81,8 +70,8 @@ public class MacHelper {
         return macSerial;
     }
 
-    private static String loadFileAsString(String fileName) throws Exception {
-        FileReader reader = new FileReader(fileName);
+    private static String loadFileAsString() throws Exception {
+        FileReader reader = new FileReader("/sys/class/net/eth0/address");
         String text = loadReaderAsString(reader);
         reader.close();
         return text;

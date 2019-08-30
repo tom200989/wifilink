@@ -10,7 +10,6 @@ import android.widget.TextView;
 import com.alcatel.wifilink.R;
 import com.alcatel.wifilink.root.adapter.BlockAdapter;
 import com.alcatel.wifilink.root.bean.BlockBean;
-import com.alcatel.wifilink.root.bean.BlockListBean;
 import com.alcatel.wifilink.root.utils.RootCons;
 import com.hiber.cons.TimerState;
 import com.hiber.tools.ShareUtils;
@@ -33,7 +32,6 @@ public class DeviceBlockFrag extends BaseFrag {
 
     private BlockAdapter blockAdapter;
     private List<BlockBean> blockList = new ArrayList<>();
-    private List<BlockBean> blockBeanList;
 
     @Override
     public int onInflateLayout() {
@@ -45,14 +43,12 @@ public class DeviceBlockFrag extends BaseFrag {
         super.onNexts(o,view,s);
         initUI();
         updateBlockDeviceUI();// init ui
-        //onResume
         //开启定时器
         timerState = TimerState.ON_BUT_OFF_WHEN_HIDE_AND_PAUSE;
     }
 
     @Override
     public void setTimerTask(){
-        // refresh all
         updateBlockDeviceUI();
     }
 
@@ -62,9 +58,7 @@ public class DeviceBlockFrag extends BaseFrag {
         blockAdapter = new BlockAdapter(activity, blockList);
         rcv_block.setAdapter(blockAdapter);
         //titlebar
-        mbackBtn.setOnClickListener(v -> {
-            onBackPresss();
-        });
+        mbackBtn.setOnClickListener(v -> onBackPresss());
         mTitle.setText(getString(R.string.hh70_Blocked));
         // 俄语文字大小适配
         String currentLanguage = ShareUtils.get(RootCons.LOCALE_LANGUAGE_COUNTRY,"");
@@ -75,23 +69,16 @@ public class DeviceBlockFrag extends BaseFrag {
 
     /* **** updateBlockDeviceUI **** */
     private void updateBlockDeviceUI() {
+        blockList.clear();
         GetBlockDeviceListHelper xGetBlockDeviceListHelper = new GetBlockDeviceListHelper();
         xGetBlockDeviceListHelper.setonGetBlockDeviceListSuccessListener(getBlockDeviceListBean -> {
-            List<BlockBean> tempBlockBeanList = new ArrayList<>();
             List<GetBlockDeviceListBean.BlockDeviceBean> blockDeviceBeans = getBlockDeviceListBean.getBlockList();
             if(blockDeviceBeans != null && blockDeviceBeans.size() > 0){
                 for(GetBlockDeviceListBean.BlockDeviceBean blockDeviceBean : blockDeviceBeans){
-                    BlockListBean.BlockDevice blockDevice = new BlockListBean.BlockDevice();
-                    blockDevice.setId(blockDeviceBean.getId());
-                    blockDevice.setDeviceName(blockDeviceBean.getDeviceName());
-                    blockDevice.setMacAddress(blockDeviceBean.getMacAddress());
-                    tempBlockBeanList.add(new BlockBean(blockDevice,false));
+                    blockList.add(new BlockBean(blockDeviceBean,false));
                 }
             }
-            blockBeanList = tempBlockBeanList;
-            if (blockBeanList.size() > 0) {
-                blockAdapter.notifys(blockBeanList);
-            }
+            blockAdapter.notifys(blockList);
         });
         xGetBlockDeviceListHelper.getBlockDeviceList();
     }

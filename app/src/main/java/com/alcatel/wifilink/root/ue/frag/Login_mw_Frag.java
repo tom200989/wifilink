@@ -10,7 +10,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.alcatel.wifilink.R;
-import com.alcatel.wifilink.root.bean.ConnectedListBean;
 import com.alcatel.wifilink.root.helper.DeviceHelper;
 import com.alcatel.wifilink.root.helper.PreLoginHelper;
 import com.alcatel.wifilink.root.ue.activity.SplashActivity;
@@ -23,6 +22,7 @@ import com.hiber.tools.ShareUtils;
 import com.p_freesharing.p_freesharing.bean.InteractiveRequestBean;
 import com.p_freesharing.p_freesharing.bean.InteractiveResponceBean;
 import com.p_freesharing.p_freesharing.ui.SharingFileActivity;
+import com.p_xhelper_smart.p_xhelper_smart.bean.GetConnectDeviceListBean;
 import com.p_xhelper_smart.p_xhelper_smart.bean.GetSystemStatusBean;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetSystemInfoHelper;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetSystemStatusHelper;
@@ -133,9 +133,9 @@ public class Login_mw_Frag extends RootFrag {
     /**
      * 将本地的connectlist转换成aar接收的bean
      */
-    private com.p_freesharing.p_freesharing.bean.ConnectedList transferConnectList(ConnectedListBean connectedListBean) {
+    private com.p_freesharing.p_freesharing.bean.ConnectedList transferConnectList(GetConnectDeviceListBean connectedListBean) {
         // 本工程的connectlist
-        List<ConnectedListBean.Device> wifiConnectList = connectedListBean.getConnectedList();
+        List<GetConnectDeviceListBean.ConnectedDeviceBean> wifiConnectList = connectedListBean.getConnectedList();
         // 创建aar包里的connectlist
         com.p_freesharing.p_freesharing.bean.ConnectedList aarConnectList = new com.p_freesharing.p_freesharing.bean.ConnectedList();
         List<com.p_freesharing.p_freesharing.bean.ConnectedList.Device> aarDevices = new ArrayList<>();
