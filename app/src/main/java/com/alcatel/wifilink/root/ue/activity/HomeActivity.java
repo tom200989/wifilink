@@ -234,7 +234,7 @@ public class HomeActivity extends RootMAActivity {
                 touchTimer.stop();
                 if (!LoginFrag.currentIsLoginPage) {
                     toast(R.string.hh70_log_out, 3000);
-                    toFragActivity(getClass(), SplashActivity.class, LoginFrag.class, null, true);
+                    toFragActivity(getClass(), SplashActivity.class, LoginFrag.class, null, true,true,0);
                 }
             }
         });

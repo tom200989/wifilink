@@ -118,11 +118,11 @@ public class PinRxFrag extends BaseFrag {
                 xGetSimStatusHelper.setOnGetSimStatusSuccessListener(this::toRemain);
                 xGetSimStatusHelper.setOnGetSimStatusFailedListener(() -> {
                     toast(R.string.hh70_sim_not_accessible, 3000);
-                    toFragActivity(getClass(), SplashActivity.class, RefreshFrag.class, null, true);
+                    toFragActivity(getClass(), SplashActivity.class, RefreshFrag.class, null, true,true,0);
                 });
                 xGetSimStatusHelper.getSimStatus();
             } else {
-                toFragActivity(getClass(), SplashActivity.class, LoginFrag.class, null, true,getClass());
+                toFragActivity(getClass(), SplashActivity.class, LoginFrag.class, null, true,true,0);
             }
         });
         xGetLoginStateHelper.getLoginState();
@@ -186,11 +186,11 @@ public class PinRxFrag extends BaseFrag {
                 });
                 xGetSimStatusHelper.setOnGetSimStatusFailedListener(() -> {
                     toast(R.string.hh70_sim_not_accessible, 3000);
-                    toFragActivity(getClass(), SplashActivity.class, RefreshFrag.class, null, true);
+                    toFragActivity(getClass(), SplashActivity.class, RefreshFrag.class, null, true,true,0);
                 });
                 xGetSimStatusHelper.getSimStatus();
             } else {
-                toFragActivity(getClass(), SplashActivity.class, LoginFrag.class, null, true,getClass());
+                toFragActivity(getClass(), SplashActivity.class, LoginFrag.class, null, true,true,0);
             }
         });
         xGetLoginStateHelper.getLoginState();

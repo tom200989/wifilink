@@ -143,7 +143,7 @@ public class SettingAccountFrag extends BaseFrag {
         ChangePasswordHelper xChangePasswordHelper = new ChangePasswordHelper();
         xChangePasswordHelper.setOnChangePasswordSuccessListener(() -> {
             toast(R.string.hh70_succeed, 3000);
-            toFragActivity(getClass(), SplashActivity.class, LoginFrag.class, null, true,getClass());
+            toFragActivity(getClass(), SplashActivity.class, LoginFrag.class, null, true,true,0);
         });
         xChangePasswordHelper.setOnChangePasswordFailedListener(() -> toast(R.string.hh70_change_psd_fail, 3000));// 失败
         xChangePasswordHelper.setOnCurrentPasswordWrongListener(() -> toast(R.string.hh70_current_psd_wrong, 3000));// 当前密码错误

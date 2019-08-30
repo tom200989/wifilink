@@ -127,7 +127,7 @@ public class PukRxFrag extends BaseFrag {
      * 跳转activity
      */
     private void to(Class targetAc, Class targetFr) {
-        toFragActivity(getClass(), targetAc, targetFr, null, false, true, 0,getClass());
+        toFragActivity(getClass(), targetAc, targetFr, null, false, true, 0);
 
     }
 

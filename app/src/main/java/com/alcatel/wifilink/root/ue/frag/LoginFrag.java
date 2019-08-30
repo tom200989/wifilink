@@ -85,9 +85,22 @@ public class LoginFrag extends RootFrag {
 
     @Override
     public void onNexts(Object o, View view, String s) {
+        currentIsLoginPage = true;
         timerState = TimerState.OFF_ALL_BUT_KEEP_CURRENT_OFF_WHEN_PAUSE;
         initRes();
         initClick();
+    }
+
+    @Override
+    public void onResume() {
+        currentIsLoginPage = true;
+        super.onResume();
+    }
+
+    @Override
+    public void onPause() {
+        currentIsLoginPage = false;
+        super.onPause();
     }
 
     @Override

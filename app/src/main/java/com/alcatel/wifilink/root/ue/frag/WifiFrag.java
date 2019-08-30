@@ -109,6 +109,7 @@ public class WifiFrag extends BaseFrag {
     private String deviceName = "hh70";// 默认HH70
     private int wlanState_2g;// 2G是否开启
     private int WLAN_2G_ON = 1;// 2G是否开启
+    private ClickDoubleHelper clickDouble;
 
     @Override
     public int onInflateLayout() {
@@ -594,9 +595,11 @@ public class WifiFrag extends BaseFrag {
             return true;
         } else {
             // 登出
-            ClickDoubleHelper clickDouble = new ClickDoubleHelper();
-            clickDouble.setOnClickOneListener(() -> toast(R.string.hh70_touch_again, 3000));
-            clickDouble.setOnClickDoubleListener(this::logOut);
+            if (clickDouble == null) {
+                clickDouble = new ClickDoubleHelper();
+                clickDouble.setOnClickOneListener(() -> toast(R.string.hh70_touch_again, 3000));
+                clickDouble.setOnClickDoubleListener(this::logOut);
+            }
             clickDouble.click();
             return true;
         }
@@ -612,12 +615,12 @@ public class WifiFrag extends BaseFrag {
                 LogoutHelper xLogoutHelper = new LogoutHelper();
                 xLogoutHelper.setOnLogoutSuccessListener(() -> {
                     toast(R.string.hh70_logout_completed, 3000);
-                    toFragActivity(getClass(), SplashActivity.class, LoginFrag.class, null, true, getClass());
+                    toFragActivity(getClass(), SplashActivity.class, LoginFrag.class, null, true, true, 0);
                 });
                 xLogoutHelper.setOnLogOutFailedListener(() -> toast(R.string.hh70_cant_logout, 3000));
                 xLogoutHelper.logout();
             } else {
-                toFragActivity(getClass(), SplashActivity.class, LoginFrag.class, null, true, getClass());
+                toFragActivity(getClass(), SplashActivity.class, LoginFrag.class, null, true, true, 0);
             }
         });
         xGetLoginStateHelper.getLoginState();

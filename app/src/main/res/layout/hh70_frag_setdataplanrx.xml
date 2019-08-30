@@ -50,7 +50,7 @@
             android:layout_marginStart="15dp"
             android:text="@string/hh70_MONTHLY_PLAN"
             android:textColor="@color/black"
-            app:layout_textSizePercent="27%h" />
+            app:layout_textSizePercent="33%h" />
 
         <ImageView
             android:id="@+id/iv_setPlan_rx_usage_button"
@@ -96,7 +96,7 @@
                 android:layout_marginStart="15dp"
                 android:text="@string/hh70_monthly_data_limit"
                 android:textColor="@color/black"
-                app:layout_textSizePercent="27%h" />
+                app:layout_textSizePercent="30%h" />
 
             <ImageView
                 android:id="@+id/iv_setPlan_rx_monthly_to"
@@ -346,7 +346,7 @@
                 android:layout_toStartOf="@id/iv_setPlan_rx_setTimelimit_to"
                 android:text="0m"
                 android:textColor="@color/color_light_gray"
-                app:layout_textSizePercent="27%h" />
+                app:layout_textSizePercent="30%h" />
 
             <View
                 android:layout_width="match_parent"
