@@ -71,6 +71,7 @@ public class MobileNetworkFrag extends BaseFrag {
     TextView tvSimNum;// sim num
     @BindView(R.id.tv_mobilenetwork_imsi)
     TextView tvImsi;// imsi
+
     @BindView(R.id.wg_profile)
     HH70_ProfileWidget profileWidget;
     @BindView(R.id.wg_simpin)
@@ -314,11 +315,11 @@ public class MobileNetworkFrag extends BaseFrag {
             SimPinHelper simPinHelper = new SimPinHelper(activity);
             simPinHelper.setOnPukLockedListener(attr -> toPukRx());
             simPinHelper.setOnPinEnableListener(() -> {// 开启成功
-                toast(R.string.hh70_success);
+                toast(R.string.hh70_success, 3000);
                 ivSimPin.setImageDrawable(switch_on);
             });
             simPinHelper.setOnPinDisableListener(() -> {// 关闭成功
-                toast(R.string.hh70_success);
+                toast(R.string.hh70_success, 3000);
                 ivSimPin.setImageDrawable(switch_off);
             });
             simPinHelper.setOnPinTimeoutListener(attr -> toPukRx());// PIN次数超过限制
@@ -334,7 +335,7 @@ public class MobileNetworkFrag extends BaseFrag {
         PinStatuHelper pinStatuHelper = new PinStatuHelper(activity);
         pinStatuHelper.setOnNormalPinStatesListener(attr1 -> {
             if (attr1.getPinState() != GetSimStatusBean.CONS_FOR_PIN_PIN_ENABLE_VERIFIED) {
-                toast(R.string.hh70_enable_sim_pin);
+                toast(R.string.hh70_enable_sim_pin, 3000);
             } else {
                 changpinWidget.setOnOkClickListener(() -> {
                     String currentPin = changpinWidget.getCurrentPin();
@@ -372,17 +373,6 @@ public class MobileNetworkFrag extends BaseFrag {
         }
     }
 
-    public void toast(int resId) {
-        toast(resId, 2000);
-    }
-
-    public void toast(String content) {
-        toast(content, 2000);
-    }
-
-    public void toastLong(int resId) {
-        toast(resId, 3000);
-    }
 
     @Override
     public boolean onBackPressed() {
@@ -396,12 +386,10 @@ public class MobileNetworkFrag extends BaseFrag {
             changpinWidget.setVisibility(View.GONE);
         } else if (modeWidget.getVisibility() == View.VISIBLE) {
             modeWidget.setVisibility(View.GONE);
-        }
-        if (lastFrag == UsageRxFrag.class) {
-            toFrag(getClass(), UsageRxFrag.class, null, true);
         } else {
-            toFrag(getClass(), SettingFrag.class, null, true);
+            toFrag(getClass(), lastFrag == UsageRxFrag.class ? UsageRxFrag.class : SettingFrag.class, null, true);
         }
+        
         return true;
     }
 }

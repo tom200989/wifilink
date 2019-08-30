@@ -1,6 +1,7 @@
 package com.alcatel.wifilink.root.ue.frag;
 
 import android.os.Handler;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -195,7 +196,7 @@ public class SettingFrag extends BaseFrag {
                 xGetWanSettingsHelper.setOnGetWanSettingFailedListener(() -> mMobileNetworkWanSocket.setText(off));
                 xGetWanSettingsHelper.getWanSettings();
             } else {
-                toFragActivity(getClass(), SplashActivity.class, LoginFrag.class, null, true,getClass());
+                toFragActivity(getClass(), SplashActivity.class, LoginFrag.class, null, true, getClass());
             }
         });
         xGetLoginStateHelper.setOnGetLoginStateFailedListener(() -> mMobileNetworkWanSocket.setText(off));
@@ -255,7 +256,7 @@ public class SettingFrag extends BaseFrag {
      * 跳转activity
      */
     private void to(Class targetAc, Class targetFr) {
-        toFragActivity(getClass(), targetAc, targetFr, null, false, true, 0,getClass());
+        toFragActivity(getClass(), targetAc, targetFr, null, false, true, 0, getClass());
     }
 
     private void initClick() {
@@ -290,7 +291,11 @@ public class SettingFrag extends BaseFrag {
     private void getDeviceFWCurrentVersion() {
         // 1.获取当前版本
         GetSystemInfoHelper xGetSystemInfoHelper = new GetSystemInfoHelper();
-        xGetSystemInfoHelper.setOnGetSystemInfoSuccessListener(result -> mDeviceVersion.setText(result.getSwVersionMain()));
+        xGetSystemInfoHelper.setOnGetSystemInfoSuccessListener(result -> {
+            String swVersionMain = result.getSwVersionMain();
+            String noNewVersion = getString(R.string.hh70_no_new_version);
+            mDeviceVersion.setText(TextUtils.isEmpty(swVersionMain) ? noNewVersion : swVersionMain);
+        });
         xGetSystemInfoHelper.getSystemInfo();
 
         // 2.检测新版本
@@ -303,10 +308,10 @@ public class SettingFrag extends BaseFrag {
         GetSystemInfoHelper xGetSystemInfoHelper = new GetSystemInfoHelper();
         xGetSystemInfoHelper.setOnGetSystemInfoSuccessListener(result -> {
             String version = result.getSwVersion().toLowerCase();
-            boolean hh71 = RootUtils.isHH71(version);
-            boolean hh4 = RootUtils.isHH4X(version);
-            boolean mw = RootUtils.isMWDEV(version);
-            mSharingService.setVisibility(hh4 | mw | hh71 ? View.GONE : View.VISIBLE);
+            boolean isHH71 = RootUtils.isHH71(version);
+            boolean isHH4X = RootUtils.isHH4X(version);
+            boolean isMW = RootUtils.isMWDEV(version);
+            mSharingService.setVisibility(isHH4X | isMW | isHH71 ? View.GONE : View.VISIBLE);
         });
         xGetSystemInfoHelper.getSystemInfo();
     }
@@ -317,7 +322,7 @@ public class SettingFrag extends BaseFrag {
     private void clickUpgrade() {
         FirmUpgradeHelper fh = new FirmUpgradeHelper(activity, loadWidget, true);
         fh.setOnNoNewVersionListener(this::popversion);
-        fh.setOnLoginOutListener(() -> toFragActivity(getClass(), SplashActivity.class, LoginFrag.class, null, true,getClass()));
+        fh.setOnLoginOutListener(() -> toFragActivity(getClass(), SplashActivity.class, LoginFrag.class, null, true, getClass()));
         fh.setOnNewVersionListener(attr -> popversion(attr, null));// 有新版本
         fh.checkNewVersion(wd_countdown, loadWidget);
     }
@@ -354,7 +359,7 @@ public class SettingFrag extends BaseFrag {
         count = 0;
         isDownloading = true;
         FirmUpgradeHelper fuh = new FirmUpgradeHelper(activity, loadWidget, false);
-        fuh.setOnLoginOutListener(() -> toFragActivity(getClass(), SplashActivity.class, LoginFrag.class, null, true,getClass()));
+        fuh.setOnLoginOutListener(() -> toFragActivity(getClass(), SplashActivity.class, LoginFrag.class, null, true, getClass()));
         fuh.setOnErrorListener(() -> {
             count = 0;
             toast(R.string.hh70_cant_connect);
@@ -450,7 +455,7 @@ public class SettingFrag extends BaseFrag {
                 xGetWanSettingsHelper.setOnGetWanSettingFailedListener(() -> getSIM(uh));
                 xGetWanSettingsHelper.getWanSettings();
             } else {
-                toFragActivity(getClass(), SplashActivity.class, LoginFrag.class, null, true,getClass());
+                toFragActivity(getClass(), SplashActivity.class, LoginFrag.class, null, true, getClass());
             }
         });
         xGetLoginStateHelper.setOnGetLoginStateFailedListener(() -> getSIM(uh));
@@ -465,7 +470,7 @@ public class SettingFrag extends BaseFrag {
         GetLoginStateHelper xGetLoginStateHelper = new GetLoginStateHelper();
         xGetLoginStateHelper.setOnGetLoginStateSuccessListener(getLoginStateBean -> {
             if (getLoginStateBean.getState() == GetLoginStateBean.CONS_LOGOUT) {
-                toFragActivity(getClass(), SplashActivity.class, LoginFrag.class, null, false, true, 0,getClass());
+                toFragActivity(getClass(), SplashActivity.class, LoginFrag.class, null, false, true, 0, getClass());
                 return;
             }
             GetSimStatusHelper xGetSimStatusHelper = new GetSimStatusHelper();
@@ -508,7 +513,7 @@ public class SettingFrag extends BaseFrag {
     private void startDeviceUpgrade() {
         isDownloading = true;
         FirmUpgradeHelper fuh = new FirmUpgradeHelper(activity, loadWidget, false);
-        fuh.setOnLoginOutListener(() -> toFragActivity(getClass(), SplashActivity.class, LoginFrag.class, null, true,getClass()));
+        fuh.setOnLoginOutListener(() -> toFragActivity(getClass(), SplashActivity.class, LoginFrag.class, null, true, getClass()));
         fuh.setOnErrorListener(() -> downError(R.string.hh70_device_cant_start));
         fuh.setOnStartUpgradeListener(() -> {
             toast(R.string.hh70_device_will_restart);
@@ -747,12 +752,12 @@ public class SettingFrag extends BaseFrag {
                 LogoutHelper xLogoutHelper = new LogoutHelper();
                 xLogoutHelper.setOnLogoutSuccessListener(() -> {
                     toast(R.string.hh70_logout_completed, 3000);
-                    toFragActivity(getClass(), SplashActivity.class, LoginFrag.class, null, true,getClass());
+                    toFragActivity(getClass(), SplashActivity.class, LoginFrag.class, null, true, getClass());
                 });
                 xLogoutHelper.setOnLogOutFailedListener(() -> toast(R.string.hh70_cant_logout, 3000));
                 xLogoutHelper.logout();
             } else {
-                toFragActivity(getClass(), SplashActivity.class, LoginFrag.class, null, true,getClass());
+                toFragActivity(getClass(), SplashActivity.class, LoginFrag.class, null, true, getClass());
             }
         });
         xGetLoginStateHelper.getLoginState();

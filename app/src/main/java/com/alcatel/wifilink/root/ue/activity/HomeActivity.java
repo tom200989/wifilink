@@ -230,12 +230,12 @@ public class HomeActivity extends RootMAActivity {
                 // 获取短信未读数
                 getSMSUnread();
             } else {
-                toast(R.string.hh70_log_out, 3000);
-                if (!LoginFrag.currentIsLoginPage) {
-                    toFragActivity(getClass(), SplashActivity.class, LoginFrag.class, null, true);
-                }
                 heartTimer.stop();
                 touchTimer.stop();
+                if (!LoginFrag.currentIsLoginPage) {
+                    toast(R.string.hh70_log_out, 3000);
+                    toFragActivity(getClass(), SplashActivity.class, LoginFrag.class, null, true);
+                }
             }
         });
         xGetLoginStateHelper.getLoginState();

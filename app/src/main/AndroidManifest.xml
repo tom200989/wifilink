@@ -52,8 +52,6 @@
             </intent-filter>
         </activity>
         
-        <!-- SharingFileActivity -->
-
         <!-- 调用本地相册 -->
         <activity
             android:name="me.nereo.multi_image_selector.MultiImageSelectorActivity"

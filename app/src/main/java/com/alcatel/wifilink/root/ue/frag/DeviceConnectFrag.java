@@ -50,7 +50,6 @@ public class DeviceConnectFrag extends BaseFrag {
     public void onNexts(Object o, View view, String s) {
         super.onNexts(o, view, s);
         initUI();
-        getDevicesStatus();// init
         //开启定时器
         timerState = TimerState.ON_BUT_OFF_WHEN_HIDE_AND_PAUSE;
     }

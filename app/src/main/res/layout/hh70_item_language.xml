@@ -1,15 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.hiber.tools.layout.PercentRelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="60dp"
+    android:layout_height="wrap_content"
     android:background="@color/white">
 
     <com.hiber.tools.layout.PercentRelativeLayout
         android:id="@+id/rl_language_item"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        app:layout_heightPercent="8%sh">
 
         <TextView
             android:id="@+id/language_item_tv"
@@ -18,7 +20,7 @@
             android:layout_centerVertical="true"
             android:layout_marginStart="20dp"
             android:textColor="@color/black"
-            android:textSize="16sp" />
+            app:layout_textSizePercent="30%h" />
 
         <ImageView
             android:id="@+id/language_item_img"
@@ -33,9 +35,9 @@
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="1px"
+            android:layout_height="0.2dp"
             android:layout_alignParentBottom="true"
-            android:background="@color/custom_spinner_divider_line" />
+            android:background="@color/gray" />
 
     </com.hiber.tools.layout.PercentRelativeLayout>
 </com.hiber.tools.layout.PercentRelativeLayout>

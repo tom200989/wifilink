@@ -2,9 +2,11 @@
 <com.hiber.tools.layout.PercentRelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white">
+    android:background="@color/white"
+    tools:ignore="ContentDescription,Autofill,LabelFor,TextFields">
 
     <com.hiber.tools.layout.PercentRelativeLayout
         android:id="@+id/rl_homeRx_banner"
@@ -19,10 +21,9 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:maxLines="1"
+            android:text="@string/hh70_wifi_settings"
             android:textColor="@color/white"
-            app:layout_textSizePercent="30%h"
-            android:text="@string/hh70_wifi_settings"/>
-
+            app:layout_textSizePercent="30%h" />
 
     </com.hiber.tools.layout.PercentRelativeLayout>
 
@@ -49,15 +50,14 @@
             android:textColor="@color/white" />
 
         <Button
-            android:textAllCaps="false"
             android:id="@+id/btn_cancel"
             android:layout_width="0dp"
             android:layout_height="40dp"
             android:layout_marginStart="10dp"
-            android:layout_marginLeft="10dp"
             android:layout_weight="1.0"
             android:background="@drawable/selector_conner_btn_login_blue"
             android:text="@string/hh70_cancel"
+            android:textAllCaps="false"
             android:textColor="@color/white" />
     </com.hiber.tools.layout.PercentLinearLayout>
 
@@ -68,17 +68,17 @@
         android:layout_above="@+id/ll_apply"
         android:layout_below="@+id/rl_homeRx_banner">
 
-        <LinearLayout
+        <com.hiber.tools.layout.PercentLinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:paddingLeft="16dp"
-            android:paddingTop="16dp"
-            android:paddingRight="16dp"
-            android:paddingBottom="16dp">
+            android:paddingLeft="15dp"
+            android:paddingTop="15dp"
+            android:paddingRight="15dp"
+            android:paddingBottom="15dp">
 
             <!-- *** 2.4G panel -->
-            <LinearLayout
+            <com.hiber.tools.layout.PercentLinearLayout
                 android:id="@+id/ll_settings_2g"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -90,25 +90,25 @@
                     android:layout_height="wrap_content">
 
                     <TextView
-                        android:textColor="@color/black"
-                        android:textSize="16sp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
-                        android:text="@string/hh70_2p4_wifi" />
+                        android:text="@string/hh70_2p4_wifi"
+                        android:textColor="@color/black"
+                        android:textSize="15sp" />
 
                     <android.support.v7.widget.SwitchCompat
                         android:id="@+id/switch_wifi_2g"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
-                        
+
                         android:layout_centerVertical="true"
                         app:showText="false" />
                 </com.hiber.tools.layout.PercentRelativeLayout>
 
                 <!-- ** 2.4G name(ssid) -->
-                <LinearLayout
+                <com.hiber.tools.layout.PercentLinearLayout
                     android:id="@+id/ll_ssid_2g"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -116,21 +116,20 @@
                     android:orientation="horizontal">
 
                     <TextView
-                        android:textColor="@color/black"
-                        android:textSize="16sp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/hh70_ssid" />
+                        android:text="@string/hh70_ssid"
+                        android:textColor="@color/black"
+                        android:textSize="15sp" />
 
                     <EditText
                         android:id="@+id/edit_ssid_2g"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="24dp"
-                        android:layout_marginLeft="24dp"
                         android:maxLength="32"
-                        android:textSize="16sp" />
-                </LinearLayout>
+                        android:textSize="15sp" />
+                </com.hiber.tools.layout.PercentLinearLayout>
 
                 <!-- ** 2.4G security -->
                 <com.hiber.tools.layout.PercentRelativeLayout
@@ -139,21 +138,21 @@
                     android:layout_height="48dp">
 
                     <TextView
-                        android:textColor="@color/black"
-                        android:textSize="16sp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentStart="true"
-                        
                         android:layout_centerVertical="true"
-                        android:text="@string/hh70_security" />
+                        android:text="@string/hh70_security"
+
+                        android:textColor="@color/black"
+                        android:textSize="15sp" />
 
                     <android.support.v7.widget.AppCompatSpinner
                         android:id="@+id/spinner_security_2g"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
-                        
+
                         android:layout_centerVertical="true"
                         android:entries="@array/wlan_settings_security"
                         android:spinnerMode="dialog" />
@@ -167,28 +166,26 @@
                     android:visibility="visible">
 
                     <TextView
-                        android:textColor="@color/black"
-                        android:textSize="16sp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentStart="true"
-                        
                         android:layout_centerVertical="true"
-                        android:text="@string/hh70_encryption" />
+                        android:text="@string/hh70_encryption"
+                        android:textColor="@color/black"
+                        android:textSize="15sp" />
 
                     <android.support.v7.widget.AppCompatSpinner
                         android:id="@+id/spinner_encryption_2g"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
-                        
                         android:layout_centerVertical="true"
                         android:entries="@array/wlan_settings_wpa_type"
                         android:spinnerMode="dialog" />
                 </com.hiber.tools.layout.PercentRelativeLayout>
 
                 <!-- ** 2.4G password -->
-                <LinearLayout
+                <com.hiber.tools.layout.PercentLinearLayout
                     android:id="@+id/ll_key_2g"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -197,38 +194,35 @@
                     android:visibility="visible">
 
                     <TextView
-                        android:textColor="@color/black"
-                        android:textSize="16sp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/hh70_password" />
+                        android:text="@string/hh70_password"
+                        android:textColor="@color/black"
+                        android:textSize="15sp" />
 
                     <com.alcatel.wifilink.root.widget.HH70_ShowPsdEditTextWidget
                         android:id="@+id/edit_key_2g"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="24dp"
-                        android:layout_marginLeft="24dp"
                         android:drawableEnd="@drawable/password_hide"
-                        android:drawableRight="@drawable/password_hide"
                         android:inputType="textPassword"
-                        android:textSize="16sp" />
-                </LinearLayout>
+                        android:textSize="15sp" />
+                </com.hiber.tools.layout.PercentLinearLayout>
 
                 <!-- ** 2.4G advanced settings -->
                 <TextView
                     android:id="@+id/text_advanced_settings_2g"
-                    android:textColor="@color/black"
-                    android:textSize="16sp"
                     android:layout_width="match_parent"
                     android:layout_height="35dp"
                     android:layout_marginTop="8dp"
                     android:drawableEnd="@drawable/right_arrow_small"
-                    android:drawableRight="@drawable/right_arrow_small"
                     android:gravity="center_vertical"
                     android:text="@string/hh70_advance_setting"
-                    android:textDirection="locale" />
-            </LinearLayout>
+                    android:textColor="@color/black"
+                    android:textDirection="locale"
+                    android:textSize="15sp" />
+            </com.hiber.tools.layout.PercentLinearLayout>
 
             <View
                 android:id="@+id/divider"
@@ -251,19 +245,19 @@
                     android:layout_marginTop="12dp">
 
                     <TextView
-                        android:textColor="@color/black"
-                        android:textSize="16sp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
-                        android:text="@string/hh70_5g_wifi" />
+                        android:text="@string/hh70_5g_wifi"
+                        android:textColor="@color/black"
+                        android:textSize="15sp" />
 
                     <android.support.v7.widget.SwitchCompat
                         android:id="@+id/switch_wifi_5g"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
-                        
+
                         android:layout_centerVertical="true"
                         app:showText="false" />
                 </com.hiber.tools.layout.PercentRelativeLayout>
@@ -277,20 +271,19 @@
                     android:orientation="horizontal">
 
                     <TextView
-                        android:textColor="@color/black"
-                        android:textSize="16sp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/hh70_ssid" />
+                        android:text="@string/hh70_ssid"
+                        android:textColor="@color/black"
+                        android:textSize="15sp" />
 
                     <EditText
                         android:id="@+id/edit_ssid_5g"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="24dp"
-                        android:layout_marginLeft="24dp"
                         android:maxLength="32"
-                        android:textSize="16sp" />
+                        android:textSize="15sp" />
 
                 </LinearLayout>
 
@@ -301,21 +294,19 @@
                     android:layout_height="48dp">
 
                     <TextView
-                        android:textColor="@color/black"
-                        android:textSize="16sp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentStart="true"
-                        
                         android:layout_centerVertical="true"
-                        android:text="@string/hh70_security" />
+                        android:text="@string/hh70_security"
+                        android:textColor="@color/black"
+                        android:textSize="15sp" />
 
                     <android.support.v7.widget.AppCompatSpinner
                         android:id="@+id/spinner_security_5g"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
-                        
                         android:layout_centerVertical="true"
                         android:entries="@array/wlan_settings_security"
                         android:spinnerMode="dialog" />
@@ -328,28 +319,26 @@
                     android:layout_height="48dp">
 
                     <TextView
-                        android:textColor="@color/black"
-                        android:textSize="16sp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentStart="true"
-                        
                         android:layout_centerVertical="true"
-                        android:text="@string/hh70_encryption" />
+                        android:text="@string/hh70_encryption"
+                        android:textColor="@color/black"
+                        android:textSize="15sp" />
 
                     <android.support.v7.widget.AppCompatSpinner
                         android:id="@+id/spinner_encryption_5g"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
-                        
                         android:layout_centerVertical="true"
                         android:entries="@array/wlan_settings_wpa_type"
                         android:spinnerMode="dialog" />
                 </com.hiber.tools.layout.PercentRelativeLayout>
 
                 <!-- ** 5G password -->
-                <LinearLayout
+                <com.hiber.tools.layout.PercentLinearLayout
                     android:id="@+id/ll_key_5g"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -357,11 +346,11 @@
                     android:orientation="horizontal">
 
                     <TextView
-                        android:textColor="@color/black"
-                        android:textSize="16sp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/hh70_password" />
+                        android:text="@string/hh70_password"
+                        android:textColor="@color/black"
+                        android:textSize="15sp" />
 
                     <com.alcatel.wifilink.root.widget.HH70_ShowPsdEditTextWidget
                         android:id="@+id/edit_key_5g"
@@ -370,22 +359,21 @@
                         android:layout_marginStart="24dp"
                         android:drawableEnd="@drawable/password_hide"
                         android:inputType="textPassword"
-                        android:textSize="16sp" />
-                </LinearLayout>
+                        android:textSize="15sp" />
+                </com.hiber.tools.layout.PercentLinearLayout>
 
                 <!-- ** 5G advanced setting -->
                 <TextView
                     android:id="@+id/text_advanced_settings_5g"
-                    android:textColor="@color/black"
-                    android:textSize="16sp"
                     android:layout_width="match_parent"
                     android:layout_height="35dp"
                     android:layout_marginTop="8dp"
                     android:drawableEnd="@drawable/right_arrow_small"
-                    android:drawableRight="@drawable/right_arrow_small"
                     android:gravity="center_vertical"
                     android:text="@string/hh70_advance_setting"
-                    android:textDirection="locale" />
+                    android:textColor="@color/black"
+                    android:textDirection="locale"
+                    android:textSize="15sp" />
 
                 <!-- ** 5G only phone... -->
                 <TextView
@@ -396,7 +384,7 @@
                     android:textDirection="locale"
                     android:textSize="12sp" />
             </LinearLayout>
-        </LinearLayout>
+        </com.hiber.tools.layout.PercentLinearLayout>
     </ScrollView>
 
     <!-- **** wait -->
@@ -410,7 +398,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:alpha="0.75"
-            android:background="@color/white" />
+            android:background="@color/white"
+            />
 
         <ImageView
             android:layout_width="wrap_content"
@@ -429,5 +418,5 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="gone" />
-    
+
 </com.hiber.tools.layout.PercentRelativeLayout>

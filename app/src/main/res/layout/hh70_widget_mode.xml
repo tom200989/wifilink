@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.hiber.tools.layout.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.hiber.tools.layout.PercentRelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools">
+    android:layout_height="match_parent">
 
     <com.hiber.tools.layout.PercentRelativeLayout
         android:layout_width="match_parent"
@@ -23,108 +24,90 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:background="@drawable/bg_pop_conner"
+            app:layout_heightPercent="32%h"
             app:layout_widthPercent="75%w">
 
             <!-- 标题 -->
             <TextView
-                android:gravity="center"
                 android:id="@+id/tv_pop_connMode_auto"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
+                android:gravity="center"
                 android:text="@string/hh70_auto"
                 android:textColor="@color/black"
-                app:layout_marginLeftPercent="5%w"
-                app:layout_marginRightPercent="5%w"
-                app:layout_marginTopPercent="2.5%h"
-                app:layout_textSizePercent="3%sh"
-                tools:layout_textSizePercent="2.5%h"
-                />
+                app:layout_heightPercent="25%h"
+                app:layout_textSizePercent="8%h" />
 
             <!-- 分割线 -->
             <View
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
                 android:id="@+id/div_connmode_1"
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
+                android:layout_height="0.2dp"
                 android:layout_below="@id/tv_pop_connMode_auto"
                 android:alpha="0.5"
                 android:background="@color/gray"
-                app:layout_marginLeftPercent="5%w"
-                app:layout_marginRightPercent="5%w"
-                app:layout_marginTopPercent="2.5%h" />
+                />
 
             <!-- 描述 -->
             <TextView
                 android:id="@+id/tv_pop_connMode_4g"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/div_connmode_1"
-                android:layout_centerHorizontal="true"
-                android:text="@string/hh70_4g"
                 android:gravity="center"
-                android:textColor="@color/black_text"
-                app:layout_marginLeftPercent="5%w"
-                app:layout_marginRightPercent="5%w"
-                app:layout_marginTopPercent="2.5%h"
-                app:layout_textSizePercent="3%sh"
-                tools:layout_textSizePercent="2.5%h"
-                />
+                android:text="@string/hh70_4g"
+                android:textColor="@color/black"
+                app:layout_heightPercent="25%h"
+                app:layout_textSizePercent="8%h" />
 
             <View
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
                 android:id="@+id/div_connmode_2"
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
+                android:layout_height="0.2dp"
                 android:layout_below="@id/tv_pop_connMode_4g"
                 android:alpha="0.5"
                 android:background="@color/gray"
-                app:layout_marginLeftPercent="5%w"
-                app:layout_marginRightPercent="5%w"
-                app:layout_marginTopPercent="2.5%h" />
+                />
 
             <!-- 描述 -->
             <TextView
                 android:id="@+id/tv_pop_connMode_3g"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/div_connmode_2"
-                android:layout_centerHorizontal="true"
-                android:text="@string/hh70_3g"
                 android:gravity="center"
-                android:textColor="@color/black_text"
-                app:layout_marginLeftPercent="5%w"
-                app:layout_marginRightPercent="5%w"
-                app:layout_marginTopPercent="2.5%h"
-                app:layout_textSizePercent="3%sh"
-                tools:layout_textSizePercent="2.5%h"
+                android:text="@string/hh70_3g"
+                android:textColor="@color/black"
+                app:layout_heightPercent="25%h"
+                app:layout_textSizePercent="8%h"
                 />
 
             <View
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
                 android:id="@+id/div_connmode_3"
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
+                android:layout_height="0.2dp"
                 android:layout_below="@id/tv_pop_connMode_3g"
                 android:alpha="0.5"
                 android:background="@color/gray"
-                app:layout_marginLeftPercent="5%w"
-                app:layout_marginRightPercent="5%w"
-                app:layout_marginTopPercent="2.5%h" />
+                />
 
             <!-- 描述 -->
             <TextView
                 android:id="@+id/tv_pop_connMode_2g"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/div_connmode_3"
-                android:layout_centerHorizontal="true"
-                android:text="@string/hh70_2g"
                 android:gravity="center"
-                android:textColor="@color/black_text"
-                app:layout_marginLeftPercent="5%w"
-                app:layout_marginRightPercent="5%w"
-                app:layout_marginTopPercent="2.5%h"
-                app:layout_textSizePercent="3%sh"
-                tools:layout_textSizePercent="2.5%h"
-                app:layout_marginBottomPercent="2.5%h"
+                android:text="@string/hh70_2g"
+                android:textColor="@color/black"
+                app:layout_heightPercent="25%h"
+                app:layout_textSizePercent="8%h"
                 />
 
         </com.hiber.tools.layout.PercentRelativeLayout>

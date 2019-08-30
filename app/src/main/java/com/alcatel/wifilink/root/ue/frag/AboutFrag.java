@@ -77,7 +77,7 @@ public class AboutFrag extends BaseFrag {
     private void toWebUiSite() {
         Intent intent = new Intent();
         intent.setAction("android.intent.action.VIEW");
-        Uri content_url = Uri.parse(SmartUtils.getWIFIGateWay(activity));
+        Uri content_url = Uri.parse("http://" + SmartUtils.getWIFIGateWay(activity));
         intent.setData(content_url);
         startActivity(intent);
     }

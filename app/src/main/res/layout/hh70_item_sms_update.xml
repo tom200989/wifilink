@@ -2,8 +2,10 @@
 <com.hiber.tools.layout.PercentRelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    tools:ignore="HardcodedText,ContentDescription">
 
     <!-- 总布局 -->
     <com.hiber.tools.layout.PercentRelativeLayout
@@ -17,7 +19,6 @@
             android:id="@+id/iv_smsPoint"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/view"
             android:layout_alignStart="@+id/view"
             android:layout_alignTop="@+id/imageView2"
             app:layout_heightPercent="25%h"
@@ -28,7 +29,6 @@
             android:id="@+id/iv_smsLongClickPoint"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/view"
             android:layout_alignStart="@+id/view"
             android:layout_alignTop="@+id/imageView2"
             android:background="@color/white"
@@ -43,74 +43,77 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_toEndOf="@id/iv_smsPoint"
-            android:layout_toRightOf="@id/iv_smsPoint"
             android:gravity="center_vertical"
             app:layout_marginLeftPercent="15%h"
             app:layout_marginRightPercent="50%h">
 
-            <!-- username -->
-            <TextView
-                android:id="@+id/tv_smsPhone"
-                android:layout_width="wrap_content"
+            <com.hiber.tools.layout.PercentRelativeLayout
+                android:id="@+id/rl_phoneNum_panel"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                
-                android:layout_alignParentStart="true"
-                android:singleLine="true"
-                android:text="PhoneNum"
-                android:textStyle="bold"
-                app:layout_textSizePercent="27%h"
-                app:layout_widthPercent="50%w" />
+                app:layout_heightPercent="40%h">
 
-            <!-- sms count -->
-            <TextView
-                android:id="@+id/tv_smsCount"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_marginStart="20dp"
-                android:layout_toEndOf="@id/tv_smsPhone"
-                android:layout_toRightOf="@id/tv_smsPhone"
-                android:text="0"
-                android:textColor="@color/gray"
-                app:layout_textSizePercent="27%h" />
+                <!-- username -->
+                <TextView
+                    android:id="@+id/tv_smsPhone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentStart="true"
+                    android:gravity="center_vertical"
+                    android:singleLine="true"
+                    android:text="15012889666"
+                    android:textColor="@color/black"
+                    app:layout_textSizePercent="60%h"
+                    app:layout_widthPercent="45%w" />
 
-            <!-- send failed logo -->
-            <ImageView
-                android:id="@+id/iv_smsSendFailed"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_marginStart="20dp"
-                android:layout_toEndOf="@id/tv_smsCount"
-                android:layout_toRightOf="@id/tv_smsCount"
-                android:src="@drawable/sms_prompt"
-                android:visibility="gone"
-                app:layout_heightPercent="20%h"
-                app:layout_widthPercent="20%h" />
+                <!-- sms count -->
+                <TextView
+                    android:id="@+id/tv_smsCount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="10dp"
+                    android:layout_toEndOf="@id/tv_smsPhone"
+                    android:text="0"
+                    android:textColor="@color/gray"
+                    app:layout_textSizePercent="60%h" />
+
+                <!-- sms date -->
+                <TextView
+                    android:id="@+id/tv_smsDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentEnd="true"
+                    android:gravity="center_vertical"
+                    android:text="6/6/2017 15:30:33"
+                    android:textColor="@color/gray"
+                    app:layout_textSizePercent="50%h" />
+
+                <!-- send failed logo -->
+                <ImageView
+                    android:id="@+id/iv_smsSendFailed"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="20dp"
+                    android:layout_toEndOf="@id/tv_smsCount"
+                    android:src="@drawable/sms_prompt"
+                    android:visibility="gone"
+                    app:layout_heightPercent="40%h"
+                    app:layout_widthPercent="40%h" />
+
+            </com.hiber.tools.layout.PercentRelativeLayout>
 
             <!-- content -->
             <TextView
                 android:id="@+id/tv_smsContent"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                
+                android:layout_below="@id/rl_phoneNum_panel"
                 android:layout_alignParentStart="true"
-                android:layout_below="@id/tv_smsPhone"
                 android:lines="1"
                 android:maxLines="1"
-                android:text="contentcontentcontentcontentcontentcontentcontentcontent"
-                android:textColor="@color/gray"
-                app:layout_textSizePercent="23%h" />
-
-            <!-- sms date -->
-            <TextView
-                android:id="@+id/tv_smsDate"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignBottom="@id/tv_smsPhone"
-                android:layout_alignParentEnd="true"
-                
-                android:text="6/6/2017"
+                android:text="content"
                 android:textColor="@color/gray"
                 app:layout_textSizePercent="23%h" />
 
@@ -121,10 +124,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
-            
             android:layout_centerVertical="true"
             android:layout_marginEnd="5dp"
-            android:layout_marginRight="5dp"
             android:src="@drawable/sms_next"
             app:layout_heightPercent="23%h"
             app:layout_widthPercent="23%h" />
@@ -133,10 +134,8 @@
         <View
             android:id="@+id/view"
             android:layout_width="match_parent"
-            android:layout_height="1dp"
+            android:layout_height="0.2dp"
             android:layout_alignParentBottom="true"
-            android:layout_marginLeft="10dp"
-            
             android:background="@color/gray" />
 
     </com.hiber.tools.layout.PercentRelativeLayout>
