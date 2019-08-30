@@ -48,14 +48,6 @@ public class HH70_BackupWidget extends RelativeLayout {
         });
     }
 
-    public void setFirstText(String text) {
-        mFirstTxt.setText(text);
-    }
-
-    public void setSecondText(String text) {
-        mSecondTxt.setText(text);
-    }
-
     public void setFirstText(@StringRes int text) {
         mFirstTxt.setText(text);
     }

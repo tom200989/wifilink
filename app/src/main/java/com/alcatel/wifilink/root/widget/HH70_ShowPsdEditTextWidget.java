@@ -1,5 +1,6 @@
 package com.alcatel.wifilink.root.widget;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.text.InputType;
@@ -42,14 +43,13 @@ public class HH70_ShowPsdEditTextWidget extends android.support.v7.widget.AppCom
     }
 
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         switch (event.getAction()) {
             case MotionEvent.ACTION_UP:
-                //                if (mRightListener != null) {
                 Drawable drawableRight = getCompoundDrawables()[DRAWABLE_RIGHT];
                 if (drawableRight != null && event.getRawX() >= (getRight() - drawableRight.getBounds().width())) {
-                    //                        mRightListener.onDrawableRightClick(this) ;
                     if (!mIsShow) {
                         setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.password_show, 0);
                         setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);

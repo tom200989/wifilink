@@ -25,7 +25,7 @@ public class HH70_SmsTryAgainWidget extends RelativeLayout {
         super(context, attrs, defStyleAttr);
         View.inflate(context, R.layout.hh70_widget_smsdetail_tryagain, this);
         ImageView ivWidgetBg = findViewById(R.id.iv_dialogok_widget_bg);
-        ivWidgetBg.setOnClickListener(v -> {});
+        ivWidgetBg.setOnClickListener(null);
 
         TextView tv_cancel = findViewById(R.id.tv_smsdetail_tryagain_cancel);
         TextView tv_confirm = findViewById(R.id.tv_smsdetail_tryagain_confirm);

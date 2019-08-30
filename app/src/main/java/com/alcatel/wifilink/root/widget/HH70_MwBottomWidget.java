@@ -31,19 +31,17 @@ public class HH70_MwBottomWidget extends RelativeLayout {
     public HH70_MwBottomWidget(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         View.inflate(context, R.layout.hh70_widget_mw_bottom, this);
-        rlAll = (LinearLayout) findViewById(R.id.rl_main_mw70_all);
-        rlConnected = (RelativeLayout) findViewById(R.id.rl_main_mw70_connected);
-        tvConnectedNum = (TextView) findViewById(R.id.tv_main_mw70_connected_deviceNum);
-        rlFreeSharing = (RelativeLayout) findViewById(R.id.rl_main_mw70_freesharing);
-        rlAll.setOnClickListener(v -> {});
+        rlAll = findViewById(R.id.rl_main_mw70_all);
+        rlConnected = findViewById(R.id.rl_main_mw70_connected);
+        tvConnectedNum = findViewById(R.id.tv_main_mw70_connected_deviceNum);
+        rlFreeSharing = findViewById(R.id.rl_main_mw70_freesharing);
+        rlAll.setOnClickListener(null);
         rlConnected.setOnClickListener(v -> clickConnectedNext(null));
         rlFreeSharing.setOnClickListener(v -> clickFreeSharingNext(null));
     }
 
     /**
      * 设置设备数
-     *
-     * @param num
      */
     public void setDevicesNum(int num) {
         tvConnectedNum.setText(String.valueOf(num));

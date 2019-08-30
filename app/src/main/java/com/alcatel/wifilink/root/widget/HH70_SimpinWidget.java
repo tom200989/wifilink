@@ -49,7 +49,6 @@ public class HH70_SimpinWidget extends RelativeLayout {
 
     /**
      * 获取editText的内容
-     * @return
      */
     public String getEtString() {
         return RootUtils.getEDText(etSimPin);

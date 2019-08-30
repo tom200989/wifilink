@@ -1,11 +1,11 @@
 package com.alcatel.wifilink.root.widget;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.alcatel.wifilink.R;
 import com.alcatel.wifilink.root.bean.Extender_GetHotspotListBean;
+import com.alcatel.wifilink.root.utils.RootUtils;
 import com.alcatel.wifilink.root.utils.ToastTool;
 
 /**
@@ -120,17 +121,7 @@ public class HH70_HotPotKeyWidget extends RelativeLayout implements View.OnClick
         rlAll.setVisibility(GONE);
         setVisibility(GONE);
         hb = null;
-        hideKeyBoard();
-    }
-
-    /**
-     * 隐藏软键盘
-     */
-    private void hideKeyBoard() {
-        InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
-        if (imm != null) {
-            imm.hideSoftInputFromWindow(this.getWindowToken(), 0);
-        }
+        RootUtils.hideKeyBoard((Activity) context);
     }
 
     private OnClickOkListener onClickOkListener;

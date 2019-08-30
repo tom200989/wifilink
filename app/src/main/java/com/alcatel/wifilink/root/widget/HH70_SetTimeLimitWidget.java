@@ -36,9 +36,7 @@ public class HH70_SetTimeLimitWidget extends RelativeLayout {
         Button tv_delete_cancel = findViewById(R.id.tv_smsdetail_detele_cancel);
         Button tv_delete_confirm = findViewById(R.id.tv_smsdetail_detele_ok);
         tv_delete_cancel.setOnClickListener(v -> setVisibility(GONE));
-        tv_delete_confirm.setOnClickListener(v -> {
-            clickOkNext();
-        });
+        tv_delete_confirm.setOnClickListener(v -> clickOkNext());
 
         hrEt = findViewById(R.id.dialog_time_limit_hr);
         minEt = findViewById(R.id.dialog_time_limit_min);

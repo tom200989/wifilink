@@ -44,19 +44,17 @@ public class HH70_MwBatteryWidget extends RelativeLayout {
     public HH70_MwBatteryWidget(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         View.inflate(context, R.layout.hh70_widget_mw_battery, this);
-        pgBattery = (ProgressBar) findViewById(R.id.pg_main_mw70_battery);
-        tvBatteryPercent = (TextView) findViewById(R.id.tv_main_mw70_battery_percent);
-        ivSignal = (ImageView) findViewById(R.id.iv_main_mw70_signal);
-        tvNetwork = (TextView) findViewById(R.id.tv_main_mw70_network);
-        ivWifiStrength = (ImageView) findViewById(R.id.iv_main_mw70_extender_wifi);
-        tvWifiName = (TextView) findViewById(R.id.tv_main_mw70_extender_phoneName);
+        pgBattery = findViewById(R.id.pg_main_mw70_battery);
+        tvBatteryPercent = findViewById(R.id.tv_main_mw70_battery_percent);
+        ivSignal = findViewById(R.id.iv_main_mw70_signal);
+        tvNetwork = findViewById(R.id.tv_main_mw70_network);
+        ivWifiStrength = findViewById(R.id.iv_main_mw70_extender_wifi);
+        tvWifiName = findViewById(R.id.tv_main_mw70_extender_phoneName);
         initRes(context);
     }
 
     /**
      * 初始化资源以及初始Ui
-     *
-     * @param context
      */
     private void initRes(Context context) {
         batFlash = getResources().getDrawable(R.drawable.battery_01_flash);
@@ -132,8 +130,6 @@ public class HH70_MwBatteryWidget extends RelativeLayout {
 
     /**
      * wifi extender状态是否开启
-     *
-     * @param isOpen
      */
     public void setWifiExtenderState(boolean isOpen) {
         ivSignal.setVisibility(isOpen ? GONE : VISIBLE);
@@ -153,8 +149,6 @@ public class HH70_MwBatteryWidget extends RelativeLayout {
 
     /**
      * 设置wifi名称
-     *
-     * @param wifiName
      */
     public void setWifiName(String wifiName) {
         tvWifiName.setText(wifiName);

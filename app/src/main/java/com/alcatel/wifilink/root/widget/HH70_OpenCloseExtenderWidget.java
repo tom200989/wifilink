@@ -30,9 +30,9 @@ public class HH70_OpenCloseExtenderWidget extends RelativeLayout implements View
     public HH70_OpenCloseExtenderWidget(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         View.inflate(context, R.layout.hh70_widget_extend_open_close, this);
-        ivBg = (ImageView) findViewById(R.id.iv_extender_open_close_bg);
-        ivCancel = (TextView) findViewById(R.id.tv_extender_open_close_cancel);
-        ivOk = (TextView) findViewById(R.id.tv_extender_open_close_ok);
+        ivBg = findViewById(R.id.iv_extender_open_close_bg);
+        ivCancel = findViewById(R.id.tv_extender_open_close_cancel);
+        ivOk = findViewById(R.id.tv_extender_open_close_ok);
         ivBg.setOnClickListener(this);
         ivCancel.setOnClickListener(this);
         ivOk.setOnClickListener(this);

@@ -17,6 +17,7 @@ import java.util.Arrays;
  * Created by qianli.ma on 2019/8/27 0027.
  */
 public class HH70_BillWidget extends RelativeLayout {
+    
     private View inflate;
     private Context context;
     private RecyclerView rcv;

@@ -29,9 +29,7 @@ public class HH70_SmsDeleteWidget extends RelativeLayout {
         Button tv_delete_cancel = findViewById(R.id.tv_smsdetail_detele_cancel);
         Button tv_delete_confirm = findViewById(R.id.tv_smsdetail_detele_confirm);
         tv_delete_cancel.setOnClickListener(v -> cancelNext());
-        tv_delete_confirm.setOnClickListener(v -> {
-            confirmClickNext();
-        });
+        tv_delete_confirm.setOnClickListener(v -> confirmClickNext());
     }
 
 

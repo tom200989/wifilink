@@ -35,15 +35,12 @@ public class HH70_MonthlyDataPlanWidget extends RelativeLayout {
         super(context, attrs, defStyleAttr);
         View.inflate(context, R.layout.hh70_widget_monthly_data_plan, this);
         ImageView ivWidgetBg = findViewById(R.id.iv_dialogok_widget_bg);
-        ivWidgetBg.setOnClickListener(v -> {
-        });
+        ivWidgetBg.setOnClickListener(null);
 
         Button tv_delete_cancel = findViewById(R.id.tv_smsdetail_detele_cancel);
         Button tv_delete_confirm = findViewById(R.id.tv_smsdetail_detele_ok);
         tv_delete_cancel.setOnClickListener(v -> setVisibility(GONE));
-        tv_delete_confirm.setOnClickListener(v -> {
-            clickOkNext();
-        });
+        tv_delete_confirm.setOnClickListener(v -> clickOkNext());
 
         monthlyNumber = findViewById(R.id.monthly_number);
         radioGroup = findViewById(R.id.radiogroup_monthly_plan);
@@ -57,7 +54,7 @@ public class HH70_MonthlyDataPlanWidget extends RelativeLayout {
     }
 
     public String getMonthLyPLanEd() {
-        return RootUtils.getEDText(monthlyNumber,true);
+        return RootUtils.getEDText(monthlyNumber, true);
     }
 
     public void setRadioMbCheck() {

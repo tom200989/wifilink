@@ -30,9 +30,9 @@ public class HH70_DisConnHotpotWidget extends RelativeLayout {
     public HH70_DisConnHotpotWidget(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         View.inflate(context, R.layout.hh70_widget_extend_disconn_hotpot, this);
-        ivBg = (ImageView) findViewById(R.id.iv_extender_disconn_hotpot_bg);
-        tvCancel = (TextView) findViewById(R.id.tv_extender_disconn_hotpot_cancel);
-        tvOk = (TextView) findViewById(R.id.tv_extender_disconn_hotpot_ok);
+        ivBg =  findViewById(R.id.iv_extender_disconn_hotpot_bg);
+        tvCancel =  findViewById(R.id.tv_extender_disconn_hotpot_cancel);
+        tvOk =  findViewById(R.id.tv_extender_disconn_hotpot_ok);
         ivBg.setOnClickListener(v -> setVisibility(GONE));
         tvCancel.setOnClickListener(v -> setVisibility(GONE));
         tvOk.setOnClickListener(v -> {

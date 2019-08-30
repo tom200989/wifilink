@@ -28,9 +28,7 @@ public class HH70_ProfileLinkWidget extends RelativeLayout {
         ImageView ivWidgetBg = findViewById(R.id.iv_dialogok_widget_bg);
         ivWidgetBg.setOnClickListener(v -> {});
         TextView tvContent = findViewById(R.id.tv_web_edit_profile);
-        tvContent.setOnClickListener(v -> {
-            clickContentNext();
-        });
+        tvContent.setOnClickListener(v -> clickContentNext());
         TextView tvWidgetCancel = findViewById(R.id.tv_dialogok_widget_cancel);
         tvWidgetCancel.setOnClickListener(v -> {
             setVisibility(GONE);
