@@ -13,8 +13,9 @@ import android.net.wifi.WifiManager;
 /*
  * Created by qianli.ma on 2019/7/25 0025.
  */
+@SuppressWarnings({"unchecked", "warn", "all"})
 public class SmartUtils {
-    
+
     /**
      * 获取设备类型
      *

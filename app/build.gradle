@@ -89,8 +89,8 @@ dependencies {
     // rootMAhiber -- 网络请求xutils(feedback用到)
     api(name: 'ma_xutils', ext: 'aar')
     // rootMAhiber -- wifilink网络helper
-    // api(name: 'ma_xsmart', ext: 'aar')
-    api project(':xsmart')
+     api(name: 'ma_xsmart_v1', ext: 'aar')
+    // api project(':xsmart')
     // rootMAhiber -- 架构包
     api(name: 'ma_hiber5_5', ext: 'aar')
     // rootMAhiber -- 规范检查
