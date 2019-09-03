@@ -47,7 +47,7 @@ public class UnlockPinHelper extends BaseHelper {
             public void finish() {
                 doneHelperNext();
             }
-        });
+        }, false);
     }
 
     private OnUnlockPinRemainTimeFailedListener onUnlockPinRemainTimeFailedListener;

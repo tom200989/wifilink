@@ -43,7 +43,7 @@ public class UnlockPukHelper extends BaseHelper {
             public void finish() {
                 doneHelperNext();
             }
-        });
+        }, false);
     }
 
     private OnUnlockPukSuccessListener onUnlockPukSuccessListener;

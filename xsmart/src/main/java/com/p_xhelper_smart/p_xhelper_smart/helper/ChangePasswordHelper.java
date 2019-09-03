@@ -52,7 +52,7 @@ public class ChangePasswordHelper extends BaseHelper {
             public void finish() {
                 doneHelperNext();
             }
-        });
+        }, false);
     }
 
     /* -------------------------------------------- impl -------------------------------------------- */

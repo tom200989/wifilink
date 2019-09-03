@@ -37,7 +37,7 @@ public class ChangePinCodeHelper extends BaseHelper {
             public void finish() {
                 doneHelperNext();
             }
-        });
+        }, false);
     }
 
     private OnChangePinCodeSuccessListener onChangePinCodeSuccessListener;

@@ -43,7 +43,7 @@ public class ChangePinStateHelper extends BaseHelper {
             public void finish() {
                 doneHelperNext();
             }
-        });
+        }, false);
     }
 
     private OnChangePinStateSuccessListener onChangePinStateSuccessListener;

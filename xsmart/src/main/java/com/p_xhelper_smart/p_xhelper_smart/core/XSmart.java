@@ -160,9 +160,19 @@ public class XSmart<T> {
 
     /**
      * 发起请求
+     *
+     * @param isReq10 是否启动请求10次的操作
      */
-    public void xPost(XNormalCallback<T> listener) {
-        request(POST, listener);
+    public void xPost(XNormalCallback<T> listener, Boolean... isReq10) {
+        if (isReq10 != null) {
+            if (isReq10.length > 0) {
+                request(POST, listener, isReq10[0]);
+            } else {
+                request(POST, listener, true);
+            }
+        } else {
+            request(POST, listener, true);
+        }
     }
 
     /**
@@ -191,8 +201,9 @@ public class XSmart<T> {
      *
      * @param type     类型
      * @param callback 回调
+     * @param isReq10  是否启动请求10次的操作
      */
-    private void request(int type, final XNormalCallback<T> callback) {
+    private void request(int type, final XNormalCallback<T> callback, boolean isReq10) {
         // 第一步确认WIFI连接上
         if (SmartUtils.isWifiOn(context)) {
             if (!TextUtils.isEmpty(method)) {
@@ -222,8 +233,8 @@ public class XSmart<T> {
                         // 打印日志
                         XResponceBody xResponceBody = toBean(result, callback);
                         FwError fwError = xResponceBody.getError();
-                        if (fwError != null & count >= 0 & count < MAX_COUNT) {
-                            request(type, callback);
+                        if (fwError != null & count >= 0 & count < MAX_COUNT & isReq10) {
+                            request(type, callback, isReq10);
                             count++;
                         } else {
                             count = 0;
