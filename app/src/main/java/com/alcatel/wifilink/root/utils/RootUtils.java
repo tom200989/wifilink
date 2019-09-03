@@ -39,7 +39,7 @@ import java.util.regex.Pattern;
 /*
  * Created by qianli.ma on 2019/8/15 0015.
  */
-@SuppressLint("SimpleDateFormat")
+@SuppressLint({"SimpleDateFormat","all"})
 public class RootUtils {
 
     /**
@@ -154,7 +154,6 @@ public class RootUtils {
      *
      * @param context 域
      * @param open    T:开
-     * @return 是否已经开启
      */
     public static void setWifiOn(Context context, boolean open) {
         WifiManager wifi = (WifiManager) context.getApplicationContext().getSystemService(Context.WIFI_SERVICE);

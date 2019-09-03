@@ -74,12 +74,13 @@ public class HH70_LoadWidget extends RelativeLayout {
      * 停止动画并消隐
      */
     private void stopAnim() {
-        Animation animation = ivLoad.getAnimation();
-        if (animation != null) {
-            animation.cancel();
-            ivLoad.clearAnimation();
-            setVisibility(GONE);
+        if (ivLoad != null) {
+            Animation animation = ivLoad.getAnimation();
+            if (animation != null) {
+                animation.cancel();
+                ivLoad.clearAnimation();
+                setVisibility(GONE);
+            }
         }
-        
     }
 }
