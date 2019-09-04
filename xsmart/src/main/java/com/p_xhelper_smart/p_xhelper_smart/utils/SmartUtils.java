@@ -26,15 +26,15 @@ public class SmartUtils {
         // 先最小化
         deviceName = deviceName.toLowerCase();
         // 老设备
-        for (String dev : XCons.ENCRYPT_LIST_DEV_2017) {
+        for (String dev : XCons.ENCRYPT_LIST_DEV_ROUTER) {
             if (deviceName.contains(dev) || dev.contains(deviceName)) {
-                return XCons.ENCRYPT_DEV_2017;
+                return XCons.ENCRYPT_DEV_ROUTER;
             }
         }
         // 新设备
-        for (String dev : XCons.ENCRYPT_LIST_DEV_2019) {
+        for (String dev : XCons.ENCRYPT_LIST_DEV_HOTSPOT) {
             if (deviceName.contains(dev) || dev.contains(deviceName)) {
-                return XCons.ENCRYPT_DEV_2019;
+                return XCons.ENCRYPT_DEV_HOTSPOT;
             }
         }
         // 定制设备

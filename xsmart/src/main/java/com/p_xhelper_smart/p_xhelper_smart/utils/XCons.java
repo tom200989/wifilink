@@ -14,27 +14,27 @@ public class XCons {
     public static String TAG = "xsmart";
 
     public static int ENCRYPT_DEV_UNKNOWN = -1;// 未知设备
-    public static int ENCRYPT_DEV_2017 = 0;// 老设备
-    public static int ENCRYPT_DEV_2019 = 1;// 新设备
+    public static int ENCRYPT_DEV_ROUTER = 0;// 路由设备
+    public static int ENCRYPT_DEV_HOTSPOT = 1;// 热点设备
     public static int ENCRYPT_DEV_TARGET = 2;// 定制设备
 
-    public static List<String> ENCRYPT_LIST_DEV_2017 = new ArrayList<>();
-    public static List<String> ENCRYPT_LIST_DEV_2019 = new ArrayList<>();
+    public static List<String> ENCRYPT_LIST_DEV_ROUTER = new ArrayList<>();
+    public static List<String> ENCRYPT_LIST_DEV_HOTSPOT = new ArrayList<>();
     public static List<String> ENCRYPT_LIST_DEV_TARGET = new ArrayList<>();
 
     static {
         // 路由设备(仅针对加密)
-        ENCRYPT_LIST_DEV_2017.add("hh70");
-        ENCRYPT_LIST_DEV_2017.add("hub70");
-        ENCRYPT_LIST_DEV_2017.add("hh40");
-        ENCRYPT_LIST_DEV_2017.add("hub40");
-        ENCRYPT_LIST_DEV_2017.add("hh41");
-        ENCRYPT_LIST_DEV_2017.add("hub41");
-        ENCRYPT_LIST_DEV_2017.add("hub71");
-        ENCRYPT_LIST_DEV_2017.add("hh71");
+        ENCRYPT_LIST_DEV_ROUTER.add("hh70");
+        ENCRYPT_LIST_DEV_ROUTER.add("hub70");
+        ENCRYPT_LIST_DEV_ROUTER.add("hh40");
+        ENCRYPT_LIST_DEV_ROUTER.add("hub40");
+        ENCRYPT_LIST_DEV_ROUTER.add("hh41");
+        ENCRYPT_LIST_DEV_ROUTER.add("hub41");
+        ENCRYPT_LIST_DEV_ROUTER.add("hub71");
+        ENCRYPT_LIST_DEV_ROUTER.add("hh71");
         // 热点设备(仅针对加密)
-        ENCRYPT_LIST_DEV_2019.add("mw12");
-        ENCRYPT_LIST_DEV_2019.add("mw70");
+        ENCRYPT_LIST_DEV_HOTSPOT.add("mw12");
+        ENCRYPT_LIST_DEV_HOTSPOT.add("mw70");
         // 定制设备(仅针对加密)
         ENCRYPT_LIST_DEV_TARGET.add("E1");
     }

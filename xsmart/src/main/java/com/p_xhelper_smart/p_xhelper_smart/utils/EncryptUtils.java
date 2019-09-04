@@ -33,10 +33,10 @@ public class EncryptUtils {
             builder.append(chr);
         }
         // 3.判断设备
-        if (SmartUtils.getDEVType(deviceName) == XCons.ENCRYPT_DEV_2017) {// 老设备加密方式
+        if (SmartUtils.getDEVType(deviceName) == XCons.ENCRYPT_DEV_ROUTER) {// 老设备加密方式
             return builder.toString();
 
-        } else if (SmartUtils.getDEVType(deviceName) == XCons.ENCRYPT_DEV_2019) {// 新设备加密方式
+        } else if (SmartUtils.getDEVType(deviceName) == XCons.ENCRYPT_DEV_HOTSPOT) {// 新设备加密方式
             AES_PCKS7 aes = new AES_PCKS7();
             byte[] tokenByte = aes.encrypt(builder.toString().getBytes(), tokenKey.getBytes(), tokenIv.getBytes());
             BASE64Encoder encoder = new BASE64Encoder();

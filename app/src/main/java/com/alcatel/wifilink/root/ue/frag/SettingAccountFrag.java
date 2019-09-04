@@ -161,7 +161,7 @@ public class SettingAccountFrag extends BaseFrag {
         if (isEncrypt) {
             if (getSystemInfoBean != null) {
                 // 如果不是［新设备］-- 采用普通算法加密
-                if (devType != XCons.ENCRYPT_DEV_2019) {
+                if (devType != XCons.ENCRYPT_DEV_HOTSPOT) {
                     password = EncryptUtils.encryptAdmin(password);
                 } else {// 如果是［新设备］-- 采用MD5加密
                     password = Md5Code.encryption(password).toLowerCase();
