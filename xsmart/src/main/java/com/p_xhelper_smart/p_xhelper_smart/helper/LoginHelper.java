@@ -105,6 +105,7 @@ public class LoginHelper extends BaseHelper {
      * 正式发起请求
      */
     private void reqLogin() {
+        Logg.t("ma_login").ii(account + ":" + password);
         XSmart<LoginBean> xLogin = new XSmart<>();
         xLogin.xParam(new LoginParam(account, password));
         xLogin.xMethod(XCons.METHOD_LOGIN).xPost(new XNormalCallback<LoginBean>() {
@@ -225,10 +226,10 @@ public class LoginHelper extends BaseHelper {
         if (isEncrypt) {
             if (getSystemInfoBean != null) {
                 // 如果不是［新设备］-- 采用普通算法加密
-                if (devType != XCons.ENCRYPT_DEV_2019) {
-                    password = EncryptUtils.encryptAdmin(password);
-                } else {// 如果是［新设备］-- 采用MD5加密
+                if (devType == XCons.ENCRYPT_DEV_2019) {
                     password = Md5Code.encryption(password).toLowerCase();
+                } else {// 如果是［新设备］-- 采用MD5加密
+                    password = EncryptUtils.encryptAdmin(password);
                 }
             }
         }
