@@ -225,10 +225,10 @@ public class LoginHelper extends BaseHelper {
         // 密码加密 (分为算法加密或者MD5加密)
         if (isEncrypt) {
             if (getSystemInfoBean != null) {
-                // 如果不是［新设备］-- 采用普通算法加密
+                // 如果是［热点］-- 采用MD5加密
                 if (devType == XCons.ENCRYPT_DEV_HOTSPOT) {
                     password = Md5Code.encryption(password).toLowerCase();
-                } else {// 如果是［新设备］-- 采用MD5加密
+                } else {// 如果是［路由］-- 采用普通算法加密
                     password = EncryptUtils.encryptAdmin(password);
                 }
             }
