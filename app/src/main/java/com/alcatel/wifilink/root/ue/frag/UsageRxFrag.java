@@ -61,7 +61,7 @@ public class UsageRxFrag extends BaseFrag {
 
     @Override
     public void onNexts(Object o, View view, String s) {
-        super.onNexts(o,view,s);
+        super.onNexts(o, view, s);
         initRes();
         initOnClick();
         //开启定时器
@@ -69,7 +69,7 @@ public class UsageRxFrag extends BaseFrag {
     }
 
     @Override
-    public void setTimerTask(){
+    public void setTimerTask() {
         getHomeNetworkMonthly();// 已经使用 / 月计划流量
         getRoamingAndConnTime();// 获取漫游信息
     }
@@ -99,7 +99,7 @@ public class UsageRxFrag extends BaseFrag {
             long roamUseData = result.getRoamUseData();
             UsageHelper.Usage usageByte = UsageHelper.getUsageByte(getActivity(), roamUseData);
             String roamUsage = usageByte.usage;
-            String currentLanguage = ShareUtils.get(RootCons.LOCALE_LANGUAGE_COUNTRY,"");
+            String currentLanguage = ShareUtils.get(RootCons.LOCALE_LANGUAGE_COUNTRY, "");
             if (currentLanguage.contains(RootCons.LANGUAGES.RUSSIAN)) {
                 roamUsage = roamUsage.replace(".", ",") + " ";
             }
@@ -124,7 +124,7 @@ public class UsageRxFrag extends BaseFrag {
             String nhour = usedTime.hour;
             String nmin = usedTime.min;
             boolean isNoTHour = "0".equalsIgnoreCase(nhour);
-            String currentLanguage1 = ShareUtils.get(RootCons.LOCALE_LANGUAGE_COUNTRY,"");
+            String currentLanguage1 = ShareUtils.get(RootCons.LOCALE_LANGUAGE_COUNTRY, "");
             boolean isRussian = currentLanguage1.contains(RootCons.LANGUAGES.RUSSIAN);
             String hour = nhour + getString(R.string.hh70_hr_s);
             String min = nmin + getString(R.string.hh70_min_s);
@@ -136,7 +136,7 @@ public class UsageRxFrag extends BaseFrag {
             tvNetworkTime.setText(time);
         });
         usageHelper.setOnNoRoamingListener(result -> {// 没有漫游
-            String currentLanguage1 = ShareUtils.get(RootCons.LOCALE_LANGUAGE_COUNTRY,"");
+            String currentLanguage1 = ShareUtils.get(RootCons.LOCALE_LANGUAGE_COUNTRY, "");
             boolean isRussian = currentLanguage1.contains(RootCons.LANGUAGES.RUSSIAN);
             int tConnTimes = (int) result.getTConnTimes();
             String noRoamingUsage = "0.00" + getString(R.string.hh70_mb);
@@ -178,7 +178,7 @@ public class UsageRxFrag extends BaseFrag {
             usedData_l = result.getHUseData();
             UsageHelper.Usage hUseDataByte = UsageHelper.getUsageByte(getActivity(), usedData_l);
             String used = hUseDataByte.usage;
-            String currentLanguage = ShareUtils.get(RootCons.LOCALE_LANGUAGE_COUNTRY,"");
+            String currentLanguage = ShareUtils.get(RootCons.LOCALE_LANGUAGE_COUNTRY, "");
             if (currentLanguage.contains(RootCons.LANGUAGES.RUSSIAN)) {
                 used = used.replace(".", ",") + " ";
             }
@@ -204,7 +204,7 @@ public class UsageRxFrag extends BaseFrag {
             monthly_l = result.getMonthlyPlan();
             UsageHelper.Usage monthByte = UsageHelper.getUsageByte(getActivity(), monthly_l);
             String month = monthByte.usage;
-            String currentLanguage = ShareUtils.get(RootCons.LOCALE_LANGUAGE_COUNTRY,"");
+            String currentLanguage = ShareUtils.get(RootCons.LOCALE_LANGUAGE_COUNTRY, "");
             if (currentLanguage.contains(RootCons.LANGUAGES.RUSSIAN)) {
                 month = month.replace(".", ",") + " ";
             }
@@ -228,14 +228,12 @@ public class UsageRxFrag extends BaseFrag {
     /**
      * 点击事件
      */
-    private void initOnClick(){
-        ivBack.setOnClickListener(v -> {
-            toFrag(getClass(),mainFrag.class,null,false);
-        });
+    private void initOnClick() {
+        ivBack.setOnClickListener(v -> toFrag(getClass(), mainFrag.class, null, false));
         btResetStatist.setOnClickListener(v -> clickResetButton());
         tvMobileNetworkSetting.setOnClickListener(v -> {
             lastFrag = UsageRxFrag.class;
-            toFrag(getClass(),MobileNetworkFrag.class,null,false);
+            toFrag(getClass(), MobileNetworkFrag.class, null, false);
         });
     }
 
@@ -246,7 +244,8 @@ public class UsageRxFrag extends BaseFrag {
         dgUsageRxOk.setVisibility(View.VISIBLE);
         dgUsageRxOk.setTitle(popReset);
         dgUsageRxOk.setDes(popTitle);
-        dgUsageRxOk.setOnBgClickListener(() -> {});
+        dgUsageRxOk.setOnBgClickListener(() -> {
+        });
         dgUsageRxOk.setOnCancelClickListener(() -> dgUsageRxOk.setVisibility(View.GONE));
         dgUsageRxOk.setOnOkClickListener(this::resetRecord);
     }
@@ -260,11 +259,11 @@ public class UsageRxFrag extends BaseFrag {
         SetUsageRecordClearHelper xSetUsageRecordClearHelper = new SetUsageRecordClearHelper();
         xSetUsageRecordClearHelper.setOnSetUsageRecordClearSuccessListener(() -> {
             hh70LoadWidget.setGone();
-            toast(resetSuccess,2000);
+            toast(resetSuccess, 2000);
         });
         xSetUsageRecordClearHelper.setOnSetUsageRecordClearFailListener(() -> {
             hh70LoadWidget.setGone();
-            toast(resetFailed,2000);
+            toast(resetFailed, 2000);
         });
         xSetUsageRecordClearHelper.setUsageRecordClear(currentTime);
     }
@@ -276,7 +275,7 @@ public class UsageRxFrag extends BaseFrag {
             return true;
         }
         // 返回主页
-        toFrag(getClass(),mainFrag.class,null,false);
+        toFrag(getClass(), mainFrag.class, null, false);
         return true;
     }
 }

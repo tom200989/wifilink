@@ -431,7 +431,7 @@ public class SmsDetailFrag extends BaseFrag {
         List<String> phoneNumber = smsContact.getPhoneNumber();
         SmsDraftHelper sdfp = new SmsDraftHelper(activity, smsContact.getContactId());
         sdfp.setOnSaveDraftListener(() -> {
-            toast(R.string.hh70_no_sim, 2000);
+            toast(R.string.hh70_sms_save_draft, 2000);
             toFrag(getClass(), SmsFrag.class, null, false);
 
         });

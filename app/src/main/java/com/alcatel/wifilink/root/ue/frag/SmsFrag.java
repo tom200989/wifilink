@@ -231,10 +231,12 @@ public class SmsFrag extends BaseFrag {
     @Override
     public boolean onBackPressed() {
         if (isLongClick) {// 如果处于长按状态下
-            isLongClick = false;
-            ivSmsNew.setVisibility(View.VISIBLE);
-            llSmsBatchDeteled.setVisibility(isLongClick ? View.VISIBLE : View.GONE);
-            return isLongClick;
+            // togo isLongClick = false;
+            // togo ivSmsNew.setVisibility(View.VISIBLE);
+            // togo llSmsBatchDeteled.setVisibility(isLongClick ? View.VISIBLE : View.GONE);
+            // TOAT 2019/9/6 0006 此处尝试采用新方案--重新加载fragment
+            toFrag(getClass(), SmsFrag.class, null, true);
+            return true;
         } else if (smsDeleteWidget.getVisibility() == View.VISIBLE) {
             smsDeleteWidget.setVisibility(View.GONE);
             return true;
@@ -260,12 +262,12 @@ public class SmsFrag extends BaseFrag {
                 LogoutHelper xLogoutHelper = new LogoutHelper();
                 xLogoutHelper.setOnLogoutSuccessListener(() -> {
                     toast(R.string.hh70_logout_completed, 3000);
-                    toFragActivity(getClass(), SplashActivity.class, LoginFrag.class, null, true,true,0);
+                    toFragActivity(getClass(), SplashActivity.class, LoginFrag.class, null, true, true, 0);
                 });
                 xLogoutHelper.setOnLogOutFailedListener(() -> toast(R.string.hh70_cant_logout, 3000));
                 xLogoutHelper.logout();
             } else {
-                toFragActivity(getClass(), SplashActivity.class, LoginFrag.class, null, true,true,0);
+                toFragActivity(getClass(), SplashActivity.class, LoginFrag.class, null, true, true, 0);
             }
         });
         xGetLoginStateHelper.getLoginState();

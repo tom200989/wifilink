@@ -66,7 +66,7 @@ public class HomeActivity extends RootMAActivity {
             LanguageFrag.class, // 选择语言页
             SettingNetworkFrag.class, // SIM设置页
             FeedbackFrag.class,//反馈页面
-            MobileNetworkFrag.class,//网络
+            MobileNetworkFrag.class,// 网络
             SetDataPlanFrag.class,//设置流量计划页面
             SmsNewFrag.class,//新建短信页面
             SmsDetailFrag.class,//sms的详情页

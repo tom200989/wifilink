@@ -389,7 +389,7 @@ public class MobileNetworkFrag extends BaseFrag {
         } else {
             toFrag(getClass(), lastFrag == UsageRxFrag.class ? UsageRxFrag.class : SettingFrag.class, null, true);
         }
-        
+
         return true;
     }
 }

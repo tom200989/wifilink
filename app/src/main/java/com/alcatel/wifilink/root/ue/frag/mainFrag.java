@@ -120,7 +120,6 @@ public class mainFrag extends BaseFrag {
 
     private String BLANK_TEXT = " ";
     private String NONE_TEXT = "- -";
-    private String noUsagePlan;
     private String useOf;
     private int WAN_CONNECT_MODE = 0;// wan口连接模式
     private int SIM_DISCONNECT_MODE = 1;// SIM卡未连接模式(已解锁)
@@ -644,7 +643,7 @@ public class mainFrag extends BaseFrag {
             if (isRussian) {
                 montyUsage = montyUsage.replace(".", ",") + " ";
             }
-            tvUsedTotal.setText(plan <= 0 ? noUsagePlan : useOf + BLANK_TEXT + montyUsage + planUnit);
+            tvUsedTotal.setText(plan <= 0 ? "" : useOf + BLANK_TEXT + montyUsage + planUnit);
             // 计算已使用流量比率
             usageLimit = ShareUtils.get(RootCons.USAGE_LIMIT_DEFAULT, 90);
             ;
@@ -801,7 +800,6 @@ public class mainFrag extends BaseFrag {
     private void initRes() {
         mb_unit = getString(R.string.hh70_mb);
         gb_unit = getString(R.string.hh70_gb);
-        noUsagePlan = getString(R.string.hh70_no_set_plan);
         useOf = getString(R.string.hh70_used_of);
         connected_text = getString(R.string.hh70_connected);
         unlockSim_title = getString(R.string.hh70_sim_unlocked);

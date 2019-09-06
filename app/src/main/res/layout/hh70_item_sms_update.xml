@@ -16,16 +16,18 @@
 
         <!-- **** unread point **** -->
         <ImageView
+            android:layout_marginStart="5dp"
             android:id="@+id/iv_smsPoint"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignStart="@+id/view"
             android:layout_alignTop="@+id/imageView2"
-            app:layout_heightPercent="25%h"
-            app:layout_widthPercent="25%h" />
+            app:layout_heightPercent="15%h"
+            app:layout_widthPercent="15%h" />
 
         <!-- **** long click point **** -->
         <ImageView
+            android:layout_marginStart="5dp"
             android:id="@+id/iv_smsLongClickPoint"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -34,8 +36,8 @@
             android:background="@color/white"
             android:src="@drawable/checkbox_android_off"
             android:visibility="gone"
-            app:layout_heightPercent="25%h"
-            app:layout_widthPercent="25%h" />
+            app:layout_heightPercent="20%h"
+            app:layout_widthPercent="20%h" />
 
         <!-- **** sms info **** -->
         <com.hiber.tools.layout.PercentRelativeLayout
