@@ -12,8 +12,10 @@ import android.net.wifi.WifiManager;
 import android.support.annotation.ArrayRes;
 import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.alcatel.wifilink.R;
 import com.alcatel.wifilink.root.bean.DeviceBean;
@@ -245,6 +247,103 @@ public class RootUtils {
                        (num2 >= 0 && num2 <= 255) && // num2
                        (num3 > 0 && num3 < 255);
     }
+
+    /**
+     * 是否子掩码达标（WebUI的算法）
+     *
+     * @param ipAddress IP地址
+     * @return T:达标
+     */
+    public static boolean isSubnetMaskMatch(String ipAddress) {
+        int zeroBitPos = 0;
+        int oneBitPos = 0;
+        boolean zeroBitExisted = false;
+        //不为空
+        if(TextUtils.isEmpty(ipAddress)){
+            return false;
+        }
+        //不能是0.0.0.0
+        if (ipAddress.equals("0.0.0.0")) {
+            return false;
+        }
+        //不能是255.255.255.255
+        if (ipAddress.equals("255.255.255.255")) {
+            return false;
+        }
+        // 不含点
+        if (!ipAddress.contains(".")) {
+            return false;
+        }
+        //以.拆分不是四位的不对
+        String[] addressArray = ipAddress.split("\\.");
+        if (addressArray.length != 4) {
+            return false;
+        }
+        //对每一项进行判断
+        for(int index = 0;index < addressArray.length;index++){
+            //每一项都不为空
+            if(TextUtils.isEmpty(addressArray[index])){
+                return false;
+            }
+            //全部为数字
+            Pattern numberPattern = Pattern.compile("[0-9]*");
+            if(!numberPattern.matcher(addressArray[index]).matches()){
+                return false;
+            }
+            //以0开始而且位数不为1的时候错误
+            if(addressArray[index].length() != 1 && addressArray[index].startsWith("0")){
+                return false;
+            }
+            //转为数字,在0-255之间
+            int number = Integer.valueOf(addressArray[index]);
+            if(number < 0 || number > 255){
+                return false;
+            }
+            //WebUI的算法
+            if(zeroBitExisted && number != 0){
+                return false;
+            }
+            //leftZero
+            zeroBitPos = getLeftMostZeroBitPos(number);
+            //rightZero
+            oneBitPos = getRightMostOneBitPos(number);
+            //WebUI算法
+            if (zeroBitPos < oneBitPos) {
+                return false;
+            }
+            if (zeroBitPos < 8) {
+                zeroBitExisted = true;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * 计算子掩码左位
+     */
+    private static int getLeftMostZeroBitPos(int number){
+        Integer[] leftNumArr = new Integer[]{128, 64, 32, 16, 8, 4, 2, 1};
+        for (int leftIndex = 0; leftIndex < leftNumArr.length; leftIndex++) {
+            if ((number & leftNumArr[leftIndex]) == 0) {
+                return leftIndex;
+            }
+        }
+        return leftNumArr.length;
+    }
+
+    /**
+     * 计算子掩码右位
+     */
+    private static int getRightMostOneBitPos(int number){
+        Integer[] rightNumArr = new Integer[]{1, 2, 4, 8, 16, 32, 64, 128};
+        for (int rightIndex = 0; rightIndex < rightNumArr.length; rightIndex++) {
+            if (((number & rightNumArr[rightIndex]) >> rightIndex) == 1) {
+                return rightNumArr.length - rightIndex - 1;
+            }
+        }
+        return -1;
+    }
+
 
     /**
      * 是否符合正则

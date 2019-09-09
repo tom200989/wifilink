@@ -69,14 +69,14 @@ public class HomeActivity extends RootMAActivity {
             MobileNetworkFrag.class,// 网络
             SetDataPlanFrag.class,//设置流量计划页面
             SmsNewFrag.class,//新建短信页面
-            SmsDetailFrag.class,//sms的详情页
+            SmsDetailFrag.class,//sms的详情页InternetStatusFrag
             DeviceBlockFrag.class, // DeviceBlock
             DeviceConnectFrag.class, // DeviceConnect
             PinRxFrag.class,// Pin
             PukRxFrag.class,// Puk
             UsageRxFrag.class,// Usage
             WifiExtenderRxFrag.class,// WifiExtender
-
+            InternetStatusFrag.class,//InternetStatus
     };
 
     private HH70_HomeTabWidget wdTab;

@@ -2,6 +2,7 @@ package com.alcatel.wifilink.root.ue.frag;
 
 import android.support.v7.widget.AppCompatSpinner;
 import android.support.v7.widget.SwitchCompat;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -102,7 +103,7 @@ public class WlanFrag extends BaseFrag {
         wlanBean.setmCountry(mCountry);
         wlanBean.setmBandwidth(mBandwidth);
         wlanBean.setmMode(mMode);
-        wlanBean.setmApIsolation(mApIsolation);
+        wlanBean.setmApIsolation(mIsolationSwitch.isChecked());
     }
 
     private void initArrays() {
@@ -361,7 +362,7 @@ public class WlanFrag extends BaseFrag {
 
     @Override
     public boolean onBackPresss() {
-        toFrag(getClass(), WifiFrag.class, null, true);
+        toFrag(getClass(), WifiFrag.class, null, false);
         return true;
     }
 }

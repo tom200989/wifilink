@@ -34,7 +34,9 @@
         tools:targetApi="n">
 
         <!-- ROOT-splash -->
-        <activity android:name=".root.ue.activity.SplashActivity">
+        <activity
+            android:name=".root.ue.activity.SplashActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="com.alcatel.wifilink.root.ue.activity.SplashActivity" />
@@ -45,7 +47,9 @@
         </activity>
 
         <!-- ROOT-home -->
-        <activity android:name=".root.ue.activity.HomeActivity">
+        <activity
+            android:name=".root.ue.activity.HomeActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="com.alcatel.wifilink.root.ue.activity.HomeActivity" />
                 <category android:name="android.intent.category.DEFAULT" />
@@ -55,6 +59,7 @@
         <!-- 调用本地相册 -->
         <activity
             android:name="me.nereo.multi_image_selector.MultiImageSelectorActivity"
+            android:screenOrientation="portrait"
             android:configChanges="orientation|screenSize">
             <intent-filter>
                 <action android:name="me.nereo.multi_image_selector.MultiImageSelectorActivity" />

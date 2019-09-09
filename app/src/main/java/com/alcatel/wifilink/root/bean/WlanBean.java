@@ -77,4 +77,16 @@ public class WlanBean extends DeepCloneBean implements Serializable {
     }
 
 
+    @Override
+    public String toString() {
+        return "WlanBean{" +
+                "mSsidBroadcast=" + mSsidBroadcast +
+                ", mApIsolation=" + mApIsolation +
+                ", mCountry='" + mCountry + '\'' +
+                ", mChannel=" + mChannel +
+                ", mFrequency=" + mFrequency +
+                ", mBandwidth=" + mBandwidth +
+                ", mMode=" + mMode +
+                '}';
+    }
 }

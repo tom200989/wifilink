@@ -143,7 +143,7 @@ public class EtherWANFrag extends BaseFrag {
             }
 
             // subnet mask
-            if (!RootUtils.isAllMatch(str_subnetMask)) {
+            if (!RootUtils.isSubnetMaskMatch(str_subnetMask)) {
                 String subnetValid = getString(R.string.hh70_subnet_mask) + "\n" + getString(R.string.hh70_cant_connect);
                 toast(subnetValid, 3000);
                 return;

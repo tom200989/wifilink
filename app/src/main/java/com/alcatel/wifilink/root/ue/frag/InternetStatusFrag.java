@@ -3,6 +3,7 @@ package com.alcatel.wifilink.root.ue.frag;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -19,7 +20,7 @@ public class InternetStatusFrag extends BaseFrag {
 
     // banner-back
     @BindView(R.id.iv_internet_status_back)
-    RelativeLayout ivInternetBack;
+    ImageView ivInternetBack;
 
     // ip_phone address
     @BindView(R.id.tv_internet_content_IPAddress)

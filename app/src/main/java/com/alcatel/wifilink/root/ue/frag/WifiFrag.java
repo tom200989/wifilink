@@ -3,6 +3,7 @@ package com.alcatel.wifilink.root.ue.frag;
 import android.os.Handler;
 import android.support.v7.widget.AppCompatSpinner;
 import android.support.v7.widget.SwitchCompat;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -295,22 +296,24 @@ public class WifiFrag extends BaseFrag {
             int bandwidth = wlanBean.getmBandwidth();
             int mode80211 = wlanBean.getmMode();
             boolean isolation = wlanBean.ismApIsolation();
-            if (wlanBean.getmFrequency() == 2) {
+            if (wlanBean.getmFrequency() == 2) {//如果是2G
                 GetWlanSettingsBean.AP2GBean ap2G = mEditedSettings.getAP2G();
-                ap2G.setSsidHidden(broadcast ? 1 : 0);
+                ap2G.setSsidHidden(broadcast ? 0 : 1);
                 ap2G.setChannel(channel);
                 ap2G.setCountryCode(countryCode);
                 ap2G.setBandwidth(bandwidth);
                 ap2G.setWMode(mode80211);
                 ap2G.setApIsolation(isolation ? 1 : 0);
-            } else {
+                mEditedSettings.setAP2G(ap2G);
+            } else { //5G
                 GetWlanSettingsBean.AP5GBean ap5G = mEditedSettings.getAP5G();
-                ap5G.setSsidHidden(broadcast ? 1 : 0);
+                ap5G.setSsidHidden(broadcast ? 0 : 1);
                 ap5G.setChannel(channel);
                 ap5G.setCountryCode(countryCode);
                 ap5G.setBandwidth(bandwidth);
                 ap5G.setWMode(mode80211);
                 ap5G.setApIsolation(isolation ? 1 : 0);
+                mEditedSettings.setAP5G(ap5G);
             }
         }
     }
