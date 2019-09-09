@@ -32,48 +32,48 @@ public class MobileDataHelper {
         GetLoginStateHelper xGetLoginStateHelper = new GetLoginStateHelper();
         xGetLoginStateHelper.setOnGetLoginStateSuccessListener(getLoginStateBean -> {
             if (getLoginStateBean.getState() == GetLoginStateBean.CONS_LOGOUT) {
-                to(RootCons.ACTIVITYS.SPLASH_AC,RootCons.FRAG.LOGIN_FR);
-                return;
+                to(RootCons.ACTIVITYS.SPLASH_AC, RootCons.FRAG.LOGIN_FR);
+            } else {
+                GetSimStatusHelper xGetSimStatusHelper = new GetSimStatusHelper();
+                xGetSimStatusHelper.setOnGetSimStatusSuccessListener(result -> {
+                    int simState = result.getSIMState();
+                    switch (simState) {
+                        case GetSimStatusBean.CONS_PIN_REQUIRED:
+                        case GetSimStatusBean.CONS_PUK_REQUIRED:
+                        case GetSimStatusBean.CONS_SIM_LOCK_REQUIRED:
+                            toast(R.string.hh70_verify_your_pin);
+                            break;
+                        case GetSimStatusBean.CONS_SIM_CARD_IS_INITING:
+                            toast(R.string.hh70_initializing);
+                            break;
+                        case GetSimStatusBean.CONS_PUK_TIMES_USED_OUT:
+                            toast(R.string.hh70_puk_timeout);
+                            break;
+                        case GetSimStatusBean.CONS_SIM_CARD_DETECTED:
+                            toast(R.string.hh70_sim_card_deleted);
+                            break;
+                        case GetSimStatusBean.CONS_SIM_CARD_READY:
+                            getConnectState();
+                            break;
+                        case GetSimStatusBean.CONS_NOWN:
+                            toast(R.string.hh70_no_sim_insert);
+                            break;
+                        case GetSimStatusBean.CONS_SIM_CARD_ILLEGAL:
+                            toast(R.string.hh70_invalid_sim);
+                            break;
+                    }
+                });
+                xGetSimStatusHelper.setOnGetSimStatusFailedListener(() -> {
+                    toast(R.string.hh70_sim_not_accessible);
+                    to(RootCons.ACTIVITYS.SPLASH_AC, RootCons.FRAG.REFRESH_FR);
+                });
+                xGetSimStatusHelper.getSimStatus();
             }
-            GetSimStatusHelper xGetSimStatusHelper = new GetSimStatusHelper();
-            xGetSimStatusHelper.setOnGetSimStatusSuccessListener(result -> {
-                int simState = result.getSIMState();
-                switch (simState) {
-                    case GetSimStatusBean.CONS_PIN_REQUIRED:
-                    case GetSimStatusBean.CONS_PUK_REQUIRED:
-                    case GetSimStatusBean.CONS_SIM_LOCK_REQUIRED:
-                        toast(R.string.hh70_verify_your_pin);
-                        break;
-                    case  GetSimStatusBean.CONS_SIM_CARD_IS_INITING:
-                        toast(R.string.hh70_initializing);
-                        break;
-                    case GetSimStatusBean.CONS_PUK_TIMES_USED_OUT:
-                        toast(R.string.hh70_puk_timeout);
-                        break;
-                    case GetSimStatusBean.CONS_SIM_CARD_DETECTED:
-                        toast(R.string.hh70_sim_card_deleted);
-                        break;
-                    case GetSimStatusBean.CONS_SIM_CARD_READY:
-                        getConnectState();
-                        break;
-                    case GetSimStatusBean.CONS_NOWN:
-                        toast(R.string.hh70_no_sim_insert);
-                        break;
-                    case GetSimStatusBean.CONS_SIM_CARD_ILLEGAL:
-                        toast(R.string.hh70_invalid_sim);
-                        break;
-                }
-            });
-            xGetSimStatusHelper.setOnGetSimStatusFailedListener(() -> {
-                toast(R.string.hh70_sim_not_accessible);
-                to(RootCons.ACTIVITYS.SPLASH_AC,RootCons.FRAG.REFRESH_FR);
-            });
-            xGetSimStatusHelper.getSimStatus();
         });
 
         xGetLoginStateHelper.setOnGetLoginStateFailedListener(() -> {
             toast(R.string.hh70_cant_connect);
-            to(RootCons.ACTIVITYS.SPLASH_AC,RootCons.FRAG.REFRESH_FR);
+            to(RootCons.ACTIVITYS.SPLASH_AC, RootCons.FRAG.REFRESH_FR);
         });
         xGetLoginStateHelper.getLoginState();
     }

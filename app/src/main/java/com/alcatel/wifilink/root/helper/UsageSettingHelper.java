@@ -28,12 +28,7 @@ public class UsageSettingHelper {
         SetUsageSettingsParam param = new SetUsageSettingsParam();
         param.copy(getUsageSettingsBean);
         SetUsageSettingsHelper xSetUsageSettingsHelper = new SetUsageSettingsHelper();
-        xSetUsageSettingsHelper.setOnSetUsageSettingsSuccessListener(() -> {
-            GetUsageSettingsHelper xGetUsageSettingsHelper = new GetUsageSettingsHelper();
-            xGetUsageSettingsHelper.setOnGetUSageSettingsSuccessListener(this::setUsageSettingSuccessNext);
-            xGetUsageSettingsHelper.setOnGetUsageSettingsFailListener(this::setUsageSettingFailedNext);
-            xGetUsageSettingsHelper.getUsageSetting();
-        });
+        xSetUsageSettingsHelper.setOnSetUsageSettingsSuccessListener(this::setUsageSettingSuccessNext);
         xSetUsageSettingsHelper.setOnSetUsageSettingsFailListener(this::setUsageSettingFailedNext);
         xSetUsageSettingsHelper.setUsageSettings(param);
     }
@@ -80,7 +75,7 @@ public class UsageSettingHelper {
 
     // Inteerface--> 接口OnSetUsageSettingSuccessListener
     public interface OnSetUsageSettingSuccessListener {
-        void setUsageSettingSuccess(GetUsageSettingsBean getUsageSettings);
+        void setUsageSettingSuccess();
     }
 
     // 对外方式setOnSetUsageSettingSuccessListener
@@ -89,9 +84,9 @@ public class UsageSettingHelper {
     }
 
     // 封装方法setUsageSettingSuccessNext
-    private void setUsageSettingSuccessNext(GetUsageSettingsBean getUsageSettings) {
+    private void setUsageSettingSuccessNext() {
         if (onSetUsageSettingSuccessListener != null) {
-            onSetUsageSettingSuccessListener.setUsageSettingSuccess(getUsageSettings);
+            onSetUsageSettingSuccessListener.setUsageSettingSuccess();
         }
     }
 

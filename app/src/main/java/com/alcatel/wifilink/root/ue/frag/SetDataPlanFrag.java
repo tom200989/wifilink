@@ -252,7 +252,7 @@ public class SetDataPlanFrag extends BaseFrag {
         loadWidget.setVisibles();
         tempSetting.setStatus(tempSetting.getStatus() == GetUsageSettingsBean.CONS_STATUS_ENABLE ? GetUsageSettingsBean.CONS_STATUS_DISABLE : GetUsageSettingsBean.CONS_STATUS_ENABLE);
         UsageSettingHelper usageSettingHelper = new UsageSettingHelper();
-        usageSettingHelper.setOnSetUsageSettingSuccessListener(attr -> {
+        usageSettingHelper.setOnSetUsageSettingSuccessListener(() -> {
             toast(R.string.hh70_succeed);
             loadWidget.setGone();
         });
@@ -295,7 +295,7 @@ public class SetDataPlanFrag extends BaseFrag {
             attr.setMonthlyPlan(tvmb.getCurrentTextColor() == blue_color ? num * 1024L * 1024L : num * 1024L * 1024L * 1024L);
             // 2.在提交usage-setting
             UsageSettingHelper ush1 = new UsageSettingHelper();
-            ush1.setOnSetUsageSettingSuccessListener(attr1 -> {
+            ush1.setOnSetUsageSettingSuccessListener(() -> {
                 toast(R.string.hh70_success);
                 loadWidget.setGone();
             });
@@ -338,7 +338,7 @@ public class SetDataPlanFrag extends BaseFrag {
         ush.setOnGetUsageSettingsSuccessListener(attr -> {
             attr.setAutoDisconnFlag(attr.getAutoDisconnFlag() == GetUsageSettingsBean.CONS_AUTO_DISCONNECT_ENABLE ? GetUsageSettingsBean.CONS_AUTO_DISCONNECT_DISABLE : GetUsageSettingsBean.CONS_AUTO_DISCONNECT_ENABLE);
             UsageSettingHelper ush1 = new UsageSettingHelper();
-            ush1.setOnSetUsageSettingSuccessListener(attr1 -> loadWidget.setGone());
+            ush1.setOnSetUsageSettingSuccessListener(() -> loadWidget.setGone());
             ush1.setOnSetUsageSettingFailedListener(() -> loadWidget.setGone());
             ush1.setUsageSetting(attr);
         });
@@ -356,7 +356,7 @@ public class SetDataPlanFrag extends BaseFrag {
             attr.setTimeLimitFlag(attr.getTimeLimitFlag() == GetUsageSettingsBean.CONS_TIME_LIMIT_ABLE ? GetUsageSettingsBean.CONS_TIME_LIMIT_DISABLE : GetUsageSettingsBean.CONS_TIME_LIMIT_ABLE);
             UsageSettingHelper ush1 = new UsageSettingHelper();
             ush1.setOnSetUsageSettingFailedListener(() -> loadWidget.setGone());
-            ush1.setOnSetUsageSettingSuccessListener(getUsageSettings -> loadWidget.setGone());
+            ush1.setOnSetUsageSettingSuccessListener(() -> loadWidget.setGone());
             ush1.setUsageSetting(attr);
         });
         ush.setOnGetUsageSettingsFailedListener(() -> loadWidget.setGone());
@@ -395,7 +395,7 @@ public class SetDataPlanFrag extends BaseFrag {
                 attr.setTimeLimitFlag(GetUsageSettingsBean.CONS_TIME_LIMIT_DISABLE);
                 UsageSettingHelper ush1 = new UsageSettingHelper();
                 ush1.setOnSetUsageSettingFailedListener(() -> loadWidget.setGone());
-                ush1.setOnSetUsageSettingSuccessListener(getUsageSettings -> loadWidget.setGone());
+                ush1.setOnSetUsageSettingSuccessListener(() -> loadWidget.setGone());
                 ush1.setUsageSetting(attr);
             });
             ush.setOnGetUsageSettingsFailedListener(() -> loadWidget.setGone());
@@ -407,7 +407,7 @@ public class SetDataPlanFrag extends BaseFrag {
         ush.setOnGetUsageSettingsSuccessListener(attr -> {
             attr.setTimeLimitTimes(total);
             UsageSettingHelper ush1 = new UsageSettingHelper();
-            ush1.setOnSetUsageSettingSuccessListener(getUsageSettings -> loadWidget.setGone());
+            ush1.setOnSetUsageSettingSuccessListener(() -> loadWidget.setGone());
             ush1.setOnSetUsageSettingFailedListener(() -> loadWidget.setGone());
             ush1.setUsageSetting(attr);
         });

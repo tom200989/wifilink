@@ -50,7 +50,7 @@
             android:layout_marginStart="15dp"
             android:text="@string/hh70_MONTHLY_PLAN"
             android:textColor="@color/black"
-            app:layout_textSizePercent="33%h" />
+            app:layout_textSizePercent="27%h" />
 
         <ImageView
             android:id="@+id/iv_setPlan_rx_usage_button"
@@ -60,8 +60,8 @@
             android:layout_centerVertical="true"
             android:layout_marginEnd="15dp"
             android:src="@drawable/switch_off"
-            app:layout_heightPercent="35%h"
-            app:layout_widthPercent="70%h" />
+            app:layout_heightPercent="30%h"
+            app:layout_widthPercent="60%h" />
 
         <View
             android:layout_width="match_parent"
@@ -78,7 +78,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/rl_setPlan_rx_usage_button"
-        android:visibility="visible">
+        android:visibility="gone">
 
         <!-- monthly data limit -->
         <com.hiber.tools.layout.PercentRelativeLayout
@@ -87,7 +87,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/rl_setPlan_rx_usage_button"
             android:background="@color/white"
-            app:layout_heightPercent="9%h">
+            app:layout_heightPercent="11%h">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -96,7 +96,7 @@
                 android:layout_marginStart="15dp"
                 android:text="@string/hh70_monthly_data_limit"
                 android:textColor="@color/black"
-                app:layout_textSizePercent="30%h" />
+                app:layout_textSizePercent="27%h" />
 
             <ImageView
                 android:id="@+id/iv_setPlan_rx_monthly_to"
@@ -136,7 +136,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/rl_setPlan_rx_monthly"
             android:background="@color/white"
-            app:layout_heightPercent="9%h">
+            app:layout_heightPercent="11%h">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -186,7 +186,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/rl_setPlan_rx_billing"
             android:background="@color/white"
-            app:layout_heightPercent="9%h">
+            app:layout_heightPercent="11%h">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -236,7 +236,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/rl_setPlan_rx_usageAlert"
             android:background="@color/white"
-            app:layout_heightPercent="9%h">
+            app:layout_heightPercent="11%h">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -276,7 +276,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/v_setPlan_rx_split"
             android:background="@color/white"
-            app:layout_heightPercent="9%h">
+            app:layout_heightPercent="11%h">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -314,7 +314,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/rl_setPlan_rx_timelimit"
             android:background="@color/white"
-            app:layout_heightPercent="9%h">
+            app:layout_heightPercent="11%h">
 
             <TextView
                 android:id="@+id/tv_setPlan_rx_setTimelimit_tag"
@@ -346,7 +346,7 @@
                 android:layout_toStartOf="@id/iv_setPlan_rx_setTimelimit_to"
                 android:text="0m"
                 android:textColor="@color/color_light_gray"
-                app:layout_textSizePercent="30%h" />
+                app:layout_textSizePercent="27%h" />
 
             <View
                 android:layout_width="match_parent"

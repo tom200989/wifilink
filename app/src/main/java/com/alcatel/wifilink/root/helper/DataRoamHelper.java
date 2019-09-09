@@ -21,12 +21,12 @@ public class DataRoamHelper {
     }
 
     public void transfer() {
+
         // 1.先获取当前的漫游允许连接状态
         ConnectSettingHelper cshelper = new ConnectSettingHelper();
         cshelper.setOnNormalConnResultListener(result -> {
             int roamingConnect = result.getRoamingConnect();
-            int needRoam = roamingConnect == GetConnectionSettingsBean.CONS_WHEN_ROAMING_CAN_CONNECT ?
-                                   GetConnectionSettingsBean.CONS_WHEN_ROAMING_CAN_NOT_CONNECT : GetConnectionSettingsBean.CONS_WHEN_ROAMING_CAN_CONNECT;
+            int needRoam = roamingConnect == GetConnectionSettingsBean.CONS_WHEN_ROAMING_CAN_CONNECT ? GetConnectionSettingsBean.CONS_WHEN_ROAMING_CAN_NOT_CONNECT : GetConnectionSettingsBean.CONS_WHEN_ROAMING_CAN_CONNECT;
             result.setRoamingConnect(needRoam);// 2.切换连接状态
             // 3.提交请求
             int connectMode = result.getConnectMode();
@@ -43,6 +43,7 @@ public class DataRoamHelper {
             });
             xSetConnectionSettingsHelper.setOnsetConnectionSettingsFailedListener(() -> toast(R.string.hh70_cant_connect));
             xSetConnectionSettingsHelper.setConnectionSettings(connectMode, roamingConnect, pdpType, connOffTime);
+            xSetConnectionSettingsHelper.setConnectionSettings(connectMode, needRoam, pdpType, connOffTime);
 
         });
         cshelper.getConnSettingStatus();

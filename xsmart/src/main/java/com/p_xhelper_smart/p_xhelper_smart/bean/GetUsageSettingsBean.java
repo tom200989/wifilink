@@ -26,7 +26,7 @@ public class GetUsageSettingsBean implements Serializable {
     private int TimeLimitTimes;//如果打开了时间限制，那就要限制时间，单位为分钟
     private int UsedTimes;//打开了时间限制后，已经使用了了多长时间，单位为分钟
     private int AutoDisconnFlag; //0: disable, not auto disconnect   1: enable, auto disconnect
-    private int status;// HH71特有
+    private int Status;// HH71特有(用于标注流量开关是否打开)
 
     public static final int CONS_UNIT_MB = 0;
     public static final int CONS_UNIT_GB = 1;
@@ -45,11 +45,11 @@ public class GetUsageSettingsBean implements Serializable {
     }
 
     public int getStatus() {
-        return status;
+        return Status;
     }
 
     public void setStatus(int status) {
-        this.status = status;
+        Status = status;
     }
 
     public int getBillingDay() {

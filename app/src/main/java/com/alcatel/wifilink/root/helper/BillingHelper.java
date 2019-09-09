@@ -24,7 +24,7 @@ public class BillingHelper {
             attr.setBillingDay(day);
             // 3.提交最新请求
             UsageSettingHelper ush_s = new UsageSettingHelper();
-            ush_s.setOnSetUsageSettingSuccessListener(attr1 -> setBillSuccessNext());
+            ush_s.setOnSetUsageSettingSuccessListener(this::setBillSuccessNext);
             ush_s.setUsageSetting(attr);
         });
         helper.getUsageSetting();

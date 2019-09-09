@@ -28,6 +28,7 @@ import com.p_xhelper_smart.p_xhelper_smart.bean.GetConnectionSettingsBean;
 import com.p_xhelper_smart.p_xhelper_smart.bean.GetNetworkSettingsBean;
 import com.p_xhelper_smart.p_xhelper_smart.bean.GetProfileListBean;
 import com.p_xhelper_smart.p_xhelper_smart.bean.GetSimStatusBean;
+import com.p_xhelper_smart.p_xhelper_smart.helper.GetConnectionSettingsHelper;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetConnectionStateHelper;
 
 import java.util.List;
@@ -205,10 +206,14 @@ public class MobileNetworkFrag extends BaseFrag {
      * 获取漫游状态
      */
     private void getDataRoaming() {
-        connSettingInitHelper = new ConnectSettingHelper();
-        connSettingInitHelper.setOnRoamConnListener(attr -> ivDataRoaming.setImageDrawable(switch_on));
-        connSettingInitHelper.setOnRoamNotConnListener(attr -> ivDataRoaming.setImageDrawable(switch_off));
-        connSettingInitHelper.getConnWhenRoam();
+
+        GetConnectionSettingsHelper xGetConnectionSettingsHelper = new GetConnectionSettingsHelper();
+        xGetConnectionSettingsHelper.setOnGetConnectionSettingsSuccessListener(getConnectionSettingsBean -> {
+            int roamingConnect = getConnectionSettingsBean.getRoamingConnect();
+            ivDataRoaming.setImageDrawable(roamingConnect == GetConnectionSettingsBean.CONS_WHEN_ROAMING_CAN_CONNECT ? switch_on : switch_off);
+        });
+        xGetConnectionSettingsHelper.setOnGetConnectionSettingsFailedListener(() -> ivDataRoaming.setImageDrawable(switch_off));
+        xGetConnectionSettingsHelper.getConnectionSettings();
     }
 
     /**
@@ -268,6 +273,7 @@ public class MobileNetworkFrag extends BaseFrag {
      * 点击了data roaming
      */
     private void clickRoaming() {
+        // TODO: 2019/9/9 0009  
         DataRoamHelper dataRoamHelper = new DataRoamHelper(activity);
         dataRoamHelper.setOnRoamConnSuccessListener(result -> ivDataRoaming.setImageDrawable(result.getRoamingConnect() == GetConnectionSettingsBean.CONS_WHEN_ROAMING_CAN_CONNECT ? switch_on : switch_off));
         dataRoamHelper.transfer();

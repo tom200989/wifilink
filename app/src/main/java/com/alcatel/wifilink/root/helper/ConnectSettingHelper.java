@@ -16,26 +16,6 @@ public class ConnectSettingHelper {
     }
 
     /**
-     * 获取漫游时是否允许连接的状态
-     */
-    public void getConnWhenRoam() {
-        GetConnectionSettingsHelper xGetConnectionSettingsHelper = new GetConnectionSettingsHelper();
-        xGetConnectionSettingsHelper.setOnGetConnectionSettingsSuccessListener(result -> {
-            int roamingConnect = result.getRoamingConnect();
-            switch (roamingConnect) {
-                case GetConnectionSettingsBean.CONS_WHEN_ROAMING_CAN_NOT_CONNECT:
-                    roamNotConnNext(result);
-                    break;
-                case GetConnectionSettingsBean.CONS_WHEN_ROAMING_CAN_CONNECT:
-                    roamConnNext(result);
-                    break;
-            }
-        });
-        xGetConnectionSettingsHelper.setOnGetConnectionSettingsFailedListener(this::connectSettingFailNext);
-        xGetConnectionSettingsHelper.getConnectionSettings();
-    }
-
-    /**
      * 切断连接
      */
     public void toDisConnect() {
