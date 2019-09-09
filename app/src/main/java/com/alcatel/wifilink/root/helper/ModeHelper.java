@@ -19,28 +19,24 @@ public class ModeHelper {
         this.activity = activity;
     }
 
-    public void transfer(int mode) {
+    public void transfer(int mode, GetNetworkSettingsBean getNetworkSettingsBean) {
         // 1.现获取当前的Mode对象
-        NetworkSettingHelper nshelper = new NetworkSettingHelper();
-        nshelper.setOnNormalNetworkListener(attr -> {
-            // 3.提交请求
-            SetNetworkSettingsParam param = new SetNetworkSettingsParam();
-            param.setDomesticRoam(attr.getDomesticRoam());
-            param.setDomesticRoamGuard(attr.getDomesticRoamGuard());
-            param.setNetselectionMode(attr.getNetselectionMode());
-            param.setNetworkBand(attr.getNetworkBand());
-            param.setNetworkMode(mode);
-            SetNetworkSettingsHelper xSetNetworkSettingsHelper = new SetNetworkSettingsHelper();
-            xSetNetworkSettingsHelper.setOnSetNetworkSettingsSuccessListener(() -> {
-                // 4.再次获取
-                NetworkSettingHelper networkSettingHelper = new NetworkSettingHelper();
-                networkSettingHelper.setOnNormalNetworkListener(this::modeSuccessNext);
-                networkSettingHelper.getNetworkSetting();
-            });
-            xSetNetworkSettingsHelper.setOnSetNetworkSettingsFailedListener(() -> toast(R.string.hh70_cant_connect));
-            xSetNetworkSettingsHelper.setNetworkSettings(param);
+        // 3.提交请求
+        SetNetworkSettingsParam param = new SetNetworkSettingsParam();
+        param.setDomesticRoam(getNetworkSettingsBean.getDomesticRoam());
+        param.setDomesticRoamGuard(getNetworkSettingsBean.getDomesticRoamGuard());
+        param.setNetselectionMode(getNetworkSettingsBean.getNetselectionMode());
+        param.setNetworkBand(getNetworkSettingsBean.getNetworkBand());
+        param.setNetworkMode(mode);
+        SetNetworkSettingsHelper xSetNetworkSettingsHelper = new SetNetworkSettingsHelper();
+        xSetNetworkSettingsHelper.setOnSetNetworkSettingsSuccessListener(() -> {
+            // 4.再次获取
+            NetworkSettingHelper networkSettingHelper = new NetworkSettingHelper();
+            networkSettingHelper.setOnNormalNetworkListener(this::modeSuccessNext);
+            networkSettingHelper.getNetworkSetting();
         });
-        nshelper.getNetworkSetting();
+        xSetNetworkSettingsHelper.setOnSetNetworkSettingsFailedListener(() -> toast(R.string.hh70_cant_connect));
+        xSetNetworkSettingsHelper.setNetworkSettings(param);
     }
 
     private OnModeSuccessListener onModeSuccessListener;

@@ -24,7 +24,7 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:background="@drawable/bg_pop_conner"
-            app:layout_heightPercent="32%h"
+            app:layout_heightPercent="30%h"
             app:layout_widthPercent="75%w">
 
             <!-- 标题 -->
@@ -35,7 +35,7 @@
                 android:gravity="center"
                 android:text="@string/hh70_auto"
                 android:textColor="@color/black"
-                app:layout_heightPercent="25%h"
+                app:layout_heightPercent="33.33%h"
                 app:layout_textSizePercent="8%h" />
 
             <!-- 分割线 -->
@@ -59,7 +59,7 @@
                 android:gravity="center"
                 android:text="@string/hh70_4g"
                 android:textColor="@color/black"
-                app:layout_heightPercent="25%h"
+                app:layout_heightPercent="33.33%h"
                 app:layout_textSizePercent="8%h" />
 
             <View
@@ -82,11 +82,11 @@
                 android:gravity="center"
                 android:text="@string/hh70_3g"
                 android:textColor="@color/black"
-                app:layout_heightPercent="25%h"
+                app:layout_heightPercent="33.33%h"
                 app:layout_textSizePercent="8%h"
                 />
 
-            <View
+            <!--<View
                 android:layout_marginStart="10dp"
                 android:layout_marginEnd="10dp"
                 android:id="@+id/div_connmode_3"
@@ -97,7 +97,7 @@
                 android:background="@color/gray"
                 />
 
-            <!-- 描述 -->
+            &lt;!&ndash; 描述 &ndash;&gt;
             <TextView
                 android:id="@+id/tv_pop_connMode_2g"
                 android:layout_width="match_parent"
@@ -108,7 +108,7 @@
                 android:textColor="@color/black"
                 app:layout_heightPercent="25%h"
                 app:layout_textSizePercent="8%h"
-                />
+                />-->
 
         </com.hiber.tools.layout.PercentRelativeLayout>
 
