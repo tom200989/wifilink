@@ -32,7 +32,8 @@ public class HH70_ModeWidget extends RelativeLayout {
         TextView tvAuto = findViewById(R.id.tv_pop_connMode_auto);
         TextView tv4g = findViewById(R.id.tv_pop_connMode_4g);
         TextView tv3g = findViewById(R.id.tv_pop_connMode_3g);
-        TextView tv2g = findViewById(R.id.tv_pop_connMode_2g);
+        // TOGO 2019/9/9 0009 由于现在很少有SIM卡支持2G, 因此此处屏蔽
+        // TextView tv2g = findViewById(R.id.tv_pop_connMode_2g);
         tvAuto.setOnClickListener(v -> {
             setVisibility(GONE);
             autoClickNext();
@@ -45,10 +46,12 @@ public class HH70_ModeWidget extends RelativeLayout {
             setVisibility(GONE);
             thirdModeNext();
         });
-        tv2g.setOnClickListener(v -> {
-            setVisibility(GONE);
-            secondModeNext();
-        });
+        
+        // TOGO 2019/9/9 0009 由于现在很少有SIM卡支持2G, 因此此处屏蔽
+        // tv2g.setOnClickListener(v -> {
+        //     setVisibility(GONE);
+        //     secondModeNext();
+        // });
 
     }
 
