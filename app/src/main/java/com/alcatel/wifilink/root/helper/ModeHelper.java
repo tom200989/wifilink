@@ -6,6 +6,7 @@ import com.alcatel.wifilink.R;
 import com.alcatel.wifilink.root.utils.ToastTool;
 import com.p_xhelper_smart.p_xhelper_smart.bean.GetNetworkSettingsBean;
 import com.p_xhelper_smart.p_xhelper_smart.bean.SetNetworkSettingsParam;
+import com.p_xhelper_smart.p_xhelper_smart.helper.GetNetworkSettingsBeanHelper;
 import com.p_xhelper_smart.p_xhelper_smart.helper.SetNetworkSettingsHelper;
 
 /**
@@ -19,24 +20,29 @@ public class ModeHelper {
         this.activity = activity;
     }
 
-    public void transfer(int mode, GetNetworkSettingsBean getNetworkSettingsBean) {
+    public void transfer(int mode) {
         // 1.现获取当前的Mode对象
-        // 3.提交请求
-        SetNetworkSettingsParam param = new SetNetworkSettingsParam();
-        param.setDomesticRoam(getNetworkSettingsBean.getDomesticRoam());
-        param.setDomesticRoamGuard(getNetworkSettingsBean.getDomesticRoamGuard());
-        param.setNetselectionMode(getNetworkSettingsBean.getNetselectionMode());
-        param.setNetworkBand(getNetworkSettingsBean.getNetworkBand());
-        param.setNetworkMode(mode);
-        SetNetworkSettingsHelper xSetNetworkSettingsHelper = new SetNetworkSettingsHelper();
-        xSetNetworkSettingsHelper.setOnSetNetworkSettingsSuccessListener(() -> {
-            // 4.再次获取
-            NetworkSettingHelper networkSettingHelper = new NetworkSettingHelper();
-            networkSettingHelper.setOnNormalNetworkListener(this::modeSuccessNext);
-            networkSettingHelper.getNetworkSetting();
+        GetNetworkSettingsBeanHelper xGetNetworkSettingHelper = new GetNetworkSettingsBeanHelper();
+        xGetNetworkSettingHelper.setOnGetNetworkSettingsFailedListener(() ->toast(R.string.hh70_cant_connect) );
+        xGetNetworkSettingHelper.setOnGetNetworkSettingsSuccessListener(getNetworkSettingsBean -> {
+            xGetNetworkSettingHelper.getNetworkSettings();
+            // 3.提交请求
+            SetNetworkSettingsParam param = new SetNetworkSettingsParam();
+            param.setDomesticRoam(getNetworkSettingsBean.getDomesticRoam());
+            param.setDomesticRoamGuard(getNetworkSettingsBean.getDomesticRoamGuard());
+            param.setNetselectionMode(getNetworkSettingsBean.getNetselectionMode());
+            param.setNetworkBand(getNetworkSettingsBean.getNetworkBand());
+            param.setNetworkMode(mode);
+            SetNetworkSettingsHelper xSetNetworkSettingsHelper = new SetNetworkSettingsHelper();
+            xSetNetworkSettingsHelper.setOnSetNetworkSettingsSuccessListener(() -> {
+                // 4.再次获取
+                NetworkSettingHelper networkSettingHelper = new NetworkSettingHelper();
+                networkSettingHelper.setOnNormalNetworkListener(this::modeSuccessNext);
+                networkSettingHelper.getNetworkSetting();
+            });
+            xSetNetworkSettingsHelper.setOnSetNetworkSettingsFailedListener(() -> toast(R.string.hh70_cant_connect));
+            xSetNetworkSettingsHelper.setNetworkSettings(param);
         });
-        xSetNetworkSettingsHelper.setOnSetNetworkSettingsFailedListener(() -> toast(R.string.hh70_cant_connect));
-        xSetNetworkSettingsHelper.setNetworkSettings(param);
     }
 
     private OnModeSuccessListener onModeSuccessListener;

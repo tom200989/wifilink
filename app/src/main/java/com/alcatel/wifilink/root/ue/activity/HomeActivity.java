@@ -81,6 +81,7 @@ public class HomeActivity extends RootMAActivity {
 
     private HH70_HomeTabWidget wdTab;
     public static HashMap<Long, Integer> smsUnreadMap = new HashMap<>();// 未读消息缓冲集合
+    private int tmp;// 临时索标
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -153,19 +154,32 @@ public class HomeActivity extends RootMAActivity {
     private void setTab() {
         wdTab = findViewById(R.id.wd_home_tab);
         wdTab.setCheck(0);
+        tmp = 0;
         wdTab.setOnClickTabListener(position -> {
             switch (position) {
                 case 0:// 主页
-                    toFrag(getClass(), mainFrag.class, null, false, 0);
+                    if (tmp != 0) {
+                        toFrag(getClass(), mainFrag.class, null, false, 0);
+                        tmp = 0;
+                    }
                     break;
                 case 1:// WIFI
-                    toFrag(getClass(), WifiFrag.class, null, false, 0);
+                    if (tmp != 1) {
+                        toFrag(getClass(), WifiFrag.class, null, false, 0);
+                        tmp = 1;
+                    }
                     break;
                 case 2:// SMS
-                    checkSIMCard();
+                    if (tmp != 2) {
+                        checkSIMCard();
+                        tmp = 2;
+                    }
                     break;
                 case 3:// SETTING
-                    toFrag(getClass(), SettingFrag.class, null, false, 0);
+                    if (tmp != 3) {
+                        toFrag(getClass(), SettingFrag.class, null, false, 0);
+                        tmp = 3;
+                    }
                     break;
             }
         });
@@ -232,7 +246,7 @@ public class HomeActivity extends RootMAActivity {
                 touchTimer.stop();
                 if (!LoginFrag.currentIsLoginPage) {
                     toast(R.string.hh70_log_out, 3000);
-                    toFragActivity(getClass(), SplashActivity.class, LoginFrag.class, null, true,true,0);
+                    toFragActivity(getClass(), SplashActivity.class, LoginFrag.class, null, true, true, 0);
                 }
             }
         });

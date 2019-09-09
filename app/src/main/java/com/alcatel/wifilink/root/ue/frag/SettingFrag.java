@@ -122,6 +122,7 @@ public class SettingFrag extends BaseFrag {
     HH70_NormalWidget wd_reset;
     @BindView(R.id.lw_loading)
     HH70_LoadWidget loadWidget;
+    
     private ClickDoubleHelper clickDouble;
 
     @Override

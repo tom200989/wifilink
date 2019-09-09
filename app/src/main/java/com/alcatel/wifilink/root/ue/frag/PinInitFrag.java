@@ -1,5 +1,6 @@
 package com.alcatel.wifilink.root.ue.frag;
 
+import android.annotation.SuppressLint;
 import android.graphics.drawable.Drawable;
 import android.text.TextUtils;
 import android.view.View;
@@ -68,6 +69,7 @@ public class PinInitFrag extends BaseFrag {
     /**
      * 获取剩余次数
      */
+    @SuppressLint("SetTextI18n")
     private void getRemainTime() {
         GetSimStatusHelper xGetSimStatusHelper = new GetSimStatusHelper();
         xGetSimStatusHelper.setOnGetSimStatusSuccessListener(getSimStatusBean -> {
@@ -78,14 +80,12 @@ public class PinInitFrag extends BaseFrag {
                 if (remainTimes > 1) {
                     tvPinRxTipNum.setTextColor(red_color);
                     tvPinRxTipDes.setTextColor(red_color);
-                    if (isRussia) {
-                        tvPinRxTipDes.setText(getString(R.string.hh70_attempts_remaing));
-                    } else {
-                        String text = getString(R.string.hh70_attempts_remaing) + " " + remainTimes;
-                        tvPinRxTipDes.setText(text);
-                    }
-                    if (isTaiwan) {
+                    if (isRussia) {// 俄语 -- attemps remaing: 2
+                        tvPinRxTipDes.setText(getString(R.string.hh70_attempts_remaing) + ": " + remainTimes);
                         tvPinRxTipNum.setVisibility(View.GONE);
+                    } else {// 其他语言, 2 attemps remaing 
+                        tvPinRxTipDes.setText(getString(R.string.hh70_attempts_remaing));
+                        tvPinRxTipNum.setVisibility(View.VISIBLE);
                     }
 
                 } else if (remainTimes == 1) {
@@ -101,6 +101,7 @@ public class PinInitFrag extends BaseFrag {
                 if (isRussia) {
                     String text = getString(R.string.hh70_attempts_remaing) + " " + remainTimes;
                     tvPinRxTipDes.setText(text);
+                    tvPinRxTipNum.setVisibility(View.GONE);
                 }
             }
         });
@@ -115,7 +116,7 @@ public class PinInitFrag extends BaseFrag {
 
     /**
      * 获取当前语言环境
-     */
+     */ 
     private void getLanguage() {
         String language = ShareUtils.get(RootCons.LOCALE_LANGUAGE_COUNTRY, "");
         isRussia = language.contains(RootCons.LANGUAGES.RUSSIAN);

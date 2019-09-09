@@ -297,7 +297,7 @@ public class MobileNetworkFrag extends BaseFrag {
     private void changeMode(int mode) {
         ModeHelper modeHelper = new ModeHelper(activity);
         modeHelper.setOnModeSuccessListener(attr -> tvModeMode.setText(modes[attr.getNetworkMode()]));
-        modeHelper.transfer(mode, getNetworkSettingsBean);
+        modeHelper.transfer(mode);
     }
 
     /**
@@ -345,8 +345,6 @@ public class MobileNetworkFrag extends BaseFrag {
 
                     ChangePinHelper changePinHelper = new ChangePinHelper(activity);
                     changePinHelper.setOnPinTimeoutListener(attr -> toPukRx());
-                    changePinHelper.setOnChangePinSuccessListener(attr -> {
-                    });
                     changePinHelper.change(currentPin, newPin, confirmPin);
                 });
                 changpinWidget.setVisibility(View.VISIBLE);

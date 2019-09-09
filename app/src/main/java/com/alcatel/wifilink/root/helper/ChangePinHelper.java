@@ -75,7 +75,10 @@ public class ChangePinHelper {
             xChangePinCodeHelper.setOnChangePinCodeFailedListener(() -> toast(R.string.hh70_cant_unlock_pin));
             xChangePinCodeHelper.changePinCode(refreshCode, currentCode);
         });
-        xUnlockPinHelper.setOnUnlockPinFailedListener(() -> toast(R.string.hh70_fail));
+        xUnlockPinHelper.setOnUnlockPinFailedListener(() -> {
+            toast(R.string.hh70_pin_code_wrong);
+            getPinRemaingTime();
+        });
         xUnlockPinHelper.setOnUnlockPinRemainTimeFailedListener(() -> {
             toast(R.string.hh70_pin_code_wrong);
             getPinRemaingTime();
