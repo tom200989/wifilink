@@ -276,8 +276,8 @@ public class WanInitFrag extends BaseFrag {
                 }
 
                 // IP高级规则匹配判断
-                boolean ip_super_match = RootUtils.isAllMatch(ipaddress);
-                boolean subnet_super_match = RootUtils.isAllMatch(subnetMask);
+                boolean ip_super_match = RootUtils.isStaticIPMatch(ipaddress);
+                boolean subnet_super_match = RootUtils.isSubnetMaskMatch(subnetMask);
 
                 if (!ip_super_match) {
                     String ipValid = getString(R.string.hh70_ip_address) + "\n" + getString(R.string.hh70_cant_connect);

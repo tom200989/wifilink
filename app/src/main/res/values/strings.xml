@@ -186,7 +186,6 @@
     <string name="hh70_ap_isolation">AP isolation</string>
     <string name="hh70_bandwidth">Bandwidth</string>
     <string name="hh70_reset_factory">Reset to factory settings</string>
-    <string name="hh70_backup">BACK UP</string>
     <string name="hh70_restore">RESTORE</string>
     <string name="hh70_reset_router">Reset router?</string>
     <string name="hh70_will_reset_route">This will reset all settings on your router to factory defaults. This action can\'t be undone.</string>
@@ -367,4 +366,6 @@
     <string name="hh70_forgotten_reset_router">If you have forgotten your password, you will need to reset your router. You
         will then be able to log in using the default password (admin).</string>
     <string name="hh70_MONTHLY_PLAN">monthly plan</string>
+    <!--change by haide on 20190910 for bugid:7217865-->
+    <string name="hh70_backup">Backup</string>
 </resources>
