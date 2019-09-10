@@ -18,9 +18,20 @@ import com.p_xhelper_smart.p_xhelper_smart.helper.GetSystemInfoHelper;
  */
 public class SplashFrag extends BaseFrag {
 
+    private String cancelText;
+    private String okText;
+    private String warnText;
+
     @Override
     public int onInflateLayout() {
+        initRes();
         return R.layout.hh70_frag_splash;
+    }
+
+    private void initRes() {
+        cancelText = String.valueOf(R.string.hh70_cancel);
+        okText = String.valueOf(R.string.hh70_ok);
+        warnText = String.valueOf(R.string.hh70_warning);
     }
 
     @Override
@@ -35,9 +46,9 @@ public class SplashFrag extends BaseFrag {
         // 创建自定义权限视图对象
         PermissBean permissBean = new PermissBean();
         StringBean stringBean = new StringBean();
-        stringBean.setCancel(String.valueOf(R.string.hh70_cancel));
-        stringBean.setOk(String.valueOf(R.string.hh70_ok));
-        stringBean.setTitle(String.valueOf(R.string.hh70_warning));
+        stringBean.setCancel(cancelText);
+        stringBean.setOk(okText);
+        stringBean.setTitle(warnText);
         permissBean.setStringBean(stringBean);
         permissBean.setPermissView(null);
         // 传递给框架内部
