@@ -57,7 +57,7 @@ public class DeviceBlockFrag extends BaseFrag {
         rcv_block.setAdapter(blockAdapter);
         //titlebar
         mbackBtn.setOnClickListener(v -> onBackPresss());
-        mTitle.setText(getString(R.string.hh70_Blocked));
+        mTitle.setText(activity.getString(R.string.hh70_Blocked));
         // 俄语文字大小适配
         String currentLanguage = ShareUtils.get(RootCons.LOCALE_LANGUAGE_COUNTRY,"");
         if (currentLanguage.contains(RootCons.LANGUAGES.RUSSIAN)) {

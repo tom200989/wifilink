@@ -40,7 +40,8 @@
             android:gravity="center"
             android:text="@string/hh70_done"
             android:textColor="@color/white"
-            app:layout_textSizePercent="25%h" />
+            app:layout_textSizePercent="25%h"
+            android:paddingStart="10dp" />
 
     </com.hiber.tools.layout.PercentRelativeLayout>
 

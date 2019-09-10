@@ -281,7 +281,7 @@ public class WifiExtenderRxFrag extends BaseFrag {
             // 1.获取wifi extender的StateEnable状态
             if (extenderSetting.getStationEnable() == DISABLE) {
                 // 1.1.设置描述
-                tvNotConnectPanelDes.setText(getString(R.string.hh70_connect_other_wifi));
+                tvNotConnectPanelDes.setText(activity.getString(R.string.hh70_connect_other_wifi));
                 disconnUi();
             } else {
                 // 2.获取wifi extender的初始化状态
@@ -292,7 +292,7 @@ public class WifiExtenderRxFrag extends BaseFrag {
                         break;
                     case COMPLETE:
                         // 2.1.设置描述
-                        tvNotConnectPanelDes.setText(getString(R.string.hh70_networks_will_join));
+                        tvNotConnectPanelDes.setText(activity.getString(R.string.hh70_networks_will_join));
                         tvNotConnectTip.setVisibility(View.GONE);
                         ivPanelSocket.setImageDrawable(button_on);
                         getCurrentState();/* 2.获取当前是否有连接的热点 */

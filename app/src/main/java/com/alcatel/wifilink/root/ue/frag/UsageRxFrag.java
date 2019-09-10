@@ -75,12 +75,12 @@ public class UsageRxFrag extends BaseFrag {
     }
 
     private void initRes() {
-        popTitle = getString(R.string.hh70_reset_month_usage);
-        popCancel = getString(R.string.hh70_cancel);
-        popReset = getString(R.string.hh70_reset);
-        reseting = getString(R.string.hh70_resetting);
-        resetFailed = getString(R.string.hh70_reset_try_again);
-        resetSuccess = getString(R.string.hh70_success);
+        popTitle = activity.getString(R.string.hh70_reset_month_usage);
+        popCancel = activity.getString(R.string.hh70_cancel);
+        popReset = activity.getString(R.string.hh70_reset);
+        reseting = activity.getString(R.string.hh70_resetting);
+        resetFailed = activity.getString(R.string.hh70_reset_try_again);
+        resetSuccess = activity.getString(R.string.hh70_success);
         usageHelper = new UsageHelper(getActivity());
     }
 
@@ -97,7 +97,7 @@ public class UsageRxFrag extends BaseFrag {
     private void getRoamingAndConnTime() {
         usageHelper.setOnRoamingListener(result -> {// 有漫游
             long roamUseData = result.getRoamUseData();
-            UsageHelper.Usage usageByte = UsageHelper.getUsageByte(getActivity(), roamUseData);
+            UsageHelper.Usage usageByte = UsageHelper.getUsageByte(activity, roamUseData);
             String roamUsage = usageByte.usage;
             String currentLanguage = ShareUtils.get(RootCons.LOCALE_LANGUAGE_COUNTRY, "");
             if (currentLanguage.contains(RootCons.LANGUAGES.RUSSIAN)) {
@@ -110,14 +110,14 @@ public class UsageRxFrag extends BaseFrag {
             tvRoamingTraffic.setText(String.valueOf(roamUsage + roam_unit));
             // 获取当前连接时间
             int currTime = (int) result.getCurrConnTimes();
-            UsageHelper.Times currTime_s = UsageHelper.getUsedTimeForSec(getActivity(), currTime);
+            UsageHelper.Times currTime_s = UsageHelper.getUsedTimeForSec(activity, currTime);
             String rhour = currTime_s.hour;
             String rmin = currTime_s.min;
             boolean isNoRHour = "0".equalsIgnoreCase(rhour);
             if (TextUtils.isEmpty(rmin)) {
                 rmin = "0";
             }
-            tvRoamingTime.setText(isNoRHour ? rmin + getString(R.string.hh70_min_s) : rhour + getString(R.string.hh70_hr_s) + rmin + getString(R.string.hh70_min_s));
+            tvRoamingTime.setText(isNoRHour ? rmin + activity.getString(R.string.hh70_min_s) : rhour + activity.getString(R.string.hh70_hr_s) + rmin + activity.getString(R.string.hh70_min_s));
             // 获取总连接时间
             int tConnTimes = (int) result.getTConnTimes();
             UsageHelper.Times usedTime = UsageHelper.getUsedTimeForSec(getActivity(), tConnTimes);
@@ -126,11 +126,11 @@ public class UsageRxFrag extends BaseFrag {
             boolean isNoTHour = "0".equalsIgnoreCase(nhour);
             String currentLanguage1 = ShareUtils.get(RootCons.LOCALE_LANGUAGE_COUNTRY, "");
             boolean isRussian = currentLanguage1.contains(RootCons.LANGUAGES.RUSSIAN);
-            String hour = nhour + getString(R.string.hh70_hr_s);
-            String min = nmin + getString(R.string.hh70_min_s);
+            String hour = nhour + activity.getString(R.string.hh70_hr_s);
+            String min = nmin + activity.getString(R.string.hh70_min_s);
             if (isRussian) {
-                hour = nhour + getString(R.string.hh70_hr_s);
-                min = nmin + getString(R.string.hh70_min_s);
+                hour = nhour + activity.getString(R.string.hh70_hr_s);
+                min = nmin + activity.getString(R.string.hh70_min_s);
             }
             String time = isNoTHour ? min : hour + min;
             tvNetworkTime.setText(time);
@@ -139,25 +139,25 @@ public class UsageRxFrag extends BaseFrag {
             String currentLanguage1 = ShareUtils.get(RootCons.LOCALE_LANGUAGE_COUNTRY, "");
             boolean isRussian = currentLanguage1.contains(RootCons.LANGUAGES.RUSSIAN);
             int tConnTimes = (int) result.getTConnTimes();
-            String noRoamingUsage = "0.00" + getString(R.string.hh70_mb);
+            String noRoamingUsage = "0.00" + activity.getString(R.string.hh70_mb);
             if (isRussian) {
-                noRoamingUsage = "0.00" + " " + getString(R.string.hh70_mb);
+                noRoamingUsage = "0.00" + " " + activity.getString(R.string.hh70_mb);
             }
-            String noRoamingTime = "0" + getString(R.string.hh70_min_s);
+            String noRoamingTime = "0" + activity.getString(R.string.hh70_min_s);
             if (isRussian) {
-                noRoamingTime = "0 " + getString(R.string.hh70_min_s);
+                noRoamingTime = "0 " + activity.getString(R.string.hh70_min_s);
             }
             UsageHelper.Times usedTime = UsageHelper.getUsedTimeForSec(getActivity(), tConnTimes);
             String nhour = usedTime.hour;
             String nmin = usedTime.min;
             boolean isNoTHour = "0".equalsIgnoreCase(nhour);
 
-            String hour = nhour + getString(R.string.hh70_hr_s);
-            String min = nmin + getString(R.string.hh70_min_s);
+            String hour = nhour + activity.getString(R.string.hh70_hr_s);
+            String min = nmin + activity.getString(R.string.hh70_min_s);
             if (isRussian) {
                 noRoamingUsage = noRoamingUsage.replace(".", ",");
-                hour = nhour + getString(R.string.hh70_hr_s);
-                min = nmin + getString(R.string.hh70_min_s);
+                hour = nhour + activity.getString(R.string.hh70_hr_s);
+                min = nmin + activity.getString(R.string.hh70_min_s);
             }
             String time = isNoTHour ? min : hour + min;
             tvNetworkTime.setText(time);

@@ -85,8 +85,8 @@ public class DataPlanInitFrag extends BaseFrag {
     private void initRes() {
         switch_on = getRootDrawable(R.drawable.pwd_switcher_on);
         switch_off = getRootDrawable(R.drawable.pwd_switcher_off);
-        MB = getString(R.string.hh70_mb);
-        GB = getString(R.string.hh70_gb);
+        MB = activity.getString(R.string.hh70_mb);
+        GB = activity.getString(R.string.hh70_gb);
     }
 
     /**

@@ -2,7 +2,6 @@ package com.alcatel.wifilink.root.helper;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.view.View;
 
 import com.alcatel.wifilink.R;
 import com.alcatel.wifilink.root.utils.RootCons;
@@ -34,7 +33,11 @@ public class FirmUpgradeHelper {
 
     public FirmUpgradeHelper(Activity activity, HH70_LoadWidget wdLoad, boolean isDialog) {
         this.activity = activity;
-        wdLoad.setVisibility(isDialog? View.VISIBLE:View.GONE);
+        if (isDialog) {
+            wdLoad.setVisibles();
+        }else {
+            wdLoad.setGone();
+        }
     }
 
     /**

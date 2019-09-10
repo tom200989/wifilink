@@ -309,7 +309,7 @@ public class SettingNetworkFrag extends BaseFrag {
         networkSetDataPlan.setOnClickListener(v -> {
             mSetDataPlan.setVisibility(View.VISIBLE);
             mMobileNetwork.setVisibility(View.GONE);
-            tvTitle.setText(getString(R.string.hh70_set_data_plan));
+            tvTitle.setText(activity.getString(R.string.hh70_set_data_plan));
             getUsageSetting();
         });
         networkChangePin.setOnClickListener(v -> {
@@ -317,7 +317,7 @@ public class SettingNetworkFrag extends BaseFrag {
                 mChangePin.setVisibility(View.VISIBLE);
                 tvDone.setVisibility(mChangePin.getVisibility() == View.VISIBLE ? View.VISIBLE : View.GONE);
                 mMobileNetwork.setVisibility(View.GONE);
-                tvTitle.setText(getString(R.string.hh70_change_pin));
+                tvTitle.setText(activity.getString(R.string.hh70_change_pin));
             } else {
                 toast(R.string.hh70_enable_sim_pin, 3000);
             }
@@ -476,7 +476,7 @@ public class SettingNetworkFrag extends BaseFrag {
             et_settingPin.setText("");
             RootUtils.hideKeyBoard(activity);
             int remainTimes = mSimStatus.getPinRemainingTimes() - 1;
-            String content = getString(R.string.hh70_pin_code_wrong) + "\n" + getString(R.string.hh70_can_enter_times, remainTimes + "");
+            String content = activity.getString(R.string.hh70_pin_code_wrong) + "\n" + activity.getString(R.string.hh70_can_enter_times, remainTimes + "");
             toast(content, 3000);
             getSimStatus();
             mSimPinCompat.setChecked(enable != 1);
@@ -535,7 +535,7 @@ public class SettingNetworkFrag extends BaseFrag {
             } else if (result.getTimeLimitFlag() == GetUsageSettingsBean.CONS_TIME_LIMIT_ABLE) {
                 mLimitAutoDisaconectCompat.setChecked(true);
             }
-            mSetTimeLimitText.setText(String.valueOf(result.getTimeLimitTimes() + getString(R.string.hh70_min_s)));
+            mSetTimeLimitText.setText(String.valueOf(result.getTimeLimitTimes() + activity.getString(R.string.hh70_min_s)));
         });
         getUsageSettingsHelper.getUsageSetting();
     }

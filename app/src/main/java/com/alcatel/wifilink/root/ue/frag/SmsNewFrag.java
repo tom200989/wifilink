@@ -262,7 +262,7 @@ public class SmsNewFrag extends BaseFrag {
             m_etNumber.setEnabled(false);
             m_etContent.setEnabled(false);
         } else {
-            String msgRes = this.getString(R.string.hh70_only_3_phone_num);
+            String msgRes = activity.getString(R.string.hh70_only_3_phone_num);
             toast(msgRes, 2000);
             m_etNumber.requestFocus();
         }

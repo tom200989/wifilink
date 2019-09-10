@@ -115,7 +115,7 @@ public class SetDeviceBackupHelper extends BaseHelper {
         }
         // 创建1级目录
         String defaultPath = sdDir.getAbsolutePath() + XCons.PATH_SMARTLINK;
-        File smartDir = new File(TextUtils.isEmpty(path) ? defaultPath : path);
+        File smartDir = new File(TextUtils.isEmpty(path) ? defaultPath : sdDir.getAbsolutePath() + path);
         if (!smartDir.exists() | !smartDir.isDirectory()) {
             smartDir.mkdirs();
         }
@@ -196,7 +196,7 @@ public class SetDeviceBackupHelper extends BaseHelper {
         String[] chs = path.split(SPLIT);
         for (String ch : chs) {
             if (!TextUtils.isEmpty(ch)) {
-                newPath = ch + SPLIT;
+                newPath = newPath + ch + SPLIT;
             }
         }
         return SPLIT + newPath.substring(0, newPath.length() - 1);

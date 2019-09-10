@@ -632,6 +632,7 @@ public class SettingFrag extends BaseFrag {
         xSetDeviceRestoreHelper.setOnDoneHelperListener(this::dismissLoadingDialog);
         xSetDeviceRestoreHelper.setOnRestoreSuccessListener(file -> toast(R.string.hh70_succeed));
         xSetDeviceRestoreHelper.setOnRestoreFailedListener(() -> toast(R.string.hh70_restore_try_again));
+        xSetDeviceRestoreHelper.setOnNoRestoreFileListener(() -> toast(R.string.hh70_restore_try_again));
         xSetDeviceRestoreHelper.setDeviceRestore();
     }
 
