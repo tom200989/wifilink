@@ -1,8 +1,5 @@
 package com.alcatel.wifilink.root.app;
 
-import android.annotation.TargetApi;
-import android.os.Build;
-import android.os.StrictMode;
 import android.text.TextUtils;
 
 import com.alcatel.wifilink.root.utils.RootCons;
@@ -24,7 +21,6 @@ public class WifiLinkApp extends RootApp {
         ShareUtils.spName = "ROOT_WIFI_LINK";
         cacheLanguage();// 初始化语言
         HostnameUtils.setVerifyHostName(this);// 设置google请求认证
-        initPhotoError();
     }
 
     /**
@@ -37,14 +33,5 @@ public class WifiLinkApp extends RootApp {
         String country = locale.getCountry();
         // 如果没有指定地区, 则格式为: es-default, 否则es-MX (一般情况下即便是从系统取, 系统会自动带地区, 这里仅仅为防止其他情况)
         ShareUtils.set(RootCons.LOCALE_LANGUAGE_COUNTRY, language + "-" + (TextUtils.isEmpty(country) ? "default" : country));
-    }
-
-    // add by haide.yin@tcl.com at 2019/9/9 android 7.0以上系统解决拍照的问题
-    @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
-    private void initPhotoError(){
-        // VmPolicy方式 代替 FileProvider方式
-        StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
-        StrictMode.setVmPolicy(builder.build());
-        builder.detectFileUriExposure();
     }
 }
