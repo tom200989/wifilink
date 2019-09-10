@@ -88,14 +88,11 @@ public class MobileNetworkFrag extends BaseFrag {
     private String text_manual;
     private String text_4G;
     private String text_3G;
-    private String text_2G;
-    private String[] modes;
     private Drawable switch_on;
     private Drawable switch_off;
     private ConnectSettingHelper connSettingHelper;
     private NetworkSettingHelper networkSettingHelper;
     private SimNumImsiHelper simNumImsiHelper;
-    private ConnectSettingHelper connSettingInitHelper;
     private GetNetworkSettingsBean getNetworkSettingsBean;
 
     @Override
@@ -103,8 +100,8 @@ public class MobileNetworkFrag extends BaseFrag {
         super.initViewFinish(inflateView);
         initRes();// 初始化资源
         initClick();
+        timer_period = 1500;
         timerState = TimerState.ON_BUT_OFF_WHEN_HIDE_AND_PAUSE;
-        timer_period = 2500;
     }
 
     @Override
@@ -117,8 +114,6 @@ public class MobileNetworkFrag extends BaseFrag {
         text_manual = activity.getString(R.string.hh70_maunal);
         text_4G = activity.getString(R.string.hh70_4g);
         text_3G = activity.getString(R.string.hh70_3g);
-        text_2G = activity.getString(R.string.hh70_2g);
-        modes = new String[]{text_auto, text_4G, text_3G, text_2G};
         switch_on = getRootDrawable(R.drawable.switch_on);
         switch_off = getRootDrawable(R.drawable.switch_off);
     }
@@ -195,7 +190,6 @@ public class MobileNetworkFrag extends BaseFrag {
     private void getMode() {
         networkSettingHelper = new NetworkSettingHelper();
         networkSettingHelper.setOnAutoListener(attr -> tvModeMode.setText(text_auto));
-        networkSettingHelper.setOn2GListener(attr -> tvModeMode.setText(text_2G));
         networkSettingHelper.setOn3GListener(attr -> tvModeMode.setText(text_3G));
         networkSettingHelper.setOn4GListener(attr -> tvModeMode.setText(text_4G));
         networkSettingHelper.setOnNormalNetworkListener(getNetworkSettingsBean -> this.getNetworkSettingsBean = getNetworkSettingsBean);
@@ -206,7 +200,6 @@ public class MobileNetworkFrag extends BaseFrag {
      * 获取漫游状态
      */
     private void getDataRoaming() {
-
         GetConnectionSettingsHelper xGetConnectionSettingsHelper = new GetConnectionSettingsHelper();
         xGetConnectionSettingsHelper.setOnGetConnectionSettingsSuccessListener(getConnectionSettingsBean -> {
             int roamingConnect = getConnectionSettingsBean.getRoamingConnect();
@@ -273,7 +266,6 @@ public class MobileNetworkFrag extends BaseFrag {
      * 点击了data roaming
      */
     private void clickRoaming() {
-        // TODO: 2019/9/9 0009  
         DataRoamHelper dataRoamHelper = new DataRoamHelper(activity);
         dataRoamHelper.setOnRoamConnSuccessListener(result -> ivDataRoaming.setImageDrawable(result.getRoamingConnect() == GetConnectionSettingsBean.CONS_WHEN_ROAMING_CAN_CONNECT ? switch_on : switch_off));
         dataRoamHelper.transfer();
@@ -286,8 +278,6 @@ public class MobileNetworkFrag extends BaseFrag {
         modeWidget.setOnAutoClickListener(() -> changeMode(GetNetworkSettingsBean.CONS_AUTO_MODE));
         modeWidget.setOn4gModeClickListener(() -> changeMode(GetNetworkSettingsBean.CONS_ONLY_LTE));
         modeWidget.setOn3gModeClickListener(() -> changeMode(GetNetworkSettingsBean.CONS_ONLY_3G));
-        // TOGO 由于现在很少SIM卡支持2G, 如果强行切换会导致SIM卡注册不上
-        // modeWidget.setOn2gModeClickListener(() -> changeMode(GetNetworkSettingsBean.CONS_ONLY_2G));
         modeWidget.setVisibility(View.VISIBLE);
     }
 
@@ -296,7 +286,17 @@ public class MobileNetworkFrag extends BaseFrag {
      */
     private void changeMode(int mode) {
         ModeHelper modeHelper = new ModeHelper(activity);
-        modeHelper.setOnModeSuccessListener(attr -> tvModeMode.setText(modes[attr.getNetworkMode()]));
+        modeHelper.setOnModeSuccessListener(attr -> {
+            int networkMode = attr.getNetworkMode();
+            switch (networkMode) {
+                case GetNetworkSettingsBean.CONS_ONLY_3G:
+                    tvModeMode.setText(text_3G);
+                    break;
+                case GetNetworkSettingsBean.CONS_ONLY_LTE:
+                    tvModeMode.setText(text_4G);
+                    break;
+            }
+        });
         modeHelper.transfer(mode);
     }
 

@@ -80,7 +80,7 @@ dependencies {
     // rootMAhiber -- 波浪控件
     api(name: 'de_wave2', ext: 'aar')
     // rootMAhiber -- 图片选择器
-    api(name: 'ma_seleter', ext: 'aar')
+    api(name: 'ma_seletor', ext: 'aar')
     api 'com.squareup.picasso:picasso:2.5.2'
     // rootMAhiber -- 数字进度条
     api(name: 'ma_numberbar', ext: 'aar')

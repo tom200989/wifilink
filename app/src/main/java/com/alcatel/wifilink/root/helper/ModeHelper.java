@@ -25,7 +25,6 @@ public class ModeHelper {
         GetNetworkSettingsBeanHelper xGetNetworkSettingHelper = new GetNetworkSettingsBeanHelper();
         xGetNetworkSettingHelper.setOnGetNetworkSettingsFailedListener(() ->toast(R.string.hh70_cant_connect) );
         xGetNetworkSettingHelper.setOnGetNetworkSettingsSuccessListener(getNetworkSettingsBean -> {
-            xGetNetworkSettingHelper.getNetworkSettings();
             // 3.提交请求
             SetNetworkSettingsParam param = new SetNetworkSettingsParam();
             param.setDomesticRoam(getNetworkSettingsBean.getDomesticRoam());
@@ -43,6 +42,7 @@ public class ModeHelper {
             xSetNetworkSettingsHelper.setOnSetNetworkSettingsFailedListener(() -> toast(R.string.hh70_cant_connect));
             xSetNetworkSettingsHelper.setNetworkSettings(param);
         });
+        xGetNetworkSettingHelper.getNetworkSettings();
     }
 
     private OnModeSuccessListener onModeSuccessListener;
