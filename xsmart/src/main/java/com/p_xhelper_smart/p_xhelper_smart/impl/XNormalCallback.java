@@ -35,8 +35,8 @@ public abstract class XNormalCallback<T> extends XNormalListener<XResponceBody<T
 
     @Override
     public void wifiOff() {
-        // 发送WIFI掉线信号 -- WifiShutDownBean
-        EventBus.getDefault().postSticky(new WifiShutDownBean());
+        // 发送WIFI掉线信号 -- WifiShutDownBean(必须使用post发送)
+        EventBus.getDefault().post(new WifiShutDownBean());
     }
 
     @Override

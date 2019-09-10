@@ -8,6 +8,7 @@ import com.alcatel.wifilink.root.ue.activity.HomeActivity;
 import com.alcatel.wifilink.root.ue.activity.SplashActivity;
 import com.hiber.hiber.RootFrag;
 import com.hiber.impl.RootEventListener;
+import com.hiber.tools.Lgg;
 import com.p_xhelper_smart.p_xhelper_smart.impl.WifiShutDownBean;
 
 /*
@@ -30,6 +31,7 @@ public class BaseFrag extends RootFrag {
             public void getData(WifiShutDownBean wifiShutDownBean) {
                 // 提示连接失败
                 toast(R.string.hh70_cant_connect, 3000);
+                Lgg.w("roottrack", "BaseFrag wifi off");
                 // 跳转到refresh
                 if (activity instanceof SplashActivity) {
                     toFrag(getClass(), RefreshFrag.class, null, true);

@@ -7,8 +7,10 @@ import android.widget.Button;
 
 import com.alcatel.wifilink.R;
 import com.alcatel.wifilink.root.widget.HH70_CheckWifiWidget;
+import com.hiber.cons.TimerState;
 import com.hiber.hiber.RootFrag;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetLoginStateHelper;
+import com.p_xhelper_smart.p_xhelper_smart.utils.SmartUtils;
 
 import butterknife.BindView;
 
@@ -31,6 +33,16 @@ public class RefreshFrag extends RootFrag {
     public void onNexts(Object o, View view, String s) {
         init();
         setClickEvent();
+        timerState = TimerState.ON_BUT_OFF_WHEN_HIDE_AND_PAUSE;
+    }
+
+    @Override
+    public void setTimerTask() {
+        if (SmartUtils.isWifiOn(activity)) {
+            GetLoginStateHelper xGetLoginStateHelper = new GetLoginStateHelper();
+            xGetLoginStateHelper.setOnGetLoginStateSuccessListener(getLoginStateBean -> toFrag(getClass(), LoginFrag.class, null, true, getClass()));
+            xGetLoginStateHelper.getLoginState();
+        }
     }
 
     /**
@@ -56,10 +68,14 @@ public class RefreshFrag extends RootFrag {
     }
 
     private void checkNet() {
-        GetLoginStateHelper xGetLoginStateHelper = new GetLoginStateHelper();
-        xGetLoginStateHelper.setOnGetLoginStateSuccessListener(getLoginStateBean -> toFrag(getClass(), LoginFrag.class, null, true, getClass()));
-        xGetLoginStateHelper.setOnGetLoginStateFailedListener(() -> wdCheckWifi.setVisibility(View.VISIBLE));
-        xGetLoginStateHelper.getLoginState();
+        if (SmartUtils.isWifiOn(activity)) {
+            GetLoginStateHelper xGetLoginStateHelper = new GetLoginStateHelper();
+            xGetLoginStateHelper.setOnGetLoginStateSuccessListener(getLoginStateBean -> toFrag(getClass(), LoginFrag.class, null, true, getClass()));
+            xGetLoginStateHelper.setOnGetLoginStateFailedListener(() -> wdCheckWifi.setVisibility(View.VISIBLE));
+            xGetLoginStateHelper.getLoginState();
+        } else {
+            wdCheckWifi.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override

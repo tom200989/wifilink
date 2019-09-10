@@ -287,14 +287,14 @@ public class HomeActivity extends RootMAActivity {
                 xGetLoginStateHelper.getLoginState();
                 LogoutHelper xLogoutHelper = new LogoutHelper();
                 xLogoutHelper.setOnLogoutSuccessListener(() -> {
-                    toFrag(getClass(), LoginFrag.class, null, true);
+                    toFragActivity(getClass(), SplashActivity.class, LoginFrag.class, null, true);
                     if (touchTimer != null) {
                         touchTimer.stop();
                     }
                 });
                 xLogoutHelper.setOnLogOutFailedListener(() -> {
                     if (!LoginFrag.currentIsLoginPage) {
-                        toFrag(getClass(), LoginFrag.class, null, true);
+                        toFragActivity(getClass(), SplashActivity.class, LoginFrag.class, null, true);
                     }
                     if (touchTimer != null) {
                         touchTimer.stop();
@@ -303,7 +303,7 @@ public class HomeActivity extends RootMAActivity {
                 xLogoutHelper.logout();
             } else {
                 if (!LoginFrag.currentIsLoginPage) {
-                    toFrag(getClass(), LoginFrag.class, null, true);
+                    toFragActivity(getClass(), SplashActivity.class, LoginFrag.class, null, true);
                 }
                 if (touchTimer != null) {
                     touchTimer.stop();
