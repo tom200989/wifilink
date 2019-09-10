@@ -36,7 +36,7 @@ public class UsageRxFrag extends BaseFrag {
     @BindView(R.id.tv_usage_rx_roaming_time)
     TextView tvRoamingTime;
     @BindView(R.id.bt_usage_rx_resetStatist)
-    Button btResetStatist;
+    TextView btResetStatist;
     @BindView(R.id.tv_usage_rx_mobileNetworkSetting)
     TextView tvMobileNetworkSetting;
     @BindView(R.id.dg_usage_rx_ok)
@@ -82,6 +82,8 @@ public class UsageRxFrag extends BaseFrag {
         resetFailed = activity.getString(R.string.hh70_reset_try_again);
         resetSuccess = activity.getString(R.string.hh70_success);
         usageHelper = new UsageHelper(getActivity());
+        //加个箭头表示可点击
+        tvMobileNetworkSetting.setText(String.valueOf(tvMobileNetworkSetting.getText()+" >"));
     }
 
     @Override

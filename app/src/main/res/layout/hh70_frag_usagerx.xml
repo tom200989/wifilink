@@ -146,12 +146,13 @@
 
     </com.hiber.tools.layout.PercentRelativeLayout>
 
-    <Button
+    <TextView
         android:id="@+id/bt_usage_rx_resetStatist"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/rl_usage_rx_roaming"
         android:layout_centerHorizontal="true"
+        android:gravity="center"
         android:background="@drawable/bt_login_selector"
         android:text="@string/hh70_reset_statistics"
         android:textColor="@color/white"

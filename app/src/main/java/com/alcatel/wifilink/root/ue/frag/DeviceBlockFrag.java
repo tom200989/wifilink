@@ -32,6 +32,7 @@ public class DeviceBlockFrag extends BaseFrag {
 
     private BlockAdapter blockAdapter;
     private List<BlockBean> blockList = new ArrayList<>();
+    public boolean isStopGetDeviceStatus;//是否停止刷新读取设备状态,默认false表示需要刷新状态
 
     @Override
     public int onInflateLayout() {
@@ -47,13 +48,15 @@ public class DeviceBlockFrag extends BaseFrag {
 
     @Override
     public void setTimerTask(){
-        updateBlockDeviceUI();
+        if (!isStopGetDeviceStatus) {
+            updateBlockDeviceUI();
+        }
     }
 
     private void initUI(){
         LinearLayoutManager lm = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         rcv_block.setLayoutManager(lm);
-        blockAdapter = new BlockAdapter(activity, blockList);
+        blockAdapter = new BlockAdapter(activity,this, blockList);
         rcv_block.setAdapter(blockAdapter);
         //titlebar
         mbackBtn.setOnClickListener(v -> onBackPresss());

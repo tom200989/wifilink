@@ -68,7 +68,10 @@ public class InternetStatusFrag extends BaseFrag {
         // renew
         btInternetRenew.setOnClickListener(v -> getWanInfo());
         // ethernet wan connection
-        tvInternetEthernetWanConnect.setOnClickListener(v -> toFrag(getClass(), EtherWANFrag.class, null, true));
+        tvInternetEthernetWanConnect.setOnClickListener(v -> {
+            EtherWANFrag.lastFrag = getClass();
+            toFrag(getClass(), EtherWANFrag.class, null, true);
+        });
     }
 
     @Override

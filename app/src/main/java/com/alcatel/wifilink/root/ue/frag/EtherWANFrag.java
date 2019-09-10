@@ -283,7 +283,11 @@ public class EtherWANFrag extends BaseFrag {
 
     @Override
     public boolean onBackPresss() {
-        toFrag(getClass(), InternetStatusFrag.class, null, false);
+        if(lastFrag != null){
+            toFrag(getClass(), lastFrag, null, false);
+        }else{
+            toFrag(getClass(), InternetStatusFrag.class, null, false);
+        }
         return true;
     }
 }

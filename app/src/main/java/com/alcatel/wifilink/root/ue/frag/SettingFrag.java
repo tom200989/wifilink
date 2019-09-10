@@ -672,6 +672,7 @@ public class SettingFrag extends BaseFrag {
      * 进入ethernet wan conncet
      */
     private void goEthernetWanConnectionPage() {
+        EtherWANFrag.lastFrag = getClass();
         toFrag(getClass(), EtherWANFrag.class, null, true);
     }
 

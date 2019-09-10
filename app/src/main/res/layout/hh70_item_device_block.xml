@@ -15,7 +15,7 @@
         app:layout_heightPercent="5%w"
         android:layout_centerVertical="true"
         android:layout_margin="10dip"
-        android:background="@drawable/connected_device"
+        android:background="@drawable/item_pre_phone"
         android:contentDescription="@null" />
 
     <LinearLayout
@@ -28,16 +28,58 @@
         android:layout_toRightOf="@id/icon"
         android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/device_description"
-            android:layout_width="wrap_content"
+        <com.hiber.tools.layout.PercentLinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="none"
-            android:maxWidth="115dip"
-            android:singleLine="true"
-            android:text="super man"
-            android:textColor="@color/color_black"
-            android:textSize="16sp" />
+            android:orientation="horizontal">
+
+            <com.hiber.tools.layout.PercentFrameLayout
+                android:id="@+id/device_name_framelayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/device_description_editview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dip"
+                    android:layout_centerVertical="true"
+                    android:background="@drawable/selector_edit_bg"
+                    android:visibility="invisible"
+                    android:inputType="none"
+                    android:maxWidth="115dip"
+                    android:maxLength="31"
+                    android:singleLine="true"
+                    android:text=""
+                    android:textColor="@color/color_black"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/device_description"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center_vertical"
+                    android:maxWidth="115dip"
+                    android:singleLine="true"
+                    android:text="@string/hh70_unknown"
+                    android:textColor="@color/color_black"
+                    android:textSize="16sp" />
+
+            </com.hiber.tools.layout.PercentFrameLayout>
+
+            <ImageView
+                android:id="@+id/edit_image"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="10dp"
+                android:background="@drawable/connected_edit"
+                android:clickable="true"
+                android:contentDescription="@null"
+                android:keepScreenOn="true" />
+
+        </com.hiber.tools.layout.PercentLinearLayout>
 
         <TextView
             android:id="@+id/mac"

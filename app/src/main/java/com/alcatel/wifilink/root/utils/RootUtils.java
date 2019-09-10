@@ -369,6 +369,19 @@ public class RootUtils {
     }
 
     /**
+     * 判断是否含有特殊字符
+     * SSID can contain only a–z, A–Z, 0–9, - . _ and space. Length should be less than 32.
+     * @param str 检查内容
+     * @return true为包含，false为不包含
+     */
+    public static boolean contantSpecialChar(String str) {
+        String regEx = "[ `~!@#$%^&*()+=|{}':;',\\[\\]<>/?~！@#￥%……&*（）——+|{}【】‘；：”“’。，、？]|\n|\r|\t";
+        Pattern p = Pattern.compile(regEx);
+        Matcher m = p.matcher(str);
+        return m.find();
+    }
+
+    /**
      * 计算子掩码左位
      */
     private static int getLeftMostZeroBitPos(int number){

@@ -470,9 +470,14 @@ public class WifiFrag extends BaseFrag {
                 int newSecurity2GMode = mSecurity2GSpinner.getSelectedItemPosition();
                 int newEncryption2G = mEncryption2GSpinner.getSelectedItemPosition();
                 String newKey2G = RootUtils.getEDText(mKey2GEdit, true);
-
-                if (newSsid2G.isEmpty()) {
+                //不能为空
+                if (newSsid2G.isEmpty() || newSsid2G.length() > 32) {
                     toast(R.string.hh70_the_ssid, 2000);
+                    return;
+                }
+                //不能包含特殊字符
+                if (RootUtils.contantSpecialChar(newSsid2G)) {
+                    toast(R.string.hh70_ssid_can_contain, 2000);
                     return;
                 }
 
@@ -519,9 +524,14 @@ public class WifiFrag extends BaseFrag {
                 int newSecurity5GMode = mSecurity5GSpinner.getSelectedItemPosition();
                 int newEncryption5G = mEncryption5GSpinner.getSelectedItemPosition();
                 String newKey5G = RootUtils.getEDText(mKey5GEdit, true);
-
-                if (newSsid5G.isEmpty()) {
+                //不能为空
+                if (newSsid5G.isEmpty() || newSsid5G.length() > 32) {
                     toast(R.string.hh70_the_ssid, 2000);
+                    return;
+                }
+                //不能包含特殊字符
+                if (RootUtils.contantSpecialChar(newSsid5G)) {
+                    toast(R.string.hh70_ssid_can_contain, 2000);
                     return;
                 }
 

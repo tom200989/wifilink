@@ -124,6 +124,11 @@ public class DeviceConnectFrag extends BaseFrag {
         xGetBlockDeviceListHelper.setonGetBlockDeviceListSuccessListener(getBlockDeviceListBean -> {
             blockSize = getBlockDeviceListBean.getBlockList().size();
             mblock.setText(blockPre + blockSize + blockFix);
+            if (blockSize > 0) {
+                mblock.setTextColor(getRootColor(R.color.white));
+            }else{
+                mblock.setTextColor(getRootColor(R.color.gray));
+            }
         });
         xGetBlockDeviceListHelper.getBlockDeviceList();
     }
