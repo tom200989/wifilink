@@ -167,7 +167,7 @@ public class LoginHelper extends BaseHelper {
                 doneHelperNext();
 
             } else if (state == GetLoginStateBean.CONS_LOGOUT) {/* 依然是登出状态 */
-                if (count < 5) {// 小于5次 -- 则重复确认
+                if (count < 10) {// 小于5次 -- 则重复确认
                     try {
                         Thread.sleep(1000);
                         isStateLogin(loginBean);// 重复请求

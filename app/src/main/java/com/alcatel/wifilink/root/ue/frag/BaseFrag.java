@@ -21,7 +21,7 @@ public class BaseFrag extends RootFrag {
     }
 
     @Override
-    public void onNexts(Object o, View view, String s) {
+    public void initViewFinish(View inflateView) {
         // 发送隐藏任务栏的监听
         handleTab();
         // wifi没有连接上的处理
@@ -39,6 +39,11 @@ public class BaseFrag extends RootFrag {
 
             }
         });
+    }
+
+    @Override
+    public void onNexts(Object o, View view, String s) {
+        
     }
 
     @Override
