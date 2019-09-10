@@ -27,6 +27,7 @@ import com.p_xhelper_smart.p_xhelper_smart.bean.GetSMSContactListBean;
 import com.p_xhelper_smart.p_xhelper_smart.bean.GetSMSContentListBean;
 import com.tcl.token.ndk.JniTokenUtils;
 
+import java.net.InetAddress;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
@@ -246,6 +247,55 @@ public class RootUtils {
                        (num1 >= 0 && num1 <= 255) && // num1
                        (num2 >= 0 && num2 <= 255) && // num2
                        (num3 > 0 && num3 < 255);
+    }
+
+    /**
+     * 是否IP地址达标（WebUI的算法）
+     *
+     * @param ipAddress IP地址
+     * @return T:达标
+     */
+    public static boolean isStaticIPMatch(String ipAddress) {
+        if(TextUtils.isEmpty(ipAddress)){
+            return false;
+        }
+        // 不含点
+        if (!ipAddress.contains(".")) {
+            return false;
+        }
+        //以.拆分不是四位的不对
+        String[] addressArray = ipAddress.split("\\.");
+        if (addressArray.length != 4) {
+            return false;
+        }
+        Integer[] numberArray = new Integer[4];
+        //对每一项进行判断
+        for(int index = 0;index < addressArray.length;index++){
+            //每一项都不为空
+            if(TextUtils.isEmpty(addressArray[index])){
+                return false;
+            }
+            //全部为数字
+            Pattern numberPattern = Pattern.compile("[0-9]*");
+            if(!numberPattern.matcher(addressArray[index]).matches()){
+                return false;
+            }
+            //以0开始而且位数不为1的时候错误
+            if(addressArray[index].length() != 1 && addressArray[index].startsWith("0")){
+                return false;
+            }
+            //转为数字,在0-255之间
+            int number = Integer.valueOf(addressArray[index]);
+            numberArray[index] = number;
+        }
+        //WebUI的算法
+        if ((numberArray[0] <= 0 || numberArray[0] == 127 || numberArray[0] > 223)
+                || (numberArray[1] < 0 || numberArray[1] > 255)
+                || (numberArray[2] < 0 || numberArray[2] > 255)
+                || (numberArray[3] <= 0 || numberArray[3] >= 255)) {
+            return false;
+        }
+        return true;
     }
 
     /**
@@ -646,7 +696,11 @@ public class RootUtils {
         List<DeviceBean> dbs = new ArrayList<>();
         String ip_field = context.getString(R.string.hh70_ip);
         String mac_field = context.getString(R.string.hh70_mac);
-        String localIp = Objects.requireNonNull(NetUtils.getLocalIPAddress()).getHostAddress();
+        String localIp = "";
+        InetAddress inetAddress = NetUtils.getLocalIPAddress();
+        if(inetAddress != null){
+            localIp = inetAddress.getHostAddress();
+        }
 
         List<GetConnectDeviceListBean.ConnectedDeviceBean> ccls = connectedListBean.getConnectedList();
         if (ccls != null) {
@@ -657,7 +711,7 @@ public class RootUtils {
                 ddb.setDeviceName(ccl.getDeviceName());
                 ddb.setPhone(ccl.getConnectMode() == DeviceBean.CONS_WIFI_CONNECT);
                 ddb.setHost(localIp.equals(ccl.getIPAddress()));
-                if (localIp.equals(ccl.getIPAddress())) {
+                if (!TextUtils.isEmpty(ccl.getIPAddress()) && localIp.equals(ccl.getIPAddress())) {
                     dbs.add(0, ddb);
                 } else {
                     dbs.add(ddb);

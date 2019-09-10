@@ -136,7 +136,7 @@ public class EtherWANFrag extends BaseFrag {
             }
 
             // static ip_phone
-            if (!RootUtils.isAllMatch(str_staticIp)) {
+            if (!RootUtils.isStaticIPMatch(str_staticIp)) {
                 String ipValid = getString(R.string.hh70_ip_address) + "\n" + getString(R.string.hh70_cant_connect);
                 toast(ipValid, 3000);
                 return;
