@@ -69,6 +69,8 @@ public class SettingFrag extends BaseFrag {
     private int upgrade_Temp = 0;// 临时记录升级失效的次数
     int count = 0;
     private boolean isMWDev;
+    private boolean isHH71;
+    private ClickDoubleHelper clickDouble;
 
     @BindView(R.id.tv_settingrx_logout)
     TextView tvLogout;
@@ -123,8 +125,7 @@ public class SettingFrag extends BaseFrag {
     HH70_NormalWidget wd_reset;
     @BindView(R.id.lw_loading)
     HH70_LoadWidget loadWidget;
-    
-    private ClickDoubleHelper clickDouble;
+
 
     @Override
     public int onInflateLayout() {
@@ -162,10 +163,11 @@ public class SettingFrag extends BaseFrag {
         xGetSystemInfoHelper.setOnGetSystemInfoSuccessListener(systemInfo -> {
             String deviceName = systemInfo.getDeviceName().toLowerCase();
             isMWDev = RootUtils.isMWDEV(deviceName);
+            isHH71 = RootUtils.isHH71(deviceName);
             mEthernetWan.setVisibility(isMWDev ? View.GONE : View.VISIBLE);
             // rl_wifiExtender.setVisibility(isMWDev | isHH71 ? View.VISIBLE : View.GONE);
             rl_wifiExtender.setVisibility(View.GONE);// 全面取消wifi-extender功能
-            rl_feedback.setVisibility(isMWDev ? View.VISIBLE : View.GONE);
+            rl_feedback.setVisibility(isMWDev | isHH71 ? View.VISIBLE : View.GONE);
             if (!isMWDev) {// 不是MW120机型--> 请求wan口
                 requestWAN();
             } else {// 如果是MW120机型--> 请求extender接口
@@ -258,10 +260,10 @@ public class SettingFrag extends BaseFrag {
      */
     private void getConnection() {
         GetConnectionStateHelper xConnectionStateHelper = new GetConnectionStateHelper();
-        xConnectionStateHelper.setOnConnectedListener(() ->  mMobileNetworkSimSocket.setText(on));
-        xConnectionStateHelper.setOnConnectingListener(() ->  mMobileNetworkSimSocket.setText(off));
-        xConnectionStateHelper.setOnDisconnectedListener(() ->  mMobileNetworkSimSocket.setText(off));
-        xConnectionStateHelper.setOnDisConnectingListener(() ->  mMobileNetworkSimSocket.setText(off));
+        xConnectionStateHelper.setOnConnectedListener(() -> mMobileNetworkSimSocket.setText(on));
+        xConnectionStateHelper.setOnConnectingListener(() -> mMobileNetworkSimSocket.setText(off));
+        xConnectionStateHelper.setOnDisconnectedListener(() -> mMobileNetworkSimSocket.setText(off));
+        xConnectionStateHelper.setOnDisConnectingListener(() -> mMobileNetworkSimSocket.setText(off));
         xConnectionStateHelper.getConnectionState();
     }
 

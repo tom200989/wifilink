@@ -7,9 +7,8 @@ import android.widget.Button;
 
 import com.alcatel.wifilink.R;
 import com.alcatel.wifilink.root.widget.HH70_CheckWifiWidget;
-import com.hiber.cons.TimerState;
 import com.hiber.hiber.RootFrag;
-import com.p_xhelper_smart.p_xhelper_smart.helper.GetSystemInfoHelper;
+import com.p_xhelper_smart.p_xhelper_smart.helper.GetLoginStateHelper;
 
 import butterknife.BindView;
 
@@ -30,16 +29,8 @@ public class RefreshFrag extends RootFrag {
 
     @Override
     public void onNexts(Object o, View view, String s) {
-        timerState = TimerState.OFF_ALL_BUT_KEEP_CURRENT_OFF_WHEN_PAUSE;
         init();
         setClickEvent();
-    }
-
-    @Override
-    public void setTimerTask() {
-        GetSystemInfoHelper xGetSystemInfoHelper = new GetSystemInfoHelper();
-        xGetSystemInfoHelper.setOnGetSystemInfoSuccessListener(info -> toFrag(getClass(), LoginFrag.class, null, true, getClass()));
-        xGetSystemInfoHelper.getSystemInfo();
     }
 
     /**
@@ -61,7 +52,14 @@ public class RefreshFrag extends RootFrag {
             startActivity(new Intent(Settings.ACTION_WIFI_SETTINGS));
         });
         // 点击refresh
-        btRefresh.setOnClickListener(v -> wdCheckWifi.setVisibility(View.VISIBLE));
+        btRefresh.setOnClickListener(v -> checkNet());
+    }
+
+    private void checkNet() {
+        GetLoginStateHelper xGetLoginStateHelper = new GetLoginStateHelper();
+        xGetLoginStateHelper.setOnGetLoginStateSuccessListener(getLoginStateBean -> toFrag(getClass(), LoginFrag.class, null, true, getClass()));
+        xGetLoginStateHelper.setOnGetLoginStateFailedListener(() -> wdCheckWifi.setVisibility(View.VISIBLE));
+        xGetLoginStateHelper.getLoginState();
     }
 
     @Override
