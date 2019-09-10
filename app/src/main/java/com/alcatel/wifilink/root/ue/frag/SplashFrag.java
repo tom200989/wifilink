@@ -29,9 +29,9 @@ public class SplashFrag extends BaseFrag {
     }
 
     private void initRes() {
-        cancelText = String.valueOf(R.string.hh70_cancel);
-        okText = String.valueOf(R.string.hh70_ok);
-        warnText = String.valueOf(R.string.hh70_warning);
+        cancelText = getString(R.string.hh70_cancel);
+        okText = getString(R.string.hh70_ok);
+        warnText = getString(R.string.hh70_warning);
     }
 
     @Override
