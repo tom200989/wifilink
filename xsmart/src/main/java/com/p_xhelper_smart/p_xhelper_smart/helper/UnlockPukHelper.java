@@ -36,7 +36,7 @@ public class UnlockPukHelper extends BaseHelper {
 
             @Override
             public void fwError(FwError fwError) {
-                unlockPukFailedNext();
+                unlockPUKFWErrorNext();
             }
 
             @Override
@@ -44,6 +44,25 @@ public class UnlockPukHelper extends BaseHelper {
                 doneHelperNext();
             }
         }, false);
+    }
+
+    private OnUnlockPUKFwErrorListener onUnlockPUKFwErrorListener;
+
+    // Inteerface--> 接口OnUnlockPUKFwErrorListener
+    public interface OnUnlockPUKFwErrorListener {
+        void unlockPUKFWError();
+    }
+
+    // 对外方式setOnUnlockPUKFwErrorListener
+    public void setOnUnlockPUKFwErrorListener(OnUnlockPUKFwErrorListener onUnlockPUKFwErrorListener) {
+        this.onUnlockPUKFwErrorListener = onUnlockPUKFwErrorListener;
+    }
+
+    // 封装方法unlockPUKFWErrorNext
+    private void unlockPUKFWErrorNext() {
+        if (onUnlockPUKFwErrorListener != null) {
+            onUnlockPUKFwErrorListener.unlockPUKFWError();
+        }
     }
 
     private OnUnlockPukSuccessListener onUnlockPukSuccessListener;

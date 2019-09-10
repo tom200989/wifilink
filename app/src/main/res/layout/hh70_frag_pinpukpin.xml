@@ -6,10 +6,37 @@
     android:layout_height="match_parent"
     android:background="#f5f5f5">
 
+    <com.hiber.tools.layout.PercentRelativeLayout
+        android:id="@+id/rl_pin_banner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/mg_blue"
+        app:layout_heightPercent="9%h">
+
+        <ImageView
+            android:id="@+id/iv_pin_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:src="@drawable/back"
+            app:layout_heightPercent="50%h"
+            app:layout_widthPercent="50%h" />
+        
+        <TextView
+            app:layout_textSizePercent="30%h"
+            android:textColor="@color/white"
+            android:text="@string/hh70_sim_pin"
+            android:layout_centerInParent="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </com.hiber.tools.layout.PercentRelativeLayout>
+
     <!-- ***** PIN UI ***** -->
     <com.hiber.tools.layout.PercentRelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_below="@id/rl_pin_banner"
         android:visibility="visible">
 
         <!-- 输入框 -->
@@ -27,8 +54,8 @@
                 android:hint="@string/hh70_enable_sim_pin"
                 android:inputType="numberPassword"
                 android:maxLength="8"
-                android:paddingEnd="10dp"
                 android:paddingStart="10dp"
+                android:paddingEnd="10dp"
                 android:textColor="@color/mg_blue"
                 app:layout_textSizePercent="25%h" />
 
@@ -102,8 +129,8 @@
             android:layout_marginTop="30dp"
             android:background="@drawable/bt_login_selector"
             android:text="@string/hh70_connect"
-            android:textColor="@color/white"
             android:textAllCaps="false"
+            android:textColor="@color/white"
             app:layout_heightPercent="6%h"
             app:layout_textSizePercent="2.5%h"
             app:layout_widthPercent="85%w" />

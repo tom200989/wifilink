@@ -1,5 +1,6 @@
 package com.alcatel.wifilink.root.ue.frag;
 
+import android.annotation.SuppressLint;
 import android.graphics.drawable.Drawable;
 import android.text.TextUtils;
 import android.view.View;
@@ -24,6 +25,8 @@ import butterknife.BindView;
 public class PinRxFrag extends BaseFrag {
     // public class PinRxFragment extends Fragment  {
 
+    @BindView(R.id.iv_pin_back)
+    ImageView ivBack;
     @BindView(R.id.et_pin_rx)
     EditText etPinRx;
     @BindView(R.id.iv_pin_rx_deleted)
@@ -43,6 +46,7 @@ public class PinRxFrag extends BaseFrag {
     private int gray_color;
     private Drawable check_pic;
     private Drawable uncheck_pic;
+    private boolean isRussia;
 
     @Override
     public int onInflateLayout() {
@@ -55,8 +59,13 @@ public class PinRxFrag extends BaseFrag {
         initRes();
         initUi();
         initOnClick();
-        //onResume
+        getLanguage();
         getRemainTime();
+    }
+
+    private void getLanguage() {
+        String language = ShareUtils.get(RootCons.LOCALE_LANGUAGE_COUNTRY, "");
+        isRussia = language.contains(RootCons.LANGUAGES.RUSSIAN);
     }
 
     @Override
@@ -92,6 +101,7 @@ public class PinRxFrag extends BaseFrag {
      * 点击事件
      */
     private void initOnClick() {
+        ivBack.setOnClickListener(v -> onBackPresss());
         ivPinRxDeleted.setOnClickListener(v -> etPinRx.setText(""));
         btPinRxUnlock.setOnClickListener(v -> {
             RootUtils.hideKeyBoard(activity);
@@ -107,26 +117,26 @@ public class PinRxFrag extends BaseFrag {
         });
     }
 
-    /**
-     * 获取PIN码剩余次数
-     */
-    private void getRemainTime() {
-        GetLoginStateHelper xGetLoginStateHelper = new GetLoginStateHelper();
-        xGetLoginStateHelper.setOnGetLoginStateSuccessListener(getLoginStateBean -> {
-            if (getLoginStateBean.getState() == GetLoginStateBean.CONS_LOGIN) {
-                GetSimStatusHelper xGetSimStatusHelper = new GetSimStatusHelper();
-                xGetSimStatusHelper.setOnGetSimStatusSuccessListener(this::toRemain);
-                xGetSimStatusHelper.setOnGetSimStatusFailedListener(() -> {
-                    toast(R.string.hh70_sim_not_accessible, 3000);
-                    toFragActivity(getClass(), SplashActivity.class, RefreshFrag.class, null, true,true,0);
-                });
-                xGetSimStatusHelper.getSimStatus();
-            } else {
-                toFragActivity(getClass(), SplashActivity.class, LoginFrag.class, null, true,true,0);
-            }
-        });
-        xGetLoginStateHelper.getLoginState();
-    }
+    // /**
+    //  * 获取PIN码剩余次数
+    //  */
+    // private void getRemainTime() {
+    //     GetLoginStateHelper xGetLoginStateHelper = new GetLoginStateHelper();
+    //     xGetLoginStateHelper.setOnGetLoginStateSuccessListener(getLoginStateBean -> {
+    //         if (getLoginStateBean.getState() == GetLoginStateBean.CONS_LOGIN) {
+    //             GetSimStatusHelper xGetSimStatusHelper = new GetSimStatusHelper();
+    //             xGetSimStatusHelper.setOnGetSimStatusSuccessListener(this::toRemain);
+    //             xGetSimStatusHelper.setOnGetSimStatusFailedListener(() -> {
+    //                 toast(R.string.hh70_sim_not_accessible, 3000);
+    //                 toFragActivity(getClass(), SplashActivity.class, RefreshFrag.class, null, true, true, 0);
+    //             });
+    //             xGetSimStatusHelper.getSimStatus();
+    //         } else {
+    //             toFragActivity(getClass(), SplashActivity.class, LoginFrag.class, null, true, true, 0);
+    //         }
+    //     });
+    //     xGetLoginStateHelper.getLoginState();
+    // }
 
     /**
      * 处理剩余次数
@@ -177,7 +187,7 @@ public class PinRxFrag extends BaseFrag {
                             toPukRx();
                             break;
                         case GetSimStatusBean.CONS_PIN_REQUIRED:
-                            unlockPinRequest(getSimStatusBean);
+                            unlockPinRequest();
                             break;
                         case GetSimStatusBean.CONS_SIM_CARD_READY:
                             toOtherRx();
@@ -186,11 +196,11 @@ public class PinRxFrag extends BaseFrag {
                 });
                 xGetSimStatusHelper.setOnGetSimStatusFailedListener(() -> {
                     toast(R.string.hh70_sim_not_accessible, 3000);
-                    toFragActivity(getClass(), SplashActivity.class, RefreshFrag.class, null, true,true,0);
+                    toFragActivity(getClass(), SplashActivity.class, RefreshFrag.class, null, true, true, 0);
                 });
                 xGetSimStatusHelper.getSimStatus();
             } else {
-                toFragActivity(getClass(), SplashActivity.class, LoginFrag.class, null, true,true,0);
+                toFragActivity(getClass(), SplashActivity.class, LoginFrag.class, null, true, true, 0);
             }
         });
         xGetLoginStateHelper.getLoginState();
@@ -213,11 +223,11 @@ public class PinRxFrag extends BaseFrag {
     /**
      * 发送解PIN请求
      */
-    private void unlockPinRequest(GetSimStatusBean result) {
+    private void unlockPinRequest() {
         String pin = RootUtils.getEDText(etPinRx);
-
         UnlockPinHelper xUnlockPinHelper = new UnlockPinHelper();
-        xUnlockPinHelper.setOnUnlockPinRemainTimeFailedListener(() -> {
+        xUnlockPinHelper.setOnUnlockPinRemainTimeFailedListener(this::getRemainTime);
+        xUnlockPinHelper.setOnUnlockPinSuccessListener(() -> {
             // 是否勾选了记住PIN
             boolean isRememPin = ivPinRxCheckbox.getDrawable() == check_pic;
             if (isRememPin) {
@@ -228,11 +238,51 @@ public class PinRxFrag extends BaseFrag {
             // 进入其他界面
             toOtherRx();
         });
-        xUnlockPinHelper.setOnUnlockPinFailedListener(() -> {
-            toast(R.string.hh70_pin_code_wrong, 2000);
-            getRemainTime();
-        });
+        xUnlockPinHelper.setOnUnlockPinFailedListener(() -> toast(R.string.hh70_cant_connect, 2000));
         xUnlockPinHelper.unlockPin(pin);
+    }
+
+    /**
+     * 获取剩余次数
+     */
+    @SuppressLint("SetTextI18n")
+    private void getRemainTime() {
+        GetSimStatusHelper xGetSimStatusHelper = new GetSimStatusHelper();
+        xGetSimStatusHelper.setOnGetSimStatusSuccessListener(getSimStatusBean -> {
+            int remainTimes = getSimStatusBean.getPinRemainingTimes();
+            // pinTime = 0;//  测试Puk界面跳转,请将该代码注释
+            tvPinRxTipNum.setText(String.valueOf(remainTimes));
+            if (remainTimes < 3) {
+                if (remainTimes > 1) {
+                    tvPinRxTipNum.setTextColor(red_color);
+                    tvPinRxTipDes.setTextColor(red_color);
+                    if (isRussia) {// 俄语 -- attemps remaing: 2
+                        tvPinRxTipDes.setText(getString(R.string.hh70_attempts_remaing) + ": " + remainTimes);
+                        tvPinRxTipNum.setVisibility(View.GONE);
+                    } else {// 其他语言, 2 attemps remaing 
+                        tvPinRxTipDes.setText(getString(R.string.hh70_attempts_remaing));
+                        tvPinRxTipNum.setVisibility(View.VISIBLE);
+                    }
+
+                } else if (remainTimes == 1) {
+                    tvPinRxTipNum.setVisibility(View.GONE);
+                    tvPinRxTipDes.setTextColor(red_color);
+                    tvPinRxTipDes.setText(getString(R.string.hh70_pin_remain));
+                } else {
+                    toFrag(getClass(), PukRxFrag.class, null, true);
+                }
+            } else {
+                tvPinRxTipNum.setTextColor(gray_color);
+                tvPinRxTipDes.setTextColor(gray_color);
+                if (isRussia) {
+                    String text = getString(R.string.hh70_attempts_remaing) + " " + remainTimes;
+                    tvPinRxTipDes.setText(text);
+                    tvPinRxTipNum.setVisibility(View.GONE);
+                }
+            }
+        });
+        xGetSimStatusHelper.setOnGetSimStatusFailedListener(() -> toast(R.string.hh70_cant_connect, 5000));
+        xGetSimStatusHelper.getSimStatus();
     }
 
     @Override

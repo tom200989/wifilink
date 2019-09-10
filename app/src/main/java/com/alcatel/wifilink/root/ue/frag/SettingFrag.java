@@ -153,7 +153,6 @@ public class SettingFrag extends BaseFrag {
 
     private void initSome() {
         extenderHelper = new Extender_GetWIFIExtenderSettingsHelper();
-
         extenderHelper.setOnStateEnableOnListener(stateEnable -> tvExtenderOnOff.setText(on));
         extenderHelper.setOnstateEnableOffListener(stateEnable -> tvExtenderOnOff.setText(off));
         extenderHelper.setOnGetExtenderFailedListener(() -> tvExtenderOnOff.setText(off));

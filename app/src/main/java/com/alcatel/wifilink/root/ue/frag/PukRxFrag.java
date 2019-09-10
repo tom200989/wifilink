@@ -101,26 +101,13 @@ public class PukRxFrag extends BaseFrag {
      * 获取PUK码剩余次数
      */
     private void getRemainTime() {
-        GetLoginStateHelper xGetLoginStateHelper = new GetLoginStateHelper();
-        xGetLoginStateHelper.setOnGetLoginStateSuccessListener(getLoginStateBean -> {
-            if (getLoginStateBean.getState() == GetLoginStateBean.CONS_LOGOUT) {
-                to(SplashActivity.class, LoginFrag.class);
-                return;
-            }
-            GetSimStatusHelper xGetSimStatusHelper = new GetSimStatusHelper();
-            xGetSimStatusHelper.setOnGetSimStatusSuccessListener(this::toShowRemain);
-            xGetSimStatusHelper.setOnGetSimStatusFailedListener(() -> {
-                toast(R.string.hh70_sim_not_accessible, 2000);
-                to(SplashActivity.class, RefreshFrag.class);
-            });
-            xGetSimStatusHelper.getSimStatus();
-        });
-
-        xGetLoginStateHelper.setOnGetLoginStateFailedListener(() -> {
-            toast(R.string.hh70_cant_connect, 2000);
+        GetSimStatusHelper xGetSimStatusHelper = new GetSimStatusHelper();
+        xGetSimStatusHelper.setOnGetSimStatusSuccessListener(this::toShowRemain);
+        xGetSimStatusHelper.setOnGetSimStatusFailedListener(() -> {
+            toast(R.string.hh70_sim_not_accessible, 2000);
             to(SplashActivity.class, RefreshFrag.class);
         });
-        xGetLoginStateHelper.getLoginState();
+        xGetSimStatusHelper.getSimStatus();
     }
 
     /**
@@ -128,7 +115,6 @@ public class PukRxFrag extends BaseFrag {
      */
     private void to(Class targetAc, Class targetFr) {
         toFragActivity(getClass(), targetAc, targetFr, null, false, true, 0);
-
     }
 
     /**
@@ -275,7 +261,6 @@ public class PukRxFrag extends BaseFrag {
     private void unlockPukRequest() {
         String puk = RootUtils.getEDText(etPukRx);
         String pin = RootUtils.getEDText(etPukResetpinRx);
-
         UnlockPukHelper xUnlockPukHelper = new UnlockPukHelper();
         xUnlockPukHelper.setOnUnlockPukSuccessListener(() -> {
             // 1.是否勾选了记住PIN
@@ -288,10 +273,8 @@ public class PukRxFrag extends BaseFrag {
             // 2.进入其他界面
             toOtherRx();
         });
-        xUnlockPukHelper.setOnUnlockPukFailedListener(() -> {
-            toast(R.string.hh70_cant_unlock_puk, 2000);
-            getRemainTime();
-        });
+        xUnlockPukHelper.setOnUnlockPukFailedListener(() -> toast(R.string.hh70_cant_unlock_puk, 2000));
+        xUnlockPukHelper.setOnUnlockPUKFwErrorListener(this::getRemainTime);
         xUnlockPukHelper.unlockPuk(puk, pin);
     }
 
