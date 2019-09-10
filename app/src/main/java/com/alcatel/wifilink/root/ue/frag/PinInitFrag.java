@@ -29,6 +29,8 @@ import butterknife.BindView;
  */
 public class PinInitFrag extends BaseFrag {
 
+    @BindView(R.id.iv_pin_init_back)
+    ImageView ivBack;
     @BindView(R.id.et_pin_rx)
     EditText etPinRx;
     @BindView(R.id.iv_pin_rx_deleted)
@@ -149,6 +151,7 @@ public class PinInitFrag extends BaseFrag {
      * 点击
      */
     private void initClick() {
+        ivBack.setOnClickListener(v -> onBackPresss());
         // 清除
         ivPinRxDeleted.setOnClickListener(v -> etPinRx.setText(""));
         // 解锁
@@ -231,7 +234,13 @@ public class PinInitFrag extends BaseFrag {
     private void unlockPinRequest() {
         String pin = RootUtils.getEDText(etPinRx);
         UnlockPinHelper xUnlockPinHelper = new UnlockPinHelper();
+        xUnlockPinHelper.setOnUnlockPinFailedListener(() -> toast(R.string.hh70_cant_connect, 2000));
         xUnlockPinHelper.setOnUnlockPinRemainTimeFailedListener(() -> {
+            etPinRx.setText("");
+            toast(R.string.hh70_pin_code_wrong, 5000);
+            getRemainTime();
+        });
+        xUnlockPinHelper.setOnUnlockPinSuccessListener(() -> {
             // 是否勾选了记住PIN
             boolean isRememPin = ivPinRxCheckbox.getDrawable() == check_pic;
             if (isRememPin) {
@@ -240,11 +249,6 @@ public class PinInitFrag extends BaseFrag {
                 ShareUtils.set(RootCons.PIN_INIT_IS_REMEM_PSD, isRememPin);
             }
             skip();// 跳转
-        });
-        xUnlockPinHelper.setOnUnlockPinRemainTimeFailedListener(() -> {
-            etPinRx.setText("");
-            toast(R.string.hh70_pin_code_wrong, 5000);
-            getRemainTime();
         });
         xUnlockPinHelper.unlockPin(pin);
     }

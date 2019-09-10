@@ -25,7 +25,7 @@ import butterknife.BindView;
 public class PinRxFrag extends BaseFrag {
     // public class PinRxFragment extends Fragment  {
 
-    @BindView(R.id.iv_pin_back)
+    @BindView(R.id.iv_pinrx_back)
     ImageView ivBack;
     @BindView(R.id.et_pin_rx)
     EditText etPinRx;
@@ -138,22 +138,22 @@ public class PinRxFrag extends BaseFrag {
     //     xGetLoginStateHelper.getLoginState();
     // }
 
-    /**
-     * 处理剩余次数
-     */
-    private void toRemain(GetSimStatusBean simStatus) {
-        int pinTime = simStatus.getPinRemainingTimes();
-        // pinTime = 0;//  测试Puk界面跳转,请将该代码注释
-        tvPinRxTipNum.setText(String.valueOf(pinTime));
-        if (pinTime < 3) {
-            tvPinRxTipNum.setTextColor(red_color);
-            tvPinRxTipDes.setTextColor(red_color);
-            if (pinTime <= 0) {
-                toPukRx();
-            }
-        }
-
-    }
+    // /**
+    //  * 处理剩余次数
+    //  */
+    // private void toRemain(GetSimStatusBean simStatus) {
+    //     int pinTime = simStatus.getPinRemainingTimes();
+    //     // pinTime = 0;//  测试Puk界面跳转,请将该代码注释
+    //     tvPinRxTipNum.setText(String.valueOf(pinTime));
+    //     if (pinTime < 3) {
+    //         tvPinRxTipNum.setTextColor(red_color);
+    //         tvPinRxTipDes.setTextColor(red_color);
+    //         if (pinTime <= 0) {
+    //             toPukRx();
+    //         }
+    //     }
+    //
+    // }
 
     /**
      * 解PIN
