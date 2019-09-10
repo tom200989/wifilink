@@ -29,6 +29,7 @@ import com.p_xhelper_smart.p_xhelper_smart.bean.GetLoginStateBean;
 import com.p_xhelper_smart.p_xhelper_smart.bean.GetSimStatusBean;
 import com.p_xhelper_smart.p_xhelper_smart.bean.GetSystemInfoBean;
 import com.p_xhelper_smart.p_xhelper_smart.bean.GetWanSettingsBean;
+import com.p_xhelper_smart.p_xhelper_smart.helper.GetConnectionStateHelper;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetLoginStateHelper;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetSimStatusHelper;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetSystemInfoHelper;
@@ -241,7 +242,7 @@ public class SettingFrag extends BaseFrag {
                         mMobileNetworkSimSocket.setText(off);
                         break;
                     case GetSimStatusBean.CONS_SIM_CARD_READY:
-                        mMobileNetworkSimSocket.setText(on);
+                        getConnection();
                         break;
                 }
             });
@@ -251,6 +252,18 @@ public class SettingFrag extends BaseFrag {
 
         xGetLoginStateHelper.setOnGetLoginStateFailedListener(() -> mMobileNetworkSimSocket.setText(noSimcard));
         xGetLoginStateHelper.getLoginState();
+    }
+
+    /**
+     * 获取连接状态
+     */
+    private void getConnection() {
+        GetConnectionStateHelper xConnectionStateHelper = new GetConnectionStateHelper();
+        xConnectionStateHelper.setOnConnectedListener(() ->  mMobileNetworkSimSocket.setText(on));
+        xConnectionStateHelper.setOnConnectingListener(() ->  mMobileNetworkSimSocket.setText(off));
+        xConnectionStateHelper.setOnDisconnectedListener(() ->  mMobileNetworkSimSocket.setText(off));
+        xConnectionStateHelper.setOnDisConnectingListener(() ->  mMobileNetworkSimSocket.setText(off));
+        xConnectionStateHelper.getConnectionState();
     }
 
     /**
