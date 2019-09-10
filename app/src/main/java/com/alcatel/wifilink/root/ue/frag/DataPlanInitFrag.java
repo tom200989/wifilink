@@ -179,6 +179,7 @@ public class DataPlanInitFrag extends BaseFrag {
      */
     private void toRequest() {
         GetLoginStateHelper xGetLoginStateHelper = new GetLoginStateHelper();
+        xGetLoginStateHelper.setOnPrepareHelperListener(() -> wdLoad.setVisibles());
         xGetLoginStateHelper.setOnGetLoginStateSuccessListener(getLoginStateBean -> {
             if (getLoginStateBean.getState() == GetLoginStateBean.CONS_LOGIN) {
                 GetSimStatusHelper xGetSimStatusHelper = new GetSimStatusHelper();
@@ -186,9 +187,11 @@ public class DataPlanInitFrag extends BaseFrag {
                     int simState = result.getSIMState();
                     switch (simState) {
                         case GetSimStatusBean.CONS_PIN_REQUIRED:
+                            wdLoad.setGone();
                             toFrag(getClass(), PinInitFrag.class, null, true);
                             break;
                         case GetSimStatusBean.CONS_PUK_REQUIRED:
+                            wdLoad.setGone();
                             toFrag(getClass(), PukInitFrag.class, null, true);
                             break;
                         case GetSimStatusBean.CONS_SIM_CARD_READY:
@@ -197,6 +200,7 @@ public class DataPlanInitFrag extends BaseFrag {
                     }
                 });
                 xGetSimStatusHelper.setOnGetSimStatusFailedListener(() -> {
+                    wdLoad.setGone();
                     toast(R.string.hh70_cant_connect, 5000);
                     toFrag(getClass(), RefreshFrag.class, null, true);
                 });
@@ -222,6 +226,7 @@ public class DataPlanInitFrag extends BaseFrag {
         param.copy(result);
         SetUsageSettingsHelper xSetUsageSettingsHelper = new SetUsageSettingsHelper();
         xSetUsageSettingsHelper.setOnSetUsageSettingsSuccessListener(() -> {
+            wdLoad.setGone();
             toast(R.string.hh70_success, 5000);
             skip();
         });
