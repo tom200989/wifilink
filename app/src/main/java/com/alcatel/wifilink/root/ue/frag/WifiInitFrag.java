@@ -411,8 +411,6 @@ public class WifiInitFrag extends BaseFrag {
         // 1.提交设置
         SetWlanSettingsHelper xSetWlanSettingsHelper = new SetWlanSettingsHelper();
         xSetWlanSettingsHelper.setOnSetWlanSettingsSuccessListener(() -> {
-            // 2.切断wifi
-            RootUtils.setWifiOn(activity, false);
             // 提交标记位
             ShareUtils.set(RootCons.SP_WIFI_INIT, true);
             toast(R.string.hh70_update_wifi, 5000);
