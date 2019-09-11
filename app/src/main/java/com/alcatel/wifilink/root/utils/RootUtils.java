@@ -12,10 +12,8 @@ import android.net.wifi.WifiManager;
 import android.support.annotation.ArrayRes;
 import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import com.alcatel.wifilink.R;
 import com.alcatel.wifilink.root.bean.DeviceBean;
@@ -35,7 +33,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -55,7 +52,7 @@ public class RootUtils {
         // 先转换成小写
         devName = devName.toLowerCase();
         // 再遍历判断
-        for (String dev : RootCons.FREE_SHARING_DEVICE) {
+        for (String dev : RootCons.MW_DEVICE) {
             if (devName.contains(dev)) {
                 return true;
             }
