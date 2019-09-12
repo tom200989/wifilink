@@ -4,13 +4,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true">
 
     <com.hiber.tools.layout.PercentRelativeLayout
         android:id="@+id/rl_sms_detail_title_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_heightPercent="9%h"
+        app:layout_heightPercent="9%sh"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:background="@color/main_title_background">
@@ -28,11 +29,10 @@
 
         <TextView
             android:id="@+id/tv_smsdetail_title"
-            android:layout_width="200dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:gravity="center"
-            android:maxLength="12"
             android:text="@string/hh70_no_sms"
             app:layout_textSizePercent="30%h"
             android:textColor="@color/color_white"
@@ -105,8 +105,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@id/rl_smsdetail_layout_send"
-        android:layout_below="@+id/rl_sms_detail_title_bar"
-        android:layout_marginTop="30dp"
+        android:layout_below="@+id/tv_smsdetail_date"
         android:layout_marginBottom="10dp" />
 
     <!-- date -->
@@ -114,14 +113,14 @@
         android:id="@+id/tv_smsdetail_date"
         android:layout_width="match_parent"
         android:layout_height="30dp"
-        android:layout_below="@+id/rl_sms_detail_title_bar"
         android:layout_centerHorizontal="true"
         android:alpha="0.2"
         android:background="@color/white"
         android:gravity="center"
         android:text=""
         android:textColor="@color/shadowcolor"
-        android:textSize="16sp" />
+        android:textSize="16sp"
+        app:layout_marginTopPercent="9%sh"/>
 
     <com.alcatel.wifilink.root.widget.HH70_SmsTryAgainWidget
         android:layout_width="match_parent"

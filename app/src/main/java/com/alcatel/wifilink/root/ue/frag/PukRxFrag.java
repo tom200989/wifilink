@@ -177,7 +177,10 @@ public class PukRxFrag extends BaseFrag {
             toast(R.string.hh70_puk_empty, 2000);
             return;
         }
-
+        if (puk.length() < 8) {
+            toast(R.string.hh70_puk_wrong, 2000);
+            return;
+        }
         String pin = RootUtils.getEDText(etPukResetpinRx);
         if (TextUtils.isEmpty(pin)) {
             toast(R.string.hh70_pin_empty, 2000);

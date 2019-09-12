@@ -162,7 +162,10 @@ public class PukInitFrag extends BaseFrag {
             toast(R.string.hh70_puk_empty, 5000);
             return;
         }
-
+        if (puk.length() < 8) {
+            toast(R.string.hh70_puk_wrong, 2000);
+            return;
+        }
         String pin = RootUtils.getEDText(etPukResetpinRx);
         if (TextUtils.isEmpty(pin)) {
             toast(R.string.hh70_pin_empty, 5000);
@@ -283,10 +286,13 @@ public class PukInitFrag extends BaseFrag {
             // 进入其他界面
             skip();
         });
-        xUnlockPukHelper.setOnUnlockPukFailedListener(() -> {
+        xUnlockPukHelper.setOnUnlockPUKFwErrorListener(() -> {
             etPukRx.setText("");
             toast(R.string.hh70_puk_wrong, 5000);
             getRemainTime();
+        });
+        xUnlockPukHelper.setOnUnlockPukFailedListener(() -> {
+            toast(R.string.hh70_cant_unlock_puk, 2000);
         });
         xUnlockPukHelper.unlockPuk(puk, pin);
     }

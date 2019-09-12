@@ -141,7 +141,7 @@ public class SmsFrag extends BaseFrag {
                 showDelPop();
             }
         });
-        ivSmsNew.setOnClickListener(v -> toFrag(getClass(), SmsNewFrag.class, null, false));
+        ivSmsNew.setOnClickListener(v -> toFrag(getClass(), SmsNewFrag.class, null, true));
     }
 
     @Override

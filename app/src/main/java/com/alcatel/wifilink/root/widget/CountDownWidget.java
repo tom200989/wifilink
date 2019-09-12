@@ -178,7 +178,8 @@ public class CountDownWidget extends TextView {
         isRunning = false;
         mCount = mUserCount;
         this.setText(String.valueOf(mUserCount));
-        invalidate();
+        // invalidate();
+        run();
     }
 
 }

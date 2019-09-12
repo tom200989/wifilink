@@ -104,6 +104,9 @@ public class PinInitFrag extends BaseFrag {
                     String text = getString(R.string.hh70_attempts_remaing) + " " + remainTimes;
                     tvPinRxTipDes.setText(text);
                     tvPinRxTipNum.setVisibility(View.GONE);
+                }else {
+                    tvPinRxTipDes.setText(getString(R.string.hh70_attempts_remaing));
+                    tvPinRxTipNum.setVisibility(View.VISIBLE);
                 }
             }
         });
@@ -118,7 +121,7 @@ public class PinInitFrag extends BaseFrag {
 
     /**
      * 获取当前语言环境
-     */ 
+     */
     private void getLanguage() {
         String language = ShareUtils.get(RootCons.LOCALE_LANGUAGE_COUNTRY, "");
         isRussia = language.contains(RootCons.LANGUAGES.RUSSIAN);
@@ -220,7 +223,7 @@ public class PinInitFrag extends BaseFrag {
                 xGetSimStatusHelper.getSimStatus();
             } else {
                 toast(R.string.hh70_log_out, 5000);
-                toFrag(getClass(), LoginFrag.class, null, true,getClass());
+                toFrag(getClass(), LoginFrag.class, null, true, getClass());
             }
         });
         xGetLoginStateHelper.setOnGetLoginStateFailedListener(() -> toast(R.string.hh70_cant_connect, 5000));
@@ -293,7 +296,7 @@ public class PinInitFrag extends BaseFrag {
             toFrag(getClass(), WizardFrag.class, null, true);
         } else {
             LogoutHelper xLogouthelper = new LogoutHelper();
-            xLogouthelper.setOnLogoutSuccessListener(() -> toFrag(getClass(), LoginFrag.class, null, true,getClass()));
+            xLogouthelper.setOnLogoutSuccessListener(() -> toFrag(getClass(), LoginFrag.class, null, true, getClass()));
             xLogouthelper.setOnLogOutFailedListener(() -> toast(R.string.hh70_cant_logout, 5000));
             xLogouthelper.logout();
         }

@@ -390,7 +390,7 @@ public class XSmart<T> {
 
             // 路径不存在 -- 提示先备份
             if (TextUtils.isEmpty(storePath)) {
-                callback.noRestoreFile();
+                callback.appError(null);
                 return;
             }
 

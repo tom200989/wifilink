@@ -190,7 +190,7 @@ public class SmsDetailFrag extends BaseFrag {
         activity.runOnUiThread(() -> {
             List<GetSMSContentListBean.SMSContentListBean> list = filterDraft(smsContentListBean);
             int pos = linearLayoutManager.findFirstVisibleItemPosition();
-            if (pos == -1){
+            if (pos == -1) {
                 return;
             }
             dateTimebanner = list.get(pos).getSMSTime();
@@ -358,7 +358,7 @@ public class SmsDetailFrag extends BaseFrag {
         }
         // 2. send sms
         String smsTime = smsContentListBean.getSMSContentList().get(0).getSMSTime();
-        new SmsSendHelper(activity, smsContact.getPhoneNumber(), content,smsTime) {
+        new SmsSendHelper(activity, smsContact.getPhoneNumber(), content, smsTime) {
 
             @Override
             public void prepare() {
@@ -433,19 +433,20 @@ public class SmsDetailFrag extends BaseFrag {
         sdfp.setOnSaveDraftListener(() -> {
             toast(R.string.hh70_sms_save_draft, 2000);
             toFrag(getClass(), SmsFrag.class, null, false);
-
         });
         sdfp.saveDraftSms(phoneNumber, content);
     }
 
     /* 弹出删除窗口 */
     private void deleteSmsPop() {
-        smsDeleteWidget.setOnConfirmClickListener(() -> {
-            resetLongClickFlag();// 1. reset the status ui
-            getSmsContents();// 2. getInstant data again
-        });
-        smsDeleteWidget.setOnCancelClickListener(this::deleteSms);
-        smsDeleteWidget.setVisibility(View.VISIBLE);
+        if (smsIds != null && smsIds.size() > 0) {
+            smsDeleteWidget.setOnConfirmClickListener(this::deleteSms);
+            smsDeleteWidget.setOnCancelClickListener(() -> {
+                resetLongClickFlag();// 1. reset the status ui
+                getSmsContents();// 2. getInstant data again
+            });
+            smsDeleteWidget.setVisibility(View.VISIBLE);
+        }
     }
 
     /* 真正删除短信 */

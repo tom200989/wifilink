@@ -351,7 +351,11 @@ public class SettingFrag extends BaseFrag {
         boolean noNewVersion = state == GetDeviceNewVersionBean.CONS_NO_NEW_VERSION || state == GetDeviceNewVersionBean.CONS_CHECK_ERROR;
         // 2.显示弹窗
         wd_checkVersion.setVisibility(View.VISIBLE);
-        wd_checkVersion.setVersionName(noNewVersion ? systemSystemInfo.getSwVersionMain() : updateDeviceNewVersion.getVersion() + " " + getString(R.string.hh70_available));
+        String currentVersion = "";
+        if (systemSystemInfo != null) {
+            currentVersion = TextUtils.isEmpty(systemSystemInfo.getSwVersionMain())?systemSystemInfo.getSwVersion():systemSystemInfo.getSwVersionMain();
+        }
+        wd_checkVersion.setVersionName(noNewVersion ? currentVersion : updateDeviceNewVersion.getVersion() + " " + getString(R.string.hh70_available));
         wd_checkVersion.setTipVisible(noNewVersion);
         wd_checkVersion.setOkText(noNewVersion ? getString(R.string.hh70_ok) : getString(R.string.hh70_upgrade));
         wd_checkVersion.setOnClickOKListener(() -> {
@@ -633,8 +637,10 @@ public class SettingFrag extends BaseFrag {
         xSetDeviceRestoreHelper.setOnPrepareHelperListener(this::showLoadingDialog);
         xSetDeviceRestoreHelper.setOnDoneHelperListener(this::dismissLoadingDialog);
         xSetDeviceRestoreHelper.setOnRestoreSuccessListener(file -> toast(R.string.hh70_succeed));
-        xSetDeviceRestoreHelper.setOnRestoreFailedListener(() -> toast(R.string.hh70_restore_try_again));
-        xSetDeviceRestoreHelper.setOnNoRestoreFileListener(() -> toast(R.string.hh70_restore_try_again));
+        xSetDeviceRestoreHelper.setOnRestoreFailedListener(() -> {
+            toast(R.string.hh70_restore_try_again);
+            dismissLoadingDialog();
+        });
         xSetDeviceRestoreHelper.setDeviceRestore();
     }
 

@@ -427,19 +427,21 @@ public class SetDataPlanFrag extends BaseFrag {
             UsageSettingHelper ush = new UsageSettingHelper();
             ush.setOnGetUsageSettingsFailedListener(() -> loadWidget.setGone());
             ush.setOnGetUsageSettingsSuccessListener(attr -> {
-                if (count == 0) {// 1.首次显示
-                    float usedData = attr.getUsedData() * 1f;
-                    float monthlyPlan = attr.getMonthlyPlan() * 1f;
-                    if (monthlyPlan > 0) {// 2.非无限流量的情况下
-                        String des = activity.getString(R.string.hh70_monthly_data_plan_used);// 3.超出月流量--> 显示警告
-                        if (usedData < monthlyPlan) {// 3.没有超出--> 显示剩余百分比
+                float usedData = attr.getUsedData() * 1f;
+                float monthlyPlan = attr.getMonthlyPlan() * 1f;
+                if (monthlyPlan > 0) {// 2.非无限流量的情况下
+                    String des = activity.getString(R.string.hh70_monthly_data_plan_used);// 3.超出月流量--> 显示警告
+                    if (usedData < monthlyPlan) {// 3.没有超出--> 显示剩余百分比
+                        if (count == 0) {
                             String per_s = (int) (((monthlyPlan - usedData) / monthlyPlan) * 100) + "%";
                             des = String.format(activity.getString(R.string.hh70_about_data_remain), per_s);
+                            toastLong(des);
                         }
+                    }else {
                         toastLong(des);// 4.吐司提示
                     }
-                    count++;
                 }
+                count++;
                 loadWidget.setGone();
             });
             ush.getUsageSetting();

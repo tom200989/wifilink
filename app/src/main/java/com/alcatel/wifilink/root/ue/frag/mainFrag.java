@@ -349,7 +349,7 @@ public class mainFrag extends BaseFrag {
         getUsageSettingsHelper.setOnGetUsageSettingsSuccessListener(attr -> {
             long monthlyPlan = attr.getMonthlyPlan();
             long usedData = attr.getUsedData();
-            if (usedData >= monthlyPlan && monthlyPlan != 0) {// 超出--> 提示
+            if (usedData >= monthlyPlan && monthlyPlan != 0 && attr.getAutoDisconnFlag() == GetUsageSettingsBean.CONS_AUTO_DISCONNECT_ENABLE) {// 超出--> 提示
                 toast(R.string.hh70_monthly_data_plan_used, 5000);
             } else {// 未超出--> 连接
                 toConnect();
@@ -850,12 +850,12 @@ public class mainFrag extends BaseFrag {
                 LogoutHelper xLogoutHelper = new LogoutHelper();
                 xLogoutHelper.setOnLogoutSuccessListener(() -> {
                     toast(R.string.hh70_logout_completed, 3000);
-                    toFragActivity(getClass(), SplashActivity.class, LoginFrag.class, null, true,true,0);
+                    toFragActivity(getClass(), SplashActivity.class, LoginFrag.class, null, true, true, 0);
                 });
                 xLogoutHelper.setOnLogOutFailedListener(() -> toast(R.string.hh70_cant_logout, 3000));
                 xLogoutHelper.logout();
             } else {
-                toFragActivity(getClass(), SplashActivity.class, LoginFrag.class, null, true,true,0);
+                toFragActivity(getClass(), SplashActivity.class, LoginFrag.class, null, true, true, 0);
             }
         });
         xGetLoginStateHelper.getLoginState();

@@ -278,6 +278,9 @@ public class PinRxFrag extends BaseFrag {
                     String text = getString(R.string.hh70_attempts_remaing) + " " + remainTimes;
                     tvPinRxTipDes.setText(text);
                     tvPinRxTipNum.setVisibility(View.GONE);
+                }else {
+                    tvPinRxTipDes.setText(getString(R.string.hh70_attempts_remaing));
+                    tvPinRxTipNum.setVisibility(View.VISIBLE);
                 }
             }
         });

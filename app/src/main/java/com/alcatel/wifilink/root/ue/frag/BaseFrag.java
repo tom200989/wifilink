@@ -23,8 +23,6 @@ public class BaseFrag extends RootFrag {
 
     @Override
     public void initViewFinish(View inflateView) {
-        // 发送隐藏任务栏的监听
-        handleTab();
         // wifi没有连接上的处理
         setEventListener(WifiShutDownBean.class, new RootEventListener<WifiShutDownBean>() {
             @Override
@@ -45,7 +43,8 @@ public class BaseFrag extends RootFrag {
 
     @Override
     public void onNexts(Object o, View view, String s) {
-        
+        // 发送隐藏任务栏的监听
+        handleTab();
     }
 
     @Override
@@ -59,9 +58,9 @@ public class BaseFrag extends RootFrag {
     public void handleTab() {
         // 以下四个界面需要显示tab -- 其余统统不显示
         boolean needShow = this instanceof mainFrag // main
-                                   | this instanceof WifiFrag // wifi
-                                   | this instanceof SmsFrag // sms
-                                   | this instanceof SettingFrag;// setting
+                | this instanceof WifiFrag // wifi
+                | this instanceof SmsFrag // sms
+                | this instanceof SettingFrag;// setting
         sendEvent(new TabBean(needShow), false);
     }
 

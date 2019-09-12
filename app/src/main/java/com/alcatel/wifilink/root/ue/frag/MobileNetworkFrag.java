@@ -18,6 +18,7 @@ import com.alcatel.wifilink.root.helper.PinStatuHelper;
 import com.alcatel.wifilink.root.helper.ProfileHelper;
 import com.alcatel.wifilink.root.helper.SimNumImsiHelper;
 import com.alcatel.wifilink.root.helper.SimPinHelper;
+import com.alcatel.wifilink.root.utils.RootUtils;
 import com.alcatel.wifilink.root.widget.HH70_ChangpinWidget;
 import com.alcatel.wifilink.root.widget.HH70_ConmodeWidget;
 import com.alcatel.wifilink.root.widget.HH70_ModeWidget;
@@ -312,6 +313,7 @@ public class MobileNetworkFrag extends BaseFrag {
      */
     private void clickSimPin() {
         simpinWidget.setOnOkClickListener(() -> {
+            RootUtils.hideKeyBoard(activity);
             // 提交修改
             SimPinHelper simPinHelper = new SimPinHelper(activity);
             simPinHelper.setOnPukLockedListener(attr -> toPukRx());
@@ -326,6 +328,10 @@ public class MobileNetworkFrag extends BaseFrag {
             simPinHelper.setOnPinTimeoutListener(attr -> toPukRx());// PIN次数超过限制
             simPinHelper.transfer(simpinWidget.getEtString());
         });
+        simpinWidget.setOnCancelClickListener(() -> {
+            RootUtils.hideKeyBoard(activity);
+        });
+        simpinWidget.clearEtString();
         simpinWidget.setVisibility(View.VISIBLE);
     }
 

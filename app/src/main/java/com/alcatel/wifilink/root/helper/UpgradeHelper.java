@@ -177,6 +177,7 @@ public class UpgradeHelper {
     private void startCountDownView(HH70_CountDownWidget wd_countdown) {
         this.wd_countdown = wd_countdown;
         this.wd_countdown.setVisibility(View.VISIBLE);
+        wd_countdown.getCountDownText().reset();
     }
 
     private void setCheck() {
@@ -238,6 +239,7 @@ public class UpgradeHelper {
     }
 
     private void hideAllWidget() {
+        isContinueChecking = false;
         if (countDownTimer != null) {
             countDownTimer.stop();// 停止倒数计时器
         }

@@ -228,7 +228,7 @@ public class SmsNewFrag extends BaseFrag {
     }
 
     private void OnBtnSend() {
-        
+
         RootUtils.hideKeyBoard(activity);
         if (checkNumbers()) {
             wdLoad.setVisibility(View.VISIBLE);

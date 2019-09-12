@@ -55,6 +55,13 @@ public class HH70_SimpinWidget extends RelativeLayout {
     }
 
     /**
+     * 清除编辑框
+     */
+    public void clearEtString() {
+        etSimPin.setText("");
+    }
+
+    /**
      * 设置取消按钮是否可显
      *
      * @param isVisible true:可显
