@@ -11,7 +11,6 @@ import com.alcatel.wifilink.root.ue.activity.SplashActivity;
 import com.alcatel.wifilink.root.utils.RootUtils;
 import com.alcatel.wifilink.root.widget.HH70_LoadWidget;
 import com.alcatel.wifilink.root.widget.HH70_NormalWidget;
-import com.p_encrypt.p_encrypt.core.md5.Md5Code;
 import com.p_xhelper_smart.p_xhelper_smart.bean.GetLoginStateBean;
 import com.p_xhelper_smart.p_xhelper_smart.bean.GetSystemInfoBean;
 import com.p_xhelper_smart.p_xhelper_smart.helper.ChangePasswordHelper;
@@ -143,7 +142,7 @@ public class SettingAccountFrag extends BaseFrag {
         ChangePasswordHelper xChangePasswordHelper = new ChangePasswordHelper();
         xChangePasswordHelper.setOnChangePasswordSuccessListener(() -> {
             toast(R.string.hh70_succeed, 3000);
-            toFragActivity(getClass(), SplashActivity.class, LoginFrag.class, null, true,true,0);
+            toFragActivity(getClass(), SplashActivity.class, LoginFrag.class, null, true, true, 0);
         });
         xChangePasswordHelper.setOnChangePasswordFailedListener(() -> toast(R.string.hh70_change_psd_fail, 3000));// 失败
         xChangePasswordHelper.setOnCurrentPasswordWrongListener(() -> toast(R.string.hh70_current_psd_wrong, 3000));// 当前密码错误
@@ -160,14 +159,9 @@ public class SettingAccountFrag extends BaseFrag {
         // 密码加密 (分为算法加密或者MD5加密)
         if (isEncrypt) {
             if (getSystemInfoBean != null) {
-                // 如果不是［新设备］-- 采用普通算法加密
-                if (devType != XCons.ENCRYPT_DEV_HOTSPOT) {
-                    password = EncryptUtils.encryptAdmin(password);
-                    currentPassword = EncryptUtils.encryptAdmin(currentPassword);
-                } else {// 如果是［新设备］-- 采用MD5加密
-                    password = Md5Code.encryption(password).toLowerCase();
-                    currentPassword = Md5Code.encryption(currentPassword).toLowerCase();
-                }
+                //这里统一用普通加密，不需要区分md5加密或者普通加密方式了
+                password = EncryptUtils.encryptAdmin(password);
+                currentPassword = EncryptUtils.encryptAdmin(currentPassword);
             }
         }
     }

@@ -409,7 +409,8 @@ public class RootUtils {
      * 是否符合正则
      */
     public static boolean isMatchRule(String content) {
-        String splChrs = "^(?=.*[A-Za-z])(?=.*[0-9\\-\\+\\!\\^\\$\\@\\#\\&\\*])[A-Za-z0-9\\-\\+\\!\\^\\$\\@\\#\\&\\*]{4,16}$";
+        // String splChrs = "^(?=.*[A-Za-z])(?=.*[0-9\\-\\+\\!\\^\\$\\@\\#\\&\\*])[A-Za-z0-9\\-\\+\\!\\^\\$\\@\\#\\&\\*]{4,16}$";
+        String splChrs = "^[A-Za-z0-9\\-\\+\\!\\^\\$\\@\\#\\&\\*]{4,16}$";
         Pattern pattern = Pattern.compile(splChrs);
         Matcher matcher = pattern.matcher(content);
         return matcher.find();
