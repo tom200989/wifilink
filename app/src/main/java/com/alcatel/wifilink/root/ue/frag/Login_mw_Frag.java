@@ -164,7 +164,8 @@ public class Login_mw_Frag extends RootFrag {
         btnLoginPreToLogin.setOnClickListener(v -> toFrag(getClass(), LoginFrag.class, null, true));
         rlLoginPreConnected.setOnClickListener(v -> {
             if (currentConnCount > 0) {// 当设备连接数大于0才连接
-                toFrag(getClass(), Login_mw_dev_Frag.class, null, true);
+                // 因为FW的错误导致接口没有权限，导致这个操作先屏蔽
+                //toFrag(getClass(), Login_mw_dev_Frag.class, null, true);
             } else {// 提示没发现设备
                 toast(R.string.hh70_no_device_find, 5000);
             }
