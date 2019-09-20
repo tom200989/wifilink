@@ -167,8 +167,6 @@
     <string name="hh70_or">Or</string>
     <string name="hh70_renew">Renew</string>
     <string name="hh70_prefer_dns">Preferred DNS</string>
-    <string name="hh70_second_dns">Secondary DNS</string>
-    <string name="hh70_default_gateway">Default gateway(optional)</string>
     <string name="hh70_subnet_mask">Subnet mask</string>
     <string name="hh70_connect">Connect</string>
     <string name="hh70_mtu">MTU</string>
@@ -186,7 +184,7 @@
     <string name="hh70_ap_isolation">AP isolation</string>
     <string name="hh70_bandwidth">Bandwidth</string>
     <string name="hh70_reset_factory">Reset to factory settings</string>
-    <string name="hh70_restore">RESTORE</string>
+    <string name="hh70_restore">Restore</string>
     <string name="hh70_reset_router">Reset router?</string>
     <string name="hh70_will_reset_route">This will reset all settings on your router to factory defaults. This action can\'t be undone.</string>
     <string name="hh70_reset">Reset</string>
@@ -368,4 +366,7 @@
     <string name="hh70_MONTHLY_PLAN">monthly plan</string>
     <!--change by haide on 20190910 for bugid:7217865-->
     <string name="hh70_backup">Backup</string>
+    <!--change by haide on 20190920 for bugid:8279223-->
+    <string name="hh70_default_gateway">Default gateway</string>
+    <string name="hh70_second_dns">Secondary DNS(optional)</string>
 </resources>

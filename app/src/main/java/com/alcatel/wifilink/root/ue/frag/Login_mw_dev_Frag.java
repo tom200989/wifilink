@@ -2,6 +2,7 @@ package com.alcatel.wifilink.root.ue.frag;
 
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -13,6 +14,8 @@ import com.alcatel.wifilink.root.helper.ConnectDeviceHelper;
 import com.alcatel.wifilink.root.utils.RootUtils;
 import com.hiber.cons.TimerState;
 import com.hiber.hiber.RootFrag;
+import com.p_xhelper_smart.p_xhelper_smart.bean.GetConnectDeviceListBean;
+import com.p_xhelper_smart.p_xhelper_smart.helper.GetConnectedDeviceListHelper;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetSystemInfoHelper;
 
 import java.util.List;

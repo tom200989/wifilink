@@ -1,5 +1,7 @@
 package com.p_xhelper_smart.p_xhelper_smart.helper;
 
+import android.util.Log;
+
 import com.p_xhelper_smart.p_xhelper_smart.bean.GetConnectDeviceListBean;
 import com.p_xhelper_smart.p_xhelper_smart.core.XSmart;
 import com.p_xhelper_smart.p_xhelper_smart.impl.FwError;

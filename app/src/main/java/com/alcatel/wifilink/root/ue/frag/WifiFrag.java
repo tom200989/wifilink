@@ -461,7 +461,8 @@ public class WifiFrag extends BaseFrag {
         // check 2.4g settings
         if (mSupportMode == GetWlanSupportModeBean.CONS_WLAN_2_4G || mSupportMode == GetWlanSupportModeBean.CONS_WLAN_2_4G_5G) {
             boolean isAP2GStateChanged = mWifi2GSwitch.isChecked() != (mOriginSettings.getAP2G().getApStatus() == 1);
-            if (isAP2GStateChanged) {
+            //add by haide.yin 只要点击了Apply都会更新
+            if (/*isAP2GStateChanged*/true) {
                 if (!mWifi2GSwitch.isChecked()) {
                     mEditedSettings.getAP2G().setApStatus(0);
                 } else {
@@ -519,7 +520,8 @@ public class WifiFrag extends BaseFrag {
         if (mSupportMode == GetWlanSupportModeBean.CONS_WLAN_5G || mSupportMode == GetWlanSupportModeBean.CONS_WLAN_2_4G_5G) {
             boolean isOriginOn = mOriginSettings.getAP5G().getApStatus() == 1;// 1. 判断初始化时是否为ON, 如果为1--ON
             boolean isAP5GStateChanged = mWifi5GSwitch.isChecked() != isOriginOn;// 2. 是否与原始状态相反, 如果相反 -- 说明有变动
-            if (isAP5GStateChanged) {
+            //add by haide.yin 只要点击了Apply都会更新
+            if (/*isAP5GStateChanged*/true) {
                 if (!mWifi5GSwitch.isChecked()) {// 3. 如果有变化, 并且当前是OFF -- 便设置 WIFI 关闭
                     mEditedSettings.getAP5G().setApStatus(0);
                 } else {// 4.如果没有变化, 或者WIFI被重新设置成ON -- 便去设置 WIFI 开启

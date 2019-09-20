@@ -6,570 +6,135 @@
     android:layout_height="match_parent"
     android:background="@color/color_bg_normal">
 
-    <com.hiber.tools.layout.PercentRelativeLayout
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <!-- banner -->
-        <com.hiber.tools.layout.PercentRelativeLayout
-            android:id="@+id/rl_ether_wan_banner"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/mg_blue"
-            app:layout_heightPercent="9%h">
-
-            <ImageView
-                android:id="@+id/iv_ether_wan_back"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:src="@drawable/back"
-                app:layout_heightPercent="50%h"
-                app:layout_widthPercent="50%h" />
-            
-            <TextView
-                android:textColor="@color/white"
-                app:layout_textSizePercent="25%h"
-                android:layout_centerInParent="true"
-                android:text="@string/hh70_ethernet_wan_connect"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-        </com.hiber.tools.layout.PercentRelativeLayout>
-
-        <!-- 内容区 -->
         <com.hiber.tools.layout.PercentRelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@id/rl_ether_wan_banner"
-            app:layout_marginBottomPercent="7%h">
+            android:layout_height="wrap_content">
 
-            <!-- 说明 -->
-            <TextView
-                android:id="@+id/enable_auto_disconnected_title"
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:gravity="center_vertical"
-                android:paddingStart="10dp"
-                android:paddingEnd="10dp"
-                android:paddingBottom="5dp"
-                android:text="@string/hh70_select_connect_type"
-                android:textColor="@color/black" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1px"
-                android:layout_below="@+id/enable_auto_disconnected_title"
-                android:background="@color/custom_spinner_divider_line" />
-
+            <!-- banner -->
             <com.hiber.tools.layout.PercentRelativeLayout
-                android:id="@+id/ethernet_wan_connection_pppoe"
-                android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:layout_below="@+id/enable_auto_disconnected_title"
-                android:layout_alignParentStart="true"
-                android:background="@color/white">
-
-                <com.hiber.tools.layout.PercentLinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="20dp"
-                        android:text="@string/hh70_pppoe"
-                        android:textColor="@color/black"
-                        android:textSize="16sp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="20dp"
-                        android:text="@string/hh70_need_account_and_psd"
-                        android:textColor="@color/deep_grey_text"
-                        android:textSize="12sp"
-                        android:visibility="gone" />
-
-                </com.hiber.tools.layout.PercentLinearLayout>
-
-                <ImageView
-                    android:id="@+id/pppoe_selected_img"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginEnd="20dp"
-                    android:background="@drawable/btn_radio_on_disable"
-                    android:scaleType="center"
-                    android:visibility="gone" />
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1px"
-                    android:layout_alignParentBottom="true"
-                    android:background="@color/custom_spinner_divider_line" />
-            </com.hiber.tools.layout.PercentRelativeLayout>
-
-            <com.hiber.tools.layout.PercentRelativeLayout
-                android:id="@+id/ethernet_wan_connection_dhcp"
-                android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:layout_below="@+id/ethernet_wan_connection_pppoe"
-                android:background="@color/white">
-
-                <com.hiber.tools.layout.PercentLinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="20dp"
-                        android:text="@string/hh70_dhcp"
-                        android:textColor="@color/black"
-                        android:textSize="16sp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="20dp"
-                        android:text="@string/hh70_dont_set_parameters"
-                        android:textColor="@color/deep_grey_text"
-                        android:textSize="12sp"
-                        android:visibility="gone" />
-
-                </com.hiber.tools.layout.PercentLinearLayout>
-
-                <ImageView
-                    android:id="@+id/dhcp_selected_img"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginEnd="20dp"
-                    android:background="@drawable/btn_radio_on_disable"
-                    android:scaleType="center"
-                    android:visibility="gone" />
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1px"
-                    android:layout_alignParentBottom="true"
-                    android:background="@color/custom_spinner_divider_line" />
-            </com.hiber.tools.layout.PercentRelativeLayout>
-
-            <com.hiber.tools.layout.PercentRelativeLayout
-                android:id="@+id/ethernet_wan_connection_static_ip"
-                android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:layout_below="@+id/ethernet_wan_connection_dhcp"
-                android:background="@color/white">
-
-                <com.hiber.tools.layout.PercentLinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="20dp"
-                        android:text="@string/hh70_static_ip"
-                        android:textColor="@color/black"
-                        android:textSize="16sp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="20dp"
-                        android:text="@string/hh70_need_ip"
-                        android:textColor="@color/deep_grey_text"
-                        android:textSize="12sp"
-                        android:visibility="gone" />
-
-                </com.hiber.tools.layout.PercentLinearLayout>
-
-                <ImageView
-                    android:id="@+id/static_ip_selected_img"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginEnd="20dp"
-                    android:background="@drawable/btn_radio_on_disable"
-                    android:scaleType="center"
-                    android:visibility="gone" />
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1px"
-                    android:layout_alignParentBottom="true"
-                    android:background="@color/custom_spinner_divider_line" />
-            </com.hiber.tools.layout.PercentRelativeLayout>
-
-            <!--  -->
-            <com.hiber.tools.layout.PercentLinearLayout
-                android:id="@+id/linearlayout_pppoe"
+                android:id="@+id/rl_ether_wan_banner"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/ethernet_wan_connection_static_ip"
-                android:layout_marginTop="5dp"
-                android:background="@color/white"
-                android:orientation="vertical"
-                android:visibility="gone">
+                android:background="@color/mg_blue"
+                app:layout_heightPercent="9%h">
 
-                <com.hiber.tools.layout.PercentLinearLayout
+                <ImageView
+                    android:id="@+id/iv_ether_wan_back"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/back"
+                    app:layout_heightPercent="50%h"
+                    app:layout_widthPercent="50%h" />
+
+                <TextView
+                    android:textColor="@color/white"
+                    app:layout_textSizePercent="25%h"
+                    android:layout_centerInParent="true"
+                    android:text="@string/hh70_ethernet_wan_connect"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+            </com.hiber.tools.layout.PercentRelativeLayout>
+
+            <!-- 内容区 -->
+            <com.hiber.tools.layout.PercentRelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@id/rl_ether_wan_banner"
+                app:layout_marginBottomPercent="7%h">
+
+                <!-- 说明 -->
+                <TextView
+                    android:id="@+id/enable_auto_disconnected_title"
                     android:layout_width="match_parent"
                     android:layout_height="48dp"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginStart="20dp"
-                        android:gravity="center"
-                        android:text="@string/hh70_account"
-                        android:textColor="@color/black"
-                        android:textSize="16sp" />
-
-                    <EditText
-                        android:id="@+id/pppoe_account"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginStart="12dp"
-                        android:background="@null"
-                        android:hint="@string/hh70_account"
-                        android:textColor="@color/grey_text"
-                        android:textSize="14sp" />
-                </com.hiber.tools.layout.PercentLinearLayout>
+                    android:gravity="center_vertical"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="10dp"
+                    android:paddingBottom="5dp"
+                    android:text="@string/hh70_select_connect_type"
+                    android:textColor="@color/black" />
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1px"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginEnd="20dp"
-                    android:layout_marginRight="20dp"
-                    android:background="@color/custom_spinner_divider_line" />
-
-                <com.hiber.tools.layout.PercentLinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="48dp"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginStart="20dp"
-                        android:gravity="center"
-                        android:text="@string/hh70_password"
-                        android:textColor="@color/black"
-                        android:textSize="16sp" />
-
-                    <EditText
-                        android:id="@+id/pppoe_password"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginStart="12dp"
-                        android:background="@null"
-                        android:hint="@string/hh70_password"
-                        android:textColor="@color/grey_text"
-                        android:textSize="14sp" />
-                </com.hiber.tools.layout.PercentLinearLayout>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1px"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginEnd="20dp"
-                    android:layout_marginRight="20dp"
+                    android:layout_below="@+id/enable_auto_disconnected_title"
                     android:background="@color/custom_spinner_divider_line" />
 
                 <com.hiber.tools.layout.PercentRelativeLayout
+                    android:id="@+id/ethernet_wan_connection_pppoe"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:minHeight="48dp">
+                    android:layout_height="60dp"
+                    android:layout_below="@+id/enable_auto_disconnected_title"
+                    android:layout_alignParentStart="true"
+                    android:background="@color/white">
 
                     <com.hiber.tools.layout.PercentLinearLayout
-                        android:layout_width="230dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
-                        android:layout_marginStart="20dp"
                         android:orientation="vertical">
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/hh70_mtu"
+                            android:layout_marginStart="20dp"
+                            android:text="@string/hh70_pppoe"
                             android:textColor="@color/black"
                             android:textSize="16sp" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/hh70_not_change_default"
+                            android:layout_marginStart="20dp"
+                            android:text="@string/hh70_need_account_and_psd"
                             android:textColor="@color/deep_grey_text"
-                            android:textSize="12sp" />
+                            android:textSize="12sp"
+                            android:visibility="gone" />
+
                     </com.hiber.tools.layout.PercentLinearLayout>
 
-                    <!-- MTU -->
-                    <EditText
-                        android:id="@+id/pppoe_mtu"
+                    <ImageView
+                        android:id="@+id/pppoe_selected_img"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
                         android:layout_marginEnd="20dp"
-                        android:background="@null"
-                        android:inputType="number"
-                        android:maxLength="4"
-                        android:text="1492"
-                        android:textColor="@color/deep_grey_text"
-                        android:textSize="14sp" />
+                        android:background="@drawable/btn_radio_on_disable"
+                        android:scaleType="center"
+                        android:visibility="gone" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1px"
+                        android:layout_alignParentBottom="true"
+                        android:background="@color/custom_spinner_divider_line" />
                 </com.hiber.tools.layout.PercentRelativeLayout>
 
-            </com.hiber.tools.layout.PercentLinearLayout>
-
-            <TextView
-                android:id="@+id/textview_dhcp"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_below="@+id/ethernet_wan_connection_static_ip"
-                android:layout_marginTop="5dp"
-                android:background="@color/white"
-                android:padding="20dp"
-                android:text="@string/hh70_not_change_default"
-                android:textColor="@color/deep_grey_text"
-                android:textSize="14sp"
-                android:visibility="gone" />
-
-            <com.hiber.tools.layout.PercentLinearLayout
-                android:id="@+id/linearlayout_static_ip"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/ethernet_wan_connection_static_ip"
-                android:layout_marginTop="5dp"
-                android:background="@color/white"
-                android:orientation="vertical"
-                android:visibility="gone">
-
-                <com.hiber.tools.layout.PercentLinearLayout
+                <com.hiber.tools.layout.PercentRelativeLayout
+                    android:id="@+id/ethernet_wan_connection_dhcp"
                     android:layout_width="match_parent"
-                    android:layout_height="48dp"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginStart="20dp"
-                        android:gravity="center"
-                        android:text="@string/hh70_ip_address"
-                        android:textColor="@color/black"
-                        android:textSize="16sp" />
-
-                    <EditText
-                        android:id="@+id/static_ip_address"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginStart="12dp"
-                        android:background="@null"
-                        android:digits="1234567890."
-                        android:hint="@string/hh70_ip_address"
-                        android:inputType="number"
-                        android:textColor="@color/grey_text"
-                        android:textSize="14sp" />
-                </com.hiber.tools.layout.PercentLinearLayout>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1px"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginEnd="20dp"
-                    android:layout_marginRight="20dp"
-                    android:background="@color/custom_spinner_divider_line" />
-
-                <com.hiber.tools.layout.PercentLinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="48dp"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginStart="20dp"
-                        android:gravity="center"
-                        android:text="@string/hh70_subnet_mask"
-                        android:textColor="@color/black"
-                        android:textSize="16sp" />
-
-                    <EditText
-                        android:id="@+id/static_ip_subnet_mask"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginStart="12dp"
-                        android:background="@null"
-                        android:digits="1234567890."
-                        android:hint="@string/hh70_subnet_mask"
-                        android:inputType="number"
-                        android:textColor="@color/grey_text"
-                        android:textSize="14sp" />
-                </com.hiber.tools.layout.PercentLinearLayout>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1px"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginEnd="20dp"
-                    android:layout_marginRight="20dp"
-                    android:background="@color/custom_spinner_divider_line" />
-
-                <com.hiber.tools.layout.PercentLinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="48dp"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginStart="20dp"
-                        android:gravity="center"
-                        android:text="@string/hh70_default_gateway"
-                        android:textColor="@color/black"
-                        android:textSize="16sp" />
-
-                    <EditText
-                        android:id="@+id/static_ip_default_gateway"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginStart="12dp"
-                        android:background="@null"
-                        android:digits="1234567890."
-                        android:hint="@string/hh70_default_gateway"
-                        android:inputType="number"
-                        android:textColor="@color/grey_text"
-                        android:textSize="14sp" />
-                </com.hiber.tools.layout.PercentLinearLayout>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1px"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginEnd="20dp"
-                    android:layout_marginRight="20dp"
-                    android:background="@color/custom_spinner_divider_line" />
-
-                <com.hiber.tools.layout.PercentLinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="48dp"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginStart="20dp"
-                        android:gravity="center"
-                        android:text="@string/hh70_prefer_dns"
-                        android:textColor="@color/black"
-                        android:textSize="16sp" />
-
-                    <EditText
-                        android:id="@+id/static_ip_preferred_dns"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginStart="12dp"
-                        android:background="@null"
-                        android:digits="1234567890."
-                        android:hint="@string/hh70_prefer_dns"
-                        android:inputType="number"
-                        android:textColor="@color/grey_text"
-                        android:textSize="14sp" />
-                </com.hiber.tools.layout.PercentLinearLayout>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1px"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginEnd="20dp"
-                    android:layout_marginRight="20dp"
-                    android:background="@color/custom_spinner_divider_line" />
-
-                <com.hiber.tools.layout.PercentLinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="48dp"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginStart="20dp"
-                        android:gravity="center"
-                        android:text="@string/hh70_second_dns"
-                        android:textColor="@color/black"
-                        android:textSize="16sp" />
-
-                    <EditText
-                        android:id="@+id/static_ip_secondary_dns"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginStart="12dp"
-                        android:background="@null"
-                        android:digits="1234567890."
-                        android:hint="@string/hh70_second_dns"
-                        android:inputType="number"
-                        android:textColor="@color/grey_text"
-                        android:textSize="14sp" />
-                </com.hiber.tools.layout.PercentLinearLayout>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1px"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginEnd="20dp"
-                    android:layout_marginRight="20dp"
-                    android:background="@color/custom_spinner_divider_line" />
-
-                <com.hiber.tools.layout.PercentLinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="48dp"
-                    android:gravity="center_vertical">
+                    android:layout_height="60dp"
+                    android:layout_below="@+id/ethernet_wan_connection_pppoe"
+                    android:background="@color/white">
 
                     <com.hiber.tools.layout.PercentLinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
+                        android:layout_centerVertical="true"
                         android:orientation="vertical">
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="20dp"
-                            android:text="@string/hh70_mtu"
+                            android:text="@string/hh70_dhcp"
                             android:textColor="@color/black"
                             android:textSize="16sp" />
 
@@ -577,44 +142,488 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="20dp"
-                            android:text="@string/hh70_not_change_default"
+                            android:text="@string/hh70_dont_set_parameters"
                             android:textColor="@color/deep_grey_text"
-                            android:textSize="12sp" />
+                            android:textSize="12sp"
+                            android:visibility="gone" />
+
                     </com.hiber.tools.layout.PercentLinearLayout>
 
-                    <!-- MTU -->
-                    <EditText
-                        android:id="@+id/static_ip_mtu"
+                    <ImageView
+                        android:id="@+id/dhcp_selected_img"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="20dp"
+                        android:background="@drawable/btn_radio_on_disable"
+                        android:scaleType="center"
+                        android:visibility="gone" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1px"
+                        android:layout_alignParentBottom="true"
+                        android:background="@color/custom_spinner_divider_line" />
+                </com.hiber.tools.layout.PercentRelativeLayout>
+
+                <com.hiber.tools.layout.PercentRelativeLayout
+                    android:id="@+id/ethernet_wan_connection_static_ip"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:layout_below="@+id/ethernet_wan_connection_dhcp"
+                    android:background="@color/white">
+
+                    <com.hiber.tools.layout.PercentLinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="20dp"
+                            android:text="@string/hh70_static_ip"
+                            android:textColor="@color/black"
+                            android:textSize="16sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="20dp"
+                            android:text="@string/hh70_need_ip"
+                            android:textColor="@color/deep_grey_text"
+                            android:textSize="12sp"
+                            android:visibility="gone" />
+
+                    </com.hiber.tools.layout.PercentLinearLayout>
+
+                    <ImageView
+                        android:id="@+id/static_ip_selected_img"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="20dp"
+                        android:background="@drawable/btn_radio_on_disable"
+                        android:scaleType="center"
+                        android:visibility="gone" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1px"
+                        android:layout_alignParentBottom="true"
+                        android:background="@color/custom_spinner_divider_line" />
+                </com.hiber.tools.layout.PercentRelativeLayout>
+
+                <!-- PPPOE -->
+                <com.hiber.tools.layout.PercentLinearLayout
+                    android:id="@+id/linearlayout_pppoe"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/ethernet_wan_connection_static_ip"
+                    android:layout_marginTop="5dp"
+                    android:background="@color/white"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
+                    <com.hiber.tools.layout.PercentLinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginStart="20dp"
+                            android:gravity="center"
+                            android:text="@string/hh70_account"
+                            android:textColor="@color/black"
+                            android:textSize="16sp" />
+
+                        <EditText
+                            android:id="@+id/pppoe_account"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginStart="12dp"
+                            android:background="@null"
+                            android:hint="@string/hh70_account"
+                            android:textColor="@color/grey_text"
+                            android:textSize="14sp" />
+                    </com.hiber.tools.layout.PercentLinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1px"
                         android:layout_marginStart="20dp"
-                        android:background="@null"
-                        android:inputType="number"
-                        android:maxLength="4"
-                        android:textColor="@color/deep_grey_text"
-                        android:textSize="14sp" />
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginEnd="20dp"
+                        android:layout_marginRight="20dp"
+                        android:background="@color/custom_spinner_divider_line" />
+
+                    <com.hiber.tools.layout.PercentLinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginStart="20dp"
+                            android:gravity="center"
+                            android:text="@string/hh70_password"
+                            android:textColor="@color/black"
+                            android:textSize="16sp" />
+
+                        <EditText
+                            android:id="@+id/pppoe_password"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginStart="12dp"
+                            android:background="@null"
+                            android:hint="@string/hh70_password"
+                            android:textColor="@color/grey_text"
+                            android:textSize="14sp" />
+                    </com.hiber.tools.layout.PercentLinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1px"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginEnd="20dp"
+                        android:layout_marginRight="20dp"
+                        android:background="@color/custom_spinner_divider_line" />
+
+                    <com.hiber.tools.layout.PercentRelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:minHeight="48dp">
+
+                        <com.hiber.tools.layout.PercentLinearLayout
+                            android:layout_width="230dp"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginStart="20dp"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/hh70_mtu"
+                                android:textColor="@color/black"
+                                android:textSize="16sp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/hh70_not_change_default"
+                                android:textColor="@color/deep_grey_text"
+                                android:textSize="12sp" />
+                        </com.hiber.tools.layout.PercentLinearLayout>
+
+                        <!-- MTU -->
+                        <EditText
+                            android:id="@+id/pppoe_mtu"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginEnd="20dp"
+                            android:background="@null"
+                            android:inputType="number"
+                            android:maxLength="4"
+                            android:text="1492"
+                            android:textColor="@color/deep_grey_text"
+                            android:textSize="14sp" />
+                    </com.hiber.tools.layout.PercentRelativeLayout>
+
                 </com.hiber.tools.layout.PercentLinearLayout>
 
-            </com.hiber.tools.layout.PercentLinearLayout>
+                <!--HDCP-->
+                <TextView
+                    android:id="@+id/textview_dhcp"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_below="@+id/ethernet_wan_connection_static_ip"
+                    android:layout_marginTop="5dp"
+                    android:background="@color/white"
+                    android:padding="20dp"
+                    android:text="@string/hh70_not_change_default"
+                    android:textColor="@color/deep_grey_text"
+                    android:textSize="14sp"
+                    android:visibility="gone" />
+
+                <!--Static IP 详情页-->
+                <com.hiber.tools.layout.PercentLinearLayout
+                    android:id="@+id/linearlayout_static_ip"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/ethernet_wan_connection_static_ip"
+                    android:layout_marginTop="5dp"
+                    android:background="@color/white"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
+                    <com.hiber.tools.layout.PercentLinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginStart="20dp"
+                            android:gravity="center"
+                            android:text="@string/hh70_ip_address"
+                            android:textColor="@color/black"
+                            android:textSize="16sp" />
+
+                        <EditText
+                            android:id="@+id/static_ip_address"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginStart="12dp"
+                            android:background="@null"
+                            android:digits="1234567890."
+                            android:hint="@string/hh70_ip_address"
+                            android:inputType="number"
+                            android:textColor="@color/grey_text"
+                            android:textSize="14sp" />
+                    </com.hiber.tools.layout.PercentLinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1px"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginEnd="20dp"
+                        android:layout_marginRight="20dp"
+                        android:background="@color/custom_spinner_divider_line" />
+
+                    <com.hiber.tools.layout.PercentLinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginStart="20dp"
+                            android:gravity="center"
+                            android:text="@string/hh70_subnet_mask"
+                            android:textColor="@color/black"
+                            android:textSize="16sp" />
+
+                        <EditText
+                            android:id="@+id/static_ip_subnet_mask"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginStart="12dp"
+                            android:background="@null"
+                            android:digits="1234567890."
+                            android:hint="@string/hh70_subnet_mask"
+                            android:inputType="number"
+                            android:textColor="@color/grey_text"
+                            android:textSize="14sp" />
+                    </com.hiber.tools.layout.PercentLinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1px"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginEnd="20dp"
+                        android:layout_marginRight="20dp"
+                        android:background="@color/custom_spinner_divider_line" />
+
+                    <com.hiber.tools.layout.PercentLinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginStart="20dp"
+                            android:gravity="center"
+                            android:text="@string/hh70_default_gateway"
+                            android:textColor="@color/black"
+                            android:textSize="16sp" />
+
+                        <EditText
+                            android:id="@+id/static_ip_default_gateway"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginStart="12dp"
+                            android:background="@null"
+                            android:digits="1234567890."
+                            android:hint="@string/hh70_default_gateway"
+                            android:inputType="number"
+                            android:textColor="@color/grey_text"
+                            android:textSize="14sp" />
+                    </com.hiber.tools.layout.PercentLinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1px"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginEnd="20dp"
+                        android:layout_marginRight="20dp"
+                        android:background="@color/custom_spinner_divider_line" />
+
+                    <com.hiber.tools.layout.PercentLinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginStart="20dp"
+                            android:gravity="center"
+                            android:text="@string/hh70_prefer_dns"
+                            android:textColor="@color/black"
+                            android:textSize="16sp" />
+
+                        <EditText
+                            android:id="@+id/static_ip_preferred_dns"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginStart="12dp"
+                            android:background="@null"
+                            android:digits="1234567890."
+                            android:hint="@string/hh70_prefer_dns"
+                            android:inputType="number"
+                            android:textColor="@color/grey_text"
+                            android:textSize="14sp" />
+                    </com.hiber.tools.layout.PercentLinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1px"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginEnd="20dp"
+                        android:layout_marginRight="20dp"
+                        android:background="@color/custom_spinner_divider_line" />
+
+                    <com.hiber.tools.layout.PercentLinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginStart="20dp"
+                            android:gravity="center"
+                            android:text="@string/hh70_second_dns"
+                            android:textColor="@color/black"
+                            android:textSize="16sp" />
+
+                        <EditText
+                            android:id="@+id/static_ip_secondary_dns"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginStart="12dp"
+                            android:background="@null"
+                            android:digits="1234567890."
+                            android:hint="@string/hh70_second_dns"
+                            android:inputType="number"
+                            android:textColor="@color/grey_text"
+                            android:textSize="14sp" />
+                    </com.hiber.tools.layout.PercentLinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1px"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginEnd="20dp"
+                        android:layout_marginRight="20dp"
+                        android:background="@color/custom_spinner_divider_line" />
+
+                    <com.hiber.tools.layout.PercentLinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="48dp"
+                        android:gravity="center_vertical">
+
+                        <com.hiber.tools.layout.PercentLinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="20dp"
+                                android:text="@string/hh70_mtu"
+                                android:textColor="@color/black"
+                                android:textSize="16sp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="20dp"
+                                android:text="@string/hh70_not_change_default"
+                                android:textColor="@color/deep_grey_text"
+                                android:textSize="12sp" />
+                        </com.hiber.tools.layout.PercentLinearLayout>
+
+                        <!-- MTU -->
+                        <EditText
+                            android:id="@+id/static_ip_mtu"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="20dp"
+                            android:background="@null"
+                            android:inputType="number"
+                            android:maxLength="4"
+                            android:textColor="@color/deep_grey_text"
+                            android:textSize="14sp" />
+                    </com.hiber.tools.layout.PercentLinearLayout>
+
+                </com.hiber.tools.layout.PercentLinearLayout>
+
+            </com.hiber.tools.layout.PercentRelativeLayout>
+
+            <!-- APPLY按钮 -->
+            <Button
+                android:id="@+id/btn_connect"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginStart="30dp"
+                android:layout_marginEnd="30dp"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/selector_conner_btn_blue"
+                android:text="@string/hh70_apply"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                app:layout_heightPercent="6%h"
+                app:layout_textSizePercent="2%h" />
 
         </com.hiber.tools.layout.PercentRelativeLayout>
 
-        <!-- APPLY按钮 -->
-        <Button
-            android:id="@+id/btn_connect"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginStart="30dp"
-            android:layout_marginEnd="30dp"
-            android:layout_marginBottom="10dp"
-            android:background="@drawable/selector_conner_btn_blue"
-            android:text="@string/hh70_apply"
-            android:textAllCaps="false"
-            android:textColor="@color/white"
-            app:layout_heightPercent="6%h"
-            app:layout_textSizePercent="2%h" />
+    </ScrollView>
 
-    </com.hiber.tools.layout.PercentRelativeLayout>
 </com.hiber.tools.layout.PercentRelativeLayout>

@@ -130,7 +130,7 @@ public class EtherWANFrag extends BaseFrag {
             String str_secondaryDns = RootUtils.getEDText(mStaticIpSecondaryDns);
 
             // 非空判断
-            if (RootUtils.isEdEmpty(mStaticIpAddress, mStaticIpSubnetMask, mStaticIpDefaultGateway, mStaticIpPreferredDns, mStaticIpSecondaryDns)) {
+            if (RootUtils.isEdEmpty(mStaticIpAddress, mStaticIpSubnetMask, mStaticIpDefaultGateway, mStaticIpPreferredDns)) {
                 toast(activity.getString(R.string.hh70_not_permit_empty), 3000);
                 return;
             }
@@ -163,8 +163,8 @@ public class EtherWANFrag extends BaseFrag {
                 return;
             }
 
-            // secondary dns
-            if (!RootUtils.isAllMatch(str_secondaryDns)) {
+            // secondary dns 可选项
+            if (!TextUtils.isEmpty(str_secondaryDns) && !RootUtils.isAllMatch(str_secondaryDns)) {
                 String secondary_dns = activity.getString(R.string.hh70_second_dns) + "\n" + activity.getString(R.string.hh70_cant_connect);
                 toast(secondary_dns, 3000);
                 return;
