@@ -43,7 +43,7 @@
                     android:background="@drawable/et_underline_settimelimit"
                     android:gravity="center"
                     android:hint="0"
-                    android:textColorHint="@color/white"
+                    android:textColorHint="@android:color/transparent"
                     android:inputType="number"
                     android:maxLength="4"
                     android:textColor="@color/black"
