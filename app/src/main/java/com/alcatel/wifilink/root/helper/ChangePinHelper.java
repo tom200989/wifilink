@@ -66,7 +66,7 @@ public class ChangePinHelper {
 
         // 提交
         UnlockPinHelper xUnlockPinHelper = new UnlockPinHelper();
-        xUnlockPinHelper.setOnUnlockPinFailedListener(() -> {
+        xUnlockPinHelper.setOnUnlockPinSuccessListener(() -> {
             ChangePinCodeHelper xChangePinCodeHelper = new ChangePinCodeHelper();
             xChangePinCodeHelper.setOnChangePinCodeSuccessListener(() -> {
                 toast(R.string.hh70_success);
@@ -93,7 +93,7 @@ public class ChangePinHelper {
         // 获取剩余次数
         GetSimStatusHelper xGetSimStatusHelper = new GetSimStatusHelper();
         xGetSimStatusHelper.setOnGetSimStatusSuccessListener(result -> {
-            if (result.getSIMState() == GetSimStatusBean.CONS_PIN_REQUIRED) {
+            if (result.getSIMState() == GetSimStatusBean.CONS_PIN_REQUIRED || result.getSIMState() == GetSimStatusBean.CONS_SIM_CARD_READY) {
                 int pinRemainingTimes = result.getPinRemainingTimes();
                 if (pinRemainingTimes >= 1) {
                     String tip = pinRemainingTimes + " " + activity.getString(R.string.hh70_attempts_remaing);

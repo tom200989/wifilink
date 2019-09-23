@@ -51,6 +51,15 @@ public class HH70_ChangpinWidget extends RelativeLayout {
         });
     }
 
+    /**
+     * 清除之前输入的内容
+     */
+    public void clearEtString() {
+        etCurPin.setText("");
+        etNewPin.setText("");
+        etConfirmPin.setText("");
+    }
+
     public String getCurrentPin(){
         return RootUtils.getEDText(etCurPin);
     }

@@ -277,7 +277,10 @@ public class PukRxFrag extends BaseFrag {
             toOtherRx();
         });
         xUnlockPukHelper.setOnUnlockPukFailedListener(() -> toast(R.string.hh70_cant_unlock_puk, 2000));
-        xUnlockPukHelper.setOnUnlockPUKFwErrorListener(this::getRemainTime);
+        xUnlockPukHelper.setOnUnlockPUKFwErrorListener(() -> {
+            toast(R.string.hh70_puk_wrong, 5000);
+            getRemainTime();
+        });
         xUnlockPukHelper.unlockPuk(puk, pin);
     }
 

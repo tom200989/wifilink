@@ -353,6 +353,7 @@ public class MobileNetworkFrag extends BaseFrag {
                     changePinHelper.setOnPinTimeoutListener(attr -> toPukRx());
                     changePinHelper.change(currentPin, newPin, confirmPin);
                 });
+                changpinWidget.clearEtString();
                 changpinWidget.setVisibility(View.VISIBLE);
             }
         });
