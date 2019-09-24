@@ -833,9 +833,11 @@ public class mainFrag extends BaseFrag {
             return true;
         }
         // 登出
-        clickDouble = new ClickDoubleHelper();
-        clickDouble.setOnClickOneListener(() -> toast(R.string.hh70_touch_again, 3000));
-        clickDouble.setOnClickDoubleListener(this::logOut);
+        if (clickDouble == null) {
+            clickDouble = new ClickDoubleHelper();
+            clickDouble.setOnClickOneListener(() -> toast(R.string.hh70_touch_again, 3000));
+            clickDouble.setOnClickDoubleListener(this::logOut);
+        }
         clickDouble.click();
         return true;
     }
