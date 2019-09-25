@@ -756,7 +756,7 @@ public class SettingFrag extends BaseFrag {
             if (clickDouble == null) {
                 clickDouble = new ClickDoubleHelper();
                 clickDouble.setOnClickOneListener(() -> toast(R.string.hh70_touch_again, 3000));
-                clickDouble.setOnClickDoubleListener(this::logout);
+                clickDouble.setOnClickDoubleListener(this::killAllActivitys);
             }
             clickDouble.click();
             return true;

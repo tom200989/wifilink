@@ -50,7 +50,6 @@ import com.p_xhelper_smart.p_xhelper_smart.helper.GetSimStatusHelper;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetSystemInfoHelper;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetSystemStatusHelper;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetWanSettingsHelper;
-import com.p_xhelper_smart.p_xhelper_smart.helper.LogoutHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -836,31 +835,10 @@ public class mainFrag extends BaseFrag {
         if (clickDouble == null) {
             clickDouble = new ClickDoubleHelper();
             clickDouble.setOnClickOneListener(() -> toast(R.string.hh70_touch_again, 3000));
-            clickDouble.setOnClickDoubleListener(this::logOut);
+            clickDouble.setOnClickDoubleListener(this::killAllActivitys);
         }
         clickDouble.click();
         return true;
-    }
-
-    /**
-     * 登出
-     */
-    private void logOut() {
-        GetLoginStateHelper xGetLoginStateHelper = new GetLoginStateHelper();
-        xGetLoginStateHelper.setOnGetLoginStateSuccessListener(getLoginStateBean -> {
-            if (getLoginStateBean.getState() == GetLoginStateBean.CONS_LOGIN) {
-                LogoutHelper xLogoutHelper = new LogoutHelper();
-                xLogoutHelper.setOnLogoutSuccessListener(() -> {
-                    toast(R.string.hh70_logout_completed, 3000);
-                    toFragActivity(getClass(), SplashActivity.class, LoginFrag.class, null, true, true, 0);
-                });
-                xLogoutHelper.setOnLogOutFailedListener(() -> toast(R.string.hh70_cant_logout, 3000));
-                xLogoutHelper.logout();
-            } else {
-                toFragActivity(getClass(), SplashActivity.class, LoginFrag.class, null, true, true, 0);
-            }
-        });
-        xGetLoginStateHelper.getLoginState();
     }
 
     private void initEvent() {
