@@ -38,554 +38,558 @@
     </com.hiber.tools.layout.PercentRelativeLayout>
 
     <!-- 总布局 -->
-    <com.hiber.tools.layout.PercentLinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/rl_settingRx_banner"
-        android:orientation="vertical">
+        android:layout_below="@id/rl_settingRx_banner">
 
-        <!-- 1.change password  -->
-        <com.hiber.tools.layout.PercentRelativeLayout
-            android:id="@+id/setting_login_password"
+        <com.hiber.tools.layout.PercentLinearLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/color_white"
-            app:layout_heightPercent="11%h">
+            android:orientation="vertical">
 
-            <ImageView
-                android:id="@+id/setting_login_password_pic"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginStart="20dp"
-                android:src="@drawable/settings_ic_account"
-                app:layout_heightPercent="40%h"
-                app:layout_widthPercent="40%h" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginStart="10dp"
-                android:layout_toEndOf="@id/setting_login_password_pic"
-                android:text="@string/hh70_change_psd"
-                android:textColor="@color/black_text"
-                app:layout_textSizePercent="25%h" />
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
-                android:layout_marginEnd="16dp"
-                android:contentDescription="@string/hh70_wifi"
-                android:src="@drawable/right_arrow_big"
-                app:layout_heightPercent="35%h"
-                app:layout_widthPercent="35%h" />
-        </com.hiber.tools.layout.PercentRelativeLayout>
-
-        <!-- 2.mobile network -->
-        <com.hiber.tools.layout.PercentRelativeLayout
-            android:id="@+id/setting_mobile_network"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:background="@color/color_white"
-            app:layout_heightPercent="11%h">
-
-            <ImageView
-                android:id="@+id/setting_mobile_network_pic"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginStart="20dp"
-                android:src="@drawable/settings_ic_mobile"
-                app:layout_heightPercent="40%h"
-                app:layout_widthPercent="40%h" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginStart="10dp"
-                android:layout_toEndOf="@id/setting_mobile_network_pic"
-                android:text="@string/hh70_mobile_network"
-                android:textColor="@color/black_text"
-                app:layout_textSizePercent="25%h" />
-
-            <ImageView
-                android:id="@+id/setting_mobile_network_arrow"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-
-                android:layout_centerVertical="true"
-                android:layout_marginEnd="16dp"
-                android:contentDescription="@string/hh70_wifi"
-                android:src="@drawable/right_arrow_big"
-                app:layout_heightPercent="35%h"
-                app:layout_widthPercent="35%h" />
-
-            <TextView
-                android:id="@+id/tv_setting_sim_socket"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginEnd="10dp"
-                android:layout_toStartOf="@id/setting_mobile_network_arrow"
-                android:text="@string/hh70_off"
-                android:textColor="@color/grey_text"
-                app:layout_textSizePercent="25%h" />
-
-        </com.hiber.tools.layout.PercentRelativeLayout>
-
-        <!-- 3.connect wan ethernet -->
-        <com.hiber.tools.layout.PercentRelativeLayout
-            android:id="@+id/setting_ethernet_wan"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/setting_mobile_network"
-            android:background="@color/color_white"
-            app:layout_heightPercent="11%h">
-
-            <ImageView
-                android:id="@+id/setting_ethernet_wan_pic"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginStart="20dp"
-                android:src="@drawable/settings_ic_wan"
-                app:layout_heightPercent="40%h"
-                app:layout_widthPercent="40%h" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginStart="10dp"
-                android:layout_toEndOf="@id/setting_ethernet_wan_pic"
-                android:text="@string/hh70_ethernet_wan_connect"
-                android:textColor="@color/black_text"
-                app:layout_textSizePercent="25%h"
-                app:layout_widthPercent="45%w" />
-
-            <ImageView
-                android:id="@+id/setting_ethernet_wan_arrow"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
-                android:layout_marginEnd="16dp"
-                android:contentDescription="@string/hh70_wifi"
-                android:src="@drawable/right_arrow_big"
-                app:layout_heightPercent="35%h"
-                app:layout_widthPercent="35%h" />
-
-            <TextView
-                android:id="@+id/tv_setting_wan_socket"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginEnd="10dp"
-                android:layout_toStartOf="@id/setting_ethernet_wan_arrow"
-                android:text="@string/hh70_off"
-                app:layout_textSizePercent="25%h" />
-
-        </com.hiber.tools.layout.PercentRelativeLayout>
-
-        <!-- 4.sharing service -->
-        <com.hiber.tools.layout.PercentRelativeLayout
-            android:id="@+id/setting_sharing_service"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:background="@color/color_white"
-            android:visibility="gone"
-            app:layout_heightPercent="11%h">
-
-            <ImageView
-                android:id="@+id/setting_sharing_service_pic"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginStart="20dp"
-                android:src="@drawable/settings_ic_sharing"
-                app:layout_heightPercent="40%h"
-                app:layout_widthPercent="40%h" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginStart="10dp"
-                android:layout_toEndOf="@id/setting_sharing_service_pic"
-                android:text="@string/hh70_sharing_service"
-                android:textColor="@color/black_text"
-                app:layout_textSizePercent="25%h" />
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
-                android:layout_marginEnd="16dp"
-                android:contentDescription="@string/hh70_wifi"
-                android:src="@drawable/right_arrow_big"
-                app:layout_heightPercent="35%h"
-                app:layout_widthPercent="35%h" />
-        </com.hiber.tools.layout.PercentRelativeLayout>
-
-        <!-- 5.wifi extender -->
-        <com.hiber.tools.layout.PercentRelativeLayout
-            android:id="@+id/rl_setting_wifi_extender"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:background="@color/color_white"
-            android:visibility="gone"
-            app:layout_heightPercent="11%h">
-
-            <ImageView
-                android:id="@+id/setting_wifi_extender_pic"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginStart="20dp"
-                android:src="@drawable/wifi_ex"
-                app:layout_heightPercent="40%h"
-                app:layout_widthPercent="40%h" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginStart="10dp"
-                android:layout_toEndOf="@id/setting_wifi_extender_pic"
-                android:text="@string/hh70_wifi_extender"
-                android:textColor="@color/black_text"
-                app:layout_textSizePercent="25%h" />
-
-            <ImageView
-                android:id="@+id/iv_wifi_extender_arrow"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
-                android:layout_marginEnd="16dp"
-                android:contentDescription="@string/hh70_wifi"
-                android:src="@drawable/right_arrow_big"
-                app:layout_heightPercent="35%h"
-                app:layout_widthPercent="35%h" />
-
-            <TextView
-                android:id="@+id/tv_wifi_extender_socket"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginEnd="10dp"
-                android:layout_toStartOf="@id/iv_wifi_extender_arrow"
-                android:text=""
-                app:layout_textSizePercent="25%h" />
-
-        </com.hiber.tools.layout.PercentRelativeLayout>
-
-        <!-- 6.language -->
-        <com.hiber.tools.layout.PercentRelativeLayout
-            android:id="@+id/setting_language"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:background="@color/color_white"
-            app:layout_heightPercent="11%h">
-
-            <ImageView
-                android:id="@+id/setting_language_pic"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginStart="20dp"
-                android:src="@drawable/setting_language"
-                app:layout_heightPercent="40%h"
-                app:layout_widthPercent="40%h" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginStart="10dp"
-                android:layout_toEndOf="@id/setting_language_pic"
-                android:text="@string/hh70_language"
-                android:textColor="@color/black_text"
-                app:layout_textSizePercent="25%h" />
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
-                android:layout_marginEnd="16dp"
-                android:contentDescription="@string/hh70_wifi"
-                android:src="@drawable/right_arrow_big"
-                app:layout_heightPercent="35%h"
-                app:layout_widthPercent="35%h" />
-        </com.hiber.tools.layout.PercentRelativeLayout>
-
-        <!-- 7.firmware updates -->
-        <com.hiber.tools.layout.PercentRelativeLayout
-            android:id="@+id/setting_firmware_upgrade"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:background="@color/color_white"
-            app:layout_heightPercent="11%h">
-
-            <ImageView
-                android:id="@+id/setting_firmware_upgrade_pic"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginStart="20dp"
-                android:src="@drawable/settings_ic_upgrade"
-                app:layout_heightPercent="40%h"
-                app:layout_widthPercent="40%h" />
-
+            <!-- 1.change password  -->
             <com.hiber.tools.layout.PercentRelativeLayout
+                android:id="@+id/setting_login_password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_toEndOf="@id/setting_firmware_upgrade_pic">
+                android:background="@color/color_white"
+                app:layout_heightPercent="9%sh">
 
-                <TextView
-                    android:id="@+id/tv_firmware_update"
+                <ImageView
+                    android:id="@+id/setting_login_password_pic"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="20dp"
+                    android:src="@drawable/settings_ic_account"
+                    app:layout_heightPercent="40%h"
+                    app:layout_widthPercent="40%h" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
                     android:layout_marginStart="10dp"
-                    android:maxLines="1"
-                    android:text="@string/hh70_firmware_update"
+                    android:layout_toEndOf="@id/setting_login_password_pic"
+                    android:text="@string/hh70_change_psd"
                     android:textColor="@color/black_text"
                     app:layout_textSizePercent="25%h" />
 
-                <TextView
-                    android:id="@+id/setting_firmware_upgrade_version"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/tv_firmware_update"
-                    android:layout_alignStart="@id/tv_firmware_update"
-                    android:text="@string/hh70_no_new_version"
-                    android:textColor="@color/grey_text"
-                    app:layout_textSizePercent="20%h" />
-
                 <ImageView
-                    android:id="@+id/iv_setting_firmware_upgrade_tipdot"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_toEndOf="@id/tv_firmware_update"
-                    android:src="@drawable/tab_sms_new"
-                    android:visibility="gone"
-                    app:layout_heightPercent="15%h"
-                    app:layout_widthPercent="15%h" />
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="16dp"
+                    android:contentDescription="@string/hh70_wifi"
+                    android:src="@drawable/right_arrow_big"
+                    app:layout_heightPercent="35%h"
+                    app:layout_widthPercent="35%h" />
             </com.hiber.tools.layout.PercentRelativeLayout>
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
-                android:layout_marginEnd="16dp"
-                android:contentDescription="@string/hh70_wifi"
-                android:src="@drawable/right_arrow_big"
-                app:layout_heightPercent="35%h"
-                app:layout_widthPercent="35%h" />
-
-            <ImageView
+            <!-- 2.mobile network -->
+            <com.hiber.tools.layout.PercentRelativeLayout
+                android:id="@+id/setting_mobile_network"
                 android:layout_width="match_parent"
-                android:layout_height="0.5dp"
-                android:layout_alignParentBottom="true"
-                android:background="@color/grey_line"
-                android:visibility="visible" />
-
-        </com.hiber.tools.layout.PercentRelativeLayout>
-
-        <!-- 8.restart & reset -->
-        <com.hiber.tools.layout.PercentRelativeLayout
-            android:id="@+id/setting_restart"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/color_white"
-            app:layout_heightPercent="11%h">
-
-            <ImageView
-                android:id="@+id/setting_restart_pic"
-                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginStart="20dp"
-                android:src="@drawable/settings_ic_restart"
-                app:layout_heightPercent="40%h"
-                app:layout_widthPercent="40%h" />
+                android:layout_marginTop="5dp"
+                android:background="@color/color_white"
+                app:layout_heightPercent="9%sh">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginStart="10dp"
-                android:layout_toEndOf="@id/setting_restart_pic"
-                android:text="@string/hh70_restart_reset"
-                android:textColor="@color/black_text"
-                app:layout_textSizePercent="25%h" />
+                <ImageView
+                    android:id="@+id/setting_mobile_network_pic"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="20dp"
+                    android:src="@drawable/settings_ic_mobile"
+                    app:layout_heightPercent="40%h"
+                    app:layout_widthPercent="40%h" />
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
-                android:layout_marginEnd="16dp"
-                android:contentDescription="@string/hh70_wifi"
-                android:src="@drawable/right_arrow_big"
-                app:layout_heightPercent="35%h"
-                app:layout_widthPercent="35%h" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="10dp"
+                    android:layout_toEndOf="@id/setting_mobile_network_pic"
+                    android:text="@string/hh70_mobile_network"
+                    android:textColor="@color/black_text"
+                    app:layout_textSizePercent="25%h" />
 
-            <ImageView
+                <ImageView
+                    android:id="@+id/setting_mobile_network_arrow"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="16dp"
+                    android:contentDescription="@string/hh70_wifi"
+                    android:src="@drawable/right_arrow_big"
+                    app:layout_heightPercent="35%h"
+                    app:layout_widthPercent="35%h" />
+
+                <TextView
+                    android:id="@+id/tv_setting_sim_socket"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="10dp"
+                    android:layout_toStartOf="@id/setting_mobile_network_arrow"
+                    android:text="@string/hh70_off"
+                    android:textColor="@color/grey_text"
+                    app:layout_textSizePercent="25%h" />
+
+            </com.hiber.tools.layout.PercentRelativeLayout>
+
+            <!-- 3.connect wan ethernet -->
+            <com.hiber.tools.layout.PercentRelativeLayout
+                android:id="@+id/setting_ethernet_wan"
                 android:layout_width="match_parent"
-                android:layout_height="0.5dp"
-                android:layout_alignParentBottom="true"
-                android:background="@color/grey_line"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/setting_mobile_network"
+                android:background="@color/color_white"
+                app:layout_heightPercent="9%sh">
+
+                <ImageView
+                    android:id="@+id/setting_ethernet_wan_pic"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="20dp"
+                    android:src="@drawable/settings_ic_wan"
+                    app:layout_heightPercent="40%h"
+                    app:layout_widthPercent="40%h" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="10dp"
+                    android:layout_toEndOf="@id/setting_ethernet_wan_pic"
+                    android:text="@string/hh70_ethernet_wan_connect"
+                    android:textColor="@color/black_text"
+                    app:layout_textSizePercent="25%h"
+                    app:layout_widthPercent="45%w" />
+
+                <ImageView
+                    android:id="@+id/setting_ethernet_wan_arrow"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="16dp"
+                    android:contentDescription="@string/hh70_wifi"
+                    android:src="@drawable/right_arrow_big"
+                    app:layout_heightPercent="35%h"
+                    app:layout_widthPercent="35%h" />
+
+                <TextView
+                    android:id="@+id/tv_setting_wan_socket"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="10dp"
+                    android:layout_toStartOf="@id/setting_ethernet_wan_arrow"
+                    android:text="@string/hh70_off"
+                    app:layout_textSizePercent="25%h" />
+
+            </com.hiber.tools.layout.PercentRelativeLayout>
+
+            <!-- 4.sharing service -->
+            <com.hiber.tools.layout.PercentRelativeLayout
+                android:id="@+id/setting_sharing_service"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:background="@color/color_white"
+                android:visibility="gone"
+                app:layout_heightPercent="9%sh">
+
+                <ImageView
+                    android:id="@+id/setting_sharing_service_pic"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="20dp"
+                    android:src="@drawable/settings_ic_sharing"
+                    app:layout_heightPercent="40%h"
+                    app:layout_widthPercent="40%h" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="10dp"
+                    android:layout_toEndOf="@id/setting_sharing_service_pic"
+                    android:text="@string/hh70_sharing_service"
+                    android:textColor="@color/black_text"
+                    app:layout_textSizePercent="25%h" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="16dp"
+                    android:contentDescription="@string/hh70_wifi"
+                    android:src="@drawable/right_arrow_big"
+                    app:layout_heightPercent="35%h"
+                    app:layout_widthPercent="35%h" />
+            </com.hiber.tools.layout.PercentRelativeLayout>
+
+            <!-- 5.wifi extender -->
+            <com.hiber.tools.layout.PercentRelativeLayout
+                android:id="@+id/rl_setting_wifi_extender"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:background="@color/color_white"
+                android:visibility="gone"
+                app:layout_heightPercent="9%sh">
+
+                <ImageView
+                    android:id="@+id/setting_wifi_extender_pic"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="20dp"
+                    android:src="@drawable/wifi_ex"
+                    app:layout_heightPercent="40%h"
+                    app:layout_widthPercent="40%h" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="10dp"
+                    android:layout_toEndOf="@id/setting_wifi_extender_pic"
+                    android:text="@string/hh70_wifi_extender"
+                    android:textColor="@color/black_text"
+                    app:layout_textSizePercent="25%h" />
+
+                <ImageView
+                    android:id="@+id/iv_wifi_extender_arrow"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="16dp"
+                    android:contentDescription="@string/hh70_wifi"
+                    android:src="@drawable/right_arrow_big"
+                    app:layout_heightPercent="35%h"
+                    app:layout_widthPercent="35%h" />
+
+                <TextView
+                    android:id="@+id/tv_wifi_extender_socket"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="10dp"
+                    android:layout_toStartOf="@id/iv_wifi_extender_arrow"
+                    android:text=""
+                    app:layout_textSizePercent="25%h" />
+
+            </com.hiber.tools.layout.PercentRelativeLayout>
+
+            <!-- 6.language -->
+            <com.hiber.tools.layout.PercentRelativeLayout
+                android:id="@+id/setting_language"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:background="@color/color_white"
+                app:layout_heightPercent="9%sh">
+
+                <ImageView
+                    android:id="@+id/setting_language_pic"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="20dp"
+                    android:src="@drawable/setting_language"
+                    app:layout_heightPercent="40%h"
+                    app:layout_widthPercent="40%h" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="10dp"
+                    android:layout_toEndOf="@id/setting_language_pic"
+                    android:text="@string/hh70_language"
+                    android:textColor="@color/black_text"
+                    app:layout_textSizePercent="25%h" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="16dp"
+                    android:contentDescription="@string/hh70_wifi"
+                    android:src="@drawable/right_arrow_big"
+                    app:layout_heightPercent="35%h"
+                    app:layout_widthPercent="35%h" />
+            </com.hiber.tools.layout.PercentRelativeLayout>
+
+            <!-- 7.firmware updates -->
+            <com.hiber.tools.layout.PercentRelativeLayout
+                android:id="@+id/setting_firmware_upgrade"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:background="@color/color_white"
+                app:layout_heightPercent="9%sh">
+
+                <ImageView
+                    android:id="@+id/setting_firmware_upgrade_pic"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="20dp"
+                    android:src="@drawable/settings_ic_upgrade"
+                    app:layout_heightPercent="40%h"
+                    app:layout_widthPercent="40%h" />
+
+                <com.hiber.tools.layout.PercentRelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toEndOf="@id/setting_firmware_upgrade_pic">
+
+                    <TextView
+                        android:id="@+id/tv_firmware_update"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:maxLines="1"
+                        android:text="@string/hh70_firmware_update"
+                        android:textColor="@color/black_text"
+                        app:layout_textSizePercent="25%h" />
+
+                    <TextView
+                        android:id="@+id/setting_firmware_upgrade_version"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/tv_firmware_update"
+                        android:layout_alignStart="@id/tv_firmware_update"
+                        android:text="@string/hh70_no_new_version"
+                        android:textColor="@color/grey_text"
+                        app:layout_textSizePercent="20%h" />
+
+                    <ImageView
+                        android:id="@+id/iv_setting_firmware_upgrade_tipdot"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_toEndOf="@id/tv_firmware_update"
+                        android:src="@drawable/tab_sms_new"
+                        android:visibility="gone"
+                        app:layout_heightPercent="15%h"
+                        app:layout_widthPercent="15%h" />
+                </com.hiber.tools.layout.PercentRelativeLayout>
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="16dp"
+                    android:contentDescription="@string/hh70_wifi"
+                    android:src="@drawable/right_arrow_big"
+                    app:layout_heightPercent="35%h"
+                    app:layout_widthPercent="35%h" />
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:layout_alignParentBottom="true"
+                    android:background="@color/grey_line"
+                    android:visibility="visible" />
+
+            </com.hiber.tools.layout.PercentRelativeLayout>
+
+            <!-- 8.restart & reset -->
+            <com.hiber.tools.layout.PercentRelativeLayout
+                android:id="@+id/setting_restart"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/color_white"
+                app:layout_heightPercent="9%sh">
+
+                <ImageView
+                    android:id="@+id/setting_restart_pic"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="20dp"
+                    android:src="@drawable/settings_ic_restart"
+                    app:layout_heightPercent="40%h"
+                    app:layout_widthPercent="40%h" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="10dp"
+                    android:layout_toEndOf="@id/setting_restart_pic"
+                    android:text="@string/hh70_restart_reset"
+                    android:textColor="@color/black_text"
+                    app:layout_textSizePercent="25%h" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="16dp"
+                    android:contentDescription="@string/hh70_wifi"
+                    android:src="@drawable/right_arrow_big"
+                    app:layout_heightPercent="35%h"
+                    app:layout_widthPercent="35%h" />
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:layout_alignParentBottom="true"
+                    android:background="@color/grey_line"
+                    android:visibility="visible"
+                    />
+
+            </com.hiber.tools.layout.PercentRelativeLayout>
+
+            <!-- 9.backup & restore -->
+            <com.hiber.tools.layout.PercentRelativeLayout
+                android:id="@+id/setting_backup"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/color_white"
+                app:layout_heightPercent="9%sh">
+
+                <ImageView
+                    android:id="@+id/setting_backup_pic"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="20dp"
+                    android:src="@drawable/settings_ic_backup"
+                    app:layout_heightPercent="40%h"
+                    app:layout_widthPercent="40%h" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="10dp"
+                    android:layout_toEndOf="@id/setting_backup_pic"
+                    android:text="@string/hh70_backup_restore"
+                    android:textColor="@color/black_text"
+                    app:layout_textSizePercent="25%h" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="16dp"
+                    android:contentDescription="@string/hh70_wifi"
+                    android:src="@drawable/right_arrow_big"
+                    app:layout_heightPercent="35%h"
+                    app:layout_widthPercent="35%h" />
+
+            </com.hiber.tools.layout.PercentRelativeLayout>
+
+            <!-- 10.feedback -->
+            <com.hiber.tools.layout.PercentRelativeLayout
+                android:id="@+id/setting_feedback"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:background="@color/color_white"
                 android:visibility="visible"
-                />
+                app:layout_heightPercent="9%sh">
 
-        </com.hiber.tools.layout.PercentRelativeLayout>
+                <ImageView
+                    android:id="@+id/setting_feedback_pic"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="20dp"
+                    android:src="@drawable/feedback"
+                    app:layout_heightPercent="40%h"
+                    app:layout_widthPercent="40%h" />
 
-        <!-- 9.backup & restore -->
-        <com.hiber.tools.layout.PercentRelativeLayout
-            android:id="@+id/setting_backup"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/color_white"
-            app:layout_heightPercent="11%h">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="10dp"
+                    android:layout_toEndOf="@id/setting_feedback_pic"
+                    android:text="@string/hh70_feedback"
+                    android:textColor="@color/black_text"
+                    app:layout_textSizePercent="25%h" />
 
-            <ImageView
-                android:id="@+id/setting_backup_pic"
-                android:layout_width="wrap_content"
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="16dp"
+                    android:contentDescription="@string/hh70_wifi"
+                    android:src="@drawable/right_arrow_big"
+                    app:layout_heightPercent="35%h"
+                    app:layout_widthPercent="35%h" />
+
+            </com.hiber.tools.layout.PercentRelativeLayout>
+
+            <!-- 11.about -->
+            <com.hiber.tools.layout.PercentRelativeLayout
+                android:id="@+id/setting_about"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginStart="20dp"
-                android:src="@drawable/settings_ic_backup"
-                app:layout_heightPercent="40%h"
-                app:layout_widthPercent="40%h" />
+                android:layout_marginTop="5dp"
+                android:background="@color/color_white"
+                app:layout_heightPercent="9%sh">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginStart="10dp"
-                android:layout_toEndOf="@id/setting_backup_pic"
-                android:text="@string/hh70_backup_restore"
-                android:textColor="@color/black_text"
-                app:layout_textSizePercent="25%h" />
+                <ImageView
+                    android:id="@+id/setting_about_pic"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="20dp"
+                    android:src="@drawable/settings_ic_about"
+                    app:layout_heightPercent="40%h"
+                    app:layout_widthPercent="40%h" />
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
-                android:layout_marginEnd="16dp"
-                android:contentDescription="@string/hh70_wifi"
-                android:src="@drawable/right_arrow_big"
-                app:layout_heightPercent="35%h"
-                app:layout_widthPercent="35%h" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="10dp"
+                    android:layout_toEndOf="@id/setting_about_pic"
+                    android:text="@string/hh70_about"
+                    android:textColor="@color/black_text"
+                    app:layout_textSizePercent="25%h" />
 
-        </com.hiber.tools.layout.PercentRelativeLayout>
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="16dp"
+                    android:contentDescription="@string/hh70_wifi"
+                    android:src="@drawable/right_arrow_big"
+                    app:layout_heightPercent="35%h"
+                    app:layout_widthPercent="35%h" />
 
-        <!-- 10.feedback -->
-        <com.hiber.tools.layout.PercentRelativeLayout
-            android:id="@+id/setting_feedback"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:background="@color/color_white"
-            android:visibility="visible"
-            app:layout_heightPercent="11%h">
+            </com.hiber.tools.layout.PercentRelativeLayout>
 
-            <ImageView
-                android:id="@+id/setting_feedback_pic"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginStart="20dp"
-                android:src="@drawable/feedback"
-                app:layout_heightPercent="40%h"
-                app:layout_widthPercent="40%h" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginStart="10dp"
-                android:layout_toEndOf="@id/setting_feedback_pic"
-                android:text="@string/hh70_feedback"
-                android:textColor="@color/black_text"
-                app:layout_textSizePercent="25%h" />
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
-                android:layout_marginEnd="16dp"
-                android:contentDescription="@string/hh70_wifi"
-                android:src="@drawable/right_arrow_big"
-                app:layout_heightPercent="35%h"
-                app:layout_widthPercent="35%h" />
-
-        </com.hiber.tools.layout.PercentRelativeLayout>
-
-        <!-- 11.about -->
-        <com.hiber.tools.layout.PercentRelativeLayout
-            android:id="@+id/setting_about"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:background="@color/color_white"
-            app:layout_heightPercent="11%h">
-
-            <ImageView
-                android:id="@+id/setting_about_pic"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginStart="20dp"
-                android:src="@drawable/settings_ic_about"
-                app:layout_heightPercent="40%h"
-                app:layout_widthPercent="40%h" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginStart="10dp"
-                android:layout_toEndOf="@id/setting_about_pic"
-                android:text="@string/hh70_about"
-                android:textColor="@color/black_text"
-                app:layout_textSizePercent="25%h" />
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
-                android:layout_marginEnd="16dp"
-                android:contentDescription="@string/hh70_wifi"
-                android:src="@drawable/right_arrow_big"
-                app:layout_heightPercent="35%h"
-                app:layout_widthPercent="35%h" />
-
-        </com.hiber.tools.layout.PercentRelativeLayout>
-
-    </com.hiber.tools.layout.PercentLinearLayout>
-
+        </com.hiber.tools.layout.PercentLinearLayout>
+    </ScrollView>
     <!-- 升级弹窗提示1 -->
     <com.alcatel.wifilink.root.widget.HH70_NormalWidget
         android:id="@+id/dg_settingRx_widget_ok"
