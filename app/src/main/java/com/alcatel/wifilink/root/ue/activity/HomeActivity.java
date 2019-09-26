@@ -199,7 +199,7 @@ public class HomeActivity extends RootMAActivity {
                             toFrag(getClass(), SmsFrag.class, null, false, 0);
                             break;
                         case GetSimStatusBean.CONS_NOWN:
-                            toast(R.string.hh70_not_inserted, 5000);
+                            toast(R.string.hh70_insert_sim_first, 5000);
                             break;
                     }
                 });
