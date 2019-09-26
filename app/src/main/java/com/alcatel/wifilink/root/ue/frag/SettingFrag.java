@@ -353,7 +353,7 @@ public class SettingFrag extends BaseFrag {
         wd_checkVersion.setVisibility(View.VISIBLE);
         String currentVersion = "";
         if (systemSystemInfo != null) {
-            currentVersion = TextUtils.isEmpty(systemSystemInfo.getSwVersionMain())?systemSystemInfo.getSwVersion():systemSystemInfo.getSwVersionMain();
+            currentVersion = TextUtils.isEmpty(systemSystemInfo.getSwVersionMain()) ? systemSystemInfo.getSwVersion() : systemSystemInfo.getSwVersionMain();
         }
         wd_checkVersion.setVersionName(noNewVersion ? currentVersion : updateDeviceNewVersion.getVersion() + " " + getString(R.string.hh70_available));
         wd_checkVersion.setTipVisible(noNewVersion);
@@ -495,7 +495,7 @@ public class SettingFrag extends BaseFrag {
             GetSimStatusHelper xGetSimStatusHelper = new GetSimStatusHelper();
             xGetSimStatusHelper.setOnGetSimStatusSuccessListener(result -> {
                 int simState = result.getSIMState();
-                if (simState != GetSimStatusBean.CONS_SIM_CARD_READY) {
+                if (simState == GetSimStatusBean.CONS_SIM_CARD_READY) {
                     // 获取下载进度
                     uh.getDownState();
                 } else {

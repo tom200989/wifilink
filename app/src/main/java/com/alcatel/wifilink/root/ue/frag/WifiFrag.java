@@ -21,15 +21,12 @@ import com.alcatel.wifilink.root.helper.WpaPsdHelper;
 import com.alcatel.wifilink.root.ue.activity.SplashActivity;
 import com.alcatel.wifilink.root.utils.RootUtils;
 import com.alcatel.wifilink.root.widget.HH70_NormalWidget;
-import com.p_xhelper_smart.p_xhelper_smart.bean.GetLoginStateBean;
 import com.p_xhelper_smart.p_xhelper_smart.bean.GetWlanSettingsBean;
 import com.p_xhelper_smart.p_xhelper_smart.bean.GetWlanSupportModeBean;
-import com.p_xhelper_smart.p_xhelper_smart.helper.GetLoginStateHelper;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetSystemInfoHelper;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetSystemStatusHelper;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetWlanSettingsHelper;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetWlanSupportModeHelper;
-import com.p_xhelper_smart.p_xhelper_smart.helper.LogoutHelper;
 import com.p_xhelper_smart.p_xhelper_smart.helper.SetWlanSettingsHelper;
 
 import butterknife.BindView;
@@ -181,27 +178,33 @@ public class WifiFrag extends BaseFrag {
         rlWait.setOnClickListener(v -> toast(R.string.hh70_connecting, 2000));
 
         m2GAdvancedText.setOnClickListener(v -> {
-            WlanBean wlanBean = new WlanBean();
-            wlanBean.setmSsidBroadcast(mEditedSettings.getAP2G().getSsidHidden() == 0);
-            wlanBean.setmChannel(mEditedSettings.getAP2G().getChannel());
-            wlanBean.setmCountry(mEditedSettings.getAP2G().getCountryCode());
-            wlanBean.setmBandwidth(mEditedSettings.getAP2G().getBandwidth());
-            wlanBean.setmMode(mEditedSettings.getAP2G().getWMode());
-            wlanBean.setmApIsolation(mEditedSettings.getAP2G().getApIsolation() == 1);
-            wlanBean.setmFrequency(2);
-            toFrag(getClass(), WlanFrag.class, wlanBean, true);
+            if (mEditedSettings != null) {
+                WlanBean wlanBean = new WlanBean();
+                wlanBean.setmSsidBroadcast(mEditedSettings.getAP2G().getSsidHidden() == 0);
+                wlanBean.setmChannel(mEditedSettings.getAP2G().getChannel());
+                wlanBean.setmCountry(mEditedSettings.getAP2G().getCountryCode());
+                wlanBean.setmBandwidth(mEditedSettings.getAP2G().getBandwidth());
+                wlanBean.setmMode(mEditedSettings.getAP2G().getWMode());
+                wlanBean.setmApIsolation(mEditedSettings.getAP2G().getApIsolation() == 1);
+                wlanBean.setmFrequency(2);
+                toFrag(getClass(), WlanFrag.class, wlanBean, true);
+            }
+
         });
 
         m5GAdvancedText.setOnClickListener(v -> {
-            WlanBean wlanBean = new WlanBean();
-            wlanBean.setmSsidBroadcast(mEditedSettings.getAP5G().getSsidHidden() == 0);
-            wlanBean.setmChannel(mEditedSettings.getAP5G().getChannel());
-            wlanBean.setmCountry(mEditedSettings.getAP5G().getCountryCode());
-            wlanBean.setmBandwidth(mEditedSettings.getAP5G().getBandwidth());
-            wlanBean.setmMode(mEditedSettings.getAP5G().getWMode());
-            wlanBean.setmApIsolation(mEditedSettings.getAP5G().getApIsolation() == 1);
-            wlanBean.setmFrequency(5);
-            toFrag(getClass(), WlanFrag.class, wlanBean, true);
+            if (mEditedSettings != null) {
+                WlanBean wlanBean = new WlanBean();
+                wlanBean.setmSsidBroadcast(mEditedSettings.getAP5G().getSsidHidden() == 0);
+                wlanBean.setmChannel(mEditedSettings.getAP5G().getChannel());
+                wlanBean.setmCountry(mEditedSettings.getAP5G().getCountryCode());
+                wlanBean.setmBandwidth(mEditedSettings.getAP5G().getBandwidth());
+                wlanBean.setmMode(mEditedSettings.getAP5G().getWMode());
+                wlanBean.setmApIsolation(mEditedSettings.getAP5G().getApIsolation() == 1);
+                wlanBean.setmFrequency(5);
+                toFrag(getClass(), WlanFrag.class, wlanBean, true);
+            }
+
         });
 
         btnApply.setOnClickListener(v -> showApplySettingsDlg());// 检查密码规则
