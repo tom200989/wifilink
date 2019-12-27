@@ -35,6 +35,7 @@ public class XCons {
         // 热点设备(仅针对加密)
         ENCRYPT_LIST_DEV_HOTSPOT.add("mw12");
         ENCRYPT_LIST_DEV_HOTSPOT.add("mw70");
+        ENCRYPT_LIST_DEV_HOTSPOT.add("mw43");
         // 定制设备(仅针对加密)
         ENCRYPT_LIST_DEV_TARGET.add("E1");
     }

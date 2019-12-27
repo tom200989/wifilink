@@ -74,6 +74,7 @@ public class RootCons {
     static {
         MW_DEVICE.add("mw12");
         MW_DEVICE.add("mw70");
+        MW_DEVICE.add("mw43");
         HH71_DEVICE.add("hh71");
         HH71_DEVICE.add("hub71");
         HH4X_DEVICE.add("hh4");

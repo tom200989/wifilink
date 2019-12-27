@@ -114,6 +114,7 @@ public class LoginFrag extends RootFrag {
         // 定时更新设备名
         GetSystemInfoHelper xGetSystemInfoHelper = new GetSystemInfoHelper();
         xGetSystemInfoHelper.setOnGetSystemInfoSuccessListener(getSystemInfobean -> {
+            System.out.println("devicesId: "+getSystemInfobean.getDeviceName());
             ShareUtils.set(RootCons.DEVICE_NAME, getSystemInfobean.getDeviceName());
             // 根据设备名定时更新UI
             isMWDev = RootUtils.isMWDEV(ShareUtils.get(RootCons.DEVICE_NAME, RootCons.DEVICE_NAME_DEFAULT));
