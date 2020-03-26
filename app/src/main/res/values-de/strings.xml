@@ -262,7 +262,7 @@
     <string name="hh70_list_will_restart">Die Liste mit den angeschlossenen Geräten wird neu gestartet, um neue Einstellungen anzuwenden.</string>
     <string name="hh70_warning">Warnung</string>
     <string name="hh70_connecting">Verbinde…</string>
-    <string name="hh70_used_of">Verwendet von</string>
+    <string name="hh70_used_of">verbraucht von</string>
     <string name="hh70_cant_login">Anmeldung fehlgeschlagen</string>
     <string name="hh70_try_again_insert_sim">Versuchen Sie es erneut nach dem Einsetzen von SIM oder WAN</string>
     <string name="hh70_not_permit_empty">Darf nicht leer sein</string>
@@ -303,7 +303,7 @@
     <string name="hh70_hr_s">Stunde(n)</string>
     <string name="hh70_min_s">Minute(n)</string>
     <string name="hh70_maunal">Manuell</string>
-    <string name="hh70_disabled">Behindert</string>
+    <string name="hh70_disabled">Ausgeschaltet</string>
     <string name="hh70_language">Sprache</string>
     <string name="hh70_success">Erfolgreich</string>
     <string name="hh70_restart_device_tip">Starten Sie das Gerät neu und versuchen Sie es erneut</string>
