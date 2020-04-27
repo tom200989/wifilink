@@ -1,12 +1,13 @@
 package com.p_xhelper_smart.p_xhelper_smart.helper;
 
-import android.os.Environment;
+import android.content.Context;
 import android.text.TextUtils;
 
 import com.p_xhelper_smart.p_xhelper_smart.core.XSmart;
 import com.p_xhelper_smart.p_xhelper_smart.impl.FwError;
 import com.p_xhelper_smart.p_xhelper_smart.impl.XBackupCallback;
 import com.p_xhelper_smart.p_xhelper_smart.impl.XNormalCallback;
+import com.p_xhelper_smart.p_xhelper_smart.utils.SmartUtils;
 import com.p_xhelper_smart.p_xhelper_smart.utils.XCons;
 
 import org.xutils.common.Callback;
@@ -21,6 +22,13 @@ import java.util.List;
  */
 @SuppressWarnings("unchecked")
 public class SetDeviceBackupHelper extends BaseHelper {
+
+
+    private Context context;
+
+    public SetDeviceBackupHelper(Context context) {
+        this.context = context;
+    }
 
     /**
      * 触发备份 -- 并下载
@@ -108,7 +116,7 @@ public class SetDeviceBackupHelper extends BaseHelper {
      */
     private String getSavepath(String path) {
         /* 默认路径: sdcard/smartlink/configure.bin */
-        File sdDir = Environment.getExternalStorageDirectory();
+        File sdDir = new File(SmartUtils.get_android_Q_SD_path(context));
         // 创建根目录
         if (!sdDir.exists() | !sdDir.isDirectory()) {
             sdDir.mkdirs();

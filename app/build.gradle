@@ -6,10 +6,10 @@ android {
 
         applicationId "com.alcatel.wifilink"
         minSdkVersion 19
-        compileSdkVersion 28
-        targetSdkVersion 28
-        versionName '1.0.1'
-        versionCode 101
+        compileSdkVersion 29
+        targetSdkVersion 29
+        versionName '1.0.2'
+        versionCode 102
         multiDexEnabled true
 
         signingConfigs {
@@ -80,7 +80,7 @@ dependencies {
     // rootMAhiber -- 波浪控件
     api(name: 'de_wave2', ext: 'aar')
     // rootMAhiber -- 图片选择器
-    api(name: 'ma_seletor', ext: 'aar')
+    api(name: 'ma_seletor2', ext: 'aar')
     api 'com.squareup.picasso:picasso:2.5.2'
     // rootMAhiber -- 数字进度条
     api(name: 'ma_numberbar', ext: 'aar')

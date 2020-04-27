@@ -588,7 +588,7 @@ public class SettingFrag extends BaseFrag {
     }
 
     private void downLoadConfigureFile(String saveUrl) {
-        SetDeviceBackupHelper xSetDeviceBackup = new SetDeviceBackupHelper();
+        SetDeviceBackupHelper xSetDeviceBackup = new SetDeviceBackupHelper(activity);
         xSetDeviceBackup.setOnPrepareHelperListener(this::showLoadingDialog);
         xSetDeviceBackup.setOnDoneHelperListener(this::dismissLoadingDialog);
         xSetDeviceBackup.setOnDownSuccessListener(attr -> toast(R.string.hh70_succeed));

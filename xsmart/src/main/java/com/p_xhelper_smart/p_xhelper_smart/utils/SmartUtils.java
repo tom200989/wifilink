@@ -6,6 +6,8 @@ import android.net.DhcpInfo;
 import android.net.NetworkInfo;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
+import android.os.Build;
+import android.os.Environment;
 
 /**
  * The type Smart utils.
@@ -15,6 +17,19 @@ import android.net.wifi.WifiManager;
  */
 @SuppressWarnings({"unchecked", "warn", "all"})
 public class SmartUtils {
+
+    /**
+     * 获取SD卡目录(兼容android Q)
+     *
+     * @param context 域
+     * @return SD卡目录
+     */
+    public static String get_android_Q_SD_path(Context context) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            return context.getExternalFilesDir(null).getAbsolutePath();
+        }
+        return Environment.getExternalStorageDirectory().getAbsolutePath();
+    }
 
     /**
      * 获取设备类型
