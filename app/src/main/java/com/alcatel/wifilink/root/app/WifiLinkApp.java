@@ -17,6 +17,7 @@ public class WifiLinkApp extends RootApp {
     public void onCreate() {
         super.onCreate();
         XSmart.init(this);// 初始化网络框架
+        XSmart.PRINT_HEAD = false;
         ShareUtils.init(this);// 初始化缓存框架
         ShareUtils.spName = "ROOT_WIFI_LINK";
         cacheLanguage();// 初始化语言

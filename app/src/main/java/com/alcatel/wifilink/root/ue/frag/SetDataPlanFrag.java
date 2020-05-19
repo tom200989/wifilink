@@ -250,7 +250,12 @@ public class SetDataPlanFrag extends BaseFrag {
     private void clickUsageEnable() {
         // 修改状态
         loadWidget.setVisibles();
-        tempSetting.setStatus(tempSetting.getStatus() == GetUsageSettingsBean.CONS_STATUS_ENABLE ? GetUsageSettingsBean.CONS_STATUS_DISABLE : GetUsageSettingsBean.CONS_STATUS_ENABLE);
+        // 需要判断 tempsetting 此时的值是否为空 -- 即初始化流量数据是否完成
+        if (tempSetting != null) {
+            tempSetting.setStatus(tempSetting.getStatus() == GetUsageSettingsBean.CONS_STATUS_ENABLE ? GetUsageSettingsBean.CONS_STATUS_DISABLE : GetUsageSettingsBean.CONS_STATUS_ENABLE);
+        } else {
+            toast(R.string.hh70_wait_moment_scan);
+        }
         UsageSettingHelper usageSettingHelper = new UsageSettingHelper();
         usageSettingHelper.setOnSetUsageSettingSuccessListener(() -> {
             toast(R.string.hh70_succeed);
@@ -437,7 +442,7 @@ public class SetDataPlanFrag extends BaseFrag {
                             des = String.format(activity.getString(R.string.hh70_about_data_remain), per_s);
                             toastLong(des);
                         }
-                    }else {
+                    } else {
                         toastLong(des);// 4.吐司提示
                     }
                 }

@@ -706,7 +706,7 @@ public class XSmart<T> {
         if (isOn) {
             lgg.ii("wifi is on");
         } else {
-            lgg.ee("wifi is off");
+            lgg.ww("wifi is off");
         }
     }
 }

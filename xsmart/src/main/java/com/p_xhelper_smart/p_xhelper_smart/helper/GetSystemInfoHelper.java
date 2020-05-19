@@ -18,6 +18,7 @@ public class GetSystemInfoHelper extends BaseHelper {
         prepareHelperNext();
         XSmart<GetSystemInfoBean> xsmart = new XSmart<>();
         xsmart.xMethod(XCons.METHOD_GET_SYSTEM_INFO).xPost(new XNormalCallback<GetSystemInfoBean>() {
+
             @Override
             public void success(GetSystemInfoBean getSystemInfoBean) {
                 getSystemInfoSuccessNext(getSystemInfoBean);
