@@ -23,6 +23,7 @@ import com.p_xhelper_smart.p_xhelper_smart.helper.SaveSMSHelper;
 import com.p_xhelper_smart.p_xhelper_smart.helper.SendSMSHelper;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -157,8 +158,7 @@ public class SmsNewFrag extends BaseFrag {
         Pattern p = Pattern.compile(NUMBER_REG_Ex);
         Matcher m = p.matcher(str);
         if ((m.matches() || str == null || str.length() == 0) && checkAllNumber(str)) {
-            if (str == null)
-                str = "";
+            if (str == null) str = "";
 
             m_preMatchNumber = str;
         }
@@ -228,19 +228,16 @@ public class SmsNewFrag extends BaseFrag {
     }
 
     private void OnBtnSend() {
-
         RootUtils.hideKeyBoard(activity);
         if (checkNumbers()) {
             wdLoad.setVisibility(View.VISIBLE);
-            String num = RootUtils.getEDText(m_etNumber, true);
-            ArrayList<String> numList = new ArrayList<>();
-            numList.add(num);
-
+            List<String> nums = getNumberFromString(m_etNumber.getText().toString());
+            
             SendSmsParam xSendSmsParam = new SendSmsParam();
             xSendSmsParam.setSMSId(-1);
             xSendSmsParam.setSMSContent(RootUtils.getEDText(m_etContent, true));
             xSendSmsParam.setSMSTime(RootUtils.getCurrentDate());
-            xSendSmsParam.setPhoneNumber(numList);
+            xSendSmsParam.setPhoneNumber(nums);
 
             SendSMSHelper xSendSMSHelper = new SendSMSHelper();
             xSendSMSHelper.setOnSendSmsSuccessListener(this::getSendSMSResult);
@@ -332,13 +329,11 @@ public class SmsNewFrag extends BaseFrag {
      * @return 号码数组
      */
     private ArrayList<String> getNumberFromString(String number) {
-        if (number == null)
-            number = "";
+        if (number == null) number = "";
         String[] listNumbers = number.split(";");
         ArrayList<String> phoneNumberLst = new ArrayList<>();
         for (String listNumber : listNumbers) {
-            if (null == listNumber || listNumber.length() == 0)
-                continue;
+            if (null == listNumber || listNumber.length() == 0) continue;
             phoneNumberLst.add(listNumber);
         }
         return phoneNumberLst;

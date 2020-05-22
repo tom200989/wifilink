@@ -74,7 +74,7 @@
                 android:background="@color/color_white"
                 android:hint="@string/hh70_none"
                 android:imeOptions="flagNoExtractUi"
-                android:inputType="number"
+                android:digits="0,1,2,3,4,5,6,7,8,9,;"
                 android:lines="1"
                 android:maxLines="1"
                 app:layout_heightPercent="60%h"
