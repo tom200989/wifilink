@@ -73,7 +73,6 @@ public class SimPinHelper {
      */
     private void enableUnlockFirst(String pincode) {
         // 1.先解PIN
-
         UnlockPinHelper xUnlockPinHelper = new UnlockPinHelper();
         xUnlockPinHelper.setOnUnlockPinSuccessListener(() -> {
             // 2.再改变PIN码状态

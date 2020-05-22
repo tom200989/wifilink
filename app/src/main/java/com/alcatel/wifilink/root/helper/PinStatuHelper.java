@@ -12,6 +12,7 @@ import com.p_xhelper_smart.p_xhelper_smart.bean.GetLoginStateBean;
 import com.p_xhelper_smart.p_xhelper_smart.bean.GetSimStatusBean;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetLoginStateHelper;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetSimStatusHelper;
+import com.p_xhelper_smart.p_xhelper_smart.utils.Logg;
 
 /**
  * Created by qianli.ma on 2017/12/12 0012.
@@ -79,6 +80,7 @@ public class PinStatuHelper {
             GetSimStatusHelper xGetSimStatusHelper = new GetSimStatusHelper();
             xGetSimStatusHelper.setOnGetSimStatusSuccessListener(result -> {
                 int simState = result.getSIMState();
+                Logg.t("HH42K_SIM").ii("simState: " + simState);
                 switch (simState) {
                     case GetSimStatusBean.CONS_SIM_CARD_IS_INITING:
                         toast(R.string.hh70_initializing);

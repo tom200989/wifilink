@@ -616,7 +616,6 @@ public class mainFrag extends BaseFrag {
             if (temp == 0) {
                 temp++;
             }
-
             // 设置已使用流量
             UsageHelper.Usage usedUsage = UsageHelper.getUsageByte(getActivity(), result.getUsedData());
             String currentLanguage = ShareUtils.get(RootCons.LOCALE_LANGUAGE_COUNTRY, "");
@@ -635,7 +634,11 @@ public class mainFrag extends BaseFrag {
             tvUsedData.setText(usage);
             // 设置月计划流量
             UsageHelper.Usage planUsage = UsageHelper.getUsageByte(getActivity(), result.getMonthlyPlan());
-            String planUnit = result.getUnit() == GetUsageSettingsBean.CONS_UNIT_MB ? mb_unit : gb_unit;
+            String planUnit = planUsage.unit;// 单位
+            
+            // 不要直接使用FW返回的unit做判断, FW有时候抽筋返回错误的单位
+            // String planUnit = result.getUnit() == GetUsageSettingsBean.CONS_UNIT_MB ? mb_unit : gb_unit;
+           
             long plan = result.getMonthlyPlan();
             // used of 0.88GB
             String montyUsage = planUsage.usage;
@@ -645,7 +648,6 @@ public class mainFrag extends BaseFrag {
             tvUsedTotal.setText(plan <= 0 ? "" : useOf + BLANK_TEXT + montyUsage + planUnit);
             // 计算已使用流量比率
             usageLimit = ShareUtils.get(RootCons.USAGE_LIMIT_DEFAULT, 90);
-            ;
             if (usageLimit == -1) {
                 btSimConnected.setFrontColor(Color.parseColor(frontColor_nor));
                 btSimConnected.setBehindColor(Color.parseColor(behindColor_nor));

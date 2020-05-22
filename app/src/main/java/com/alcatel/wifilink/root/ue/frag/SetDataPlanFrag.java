@@ -296,8 +296,11 @@ public class SetDataPlanFrag extends BaseFrag {
         UsageSettingHelper ush = new UsageSettingHelper();
         // 1.先获取一次usage-setting
         ush.setOnGetUsageSettingsSuccessListener(attr -> {
+
+            // 针对 1024MB 的特殊适配 - 直接做 1GB 的处理
             attr.setUnit(tvmb.getCurrentTextColor() == blue_color ? GetUsageSettingsBean.CONS_UNIT_MB : GetUsageSettingsBean.CONS_UNIT_GB);
             attr.setMonthlyPlan(tvmb.getCurrentTextColor() == blue_color ? num * 1024L * 1024L : num * 1024L * 1024L * 1024L);
+
             // 2.在提交usage-setting
             UsageSettingHelper ush1 = new UsageSettingHelper();
             ush1.setOnSetUsageSettingSuccessListener(() -> {

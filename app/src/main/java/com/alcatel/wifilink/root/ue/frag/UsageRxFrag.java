@@ -2,7 +2,6 @@ package com.alcatel.wifilink.root.ue.frag;
 
 import android.text.TextUtils;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -176,7 +175,7 @@ public class UsageRxFrag extends BaseFrag {
         // 获取已使用流量
         GetUsageRecordHelper xGetUsageRecordHelper = new GetUsageRecordHelper();
         xGetUsageRecordHelper.setOnGetUsageRecordSuccess(result -> {
-            // 处理已经使用的流量
+            // 处理已经使用的流量 
             usedData_l = result.getHUseData();
             UsageHelper.Usage hUseDataByte = UsageHelper.getUsageByte(getActivity(), usedData_l);
             String used = hUseDataByte.usage;

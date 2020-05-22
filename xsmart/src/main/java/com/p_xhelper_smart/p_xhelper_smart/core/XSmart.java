@@ -85,7 +85,7 @@ public class XSmart<T> {
     /**
      * 是否打印框架日志 (按需求设置, T:打印)
      */
-    public static boolean PRINT_TAG = true;
+    public static boolean PRINT_TAG = false;
 
     /**
      * 是否打印头部信息 (T: 打印)

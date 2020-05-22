@@ -328,9 +328,7 @@ public class MobileNetworkFrag extends BaseFrag {
             simPinHelper.setOnPinTimeoutListener(attr -> toPukRx());// PIN次数超过限制
             simPinHelper.transfer(simpinWidget.getEtString());
         });
-        simpinWidget.setOnCancelClickListener(() -> {
-            RootUtils.hideKeyBoard(activity);
-        });
+        simpinWidget.setOnCancelClickListener(() -> RootUtils.hideKeyBoard(activity));
         simpinWidget.clearEtString();
         simpinWidget.setVisibility(View.VISIBLE);
     }

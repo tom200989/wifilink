@@ -1,5 +1,6 @@
 package com.alcatel.wifilink.root.ue.frag;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.view.View;
@@ -203,6 +204,7 @@ public class Login_mw_Frag extends RootFrag {
     /**
      * 获取与网络相关(信号强度,网络类型)
      */
+    @SuppressLint("SetTextI18n")
     private void getSignalAbout() {
         // 电池 + 强度 + 网络类型 + 连接数
         preLoginHelper = new PreLoginHelper(activity);
@@ -213,9 +215,9 @@ public class Login_mw_Frag extends RootFrag {
             Drawable batUse = getResources().getDrawable(R.drawable.battery_01);
             boolean isCharing = result.getChg_state() == GetSystemStatusBean.CONS_CHARGE_CHARGING;// 电池状态
             int cap = result.getBat_cap();// 电池电量
-            pgLoginPreBattery.setProgress(isCharing ? 0 : cap <= 12 ? 12 : cap);
+            pgLoginPreBattery.setProgress(isCharing ? 0 : Math.max(cap, 12));
             pgLoginPreBattery.setProgressDrawable(isCharing ? batFlash : batUse);
-            tvLoginPreBatteryPercent.setText(String.valueOf(cap + "%"));
+            tvLoginPreBatteryPercent.setText(cap + "%");
             // 设置强度
             Drawable strenght = preLoginHelper.getStrenght(result.getSignalStrength());
             ivLoginPreSignal.setImageDrawable(strenght);
