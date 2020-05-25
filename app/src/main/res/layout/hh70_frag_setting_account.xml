@@ -12,43 +12,19 @@
         android:layout_height="match_parent">
 
         <!-- banner -->
-        <com.hiber.tools.layout.PercentRelativeLayout
-            android:id="@+id/rl_setting_account_banner"
+        <com.alcatel.wifilink.root.widget.HH70_LoadWidget
+            android:id="@+id/wd_setting_account_load"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/mg_blue"
-            app:layout_heightPercent="9%h">
+            android:layout_height="match_parent"
+            android:visibility="gone" />
 
-            <ImageView
-                android:id="@+id/iv_setting_account_back"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:src="@drawable/back"
-                app:layout_heightPercent="50%h"
-                app:layout_widthPercent="50%h" />
+        <com.alcatel.wifilink.root.widget.HH70_NormalWidget
+            android:id="@+id/dg_widget_ok"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:text="@string/hh70_login_psd"
-                android:textColor="@color/white"
-                app:layout_textSizePercent="30%h" />
-
-            <TextView
-                android:id="@+id/tv_setting_account_done"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
-                android:layout_marginEnd="15dp"
-                android:text="@string/hh70_done"
-                android:textColor="@color/white"
-                app:layout_textSizePercent="25%h" />
-
-        </com.hiber.tools.layout.PercentRelativeLayout>
-
+        <!-- 确定取消按钮 -->
         <com.hiber.tools.layout.PercentLinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -71,11 +47,6 @@
                 app:layout_textSizePercent="2.4%h"
                 tools:ignore="Autofill" />
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0.5dp"
-                android:background="@color/gray" />
-
             <EditText
                 android:id="@+id/new_password"
                 android:layout_width="match_parent"
@@ -92,11 +63,6 @@
                 app:layout_textSizePercent="2.4%h"
                 tools:ignore="Autofill" />
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0.5dp"
-                android:background="@color/gray" />
-
             <EditText
                 android:id="@+id/confirm_password"
                 android:layout_width="match_parent"
@@ -112,11 +78,6 @@
                 app:layout_textSizePercent="2.4%h"
                 tools:ignore="Autofill" />
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0.5dp"
-                android:background="@color/gray" />
-
             <TextView
                 android:id="@+id/password_notice"
                 android:layout_width="match_parent"
@@ -129,21 +90,61 @@
                 app:layout_heightPercent="10%h"
                 app:layout_marginTopPercent="10%h"
                 app:layout_textSizePercent="2.8%h" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/gray" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/gray" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/gray" />
         </com.hiber.tools.layout.PercentLinearLayout>
 
-        <!-- 确定取消按钮 -->
-        <com.alcatel.wifilink.root.widget.HH70_NormalWidget
-            android:id="@+id/dg_widget_ok"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:visibility="gone" />
-
         <!-- 等待 -->
-        <com.alcatel.wifilink.root.widget.HH70_LoadWidget
-            android:id="@+id/wd_setting_account_load"
+        <com.hiber.tools.layout.PercentRelativeLayout
+            android:id="@+id/rl_setting_account_banner"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:visibility="gone" />
+            android:layout_height="wrap_content"
+            android:background="@color/mg_blue"
+            app:layout_heightPercent="9%h">
+
+            <ImageView
+                android:id="@+id/iv_setting_account_back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:src="@drawable/back"
+                app:layout_heightPercent="50%h"
+                app:layout_widthPercent="50%h" />
+
+            <TextView
+                android:id="@+id/tv_setting_account_done"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="15dp"
+                android:text="@string/hh70_done"
+                android:textColor="@color/white"
+                app:layout_textSizePercent="25%h" />
+
+            <com.alcatel.wifilink.root.widget.HH70_MarqueeTvWidget
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_centerInParent="true"
+                android:gravity="center"
+                android:text="@string/hh70_login_psd"
+                android:textColor="@color/white"
+                app:layout_textSizePercent="30%h" />
+
+        </com.hiber.tools.layout.PercentRelativeLayout>
 
     </com.hiber.tools.layout.PercentRelativeLayout>
 </com.hiber.tools.layout.PercentRelativeLayout>

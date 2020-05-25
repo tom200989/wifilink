@@ -324,9 +324,10 @@ public class SettingFrag extends BaseFrag {
         xGetSystemInfoHelper.setOnGetSystemInfoSuccessListener(result -> {
             String version = result.getSwVersion().toLowerCase();
             boolean isHH71 = RootUtils.isHH71(version);
-            boolean isHH4X = RootUtils.isHH4X(version);
             boolean isMW = RootUtils.isMWDEV(version);
-            mSharingService.setVisibility(isHH4X | isMW | isHH71 ? View.GONE : View.VISIBLE);
+            boolean isHH4X = RootUtils.isHH4X(version);// HH4X是指TCL公司自营的设备
+            boolean isHH42 = RootUtils.isHH42(version);// HH42是外包设备, 因此单独区分
+            mSharingService.setVisibility(isHH42 | isHH4X | isMW | isHH71 ? View.GONE : View.VISIBLE);
         });
         xGetSystemInfoHelper.getSystemInfo();
     }

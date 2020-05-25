@@ -125,9 +125,9 @@ public class RootUtils {
      * @return 内容
      */
     public static String getEDText(EditText editText, boolean isSpace) {
-        if (isSpace) {
+        if (isSpace) {// 不去除空格
             return editText.getText().toString().trim();
-        } else {
+        } else {// 去除空格
             return editText.getText().toString().trim().replace(" ", "");
         }
     }
@@ -381,7 +381,7 @@ public class RootUtils {
      * @return true为包含，false为不包含
      */
     public static boolean contantSpecialChar(String str) {
-        String regEx = "[ `~!@#$%^&*()+=|{}':;',\\[\\]<>/?~！@#￥%……&*（）——+|{}【】‘；：”“’。，、？]|\n|\r|\t";
+        String regEx = "[`~!@#$%^&*()+=|{}':;',\\[\\]<>/?~！@#￥%……&*（）——+|{}【】‘；：”“’。，、？]|\n|\r|\t";
         Pattern p = Pattern.compile(regEx);
         Matcher m = p.matcher(str);
         return m.find();

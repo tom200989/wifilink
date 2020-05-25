@@ -464,56 +464,54 @@ public class WifiFrag extends BaseFrag {
         // check 2.4g settings
         if (mSupportMode == GetWlanSupportModeBean.CONS_WLAN_2_4G || mSupportMode == GetWlanSupportModeBean.CONS_WLAN_2_4G_5G) {
             boolean isAP2GStateChanged = mWifi2GSwitch.isChecked() != (mOriginSettings.getAP2G().getApStatus() == 1);
-            //add by haide.yin 只要点击了Apply都会更新
-            if (/*isAP2GStateChanged*/true) {
-                if (!mWifi2GSwitch.isChecked()) {
-                    mEditedSettings.getAP2G().setApStatus(0);
-                } else {
-                    mEditedSettings.getAP2G().setApStatus(1);
-                    String newSsid2G = RootUtils.getEDText(mSsid2GEdit, true);
-                    int newSecurity2GMode = mSecurity2GSpinner.getSelectedItemPosition();
-                    int newEncryption2G = mEncryption2GSpinner.getSelectedItemPosition();
-                    String newKey2G = RootUtils.getEDText(mKey2GEdit, true);
-                    //不能为空
-                    if (newSsid2G.isEmpty() || newSsid2G.length() > 32) {
-                        toast(R.string.hh70_the_ssid, 2000);
-                        return;
-                    }
-                    //不能包含特殊字符
-                    if (RootUtils.contantSpecialChar(newSsid2G)) {
-                        toast(R.string.hh70_ssid_can_contain, 2000);
-                        return;
-                    }
+            //add by haide.yin 只要点击了Apply都会更新 isAP2GStateChanged
+            if (!mWifi2GSwitch.isChecked()) {
+                mEditedSettings.getAP2G().setApStatus(0);
+            } else {
+                mEditedSettings.getAP2G().setApStatus(1);
+                String newSsid2G = RootUtils.getEDText(mSsid2GEdit, true);
+                int newSecurity2GMode = mSecurity2GSpinner.getSelectedItemPosition();
+                int newEncryption2G = mEncryption2GSpinner.getSelectedItemPosition();
+                String newKey2G = RootUtils.getEDText(mKey2GEdit, true);
+                //不能为空
+                if (newSsid2G.isEmpty() || newSsid2G.length() > 32) {
+                    toast(R.string.hh70_the_ssid, 2000);
+                    return;
+                }
+                //不能包含特殊字符
+                if (RootUtils.contantSpecialChar(newSsid2G)) {
+                    toast(R.string.hh70_ssid_can_contain, 2000);
+                    return;
+                }
 
-                    mEditedSettings.getAP2G().setSsid(newSsid2G);
-                    mEditedSettings.getAP2G().setSecurityMode(newSecurity2GMode);
-                    //disable
-                    if (newSecurity2GMode == 0) {
-                        mEditedSettings.getAP2G().setWepKey("");
-                        mEditedSettings.getAP2G().setWepType(0);
-                        mEditedSettings.getAP2G().setWpaType(0);
-                        mEditedSettings.getAP2G().setWpaKey("");
-                        //wep
-                    } else if (newSecurity2GMode == 1) {
-                        if (!WepPsdHelper.psdMatch(newKey2G)) {
-                            toast(R.string.hh70_wep_key_is_5, 2000);
-                            return;
-                        }
-                        mEditedSettings.getAP2G().setWepType(newEncryption2G);
-                        mEditedSettings.getAP2G().setWepKey(newKey2G);
-                        mEditedSettings.getAP2G().setWpaType(0);
-                        mEditedSettings.getAP2G().setWpaKey("");
-                        //wpa
-                    } else {
-                        if (newKey2G.length() < 8 || newKey2G.length() > 63 || !WpaPsdHelper.isMatch(newKey2G)) {
-                            toast(R.string.hh70_the_wpa_pre, 2000);
-                            return;
-                        }
-                        mEditedSettings.getAP2G().setWepType(0);
-                        mEditedSettings.getAP2G().setWepKey("");
-                        mEditedSettings.getAP2G().setWpaType(newEncryption2G);
-                        mEditedSettings.getAP2G().setWpaKey(newKey2G);
+                mEditedSettings.getAP2G().setSsid(newSsid2G);
+                mEditedSettings.getAP2G().setSecurityMode(newSecurity2GMode);
+                //disable
+                if (newSecurity2GMode == 0) {
+                    mEditedSettings.getAP2G().setWepKey("");
+                    mEditedSettings.getAP2G().setWepType(0);
+                    mEditedSettings.getAP2G().setWpaType(0);
+                    mEditedSettings.getAP2G().setWpaKey("");
+                    //wep
+                } else if (newSecurity2GMode == 1) {
+                    if (!WepPsdHelper.psdMatch(newKey2G)) {
+                        toast(R.string.hh70_wep_key_is_5, 2000);
+                        return;
                     }
+                    mEditedSettings.getAP2G().setWepType(newEncryption2G);
+                    mEditedSettings.getAP2G().setWepKey(newKey2G);
+                    mEditedSettings.getAP2G().setWpaType(0);
+                    mEditedSettings.getAP2G().setWpaKey("");
+                    //wpa
+                } else {
+                    if (newKey2G.length() < 8 || newKey2G.length() > 63 || !WpaPsdHelper.isMatch(newKey2G)) {
+                        toast(R.string.hh70_the_wpa_pre, 2000);
+                        return;
+                    }
+                    mEditedSettings.getAP2G().setWepType(0);
+                    mEditedSettings.getAP2G().setWepKey("");
+                    mEditedSettings.getAP2G().setWpaType(newEncryption2G);
+                    mEditedSettings.getAP2G().setWpaKey(newKey2G);
                 }
             }
 
