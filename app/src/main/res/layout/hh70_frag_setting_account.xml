@@ -12,13 +12,13 @@
         android:layout_height="match_parent">
 
         <!-- banner -->
-        <com.alcatel.wifilink.root.widget.HH70_LoadWidget
+        <com.alcatel.wifilink.widget.HH70_LoadWidget
             android:id="@+id/wd_setting_account_load"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:visibility="gone" />
 
-        <com.alcatel.wifilink.root.widget.HH70_NormalWidget
+        <com.alcatel.wifilink.widget.HH70_NormalWidget
             android:id="@+id/dg_widget_ok"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -135,7 +135,7 @@
                 android:textColor="@color/white"
                 app:layout_textSizePercent="25%h" />
 
-            <com.alcatel.wifilink.root.widget.HH70_MarqueeTvWidget
+            <com.alcatel.wifilink.widget.HH70_MarqueeTvWidget
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_centerInParent="true"

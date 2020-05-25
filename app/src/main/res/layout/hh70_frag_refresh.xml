@@ -48,7 +48,7 @@
     </com.hiber.tools.layout.PercentRelativeLayout>
 
     <!-- 错误显示 -->
-    <com.alcatel.wifilink.root.widget.HH70_CheckWifiWidget
+    <com.alcatel.wifilink.widget.HH70_CheckWifiWidget
         android:id="@+id/wd_refresh_connect_wifi"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

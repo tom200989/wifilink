@@ -44,7 +44,7 @@
                 app:layout_textSizePercent="20%h"
                 app:layout_widthPercent="60%w" />
 
-            <com.alcatel.wifilink.root.widget.CountDownWidget
+            <com.alcatel.wifilink.widget.CountDownWidget
                 android:id="@+id/ctv_pop_upgrade"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

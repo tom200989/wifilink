@@ -102,13 +102,13 @@
         android:textColor="@color/color_grey"
         android:textSize="16sp" />
 
-    <com.alcatel.wifilink.root.widget.HH70_SmsDeleteWidget
+    <com.alcatel.wifilink.widget.HH70_SmsDeleteWidget
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="gone"
         android:id="@+id/wd_sms_delete"/>
 
-    <com.alcatel.wifilink.root.widget.HH70_SmsTryAgainWidget
+    <com.alcatel.wifilink.widget.HH70_SmsTryAgainWidget
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="gone"

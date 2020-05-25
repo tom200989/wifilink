@@ -21,7 +21,7 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
 
     <application
-        android:name=".root.app.WifiLinkApp"
+        android:name=".app.WifiLinkApp"
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
@@ -35,11 +35,12 @@
 
         <!-- ROOT-splash -->
         <activity
-            android:name=".root.ue.activity.SplashActivity"
-            android:screenOrientation="portrait">
+            android:name=".ue.activity.SplashActivity"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-                <action android:name="com.alcatel.wifilink.root.ue.activity.SplashActivity" />
+                <action android:name="com.alcatel.wifilink.ue.activity.SplashActivity" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
                 <category android:name="android.intent.category.DEFAULT" />
@@ -48,13 +49,13 @@
 
         <!-- ROOT-home -->
         <activity
-            android:name=".root.ue.activity.HomeActivity"
+            android:name=".ue.activity.HomeActivity"
             android:screenOrientation="portrait"
             android:configChanges="orientation|keyboardHidden"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"
-            >
+            tools:ignore="LockedOrientationActivity">
             <intent-filter>
-                <action android:name="com.alcatel.wifilink.root.ue.activity.HomeActivity" />
+                <action android:name="com.alcatel.wifilink.ue.activity.HomeActivity" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
@@ -63,7 +64,8 @@
         <activity
             android:name="me.nereo.multi_image_selector.MultiImageSelectorActivity"
             android:screenOrientation="portrait"
-            android:configChanges="orientation|screenSize">
+            android:configChanges="orientation|screenSize"
+            tools:ignore="LockedOrientationActivity">
             <intent-filter>
                 <action android:name="me.nereo.multi_image_selector.MultiImageSelectorActivity" />
                 <category android:name="android.intent.category.DEFAULT" />

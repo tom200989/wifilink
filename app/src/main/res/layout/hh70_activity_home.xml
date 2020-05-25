@@ -7,7 +7,7 @@
     android:background="@color/white">
 
     <!-- 选择器 -->
-    <com.alcatel.wifilink.root.widget.HH70_HomeTabWidget
+    <com.alcatel.wifilink.widget.HH70_HomeTabWidget
         android:id="@+id/wd_home_tab"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

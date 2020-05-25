@@ -364,14 +364,14 @@
     </com.hiber.tools.layout.PercentRelativeLayout>
 
     <!-- 12.等待UI -->
-    <com.alcatel.wifilink.root.widget.HH70_ExtenderWaitWidget
+    <com.alcatel.wifilink.widget.HH70_ExtenderWaitWidget
         android:id="@+id/rl_feedback_wait"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="gone" />
 
     <!-- 13.提示弹窗 -->
-    <com.alcatel.wifilink.root.widget.HH70_NormalWidget
+    <com.alcatel.wifilink.widget.HH70_NormalWidget
         android:id="@+id/dg_feedback_tip"
         android:visibility="gone"
         android:layout_width="match_parent"

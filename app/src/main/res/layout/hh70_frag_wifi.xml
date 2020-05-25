@@ -200,7 +200,7 @@
                         android:textColor="@color/black"
                         android:textSize="15sp" />
 
-                    <com.alcatel.wifilink.root.widget.HH70_ShowPsdEditTextWidget
+                    <com.alcatel.wifilink.widget.HH70_ShowPsdEditTextWidget
                         android:id="@+id/edit_key_2g"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -352,7 +352,7 @@
                         android:textColor="@color/black"
                         android:textSize="15sp" />
 
-                    <com.alcatel.wifilink.root.widget.HH70_ShowPsdEditTextWidget
+                    <com.alcatel.wifilink.widget.HH70_ShowPsdEditTextWidget
                         android:id="@+id/edit_key_5g"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -413,7 +413,7 @@
     </com.hiber.tools.layout.PercentRelativeLayout>
 
     <!-- ok & cancel -->
-    <com.alcatel.wifilink.root.widget.HH70_NormalWidget
+    <com.alcatel.wifilink.widget.HH70_NormalWidget
         android:id="@+id/dg_wifiSettingrx_ok"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

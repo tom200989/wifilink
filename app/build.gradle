@@ -102,7 +102,7 @@ dependencies {
     // api(name: 'ma_xsmart_v1', ext: 'aar')
     api project(':xsmart')
     // rootMAhiber -- 架构包
-    api(name: 'ma_hiber_8_9', ext: 'aar')
+    api(name: 'ma_hiber_8_10', ext: 'aar')
     // rootMAhiber -- 规范检查
-    api(name: 'ma_lints3', ext: 'aar')
+    api(name: 'ma_lint6', ext: 'aar')
 }

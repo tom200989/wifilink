@@ -359,7 +359,7 @@
     </com.hiber.tools.layout.PercentRelativeLayout>
 
     <!-- 月流量 -->
-    <com.alcatel.wifilink.root.widget.HH70_MonthlyWidget
+    <com.alcatel.wifilink.widget.HH70_MonthlyWidget
         android:id="@+id/wd_setplan_monthly"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -367,7 +367,7 @@
         android:visibility="gone" />
 
     <!-- 结算日 -->
-    <com.alcatel.wifilink.root.widget.HH70_BillWidget
+    <com.alcatel.wifilink.widget.HH70_BillWidget
         android:id="@+id/wd_setplan_bill"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -375,7 +375,7 @@
         android:visibility="gone" />
 
     <!-- 流量预警 -->
-    <com.alcatel.wifilink.root.widget.HH70_AlertWidget
+    <com.alcatel.wifilink.widget.HH70_AlertWidget
         android:id="@+id/wd_setplan_alert"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -383,7 +383,7 @@
         android:visibility="gone" />
 
     <!-- 时间限制 -->
-    <com.alcatel.wifilink.root.widget.HH70_TimelimitWidget
+    <com.alcatel.wifilink.widget.HH70_TimelimitWidget
         android:id="@+id/wd_setplan_timelimit"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -391,7 +391,7 @@
         android:visibility="gone" />
 
     <!-- 等待 -->
-    <com.alcatel.wifilink.root.widget.HH70_LoadWidget
+    <com.alcatel.wifilink.widget.HH70_LoadWidget
         android:id="@+id/load_widget"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

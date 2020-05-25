@@ -590,21 +590,21 @@
         </com.hiber.tools.layout.PercentLinearLayout>
     </ScrollView>
     <!-- 升级弹窗提示1 -->
-    <com.alcatel.wifilink.root.widget.HH70_NormalWidget
+    <com.alcatel.wifilink.widget.HH70_NormalWidget
         android:id="@+id/dg_settingRx_widget_ok"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="gone" />
 
     <!-- 升级弹窗提示2 -->
-    <com.alcatel.wifilink.root.widget.HH70_NormalWidget
+    <com.alcatel.wifilink.widget.HH70_NormalWidget
         android:id="@+id/dg_settingRx_widget_confirm"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="gone" />
 
     <!-- 版本号 -->
-    <com.alcatel.wifilink.root.widget.HH70_CheckVersionWidget
+    <com.alcatel.wifilink.widget.HH70_CheckVersionWidget
         android:id="@+id/wd_upgrade_checkversion"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -612,7 +612,7 @@
         android:visibility="gone" />
 
     <!-- 进度条 -->
-    <com.alcatel.wifilink.root.widget.HH70_DownWidget
+    <com.alcatel.wifilink.widget.HH70_DownWidget
         android:id="@+id/wd_setting_down"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -620,7 +620,7 @@
         android:visibility="gone" />
 
     <!-- 检测倒计时 -->
-    <com.alcatel.wifilink.root.widget.HH70_CountDownWidget
+    <com.alcatel.wifilink.widget.HH70_CountDownWidget
         android:id="@+id/wd_countdown"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -628,7 +628,7 @@
         android:visibility="gone" />
 
     <!-- 备份选择 -->
-    <com.alcatel.wifilink.root.widget.HH70_BackupWidget
+    <com.alcatel.wifilink.widget.HH70_BackupWidget
         android:id="@+id/wd_backup"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -636,7 +636,7 @@
         android:visibility="gone" />
 
     <!-- 备份路径 -->
-    <com.alcatel.wifilink.root.widget.HH70_BackupPathWidget
+    <com.alcatel.wifilink.widget.HH70_BackupPathWidget
         android:id="@+id/wd_backup_path"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -644,7 +644,7 @@
         android:visibility="gone" />
 
     <!-- 恢复出厂提示 -->
-    <com.alcatel.wifilink.root.widget.HH70_NormalWidget
+    <com.alcatel.wifilink.widget.HH70_NormalWidget
         android:id="@+id/wd_reset_tip"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -652,7 +652,7 @@
         android:visibility="gone" />
 
     <!-- 等待 -->
-    <com.alcatel.wifilink.root.widget.HH70_LoadWidget
+    <com.alcatel.wifilink.widget.HH70_LoadWidget
         android:id="@+id/lw_loading"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

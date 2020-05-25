@@ -335,7 +335,7 @@
         </com.hiber.tools.layout.PercentLinearLayout>
 
         <!-- 等待 -->
-        <com.alcatel.wifilink.root.widget.HH70_LoadWidget
+        <com.alcatel.wifilink.widget.HH70_LoadWidget
             android:id="@+id/wd_about_load"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
