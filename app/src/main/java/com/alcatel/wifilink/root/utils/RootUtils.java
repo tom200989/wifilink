@@ -39,7 +39,7 @@ import java.util.regex.Pattern;
 /*
  * Created by qianli.ma on 2019/8/15 0015.
  */
-@SuppressLint({"SimpleDateFormat","all"})
+@SuppressLint({"SimpleDateFormat", "all"})
 public class RootUtils {
 
     /**
@@ -94,6 +94,17 @@ public class RootUtils {
             }
         }
         return false;
+    }
+
+    /**
+     * 是否为HH42设备 (该设备为外包项目)
+     *
+     * @param devName 设备名
+     * @return T:是
+     */
+    public static boolean isHH42(String devName) {
+        devName = devName.toLowerCase();// 切小写
+        return devName.contains("hh42") | devName.contains("gw42");
     }
 
     /**
@@ -253,7 +264,7 @@ public class RootUtils {
      * @return T:达标
      */
     public static boolean isStaticIPMatch(String ipAddress) {
-        if(TextUtils.isEmpty(ipAddress)){
+        if (TextUtils.isEmpty(ipAddress)) {
             return false;
         }
         // 不含点
@@ -267,18 +278,18 @@ public class RootUtils {
         }
         Integer[] numberArray = new Integer[4];
         //对每一项进行判断
-        for(int index = 0;index < addressArray.length;index++){
+        for (int index = 0; index < addressArray.length; index++) {
             //每一项都不为空
-            if(TextUtils.isEmpty(addressArray[index])){
+            if (TextUtils.isEmpty(addressArray[index])) {
                 return false;
             }
             //全部为数字
             Pattern numberPattern = Pattern.compile("[0-9]*");
-            if(!numberPattern.matcher(addressArray[index]).matches()){
+            if (!numberPattern.matcher(addressArray[index]).matches()) {
                 return false;
             }
             //以0开始而且位数不为1的时候错误
-            if(addressArray[index].length() != 1 && addressArray[index].startsWith("0")){
+            if (addressArray[index].length() != 1 && addressArray[index].startsWith("0")) {
                 return false;
             }
             //转为数字,在0-255之间
@@ -286,10 +297,7 @@ public class RootUtils {
             numberArray[index] = number;
         }
         //WebUI的算法
-        if ((numberArray[0] <= 0 || numberArray[0] == 127 || numberArray[0] > 223)
-                || (numberArray[1] < 0 || numberArray[1] > 255)
-                || (numberArray[2] < 0 || numberArray[2] > 255)
-                || (numberArray[3] <= 0 || numberArray[3] >= 255)) {
+        if ((numberArray[0] <= 0 || numberArray[0] == 127 || numberArray[0] > 223) || (numberArray[1] < 0 || numberArray[1] > 255) || (numberArray[2] < 0 || numberArray[2] > 255) || (numberArray[3] <= 0 || numberArray[3] >= 255)) {
             return false;
         }
         return true;
@@ -306,7 +314,7 @@ public class RootUtils {
         int oneBitPos = 0;
         boolean zeroBitExisted = false;
         //不为空
-        if(TextUtils.isEmpty(ipAddress)){
+        if (TextUtils.isEmpty(ipAddress)) {
             return false;
         }
         //不能是0.0.0.0
@@ -327,27 +335,27 @@ public class RootUtils {
             return false;
         }
         //对每一项进行判断
-        for(int index = 0;index < addressArray.length;index++){
+        for (int index = 0; index < addressArray.length; index++) {
             //每一项都不为空
-            if(TextUtils.isEmpty(addressArray[index])){
+            if (TextUtils.isEmpty(addressArray[index])) {
                 return false;
             }
             //全部为数字
             Pattern numberPattern = Pattern.compile("[0-9]*");
-            if(!numberPattern.matcher(addressArray[index]).matches()){
+            if (!numberPattern.matcher(addressArray[index]).matches()) {
                 return false;
             }
             //以0开始而且位数不为1的时候错误
-            if(addressArray[index].length() != 1 && addressArray[index].startsWith("0")){
+            if (addressArray[index].length() != 1 && addressArray[index].startsWith("0")) {
                 return false;
             }
             //转为数字,在0-255之间
             int number = Integer.valueOf(addressArray[index]);
-            if(number < 0 || number > 255){
+            if (number < 0 || number > 255) {
                 return false;
             }
             //WebUI的算法
-            if(zeroBitExisted && number != 0){
+            if (zeroBitExisted && number != 0) {
                 return false;
             }
             //leftZero
@@ -368,6 +376,7 @@ public class RootUtils {
     /**
      * 判断是否含有特殊字符
      * SSID can contain only a–z, A–Z, 0–9, - . _ and space. Length should be less than 32.
+     *
      * @param str 检查内容
      * @return true为包含，false为不包含
      */
@@ -381,7 +390,7 @@ public class RootUtils {
     /**
      * 计算子掩码左位
      */
-    private static int getLeftMostZeroBitPos(int number){
+    private static int getLeftMostZeroBitPos(int number) {
         Integer[] leftNumArr = new Integer[]{128, 64, 32, 16, 8, 4, 2, 1};
         for (int leftIndex = 0; leftIndex < leftNumArr.length; leftIndex++) {
             if ((number & leftNumArr[leftIndex]) == 0) {
@@ -394,7 +403,7 @@ public class RootUtils {
     /**
      * 计算子掩码右位
      */
-    private static int getRightMostOneBitPos(int number){
+    private static int getRightMostOneBitPos(int number) {
         Integer[] rightNumArr = new Integer[]{1, 2, 4, 8, 16, 32, 64, 128};
         for (int rightIndex = 0; rightIndex < rightNumArr.length; rightIndex++) {
             if (((number & rightNumArr[rightIndex]) >> rightIndex) == 1) {
@@ -709,7 +718,7 @@ public class RootUtils {
         String mac_field = context.getString(R.string.hh70_mac);
         String localIp = "";
         InetAddress inetAddress = NetUtils.getLocalIPAddress();
-        if(inetAddress != null){
+        if (inetAddress != null) {
             localIp = inetAddress.getHostAddress();
         }
 

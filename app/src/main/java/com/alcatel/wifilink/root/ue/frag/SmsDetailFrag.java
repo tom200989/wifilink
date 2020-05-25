@@ -151,10 +151,7 @@ public class SmsDetailFrag extends BaseFrag {
             tryAgainWidget.setVisibility(View.VISIBLE);
             tryAgainWidget.setOnConfirmClickListener(() -> adapter.sendAgain(bean));
         });
-        adapter.setOnSendSuccessListener(() -> {
-            // 重新获取短信
-            getSmsContents();
-        });
+        adapter.setOnSendSuccessListener(this::getSmsContents);// 重新获取短信
         rcvSmsdetail.setAdapter(adapter);
     }
 

@@ -19,8 +19,8 @@ public class GetUsageSettingsBean implements Serializable {
      */
 
     private int BillingDay;//Min:1, Max:31
-    private long MonthlyPlan;//每个月的流量限制，如果是0，代表没限制
-    private int UsedData;//一个月中总漫游和家庭使用的流量数据
+    private long MonthlyPlan;// 每个月的流量限制，如果是0，代表没限制
+    private int UsedData;// 一个月中总漫游和家庭使用的流量数据
     private int Unit; // 流量单位标识 0: MB  1: GB   2: KB
     private int TimeLimitFlag; //0: disable 1: enable
     private int TimeLimitTimes;//如果打开了时间限制，那就要限制时间，单位为分钟
