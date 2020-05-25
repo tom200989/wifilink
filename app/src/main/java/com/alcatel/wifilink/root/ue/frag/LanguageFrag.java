@@ -57,9 +57,7 @@ public class LanguageFrag extends BaseFrag {
                 String[] lang_coun = languageBean.getLanguage_country().split("-");
                 String language = lang_coun[0];
                 String country = "";
-                if (lang_coun.length >= 1) {
-                    country = lang_coun[1];
-                }
+                country = lang_coun[1];
                 country = TextUtils.isEmpty(country) | country.equals("default") ? "" : country;
                 LangHelper.transfer(activity, language, country);
                 // 保存到缓存
