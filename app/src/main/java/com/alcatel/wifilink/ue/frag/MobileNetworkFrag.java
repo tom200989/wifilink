@@ -101,7 +101,7 @@ public class MobileNetworkFrag extends BaseFrag {
         super.initViewFinish(inflateView);
         initRes();// 初始化资源
         initClick();
-        timer_period = 1500;
+        timer_period = 3000;
         timerState = TimerState.ON_BUT_OFF_WHEN_HIDE_AND_PAUSE;
     }
 
