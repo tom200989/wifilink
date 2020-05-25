@@ -54,7 +54,7 @@ public class RootCons {
     static {
         LANGUAGE_COUNTRY_LIST.add(LANGUAGES.ENGLISH + "-US");
         LANGUAGE_COUNTRY_LIST.add(LANGUAGES.ARABIC + "-AR");
-        // LANGUAGE_COUNTRY_LIST.add(LANGUAGES.ESPANYOL + "-ES");// 之前的错误多加了, 现注释
+        // LANGUAGE_COUNTRY_LIST.add(LANGUAGES.ESPANYOL + "-ES");// 之前的错误多加了, 现注释, 避免用户误会
         LANGUAGE_COUNTRY_LIST.add(LANGUAGES.ESPANYOL + "-MX");
         LANGUAGE_COUNTRY_LIST.add(LANGUAGES.GERMENIC + "-DE");
         LANGUAGE_COUNTRY_LIST.add(LANGUAGES.ITALIAN + "-IT");
