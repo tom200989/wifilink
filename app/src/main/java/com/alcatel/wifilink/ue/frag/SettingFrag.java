@@ -10,8 +10,8 @@ import android.widget.TextView;
 import com.alcatel.wifilink.R;
 import com.alcatel.wifilink.helper.ClickDoubleHelper;
 import com.alcatel.wifilink.helper.Extender_GetWIFIExtenderSettingsHelper;
-import com.alcatel.wifilink.helper.UpgradeHelper;
 import com.alcatel.wifilink.helper.FirmUpgradeHelper;
+import com.alcatel.wifilink.helper.UpgradeHelper;
 import com.alcatel.wifilink.ue.activity.SplashActivity;
 import com.alcatel.wifilink.utils.RootUtils;
 import com.alcatel.wifilink.widget.HH70_BackupPathWidget;
@@ -638,7 +638,7 @@ public class SettingFrag extends BaseFrag {
         xSetDeviceRestoreHelper.setOnPrepareHelperListener(this::showLoadingDialog);
         xSetDeviceRestoreHelper.setOnDoneHelperListener(this::dismissLoadingDialog);
         xSetDeviceRestoreHelper.setOnRestoreSuccessListener(file -> toast(R.string.hh70_succeed));
-        xSetDeviceRestoreHelper.setOnRestoreFailedListener(() -> {
+        xSetDeviceRestoreHelper.setOnRestoreFailedListener((ex) -> {
             toast(R.string.hh70_restore_try_again);
             dismissLoadingDialog();
         });

@@ -128,9 +128,8 @@ public class SmsFrag extends BaseFrag {
      * 初始化点击事件
      */
     public void initClick() {
-        tvSmsBatchSelectAll.setOnClickListener(v -> {// 全选按钮
-            selectedAll();
-        });
+        // 全选按钮
+        tvSmsBatchSelectAll.setOnClickListener(v -> selectedAll());
         tvSmsBatchDeteled.setOnClickListener(v -> {// 删除按钮
             if (contactIdList != null && contactIdList.size() > 0) {
                 // 显示弹窗

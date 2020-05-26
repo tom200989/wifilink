@@ -27,6 +27,7 @@ import java.util.List;
 
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
+
 @SuppressLint("UseSparseArrays")
 public class SmsRcvAdapter extends RecyclerView.Adapter<SmsHolder> {
 
@@ -176,6 +177,12 @@ public class SmsRcvAdapter extends RecyclerView.Adapter<SmsHolder> {
         // 1.切换
         GetSMSContactListBean.SMSContacBean smsContact = smsContactList.get(position).getSmscontact();
         holder.rl_sms.setOnClickListener(v -> {
+            
+            // 1.1.非空判断, 因为短信集合有可能为因为FW关系为空
+            if (smsContactList == null || smsContactList.size() == 0) {
+                return;
+            }
+
             // 2.把所有的全选标记位复位为CLICK
             for (SMSContactBean scf : smsContactList) {
                 scf.setState(SMSContactBean.CLICK);

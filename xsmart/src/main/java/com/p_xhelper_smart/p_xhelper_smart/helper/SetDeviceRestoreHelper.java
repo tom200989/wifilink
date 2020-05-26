@@ -47,12 +47,12 @@ public class SetDeviceRestoreHelper extends BaseHelper {
 
             @Override
             public void appError(Throwable ex) {
-                restoreFailedNext();
+                restoreFailedNext(ex);
             }
 
             @Override
             public void cancel(Callback.CancelledException cex) {
-                restoreFailedNext();
+                restoreFailedNext(cex);
             }
 
             @Override
@@ -85,7 +85,7 @@ public class SetDeviceRestoreHelper extends BaseHelper {
 
     // Inteerface--> 接口OnRestoreFailedListener
     public interface OnRestoreFailedListener {
-        void restoreFailed();
+        void restoreFailed(Throwable ex);
     }
 
     // 对外方式setOnRestoreFailedListener
@@ -94,9 +94,9 @@ public class SetDeviceRestoreHelper extends BaseHelper {
     }
 
     // 封装方法restoreFailedNext
-    private void restoreFailedNext() {
+    private void restoreFailedNext(Throwable ex) {
         if (onRestoreFailedListener != null) {
-            onRestoreFailedListener.restoreFailed();
+            onRestoreFailedListener.restoreFailed(ex);
         }
     }
 

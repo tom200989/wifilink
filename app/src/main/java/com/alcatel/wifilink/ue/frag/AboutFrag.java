@@ -17,7 +17,6 @@ import com.alcatel.wifilink.widget.HH70_LoadWidget;
 import com.hiber.tools.ShareUtils;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetLanSettingsHelper;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetSystemInfoHelper;
-import com.p_xhelper_smart.p_xhelper_smart.utils.Logg;
 import com.p_xhelper_smart.p_xhelper_smart.utils.SmartUtils;
 
 import butterknife.BindView;
@@ -110,7 +109,6 @@ public class AboutFrag extends BaseFrag {
                 // 格式: https://www.alcatel-move.com/um/url.html?project=HH42NK&custom=open_market&version=HH42NK_open_market&lang=en
                 url = "https://www.alcatel-move.com/um/url.html?project=" + mProject + "&custom=" + mCustom + "&version=" + mVersion + "&lang" + "=" + lang;
             }
-            Logg.t("HH42_URL").ii("URL: " + url);
             Intent intent = new Intent();
             intent.setAction("android.intent.action.VIEW");
             Uri uri = Uri.parse(url);
