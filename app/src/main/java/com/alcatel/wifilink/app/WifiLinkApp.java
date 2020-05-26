@@ -19,8 +19,8 @@ public class WifiLinkApp extends RootApp {
         XSmart.init(this);// 初始化网络框架
         XSmart.PRINT_HEAD = false;// 是否打印头
         XSmart.PRINT_TAG = true;// 是否打印日志
-        ShareUtils.init(this);// 初始化缓存框架
         ShareUtils.spName = "ROOT_WIFI_LINK";
+        ShareUtils.init(this);// 初始化缓存框架
         cacheLanguage();// 初始化语言
         HostnameUtils.setVerifyHostName(this);// 设置google请求认证
     }

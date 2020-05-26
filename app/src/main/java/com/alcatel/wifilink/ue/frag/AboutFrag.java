@@ -11,9 +11,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.alcatel.wifilink.R;
+import com.alcatel.wifilink.utils.RootCons;
+import com.alcatel.wifilink.utils.RootUtils;
 import com.alcatel.wifilink.widget.HH70_LoadWidget;
+import com.hiber.tools.ShareUtils;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetLanSettingsHelper;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetSystemInfoHelper;
+import com.p_xhelper_smart.p_xhelper_smart.utils.Logg;
 import com.p_xhelper_smart.p_xhelper_smart.utils.SmartUtils;
 
 import butterknife.BindView;
@@ -51,6 +55,7 @@ public class AboutFrag extends BaseFrag {
 
     private String mCustom;
     private String mProject;
+    private String mVersion;
 
     @Override
     public int onInflateLayout() {
@@ -60,11 +65,14 @@ public class AboutFrag extends BaseFrag {
     @Override
     public void onNexts(Object o, View view, String s) {
         super.onNexts(o, view, s);
-        getNetData();
+        getSystemInfoData();
         displayVersion();
         initClick();
     }
 
+    /**
+     * 初始化点击
+     */
     private void initClick() {
         // 回退
         ivAboutBack.setOnClickListener(v -> onBackPresss());
@@ -74,6 +82,9 @@ public class AboutFrag extends BaseFrag {
         mQuickGuide.setOnClickListener(v -> userChrome());
     }
 
+    /**
+     * 跳转到WEB UI
+     */
     private void toWebUiSite() {
         Intent intent = new Intent();
         intent.setAction("android.intent.action.VIEW");
@@ -82,11 +93,24 @@ public class AboutFrag extends BaseFrag {
         startActivity(intent);
     }
 
+    /**
+     * 开启浏览器
+     */
     private void userChrome() {
         if (!TextUtils.isEmpty(mProject) && !TextUtils.isEmpty(mCustom)) {
             String lang = getResources().getConfiguration().locale.getLanguage();
-            // http://www.alcatel-move.com/um/url.html?project=HH41&custom=00&lang=en
-            String url = "http://www.alcatel-move.com/um/url.html?project=" + mProject + "&custom=" + mCustom + "&lang=" + lang;
+            String url = "http://www.alcatel-move.com/um/url.html?project=HH41&custom=00&lang=en";
+            // 判断是否为HH42的产品
+            boolean isHH42 = RootUtils.isHH42(ShareUtils.get(RootCons.DEVICE_NAME, RootCons.DEVICE_NAME_DEFAULT));
+            if (!isHH42) {// TCL自营项目
+                // 格式: http://www.alcatel-move.com/um/url.html?project=HH41&custom=00&lang=en
+                url = "http://www.alcatel-move.com/um/url.html?project=" + mProject + "&custom=" + mCustom + "&lang=" + lang;
+
+            } else {// HH42(外包)项目
+                // 格式: https://www.alcatel-move.com/um/url.html?project=HH42NK&custom=open_market&version=HH42NK_open_market&lang=en
+                url = "https://www.alcatel-move.com/um/url.html?project=" + mProject + "&custom=" + mCustom + "&version=" + mVersion + "&lang" + "=" + lang;
+            }
+            Logg.t("HH42_URL").ii("URL: " + url);
             Intent intent = new Intent();
             intent.setAction("android.intent.action.VIEW");
             Uri uri = Uri.parse(url);
@@ -95,19 +119,44 @@ public class AboutFrag extends BaseFrag {
         }
     }
 
-    private void getNetData() {
+    /**
+     * 获取系统信息并展示
+     */
+    private void getSystemInfoData() {
         GetSystemInfoHelper xGetSystemInfoHelper = new GetSystemInfoHelper();
         xGetSystemInfoHelper.setOnGetSystemInfoSuccessListener(result -> {
-            String swVersion = result.getSwVersion();
-            String[] split = swVersion.split("_");
-            // 注：项目名只取前四位
-            // 实例1：软件版本号为HH40_E4_02.00_01，则取出的项目名为HH40,定制ID为E4
-            // 实例2：软件版本号为HH40V_00_02.00_11，则取出的项目名为HH40,定制ID为00
-            mProject = split[0];
-            if (mProject.length() > 4) {
-                mProject = mProject.substring(0, 4);
+
+            // 1.判断是否为HH42(外包)产品
+            String devname = ShareUtils.get(RootCons.DEVICE_NAME, RootCons.DEVICE_NAME_DEFAULT);
+            boolean isHH42 = RootUtils.isHH42(devname);
+
+            if (isHH42) {// 1.1.HH42(外包)产品
+                
+                // project: 从WebUiVersion取 [WebUiVersion = "HH42NK_V1.1.0B10T01"]
+                // custom: 从SwVersion截取拼接 [SwVersion = "GW42_TCL_NK_OPEN_MARKET_V1.0.0B10T01"]
+                // version: project拼接custon [SwVersion = "GW42_TCL_NK_OPEN_MARKET_V1.0.0B10T01"]
+                // 格式: https://www.alcatel-move.com/um/url.html?project=HH42NK&custom=open_market&version=HH42NK_open_market&lang=en
+
+                mProject = result.getWebUiVersion().split("_")[0];
+                String custom_pre = result.getSwVersion().split("_")[3].toLowerCase();
+                String custom_pif = result.getSwVersion().split("_")[4].toLowerCase();
+                mCustom = custom_pre + "_" + custom_pif;
+                mVersion = mProject + "_" + custom_pre + "_" + custom_pif;
+
+            } else {// 1.1.TCL自营产品
+                String swVersion = result.getSwVersion();
+                String[] split = swVersion.split("_");
+                // 注：项目名只取前四位
+                // 实例1：软件版本号为HH40_E4_02.00_01，则取出的项目名为HH40,定制ID为E4
+                // 实例2：软件版本号为HH40V_00_02.00_11，则取出的项目名为HH40,定制ID为00
+                mProject = split[0];
+                if (mProject.length() > 4) {
+                    mProject = mProject.substring(0, 4);
+                }
+                mCustom = split[1];
             }
-            mCustom = split[1];
+
+            // 2.显示UI
             mDeviceNameTxt.setText(result.getDeviceName());
             mImeiTxt.setText(result.getIMEI());
             mMacAddressTxt.setText(result.getMacAddress());
@@ -124,6 +173,9 @@ public class AboutFrag extends BaseFrag {
         xGetLanSettingsHelper.getLanSettings();
     }
 
+    /**
+     * 显示APP版本
+     */
     private void displayVersion() {
         PackageManager pm = activity.getPackageManager();
         try {
