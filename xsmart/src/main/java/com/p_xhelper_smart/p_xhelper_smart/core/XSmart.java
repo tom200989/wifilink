@@ -28,6 +28,7 @@ import org.xutils.http.request.UriRequest;
 import org.xutils.x;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.net.SocketTimeoutException;
@@ -390,7 +391,8 @@ public class XSmart<T> {
 
             // 路径不存在 -- 提示先备份
             if (TextUtils.isEmpty(storePath)) {
-                callback.appError(null);
+                Exception invalidPathException = new FileNotFoundException("wifi link没有进行过backup配置操作, 请先backup才能restore");
+                callback.appError(invalidPathException);
                 return;
             }
 

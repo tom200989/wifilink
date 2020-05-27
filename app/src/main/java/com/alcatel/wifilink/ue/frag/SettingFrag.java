@@ -40,6 +40,8 @@ import com.p_xhelper_smart.p_xhelper_smart.helper.SetDeviceRebootHelper;
 import com.p_xhelper_smart.p_xhelper_smart.helper.SetDeviceResetHelper;
 import com.p_xhelper_smart.p_xhelper_smart.helper.SetDeviceRestoreHelper;
 import com.p_xhelper_smart.p_xhelper_smart.helper.SetDeviceUpdateStopHelper;
+import com.p_xhelper_smart.p_xhelper_smart.utils.Logg;
+import com.p_xhelper_smart.p_xhelper_smart.utils.XCons;
 
 import butterknife.BindView;
 
@@ -639,6 +641,7 @@ public class SettingFrag extends BaseFrag {
         xSetDeviceRestoreHelper.setOnDoneHelperListener(this::dismissLoadingDialog);
         xSetDeviceRestoreHelper.setOnRestoreSuccessListener(file -> toast(R.string.hh70_succeed));
         xSetDeviceRestoreHelper.setOnRestoreFailedListener((ex) -> {
+            Logg.t(XCons.TAG).ee(ex.getMessage());
             toast(R.string.hh70_restore_try_again);
             dismissLoadingDialog();
         });

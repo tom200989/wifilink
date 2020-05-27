@@ -144,5 +144,21 @@ public class GetSMSContactListBean implements Serializable {
         public void setPhoneNumber(List<String> PhoneNumber) {
             this.PhoneNumber = PhoneNumber;
         }
+
+        @Override
+        public String toString() {
+            final StringBuffer sb = new StringBuffer("SMSContacBean{");
+            sb.append("\n").append("\t").append("ContactId =").append(ContactId);
+            sb.append("\n").append("\t").append("SMSId =").append(SMSId);
+            sb.append("\n").append("\t").append("SMSType =").append(SMSType);
+            sb.append("\n").append("\t").append("ReportStatus =").append(ReportStatus);
+            sb.append("\n").append("\t").append("SMSContent ='").append(SMSContent).append('\'');
+            sb.append("\n").append("\t").append("SMSTime ='").append(SMSTime).append('\'');
+            sb.append("\n").append("\t").append("UnreadCount =").append(UnreadCount);
+            sb.append("\n").append("\t").append("TSMSCount =").append(TSMSCount);
+            sb.append("\n").append("\t").append("PhoneNumber =").append(PhoneNumber);
+            sb.append("\n}");
+            return sb.toString();
+        }
     }
 }

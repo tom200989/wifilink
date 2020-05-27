@@ -15,11 +15,11 @@ import android.widget.TextView;
 import com.alcatel.wifilink.R;
 import com.alcatel.wifilink.bean.Extender_GetWIFICurrentStatuBean;
 import com.alcatel.wifilink.helper.ClickDoubleHelper;
+import com.alcatel.wifilink.helper.DeviceHelper;
 import com.alcatel.wifilink.helper.Extender_GetWIFIExtenderSettingsHelper;
+import com.alcatel.wifilink.helper.NetworkInfoHelper;
 import com.alcatel.wifilink.helper.UsageHelper;
 import com.alcatel.wifilink.helper.UsageSettingHelper;
-import com.alcatel.wifilink.helper.DeviceHelper;
-import com.alcatel.wifilink.helper.NetworkInfoHelper;
 import com.alcatel.wifilink.ue.activity.SplashActivity;
 import com.alcatel.wifilink.utils.RootCons;
 import com.alcatel.wifilink.utils.RootUtils;
@@ -50,6 +50,7 @@ import com.p_xhelper_smart.p_xhelper_smart.helper.GetSimStatusHelper;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetSystemInfoHelper;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetSystemStatusHelper;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetWanSettingsHelper;
+import com.p_xhelper_smart.p_xhelper_smart.utils.Logg;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -635,10 +636,10 @@ public class mainFrag extends BaseFrag {
             // 设置月计划流量
             UsageHelper.Usage planUsage = UsageHelper.getUsageByte(getActivity(), result.getMonthlyPlan());
             String planUnit = planUsage.unit;// 单位
-            
+
             // 不要直接使用FW返回的unit做判断, FW有时候抽筋返回错误的单位
             // String planUnit = result.getUnit() == GetUsageSettingsBean.CONS_UNIT_MB ? mb_unit : gb_unit;
-           
+
             long plan = result.getMonthlyPlan();
             // used of 0.88GB
             String montyUsage = planUsage.usage;
@@ -705,6 +706,7 @@ public class mainFrag extends BaseFrag {
         NetworkInfoHelper networkHelper = new NetworkInfoHelper() {
             @Override
             public void noRegister() {
+                Logg.t("HH42_REGISTER").ww("fw had no register");
                 if (rlSignalPanel != null) {
                     rlSignalPanel.setVisibility(View.VISIBLE);
                 }
@@ -734,6 +736,7 @@ public class mainFrag extends BaseFrag {
                 tvMainrxMw120NetworkType.setText(isRoam ? activity.getString(R.string.hh70_data_roaming) : result.getNetworkName());
                 // CMCC\UNICOM\..
                 String signalType = getSignalType(activity, result.getNetworkType());
+                Logg.t("HH42_REGISTER").ww("signalType: " + signalType);
                 tvSignal.setText(signalType);// 2G\3G..
                 tvSignal.setTextColor(blue_color);
             }

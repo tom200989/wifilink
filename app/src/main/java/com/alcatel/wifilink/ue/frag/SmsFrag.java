@@ -8,10 +8,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.alcatel.wifilink.R;
+import com.alcatel.wifilink.adapter.SmsRcvAdapter;
 import com.alcatel.wifilink.bean.SMSContactBean;
 import com.alcatel.wifilink.helper.ClickDoubleHelper;
 import com.alcatel.wifilink.helper.SmsDeleteSessionHelper;
-import com.alcatel.wifilink.adapter.SmsRcvAdapter;
 import com.alcatel.wifilink.utils.RootUtils;
 import com.alcatel.wifilink.widget.HH70_SmsDeleteWidget;
 import com.hiber.cons.TimerState;
@@ -180,6 +180,22 @@ public class SmsFrag extends BaseFrag {
         // get sms list
         GetSMSContactListHelper xGetSMSContactListHelper = new GetSMSContactListHelper();
         xGetSMSContactListHelper.setOnGetSmsContactListSuccessListener(bean -> {
+            // 没有短信时
+            if (bean.getSMSContactList() == null) {
+                noSms.setVisibility(View.VISIBLE);
+                return;
+            }
+
+            // 没有短信时
+            if (bean.getSMSContactList().size() == 1) {
+                GetSMSContactListBean.SMSContacBean smsContacBean = bean.getSMSContactList().get(0);
+                if (smsContacBean.getSMSContent() == null) {
+                    noSms.setVisibility(View.VISIBLE);
+                    return;
+                }
+            }
+
+            // 正常情况
             smsContactListBean = bean;
             otherSmsContactBeanList = RootUtils.getSMSSelfList(smsContactListBean);
             smsRcvAdapter.notifys(otherSmsContactBeanList);

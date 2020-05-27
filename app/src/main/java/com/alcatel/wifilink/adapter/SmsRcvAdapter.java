@@ -148,8 +148,10 @@ public class SmsRcvAdapter extends RecyclerView.Adapter<SmsHolder> {
     private void setPhoneNum(SmsHolder holder, int position) {
         GetSMSContactListBean.SMSContacBean smsContact = smsContactList.get(position).getSmscontact();
         List<String> phoneNumber = smsContact.getPhoneNumber();
-        String phone = RootUtils.stitchPhone(context, phoneNumber);
-        holder.tv_smsPhone.setText(phone);
+        if (phoneNumber != null) {
+            String phone = RootUtils.stitchPhone(context, phoneNumber);
+            holder.tv_smsPhone.setText(phone);
+        }
     }
 
     /* **** setSmsCount **** */
@@ -166,9 +168,11 @@ public class SmsRcvAdapter extends RecyclerView.Adapter<SmsHolder> {
 
     /* **** setSmsDate **** */
     private void setSmsDate(SmsHolder holder, int position) {
-        GetSMSContactListBean.SMSContacBean smsContact = smsContactList.get(position).getSmscontact();
-        String date = RootUtils.transferDate(smsContact.getSMSTime());
-        holder.tv_smsDate.setText(date);
+        if (smsContactList != null) {
+            GetSMSContactListBean.SMSContacBean smsContact = smsContactList.get(position).getSmscontact();
+            String date = RootUtils.transferDate(smsContact.getSMSTime());
+            holder.tv_smsDate.setText(date);
+        }
     }
 
     /* **** setSmsClick **** */

@@ -7,7 +7,6 @@ import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.net.ParseException;
 import android.net.wifi.WifiManager;
 import android.support.annotation.ArrayRes;
 import android.support.v4.content.ContextCompat;
@@ -28,6 +27,7 @@ import com.tcl.token.ndk.JniTokenUtils;
 import java.net.InetAddress;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -768,8 +768,6 @@ public class RootUtils {
         try {
             smsDate = sDate.parse(time);
         } catch (ParseException e) {
-            e.printStackTrace();
-        } catch (Exception e) {
             e.printStackTrace();
         }
 
