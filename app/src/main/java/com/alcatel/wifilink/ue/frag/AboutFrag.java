@@ -98,7 +98,8 @@ public class AboutFrag extends BaseFrag {
     private void userChrome() {
         if (!TextUtils.isEmpty(mProject) && !TextUtils.isEmpty(mCustom)) {
             String lang = getResources().getConfiguration().locale.getLanguage();
-            System.out.println("HH42_language: " + lang);
+            // 根据HH42(外包) 做语言适配
+            lang = lang.equalsIgnoreCase("es") ? "sp_latam" : lang;
             String url = "http://www.alcatel-move.com/um/url.html?project=HH41&custom=00&lang=en";
             // 判断是否为HH42的产品
             boolean isHH42 = RootUtils.isHH42(ShareUtils.get(RootCons.DEVICE_NAME, RootCons.DEVICE_NAME_DEFAULT));

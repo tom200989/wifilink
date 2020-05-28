@@ -16,8 +16,8 @@ import android.widget.TextView;
 import com.alcatel.wifilink.R;
 import com.alcatel.wifilink.bean.WlanBean;
 import com.alcatel.wifilink.helper.ClickDoubleHelper;
-import com.alcatel.wifilink.helper.WpaPsdHelper;
 import com.alcatel.wifilink.helper.WepPsdHelper;
+import com.alcatel.wifilink.helper.WpaPsdHelper;
 import com.alcatel.wifilink.ue.activity.SplashActivity;
 import com.alcatel.wifilink.utils.RootUtils;
 import com.alcatel.wifilink.widget.HH70_NormalWidget;
@@ -28,6 +28,9 @@ import com.p_xhelper_smart.p_xhelper_smart.helper.GetSystemStatusHelper;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetWlanSettingsHelper;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetWlanSupportModeHelper;
 import com.p_xhelper_smart.p_xhelper_smart.helper.SetWlanSettingsHelper;
+
+import java.util.Arrays;
+import java.util.List;
 
 import butterknife.BindView;
 
@@ -95,7 +98,6 @@ public class WifiFrag extends BaseFrag {
     private View[] views_2p4;// 2G 视图
     private View[] views_5G;// 5G 视图
 
-
     private GetWlanSettingsBean mOriginSettings;
     private GetWlanSettingsBean mEditedSettings;
 
@@ -107,6 +109,7 @@ public class WifiFrag extends BaseFrag {
     private int wlanState_2g;// 2G是否开启
     private int WLAN_2G_ON = 1;// 2G是否开启
     private ClickDoubleHelper clickDouble;
+    private boolean isHH42;// 是否为HH42(外包)产品
 
     @Override
     public int onInflateLayout() {
@@ -117,10 +120,9 @@ public class WifiFrag extends BaseFrag {
     public void initViewFinish(View inflateView) {
         super.initViewFinish(inflateView);
         initRes();
+        getSystemInfo();
         //获取各类初始化信息(devices name, wifi on or off)
         getKindState();
-        getSystemInfo();
-        initClick();
     }
 
     /**
@@ -142,6 +144,7 @@ public class WifiFrag extends BaseFrag {
         xGetSystemInfoHelper.setOnGetSystemInfoSuccessListener(systeminfo -> {
             // 1.得到设备名
             deviceName = systeminfo.getDeviceName().toLowerCase();
+            isHH42 = RootUtils.isHH42(deviceName);
             // 2.获取systemstatus--> 得到目前正在启用的WIFI
             GetSystemStatusHelper xGetSystemStatusHelper = new GetSystemStatusHelper();
             xGetSystemStatusHelper.setOnGetSystemStatusSuccessListener(getSystemStatusBean -> {
@@ -163,10 +166,11 @@ public class WifiFrag extends BaseFrag {
         GetSystemInfoHelper xGetSystemInfoHelper = new GetSystemInfoHelper();
         xGetSystemInfoHelper.setOnGetSystemInfoSuccessListener(attr -> {
             deviceName = attr.getDeviceName().toLowerCase();
-            initUi(RootUtils.isMWDEV(deviceName));
+            isHH42 = RootUtils.isHH42(deviceName);
+            initUi();
         });
-        xGetSystemInfoHelper.setOnFwErrorListener(() -> initUi(false));
-        xGetSystemInfoHelper.setOnAppErrorListener(() -> initUi(false));
+        xGetSystemInfoHelper.setOnFwErrorListener(this::initUi);
+        xGetSystemInfoHelper.setOnAppErrorListener(this::initUi);
         xGetSystemInfoHelper.getSystemInfo();
     }
 
@@ -187,6 +191,7 @@ public class WifiFrag extends BaseFrag {
                 wlanBean.setmMode(mEditedSettings.getAP2G().getWMode());
                 wlanBean.setmApIsolation(mEditedSettings.getAP2G().getApIsolation() == 1);
                 wlanBean.setmFrequency(2);
+                // 前往高级设置界面
                 toFrag(getClass(), WlanFrag.class, wlanBean, true);
             }
 
@@ -220,7 +225,8 @@ public class WifiFrag extends BaseFrag {
                 } else {
                     mKey2GGroup.setVisibility(View.VISIBLE);
                     mEncryption2GGroup.setVisibility(View.VISIBLE);
-                    if (position == 1) {
+                    // TOAT: 2020/5/28  
+                    if (position == 1 & !isHH42) {// 如果用户点击的是第二个条目并且不是HH42(外包)的产品(因为HH42没有WEP选项) - 则按照HH70的WEP规则处理
                         mEncryption2GSpinner.setAdapter(new ArrayAdapter<>(activity, android.R.layout.simple_spinner_dropdown_item, mWepEncryptionSettings));
                         int wepType = mOriginSettings.getAP2G().getWepType();
                         mEncryption2GSpinner.setSelection(wepType);
@@ -248,7 +254,8 @@ public class WifiFrag extends BaseFrag {
                 } else {
                     mKey5GGroup.setVisibility(View.VISIBLE);
                     mEncryption5GGroup.setVisibility(View.VISIBLE);
-                    if (position == 1) {
+                    // TOAT: 2020/5/28  
+                    if (position == 1 & !isHH42) {// 如果用户点击的是第二个条目并且不是HH42(外包)的产品(因为HH42没有WEP选项) - 则按照HH70的WEP规则处理
                         mEncryption5GSpinner.setAdapter(new ArrayAdapter<>(activity, android.R.layout.simple_spinner_dropdown_item, mWepEncryptionSettings));
                         int wepType = mOriginSettings.getAP5G().getWepType();
 
@@ -271,20 +278,28 @@ public class WifiFrag extends BaseFrag {
     /**
      * 网络请求后再初始化相关UI
      */
-    private void initUi(boolean isMWDev) {
+    private void initUi() {
+        // 隐藏WEP选项
+        List<String> data_ls = Arrays.asList(activity.getResources().getStringArray(isHH42 ? R.array.wlan_settings_security_hh42 : R.array.wlan_settings_security));
+        mSecurity2GSpinner.setAdapter(new ArrayAdapter<>(activity, R.layout.hh70_widget_spinner_item, data_ls));
+        mSecurity5GSpinner.setAdapter(new ArrayAdapter<>(activity, R.layout.hh70_widget_spinner_item, data_ls));
+        // 是否为MW系列产品
+        boolean isMWDev = RootUtils.isMWDEV(deviceName);
+
+        initClick();
         mWifi2GSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isMWDev) {
                 hideOrShow(isChecked ? views_5G : views_2p4, isChecked ? views_2p4 : views_5G);
                 mWifi5GSwitch.setChecked(!isChecked);
             }
         });
-
         mWifi5GSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isMWDev) {
                 hideOrShow(isChecked ? views_2p4 : views_5G, isChecked ? views_5G : views_2p4);
                 mWifi2GSwitch.setChecked(!isChecked);
             }
         });
+
     }
 
     @Override
@@ -366,7 +381,10 @@ public class WifiFrag extends BaseFrag {
     private void set5GData() {
         mWifi5GSwitch.setChecked(mOriginSettings.getAP5G().getApStatus() == 1);
         mSsid5GEdit.setText(mOriginSettings.getAP5G().getSsid());
-        mSecurity5GSpinner.setSelection(mOriginSettings.getAP5G().getSecurityMode());
+        int securityMode = mOriginSettings.getAP5G().getSecurityMode();
+        // TOAT: 根据HH42(外包)设备做兼容
+        securityMode = isHH42 ? securityMode == 0 ? 0 : securityMode - 1 : securityMode;
+        mSecurity5GSpinner.setSelection(securityMode);
         if (mOriginSettings.getAP5G().getSecurityMode() == GetWlanSettingsBean.CONS_SECURITY_MODE_DISABLE) {
             mEncryption5GGroup.setVisibility(View.GONE);
             mKey5GGroup.setVisibility(View.GONE);
@@ -393,6 +411,8 @@ public class WifiFrag extends BaseFrag {
         mWifi2GSwitch.setChecked(mOriginSettings.getAP2G().getApStatus() == 1);
         mSsid2GEdit.setText(mOriginSettings.getAP2G().getSsid());
         int securityMode = mOriginSettings.getAP2G().getSecurityMode();
+        // TOAT: 根据HH42(外包)设备做兼容
+        securityMode = isHH42 ? securityMode == 0 ? 0 : securityMode - 1 : securityMode;
         mSecurity2GSpinner.setSelection(securityMode);
         if (securityMode == GetWlanSettingsBean.CONS_SECURITY_MODE_DISABLE) {
             mEncryption2GGroup.setVisibility(View.GONE);
@@ -470,8 +490,12 @@ public class WifiFrag extends BaseFrag {
             } else {
                 mEditedSettings.getAP2G().setApStatus(1);
                 String newSsid2G = RootUtils.getEDText(mSsid2GEdit, true);
+                // TOAT: 2020/5/28  
                 int newSecurity2GMode = mSecurity2GSpinner.getSelectedItemPosition();
+                newSecurity2GMode = isHH42 ? newSecurity2GMode == 0 ? 0 : newSecurity2GMode + 1 : newSecurity2GMode;
+                System.out.println("fuck hh42 newSecurity2GMode: " + newSecurity2GMode);
                 int newEncryption2G = mEncryption2GSpinner.getSelectedItemPosition();
+                System.out.println("fuck hh42 newEncryption2G: " + newEncryption2G);
                 String newKey2G = RootUtils.getEDText(mKey2GEdit, true);
                 //不能为空
                 if (newSsid2G.isEmpty() || newSsid2G.length() > 32) {
@@ -529,7 +553,9 @@ public class WifiFrag extends BaseFrag {
                     mEditedSettings.getAP5G().setApStatus(1);
                     String newSsid5G = RootUtils.getEDText(mSsid5GEdit, true);
                     int newSecurity5GMode = mSecurity5GSpinner.getSelectedItemPosition();
+                    newSecurity5GMode = isHH42 ? newSecurity5GMode == 0 ? 0 : newSecurity5GMode + 1 : newSecurity5GMode;
                     int newEncryption5G = mEncryption5GSpinner.getSelectedItemPosition();
+
                     String newKey5G = RootUtils.getEDText(mKey5GEdit, true);
                     //不能为空
                     if (newSsid5G.isEmpty() || newSsid5G.length() > 32) {
