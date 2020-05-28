@@ -163,6 +163,7 @@ public class mainFrag extends BaseFrag {
     @Override
     public void onNexts(Object o, View view, String s) {
         super.onNexts(o, view, s);
+        lastFrag = getClass();
         timerState = TimerState.ON;
         wdLoad.setVisibles();
         wdOK.setVisibility(View.GONE);

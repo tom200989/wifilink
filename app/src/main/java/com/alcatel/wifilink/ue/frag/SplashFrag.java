@@ -63,6 +63,7 @@ public class SplashFrag extends BaseFrag {
     @Override
     public void onNexts(Object o, View view, String s) {
         super.onNexts(o, view, s);
+        lastFrag = getClass();
         timerState = TimerState.OFF_ALL;// 初始关停全部定时器
         checkFW();// 检测FW是否连接正常
     }

@@ -43,6 +43,7 @@ public class Login_mw_dev_Frag extends RootFrag {
         timerState = TimerState.OFF_ALL_BUT_KEEP_CURRENT_OFF_WHEN_PAUSE;
         initAdapter();
         initClick();
+        lastFrag = getClass();
     }
 
     /**

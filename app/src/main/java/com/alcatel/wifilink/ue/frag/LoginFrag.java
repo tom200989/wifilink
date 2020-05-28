@@ -88,6 +88,7 @@ public class LoginFrag extends RootFrag {
     @Override
     public void onNexts(Object o, View view, String s) {
         currentIsLoginPage = true;
+        lastFrag = getClass();
         timerState = TimerState.OFF_ALL_BUT_KEEP_CURRENT_OFF_WHEN_PAUSE;
         initRes();
         initClick();
@@ -125,7 +126,7 @@ public class LoginFrag extends RootFrag {
             // 设置UI
             ivLoginBackToPre.setVisibility(isMWDev ? View.VISIBLE : View.GONE);// 回退按钮
             tvLoginBackToPre.setVisibility(ivLoginBackToPre.getVisibility());// 回退文本
-            tvLoginLinkzone.setText(isMWDev ? "LINKZONE" : "LINKHUB");// 标题
+            tvLoginLinkzone.setText(isHH42 ? getString(R.string.app_name) : isMWDev ? "LINKZONE" : "LINKHUB");// 标题
             ivLoginrxLogo.setImageDrawable(isHH42 ? hh42_logo : isMWDev ? mw12_logo : isHH71 ? hh71_logo : cpe_logo);// 图标
         });
         xGetSystemInfoHelper.setOnAppErrorListener(() -> ivLoginrxLogo.setImageDrawable(default_logo));

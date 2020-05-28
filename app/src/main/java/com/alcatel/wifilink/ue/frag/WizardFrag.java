@@ -88,6 +88,7 @@ public class WizardFrag extends RootFrag {
 
     @Override
     public void onNexts(Object o, View view, String s) {
+        lastFrag = getClass();
         timerState = TimerState.OFF_ALL_BUT_KEEP_CURRENT_OFF_WHEN_PAUSE;
         initClick();
     }

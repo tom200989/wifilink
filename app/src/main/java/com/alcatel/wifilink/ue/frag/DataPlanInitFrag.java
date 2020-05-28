@@ -73,6 +73,7 @@ public class DataPlanInitFrag extends BaseFrag {
     @Override
     public void onNexts(Object o, View view, String s) {
         super.onNexts(o, view, s);
+        lastFrag = getClass();
         adapterRussia();// 适配俄语
         initRes();// 初始化资源
         initProperty();// 初始化配置

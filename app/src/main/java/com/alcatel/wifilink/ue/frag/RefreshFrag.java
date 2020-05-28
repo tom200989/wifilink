@@ -33,6 +33,7 @@ public class RefreshFrag extends RootFrag {
     public void onNexts(Object o, View view, String s) {
         init();
         setClickEvent();
+        lastFrag = getClass();
         timerState = TimerState.ON_BUT_OFF_WHEN_HIDE_AND_PAUSE;
     }
 

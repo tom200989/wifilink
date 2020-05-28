@@ -61,6 +61,7 @@ public class PinInitFrag extends BaseFrag {
     @Override
     public void onNexts(Object o, View view, String s) {
         super.onNexts(o, view, s);
+        lastFrag = getClass();
         getLanguage();// 获取当前语言环境
         initRes();
         initUi();

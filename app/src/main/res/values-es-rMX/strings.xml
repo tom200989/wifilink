@@ -38,7 +38,7 @@
     <string name="hh70_verify_your_pin">Compruebe su código PIN en el menú de inicio primero.</string>
     <string name="hh70_no_sim">Falta tarjeta SIM</string>
     <string name="hh70_sim_not_accessible">No se puede acceder a la tarjeta SIM</string>
-    <string name="hh70_monthly_data_plan_used">El plan de datos mensual se ha agotado. Si desea llamar de nuevo, cambie los valores mensuales o restablezca el consumo.</string>
+    <string name="hh70_monthly_data_plan_used">El plab de datos mensual se ha agotado. Si desea seguir navegando, cambie el limite mensual o restablezca el consumo.</string>
     <string name="hh70_touch_again">Toque de nuevo para salir de la aplicación</string>
     <string name="hh70_mobile_data">Datos móviles</string>
     <string name="hh70_limit">límite</string>
@@ -81,7 +81,7 @@
     <string name="hh70_sharing_service">Compartir dispositivo</string>
     <string name="hh70_firmware_update">Actualizaciones de firmware</string>
     <string name="hh70_restart_reset">Reiniciar y restablecer</string>
-    <string name="hh70_backup_restore">Respaldar y restablecer</string>
+    <string name="hh70_backup_restore">Respaldar y restaurar</string>
     <string name="hh70_not_support_sharing">No se admiten servicios compartidos</string>
     <string name="hh70_device">Dispositivo</string>
     <string name="hh70_usb_storage">Almacenamiento USB</string>
@@ -210,7 +210,7 @@
     <string name="hh70_available">disponible</string>
     <string name="hh70_updating">Actualizando…</string>
     <string name="hh70_update_try_again">No se ha podido actualizar. Vuelva a intentarlo.</string>
-    <string name="hh70_not_inserted">No insertado</string>
+    <string name="hh70_not_inserted">PIN incorrecto</string>
     <string name="hh70_usb_printer">Impresora USB</string>
     <string name="hh70_internet_status">Estado de Internet</string>
     <string name="hh70_select_connect_type">Seleccione su tipo de conexión a Internet</string>
@@ -223,7 +223,7 @@
     <string name="hh70_last_msg_sending">Error. El último mensaje sigue en envío.</string>
     <string name="hh70_store_full">Error debido a que el espacio de almacenamiento está lleno.</string>
     <string name="hh70_memory_full">Error debido a que la memoria está llena</string>
-    <string name="hh70_none">ninguno</string>
+    <string name="hh70_none">Escriba el número de telefóno</string>
     <string name="hh70_host">Servidor</string>
     <string name="hh70_check_wan_cabling">Compruebe su cable WAN</string>
     <string name="hh70_profile">Perfil</string>
@@ -266,7 +266,7 @@
     <string name="hh70_used_of">usados de</string>
     <string name="hh70_cant_login">No se ha podido iniciar sesión</string>
     <string name="hh70_try_again_insert_sim">Inténtelo de nuevo después de insertar la SIM o WAN</string>
-    <string name="hh70_not_permit_empty">No puede quedar vacío</string>
+    <string name="hh70_not_permit_empty">El código PIN está vació</string>
     <string name="hh70_change_psd">Cambiar contraseña</string>
     <string name="hh70_you_psd_wrong">La contraseña es incorrecta. \n%1$d intento(s) restantes.</string>
     <string name="hh70_cant_connect">No se pudo conectar</string>
@@ -309,7 +309,7 @@
     <string name="hh70_success">Exitoso</string>
     <string name="hh70_restart_device_tip">Reinicie el dispositivo y vuelva a intentarlo</string>
     <string name="hh70_SEND">ENVIAR</string>
-    <string name="hh70_message">mensaje</string>
+    <string name="hh70_message">Escriba el mensaje</string>
     <string name="hh70_blank_data_unlimited">(Si está en blanco refiere a datos ilimitados)</string>
     <string name="hh70_Blocked">Bloqueado(s)</string>
     <string name="hh70_mtu_between_576">MTU debe ser entre 576 y 1500</string>
@@ -361,7 +361,7 @@
     <string name="hh70_no_set_plan">No hay plan de datos establecido</string>
     <string name="hh70_login_psd">Contraseña de inicio de sesión</string>
     <string name="hh70_network_mode">Modo de red</string>
-    <string name="hh70_not_remind">No recordado</string>
+    <string name="hh70_not_remind">No alertar</string>
     <string name="hh70_setup_success">Configurado correctamente</string>
     <string name="hh70_forgotten_reset_router">Si ha olvidado la contraseña, tendrá que reiniciar el rúter y, entonces, podrá iniciar sesión empleando la contraseña predeterminada (admin).</string>
     <string name="hh70_MONTHLY_PLAN">Plan mensual</string>

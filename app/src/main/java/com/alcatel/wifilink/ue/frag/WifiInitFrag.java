@@ -115,6 +115,7 @@ public class WifiInitFrag extends BaseFrag {
     @Override
     public void onNexts(Object o, View view, String s) {
         super.onNexts(o, view, s);
+        lastFrag = getClass();
         initRes();
         initData();
         initClick();

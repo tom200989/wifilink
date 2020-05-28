@@ -25,6 +25,8 @@ import com.p_xhelper_smart.p_xhelper_smart.helper.HeartBeatHelper;
 
 import java.lang.reflect.Field;
 
+import static com.hiber.hiber.RootFrag.lastFrag;
+
 public class SplashActivity extends RootMAActivity {
 
     Class[] frags = {// fragments
@@ -80,6 +82,17 @@ public class SplashActivity extends RootMAActivity {
         xGetLoginStateHelper.setOnGetLoginStateSuccessListener(getLoginStateBean -> {
             // 如果处于登陆状态 -- 维持心跳
             if (getLoginStateBean.getState() == GetLoginStateBean.CONS_LOGIN) {
+                // TODO: 2020/5/27  以下这些页面不发心跳 - 为了适配HH42 - 可能会有bug
+                // todo: 如果有bug则把这些页面的lastfrag=getClass()的赋值语句删除
+                if (lastFrag == SplashFrag.class // 
+                            | lastFrag == RefreshFrag.class //
+                            | lastFrag == LoginFrag.class //
+                            | lastFrag == Login_mw_Frag.class //
+                            | lastFrag == Login_mw_dev_Frag.class //
+                            | lastFrag == GuideFrag.class //
+                ) {
+                    return;
+                }
                 HeartBeatHelper xHeartBeatHelper = new HeartBeatHelper();
                 xHeartBeatHelper.heartbeat();
             }

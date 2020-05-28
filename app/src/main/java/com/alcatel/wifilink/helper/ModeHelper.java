@@ -8,6 +8,7 @@ import com.p_xhelper_smart.p_xhelper_smart.bean.GetNetworkSettingsBean;
 import com.p_xhelper_smart.p_xhelper_smart.bean.SetNetworkSettingsParam;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetNetworkSettingsBeanHelper;
 import com.p_xhelper_smart.p_xhelper_smart.helper.SetNetworkSettingsHelper;
+import com.p_xhelper_smart.p_xhelper_smart.utils.Logg;
 
 /**
  * Created by qianli.ma on 2017/12/11 0011.
@@ -21,9 +22,10 @@ public class ModeHelper {
     }
 
     public void transfer(int mode) {
+        Logg.t("HH42_MOBILE_MODE").ii("choice mode: " + mode);
         // 1.现获取当前的Mode对象
         GetNetworkSettingsBeanHelper xGetNetworkSettingHelper = new GetNetworkSettingsBeanHelper();
-        xGetNetworkSettingHelper.setOnGetNetworkSettingsFailedListener(() ->toast(R.string.hh70_cant_connect) );
+        xGetNetworkSettingHelper.setOnGetNetworkSettingsFailedListener(() -> toast(R.string.hh70_cant_connect));
         xGetNetworkSettingHelper.setOnGetNetworkSettingsSuccessListener(getNetworkSettingsBean -> {
             // 3.提交请求
             SetNetworkSettingsParam param = new SetNetworkSettingsParam();

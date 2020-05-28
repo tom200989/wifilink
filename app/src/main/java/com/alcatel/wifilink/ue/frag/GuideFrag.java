@@ -26,6 +26,7 @@ public class GuideFrag extends RootFrag {
 
     @Override
     public void onNexts(Object o, View view, String s) {
+        lastFrag = getClass();
         wdGuide.setOnClickGuideListener(() -> {
             ShareUtils.set(RootCons.SP_GUIDE, true);// 保存向导缓存
             String cacheDevice = ShareUtils.get(RootCons.DEVICE_NAME, RootCons.DEVICE_NAME_DEFAULT);
