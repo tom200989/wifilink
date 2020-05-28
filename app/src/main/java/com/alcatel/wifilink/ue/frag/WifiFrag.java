@@ -546,60 +546,57 @@ public class WifiFrag extends BaseFrag {
             boolean isOriginOn = mOriginSettings.getAP5G().getApStatus() == 1;// 1. 判断初始化时是否为ON, 如果为1--ON
             boolean isAP5GStateChanged = mWifi5GSwitch.isChecked() != isOriginOn;// 2. 是否与原始状态相反, 如果相反 -- 说明有变动
             //add by haide.yin 只要点击了Apply都会更新
-            if (/*isAP5GStateChanged*/true) {
-                if (!mWifi5GSwitch.isChecked()) {// 3. 如果有变化, 并且当前是OFF -- 便设置 WIFI 关闭
-                    mEditedSettings.getAP5G().setApStatus(0);
-                } else {// 4.如果没有变化, 或者WIFI被重新设置成ON -- 便去设置 WIFI 开启
-                    mEditedSettings.getAP5G().setApStatus(1);
-                    String newSsid5G = RootUtils.getEDText(mSsid5GEdit, true);
-                    int newSecurity5GMode = mSecurity5GSpinner.getSelectedItemPosition();
-                    newSecurity5GMode = isHH42 ? newSecurity5GMode == 0 ? 0 : newSecurity5GMode + 1 : newSecurity5GMode;
-                    int newEncryption5G = mEncryption5GSpinner.getSelectedItemPosition();
+            if (!mWifi5GSwitch.isChecked()) {// 3. 如果有变化, 并且当前是OFF -- 便设置 WIFI 关闭
+                mEditedSettings.getAP5G().setApStatus(0);
+            } else {// 4.如果没有变化, 或者WIFI被重新设置成ON -- 便去设置 WIFI 开启
+                mEditedSettings.getAP5G().setApStatus(1);
+                String newSsid5G = RootUtils.getEDText(mSsid5GEdit, true);
+                int newSecurity5GMode = mSecurity5GSpinner.getSelectedItemPosition();
+                newSecurity5GMode = isHH42 ? newSecurity5GMode == 0 ? 0 : newSecurity5GMode + 1 : newSecurity5GMode;
+                int newEncryption5G = mEncryption5GSpinner.getSelectedItemPosition();
 
-                    String newKey5G = RootUtils.getEDText(mKey5GEdit, true);
-                    //不能为空
-                    if (newSsid5G.isEmpty() || newSsid5G.length() > 32) {
-                        toast(R.string.hh70_the_ssid, 2000);
+                String newKey5G = RootUtils.getEDText(mKey5GEdit, true);
+                //不能为空
+                if (newSsid5G.isEmpty() || newSsid5G.length() > 32) {
+                    toast(R.string.hh70_the_ssid, 2000);
+                    return;
+                }
+                //不能包含特殊字符
+                if (RootUtils.contantSpecialChar(newSsid5G)) {
+                    toast(R.string.hh70_ssid_can_contain, 2000);
+                    return;
+                }
+
+                mEditedSettings.getAP5G().setSsid(newSsid5G);
+                mEditedSettings.getAP5G().setSecurityMode(newSecurity5GMode);
+                //disable
+                if (newSecurity5GMode == 0) {
+                    mEditedSettings.getAP5G().setWepKey("");
+                    mEditedSettings.getAP5G().setWepType(0);
+                    mEditedSettings.getAP5G().setWpaType(0);
+                    mEditedSettings.getAP5G().setWpaKey("");
+                    //wep
+                } else if (newSecurity5GMode == 1) {
+                    if (!WepPsdHelper.psdMatch(newKey5G)) {
+                        toast(R.string.hh70_wep_key_is_5, 2000);
                         return;
                     }
-                    //不能包含特殊字符
-                    if (RootUtils.contantSpecialChar(newSsid5G)) {
-                        toast(R.string.hh70_ssid_can_contain, 2000);
+                    mEditedSettings.getAP5G().setWepType(newEncryption5G);
+                    mEditedSettings.getAP5G().setWepKey(newKey5G);
+                    mEditedSettings.getAP5G().setWpaType(0);
+                    mEditedSettings.getAP5G().setWpaKey("");
+                    //wpa
+                } else {
+                    if (newKey5G.length() < 8 || newKey5G.length() > 63 || !WpaPsdHelper.isMatch(newKey5G)) {
+                        toast(R.string.hh70_the_wpa_pre, 2000);
                         return;
                     }
-
-                    mEditedSettings.getAP5G().setSsid(newSsid5G);
-                    mEditedSettings.getAP5G().setSecurityMode(newSecurity5GMode);
-                    //disable
-                    if (newSecurity5GMode == 0) {
-                        mEditedSettings.getAP5G().setWepKey("");
-                        mEditedSettings.getAP5G().setWepType(0);
-                        mEditedSettings.getAP5G().setWpaType(0);
-                        mEditedSettings.getAP5G().setWpaKey("");
-                        //wep
-                    } else if (newSecurity5GMode == 1) {
-                        if (!WepPsdHelper.psdMatch(newKey5G)) {
-                            toast(R.string.hh70_wep_key_is_5, 2000);
-                            return;
-                        }
-                        mEditedSettings.getAP5G().setWepType(newEncryption5G);
-                        mEditedSettings.getAP5G().setWepKey(newKey5G);
-                        mEditedSettings.getAP5G().setWpaType(0);
-                        mEditedSettings.getAP5G().setWpaKey("");
-                        //wpa
-                    } else {
-                        if (newKey5G.length() < 8 || newKey5G.length() > 63 || !WpaPsdHelper.isMatch(newKey5G)) {
-                            toast(R.string.hh70_the_wpa_pre, 2000);
-                            return;
-                        }
-                        mEditedSettings.getAP5G().setWepType(0);
-                        mEditedSettings.getAP5G().setWepKey("");
-                        mEditedSettings.getAP5G().setWpaType(newEncryption5G);
-                        mEditedSettings.getAP5G().setWpaKey(newKey5G);
-                    }
+                    mEditedSettings.getAP5G().setWepType(0);
+                    mEditedSettings.getAP5G().setWepKey("");
+                    mEditedSettings.getAP5G().setWpaType(newEncryption5G);
+                    mEditedSettings.getAP5G().setWpaKey(newKey5G);
                 }
             }
-
         }
 
         String des1 = getString(R.string.hh70_change_wifi);
