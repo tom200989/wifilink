@@ -225,7 +225,7 @@ public class WifiFrag extends BaseFrag {
                 } else {
                     mKey2GGroup.setVisibility(View.VISIBLE);
                     mEncryption2GGroup.setVisibility(View.VISIBLE);
-                    // TOAT: 2020/5/28  
+                    // TOAT: 2020/5/28  根据安全模式切换加密魔兽
                     if (position == 1 & !isHH42) {// 如果用户点击的是第二个条目并且不是HH42(外包)的产品(因为HH42没有WEP选项) - 则按照HH70的WEP规则处理
                         mEncryption2GSpinner.setAdapter(new ArrayAdapter<>(activity, android.R.layout.simple_spinner_dropdown_item, mWepEncryptionSettings));
                         int wepType = mOriginSettings.getAP2G().getWepType();
@@ -254,7 +254,7 @@ public class WifiFrag extends BaseFrag {
                 } else {
                     mKey5GGroup.setVisibility(View.VISIBLE);
                     mEncryption5GGroup.setVisibility(View.VISIBLE);
-                    // TOAT: 2020/5/28  
+                    // TOAT: 2020/5/28  根据安全模式切换加密魔兽
                     if (position == 1 & !isHH42) {// 如果用户点击的是第二个条目并且不是HH42(外包)的产品(因为HH42没有WEP选项) - 则按照HH70的WEP规则处理
                         mEncryption5GSpinner.setAdapter(new ArrayAdapter<>(activity, android.R.layout.simple_spinner_dropdown_item, mWepEncryptionSettings));
                         int wepType = mOriginSettings.getAP5G().getWepType();
@@ -490,7 +490,7 @@ public class WifiFrag extends BaseFrag {
             } else {
                 mEditedSettings.getAP2G().setApStatus(1);
                 String newSsid2G = RootUtils.getEDText(mSsid2GEdit, true);
-                // TOAT: 2020/5/28  
+                // TOAT: 2020/5/28  修改安全模式操作
                 int newSecurity2GMode = mSecurity2GSpinner.getSelectedItemPosition();
                 newSecurity2GMode = isHH42 ? newSecurity2GMode == 0 ? 0 : newSecurity2GMode + 1 : newSecurity2GMode;
                 System.out.println("fuck hh42 newSecurity2GMode: " + newSecurity2GMode);
