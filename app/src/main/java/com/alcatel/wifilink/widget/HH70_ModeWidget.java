@@ -8,6 +8,10 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.alcatel.wifilink.R;
+import com.p_xhelper_smart.p_xhelper_smart.bean.GetNetworkSettingsBean;
+
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * Created by wzhiqiang on 2019/8/20
@@ -15,6 +19,10 @@ import com.alcatel.wifilink.R;
 public class HH70_ModeWidget extends RelativeLayout {
 
     private ImageView ivWidgetBg;
+    private TextView tvAuto;
+    private TextView tv4g;
+    private TextView tv3g;
+    private TextView tv2g;
 
     public HH70_ModeWidget(Context context) {
         this(context, null, 0);
@@ -29,11 +37,11 @@ public class HH70_ModeWidget extends RelativeLayout {
         View.inflate(context, R.layout.hh70_widget_mode, this);
         ivWidgetBg = findViewById(R.id.iv_dialogok_widget_bg);
         ivWidgetBg.setOnClickListener(v -> bgClickNext());
-        TextView tvAuto = findViewById(R.id.tv_pop_connMode_auto);
-        TextView tv4g = findViewById(R.id.tv_pop_connMode_4g);
-        TextView tv3g = findViewById(R.id.tv_pop_connMode_3g);
-        // TOGO 2019/9/9 0009 由于现在很少有SIM卡支持2G, 因此此处屏蔽
-        // TextView tv2g = findViewById(R.id.tv_pop_connMode_2g);
+        tvAuto = findViewById(R.id.tv_pop_connMode_auto);
+        tv4g = findViewById(R.id.tv_pop_connMode_4g);
+        tv3g = findViewById(R.id.tv_pop_connMode_3g);
+        tv2g = findViewById(R.id.tv_pop_connMode_2g);
+
         tvAuto.setOnClickListener(v -> {
             setVisibility(GONE);
             autoClickNext();
@@ -46,15 +54,36 @@ public class HH70_ModeWidget extends RelativeLayout {
             setVisibility(GONE);
             thirdModeNext();
         });
-        
-        // TOGO 2019/9/9 0009 由于现在很少有SIM卡支持2G, 因此此处屏蔽
-        // tv2g.setOnClickListener(v -> {
-        //     setVisibility(GONE);
-        //     secondModeNext();
-        // });
 
+        tv2g.setOnClickListener(v -> {
+            setVisibility(GONE);
+            secondModeNext();
+        });
     }
 
+    /**
+     * 设置不支持的模式, 则隐藏对应UI - 针对某些设备做的兼容(HH42)
+     *
+     * @param modes 不支持的模式
+     */
+    public void notSupportMode(Integer... modes) {
+        List<Integer> mols = Arrays.asList(modes);
+        if (mols.contains(GetNetworkSettingsBean.CONS_AUTO_MODE)) {
+            tvAuto.setVisibility(GONE);
+        }
+
+        if (mols.contains(GetNetworkSettingsBean.CONS_ONLY_LTE)) {
+            tv4g.setVisibility(GONE);
+        }
+
+        if (mols.contains(GetNetworkSettingsBean.CONS_ONLY_3G)) {
+            tv3g.setVisibility(GONE);
+        }
+
+        if (mols.contains(GetNetworkSettingsBean.CONS_ONLY_2G)) {
+            tv2g.setVisibility(GONE);
+        }
+    }
 
     /* -------------------------------------------- impl -------------------------------------------- */
     private HH70_NormalWidget.OnBgClickListener onBgClickListener;
@@ -80,10 +109,10 @@ public class HH70_ModeWidget extends RelativeLayout {
         void autoClick();
     }
 
-    private HH70_ConmodeWidget.OnAutoClickListener onAutoClickListener;
+    private OnAutoClickListener onAutoClickListener;
 
     //对外方式setOnAutoClickListener
-    public void setOnAutoClickListener(HH70_ConmodeWidget.OnAutoClickListener onAutoClickListener) {
+    public void setOnAutoClickListener(OnAutoClickListener onAutoClickListener) {
         this.onAutoClickListener = onAutoClickListener;
     }
 
@@ -93,7 +122,6 @@ public class HH70_ModeWidget extends RelativeLayout {
             onAutoClickListener.autoClick();
         }
     }
-
 
     public interface On4gModeClickListener {
         void click();

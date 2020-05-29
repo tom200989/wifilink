@@ -7,9 +7,13 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 
 import com.alcatel.wifilink.R;
 import com.alcatel.wifilink.bean.WlanBean;
+import com.alcatel.wifilink.utils.RootCons;
+import com.alcatel.wifilink.utils.RootUtils;
+import com.hiber.tools.ShareUtils;
 
 import java.util.Arrays;
 import java.util.List;
@@ -34,6 +38,8 @@ public class WlanFrag extends BaseFrag {
     AppCompatSpinner mChannelSpinner;
     @BindView(R.id.spinner_802_11_mode)
     AppCompatSpinner m80211Spinner;
+    @BindView(R.id.rl_ap_isolation)
+    RelativeLayout rlAPIsolation;// AP隔离条目
     @BindView(R.id.switch_ap_isolation)
     SwitchCompat mIsolationSwitch;
     @BindView(R.id.spinner_bandwidth_type)
@@ -61,6 +67,7 @@ public class WlanFrag extends BaseFrag {
     private List<String> mChannel5gOneCountryCodes;
     private List<String> mChannel5gFiveCountryCodes;
     private WlanBean wlanBean;
+    private boolean isHH42;
 
     @Override
     public int onInflateLayout() {
@@ -80,6 +87,7 @@ public class WlanFrag extends BaseFrag {
             mMode = wlanBean.getmMode();
             mApIsolation = wlanBean.ismApIsolation();
         }
+
         initArrays();
         initViews();
         initClick();
@@ -123,6 +131,12 @@ public class WlanFrag extends BaseFrag {
     }
 
     private void initViews() {
+        // 如果是HH42(外包)的设备 - 则隐藏AP隔离面板
+        isHH42 = RootUtils.isHH42(ShareUtils.get(RootCons.DEVICE_NAME, RootCons.DEVICE_NAME_DEFAULT));
+        if (isHH42) {
+            rlAPIsolation.setVisibility(View.GONE);
+        }
+        // 设置其他属性
         ArrayAdapter<String> channelAdapter;
         if (mFrequency == 5) {
             if (mChannel5gOneCountryCodes.contains(mCountry)) {

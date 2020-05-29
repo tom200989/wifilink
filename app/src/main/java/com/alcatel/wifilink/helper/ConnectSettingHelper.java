@@ -1,7 +1,11 @@
 package com.alcatel.wifilink.helper;
 
+import com.alcatel.wifilink.utils.RootCons;
+import com.alcatel.wifilink.utils.RootUtils;
+import com.hiber.tools.ShareUtils;
 import com.p_xhelper_smart.p_xhelper_smart.bean.GetConnectionSettingsBean;
 import com.p_xhelper_smart.p_xhelper_smart.helper.ConnectHelper;
+import com.p_xhelper_smart.p_xhelper_smart.helper.DisConnectForHH42Helper;
 import com.p_xhelper_smart.p_xhelper_smart.helper.DisConnectHelper;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetConnectionSettingsHelper;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetNetworkRegisterStateHelper;
@@ -53,6 +57,12 @@ public class ConnectSettingHelper {
             xConnectHelper.setOnConnectSuccessListener(() -> connSuccessNext(null));
             xConnectHelper.setOnConnectFailedListener(this::connectSettingFailNext);
             xConnectHelper.connect();
+
+        } else if (RootUtils.isHH42(ShareUtils.get(RootCons.DEVICE_NAME, RootCons.DEVICE_NAME_DEFAULT))) {// 针对42做切断操作
+            DisConnectForHH42Helper xDisConnectFor42Helper = new DisConnectForHH42Helper();
+            xDisConnectFor42Helper.setOnDisconnectSuccessListener(() -> disconnSuccessNext(null));
+            xDisConnectFor42Helper.setOnDisconnectFailedListener(this::connectSettingFailNext);
+            xDisConnectFor42Helper.disconnect(0);
 
         } else {
             DisConnectHelper xDisConnectHelper = new DisConnectHelper();

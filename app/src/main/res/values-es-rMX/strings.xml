@@ -38,7 +38,7 @@
     <string name="hh70_verify_your_pin">Compruebe su código PIN en el menú de inicio primero.</string>
     <string name="hh70_no_sim">Falta tarjeta SIM</string>
     <string name="hh70_sim_not_accessible">No se puede acceder a la tarjeta SIM</string>
-    <string name="hh70_monthly_data_plan_used">El plab de datos mensual se ha agotado. Si desea seguir navegando, cambie el limite mensual o restablezca el consumo.</string>
+    <string name="hh70_monthly_data_plan_used">El plan de datos mensual se ha agotado. Si desea seguir navegando, cambie el limite mensual o restablezca el consumo.</string>
     <string name="hh70_touch_again">Toque de nuevo para salir de la aplicación</string>
     <string name="hh70_mobile_data">Datos móviles</string>
     <string name="hh70_limit">límite</string>
@@ -147,7 +147,7 @@
     <string name="hh70_make_sure_phone">Para gestionar su dispositivo, asegúrese de que el teléfono esté conectado al Wi-Fi del dispositivo</string>
     <string name="hh70_ok">Aceptar</string>
     <string name="hh70_select_all">Seleccionar todo</string>
-    <string name="hh70_succeed">Operación correcta</string>
+    <string name="hh70_succeed">Mensaje enviado</string>
     <string name="hh70_downloading">Descargando…</string>
     <string name="hh70_total_control">CONTROL TOTAL</string>
     <string name="hh70_manage_tablet">Gestione su Wi-Fi móvil directamente en su smartphone o tablet.</string>

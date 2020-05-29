@@ -18,6 +18,7 @@ import com.alcatel.wifilink.helper.PinStatuHelper;
 import com.alcatel.wifilink.helper.ProfileHelper;
 import com.alcatel.wifilink.helper.SimNumImsiHelper;
 import com.alcatel.wifilink.helper.SimPinHelper;
+import com.alcatel.wifilink.utils.RootCons;
 import com.alcatel.wifilink.utils.RootUtils;
 import com.alcatel.wifilink.widget.HH70_ChangpinWidget;
 import com.alcatel.wifilink.widget.HH70_ConmodeWidget;
@@ -25,6 +26,7 @@ import com.alcatel.wifilink.widget.HH70_ModeWidget;
 import com.alcatel.wifilink.widget.HH70_ProfileWidget;
 import com.alcatel.wifilink.widget.HH70_SimpinWidget;
 import com.hiber.cons.TimerState;
+import com.hiber.tools.ShareUtils;
 import com.p_xhelper_smart.p_xhelper_smart.bean.GetConnectionSettingsBean;
 import com.p_xhelper_smart.p_xhelper_smart.bean.GetNetworkSettingsBean;
 import com.p_xhelper_smart.p_xhelper_smart.bean.GetProfileListBean;
@@ -276,9 +278,16 @@ public class MobileNetworkFrag extends BaseFrag {
      * 点击了mode
      */
     private void clickMode() {
+        boolean isHH42 = RootUtils.isHH42(ShareUtils.get(RootCons.DEVICE_NAME, RootCons.DEVICE_NAME_DEFAULT));
         modeWidget.setOnAutoClickListener(() -> changeMode(GetNetworkSettingsBean.CONS_AUTO_MODE));
         modeWidget.setOn4gModeClickListener(() -> changeMode(GetNetworkSettingsBean.CONS_ONLY_LTE));
         modeWidget.setOn3gModeClickListener(() -> changeMode(GetNetworkSettingsBean.CONS_ONLY_3G));
+        modeWidget.setOn2gModeClickListener(() -> changeMode(GetNetworkSettingsBean.CONS_ONLY_2G));
+        if (isHH42) {// 如果是HH42设备, 则不支持4G only模式
+            modeWidget.notSupportMode(GetNetworkSettingsBean.CONS_ONLY_LTE);
+        } else {// 其他设备不支持2G only模式
+            modeWidget.notSupportMode(GetNetworkSettingsBean.CONS_ONLY_2G);
+        }
         modeWidget.setVisibility(View.VISIBLE);
     }
 
