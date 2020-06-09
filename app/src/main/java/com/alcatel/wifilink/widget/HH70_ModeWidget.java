@@ -8,6 +8,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.alcatel.wifilink.R;
+import com.alcatel.wifilink.utils.RootCons;
+import com.alcatel.wifilink.utils.RootUtils;
+import com.hiber.tools.ShareUtils;
 import com.p_xhelper_smart.p_xhelper_smart.bean.GetNetworkSettingsBean;
 
 import java.util.Arrays;
@@ -41,6 +44,11 @@ public class HH70_ModeWidget extends RelativeLayout {
         tv4g = findViewById(R.id.tv_pop_connMode_4g);
         tv3g = findViewById(R.id.tv_pop_connMode_3g);
         tv2g = findViewById(R.id.tv_pop_connMode_2g);
+
+        // 针对HH42(外包)所做的字符串适配
+        if (RootUtils.isHH42(ShareUtils.get(RootCons.DEVICE_NAME, RootCons.DEVICE_NAME_DEFAULT))) {
+            tvAuto.setText(R.string.hh70_auto_42);
+        }
 
         tvAuto.setOnClickListener(v -> {
             setVisibility(GONE);

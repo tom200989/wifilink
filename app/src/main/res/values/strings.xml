@@ -120,6 +120,7 @@
     <string name="hh70_mode">mode</string>
     <string name="hh70_disconn_try_again">Disconnecting… Try again later.</string>
     <string name="hh70_auto">Auto</string>
+    <string name="hh70_auto_42" tools:ignore="MissingTranslation">4G/3G</string>
     <string name="hh70_month_data_limit">Monthly data usage limit reached</string>
     <string name="hh70_delete_message">Delete this message(s)?</string>
     <string name="hh70_pin_code_wrong">The PIN code is wrong.</string>

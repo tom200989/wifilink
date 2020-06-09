@@ -36,7 +36,7 @@ public class ModeHelper {
             xSetNetworkSettingsHelper.setOnSetNetworkSettingsSuccessListener(() -> {
                 // 4.再次获取
                 GetNetworkSettingsBeanHelper xGetNetSettingHelper = new GetNetworkSettingsBeanHelper();
-                xGetNetSettingHelper.setOnGetNetworkSettingsSuccessListener(attr -> modeSuccessNext(attr));
+                xGetNetSettingHelper.setOnGetNetworkSettingsSuccessListener(this::modeSuccessNext);
                 xGetNetSettingHelper.getNetworkSettings();
             });
             xSetNetworkSettingsHelper.setOnSetNetworkSettingsFailedListener(() -> toast(R.string.hh70_cant_connect));

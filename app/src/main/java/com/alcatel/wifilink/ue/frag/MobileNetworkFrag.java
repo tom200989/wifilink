@@ -286,7 +286,7 @@ public class MobileNetworkFrag extends BaseFrag {
         modeWidget.setOn3gModeClickListener(() -> changeMode(GetNetworkSettingsBean.CONS_ONLY_3G));
         modeWidget.setOn2gModeClickListener(() -> changeMode(GetNetworkSettingsBean.CONS_ONLY_2G));
         if (isHH42) {// 如果是HH42设备, 则不支持4G only模式
-            modeWidget.notSupportMode(GetNetworkSettingsBean.CONS_ONLY_LTE);
+            modeWidget.notSupportMode(GetNetworkSettingsBean.CONS_ONLY_LTE, GetNetworkSettingsBean.CONS_ONLY_2G);
         } else {// 其他设备不支持2G only模式
             modeWidget.notSupportMode(GetNetworkSettingsBean.CONS_ONLY_2G);
         }
@@ -309,6 +309,9 @@ public class MobileNetworkFrag extends BaseFrag {
                     break;
                 case GetNetworkSettingsBean.CONS_ONLY_LTE:
                     tvModeMode.setText(text_4G);
+                    break;
+                case GetNetworkSettingsBean.CONS_AUTO_MODE:
+                    tvModeMode.setText(text_auto);
                     break;
             }
         });
