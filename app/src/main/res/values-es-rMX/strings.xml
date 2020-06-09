@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">Alcatel Wi-Fi Link</string>
     <string name="hh70_cancel">Cancelar</string>
     <string name="hh70_back">Atrás</string>
@@ -33,6 +33,9 @@
     <string name="hh70_3g">Sólo 3G</string>
     <string name="hh70_3g_plus">3G+</string>
     <string name="hh70_4g">Sólo 4G</string>
+    <string name="hh70_2g_main" tools:ignore="ExtraTranslation">2G</string>
+    <string name="hh70_3g_main" tools:ignore="ExtraTranslation">3G</string>
+    <string name="hh70_4g_main" tools:ignore="ExtraTranslation">4G</string>
     <string name="hh70_connected">CONECTADOS</string>
     <string name="hh70_sim_locked">Tarjeta SIM bloqueada</string>
     <string name="hh70_verify_your_pin">Compruebe su código PIN en el menú de inicio primero.</string>

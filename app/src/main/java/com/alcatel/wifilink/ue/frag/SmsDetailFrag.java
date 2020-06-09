@@ -290,7 +290,7 @@ public class SmsDetailFrag extends BaseFrag {
         GetSMSContentListHelper xGetSMSContentListHelper = new GetSMSContentListHelper();
         xGetSMSContentListHelper.setOnGetSmsContentListSuccessListener(bean -> {
             boolean isLast = false;
-            // 1. refresh the list
+            // 1. 刷新列表
             smsContentListBean = bean;
             // 1.1.获取最新信息数
             int newSize = smsContentListBean.getSMSContentList().size();
@@ -303,14 +303,14 @@ public class SmsDetailFrag extends BaseFrag {
             if (adapter != null) {
                 adapter.notifys(smsContentListBean, isLast);
             }
-            // 2. refresh the router time
+            // 2. 刷新路由器时间
             setPositionTextTime();
-            // 3. force to  set rcv position to last
+            // 3. 强制拉到列表最后
             if (isLast) {
                 setRecyclePositionToLast(adapter.getItemCount() - 1);
             }
         });
-        // when the current number have no sms, then close it
+        // 没有短信时的处理
         xGetSMSContentListHelper.setOnGetSmsContentListFailListener(() -> toFrag(getClass(), SmsFrag.class, null, false));
         xGetSMSContentListHelper.getSMSContentList(getSmsContentListParam);
     }
@@ -407,7 +407,7 @@ public class SmsDetailFrag extends BaseFrag {
 
     /* **** clearDraft **** */
     public void clearDraft(boolean isSaveDraft) {
-        // 1.first deleted the draft sms in router
+        // 1.先删除路由器里的草稿
         SmsDraftHelper sdfp = new SmsDraftHelper(activity, smsContact.getContactId());
         sdfp.setOnNoSimListener(() -> {
             toast(R.string.hh70_no_sim, 2000);
@@ -415,7 +415,7 @@ public class SmsDetailFrag extends BaseFrag {
         });
         sdfp.setOnClearDraftListener(() -> {
             if (isSaveDraft) {
-                // 2.then save sms to router
+                // 2.然后在保存短信到路由器中
                 saveDraft();
             }
         });

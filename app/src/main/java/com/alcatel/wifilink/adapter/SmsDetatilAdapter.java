@@ -13,7 +13,6 @@ import com.alcatel.wifilink.helper.SmsReSendHelper;
 import com.alcatel.wifilink.utils.RootUtils;
 import com.p_xhelper_smart.p_xhelper_smart.bean.GetSMSContactListBean;
 import com.p_xhelper_smart.p_xhelper_smart.bean.GetSMSContentListBean;
-import com.p_xhelper_smart.p_xhelper_smart.utils.Logg;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -113,7 +112,6 @@ public class SmsDetatilAdapter extends RecyclerView.Adapter<SmsDetailHolder> {
         NewSMSContentBean nscb = newScbList.get(position);// 带选中|未选中标记位
         GetSMSContentListBean.SMSContentListBean scb = nscb.smsContentBean;
         int smsType = scb.getSMSType();
-        Logg.t("HH42_SMSTYPE").ii("smstype: " + smsType);
         boolean receiver = smsType == GetSMSContactListBean.SMSContacBean.CONS_SMS_TYPE_READ // 
                                    || smsType == GetSMSContactListBean.SMSContacBean.CONS_SMS_TYPE_UNREAD;//
         holder.rl_smsdetail_receiver.setVisibility(receiver ? VISIBLE : INVISIBLE);

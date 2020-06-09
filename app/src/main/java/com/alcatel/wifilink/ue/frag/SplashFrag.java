@@ -12,6 +12,7 @@ import com.hiber.cons.TimerState;
 import com.hiber.tools.ShareUtils;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetLoginStateHelper;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetSystemInfoHelper;
+import com.p_xhelper_smart.p_xhelper_smart.utils.Logg;
 
 /*
  * Created by qianli.ma on 2019/8/12 0012.
@@ -84,6 +85,12 @@ public class SplashFrag extends BaseFrag {
     private void checkDeviceType() {
         GetSystemInfoHelper xGetSystemInfoHelper = new GetSystemInfoHelper();
         xGetSystemInfoHelper.setOnGetSystemInfoSuccessListener(getSystemInfobean -> {
+            String hwVersion = getSystemInfobean.getHwVersion();
+            String webVersion = getSystemInfobean.getWebUiVersion();
+            String mainVersion = getSystemInfobean.getSwVersionMain();
+            Logg.t("ma_smart").ii("hwVersion = "+hwVersion);
+            Logg.t("ma_smart").ii("webVersion = "+webVersion);
+            Logg.t("ma_smart").ii("mainVersion = "+mainVersion);
             // 保存设备名到缓存
             ShareUtils.set(RootCons.DEVICE_NAME, getSystemInfobean.getDeviceName());
             // 跳转

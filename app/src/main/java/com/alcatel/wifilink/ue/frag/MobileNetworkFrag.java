@@ -91,6 +91,7 @@ public class MobileNetworkFrag extends BaseFrag {
     private String text_manual;
     private String text_4G;
     private String text_3G;
+    private String text_2G;
     private Drawable switch_on;
     private Drawable switch_off;
     private ConnectSettingHelper connSettingHelper;
@@ -117,6 +118,7 @@ public class MobileNetworkFrag extends BaseFrag {
         text_manual = activity.getString(R.string.hh70_maunal);
         text_4G = activity.getString(R.string.hh70_4g);
         text_3G = activity.getString(R.string.hh70_3g);
+        text_2G = activity.getString(R.string.hh70_2g);
         switch_on = getRootDrawable(R.drawable.switch_on);
         switch_off = getRootDrawable(R.drawable.switch_off);
     }
@@ -299,6 +301,9 @@ public class MobileNetworkFrag extends BaseFrag {
         modeHelper.setOnModeSuccessListener(attr -> {
             int networkMode = attr.getNetworkMode();
             switch (networkMode) {
+                case GetNetworkSettingsBean.CONS_ONLY_2G:
+                    tvModeMode.setText(text_2G);
+                    break;
                 case GetNetworkSettingsBean.CONS_ONLY_3G:
                     tvModeMode.setText(text_3G);
                     break;

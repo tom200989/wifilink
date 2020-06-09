@@ -737,7 +737,6 @@ public class mainFrag extends BaseFrag {
                 tvMainrxMw120NetworkType.setText(isRoam ? activity.getString(R.string.hh70_data_roaming) : result.getNetworkName());
                 // CMCC\UNICOM\..
                 String signalType = getSignalType(activity, result.getNetworkType());
-                Logg.t("HH42_REGISTER").ww("signalType: " + signalType);
                 tvSignal.setText(signalType);// 2G\3G..
                 tvSignal.setTextColor(blue_color);
             }
