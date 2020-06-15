@@ -6,6 +6,7 @@ import android.telephony.SmsMessage;
 import android.text.Editable;
 import android.text.Selection;
 import android.text.TextWatcher;
+import android.text.method.DigitsKeyListener;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -13,8 +14,10 @@ import android.widget.ImageView;
 
 import com.alcatel.wifilink.R;
 import com.alcatel.wifilink.helper.SmsWatcherHelper;
+import com.alcatel.wifilink.utils.RootCons;
 import com.alcatel.wifilink.utils.RootUtils;
 import com.alcatel.wifilink.widget.HH70_LoadWidget;
+import com.hiber.tools.ShareUtils;
 import com.p_xhelper_smart.p_xhelper_smart.bean.GetSendSMSResultBean;
 import com.p_xhelper_smart.p_xhelper_smart.bean.SaveSmsParam;
 import com.p_xhelper_smart.p_xhelper_smart.bean.SendSmsParam;
@@ -79,6 +82,10 @@ public class SmsNewFrag extends BaseFrag {
      * 监听Edittext
      */
     private void setEditTextChangedListener() {
+        // 判断是否为HH42设备
+        boolean isHH42 = RootUtils.isHH42(ShareUtils.get(RootCons.DEVICE_NAME, RootCons.DEVICE_NAME_DEFAULT));
+        // 如果是HH42设备, 则不允许输入［;］号
+        m_etNumber.setKeyListener(DigitsKeyListener.getInstance(isHH42 ? "0123456789" : "0123456789,;"));
         m_etNumber.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -198,15 +205,13 @@ public class SmsNewFrag extends BaseFrag {
         strContent = strContent.trim();
         if (strContent.length() > 0 && strNumber.length() > 0) {
             if (checkNumbers()) {
-                String num = RootUtils.getEDText(m_etNumber, true);
-                ArrayList<String> numList = new ArrayList<>();
-                numList.add(num);
+                List<String> nums = getNumberFromString(m_etNumber.getText().toString());
                 //用xsmart框架内部的Param代替旧的Param
                 SaveSmsParam xSaveSmsParam = new SaveSmsParam();
                 xSaveSmsParam.setSMSId(-1);
                 xSaveSmsParam.setSMSContent(RootUtils.getEDText(m_etContent, true));
                 xSaveSmsParam.setSMSTime(RootUtils.getCurrentDate());
-                xSaveSmsParam.setPhoneNumber(numList);
+                xSaveSmsParam.setPhoneNumber(nums);
 
                 SaveSMSHelper xSaveSMSHelper = new SaveSMSHelper();
                 xSaveSMSHelper.setOnSaveSMSSuccessListener(() -> {
@@ -232,7 +237,6 @@ public class SmsNewFrag extends BaseFrag {
         if (checkNumbers()) {
             wdLoad.setVisibility(View.VISIBLE);
             List<String> nums = getNumberFromString(m_etNumber.getText().toString());
-            
             SendSmsParam xSendSmsParam = new SendSmsParam();
             xSendSmsParam.setSMSId(-1);
             xSendSmsParam.setSMSContent(RootUtils.getEDText(m_etContent, true));

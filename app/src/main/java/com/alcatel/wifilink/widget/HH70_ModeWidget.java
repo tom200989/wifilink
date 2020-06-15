@@ -48,6 +48,8 @@ public class HH70_ModeWidget extends RelativeLayout {
         // 针对HH42(外包)所做的字符串适配
         if (RootUtils.isHH42(ShareUtils.get(RootCons.DEVICE_NAME, RootCons.DEVICE_NAME_DEFAULT))) {
             tvAuto.setText(R.string.hh70_auto_42);
+            tv4g.setVisibility(GONE);
+            tv2g.setVisibility(GONE);
         }
 
         tvAuto.setOnClickListener(v -> {
