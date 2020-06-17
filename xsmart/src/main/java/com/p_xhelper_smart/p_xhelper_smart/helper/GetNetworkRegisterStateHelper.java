@@ -4,7 +4,6 @@ import com.p_xhelper_smart.p_xhelper_smart.bean.GetNetworkRegisterStateBean;
 import com.p_xhelper_smart.p_xhelper_smart.core.XSmart;
 import com.p_xhelper_smart.p_xhelper_smart.impl.FwError;
 import com.p_xhelper_smart.p_xhelper_smart.impl.XNormalCallback;
-import com.p_xhelper_smart.p_xhelper_smart.utils.Logg;
 import com.p_xhelper_smart.p_xhelper_smart.utils.XCons;
 
 /*
@@ -22,7 +21,6 @@ public class GetNetworkRegisterStateHelper extends BaseHelper {
         xRegister.xPost(new XNormalCallback<GetNetworkRegisterStateBean>() {
             @Override
             public void success(GetNetworkRegisterStateBean result) {
-                Logg.t("HH42_ALAN").ww(result.toString());
                 int state = result.getRegist_state();
                 if (state == GetNetworkRegisterStateBean.CONS_NOT_REGISETER) {
                     notRegisterNext();

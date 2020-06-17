@@ -55,7 +55,7 @@ public class DeviceConnectFrag extends BaseFrag {
     }
 
     private void initUI() {
-        LinearLayoutManager lm = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
+        LinearLayoutManager lm = new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false);
         rcv_deviceConnect.setLayoutManager(lm);
         rvAdapter = new HH70ConnectAdapter(activity, this, connectBeanList);
         rcv_deviceConnect.setAdapter(rvAdapter);
@@ -106,12 +106,12 @@ public class DeviceConnectFrag extends BaseFrag {
 
     /* **** updateConnectedDeviceUI **** */
     private void updateConnectedDeviceUI() {
-        connectBeanList.clear();
         GetConnectedDeviceListHelper xGetConnectedDeviceListHelper = new GetConnectedDeviceListHelper();
         xGetConnectedDeviceListHelper.setOnGetDeviceListSuccessListener(bean -> {
+            connectBeanList.clear();// clear一定要放在这个回调监听里做 , 不能放在外面, 否则rcv有可能出现加载数据错误
             List<GetConnectDeviceListBean.ConnectedDeviceBean> connectedList = bean.getConnectedList();
             for (GetConnectDeviceListBean.ConnectedDeviceBean connectedDeviceBean : connectedList) {
-                connectBeanList.add(new ConnectBean(connectedDeviceBean,false));
+                connectBeanList.add(new ConnectBean(connectedDeviceBean, false));
             }
             rvAdapter.notifys(connectBeanList);
         });
@@ -126,7 +126,7 @@ public class DeviceConnectFrag extends BaseFrag {
             mblock.setText(blockPre + blockSize + blockFix);
             if (blockSize > 0) {
                 mblock.setTextColor(getRootColor(R.color.white));
-            }else{
+            } else {
                 mblock.setTextColor(getRootColor(R.color.gray));
             }
         });

@@ -169,7 +169,7 @@ public class HH70ConnectAdapter extends RecyclerView.Adapter<ConnectHolder> {
 
     /* setDeviceName */
     private void setDeviceName(String strDeviceName, String strMac, int nDeviceType) {
-        SetDeviceNameParam setDeviceNameParam= new SetDeviceNameParam();
+        SetDeviceNameParam setDeviceNameParam = new SetDeviceNameParam();
         setDeviceNameParam.setDeviceName(strDeviceName);
         setDeviceNameParam.setMacAddress(strMac);
         setDeviceNameParam.setDeviceType(nDeviceType);

@@ -17,7 +17,6 @@ import com.alcatel.wifilink.widget.HH70_LoadWidget;
 import com.hiber.tools.ShareUtils;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetLanSettingsHelper;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetSystemInfoHelper;
-import com.p_xhelper_smart.p_xhelper_smart.utils.Logg;
 import com.p_xhelper_smart.p_xhelper_smart.utils.SmartUtils;
 
 import butterknife.BindView;
@@ -126,23 +125,22 @@ public class AboutFrag extends BaseFrag {
     private void getSystemInfoData() {
         GetSystemInfoHelper xGetSystemInfoHelper = new GetSystemInfoHelper();
         xGetSystemInfoHelper.setOnGetSystemInfoSuccessListener(result -> {
-            Logg.t("HH42_ALAN_SYS").ii(result.toString());
             // 1.判断是否为HH42(外包)产品
             String devname = ShareUtils.get(RootCons.DEVICE_NAME, RootCons.DEVICE_NAME_DEFAULT);
             boolean isHH42 = RootUtils.isHH42(devname);
 
-            if (isHH42) {// 1.1.HH42(外包)产品
+            if (isHH42) {// 1.1.HH42(外包)产品 - HH42NK_OPEN_MARKET_V1.0.0B12
 
-                // project: 从WebUiVersion取 [WebUiVersion = "HH42NK_V1.1.0B10T01"]
-                // custom: 从SwVersion截取拼接 [SwVersion = "GW42_TCL_NK_OPEN_MARKET_V1.0.0B10T01"]
-                // version: project拼接custon [SwVersion = "GW42_TCL_NK_OPEN_MARKET_V1.0.0B10T01"]
+                // project: 从SwVersion取 [SwVersion = "HH42NK_OPEN_MARKET_V1.0.0B12"]
+                // custom: 从SwVersion截取拼接 [SwVersion = "HH42NK_OPEN_MARKET_V1.0.0B12"]
+                // version: project拼接custon [SwVersion = "HH42NK_OPEN_MARKET_V1.0.0B12"]
                 // 格式: https://www.alcatel-move.com/um/url.html?project=HH42NK&custom=open_market&version=HH42NK_open_market&lang=en
 
-                mProject = result.getWebUiVersion().split("_")[0];
-                String custom_pre = result.getSwVersion().split("_")[3].toLowerCase();
-                String custom_pif = result.getSwVersion().split("_")[4].toLowerCase();
-                mCustom = custom_pre + "_" + custom_pif;
-                mVersion = mProject + "_" + custom_pre + "_" + custom_pif;
+                mProject = result.getSwVersion().split("_")[0];
+                String custom_open = result.getSwVersion().split("_")[1].toLowerCase();
+                String custom_market = result.getSwVersion().split("_")[2].toLowerCase();
+                mCustom = custom_open + "_" + custom_market;
+                mVersion = mProject + "_" + custom_open + "_" + custom_market;
 
             } else {// 1.1.TCL自营产品
                 String swVersion = result.getSwVersion();
@@ -168,7 +166,6 @@ public class AboutFrag extends BaseFrag {
 
         GetLanSettingsHelper xGetLanSettingsHelper = new GetLanSettingsHelper();
         xGetLanSettingsHelper.setOnGetLanSettingsSuccessListener(result -> {
-            Logg.t("HH42_ALAN_SYS").ii(result.toString());
             mManagementIpTxt.setText(result.getIPv4IPAddress().isEmpty() ? "0.0.0.0" : result.getIPv4IPAddress());
             mSubnetMaskTxt.setText(result.getSubnetMask().isEmpty() ? "0.0.0.0" : result.getSubnetMask());
         });

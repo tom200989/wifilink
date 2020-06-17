@@ -15,6 +15,7 @@ import com.hiber.cons.TimerState;
 import com.hiber.tools.ShareUtils;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetUsageRecordHelper;
 import com.p_xhelper_smart.p_xhelper_smart.helper.SetUsageRecordClearHelper;
+import com.p_xhelper_smart.p_xhelper_smart.utils.Logg;
 
 import butterknife.BindView;
 
@@ -82,7 +83,7 @@ public class UsageRxFrag extends BaseFrag {
         resetSuccess = activity.getString(R.string.hh70_success);
         usageHelper = new UsageHelper(getActivity());
         //加个箭头表示可点击
-        tvMobileNetworkSetting.setText(String.valueOf(tvMobileNetworkSetting.getText()+" >"));
+        tvMobileNetworkSetting.setText(String.valueOf(tvMobileNetworkSetting.getText() + " >"));
     }
 
     @Override
@@ -179,6 +180,8 @@ public class UsageRxFrag extends BaseFrag {
             usedData_l = result.getHUseData();
             UsageHelper.Usage hUseDataByte = UsageHelper.getUsageByte(getActivity(), usedData_l);
             String used = hUseDataByte.usage;
+            // TODO: 2020/6/17  
+            Logg.t("HH71_NEW").ii("used 获取已使用流量 = " + used);
             String currentLanguage = ShareUtils.get(RootCons.LOCALE_LANGUAGE_COUNTRY, "");
             if (currentLanguage.contains(RootCons.LANGUAGES.RUSSIAN)) {
                 used = used.replace(".", ",") + " ";
@@ -197,6 +200,8 @@ public class UsageRxFrag extends BaseFrag {
             String normal = usedData_s + "/" + monthly_s;
             tvNetworkTraffic.setText(monthly_l <= 0 ? usedData_s : normal);
         });
+        
+        
         xGetUsageRecordHelper.getUsageRecord(UsageHelper.getCurrentTime());
         // 获取月流量
         UsageSettingHelper helper = new UsageSettingHelper();
@@ -214,6 +219,7 @@ public class UsageRxFrag extends BaseFrag {
             // 处理已经使用流量
             UsageHelper.Usage hUseDataByte = UsageHelper.getUsageByte(getActivity(), usedData_l);
             String used = hUseDataByte.usage;
+            Logg.t("HH71_NEW").ii("used 获取月流量 = " + used);
             if (currentLanguage.contains(RootCons.LANGUAGES.RUSSIAN)) {
                 used = used.replace(".", ",") + " ";
             }

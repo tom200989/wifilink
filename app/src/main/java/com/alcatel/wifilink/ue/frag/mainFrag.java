@@ -50,7 +50,6 @@ import com.p_xhelper_smart.p_xhelper_smart.helper.GetSimStatusHelper;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetSystemInfoHelper;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetSystemStatusHelper;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetWanSettingsHelper;
-import com.p_xhelper_smart.p_xhelper_smart.utils.Logg;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -154,10 +153,16 @@ public class mainFrag extends BaseFrag {
     private boolean isNoService = true;// 是否当前不在服务区(默认不在)
     private int temp = 0;
     private ClickDoubleHelper clickDouble;
+    private String ethernet;
 
     @Override
     public int onInflateLayout() {
         return R.layout.hh70_frag_main;
+    }
+
+    @Override
+    public void initViewFinish(View inflateView) {
+        ethernet = activity.getString(R.string.hh70_Ethernet);
     }
 
     @Override
@@ -707,7 +712,6 @@ public class mainFrag extends BaseFrag {
         NetworkInfoHelper networkHelper = new NetworkInfoHelper() {
             @Override
             public void noRegister() {
-                Logg.t("HH42_ALAN").ww("fw had no register");
                 if (rlSignalPanel != null) {
                     rlSignalPanel.setVisibility(View.VISIBLE);
                 }
@@ -725,8 +729,6 @@ public class mainFrag extends BaseFrag {
 
             @Override
             public void register(GetNetworkInfoBean result) {
-                // TODO: 2020/6/17  
-                Logg.t("HH42_ALAN").ii(result.toString());
                 rlSignalPanel.setVisibility(View.VISIBLE);
                 // 设置漫游+信号强度
                 boolean isRoam = result.getRoaming() == GetNetworkInfoBean.CONS_ROAMING;
@@ -755,7 +757,8 @@ public class mainFrag extends BaseFrag {
         // 1.显示UI
         buttonUi(WAN_CONNECT_MODE);// 显示wan口按钮
         tvNetworkType.setVisibility(isMWDev ? View.GONE : View.VISIBLE);
-        tvNetworkType.setText(activity.getString(R.string.hh70_Ethernet));// 显示网络类型文本
+
+        tvNetworkType.setText(ethernet);// 显示网络类型文本
         rlSignalPanel.setVisibility(View.GONE);// 信号面板消隐
         // 2.获取连接设备数
         getDevice();
