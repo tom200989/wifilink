@@ -29,4 +29,12 @@ public class GetNetworkRegisterStateBean implements Serializable {
     public void setRegist_state(int regist_state) {
         this.regist_state = regist_state;
     }
+
+    @Override
+    public String toString() {
+        final StringBuffer sb = new StringBuffer("GetNetworkRegisterStateBean{");
+        sb.append("\n").append("\t").append("regist_state =").append(regist_state);
+        sb.append("\n}");
+        return sb.toString();
+    }
 }

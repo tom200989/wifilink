@@ -310,4 +310,38 @@ public class GetNetworkInfoBean implements Serializable {
     public void setRSCP(int RSCP) {
         this.RSCP = RSCP;
     }
+
+    @Override
+    public String toString() {
+        final StringBuffer sb = new StringBuffer("GetNetworkInfoBean{");
+        sb.append("\n").append("\t").append("PLMN ='").append(PLMN).append('\'');
+        sb.append("\n").append("\t").append("NetworkType =").append(NetworkType);
+        sb.append("\n").append("\t").append("NetworkName ='").append(NetworkName).append('\'');
+        sb.append("\n").append("\t").append("SpnName ='").append(SpnName).append('\'');
+        sb.append("\n").append("\t").append("LAC ='").append(LAC).append('\'');
+        sb.append("\n").append("\t").append("CellId ='").append(CellId).append('\'');
+        sb.append("\n").append("\t").append("RncId ='").append(RncId).append('\'');
+        sb.append("\n").append("\t").append("Roaming =").append(Roaming);
+        sb.append("\n").append("\t").append("Domestic_Roaming =").append(Domestic_Roaming);
+        sb.append("\n").append("\t").append("SignalStrength =").append(SignalStrength);
+        sb.append("\n").append("\t").append("mcc ='").append(mcc).append('\'');
+        sb.append("\n").append("\t").append("mnc ='").append(mnc).append('\'');
+        sb.append("\n").append("\t").append("SINR ='").append(SINR).append('\'');
+        sb.append("\n").append("\t").append("RSRP ='").append(RSRP).append('\'');
+        sb.append("\n").append("\t").append("RSSI ='").append(RSSI).append('\'');
+        sb.append("\n").append("\t").append("eNBID ='").append(eNBID).append('\'');
+        sb.append("\n").append("\t").append("CGI ='").append(CGI).append('\'');
+        sb.append("\n").append("\t").append("CenterFreq ='").append(CenterFreq).append('\'');
+        sb.append("\n").append("\t").append("TxPWR ='").append(TxPWR).append('\'');
+        sb.append("\n").append("\t").append("LTE_state =").append(LTE_state);
+        sb.append("\n").append("\t").append("PLMN_name ='").append(PLMN_name).append('\'');
+        sb.append("\n").append("\t").append("Band =").append(Band);
+        sb.append("\n").append("\t").append("DL_channel ='").append(DL_channel).append('\'');
+        sb.append("\n").append("\t").append("UL_channel ='").append(UL_channel).append('\'');
+        sb.append("\n").append("\t").append("RSRQ ='").append(RSRQ).append('\'');
+        sb.append("\n").append("\t").append("EcIo =").append(EcIo);
+        sb.append("\n").append("\t").append("RSCP =").append(RSCP);
+        sb.append("\n}");
+        return sb.toString();
+    }
 }

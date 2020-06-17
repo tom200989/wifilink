@@ -707,7 +707,7 @@ public class mainFrag extends BaseFrag {
         NetworkInfoHelper networkHelper = new NetworkInfoHelper() {
             @Override
             public void noRegister() {
-                Logg.t("HH42_REGISTER").ww("fw had no register");
+                Logg.t("HH42_ALAN").ww("fw had no register");
                 if (rlSignalPanel != null) {
                     rlSignalPanel.setVisibility(View.VISIBLE);
                 }
@@ -725,6 +725,8 @@ public class mainFrag extends BaseFrag {
 
             @Override
             public void register(GetNetworkInfoBean result) {
+                // TODO: 2020/6/17  
+                Logg.t("HH42_ALAN").ii(result.toString());
                 rlSignalPanel.setVisibility(View.VISIBLE);
                 // 设置漫游+信号强度
                 boolean isRoam = result.getRoaming() == GetNetworkInfoBean.CONS_ROAMING;

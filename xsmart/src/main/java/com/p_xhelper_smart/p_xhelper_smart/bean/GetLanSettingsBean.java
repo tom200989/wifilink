@@ -118,4 +118,21 @@ public class GetLanSettingsBean implements Serializable {
     public void setDHCPLeaseTime(int DHCPLeaseTime) {
         this.DHCPLeaseTime = DHCPLeaseTime;
     }
+
+    @Override
+    public String toString() {
+        final StringBuffer sb = new StringBuffer("GetLanSettingsBean{");
+        sb.append("\n").append("\t").append("DNSMode =").append(DNSMode);
+        sb.append("\n").append("\t").append("DNSAddress1 ='").append(DNSAddress1).append('\'');
+        sb.append("\n").append("\t").append("DNSAddress2 ='").append(DNSAddress2).append('\'');
+        sb.append("\n").append("\t").append("IPv4IPAddress ='").append(IPv4IPAddress).append('\'');
+        sb.append("\n").append("\t").append("host_name ='").append(host_name).append('\'');
+        sb.append("\n").append("\t").append("SubnetMask ='").append(SubnetMask).append('\'');
+        sb.append("\n").append("\t").append("DHCPServerStatus =").append(DHCPServerStatus);
+        sb.append("\n").append("\t").append("StartIPAddress ='").append(StartIPAddress).append('\'');
+        sb.append("\n").append("\t").append("EndIPAddress ='").append(EndIPAddress).append('\'');
+        sb.append("\n").append("\t").append("DHCPLeaseTime =").append(DHCPLeaseTime);
+        sb.append("\n}");
+        return sb.toString();
+    }
 }

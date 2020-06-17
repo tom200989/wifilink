@@ -17,6 +17,7 @@ import com.alcatel.wifilink.widget.HH70_LoadWidget;
 import com.hiber.tools.ShareUtils;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetLanSettingsHelper;
 import com.p_xhelper_smart.p_xhelper_smart.helper.GetSystemInfoHelper;
+import com.p_xhelper_smart.p_xhelper_smart.utils.Logg;
 import com.p_xhelper_smart.p_xhelper_smart.utils.SmartUtils;
 
 import butterknife.BindView;
@@ -125,7 +126,7 @@ public class AboutFrag extends BaseFrag {
     private void getSystemInfoData() {
         GetSystemInfoHelper xGetSystemInfoHelper = new GetSystemInfoHelper();
         xGetSystemInfoHelper.setOnGetSystemInfoSuccessListener(result -> {
-
+            Logg.t("HH42_ALAN_SYS").ii(result.toString());
             // 1.判断是否为HH42(外包)产品
             String devname = ShareUtils.get(RootCons.DEVICE_NAME, RootCons.DEVICE_NAME_DEFAULT);
             boolean isHH42 = RootUtils.isHH42(devname);
@@ -167,6 +168,7 @@ public class AboutFrag extends BaseFrag {
 
         GetLanSettingsHelper xGetLanSettingsHelper = new GetLanSettingsHelper();
         xGetLanSettingsHelper.setOnGetLanSettingsSuccessListener(result -> {
+            Logg.t("HH42_ALAN_SYS").ii(result.toString());
             mManagementIpTxt.setText(result.getIPv4IPAddress().isEmpty() ? "0.0.0.0" : result.getIPv4IPAddress());
             mSubnetMaskTxt.setText(result.getSubnetMask().isEmpty() ? "0.0.0.0" : result.getSubnetMask());
         });
