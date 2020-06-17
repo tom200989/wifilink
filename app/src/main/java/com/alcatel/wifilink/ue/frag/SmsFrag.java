@@ -182,12 +182,14 @@ public class SmsFrag extends BaseFrag {
         xGetSMSContactListHelper.setOnGetSmsContactListSuccessListener(bean -> {
             // 没有短信时
             if (bean.getSMSContactList() == null) {
+                rcvSms.setVisibility(View.GONE);
                 noSms.setVisibility(View.VISIBLE);
                 return;
             }
 
             // 没有短信时
             if (bean.getSMSContactList().size() == 1) {
+                rcvSms.setVisibility(View.GONE);
                 GetSMSContactListBean.SMSContacBean smsContacBean = bean.getSMSContactList().get(0);
                 if (smsContacBean.getSMSContent() == null) {
                     noSms.setVisibility(View.VISIBLE);
@@ -199,6 +201,7 @@ public class SmsFrag extends BaseFrag {
             smsContactListBean = bean;
             otherSmsContactBeanList = RootUtils.getSMSSelfList(smsContactListBean);
             smsRcvAdapter.notifys(otherSmsContactBeanList);
+            rcvSms.setVisibility(View.VISIBLE);
             noSms.setVisibility(smsContactListBean.getSMSContactList().size() > 0 ? View.GONE : View.VISIBLE);
         });
         xGetSMSContactListHelper.getSMSContactList(0);
@@ -210,8 +213,11 @@ public class SmsFrag extends BaseFrag {
     private void deleteSessionSms(List<Long> contactIds) {
         SmsDeleteSessionHelper sdsh = new SmsDeleteSessionHelper();
         sdsh.setOnFwErrorListener(this::delFailedReset);
-        sdsh.setOnAppErrorListener(this::delSuccessReset);
-        sdsh.setOnDeteledMoreSessionSuccessListener(attr -> delSuccessReset());
+        sdsh.setOnAppErrorListener(this::delFailedReset);
+        sdsh.setOnDeteledMoreSessionSuccessListener(attr -> {
+            getSmsContactList();
+            delSuccessReset();
+        });
         sdsh.deletedOneOrMoreSessionSms(contactIds);
     }
 
