@@ -6,6 +6,7 @@ import com.tcl.token.javaToken.BASE64_src.sun.misc.BASE64Encoder;
 
 /*
  * Created by qianli.ma on 2019/7/26 0026.
+ * 本加密类适用于ICOT类产品(非all in one的CPE产品)
  */
 public class EncryptUtils {
 
