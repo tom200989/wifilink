@@ -85,16 +85,7 @@ public class EncryptUtils2 {
      * @return 时间戳(8字节数组)
      */
     private byte[] getTimeStampBts() {
-        // 获取时间戳(long)
-        long tempTimeStamp = timeStamp_l;
-        // 创建8位字节数组
-        byte[] b = new byte[8];
-        for (int i = 0; i < b.length; i++) {
-            b[b.length - 1 - i] = Long.valueOf(tempTimeStamp & 0xFF).byteValue();
-            // 向右移8位 
-            tempTimeStamp = tempTimeStamp >> 8;
-        }
-        return b;
+        return getbts(timeStamp_l);
     }
 
     /**
@@ -106,7 +97,6 @@ public class EncryptUtils2 {
         return new String(getTimeStampBts());
     }
 
-
     /**
      * 获取随机数 sign(秒) - bytes[8]
      *
@@ -114,15 +104,7 @@ public class EncryptUtils2 {
      */
     private byte[] getSignBts() {
         // 获取随机数(long)
-        long tempSign = sign_l;
-        // 创建8位字节数组
-        byte[] b = new byte[8];
-        for (int i = 0; i < b.length; i++) {
-            b[b.length - 1 - i] = Long.valueOf(tempSign & 0xFF).byteValue();
-            // 向右移8位 
-            tempSign = tempSign >> 8;
-        }
-        return b;
+        return getbts(sign_l);
     }
 
     /**
@@ -132,5 +114,24 @@ public class EncryptUtils2 {
      */
     public String getSignStr() {
         return new String(getSignBts());
+    }
+
+    /**
+     * 转换long - byte
+     *
+     * @param num 原始数字
+     * @return 转换后的byte数组
+     */
+    private byte[] getbts(long num) {
+        // 获取时间戳(long)
+        long tempNum = num;
+        // 创建8位字节数组
+        byte[] b = new byte[8];
+        for (int i = 0; i < b.length; i++) {
+            b[b.length - 1 - i] = Long.valueOf(tempNum & 0xFF).byteValue();
+            // 向右移8位 
+            tempNum = tempNum >> 8;
+        }
+        return b;
     }
 }
