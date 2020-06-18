@@ -102,7 +102,7 @@ public class EncryptUtils2 {
      *
      * @return 时间戳(字符)
      */
-    private String getTimeStampStr() {
+    public String getTimeStampStr() {
         return new String(getTimeStampBts());
     }
 
@@ -130,7 +130,7 @@ public class EncryptUtils2 {
      *
      * @return 随机数(字符)
      */
-    private String getSignStr() {
+    public String getSignStr() {
         return new String(getSignBts());
     }
 }
