@@ -91,7 +91,7 @@ public class XSmart<T> {
     /**
      * 是否打印头部信息 (T: 打印)
      */
-    public static boolean PRINT_HEAD = false;
+    public static boolean PRINT_HEAD = true;
 
     /**
      * 是否打印进度 (T: 打印)

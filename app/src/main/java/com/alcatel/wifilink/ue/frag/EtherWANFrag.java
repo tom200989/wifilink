@@ -112,8 +112,8 @@ public class EtherWANFrag extends BaseFrag {
     private void connectWan() {
 
         // 检测MTU是否符合规则
-        int pppoeMtu = Integer.valueOf(TextUtils.isEmpty(RootUtils.getEDText(mPppoeMtu)) ? "1492" : RootUtils.getEDText(mPppoeMtu));
-        int staticMtu = Integer.valueOf(TextUtils.isEmpty(RootUtils.getEDText(mStaticIpMtu)) ? "1500" : RootUtils.getEDText(mStaticIpMtu));
+        int pppoeMtu = Integer.parseInt(TextUtils.isEmpty(RootUtils.getEDText(mPppoeMtu)) ? "1492" : RootUtils.getEDText(mPppoeMtu));
+        int staticMtu = Integer.parseInt(TextUtils.isEmpty(RootUtils.getEDText(mStaticIpMtu)) ? "1500" : RootUtils.getEDText(mStaticIpMtu));
         if (flag == GetWanSettingsBean.CONS_PPPOE) {
             if (pppoeMtu < 576 || pppoeMtu > 1492) {
                 String content = activity.getString(R.string.hh70_mtu_between_576).replace("1500", "1492");
