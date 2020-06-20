@@ -65,8 +65,16 @@ public class EncryptUtils2 {
      * @return 返回key
      */
     private byte[] getKey() {
-        // TODO: 2020/6/18  
-        return new byte[8];
+        byte[] timeStampBts = getTimeStampBts();
+        byte[] keyBytes = getPreBytes(new byte[16], timeStampBts);
+        for (int i = 0; i < 4; i++) {
+            keyBytes[i + 8] = timeStampBts[4 - i];
+        }
+        byte[] signBts = getSignBts();
+        for (int i = 0; i < 4; i++) {
+            keyBytes[i + 12] = signBts[4 - i];
+        }
+        return keyBytes;
     }
 
     /**
@@ -75,9 +83,33 @@ public class EncryptUtils2 {
      * @return 返回IV
      */
     private byte[] getIv() {
-        // TODO: 2020/6/18  
-        return new byte[8];
+        byte[] signBts = getSignBts();
+        byte[] ivBytes = getPreBytes(new byte[16], signBts);
+
+        for (int i = 0; i < 4; i++) {
+            ivBytes[i + 8] = signBts[8 - i];
+        }
+
+        byte[] timeStampBts = getTimeStampBts();
+        for (int i = 0; i < 4; i++) {
+            ivBytes[i+12] = timeStampBts[8-i];
+        }
+        return ivBytes;
     }
+
+
+
+    private byte[] getPreBytes(byte[] desBytes,byte[] srcBytes) {
+        for (int i = 0; i < srcBytes.length; i++) {
+            if (i == srcBytes.length - 1) {
+                desBytes[i] = (byte) (srcBytes[i] & srcBytes[0]);
+            } else {
+                desBytes[i] = (byte) (srcBytes[i] & srcBytes[i + 1]);
+            }
+        }
+        return desBytes;
+    }
+
 
     /**
      * 获取时间戳 timestamp(秒) - bytes[8]
