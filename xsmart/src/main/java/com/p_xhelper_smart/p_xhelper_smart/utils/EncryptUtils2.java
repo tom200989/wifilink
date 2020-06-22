@@ -92,14 +92,36 @@ public class EncryptUtils2 {
 
         byte[] timeStampBts = getTimeStampBts();
         for (int i = 0; i < 4; i++) {
-            ivBytes[i+12] = timeStampBts[8-i];
+            ivBytes[i + 12] = timeStampBts[8 - i];
         }
         return ivBytes;
     }
 
 
-
-    private byte[] getPreBytes(byte[] desBytes,byte[] srcBytes) {
+    /**
+     * 封装前8个字节, 规则如下:
+     * <p>
+     * key 输入参数包括timestamp，sign，各参数定义如下：
+     * 1. timestamp: 时间戳, 8字节整型
+     * 2. sign: 随机数，8字节整型
+     * <p>
+     * 结构如下：
+     * +---8bytes---+--4bytes--+--4bytes--+
+     * |    n       |   t_H4   | signH4   |
+     * <p>
+     * 1. signH4: sign 高四位（小端字节序）。
+     * 2. t_H4: timestamp 高四位（小端字节序）。
+     * 3. n: timestamp 按字节序依次做与运算
+     * byte1(n) = byte1(timestamp) & byte2(timestamp)
+     * byte2(n) = byte2(timestamp) & byte3(timestamp)
+     * ...
+     * byte8(n) = byte8(timestamp) & byte1(timestamp)
+     *
+     * @param desBytes 目标字节数组
+     * @param srcBytes 原始字节数组
+     * @return 前8个字节
+     */
+    private byte[] getPreBytes(byte[] desBytes, byte[] srcBytes) {
         for (int i = 0; i < srcBytes.length; i++) {
             if (i == srcBytes.length - 1) {
                 desBytes[i] = (byte) (srcBytes[i] & srcBytes[0]);
