@@ -12,7 +12,7 @@ import java.util.Random;
  */
 public class EncryptUtils2 {
 
-    private String uid; // 用户uid
+    private static String uid; // 用户uid
     private static long sign_l;// 随机数
     private static long timeStamp_l;// 时间
 
@@ -27,12 +27,12 @@ public class EncryptUtils2 {
      * 获取加密后的token
      * 格式: token = base64(ase128(uid, key, iv))
      *
-     * @param uid 用户UID(外部传入)
+     * @param uid_k 用户UID(外部传入)
      * @return 加密后token
      */
-    public String getRefreshToken(String uid) {
+    public static String getRefreshToken(String uid_k) {
         // 准备加密要素
-        this.uid = uid;
+        uid = uid_k;
         byte[] data = uid.getBytes(StandardCharsets.UTF_8);
         byte[] key = getKey();
         byte[] iv = getIv();
@@ -46,7 +46,7 @@ public class EncryptUtils2 {
      *
      * @return Authorization
      */
-    public String getAuthorzation() {
+    public static String getAuthorzation() {
         StringBuilder sb = new StringBuilder();
         sb.append("Authorization:");
         sb.append("sign=").append(getSignStr()).append(";");
@@ -64,7 +64,7 @@ public class EncryptUtils2 {
      *
      * @return 返回key
      */
-    private byte[] getKey() {
+    private static byte[] getKey() {
         byte[] timeStampBts = getTimeStampBts();
         byte[] keyBytes = getPreBytes(new byte[16], timeStampBts);
         for (int i = 0; i < 4; i++) {
@@ -82,7 +82,7 @@ public class EncryptUtils2 {
      *
      * @return 返回IV
      */
-    private byte[] getIv() {
+    private static byte[] getIv() {
         byte[] signBts = getSignBts();
         byte[] ivBytes = getPreBytes(new byte[16], signBts);
 
@@ -121,7 +121,7 @@ public class EncryptUtils2 {
      * @param srcBytes 原始字节数组
      * @return 前8个字节
      */
-    private byte[] getPreBytes(byte[] desBytes, byte[] srcBytes) {
+    private static byte[] getPreBytes(byte[] desBytes, byte[] srcBytes) {
         for (int i = 0; i < srcBytes.length; i++) {
             if (i == srcBytes.length - 1) {
                 desBytes[i] = (byte) (srcBytes[i] & srcBytes[0]);
@@ -138,7 +138,7 @@ public class EncryptUtils2 {
      *
      * @return 时间戳(8字节数组)
      */
-    private byte[] getTimeStampBts() {
+    private static byte[] getTimeStampBts() {
         return getbts(timeStamp_l);
     }
 
@@ -147,7 +147,7 @@ public class EncryptUtils2 {
      *
      * @return 时间戳(字符)
      */
-    public String getTimeStampStr() {
+    public static String getTimeStampStr() {
         return new String(getTimeStampBts());
     }
 
@@ -156,7 +156,7 @@ public class EncryptUtils2 {
      *
      * @return 随机数(8字节数组)
      */
-    private byte[] getSignBts() {
+    private static byte[] getSignBts() {
         // 获取随机数(long)
         return getbts(sign_l);
     }
@@ -166,7 +166,7 @@ public class EncryptUtils2 {
      *
      * @return 随机数(字符)
      */
-    public String getSignStr() {
+    public static String getSignStr() {
         return new String(getSignBts());
     }
 
@@ -176,7 +176,7 @@ public class EncryptUtils2 {
      * @param num 原始数字
      * @return 转换后的byte数组
      */
-    private byte[] getbts(long num) {
+    private static byte[] getbts(long num) {
         // 获取时间戳(long)
         long tempNum = num;
         // 创建8位字节数组

@@ -17,10 +17,12 @@ public class XCons {
     public static int ENCRYPT_DEV_ROUTER = 0;// 路由设备
     public static int ENCRYPT_DEV_HOTSPOT = 1;// 热点设备
     public static int ENCRYPT_DEV_TARGET = 2;// 定制设备
+    public static int ENCRYPT_DEV_5G_CPE = 3;// 5G-CPE设备
 
     public static List<String> ENCRYPT_LIST_DEV_ROUTER = new ArrayList<>();
     public static List<String> ENCRYPT_LIST_DEV_HOTSPOT = new ArrayList<>();
     public static List<String> ENCRYPT_LIST_DEV_TARGET = new ArrayList<>();
+    public static List<String> ENCRYPT_LIST_DEV_5G_CPE = new ArrayList<>();
 
     static {
         // 路由设备(仅针对加密)
@@ -30,14 +32,20 @@ public class XCons {
         ENCRYPT_LIST_DEV_ROUTER.add("hub40");
         ENCRYPT_LIST_DEV_ROUTER.add("hh41");
         ENCRYPT_LIST_DEV_ROUTER.add("hub41");
+        ENCRYPT_LIST_DEV_ROUTER.add("hh42");
+        ENCRYPT_LIST_DEV_ROUTER.add("hub42");
         ENCRYPT_LIST_DEV_ROUTER.add("hub71");
         ENCRYPT_LIST_DEV_ROUTER.add("hh71");
         // 热点设备(仅针对加密)
         ENCRYPT_LIST_DEV_HOTSPOT.add("mw12");
         ENCRYPT_LIST_DEV_HOTSPOT.add("mw70");
         ENCRYPT_LIST_DEV_HOTSPOT.add("mw43");
+        ENCRYPT_LIST_DEV_HOTSPOT.add("mw45");
         // 定制设备(仅针对加密)
         ENCRYPT_LIST_DEV_TARGET.add("E1");
+        // TODO: 2020/6/22  等待FW开发完毕后再填入具体型号
+        // 5G CPE的设备
+        ENCRYPT_LIST_DEV_5G_CPE.add("5G");
     }
 
     // 方法

@@ -58,6 +58,13 @@ public class SmartUtils {
                 return XCons.ENCRYPT_DEV_TARGET;
             }
         }
+        // 5G-CPE设备
+        for (String dev : XCons.ENCRYPT_LIST_DEV_5G_CPE) {
+            if (deviceName.contains(dev) || dev.contains(deviceName)) {
+                return XCons.ENCRYPT_DEV_5G_CPE;
+            }
+        }
+
         // 未知设备
         return XCons.ENCRYPT_DEV_UNKNOWN;
     }

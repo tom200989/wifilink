@@ -41,7 +41,7 @@ import java.util.List;
 public class XSmart<T> {
 
     // key
-    public static final String AUTHORIZATION = "KSDHSDFOGQ5WERYTUIQWERTYUISDFG1HJZXCVCXBN2GDSMNDHKVKFsVBNf";
+    public static String AUTHORIZATION = "KSDHSDFOGQ5WERYTUIQWERTYUISDFG1HJZXCVCXBN2GDSMNDHKVKFsVBNf";
     public static final String KEY = "e5dl12XYVggihggafXWf0f2YSf2Xngd1";
     // url
     private static final String HTTP = "http://";
@@ -568,8 +568,33 @@ public class XSmart<T> {
         requstBody.setParams(object != null ? object : new Object());
         TypeUtils.compatibleWithJavaBean = true;// 保证fastjson传递数据时保持原大小写的设置(解决全大写)
         TypeUtils.compatibleWithFieldName = true;// 保证fastjson传递数据时保持原大小写的设置(解决首字母大小)
-        return JSON.toJSONString(requstBody);
+        String json = JSON.toJSONString(requstBody);
+        // todo 根据设备型号是否为5GCPE进行加密算法处理
+        return json;
     }
+
+    /**
+     * 原文 - 密文 (对请求的body json进行加密)
+     *
+     * @param json 原文
+     * @return 密文
+     */
+    private String encryptBody(String json) {
+        // TODO: 2020/6/22 等待FW的具体算法
+        return null;
+    }
+
+    /**
+     * 密文 - 原文 (把响应的密文转为原文)
+     *
+     * @param encrypt 密文
+     * @return 原文
+     */
+    private String decryptBody(String encrypt) {
+        // TODO: 2020/6/22 等待FW的具体算法
+        return null;
+    }
+
 
     /**
      * 切换请求方式类型

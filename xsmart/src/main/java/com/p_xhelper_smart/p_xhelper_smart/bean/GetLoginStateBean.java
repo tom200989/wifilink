@@ -26,6 +26,8 @@ public class GetLoginStateBean implements Serializable {
 
     public GetLoginStateBean() {
     }
+    
+    
 
     public int getPwEncrypt() {
         return PwEncrypt;

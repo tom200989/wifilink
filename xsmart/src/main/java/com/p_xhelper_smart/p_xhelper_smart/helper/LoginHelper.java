@@ -8,6 +8,7 @@ import com.p_xhelper_smart.p_xhelper_smart.bean.GetSystemInfoBean;
 import com.p_xhelper_smart.p_xhelper_smart.core.XSmart;
 import com.p_xhelper_smart.p_xhelper_smart.impl.FwError;
 import com.p_xhelper_smart.p_xhelper_smart.impl.XNormalCallback;
+import com.p_xhelper_smart.p_xhelper_smart.utils.EncryptUtils2;
 import com.p_xhelper_smart.p_xhelper_smart.utils.XCons;
 import com.p_xhelper_smart.p_xhelper_smart.utils.EncryptUtils;
 import com.p_xhelper_smart.p_xhelper_smart.utils.Logg;
@@ -49,8 +50,9 @@ public class LoginHelper extends BaseHelper {
         xGetSystemInfoHelper.setOnGetSystemInfoSuccessListener(getSystemInfobean -> {
             // 0.提交本地变量
             this.getSystemInfoBean = getSystemInfobean;
-            devType = SmartUtils.getDEVType(getSystemInfobean.getDeviceName());
-            // 1.判断是否为E1版本
+            String deviceName = getSystemInfobean.getDeviceName();
+            devType = SmartUtils.getDEVType(deviceName);
+            // 1.判断是否为E1版本 (定制设备)
             if (devType == XCons.ENCRYPT_DEV_TARGET) {
                 // 1.1.E1版本必须加密
                 encryptAccAndPsd(true);
@@ -84,7 +86,8 @@ public class LoginHelper extends BaseHelper {
     private void isPwEncrypt() {
         GetLoginStateHelper loginStateHelper = new GetLoginStateHelper();
         loginStateHelper.setOnGetLoginStateSuccessListener(loginStateBean -> {
-            // 获取PW-ENCRYPT字段: 1 -- 需要加密; 0 -- 不需要加密
+            // 获取PW-ENCRYPT字段: 1 -- 需要加密; 0 -- 不需要加密 
+            // 注意: 5G-CPE all in on 的产品没有PWEncrypt这个字段, 会导致程序默认认为无需加密
             boolean isEncrypt = loginStateBean.getPwEncrypt() == GetLoginStateBean.CONS_PWENCRYPT_ON;
             // 进行加密操作
             encryptAccAndPsd(isEncrypt);
@@ -161,7 +164,12 @@ public class LoginHelper extends BaseHelper {
                 // 查询辅助标记置零
                 count = 0;
                 // 更新token
-                updateToken(loginBean);
+                if (devType == XCons.ENCRYPT_DEV_5G_CPE) {
+                    updateToken2(loginBean);
+                } else {
+                    updateToken(loginBean);
+                }
+
                 // 回调
                 loginSuccessNext();
                 doneHelperNext();
@@ -215,11 +223,23 @@ public class LoginHelper extends BaseHelper {
     }
 
     /**
+     * 更新token (针对5G-CPE定制的token更新)
+     *
+     * @param loginBean 登陆后返回的token
+     */
+    private void updateToken2(LoginBean loginBean) {
+        String uid = loginBean.getUid();
+        XSmart.AUTHORIZATION = EncryptUtils2.getAuthorzation();
+        XSmart.token = EncryptUtils2.getRefreshToken(uid);
+    }
+
+    /**
      * 对帐号和用户名进行加密
      *
      * @param isEncrypt T:需要加密
      */
     private void encryptAccAndPsd(boolean isEncrypt) {
+
         // 账户名加密 (均为普通算法加密)
         account = isEncrypt ? EncryptUtils.encryptAdmin(account) : account;
         // 密码加密 (分为算法加密或者MD5加密)

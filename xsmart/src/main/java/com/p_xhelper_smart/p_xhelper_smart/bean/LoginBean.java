@@ -10,8 +10,17 @@ public class LoginBean implements Serializable {
     private String token;// token
     private String param0;// key
     private String param1;// iv
+    private String uid;// 5G-CPE特有字段
 
     public LoginBean() {
+    }
+
+    public String getUid() {
+        return uid;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
     }
 
     public String getToken() {
