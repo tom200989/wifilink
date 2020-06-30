@@ -1,0 +1,10 @@
+apply plugin: 'java-library'
+
+dependencies {
+    api fileTree(dir: 'libs', include: ['*.jar'])
+    api files('libs\\ma_bcprov-jdk16-1.46.jar')
+    api files('libs\\ma_jcifs-1.3.17.jar')
+}
+
+sourceCompatibility = "1.7"
+targetCompatibility = "1.7"
