@@ -76,14 +76,10 @@ public class EncryptUtils2 {
         byte[] timeStampBts = getTimeStampBts();
         byte[] bts_n = getPreBytes(new byte[16], timeStampBts);
         //取timestamp的高4位
-        for (int i = 0; i < 4; i++) {
-            bts_n[i + 8] = timeStampBts[4 + i];
-        }
+        System.arraycopy(timeStampBts, 4, bts_n, 8, 4);
         //取signBts的高4位
         byte[] signBts = getSignBts();
-        for (int i = 0; i < 4; i++) {
-            bts_n[i + 12] = signBts[4 + i];
-        }
+        System.arraycopy(signBts, 4, bts_n, 12, 4);
         return bts_n;
     }
 
@@ -96,14 +92,10 @@ public class EncryptUtils2 {
         byte[] signBts = getSignBts();
         byte[] ivBytes = getPreBytes(new byte[16], signBts);
         //取signBts的低4位
-        for (int i = 0; i < 4; i++) {
-            ivBytes[i + 8] = signBts[i];
-        }
+        System.arraycopy(signBts, 0, ivBytes, 8, 4);
         //取timestamp的低4位
         byte[] timeStampBts = getTimeStampBts();
-        for (int i = 0; i < 4; i++) {
-            ivBytes[i + 12] = timeStampBts[i];
-        }
+        System.arraycopy(timeStampBts, 0, ivBytes, 12, 4);
         return ivBytes;
     }
 
