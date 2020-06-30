@@ -21,7 +21,7 @@ public class EncryptUtils2 {
         // sign_l = new Random().nextLong();
         // timeStamp_l = System.currentTimeMillis() / 1000;
         sign_l = 3958129536L;
-        timeStamp_l = 159348387L;
+        timeStamp_l = 1593483872L;
         System.out.println("sign = " + sign_l);
         System.out.println("timeStamp = " + timeStamp_l);
     }
@@ -75,14 +75,14 @@ public class EncryptUtils2 {
     private static byte[] getKey() {
         byte[] timeStampBts = getTimeStampBts();
         byte[] bts_n = getPreBytes(new byte[16], timeStampBts);
+        //取timestamp的高4位
         for (int i = 0; i < 4; i++) {
-            // TODO: 2020/6/30  
-            bts_n[i + 8] = timeStampBts[4 - 1 - i];
+            bts_n[i + 8] = timeStampBts[4 + i];
         }
+        //取signBts的高4位
         byte[] signBts = getSignBts();
         for (int i = 0; i < 4; i++) {
-            // TODO: 2020/6/30  
-            bts_n[i + 12] = signBts[4 - 1 - i];
+            bts_n[i + 12] = signBts[4 + i];
         }
         return bts_n;
     }
@@ -95,16 +95,14 @@ public class EncryptUtils2 {
     private static byte[] getIv() {
         byte[] signBts = getSignBts();
         byte[] ivBytes = getPreBytes(new byte[16], signBts);
-
+        //取signBts的低4位
         for (int i = 0; i < 4; i++) {
-            // TODO: 2020/6/30  
-            ivBytes[i + 8] = signBts[8 - 1 - i];
+            ivBytes[i + 8] = signBts[i];
         }
-
+        //取timestamp的低4位
         byte[] timeStampBts = getTimeStampBts();
         for (int i = 0; i < 4; i++) {
-            // TODO: 2020/6/30  
-            ivBytes[i + 12] = timeStampBts[8 - 1 - i];
+            ivBytes[i + 12] = timeStampBts[i];
         }
         return ivBytes;
     }
@@ -135,7 +133,6 @@ public class EncryptUtils2 {
      */
     private static byte[] getPreBytes(byte[] desBytes, byte[] srcBytes) {
         for (int i = 0; i < srcBytes.length; i++) {
-            // TODO: 2020/6/30  
             if (i == srcBytes.length - 1) {
                 desBytes[i] = (byte) (srcBytes[i] & srcBytes[0]);
             } else {
@@ -183,6 +180,7 @@ public class EncryptUtils2 {
         return new String(getSignBts());
     }
 
+
     /**
      * 转换long - byte
      *
@@ -195,11 +193,11 @@ public class EncryptUtils2 {
         // 创建8位字节数组
         byte[] b = new byte[8];
         for (int i = 0; i < b.length; i++) {
-            b[i] = Long.valueOf(tempNum & 0xFF).byteValue();
-            // 向右移8位 
+            b[i] = Long.valueOf(tempNum & 0x7F).byteValue();
+            // 向右移8位
             tempNum = tempNum >> 8;
         }
-        System.out.println("timestamp = " + HexUtil.formatHexString(b, true));
         return b;
     }
+
 }

@@ -46,6 +46,12 @@ public class HexUtil {
         return formatHexString(data, false);
     }
 
+    /**
+     * 字节数组转成16进制的字符串
+     * @param data
+     * @param addSpace
+     * @return
+     */
     public static String formatHexString(byte[] data, boolean addSpace) {
         if (data == null || data.length < 1)
             return null;
@@ -94,7 +100,11 @@ public class HexUtil {
         return digit;
     }
 
-
+    /**
+     * 16进制字符串转成字节数组
+     * @param hexString
+     * @return
+     */
     public static byte[] hexStringToBytes(String hexString) {
         if (hexString == null || hexString.equals("")) {
             return null;
