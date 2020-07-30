@@ -2,6 +2,8 @@ package com.p_xhelper_smart.p_xhelper_smart.app;
 
 import android.app.Application;
 
+import com.p_xhelper_smart.p_xhelper_smart.utils.Logg;
+
 import org.xutils.x;
 
 /*

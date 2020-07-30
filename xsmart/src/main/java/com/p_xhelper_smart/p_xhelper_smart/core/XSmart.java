@@ -9,6 +9,7 @@ import android.widget.Toast;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.util.TypeUtils;
+import com.p_xhelper_smart.p_xhelper_smart.bean.Logbean;
 import com.p_xhelper_smart.p_xhelper_smart.impl.FwError;
 import com.p_xhelper_smart.p_xhelper_smart.impl.XBackupCallback;
 import com.p_xhelper_smart.p_xhelper_smart.impl.XNormalCallback;
@@ -121,6 +122,10 @@ public class XSmart<T> {
     private int count = 0;// 辅助递归计数器
     private int MAX_COUNT = 9;// 最大请求次数
 
+    // 日志json临时缓存
+    private String tempParamJson = "";
+    private Logbean logbean;
+
     public XSmart() {
         lgg = Logg.t(XCons.TAG).openClose(PRINT_TAG);
     }
@@ -205,6 +210,10 @@ public class XSmart<T> {
      * @param isReq10  是否启动请求10次的操作
      */
     private void request(int type, final XNormalCallback<T> callback, boolean isReq10) {
+        // 创建日志文件夹
+        Logg.createdLogDir();
+        // 创建日志对象
+        logbean = new Logbean();
         // 第一步确认WIFI连接上
         if (SmartUtils.isWifiOn(context)) {
             if (!TextUtils.isEmpty(method)) {
@@ -219,6 +228,7 @@ public class XSmart<T> {
                 // 封装请求方法
                 HttpMethod httpMethod = HttpMethod.POST;
                 httpMethod = getHttpMethod(type, httpMethod);
+                logbean.setRequestMethod("POST");
                 // 发起请求
                 // 打印日志
                 // 交付给接口处理返回
@@ -233,6 +243,7 @@ public class XSmart<T> {
                     public void onSuccess(String result) {
                         // 打印日志
                         XResponceBody xResponceBody = toBean(result, callback);
+                        logbean.setResponceBody(xResponceBody.toString());
                         FwError fwError = xResponceBody.getError();
                         if (fwError != null & count >= 0 & count < MAX_COUNT & isReq10) {
                             request(type, callback, isReq10);
@@ -240,8 +251,11 @@ public class XSmart<T> {
                         } else {
                             count = 0;
                             if (fwError != null) {
+                                logbean.setResponceCode("500");
+                                logbean.setError(fwError.getCode() + " : " + fwError.getMessage());
                                 printFwError(fwError.getCode(), fwError.getMessage());
                             } else {
+                                logbean.setResponceCode("200");
                                 printResponseSuccess(result);
                             }
                             // 交付给接口处理返回
@@ -254,6 +268,8 @@ public class XSmart<T> {
                         count = 0;
                         printAppError(ex);
                         callback.appError(ex);
+                        logbean.setResponceCode("404");
+                        logbean.setError(ex.getMessage());
                     }
 
                     @Override
@@ -261,6 +277,8 @@ public class XSmart<T> {
                         count = 0;
                         printCancel(cex);
                         callback.cancel(cex);
+                        logbean.setResponceCode("403");
+                        logbean.setCancel(cex.getMessage());
                     }
 
                     @Override
@@ -271,6 +289,9 @@ public class XSmart<T> {
                             printFinish();
                             callback.finish();
                         }
+                        // 记录日志
+                        logbean.setRequestParam(requstParams.toJSONString());
+                        Logg.writeToSD(mergeLog(logbean));
                     }
                 });
                 // 添加到请求体集合 -- 统一管理
@@ -281,10 +302,15 @@ public class XSmart<T> {
                 printNormal("请调用 XSmart.xMethod(method) 传入需要访问的方法method");
             }
         } else {
+            logbean.setResponceCode("-1");
+            logbean.setResponceBody("wifi is not open");
+            logbean.setError("wifi is not open");
+            logbean.setCancel("wifi is not open");
             // WIFI断线 -- 切断所有请求
             xCancelAllRequest();
             callback.wifiOff();
             printWifiState(false);
+            Logg.writeToSD(mergeLog(logbean));
         }
     }
 
@@ -543,6 +569,7 @@ public class XSmart<T> {
         printNormal("prepare to request params");
         String gateWay = SmartUtils.getWIFIGateWay(context);// 获取网关
         RequestParams params = new RequestParams(HTTP + gateWay + JRD);
+        logbean.setUrl(HTTP + gateWay + JRD + "/" + method);
         params.setHostnameVerifier(HostnameUtils.getVerify(context));
         params.setConnectTimeout(TIMEOUT);
         params.setReadTimeout(TIMEOUT);
@@ -569,6 +596,7 @@ public class XSmart<T> {
         TypeUtils.compatibleWithJavaBean = true;// 保证fastjson传递数据时保持原大小写的设置(解决全大写)
         TypeUtils.compatibleWithFieldName = true;// 保证fastjson传递数据时保持原大小写的设置(解决首字母大小)
         String json = JSON.toJSONString(requstBody);
+        tempParamJson = json;
         // todo 根据设备型号是否为5GCPE进行加密算法处理
         return json;
     }
@@ -735,5 +763,27 @@ public class XSmart<T> {
         } else {
             lgg.ww("wifi is off");
         }
+    }
+
+    /**
+     * 拼接成python能解析的字符串
+     *
+     * @param logbean 日志对象
+     * @return 字符
+     */
+    private String mergeLog(Logbean logbean) {
+        StringBuffer buffer = new StringBuffer();
+        // {'url':'xxxxxx',.....}
+        buffer.append("#ma#{");
+        buffer.append("\'").append("date").append("\'").append(":").append("\'").append(System.currentTimeMillis() / 1000).append("\'").append(",");
+        buffer.append("\'").append("url").append("\'").append(":").append("\'").append(logbean.getUrl()).append("\'").append(",");
+        buffer.append("\'").append("requestMethod").append("\'").append(":").append("\'").append(logbean.getRequestMethod()).append("\'").append(",");
+        buffer.append("\'").append("responceCode").append("\'").append(":").append("\'").append(logbean.getResponceCode()).append("\'").append(",");
+        buffer.append("\'").append("responceBody").append("\'").append(":").append("\'").append(logbean.getResponceBody()).append("\'").append(",");
+        buffer.append("\'").append("requestParam").append("\'").append(":").append("\'").append(tempParamJson).append("\'").append(",");
+        buffer.append("\'").append("error").append("\'").append(":").append("\'").append(logbean.getError()).append("\'").append(",");
+        buffer.append("\'").append("cancel").append("\'").append(":").append("\'").append(logbean.getCancel()).append("\'");
+        buffer.append("}");
+        return buffer.toString();
     }
 }

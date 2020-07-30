@@ -44,4 +44,15 @@ public class XResponceBody<T> {
     public void setError(FwError error) {
         this.error = error;
     }
+
+    @Override
+    public String toString() {
+        final StringBuffer sb = new StringBuffer("XResponceBody{");
+        sb.append("\n").append("\t").append("jsonrpc ='").append(jsonrpc).append('\'');
+        sb.append("\n").append("\t").append("result =").append(result);
+        sb.append("\n").append("\t").append("id ='").append(id).append('\'');
+        sb.append("\n").append("\t").append("error =").append(error);
+        sb.append("\n}");
+        return sb.toString();
+    }
 }

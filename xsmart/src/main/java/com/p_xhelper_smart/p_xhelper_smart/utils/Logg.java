@@ -1,8 +1,13 @@
 package com.p_xhelper_smart.p_xhelper_smart.utils;
 
+import android.content.Context;
 import android.util.Log;
 
 public class Logg {
+
+    public static Context context;// 用于兼容android Q  - 在application进行初始化
+    private static Thread logThread;// 写出日志的线程
+    
     private static int VERBOSE = 1;
     private static int DEBUG = 2;
     private static int INFO = 3;
@@ -94,6 +99,48 @@ public class Logg {
     public static void e(String tag, String msg) {
         if (ERROR < LOG_FLAG) {
             Log.e(tag, msg);
+        }
+    }
+
+    /**
+     * 开启线程记录(在APPLICATION:ONCREATE中使用)
+     */
+    public static void startRecordLog() {
+        if (logThread == null) {
+            logThread = new LogThread();
+            logThread.start();
+        }
+    }
+
+    /**
+     * 停止线程记录(在退出APP:ONDESTROY使用)
+     */
+    public static void stopRecordLog() {
+        if (logThread != null) {
+            // 先停止循环, 再中断线程
+            LogThread.killLoop();
+            logThread.interrupt();
+            logThread = null;
+        }
+    }
+
+    /**
+     * 写入SD卡
+     *
+     * @param content 待写入的内容
+     */
+    public static void writeToSD(String content) {
+        if (logThread != null) {
+            LogThread.addContentToList(content);
+        }
+    }
+
+    /**
+     * 在首次安装首次运行首次登陆时启用
+     */
+    public static void createdLogDir() {
+        if (logThread != null) {
+            LogThread.createdLogDirOut(Logg.context);
         }
     }
 

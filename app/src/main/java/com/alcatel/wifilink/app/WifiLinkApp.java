@@ -8,6 +8,7 @@ import com.hiber.hiber.language.RootApp;
 import com.hiber.tools.ShareUtils;
 import com.p_xhelper_smart.p_xhelper_smart.core.XSmart;
 import com.p_xhelper_smart.p_xhelper_smart.utils.HostnameUtils;
+import com.p_xhelper_smart.p_xhelper_smart.utils.Logg;
 
 import java.util.Locale;
 
@@ -23,6 +24,8 @@ public class WifiLinkApp extends RootApp {
         ShareUtils.init(this);// 初始化缓存框架
         cacheLanguage();// 初始化语言
         HostnameUtils.setVerifyHostName(this);// 设置google请求认证
+        Logg.context = this;
+        Logg.startRecordLog();
     }
 
     /**
