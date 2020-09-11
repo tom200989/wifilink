@@ -41,6 +41,8 @@ public class XCons {
         ENCRYPT_LIST_DEV_HOTSPOT.add("mw70");
         ENCRYPT_LIST_DEV_HOTSPOT.add("mw43");
         ENCRYPT_LIST_DEV_HOTSPOT.add("mw45");
+        ENCRYPT_LIST_DEV_HOTSPOT.add("hub72");
+        ENCRYPT_LIST_DEV_HOTSPOT.add("hh72");
         // 定制设备(仅针对加密)
         ENCRYPT_LIST_DEV_TARGET.add("E1");
         // TODO: 2020/6/22  等待FW开发完毕后再填入具体型号
