@@ -23,7 +23,8 @@ public class LoginHelper extends BaseHelper {
     private String account = XCons.ACCOUNT;
     private String password;
     private int count = 0;
-    private int devType;// 设备类型
+    private int devTokenType;// 设备类型(用于对token加密)
+    private int devMD5Type;// 设备类型(用于对密码加密)
     private GetSystemInfoBean getSystemInfoBean;
 
     /**
@@ -51,9 +52,10 @@ public class LoginHelper extends BaseHelper {
             // 0.提交本地变量
             this.getSystemInfoBean = getSystemInfobean;
             String deviceName = getSystemInfobean.getDeviceName();
-            devType = SmartUtils.getDEVType(deviceName);
+            devTokenType = SmartUtils.getDevTokenType(deviceName);
+            devMD5Type = SmartUtils.getDevMd5Type(deviceName);
             // 1.判断是否为E1版本 (定制设备)
-            if (devType == XCons.ENCRYPT_DEV_TARGET) {
+            if (devTokenType == XCons.ENCRYPT_DEV_TARGET) {
                 // 1.1.E1版本必须加密
                 encryptAccAndPsd(true);
                 // 正式发起请求
@@ -164,7 +166,7 @@ public class LoginHelper extends BaseHelper {
                 // 查询辅助标记置零
                 count = 0;
                 // 更新token
-                if (devType == XCons.ENCRYPT_DEV_5G_CPE) {
+                if (devTokenType == XCons.ENCRYPT_DEV_5G_CPE) {
                     updateToken2(loginBean);
                 } else {
                     updateToken(loginBean);
@@ -245,8 +247,8 @@ public class LoginHelper extends BaseHelper {
         // 密码加密 (分为算法加密或者MD5加密)
         if (isEncrypt) {
             if (getSystemInfoBean != null) {
-                // 如果是［热点］-- 采用MD5加密
-                if (devType == XCons.ENCRYPT_DEV_HOTSPOT) {
+                // 如果是［需要MD5加密密码］-- 采用MD5加密密码
+                if (devMD5Type == XCons.ENCRYPT_MD5) {
                     password = Md5Code.encryption(password).toLowerCase();
                 } else {// 如果是［路由］-- 采用普通算法加密
                     password = EncryptUtils.encryptAdmin(password);

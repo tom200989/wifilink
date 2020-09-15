@@ -117,7 +117,7 @@ public class SettingAccountFrag extends BaseFrag {
         xGetSystemInfoHelper.setOnGetSystemInfoSuccessListener(getSystemInfobean -> {
             // 0.提交本地变量
             this.getSystemInfoBean = getSystemInfobean;
-            devType = SmartUtils.getDEVType(getSystemInfobean.getDeviceName());
+            devType = SmartUtils.getDevTokenType(getSystemInfobean.getDeviceName());
             // 1.判断是否为E1版本
             if (devType == XCons.ENCRYPT_DEV_TARGET) {
                 // 1.1.E1版本必须加密

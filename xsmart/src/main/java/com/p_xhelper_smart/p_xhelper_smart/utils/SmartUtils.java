@@ -32,12 +32,31 @@ public class SmartUtils {
     }
 
     /**
-     * 获取设备类型
+     * 获取需要MD5加密密码的设备类型 (用于MD5加密密码类型适配)
+     *
+     * @param deviceName 当前设备名
+     * @return 4: 需要MD5对密码加密
+     */
+    public static int getDevMd5Type(String deviceName) {
+        // 先最小化
+        deviceName = deviceName.toLowerCase();
+        // 老设备
+        for (String dev : XCons.ENCRYPT_LIST_MD5) {
+            if (deviceName.contains(dev) || dev.contains(deviceName)) {
+                return XCons.ENCRYPT_MD5;
+            }
+        }
+        // 未知设备
+        return XCons.ENCRYPT_DEV_UNKNOWN;
+    }
+
+    /**
+     * 获取设备类型(用于Token加密类型适配)
      *
      * @param deviceName 当前设备名
      * @return -1:未知设备; 0:老设备; 1:新设备
      */
-    public static int getDEVType(String deviceName) {
+    public static int getDevTokenType(String deviceName) {
         // 先最小化
         deviceName = deviceName.toLowerCase();
         // 老设备
