@@ -624,7 +624,7 @@ public class mainFrag extends BaseFrag {
                 temp++;
             }
             // 设置已使用流量
-            UsageHelper.Usage usedUsage = UsageHelper.getUsageByte(getActivity(), result.getUsedData());
+            UsageHelper.Usage usedUsage = UsageHelper.getUsageByte(activity, result.getUsedData());
             String currentLanguage = ShareUtils.get(RootCons.LOCALE_LANGUAGE_COUNTRY, "");
             boolean isRussian = currentLanguage.contains(RootCons.LANGUAGES.RUSSIAN);
             tvUsedUnit.setVisibility(isRussian ? View.GONE : View.VISIBLE);
@@ -640,7 +640,7 @@ public class mainFrag extends BaseFrag {
             }
             tvUsedData.setText(usage);
             // 设置月计划流量
-            UsageHelper.Usage planUsage = UsageHelper.getUsageByte(getActivity(), result.getMonthlyPlan());
+            UsageHelper.Usage planUsage = UsageHelper.getUsageByte(activity, result.getMonthlyPlan());
             String planUnit = planUsage.unit;// 单位
 
             // 不要直接使用FW返回的unit做判断, FW有时候抽筋返回错误的单位
