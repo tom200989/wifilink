@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.hiber.tools.layout.PercentRelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<com.hiber.tools.layout.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -230,13 +229,14 @@
                     app:layout_heightPercent="30%h"
                     app:layout_widthPercent="50%h" />
 
-                <TextView
+                <com.alcatel.wifilink.widget.HH70_MarqueeTvWidget
                     android:id="@+id/tv_mobilenetwork_mode_mode"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginEnd="15dp"
                     android:layout_toStartOf="@id/iv_mobilenetwork_mode_arrow"
+                    android:gravity="end|center_vertical"
                     android:text="@string/hh70_auto"
                     app:layout_textSizePercent="25%h" />
 
@@ -464,8 +464,16 @@
         android:layout_height="match_parent"
         android:visibility="gone" />
 
+    <!-- 通用版网络制式 -->
     <com.alcatel.wifilink.widget.HH70_ModeWidget
         android:id="@+id/wg_mode"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone" />
+
+    <!-- HH42网络制式 -->
+    <com.alcatel.wifilink.widget.HH42_ModeWidget
+        android:id="@+id/wg_mode_42"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="gone" />

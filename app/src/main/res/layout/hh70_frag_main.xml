@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.hiber.tools.layout.PercentRelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<com.hiber.tools.layout.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#33a0f6">
+    android:background="#33a0f6"
+    tools:ignore="ContentDescription,Autofill,LabelFor,HardcodedText">
 
     <!-- mw120下的网络类型 -->
     <com.hiber.tools.layout.PercentRelativeLayout

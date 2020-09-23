@@ -31,9 +31,14 @@ public class NetworkSettingHelper {
             normalNetworkNext(result);
             int networkMode = result.getNetworkMode();
             switch (networkMode) {
-                // 自动模式
+                // 自动模式(通用)
                 case GetNetworkSettingsBean.CONS_AUTO_MODE:
                     autoNext(result);
+                    break;
+
+                // 自动模式(HH42:3G优先)
+                case GetNetworkSettingsBean.CONS_AUTO_FOR_3G_FIRST:// TOAT: 适配HH42
+                    auto3GFirstNext(result);
                     break;
 
                 // 2G模式
@@ -100,6 +105,26 @@ public class NetworkSettingHelper {
     private void autoNext(GetNetworkSettingsBean attr) {
         if (onAutoListener != null) {
             onAutoListener.auto(attr);
+        }
+    }
+
+    // ---------------- 监听器 [auto3GFirst] ----------------
+    private Onauto3GFirstListener onauto3GFirstListener;
+
+    // Interface--> 接口: Onauto3GFirstListener
+    public interface Onauto3GFirstListener {
+        void auto3GFirst(GetNetworkSettingsBean attr);
+    }
+
+    // 对外方式: setOnauto3GFirstListener
+    public void setOnauto3GFirstListener(Onauto3GFirstListener onauto3GFirstListener) {
+        this.onauto3GFirstListener = onauto3GFirstListener;
+    }
+
+    // 封装方法: auto3GFirstNext
+    private void auto3GFirstNext(GetNetworkSettingsBean attr) {
+        if (onauto3GFirstListener != null) {
+            onauto3GFirstListener.auto3GFirst(attr);
         }
     }
 

@@ -120,7 +120,6 @@
     <string name="hh70_mode">modo</string>
     <string name="hh70_disconn_try_again">Desconectando… Inténtelo de nuevo más tarde.</string>
     <string name="hh70_auto">Automático</string>
-    <string name="hh70_auto_42">4G/3G (Automático)</string>
     <string name="hh70_month_data_limit">Se ha alcanzado el límite mensual de uso de datos</string>
     <string name="hh70_delete_message">¿Eliminar este/os mensaje/s?</string>
     <string name="hh70_pin_code_wrong">El código PIN es incorrecto.</string>
@@ -369,4 +368,6 @@
     <string name="hh70_setup_success">Configurado correctamente</string>
     <string name="hh70_forgotten_reset_router">Si ha olvidado la contraseña, tendrá que reiniciar el rúter y, entonces, podrá iniciar sesión empleando la contraseña predeterminada (admin).</string>
     <string name="hh70_MONTHLY_PLAN">Plan mensual</string>
+    <string name="hh42_auto_4g_first">4G/3G/2G (Automático)</string>
+    <string name="hh42_auto_3g_first">3G/2G (Automático)</string>
 </resources>

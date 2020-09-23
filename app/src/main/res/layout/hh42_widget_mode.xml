@@ -12,7 +12,7 @@
 
         <!-- 灰色背景 -->
         <ImageView
-            android:id="@+id/iv_dialogok_widget_bg"
+            android:id="@+id/iv_dialogok_widget_bg_42"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:alpha="0.5"
@@ -25,17 +25,17 @@
             android:layout_centerInParent="true"
             android:background="@drawable/bg_pop_conner"
             android:orientation="vertical"
-            app:layout_heightPercent="27%h"
+            app:layout_heightPercent="40%h"
             app:layout_widthPercent="75%w">
 
-            <!-- Auto -->
+            <!-- Auto:4G优先 -->
             <TextView
-                android:id="@+id/tv_pop_connMode_auto"
+                android:id="@+id/tv_pop_connMode_auto_42_4g"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="@string/hh70_auto"
+                android:text="@string/hh42_auto_4g_first"
                 android:textColor="@color/black"
                 app:layout_textSizePercent="3%sh" />
 
@@ -43,7 +43,28 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.2dp"
-                android:layout_below="@id/tv_pop_connMode_auto"
+                android:layout_below="@id/tv_pop_connMode_auto_42_4g"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:alpha="0.5"
+                android:background="@color/gray" />
+
+            <!-- Auto:3G优先 -->
+            <TextView
+                android:id="@+id/tv_pop_connMode_auto_42_3g"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/hh42_auto_3g_first"
+                android:textColor="@color/black"
+                app:layout_textSizePercent="3%sh" />
+
+            <!-- 分割线 -->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.2dp"
+                android:layout_below="@id/tv_pop_connMode_auto_42_3g"
                 android:layout_marginStart="10dp"
                 android:layout_marginEnd="10dp"
                 android:alpha="0.5"
@@ -51,7 +72,7 @@
 
             <!-- 4G -->
             <TextView
-                android:id="@+id/tv_pop_connMode_4g"
+                android:id="@+id/tv_pop_connMode_4g_42"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -63,7 +84,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.2dp"
-                android:layout_below="@id/tv_pop_connMode_4g"
+                android:layout_below="@id/tv_pop_connMode_4g_42"
                 android:layout_marginStart="10dp"
                 android:layout_marginEnd="10dp"
                 android:alpha="0.5"
@@ -71,7 +92,7 @@
 
             <!-- 3G -->
             <TextView
-                android:id="@+id/tv_pop_connMode_3g"
+                android:id="@+id/tv_pop_connMode_3g_42"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -81,14 +102,25 @@
                 app:layout_textSizePercent="3%sh" />
 
             <View
-                android:id="@+id/div_connmode_3"
                 android:layout_width="match_parent"
                 android:layout_height="0.2dp"
-                android:layout_below="@id/tv_pop_connMode_3g"
+                android:layout_below="@id/tv_pop_connMode_3g_42"
                 android:layout_marginStart="10dp"
                 android:layout_marginEnd="10dp"
                 android:alpha="0.5"
                 android:background="@color/gray" />
+
+            <!-- 2G -->
+            <TextView
+                android:id="@+id/tv_pop_connMode_2g_42"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/div_connmode_3"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/hh70_2g"
+                android:textColor="@color/black"
+                app:layout_textSizePercent="3%sh" />
 
         </com.hiber.tools.layout.PercentLinearLayout>
 

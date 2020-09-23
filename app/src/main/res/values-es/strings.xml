@@ -365,4 +365,6 @@
     <string name="hh70_setup_success">Configuración correcta</string>
     <string name="hh70_forgotten_reset_router">Si ha olvidado su contraseña, deberá reiniciar el enrutador. Entonces, podrá iniciar sesión utilizando la contraseña predeterminada (admin).</string>
     <string name="hh70_MONTHLY_PLAN">Plan mensual</string>
+    <string name="hh42_auto_4g_first">4G/3G/2G (Automático)</string>
+    <string name="hh42_auto_3g_first">3G/2G (Automático)</string>
 </resources>

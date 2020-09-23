@@ -27,6 +27,7 @@ public class GetNetworkSettingsBean implements Serializable {
     public static final int CONS_ONLY_EVDO = 9;
     public static final int CONS_CDMA_EHRPD = 10;
     public static final int CONS_CDMA_ONLY_1X_SPRINT = 11;
+    public static final int CONS_AUTO_FOR_3G_FIRST = 12;// 适配HH42的3G优先要求
 
     public static final int CONS_AUTO = 0;
     public static final int CONS_MANUAL = 1;

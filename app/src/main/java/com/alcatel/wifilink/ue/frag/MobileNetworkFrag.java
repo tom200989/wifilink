@@ -20,6 +20,7 @@ import com.alcatel.wifilink.helper.SimNumImsiHelper;
 import com.alcatel.wifilink.helper.SimPinHelper;
 import com.alcatel.wifilink.utils.RootCons;
 import com.alcatel.wifilink.utils.RootUtils;
+import com.alcatel.wifilink.widget.HH42_ModeWidget;
 import com.alcatel.wifilink.widget.HH70_ChangpinWidget;
 import com.alcatel.wifilink.widget.HH70_ConmodeWidget;
 import com.alcatel.wifilink.widget.HH70_ModeWidget;
@@ -85,19 +86,22 @@ public class MobileNetworkFrag extends BaseFrag {
     @BindView(R.id.wg_changpin)
     HH70_ChangpinWidget changpinWidget;
     @BindView(R.id.wg_mode)
-    HH70_ModeWidget modeWidget;
+    HH70_ModeWidget modeWidget;// 通用版弹框
+    @BindView(R.id.wg_mode_42)
+    HH42_ModeWidget modeWidget42;// HH42弹框
 
     private String text_auto;
     private String text_manual;
     private String text_4G;
     private String text_3G;
     private String text_2G;
+    private String text_auto42_4g;
+    private String text_auto42_3g;
     private Drawable switch_on;
     private Drawable switch_off;
     private ConnectSettingHelper connSettingHelper;
     private NetworkSettingHelper networkSettingHelper;
     private SimNumImsiHelper simNumImsiHelper;
-    private GetNetworkSettingsBean getNetworkSettingsBean;
 
     @Override
     public void initViewFinish(View inflateView) {
@@ -114,11 +118,18 @@ public class MobileNetworkFrag extends BaseFrag {
     }
 
     private void initRes() {
+
+        // 通用版
         text_auto = activity.getString(R.string.hh70_auto);
         text_manual = activity.getString(R.string.hh70_maunal);
         text_4G = activity.getString(R.string.hh70_4g);
         text_3G = activity.getString(R.string.hh70_3g);
         text_2G = activity.getString(R.string.hh70_2g);
+
+        // HH42版特有
+        text_auto42_4g = getRootString(R.string.hh42_auto_4g_first);
+        text_auto42_3g = getRootString(R.string.hh42_auto_3g_first);
+
         switch_on = getRootDrawable(R.drawable.switch_on);
         switch_off = getRootDrawable(R.drawable.switch_off);
     }
@@ -192,13 +203,30 @@ public class MobileNetworkFrag extends BaseFrag {
     /**
      * 获取连接信号类型(4G|3G|2G)
      */
-    private void getMode() {
-        networkSettingHelper = new NetworkSettingHelper();
-        networkSettingHelper.setOnAutoListener(attr -> tvModeMode.setText(text_auto));
-        networkSettingHelper.setOn3GListener(attr -> tvModeMode.setText(text_3G));
-        networkSettingHelper.setOn4GListener(attr -> tvModeMode.setText(text_4G));
-        networkSettingHelper.setOnNormalNetworkListener(getNetworkSettingsBean -> this.getNetworkSettingsBean = getNetworkSettingsBean);
-        networkSettingHelper.getNetworkSetting();
+    private void getMode() {// TOAT: 适配HH42
+        
+        // 判断是否为HH42类型
+        boolean isHH42 = RootUtils.isHH42(ShareUtils.get(RootCons.DEVICE_NAME, RootCons.DEVICE_NAME_DEFAULT));
+        // 通用版
+        if (!isHH42) {
+            networkSettingHelper = new NetworkSettingHelper();
+            networkSettingHelper.setOnAutoListener(attr -> tvModeMode.setText(text_auto));
+            networkSettingHelper.setOn3GListener(attr -> tvModeMode.setText(text_3G));
+            networkSettingHelper.setOn4GListener(attr -> tvModeMode.setText(text_4G));
+            networkSettingHelper.getNetworkSetting();
+        }
+
+        // * HH42特有
+        if (isHH42) {
+            networkSettingHelper = new NetworkSettingHelper();
+            networkSettingHelper.setOnAutoListener(attr -> tvModeMode.setText(text_auto42_4g));
+            networkSettingHelper.setOnauto3GFirstListener(attr -> tvModeMode.setText(text_auto42_3g));
+            networkSettingHelper.setOn4GListener(attr -> tvModeMode.setText(text_4G));
+            networkSettingHelper.setOn3GListener(attr -> tvModeMode.setText(text_3G));
+            networkSettingHelper.setOn2GListener(attr -> tvModeMode.setText(text_2G));
+            networkSettingHelper.getNetworkSetting();
+        }
+
     }
 
     /**
@@ -279,39 +307,73 @@ public class MobileNetworkFrag extends BaseFrag {
     /**
      * 点击了mode
      */
-    private void clickMode() {
+    private void clickMode() {// TOAT: 适配HH42
+        // 判断是否为HH42类型
         boolean isHH42 = RootUtils.isHH42(ShareUtils.get(RootCons.DEVICE_NAME, RootCons.DEVICE_NAME_DEFAULT));
-        modeWidget.setOnAutoClickListener(() -> changeMode(GetNetworkSettingsBean.CONS_AUTO_MODE));
-        modeWidget.setOn4gModeClickListener(() -> changeMode(GetNetworkSettingsBean.CONS_ONLY_LTE));
-        modeWidget.setOn3gModeClickListener(() -> changeMode(GetNetworkSettingsBean.CONS_ONLY_3G));
-        modeWidget.setOn2gModeClickListener(() -> changeMode(GetNetworkSettingsBean.CONS_ONLY_2G));
-        if (isHH42) {// 如果是HH42设备, 则不支持4G only模式
-            modeWidget.notSupportMode(GetNetworkSettingsBean.CONS_ONLY_LTE, GetNetworkSettingsBean.CONS_ONLY_2G);
-        } else {// 其他设备不支持2G only模式
-            modeWidget.notSupportMode(GetNetworkSettingsBean.CONS_ONLY_2G);
+
+        // * 普通类型
+        if (!isHH42) {
+            modeWidget.setOnAutoClickListener(() -> changeMode(GetNetworkSettingsBean.CONS_AUTO_MODE));
+            modeWidget.setOn4gModeClickListener(() -> changeMode(GetNetworkSettingsBean.CONS_ONLY_LTE));
+            modeWidget.setOn3gModeClickListener(() -> changeMode(GetNetworkSettingsBean.CONS_ONLY_3G));
+            modeWidget.setVisibility(View.VISIBLE);
         }
-        modeWidget.setVisibility(View.VISIBLE);
+
+        // * HH42特有
+        if (isHH42) {
+            modeWidget42.setOnClickAuto4GFor42Listener(() -> changeMode42(GetNetworkSettingsBean.CONS_AUTO_MODE));
+            modeWidget42.setOnClickAuto3GFor42Listener(() -> changeMode42(GetNetworkSettingsBean.CONS_AUTO_FOR_3G_FIRST));
+            modeWidget42.setOnClickOnly4GFor42Listener(() -> changeMode42(GetNetworkSettingsBean.CONS_ONLY_LTE));
+            modeWidget42.setOnClickOnly3GFor42Listener(() -> changeMode42(GetNetworkSettingsBean.CONS_ONLY_3G));
+            modeWidget42.setOnClickOnly2GFor42Listener(() -> changeMode42(GetNetworkSettingsBean.CONS_ONLY_2G));
+            modeWidget42.setVisibility(View.VISIBLE);
+        }
     }
 
     /**
-     * 修改模式
+     * 修改模式 (通用版)
      */
     private void changeMode(int mode) {
         ModeHelper modeHelper = new ModeHelper(activity);
         modeHelper.setOnModeSuccessListener(attr -> {
             int networkMode = attr.getNetworkMode();
             switch (networkMode) {
-                case GetNetworkSettingsBean.CONS_ONLY_2G:
-                    tvModeMode.setText(text_2G);
-                    break;
-                case GetNetworkSettingsBean.CONS_ONLY_3G:
-                    tvModeMode.setText(text_3G);
+                case GetNetworkSettingsBean.CONS_AUTO_MODE:
+                    tvModeMode.setText(text_auto);
                     break;
                 case GetNetworkSettingsBean.CONS_ONLY_LTE:
                     tvModeMode.setText(text_4G);
                     break;
+                case GetNetworkSettingsBean.CONS_ONLY_3G:
+                    tvModeMode.setText(text_3G);
+                    break;
+            }
+        });
+        modeHelper.transfer(mode);
+    }
+
+    /**
+     * 修改模式 (HH42版)
+     */
+    private void changeMode42(int mode) {// TOAT: 适配HH42
+        ModeHelper modeHelper = new ModeHelper(activity);
+        modeHelper.setOnModeSuccessListener(attr -> {
+            int networkMode = attr.getNetworkMode();
+            switch (networkMode) {
                 case GetNetworkSettingsBean.CONS_AUTO_MODE:
-                    tvModeMode.setText(text_auto);
+                    tvModeMode.setText(text_auto42_4g);
+                    break;
+                case GetNetworkSettingsBean.CONS_AUTO_FOR_3G_FIRST:
+                    tvModeMode.setText(text_auto42_3g);
+                    break;
+                case GetNetworkSettingsBean.CONS_ONLY_LTE:
+                    tvModeMode.setText(text_4G);
+                    break;
+                case GetNetworkSettingsBean.CONS_ONLY_3G:
+                    tvModeMode.setText(text_3G);
+                    break;
+                case GetNetworkSettingsBean.CONS_ONLY_2G:
+                    tvModeMode.setText(text_2G);
                     break;
             }
         });

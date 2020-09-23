@@ -225,7 +225,7 @@ public class WifiFrag extends BaseFrag {
                 } else {
                     mKey2GGroup.setVisibility(View.VISIBLE);
                     mEncryption2GGroup.setVisibility(View.VISIBLE);
-                    // TOAT: 2020/5/28  根据安全模式切换加密魔兽
+                    // TOAT: 2020/5/28  根据安全模式切换加密模式
                     if (position == 1 & !isHH42) {// 如果用户点击的是第二个条目并且不是HH42(外包)的产品(因为HH42没有WEP选项) - 则按照HH70的WEP规则处理
                         mEncryption2GSpinner.setAdapter(new ArrayAdapter<>(activity, android.R.layout.simple_spinner_dropdown_item, mWepEncryptionSettings));
                         int wepType = mOriginSettings.getAP2G().getWepType();
