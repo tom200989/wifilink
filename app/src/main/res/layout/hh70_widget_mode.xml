@@ -37,7 +37,7 @@
                 android:gravity="center"
                 android:text="@string/hh70_auto"
                 android:textColor="@color/black"
-                app:layout_textSizePercent="3%sh" />
+                app:layout_textSizePercent="2.5%sh" />
 
             <!-- 分割线 -->
             <View
@@ -58,7 +58,7 @@
                 android:gravity="center"
                 android:text="@string/hh70_4g"
                 android:textColor="@color/black"
-                app:layout_textSizePercent="3%sh" />
+                app:layout_textSizePercent="2.5%sh" />
 
             <View
                 android:layout_width="match_parent"
@@ -78,7 +78,7 @@
                 android:gravity="center"
                 android:text="@string/hh70_3g"
                 android:textColor="@color/black"
-                app:layout_textSizePercent="3%sh" />
+                app:layout_textSizePercent="2.5%sh" />
 
             <View
                 android:id="@+id/div_connmode_3"

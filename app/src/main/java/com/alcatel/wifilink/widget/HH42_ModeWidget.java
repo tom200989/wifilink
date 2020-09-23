@@ -66,6 +66,7 @@ public class HH42_ModeWidget extends RelativeLayout {// TOAT: 适配HH42
 
     // 封装方法: ClickAuto4GFor42Next
     private void ClickAuto4GFor42Next() {
+        setVisibility(GONE);
         if (onClickAuto4GFor42Listener != null) {
             onClickAuto4GFor42Listener.ClickAuto4GFor42();
         }
@@ -86,6 +87,7 @@ public class HH42_ModeWidget extends RelativeLayout {// TOAT: 适配HH42
 
     // 封装方法: ClickAuto3GFor42Next
     private void ClickAuto3GFor42Next() {
+        setVisibility(GONE);
         if (onClickAuto3GFor42Listener != null) {
             onClickAuto3GFor42Listener.ClickAuto3GFor42();
         }
@@ -106,6 +108,7 @@ public class HH42_ModeWidget extends RelativeLayout {// TOAT: 适配HH42
 
     // 封装方法: ClickOnly4GFor42Next
     private void ClickOnly4GFor42Next() {
+        setVisibility(GONE);
         if (onClickOnly4GFor42Listener != null) {
             onClickOnly4GFor42Listener.ClickOnly4GFor42();
         }
@@ -126,6 +129,7 @@ public class HH42_ModeWidget extends RelativeLayout {// TOAT: 适配HH42
 
     // 封装方法: ClickOnly3GFor42Next
     private void ClickOnly3GFor42Next() {
+        setVisibility(GONE);
         if (onClickOnly3GFor42Listener != null) {
             onClickOnly3GFor42Listener.ClickOnly3GFor42();
         }
@@ -146,6 +150,7 @@ public class HH42_ModeWidget extends RelativeLayout {// TOAT: 适配HH42
 
     // 封装方法: ClickOnly2GFor42Next
     private void ClickOnly2GFor42Next() {
+        setVisibility(GONE);
         if (onClickOnly2GFor42Listener != null) {
             onClickOnly2GFor42Listener.ClickOnly2GFor42();
         }

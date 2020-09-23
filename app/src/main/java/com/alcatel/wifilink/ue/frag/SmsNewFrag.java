@@ -223,7 +223,7 @@ public class SmsNewFrag extends BaseFrag {
                 xSaveSMSHelper.setOnSpaceFullListener(() -> toast(R.string.hh70_sms_box_full, 2000));
                 xSaveSMSHelper.saveSms(xSaveSmsParam);
             } else {
-                String msgRes = activity.getString(R.string.hh70_only_3_phone_num);
+                String msgRes = getRootString(R.string.hh70_only_3_phone_num);
                 toast(msgRes, 2000);
                 m_etNumber.requestFocus();
             }
@@ -263,7 +263,7 @@ public class SmsNewFrag extends BaseFrag {
             m_etNumber.setEnabled(false);
             m_etContent.setEnabled(false);
         } else {
-            String msgRes = activity.getString(R.string.hh70_only_3_phone_num);
+            String msgRes = getRootString(R.string.hh70_only_3_phone_num);
             toast(msgRes, 2000);
             m_etNumber.requestFocus();
         }

@@ -70,8 +70,8 @@ public class SmsFrag extends BaseFrag {
     }
 
     private void initRes() {
-        select_all = activity.getString(R.string.hh70_select_all);
-        deselect_all = activity.getString(R.string.hh70_delete_all);
+        select_all = getRootString(R.string.hh70_select_all);
+        deselect_all = getRootString(R.string.hh70_delete_all);
     }
 
     @Override

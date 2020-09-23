@@ -1,5 +1,6 @@
 package com.alcatel.wifilink.ue.frag;
 
+import android.annotation.SuppressLint;
 import android.os.Handler;
 import android.text.TextUtils;
 import android.view.View;
@@ -48,6 +49,7 @@ import butterknife.BindView;
 /*
  * Created by qianli.ma on 2019/8/19 0019.
  */
+@SuppressLint("SetTextI18n")
 public class SettingFrag extends BaseFrag {
     private final static String CONFIG_FILE_PATH = "configFilePath";
     public static boolean isSharingSupported = true;
@@ -201,7 +203,7 @@ public class SettingFrag extends BaseFrag {
                 xGetWanSettingsHelper.setOnGetWanSettingFailedListener(() -> mMobileNetworkWanSocket.setText(off));
                 xGetWanSettingsHelper.getWanSettings();
             } else {
-                toFragActivity(getClass(), SplashActivity.class, LoginFrag.class, null, true, true, 0);
+                toLoginFrag();
             }
         });
         xGetLoginStateHelper.setOnGetLoginStateFailedListener(() -> mMobileNetworkWanSocket.setText(off));
@@ -222,7 +224,7 @@ public class SettingFrag extends BaseFrag {
         GetLoginStateHelper xGetLoginStateHelper = new GetLoginStateHelper();
         xGetLoginStateHelper.setOnGetLoginStateSuccessListener(getLoginStateBean -> {
             if (getLoginStateBean.getState() == GetLoginStateBean.CONS_LOGOUT) {
-                to(SplashActivity.class, LoginFrag.class);
+                toLoginFrag();
                 return;
             }
             GetSimStatusHelper xGetSimStatusHelper = new GetSimStatusHelper();
@@ -267,13 +269,6 @@ public class SettingFrag extends BaseFrag {
         xConnectionStateHelper.setOnDisconnectedListener(() -> mMobileNetworkSimSocket.setText(off));
         xConnectionStateHelper.setOnDisConnectingListener(() -> mMobileNetworkSimSocket.setText(off));
         xConnectionStateHelper.getConnectionState();
-    }
-
-    /**
-     * 跳转activity
-     */
-    private void to(Class targetAc, Class targetFr) {
-        toFragActivity(getClass(), targetAc, targetFr, null, false, true, 0);
     }
 
     private void initClick() {
@@ -340,7 +335,7 @@ public class SettingFrag extends BaseFrag {
     private void clickUpgrade() {
         FirmUpgradeHelper fh = new FirmUpgradeHelper(activity, loadWidget, true);
         fh.setOnNoNewVersionListener(this::popversion);
-        fh.setOnLoginOutListener(() -> toFragActivity(getClass(), SplashActivity.class, LoginFrag.class, null, true, true, 0));
+        fh.setOnLoginOutListener(this::toLoginFrag);
         fh.setOnNewVersionListener(attr -> popversion(attr, null));// 有新版本
         fh.checkNewVersion(wd_countdown, loadWidget);
     }
@@ -377,11 +372,12 @@ public class SettingFrag extends BaseFrag {
     /**
      * U3.触发FOTA下载
      */
+
     private void beginDownLoadFOTA() {
         count = 0;
         isDownloading = true;
         FirmUpgradeHelper fuh = new FirmUpgradeHelper(activity, loadWidget, false);
-        fuh.setOnLoginOutListener(() -> toFragActivity(getClass(), SplashActivity.class, LoginFrag.class, null, true, true, 0));
+        fuh.setOnLoginOutListener(this::toLoginFrag);
         fuh.setOnErrorListener(() -> {
             count = 0;
             toast(R.string.hh70_cant_connect);
@@ -409,7 +405,7 @@ public class SettingFrag extends BaseFrag {
             UpgradeHelper uh = new UpgradeHelper(activity, false);
             uh.setOnUpgradeFailedListener(() -> downError(R.string.hh70_cant_get_device));
             uh.setOnNoStartUpdateListener(attr1 -> {
-                wd_down.getPercent().setText(String.valueOf(attr1.getProcess() + perText));
+                wd_down.getPercent().setText(attr1.getProcess() + perText);
                 upgrade_Temp++;
                 if (upgrade_Temp > 20) {// 如果断连次数已经达到了1分钟(20次)
                     upgrade_Temp = 0;
@@ -417,16 +413,14 @@ public class SettingFrag extends BaseFrag {
                     downError(R.string.hh70_cant_get_device);// 提示
                 }
             });
-            uh.setOnUpgradeStateNormalListener(attr1 -> {
-            });
             uh.setOnUpdatingListener(attr1 -> {
-                wd_down.getPercent().setText(String.valueOf(attr1.getProcess() + perText));// 显示百分比
+                wd_down.getPercent().setText(attr1.getProcess() + perText);// 显示百分比
                 wd_down.getProgressbar().setProgress(attr1.getProcess());// 进度条显示进度
             });
             uh.setOnCompleteListener(attr1 -> {
                 if (count == 0) {
                     // 2.1.显示进度
-                    wd_down.getPercent().setText(String.valueOf("100%"));
+                    wd_down.getPercent().setText("100%");
                     wd_down.getProgressbar().setProgress(100);// 进度条显示进度
                     // 2.2.停止定时器 + 进度条消隐
                     stopDownTimerAndPop();
@@ -477,7 +471,7 @@ public class SettingFrag extends BaseFrag {
                 xGetWanSettingsHelper.setOnGetWanSettingFailedListener(() -> getSIM(uh));
                 xGetWanSettingsHelper.getWanSettings();
             } else {
-                toFragActivity(getClass(), SplashActivity.class, LoginFrag.class, null, true, true, 0);
+                toLoginFrag();
             }
         });
         xGetLoginStateHelper.setOnGetLoginStateFailedListener(() -> getSIM(uh));
@@ -492,7 +486,7 @@ public class SettingFrag extends BaseFrag {
         GetLoginStateHelper xGetLoginStateHelper = new GetLoginStateHelper();
         xGetLoginStateHelper.setOnGetLoginStateSuccessListener(getLoginStateBean -> {
             if (getLoginStateBean.getState() == GetLoginStateBean.CONS_LOGOUT) {
-                toFragActivity(getClass(), SplashActivity.class, LoginFrag.class, null, false, true, 0);
+                toLoginFrag();
                 return;
             }
             GetSimStatusHelper xGetSimStatusHelper = new GetSimStatusHelper();
@@ -535,7 +529,7 @@ public class SettingFrag extends BaseFrag {
     private void startDeviceUpgrade() {
         isDownloading = true;
         FirmUpgradeHelper fuh = new FirmUpgradeHelper(activity, loadWidget, false);
-        fuh.setOnLoginOutListener(() -> toFragActivity(getClass(), SplashActivity.class, LoginFrag.class, null, true, true, 0));
+        fuh.setOnLoginOutListener(this::toLoginFrag);
         fuh.setOnErrorListener(() -> downError(R.string.hh70_device_cant_start));
         fuh.setOnStartUpgradeListener(() -> {
             toast(R.string.hh70_device_will_restart);
@@ -776,16 +770,29 @@ public class SettingFrag extends BaseFrag {
         xGetLoginStateHelper.setOnGetLoginStateSuccessListener(getLoginStateBean -> {
             if (getLoginStateBean.getState() == GetLoginStateBean.CONS_LOGIN) {
                 LogoutHelper xLogoutHelper = new LogoutHelper();
+                xLogoutHelper.setOnPrepareHelperListener(() -> loadWidget.setVisibles());
+                xLogoutHelper.setOnDoneHelperListener(() -> loadWidget.setGone());
                 xLogoutHelper.setOnLogoutSuccessListener(() -> {
                     toast(R.string.hh70_logout_completed, 3000);
-                    toFragActivity(getClass(), SplashActivity.class, LoginFrag.class, null, true, true, 0);
+                    toLoginFrag();
                 });
                 xLogoutHelper.setOnLogOutFailedListener(() -> toast(R.string.hh70_cant_logout, 3000));
                 xLogoutHelper.logout();
             } else {
-                toFragActivity(getClass(), SplashActivity.class, LoginFrag.class, null, true, true, 0);
+                toLoginFrag();
             }
         });
         xGetLoginStateHelper.getLoginState();
+    }
+
+    /**
+     * 跳转到登录页
+     */
+    private void toLoginFrag() {
+        // 如果当前已经在登录界面 - 则不处理
+        if (lastFrag == LoginFrag.class) {
+            return;
+        }
+        toFragActivity(getClass(), SplashActivity.class, LoginFrag.class, null, true, true, 0);
     }
 }

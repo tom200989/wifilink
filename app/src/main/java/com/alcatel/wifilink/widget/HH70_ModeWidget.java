@@ -36,18 +36,9 @@ public class HH70_ModeWidget extends RelativeLayout {
         tv4g = findViewById(R.id.tv_pop_connMode_4g);
         tv3g = findViewById(R.id.tv_pop_connMode_3g);
 
-        tvAuto.setOnClickListener(v -> {
-            setVisibility(GONE);
-            autoClickNext();
-        });
-        tv4g.setOnClickListener(v -> {
-            setVisibility(GONE);
-            fourModeNext();
-        });
-        tv3g.setOnClickListener(v -> {
-            setVisibility(GONE);
-            thirdModeNext();
-        });
+        tvAuto.setOnClickListener(v -> autoClickNext());
+        tv4g.setOnClickListener(v -> fourModeNext());
+        tv3g.setOnClickListener(v -> thirdModeNext());
     }
 
     /* -------------------------------------------- impl -------------------------------------------- */
@@ -65,6 +56,7 @@ public class HH70_ModeWidget extends RelativeLayout {
 
     //封装方法autoClickNext
     private void autoClickNext() {
+        setVisibility(GONE);
         if (onAutoClickListener != null) {
             onAutoClickListener.autoClick();
         }
@@ -83,6 +75,7 @@ public class HH70_ModeWidget extends RelativeLayout {
 
     //封装方法fourModeNext
     private void fourModeNext() {
+        setVisibility(GONE);
         if (on4gModeClickListener != null) {
             on4gModeClickListener.click();
         }
@@ -101,6 +94,7 @@ public class HH70_ModeWidget extends RelativeLayout {
 
     //封装方法thirdModeNext
     private void thirdModeNext() {
+        setVisibility(GONE);
         if (on3gModeClickListener != null) {
             on3gModeClickListener.click();
         }

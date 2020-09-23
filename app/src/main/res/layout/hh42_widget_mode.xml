@@ -37,7 +37,7 @@
                 android:gravity="center"
                 android:text="@string/hh42_auto_4g_first"
                 android:textColor="@color/black"
-                app:layout_textSizePercent="3%sh" />
+                app:layout_textSizePercent="2.5%sh" />
 
             <!-- 分割线 -->
             <View
@@ -58,7 +58,7 @@
                 android:gravity="center"
                 android:text="@string/hh42_auto_3g_first"
                 android:textColor="@color/black"
-                app:layout_textSizePercent="3%sh" />
+                app:layout_textSizePercent="2.5%sh" />
 
             <!-- 分割线 -->
             <View
@@ -79,7 +79,7 @@
                 android:gravity="center"
                 android:text="@string/hh70_4g"
                 android:textColor="@color/black"
-                app:layout_textSizePercent="3%sh" />
+                app:layout_textSizePercent="2.5%sh" />
 
             <View
                 android:layout_width="match_parent"
@@ -99,7 +99,7 @@
                 android:gravity="center"
                 android:text="@string/hh70_3g"
                 android:textColor="@color/black"
-                app:layout_textSizePercent="3%sh" />
+                app:layout_textSizePercent="2.5%sh" />
 
             <View
                 android:layout_width="match_parent"
@@ -120,7 +120,7 @@
                 android:gravity="center"
                 android:text="@string/hh70_2g"
                 android:textColor="@color/black"
-                app:layout_textSizePercent="3%sh" />
+                app:layout_textSizePercent="2.5%sh" />
 
         </com.hiber.tools.layout.PercentLinearLayout>
 

@@ -281,12 +281,12 @@ public class WanInitFrag extends BaseFrag {
                 boolean subnet_super_match = RootUtils.isSubnetMaskMatch(subnetMask);
 
                 if (!ip_super_match) {
-                    String ipValid = activity.getString(R.string.hh70_ip_address) + "\n" + activity.getString(R.string.hh70_cant_connect);
+                    String ipValid = getRootString(R.string.hh70_ip_address) + "\n" + getRootString(R.string.hh70_cant_connect);
                     toast(ipValid, 5000);
                     return;
                 }
                 if (!subnet_super_match) {
-                    String subnetValid = activity.getString(R.string.hh70_subnet_mask) + "\n" + activity.getString(R.string.hh70_cant_connect);
+                    String subnetValid = getRootString(R.string.hh70_subnet_mask) + "\n" + getRootString(R.string.hh70_cant_connect);
                     toast(subnetValid, 5000);
                     return;
                 }

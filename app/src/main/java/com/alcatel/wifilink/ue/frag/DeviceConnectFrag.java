@@ -1,5 +1,6 @@
 package com.alcatel.wifilink.ue.frag;
 
+import android.annotation.SuppressLint;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.TypedValue;
@@ -54,17 +55,18 @@ public class DeviceConnectFrag extends BaseFrag {
         timerState = TimerState.ON_BUT_OFF_WHEN_HIDE_AND_PAUSE;
     }
 
+    @SuppressLint("SetTextI18n")
     private void initUI() {
         LinearLayoutManager lm = new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false);
         rcv_deviceConnect.setLayoutManager(lm);
         rvAdapter = new HH70ConnectAdapter(activity, this, connectBeanList);
         rcv_deviceConnect.setAdapter(rvAdapter);
         //titlebar
-        blockPre = getString(R.string.hh70_Blocked) + " (";
+        blockPre = getRootString(R.string.hh70_Blocked) + " (";
         mbackBtn.setOnClickListener(v -> onBackPresss());
         mblock.setOnClickListener(v -> checkBlockList());
-        mblock.setText(String.valueOf(blockPre + "0" + blockFix));
-        mTitle.setText(getString(R.string.hh70_connect_small));
+        mblock.setText(blockPre + "0" + blockFix);
+        mTitle.setText(getRootString(R.string.hh70_connect_small));
         // 俄语文字大小适配
         String currentLanguage = ShareUtils.get(RootCons.LOCALE_LANGUAGE_COUNTRY, "");
         if (currentLanguage.contains(RootCons.LANGUAGES.RUSSIAN)) {

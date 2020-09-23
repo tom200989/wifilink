@@ -115,8 +115,8 @@ public class SetDataPlanFrag extends BaseFrag {
         blue_color = getRootColor(R.color.mg_blue);
         gray_color = getRootColor(R.color.gray);
         black_color = getRootColor(R.color.black);
-        hour = activity.getString(R.string.hh70_hr_s);
-        min = activity.getString(R.string.hh70_min_s);
+        hour = getRootString(R.string.hh70_hr_s);
+        min = getRootString(R.string.hh70_min_s);
         days = RootUtils.getResArr(activity, R.array.settings_data_plan_billing_day);
         alerts = RootUtils.getResArr(activity, R.array.settings_data_plan_usage_alert);
     }
@@ -438,11 +438,11 @@ public class SetDataPlanFrag extends BaseFrag {
                 float usedData = attr.getUsedData() * 1f;
                 float monthlyPlan = attr.getMonthlyPlan() * 1f;
                 if (monthlyPlan > 0) {// 2.非无限流量的情况下
-                    String des = activity.getString(R.string.hh70_monthly_data_plan_used);// 3.超出月流量--> 显示警告
+                    String des = getRootString(R.string.hh70_monthly_data_plan_used);// 3.超出月流量--> 显示警告
                     if (usedData < monthlyPlan) {// 3.没有超出--> 显示剩余百分比
                         if (count == 0) {
                             String per_s = (int) (((monthlyPlan - usedData) / monthlyPlan) * 100) + "%";
-                            des = String.format(activity.getString(R.string.hh70_about_data_remain), per_s);
+                            des = String.format(getRootString(R.string.hh70_about_data_remain), per_s);
                             toastLong(des);
                         }
                     } else {

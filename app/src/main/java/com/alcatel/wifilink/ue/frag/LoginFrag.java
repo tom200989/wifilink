@@ -126,7 +126,7 @@ public class LoginFrag extends RootFrag {
             // 设置UI
             ivLoginBackToPre.setVisibility(isMWDev ? View.VISIBLE : View.GONE);// 回退按钮
             tvLoginBackToPre.setVisibility(ivLoginBackToPre.getVisibility());// 回退文本
-            tvLoginLinkzone.setText(isHH42 ? getString(R.string.app_name) : isMWDev ? "LINKZONE" : "LINKHUB");// 标题
+            tvLoginLinkzone.setText(isHH42 ? getRootString(R.string.app_name) : isMWDev ? "LINKZONE" : "LINKHUB");// 标题
             ivLoginrxLogo.setImageDrawable(isHH42 ? hh42_logo : isMWDev ? mw12_logo : isHH71 ? hh71_logo : cpe_logo);// 图标
         });
         xGetSystemInfoHelper.setOnAppErrorListener(() -> ivLoginrxLogo.setImageDrawable(default_logo));
@@ -138,11 +138,11 @@ public class LoginFrag extends RootFrag {
      * 初始化资源
      */
     private void initRes() {
-        cpe_logo = getResources().getDrawable(R.drawable.cpe_login_logo);
-        mw12_logo = getResources().getDrawable(R.drawable.mw120_login_logo);
-        hh71_logo = getResources().getDrawable(R.drawable.hh71_login_logo);
-        hh42_logo = getResources().getDrawable(R.drawable.hh42_login_logo);
-        default_logo = getResources().getDrawable(R.drawable.ic_launcher);
+        cpe_logo = getRootDrawable(R.drawable.cpe_login_logo);
+        mw12_logo = getRootDrawable(R.drawable.mw120_login_logo);
+        hh71_logo = getRootDrawable(R.drawable.hh71_login_logo);
+        hh42_logo = getRootDrawable(R.drawable.hh42_login_logo);
+        default_logo = getRootDrawable(R.drawable.ic_launcher);
         isRemem = ShareUtils.get(RootCons.LOGIN_IS_REMEM_PSD, false);
         String password = ShareUtils.get(RootCons.LOGIN_REMEM_PSD, "");
         ivLoginRxCheckbox.setImageResource(isRemem ? R.drawable.general_btn_remember_pre : R.drawable.general_btn_remember_nor);
@@ -426,8 +426,8 @@ public class LoginFrag extends RootFrag {
             wdLoginLoad.setGone();
             String content = "";
             int remainingTimes = getLoginStateBean.getLoginRemainingTimes();
-            String noRemain = getString(R.string.hh70_login_used_out);
-            String tips = getString(R.string.hh70_you_psd_wrong);
+            String noRemain = getRootString(R.string.hh70_login_used_out);
+            String tips = getRootString(R.string.hh70_you_psd_wrong);
             String remainTips = String.format(tips, remainingTimes);
             content = remainingTimes <= 0 ? noRemain : remainTips;
             toast(content, 5000);

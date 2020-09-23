@@ -162,7 +162,7 @@ public class mainFrag extends BaseFrag {
 
     @Override
     public void initViewFinish(View inflateView) {
-        ethernet = activity.getString(R.string.hh70_Ethernet);
+        ethernet = getRootString(R.string.hh70_Ethernet);
     }
 
     @Override
@@ -465,7 +465,7 @@ public class mainFrag extends BaseFrag {
             // 2.设置wifi强度
             rlMainrxMw70BatteryExtender.setWifiStrength(result.getSignal());
             // 3.设置SSID
-            String ssid = TextUtils.isEmpty(result.getHotspotSSID()) ? activity.getString(R.string.hh70_unknown) : result.getHotspotSSID();
+            String ssid = TextUtils.isEmpty(result.getHotspotSSID()) ? getRootString(R.string.hh70_unknown) : result.getHotspotSSID();
             ssid = RootUtils.turnUrlCode(ssid);
             rlMainrxMw70BatteryExtender.setWifiName(ssid);// SSID
         }
@@ -687,7 +687,7 @@ public class mainFrag extends BaseFrag {
             tvUsedData.setText("-");
         }
         if (tvUsedTotal != null) {
-            tvUsedTotal.setText(String.valueOf(activity.getString(R.string.hh70_used_of) + " -"));
+            tvUsedTotal.setText(String.valueOf(getRootString(R.string.hh70_used_of) + " -"));
         }
     }
 
@@ -738,7 +738,7 @@ public class mainFrag extends BaseFrag {
                 // 设置网络类型
                 tvNetworkType.setVisibility(isMWDev ? View.GONE : View.VISIBLE);
                 tvNetworkType.setText(result.getNetworkName());// CMCC\UNICOM\..
-                tvMainrxMw120NetworkType.setText(isRoam ? activity.getString(R.string.hh70_data_roaming) : result.getNetworkName());
+                tvMainrxMw120NetworkType.setText(isRoam ? getRootString(R.string.hh70_data_roaming) : result.getNetworkName());
                 // CMCC\UNICOM\..
                 String signalType = getSignalType(activity, result.getNetworkType());
                 tvSignal.setText(signalType);// 2G\3G..
@@ -807,12 +807,12 @@ public class mainFrag extends BaseFrag {
     }
 
     private void initRes() {
-        mb_unit = activity.getString(R.string.hh70_mb);
-        gb_unit = activity.getString(R.string.hh70_gb);
-        useOf = activity.getString(R.string.hh70_used_of);
-        connected_text = activity.getString(R.string.hh70_connected);
-        unlockSim_title = activity.getString(R.string.hh70_sim_unlocked);
-        unlockSim_content = activity.getString(R.string.hh70_verify_your_pin);
+        mb_unit = getRootString(R.string.hh70_mb);
+        gb_unit = getRootString(R.string.hh70_gb);
+        useOf = getRootString(R.string.hh70_used_of);
+        connected_text = getRootString(R.string.hh70_connected);
+        unlockSim_title = getRootString(R.string.hh70_sim_unlocked);
+        unlockSim_content = getRootString(R.string.hh70_verify_your_pin);
         blue_color = getRootColor(R.color.mg_blue);
         gray_color = getRootColor(R.color.gray);
         signal0 = getRootDrawable(R.drawable.home_4g_none);

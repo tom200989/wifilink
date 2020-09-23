@@ -599,8 +599,8 @@ public class WifiFrag extends BaseFrag {
             }
         }
 
-        String des1 = getString(R.string.hh70_change_wifi);
-        String des2 = getString(R.string.hh70_list_will_restart);
+        String des1 = getRootString(R.string.hh70_change_wifi);
+        String des2 = getRootString(R.string.hh70_list_will_restart);
         String des = des1 + "\n" + des2;
         wdNormal.setVisibility(View.VISIBLE);
         wdNormal.setTitle(R.string.hh70_restart);

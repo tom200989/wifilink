@@ -23,6 +23,7 @@ import com.alcatel.wifilink.utils.RootUtils;
 import com.alcatel.wifilink.widget.HH42_ModeWidget;
 import com.alcatel.wifilink.widget.HH70_ChangpinWidget;
 import com.alcatel.wifilink.widget.HH70_ConmodeWidget;
+import com.alcatel.wifilink.widget.HH70_LoadWidget;
 import com.alcatel.wifilink.widget.HH70_ModeWidget;
 import com.alcatel.wifilink.widget.HH70_ProfileWidget;
 import com.alcatel.wifilink.widget.HH70_SimpinWidget;
@@ -43,10 +44,6 @@ import butterknife.BindView;
  * Created by wzhiqiang on 2019/8/19
  */
 public class MobileNetworkFrag extends BaseFrag {
-
-    private int PIN = 0;
-    private int PUK = 1;
-    private String TAG = "MobileNetworkRxFragment";
 
     @BindView(R.id.iv_mobilenetwork_back)
     ImageView ivBack;// 返回
@@ -89,6 +86,8 @@ public class MobileNetworkFrag extends BaseFrag {
     HH70_ModeWidget modeWidget;// 通用版弹框
     @BindView(R.id.wg_mode_42)
     HH42_ModeWidget modeWidget42;// HH42弹框
+    @BindView(R.id.lw_mobile_network)
+    HH70_LoadWidget lwLoading;// 等待
 
     private String text_auto;
     private String text_manual;
@@ -120,11 +119,11 @@ public class MobileNetworkFrag extends BaseFrag {
     private void initRes() {
 
         // 通用版
-        text_auto = activity.getString(R.string.hh70_auto);
-        text_manual = activity.getString(R.string.hh70_maunal);
-        text_4G = activity.getString(R.string.hh70_4g);
-        text_3G = activity.getString(R.string.hh70_3g);
-        text_2G = activity.getString(R.string.hh70_2g);
+        text_auto = getRootString(R.string.hh70_auto);
+        text_manual = getRootString(R.string.hh70_maunal);
+        text_4G = getRootString(R.string.hh70_4g);
+        text_3G = getRootString(R.string.hh70_3g);
+        text_2G = getRootString(R.string.hh70_2g);
 
         // HH42版特有
         text_auto42_4g = getRootString(R.string.hh42_auto_4g_first);
@@ -204,7 +203,7 @@ public class MobileNetworkFrag extends BaseFrag {
      * 获取连接信号类型(4G|3G|2G)
      */
     private void getMode() {// TOAT: 适配HH42
-        
+
         // 判断是否为HH42类型
         boolean isHH42 = RootUtils.isHH42(ShareUtils.get(RootCons.DEVICE_NAME, RootCons.DEVICE_NAME_DEFAULT));
         // 通用版
@@ -357,6 +356,8 @@ public class MobileNetworkFrag extends BaseFrag {
      */
     private void changeMode42(int mode) {// TOAT: 适配HH42
         ModeHelper modeHelper = new ModeHelper(activity);
+        modeHelper.setOnPrepareListener(() -> lwLoading.setVisibles());
+        modeHelper.setOnDoneListener(() -> lwLoading.setGone());
         modeHelper.setOnModeSuccessListener(attr -> {
             int networkMode = attr.getNetworkMode();
             switch (networkMode) {
@@ -459,7 +460,9 @@ public class MobileNetworkFrag extends BaseFrag {
 
     @Override
     public boolean onBackPressed() {
-        if (profileWidget.getVisibility() == View.VISIBLE) {
+        if (lwLoading.getVisibility() == View.VISIBLE) {
+            return true;
+        } else if (profileWidget.getVisibility() == View.VISIBLE) {
             profileWidget.setVisibility(View.GONE);
         } else if (simpinWidget.getVisibility() == View.VISIBLE) {
             simpinWidget.setVisibility(View.GONE);

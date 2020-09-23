@@ -242,7 +242,7 @@ public class Login_mw_Frag extends RootFrag {
         tvLoginPreBatteryPercent.setText("0%");
         pgLoginPreBattery.setProgress(0);
         ivLoginPreSignal.setImageDrawable(getRootDrawable(R.drawable.mw_signal_0));
-        tvLoginPreMobileType.setText(getString(R.string.hh70_no_service));
+        tvLoginPreMobileType.setText(getRootString(R.string.hh70_no_service));
         tvLoginPreConnectedCount.setText(String.valueOf(0));
     }
 

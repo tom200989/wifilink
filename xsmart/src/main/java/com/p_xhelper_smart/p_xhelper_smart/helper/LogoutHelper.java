@@ -32,7 +32,9 @@ public class LogoutHelper extends BaseHelper {
             }
         });
 
-        loginStateHelper.setOnGetLoginStateFailedListener(this::logoutFailed);
+        loginStateHelper.setOnGetLoginStateFailedListener(() -> {
+            logoutFailed();
+        });
         loginStateHelper.getLoginState();
     }
 
