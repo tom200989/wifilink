@@ -50,17 +50,17 @@ public class GetProfileListBean implements Serializable {
          * PdpType : -1
          */
 
-        private int ProfileID;
-        private String ProfileName;
         private String APN;//APN name
-        private String Password;
         private int AuthType; //0: None 1: PAP 2: CHAP  3: PAP& CHAP
         private String DailNumber;
-        private String UserName;
         private int Default; //0: not Default 1: Default
-        private int IsPredefine;//Number | Is predefine or user create profile
         private String IPAdrress;
+        private int IsPredefine;//Number | Is predefine or user create profile
+        private String Password;
         private int PdpType;//Number | 0:IPV4  1:IPV6  2:IPV4V6
+        private int ProfileID;
+        private String ProfileName;
+        private String UserName;
 
         public static final int CONS_AUTH_TYPE_NONE = 0;
         public static final int CONS_AUTH_TYPE_PAP = 1;
