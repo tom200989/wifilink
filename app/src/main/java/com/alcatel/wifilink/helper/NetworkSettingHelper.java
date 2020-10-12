@@ -29,6 +29,7 @@ public class NetworkSettingHelper {
         GetNetworkSettingsBeanHelper xGetNetworkSettingsBeanHelper = new GetNetworkSettingsBeanHelper();
         xGetNetworkSettingsBeanHelper.setOnGetNetworkSettingsSuccessListener(result -> {
             normalNetworkNext(result);
+            // 当前网络模式
             int networkMode = result.getNetworkMode();
             switch (networkMode) {
                 // 自动模式(通用)
@@ -64,10 +65,36 @@ public class NetworkSettingHelper {
                     mode4GNext(result);
                     break;
             }
+
+            // 可选的网络模式
+            int[] networkModeMask = result.getNetworkModeMask();
+            GetNetworkModeMaskNext(networkModeMask);
         });
         xGetNetworkSettingsBeanHelper.setOnGetNetworkSettingsFailedListener(this::NetworkSettingFailedNext);
         xGetNetworkSettingsBeanHelper.getNetworkSettings();
 
+    }
+
+    /* -------------------------------------------- impl -------------------------------------------- */
+
+    // ---------------- 监听器 [GetNetworkModeMask] ----------------
+    private OnGetNetworkModeMaskListener onGetNetworkModeMaskListener;
+
+    // Interface--> 接口: OnGetNetworkModeMaskListener
+    public interface OnGetNetworkModeMaskListener {
+        void GetNetworkModeMask(int[] networkmodeMask);
+    }
+
+    // 对外方式: setOnGetNetworkModeMaskListener
+    public void setOnGetNetworkModeMaskListener(OnGetNetworkModeMaskListener onGetNetworkModeMaskListener) {
+        this.onGetNetworkModeMaskListener = onGetNetworkModeMaskListener;
+    }
+
+    // 封装方法: GetNetworkModeMaskNext
+    private void GetNetworkModeMaskNext(int[] networkmodeMask) {
+        if (onGetNetworkModeMaskListener != null) {
+            onGetNetworkModeMaskListener.GetNetworkModeMask(networkmodeMask);
+        }
     }
 
     private OnNormalNetworkListener onNormalNetworkListener;

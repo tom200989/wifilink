@@ -8,6 +8,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.alcatel.wifilink.R;
+import com.p_xhelper_smart.p_xhelper_smart.bean.GetNetworkSettingsBean;
 
 /**
  * Created by wzhiqiang on 2019/8/20
@@ -47,6 +48,46 @@ public class HH42_ModeWidget extends RelativeLayout {// TOAT: 适配HH42
         tv4g.setOnClickListener(v -> ClickOnly4GFor42Next());
         tv3g.setOnClickListener(v -> ClickOnly3GFor42Next());
         tv2g.setOnClickListener(v -> ClickOnly2GFor42Next());
+    }
+
+    /**
+     * 根据networkmodeMask进行选择
+     *
+     * @param networkmodeMask 网络可选模式
+     */
+    public void setEnableNetmodeByMask(int[] networkmodeMask) {
+
+        // 先隐藏
+        tvAuto4G.setVisibility(GONE);
+        tvAuto3G.setVisibility(GONE);
+        tv4g.setVisibility(GONE);
+        tv3g.setVisibility(GONE);
+        tv2g.setVisibility(GONE);
+
+        // 根据对应mask显示
+        for (int mask : networkmodeMask) {
+
+            // 显示［自动］
+            if (mask == GetNetworkSettingsBean.CONS_AUTO_ENABLE) {
+                tvAuto4G.setVisibility(VISIBLE);
+                tvAuto3G.setVisibility(VISIBLE);
+            }
+
+            // 显示［4G only］
+            if (mask == GetNetworkSettingsBean.CONS_4G_ONLY_ENABLE) {
+                tv4g.setVisibility(VISIBLE);
+            }
+
+            // 显示［3G only］
+            if (mask == GetNetworkSettingsBean.CONS_3G_ONLY_ENABLE) {
+                tv3g.setVisibility(VISIBLE);
+            }
+
+            // 显示［2G only］
+            if (mask == GetNetworkSettingsBean.CONS_2G_ONLY_ENABLE) {
+                tv2g.setVisibility(VISIBLE);
+            }
+        }
     }
 
     /* -------------------------------------------- impl -------------------------------------------- */

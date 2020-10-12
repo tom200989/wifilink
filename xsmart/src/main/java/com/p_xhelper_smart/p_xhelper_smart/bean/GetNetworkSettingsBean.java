@@ -60,12 +60,18 @@ public class GetNetworkSettingsBean implements Serializable {
 
     public static final int CONS_DOMESTIC_ROAMGUARD_OFF = 0;
     public static final int CONS_DOMESTIC_ROAMGUARD_ON = 1;
+    
+    public static final int CONS_AUTO_ENABLE = 0;// 可选自动 (仅适用HH42)
+    public static final int CONS_4G_ONLY_ENABLE = 3;// 可选［4G only］(仅适用HH42)
+    public static final int CONS_3G_ONLY_ENABLE = 2;// 可选［3G only］(仅适用HH42)
+    public static final int CONS_2G_ONLY_ENABLE = 1;// 可选［2G only］(仅适用HH42)
 
     private int NetworkMode;
     private int NetselectionMode;
     private int NetworkBand;
     private int DomesticRoam;
     private int DomesticRoamGuard;
+    private int[] NetworkModeMask;// HH42特有字段, 用于判断网络选择模式
 
     public GetNetworkSettingsBean() {
     }
@@ -108,5 +114,14 @@ public class GetNetworkSettingsBean implements Serializable {
 
     public void setDomesticRoamGuard(int DomesticRoamGuard) {
         this.DomesticRoamGuard = DomesticRoamGuard;
+    }
+
+    public int[] getNetworkModeMask() {
+        return NetworkModeMask;
+    }
+
+    public GetNetworkSettingsBean setNetworkModeMask(int[] networkModeMask) {
+        NetworkModeMask = networkModeMask;
+        return this;
     }
 }

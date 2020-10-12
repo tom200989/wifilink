@@ -223,6 +223,9 @@ public class MobileNetworkFrag extends BaseFrag {
             networkSettingHelper.setOn4GListener(attr -> tvModeMode.setText(text_4G));
             networkSettingHelper.setOn3GListener(attr -> tvModeMode.setText(text_3G));
             networkSettingHelper.setOn2GListener(attr -> tvModeMode.setText(text_2G));
+            // 可选的网络模式 - 根据mask进行选择性显示
+            networkSettingHelper.setOnGetNetworkModeMaskListener(networkmodeMask -> modeWidget42.setEnableNetmodeByMask(networkmodeMask));
+            networkSettingHelper.setOnNetworkSettingFailedListener(() -> modeWidget42.setEnableNetmodeByMask(new int[]{0}));
             networkSettingHelper.getNetworkSetting();
         }
 
