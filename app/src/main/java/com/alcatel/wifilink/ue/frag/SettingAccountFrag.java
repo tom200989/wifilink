@@ -43,9 +43,9 @@ public class SettingAccountFrag extends BaseFrag {
     TextView tvNotice;
 
     @BindView(R.id.dg_widget_ok)
-    HH70_NormalWidget wdOK;
+    HH70_NormalWidget wdOK;// forgot面板
     @BindView(R.id.wd_setting_account_load)
-    HH70_LoadWidget wdLoad;
+    HH70_LoadWidget wdLoad;// 等待面板
 
     private String account = XCons.ACCOUNT;
     private String password;

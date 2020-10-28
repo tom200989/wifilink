@@ -63,13 +63,15 @@ public class RootCons {
         LANGUAGE_COUNTRY_LIST.add(LANGUAGES.CROATIAN + "-HR");
         LANGUAGE_COUNTRY_LIST.add(LANGUAGES.SLOVENIAN + "-SI");
         LANGUAGE_COUNTRY_LIST.add(LANGUAGES.POLAND + "-PL");
-        LANGUAGE_COUNTRY_LIST.add(LANGUAGES.RUSSIAN+ "-RU");
+        LANGUAGE_COUNTRY_LIST.add(LANGUAGES.RUSSIAN + "-RU");
         LANGUAGE_COUNTRY_LIST.add(LANGUAGES.CHINA + "-TW");
     }
 
     public static List<String> MW_DEVICE = new ArrayList<>();// 需要free-sharing的设备
     public static List<String> HH71_DEVICE = new ArrayList<>();// HH71设备
-    public static List<String> HH4X_DEVICE = new ArrayList<>();// HH4X设备
+    public static List<String> HH72_DEVICE = new ArrayList<>();// HH72设备
+    public static List<String> HH4X_DEVICE = new ArrayList<>();// HH4X设备(TCL自营)
+    public static List<String> HH42_DEVICE = new ArrayList<>();// HH42设备(GXX外包)
 
     static {
         MW_DEVICE.add("mw12");
@@ -79,5 +81,9 @@ public class RootCons {
         HH71_DEVICE.add("hub71");
         HH4X_DEVICE.add("hh4");
         HH4X_DEVICE.add("hub4");
+        HH42_DEVICE.add("hh42");
+        HH42_DEVICE.add("gw42");
+        HH72_DEVICE.add("hh72");
+        HH72_DEVICE.add("hub72");
     }
 }

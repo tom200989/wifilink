@@ -4,24 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white">
+    android:background="@color/white"
+    tools:ignore="ContentDescription,Autofill,LabelFor,HardcodedText">
 
     <com.hiber.tools.layout.PercentRelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
-        <!-- banner -->
-        <com.alcatel.wifilink.widget.HH70_LoadWidget
-            android:id="@+id/wd_setting_account_load"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:visibility="gone" />
-
-        <com.alcatel.wifilink.widget.HH70_NormalWidget
-            android:id="@+id/dg_widget_ok"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:visibility="gone" />
 
         <!-- 确定取消按钮 -->
         <com.hiber.tools.layout.PercentLinearLayout
@@ -35,7 +23,7 @@
                 android:id="@+id/current_password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@null"
+                android:background="@drawable/et_underline_settimelimit"
                 android:hint="@string/hh70_current_psd"
                 android:inputType="textPassword"
                 android:paddingStart="12dp"
@@ -43,6 +31,8 @@
                 android:textColor="@color/grey_text"
                 android:textDirection="locale"
                 app:layout_heightPercent="10%h"
+                app:layout_marginEndPercent="2%w"
+                app:layout_marginStartPercent="2%w"
                 app:layout_textSizePercent="2.4%h"
                 tools:ignore="Autofill" />
 
@@ -50,7 +40,7 @@
                 android:id="@+id/new_password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@null"
+                android:background="@drawable/et_underline_settimelimit"
                 android:hint="@string/hh70_new_psd"
                 android:inputType="textPassword"
                 android:paddingStart="12dp"
@@ -59,6 +49,8 @@
                 android:textDirection="locale"
                 android:textScaleX="0.9"
                 app:layout_heightPercent="10%h"
+                app:layout_marginEndPercent="2%w"
+                app:layout_marginStartPercent="2%w"
                 app:layout_textSizePercent="2.4%h"
                 tools:ignore="Autofill" />
 
@@ -66,7 +58,7 @@
                 android:id="@+id/confirm_password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@null"
+                android:background="@drawable/et_underline_settimelimit"
                 android:hint="@string/hh70_confirm_new_psd"
                 android:inputType="textPassword"
                 android:paddingStart="12dp"
@@ -74,6 +66,8 @@
                 android:textColor="@color/grey_text"
                 android:textDirection="locale"
                 app:layout_heightPercent="10%h"
+                app:layout_marginEndPercent="2%w"
+                app:layout_marginStartPercent="2%w"
                 app:layout_textSizePercent="2.4%h"
                 tools:ignore="Autofill" />
 
@@ -90,20 +84,6 @@
                 app:layout_marginTopPercent="10%h"
                 app:layout_textSizePercent="2.8%h" />
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0.5dp"
-                android:background="@color/gray" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0.5dp"
-                android:background="@color/gray" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0.5dp"
-                android:background="@color/gray" />
         </com.hiber.tools.layout.PercentLinearLayout>
 
         <!-- 等待 -->
@@ -145,6 +125,20 @@
                 app:layout_widthPercent="40%w" />
 
         </com.hiber.tools.layout.PercentRelativeLayout>
+
+        <!-- Forgot password 面板 -->
+        <com.alcatel.wifilink.widget.HH70_NormalWidget
+            android:id="@+id/dg_widget_ok"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone" />
+
+        <!-- 等待 -->
+        <com.alcatel.wifilink.widget.HH70_LoadWidget
+            android:id="@+id/wd_setting_account_load"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone" />
 
     </com.hiber.tools.layout.PercentRelativeLayout>
 </com.hiber.tools.layout.PercentRelativeLayout>

@@ -104,7 +104,30 @@ public class RootUtils {
      */
     public static boolean isHH42(String devName) {
         devName = devName.toLowerCase();// 切小写
-        return devName.contains("hh42") | devName.contains("gw42");
+        // 再遍历判断
+        for (String dev : RootCons.HH42_DEVICE) {
+            if (devName.contains(dev)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * 是否为HH72设备
+     *
+     * @param devName 设备名
+     * @return T:是
+     */
+    public static boolean isHH72(String devName) {
+        devName = devName.toLowerCase();// 切小写
+        // 再遍历判断
+        for (String dev : RootCons.HH72_DEVICE) {
+            if (devName.contains(dev)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**

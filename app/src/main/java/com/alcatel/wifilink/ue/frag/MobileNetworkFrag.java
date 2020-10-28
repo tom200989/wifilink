@@ -210,8 +210,8 @@ public class MobileNetworkFrag extends BaseFrag {
         if (!isHH42) {
             networkSettingHelper = new NetworkSettingHelper();
             networkSettingHelper.setOnAutoListener(attr -> tvModeMode.setText(text_auto));
-            networkSettingHelper.setOn3GListener(attr -> tvModeMode.setText(text_3G));
             networkSettingHelper.setOn4GListener(attr -> tvModeMode.setText(text_4G));
+            networkSettingHelper.setOn3GListener(attr -> tvModeMode.setText(text_3G));
             networkSettingHelper.getNetworkSetting();
         }
 

@@ -34,6 +34,9 @@ public class NetworkSettingHelper {
             switch (networkMode) {
                 // 自动模式(通用)
                 case GetNetworkSettingsBean.CONS_AUTO_MODE:
+                case GetNetworkSettingsBean.CONS_UMTS_LTE:
+                case GetNetworkSettingsBean.CONS_GSM_LTE:
+                case GetNetworkSettingsBean.CONS_GSM_UMTS:
                     autoNext(result);
                     break;
 
@@ -44,14 +47,11 @@ public class NetworkSettingHelper {
 
                 // 2G模式
                 case GetNetworkSettingsBean.CONS_ONLY_2G:
-                case GetNetworkSettingsBean.CONS_GSM_LTE:
-                case GetNetworkSettingsBean.CONS_GSM_UMTS:
                     mode2GNext(result);
                     break;
 
                 // 3G模式
                 case GetNetworkSettingsBean.CONS_ONLY_3G:
-                case GetNetworkSettingsBean.CONS_UMTS_LTE:
                 case GetNetworkSettingsBean.CONS_CDMA_EVDO_FOR_Y856_SPRINT:
                 case GetNetworkSettingsBean.CONS_ONLY_EVDO:
                 case GetNetworkSettingsBean.CONS_CDMA_EHRPD:

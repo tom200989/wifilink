@@ -72,10 +72,11 @@ public class LoginFrag extends RootFrag {
     private boolean isRemem;// 是否记住密码
     private boolean isMWDev;// 是否为MW系列
     private boolean isHH71;// 是否为71系列
+    private boolean isHH72;// 是否为72系列
     private boolean isHH42;// 是否为HH42(外包)
     private Drawable cpe_logo;
     private Drawable mw12_logo;
-    private Drawable hh71_logo;
+    private Drawable hh71_hh72_logo;
     private Drawable hh42_logo;
     private Drawable default_logo;
     public static boolean currentIsLoginPage = false;
@@ -122,12 +123,13 @@ public class LoginFrag extends RootFrag {
             // 根据设备名定时更新UI
             isMWDev = RootUtils.isMWDEV(ShareUtils.get(RootCons.DEVICE_NAME, RootCons.DEVICE_NAME_DEFAULT));
             isHH71 = RootUtils.isHH71(ShareUtils.get(RootCons.DEVICE_NAME, RootCons.DEVICE_NAME_DEFAULT));
+            isHH72 = RootUtils.isHH72(ShareUtils.get(RootCons.DEVICE_NAME, RootCons.DEVICE_NAME_DEFAULT));
             isHH42 = RootUtils.isHH42(ShareUtils.get(RootCons.DEVICE_NAME, RootCons.DEVICE_NAME_DEFAULT));
             // 设置UI
             ivLoginBackToPre.setVisibility(isMWDev ? View.VISIBLE : View.GONE);// 回退按钮
             tvLoginBackToPre.setVisibility(ivLoginBackToPre.getVisibility());// 回退文本
             tvLoginLinkzone.setText(isHH42 ? getRootString(R.string.app_name) : isMWDev ? "LINKZONE" : "LINKHUB");// 标题
-            ivLoginrxLogo.setImageDrawable(isHH42 ? hh42_logo : isMWDev ? mw12_logo : isHH71 ? hh71_logo : cpe_logo);// 图标
+            ivLoginrxLogo.setImageDrawable(isHH42 ? hh42_logo : isMWDev ? mw12_logo : (isHH71 | isHH72) ? hh71_hh72_logo : cpe_logo);// 图标
         });
         xGetSystemInfoHelper.setOnAppErrorListener(() -> ivLoginrxLogo.setImageDrawable(default_logo));
         xGetSystemInfoHelper.setOnFwErrorListener(() -> ivLoginrxLogo.setImageDrawable(default_logo));
@@ -140,7 +142,7 @@ public class LoginFrag extends RootFrag {
     private void initRes() {
         cpe_logo = getRootDrawable(R.drawable.cpe_login_logo);
         mw12_logo = getRootDrawable(R.drawable.mw120_login_logo);
-        hh71_logo = getRootDrawable(R.drawable.hh71_login_logo);
+        hh71_hh72_logo = getRootDrawable(R.drawable.hh71_hh72_login_logo);
         hh42_logo = getRootDrawable(R.drawable.hh42_login_logo);
         default_logo = getRootDrawable(R.drawable.ic_launcher);
         isRemem = ShareUtils.get(RootCons.LOGIN_IS_REMEM_PSD, false);
